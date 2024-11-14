@@ -1,48 +1,52 @@
 package mes.domain.em;
 
-import org.apache.ibatis.type.Alias;
-
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
-@Alias("EquipRepairHistAdmVo")
-public class EquipRepairHistAdmVo{
-
-	//수리 이력
-	private String idx;				//설비 수리 idx
-	private String equipIdx;        //설비 idx
-	private String repairCd;        //수리코드
-	private String repairNm;        //수리 이름
-	private String repairStartDate; //수리시작일
-	private String repairEndDate;   //수리종료일
-	private String repairContent;   //수리내용
-	private String repairCompany;   //수리업체
-	private String repairDesc;      //수리비고
-	private String repairCost;      //수리비
-	private String partCost;        //부품비
-	private String laborCost;       //인건비
-	private String beforeImageFile; //조치 전 이미지 파일
-	private String afterImageFile;	//조치 후 이미지 파일
-	private String useYn;
-	private String regIdx;
+public class EquipRepairHistAdmVo {
+	private String repairNo;
+	private String equipCd;
+	private String equipGubun;
+	private String equipGubunNm;
+	private String changeTime;
+	private String repairRegDate;
+	private String troubleDate;
+	private String troublePart;
+	private String troubleCont;
+	private String troubleCause;
+	private String repairCorpNm;
+	private String repairMan;
+	private String repairStatus;
+	private String repairStartDate;
+	private String repairEndDate;
+	private byte[] beforeImageFile;
+	private byte[] afterImageFile;
+	private String beforeImageFileNm;
+	private String afterImageFileNm;
+	private String repairDesc;
+	private String regId;
 	private String regDate;
-	private String updIdx;
+	private String updId;
 	private String updDate;
-
-	//설비
-	private String equipCd;			//설비코드
-	private String equipNm;			//설비명
-	private String serialNo;		//시리얼 번호
-	private String makerNm;			//제조사
-	private String buyDate;			//구입일자
-	private String buyPrice;		//구입금액
-	private String setupLocation;	//설치위치
-	private String equipDesc;		//비고
-
-	private String startDate;
-	private String endDate;
+	private String equipNm;
+	private String equipModelNm;
 	
-	private String rowNumber;
+	//추가사항
+	private String assetCd;
+	private String admNo;
+	private String repairCost;
+	private String partCost;
+	private String totalCost;
+	private String mfcCorpCd;
+	private String equipNo;
+	private String mainGubun;
+	private String repairStatusNm;
+	private String equipType;
+	private String workResult;
+	private String qualityCheck;
+	private String attachFnOne;
+	private String attachSeqOne;
+	private String attachFnTwo;
+	private String attachSeqTwo;
+
 }

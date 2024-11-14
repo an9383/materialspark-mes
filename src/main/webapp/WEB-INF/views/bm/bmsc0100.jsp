@@ -1,767 +1,3615 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
-<%@include file="../layout/top.jsp"%>
-<%@include file="../layout/modal.jsp"%>
-<%@include file="../layout/script.jsp"%>
-<div id="page" onmouseup="EndDrag(this)" onmousemove="OnDrag(event)" style="grid-template-areas: 'leftcol dragbar rightcol';
-																		  grid-template-rows: 1fr;
-																		  grid-template-columns: 4fr 4px 3fr;">
-	<div id="leftcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="leftHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<%-- <label class="form-label d-flex align-items-center header-label m-0 me-1 h-100"><spring:message code="userStateCd" text="default text" /></label>
-					<select class="form-select w-auto h-100 me-3" id="SearchUserStateCd"></select> --%>
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAll" placeholder="통합검색" >
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnProgressSave" disabled><i class="fa-regular fa-floppy-disk"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnSearch"><i class="fa-regular fa-clipboard"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnOpen"><i class="fa-solid fa-caret-left"></i></button>
+<%@include file="../layout/body-top.jsp" %>
+
+<div class="page-wrapper" id="page-wrapper">
+	<!-- 검사항목복사모달 -->
+	<div class="modal fade bd-example-modal-lg" id="inspCopyPopUpModal" tabindex="-1" role="dialog" aria-labelledby="inspCopyPopUpModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+	      		<div class="modal-header">
+	        		<h5 class="modal-title" id="inspCopyPopUpLabel">검사항목복사</h5>
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          			<span aria-hidden="true">&times;</span>
+	       			</button>
+	      		</div> 
+	      		<form id="formList">
+	      		<div class="modal-body">
+	      			<hr class="text-secondary">	         
+	        			<table id="inspCopyPopUpTable" class="table table-bordered">
+	        				<colgroup>
+	        					<col width="15%">
+	        					<col width="20%">
+	        					<col width="15%">
+	        					<col width="20%">
+	        					<col width="10%">
+	        					<col width="20%">
+	        				</colgroup>
+	                   		<thead class="thead-light">
+		                   		<tr>
+									<th>복사검사유형</th>
+									<td><select class="custom-select" id="inspChkCp" style="min-width: 100%;" onChange="inspOnchange1()"></select></td>
+									<th>복사품번</th>
+									<td>
+										<div class="row">
+											<div class="input-sub m-0" style="min-width: 100%;">
+												<input type="hidden" class="form-control" id="copyCdHide" name="copyCdHide"> 
+												<input type="text" class="form-control" id="copyCd" name="copyCd" style="min-width: 100%;" disabled>
+												<button type="button" id="btnCopyCd"
+												class="btn btn-primary input-sub-search" onClick="copySelectCd()">
+													<span class="oi oi-magnifying-glass"></span>
+												</button>
+											</div>
+										</div>
+									</td>
+									<th>대상검사유형</th>
+									<td><select class="custom-select" id="inspChkCp2" style="min-width: 100%;" onChange="inspOnchange2()"></select></td>
+									<td class="d-none">
+										<input type="hidden" id="itemCpSeq" name="itemCpSeq">
+										<input type="text" id="inspCp" name="inspCp" disabled>
+									</td>
+		                   		</tr>
+	                   		</thead>
+						</table>
+					<hr class="text-secondary">
+					<div class="modal-body">
+					<div class="row">
+			      		<button type="button" class="btn btn-primary float-left mr-1" id="btnListAdd">품목추가</button>
+			      		<button type="button" class="btn btn-danger float-right" id="btnListDel">품목삭제</button>
+			      	</div>
+		        		<table id="copyAddTable" class="table table-bordered">
+		                	<thead class="thead-light">
+			                	<tr>
+			                   		<th style="width : 8%"><input type="checkbox" id="delCheck"></th>
+									<th style="width : 8%">구분</th>
+			                   		<th style="width : 8%">품목구분</th>
+			                   		<th style="width : 18%">품번</th>
+									<th style="width : 37%">품명</th>
+									<th style="width : 13%">고객사</th>
+									<th style="width : 8%">상태</th>
+			                   	</tr>
+		                   	</thead>
+						</table>
+					    <hr class="text-secondary"> 
+	      			</div>
+	      		</div>
+	      		</form>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-primary mr-2" id="btnCpSave">저장</button>
+	        		<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+	<!-- 검사항목복사모달 끝 -->
+	
+	<!-- 검사항목관리 코드 모달 시작-->
+	<div class="modal fade bd-example-modal-lg" id="inspCodePopUpModal" tabindex="-1" role="dialog" aria-labelledby="inspCodePopUpModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+	      		<div class="modal-header">
+	        		<h5 class="modal-title" id="inspCodePopUpLabel">제품검사조회</h5>
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          			<span aria-hidden="true">&times;</span>
+	       			</button>
+	      		</div> 
+	      		<div class="modal-body">
+	      			<hr class="text-secondary">	         
+	        			<table id="inspCodePopUpTable" class="table table-bordered">
+	                   		<thead class="thead-light">
+		                   		<tr>
+		                   			<th style="width : 7%">구분</th>
+		                   			<th style="width : 8%">품목구분</th>
+									<th style="width : 22%">품번</th>
+									<th style="width : 33%">품명</th>
+									<th style="width : 15%">고객사</th>
+									<th style="width : 15%">상태</th>
+		                   		</tr>
+	                   		</thead>
+						</table>
+					<hr class="text-secondary"> 
+	      		</div>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+	<!-- 검사항목관리 코드 모달 종료-->
+	
+	<!-- 검사항목관리1 코드 모달 시작-->
+	<div class="modal fade bd-example-modal-lg" id="inspCodePopUpModal1" tabindex="-1" role="dialog" aria-labelledby="inspCodePopUpModalLabel1" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+	      		<div class="modal-header">
+	        		<h5 class="modal-title" id="inspCodePopUpLabel1">제품검사조회</h5>
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          			<span aria-hidden="true">&times;</span>
+	       			</button>
+	      		</div> 
+	      		<div class="modal-body">
+	      			<hr class="text-secondary">	         
+	        			<table id="inspCodePopUpTable1" class="table table-bordered">
+	                   		<thead class="thead-light">
+		                   		<tr>
+		                   			<th style="width : 10%">검사항목코드</th>
+		                   			<th style="width : 19%">고객사</th>
+									<th style="width : 28%">품번</th>
+									<th style="width : 33%">품명</th>
+									<th style="width : 10%">상태</th>
+		                   		</tr>
+	                   		</thead>
+						</table>
+					<hr class="text-secondary"> 
+	      		</div>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+	<!-- 검사항목관리1 코드 모달 종료-->
+	
+	<!-- 검사항목관리2 코드 모달 시작-->
+	<div class="modal fade bd-example-modal-lg" id="inspCodePopUpModal2" tabindex="-1" role="dialog" aria-labelledby="inspCodePopUpModalLabel2" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+	      		<div class="modal-header">
+	        		<h5 class="modal-title" id="inspCodePopUpLabel2">제품검사조회</h5>
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          			<span aria-hidden="true">&times;</span>
+	       			</button>
+	      		</div>
+	      		<div class="modal-body">
+	      			<div class="row">
+			      		<button type="button" class="btn btn-primary float-left" id="btnListChk">목록추가</button>
+			      	</div>
+	      			<hr class="text-secondary">
+	        			<table id="inspCodePopUpTable2" class="table table-bordered">
+	                   		<thead class="thead-light">
+		                   		<tr>
+		                   		 	<th style="width : 8%"><input type="checkbox" id="addCheck"></th>
+									<th style="width : 8%">구분</th>
+		                   			<th style="width : 8%">품목구분</th>
+		                   			<th style="width : 22%">품번</th>
+									<th style="width : 33%">품명</th>
+									<th style="width : 13%">고객사</th>
+									<th style="width : 8%">상태</th>
+		                   		</tr>
+	                   		</thead>
+						</table>
+					<hr class="text-secondary"> 
+	      		</div>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+	<!-- 검사항목관리2 코드 모달 종료-->
+	
+	<!--header ============================================================== -->
+	<header class="page-title-bar row">
+		<nav aria-label="breadcrumb" class="breadcrumb-padding">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">기준정보관리</a></li>
+				<li class="breadcrumb-item active">검사항목관리(사출)</li>
+			</ol>
+		</nav>
+	</header>
+	<!-- #main============================================================== -->
+	<div class="container-fluid" id="main">
+		<div class="row table-wrap-hid">
+			<!--======================== .left-list ========================-->
+			<div class="left-list left-sidebar" id="left-list"
+				style="width: 44%;">
+				<div class="card">
+					<div class="open-arrow" id="arrowLeft">
+						<button id="left-width-btn" onclick="openrNav()"
+							class="btn btn-primary input-sub-search" type="button">
+							<i class="mdi mdi-arrow-left"></i>
+						</button>
 					</div>
+					<!-- .table-responsive -->
+					<div class="table-responsive">
+						<table id="inspAdmTable" class="table table-bordered">
+							<colgroup>
+								<col width="11%">
+								<col width="17%">
+								<col width="31%">
+								<col width="31%">
+								<col width="10%">
+							</colgroup>
+							<thead class="thead-light">
+								<tr>
+									<th>검사항목코드</th>
+									<th>고객사</th>
+									<th>품번</th>
+									<th>품명</th>
+									<th>상태</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<!-- /.table-responsive -->
 				</div>
 			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="spotToningTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center">No</th>
-							<th class="text-center">색상코드</th>
-							<th class="text-center">색상구분</th>
-							<th class="text-center">색상번호</th>
-							<th class="text-center">조색값</th>
-							<th class="text-center">대상품목</th>
-							<th class="text-center">대상지종</th>
-							<th class="text-center">사용여부</th>
-							<th class="text-center">등록자</th>
-						</tr>
-					</thead>
+			<!-- /.left-list -->
+
+			<!--======================== .right-sidebar 등록,수정 ========================-->
+			<div class="right-list right-sidebar" id="myrSidenav"
+				style="width: 55%;">
+				<div class="card mb-2" id="formBox">
+					<!--오른쪽 등록 부분 상단 버튼 영역-->
+					<div class="card-body col-sm-12">
+						<div class="rightsidebar-close">
+							<a href="javascript:void(0)" id="left-expand" class="closebtn float-right" onclick="closerNav()">
+								<i class="mdi mdi-close"></i>
+							</a>
+						</div>
+						<button type="button" class="btn btn-primary float-left" id="btnCopy">복사</button>
+						<button type="button" class="btn btn-primary d-none float-right" id="btnSave">저장</button>
+						<button type="button" class="btn btn-danger float-right mr-1" id="btnDel">삭제</button>
+						<button type="button" class="btn btn-warning float-right mr-1" id="btnEdit">수정</button>
+						<button type="button" class="btn btn-primary float-right mr-1" id="btnAdd">등록</button>
+					</div>
+					<!--/오른쪽 등록 부분 상단 버튼 영역-->
+					<form id="form">
+						<div class="table-responsive">
+							<table class="table table-lg table-bordered mb-3">
+								<colgroup>
+									<col width="20%">
+									<col width="30%">
+									<col width="20%">
+									<col width="30%">
+								</colgroup>
+								<tr>
+									<th>검사유형</th>
+									<td colspan="3">
+										<div class="container">	
+											<div class="row">
+												<div class="col-sm">
+													<input class="custom-radio mt-1" type="radio" id="inspChk1" onclick="inspOnclick()" name="inspChkGrp" value="001" disabled checked> 
+													<label for="inspChk1">제품검사</label>
+												</div>
+												<div class="col-sm">
+													<input class="custom-radio mt-1" type="radio" id="inspChk5" onclick="inspOnclick()" name="inspChkGrp" value="005" disabled> 
+													<label for="inspChk5">수분측정</label>
+												</div>
+												<div class="col-sm">
+													<input class="custom-radio mt-1" type="radio" id="inspChk2" onclick="inspOnclick()" name="inspChkGrp" value="002" disabled> 
+													<label for="inspChk2">공정검사</label>
+												</div>
+												<div class="col-sm">
+													<input class="custom-radio mt-1" type="radio" id="inspChk3" onclick="inspOnclick()" name="inspChkGrp" value="003" disabled> 
+													<label for="inspChk3">수입검사</label>
+												</div>
+												<div class="col-sm">
+													<input class="custom-radio mt-1" type="radio" id="inspChk4" onclick="inspOnclick()" name="inspChkGrp" value="004" disabled> 
+													<label for="inspChk4">자주검사</label>
+												</div>
+												
+											</div>
+										</div>
+									</td>
+								</tr>
+							</table>
+							<table class="table table-lg table-bordered mb-2">
+								<colgroup>
+									<col width="20%">
+									<col width="30%">
+									<col width="20%">
+									<col width="30%">
+								</colgroup>
+								<tr>
+									<th>검사항목코드</th>
+									<td>
+										<input type="hidden" class="form-control" id="itemSeq" name="itemSeq" style="min-width:100%">
+										<input type="text" class="form-control" id="inspCd" name="inspCd" style="min-width:100%" disabled>
+									</td>  
+			                       	<th class="d-none">구분</th>
+		                           	<td class="d-none">
+		                            	<div class="row">
+		                                	<div class="custom-control custom-radio row ml-4">
+		                                    	<input type="radio" class="custom-control-input" name="mainGubun" id="mg1" value="001" disabled> 
+		                                    	<label class="custom-control-label input-label-sm" for="mg1">사출</label>
+		                                 	</div>
+		                                 	<div class="custom-control custom-radio row ml-2">
+		                                    	<input type="radio" class="custom-control-input" name="mainGubun" id="mg2" value="002" disabled> 
+		                                    	<label class="custom-control-label input-label-sm" for="mg2">봉제</label>
+		                                	</div>
+		                            	</div>
+		                        	</td>
+								</tr>
+								<tr>
+									<th>품번</th>
+									<td>
+										<div class="row">
+											<div class="input-sub m-0" style="min-width: 100%;">
+												<input type="hidden" class="form-control" id="itemCdHide" name="itemCdHide"> 
+												<input type="text" class="form-control" id="itemCd" name="itemCd" style="min-width:100%" disabled>
+												<button type="button" id="btnItemCd"
+													class="btn btn-primary input-sub-search"
+													onClick="itemCdSelectInCorpCd()">
+													<span class="oi oi-magnifying-glass"></span>
+												</button>
+											</div>
+<!-- 											<div class="ml-1" style="width: 5%;"> -->
+<!-- 												<button type="button" id="inspCdDelete" class="btn closeBtn" onclick="deleteOnclick()"> -->
+<!-- 													<i class="mdi mdi-close"></i> -->
+<!-- 												</button> -->
+<!-- 											</div> -->
+										</div>
+									</td>
+									<th>품명</th>
+									<td><input type="text" class="form-control" id="itemNm" name="itemNm" style="min-width:100%" disabled></td>
+								</tr>
+								<tr>
+									<th>고객사</th>
+									<td><input type="text" class="form-control" id="itemCusNm" name="itemCusNm" style="min-width:100%" disabled></td>
+									<th>상태</th>
+									<td><input type="text" class="form-control" id="stateCd" name="stateCd" style="min-width:100%" disabled></td>
+								</tr>
+								<tr id="inspDescDiv1" class="d-none">
+									<th>수분관리기준1</th>
+									<td colspan="3"><input type="text" class="form-control" id="inspDesc1" name="inspDesc1" placeholder="" style="min-width:100%;" disabled></td>
+								</tr>
+								<tr id="inspDescDiv2" class="d-none">
+									<th>수분관리기준2</th>
+									<td colspan="3"><input type="text" class="form-control" id="inspDesc2" name="inspDesc2" placeholder="" style="min-width:100%;" disabled></td>
+								</tr>
+							</table>
+						</div>
+					</form>
+				</div>
+				<div class="card-header card-tab p-0 mb-2">
+					<ul class="nav nav-tabs card-header-tabs m-0">
+						<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#tab1" id="extTab">외관</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link disabled" data-toggle="tab" href="#tab2" id="sizeTab">치수</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link disabled d-none" data-toggle="tab" href="#tab4" id="weightTab">중량</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link disabled d-none" data-toggle="tab" href="#tab3" id="rlbtTab">신뢰성</a>
+						</li>
+					</ul>
+				</div>
+				<div class="card-body p-0">
+					<div class="tab-content">
+						<div class="tab-pane fade active show" id="tab1">
+							<div>
+								<button type="button" class="btn btn-primary float-left ml-1 invisible" id="btnExtAdd">추가</button>
+								<button type="button" class="btn btn-primary float-left ml-1 invisible" id="btnExtEdit">수정</button>
+								<button type="button" class="btn btn-warning float-left ml-1 invisible" id="btnExtDel">삭제</button>
+								<button type="button" class="btn btn-primary float-right d-none ml-1" id="btnExtSave">저장</button>
+							</div>
+							<form id="extForm" enctype="multipart/form-data">
+								<div class="table-responsive">
+									<table class="table table-bordered" id="extAdmTable">
+										<colgroup>
+											<col width="8%">
+											<col width="12%">
+											<col width="14%">
+											<col width="56%">
+											<col width="10%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>순번</th>
+												<th>사용여부</th>
+												<th>*입력방식</th>
+												<th>*기준</th>
+												<th>*확인방법</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</form>
+						</div>
+						<div class="tab-pane fade" id="tab2">
+							<div class="card-body col-sm-12 p-1">
+								<button type="button" class="btn btn-primary float-left ml-1 invisible" id="btnSizeAdd">추가</button>
+								<button type="button" class="btn btn-primary float-left ml-1 invisible" id="btnSizeEdit">수정</button>
+								<button type="button" class="btn btn-warning float-left ml-1 invisible" id="btnSizeDel">삭제</button>
+								<button type="button" class="btn btn-primary float-right d-none ml-1" id="btnSizeSave">저장</button>
+							</div>
+							<form id="sizeForm" enctype="multipart/form-data">
+								<div class="table-responsive d-none" id="sizeAdmTableDiv2">
+									<table class="table table-bordered" id="sizeAdmTable2">
+										<colgroup id="basicGroup">
+											<col width="6%">
+											<col width="12%">
+											<col width="12%">
+											<col width="25%">
+											<col width="13%">
+											<col width="10%">
+											<col width="12%">
+											<col width="12%">
+										</colgroup>
+										<colgroup id="newGroup" class="d-none">
+											<col width="6%">
+											<col width="11%">
+											<col width="12%">
+											<col width="12%">
+											<col id="orderCol" width="8%">
+											<col width="17%">
+											<col width="10%">
+											<col width="10%">
+											<col width="10%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>순번</th>
+												<th>사용여부</th>
+												<th>*입력방식</th>
+												<th>*목록</th>
+												<th>*순서</th>
+												<th>*확인방법</th>
+												<th>*구분</th>
+												<th colspan="2">*기준</th>
+												
+											</tr>
+										</thead>
+									</table>
+								</div>
+								<div class="table-responsive" id="sizeAdmTableDiv">
+									<table class="table table-bordered" id="sizeAdmTable">
+										<colgroup id="basicGroup2">
+											<col width="6%">
+											<col width="12%">
+											<col width="7%">
+											<col width="20%">
+											<col width="10%">
+											<col width="17%">
+											<col width="14%">
+											<col width="14%">
+										</colgroup>
+										
+										<colgroup id="newGroup2" class="">
+											<col width="5%">
+											<col width="12%">
+											<col width="5%">
+											<col id="orderCol" width="8%">
+											<col width="23%">
+											<col width="10%">
+											<col width="15%">
+											<col width="11%">
+											<col width="11%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th rowspan="2">순번</th>
+												<th rowspan="2">*입력방식</th>
+												<th rowspan="2">특별<br>특성</th>
+												<th rowspan="2">*순서</th>
+												<th rowspan="2">*기준</th>
+												<th rowspan="2">*구분</th>
+												<th rowspan="2">*확인방법</th>
+												<th colspan="2">SPEC</th>
+											</tr>
+											<tr>
+												<th>*최소</th>
+												<th>*최대</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</form>
+						</div>
+						<div class="tab-pane fade" id="tab3">
+							<div class="card-body col-sm-12 p-1">
+								<button type="button" class="btn btn-primary float-left ml-1 invisible" id="btnRlbtAdd">추가</button>
+								<button type="button" class="btn btn-primary float-left ml-1 invisible" id="btnRlbtEdit">수정</button>
+								<button type="button" class="btn btn-warning float-left ml-1 invisible" id="btnRlbtDel">삭제</button>
+								<button type="button" class="btn btn-primary float-right d-none ml-1" id="btnRlbtSave">저장</button>
+							</div>
+							<form id="rlbtForm" enctype="multipart/form-data">
+								<div class="table-responsive">
+									<table class="table table-bordered" id="rlbtAdmTable">
+										<colgroup>
+											<col width="20%">
+											<col width="20%">
+											<col width="20%">
+											<col width="30%">
+											<col width="10%">
+										</colgroup>
+										<thead>
+											<tr>	
+												<th>사용여부</th>
+												<th>*입력방식</th>
+												<th>*일정</th>
+												<th>*계획</th>
+												<th>*실적</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</form>
+						</div>
+						<div class="tab-pane fade" id="tab4">
+							<div class="card-body col-sm-12 p-1">
+								<button type="button" class="btn btn-primary float-left ml-1 invisible" id="btnWeightAdd">추가</button>
+								<button type="button" class="btn btn-primary float-left ml-1 invisible" id="btnWeightEdit">수정</button>
+								<button type="button" class="btn btn-warning float-left ml-1 invisible" id="btnWeightDel">삭제</button>
+								<button type="button" class="btn btn-primary float-right d-none ml-1" id="btnWeightSave">저장</button>
+							</div>
+							<form id="weightForm" enctype="multipart/form-data">
+								<div class="table-responsive">
+									<table class="table table-bordered" id="weightAdmTable" style="width:100%;">
+										<colgroup>
+											<col width="6%">
+											<col width="10%">
+											<col width="12%">
+											<col width="23%">
+											<col width="14%">
+											<col width="10%">
+											<col width="12%">
+											<col width="12%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>순번</th>
+												<th>사용여부</th>
+												<th>*입력방식</th>
+												<th>*목록</th>
+												<th>*확인방법</th>
+												<th>*구분</th>
+												<th colspan="2">*기준</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<table class="table table-bordered mt-1 d-none" id="changeHisTable">
+					<colgroup>
+						<col width="20%">
+						<col width="30%">
+						<col width="20%">
+						<col width="30%">
+					</colgroup>
+					<tr>
+						<th>변경내역</th>
+						<td colspan='3'><input type="text" class="form-control" style="max-width: 100%" id="changeHis" maxlength="20"></td>
+					</tr>
 				</table>
 			</div>
+			<!-- ===/.right-sidebar 등록,수정===  -->
 		</div>
+		<!-- /.row -->
 	</div>
-	<div id="dragbar" onmousedown="StartDrag()"></div>
-	<div id="rightcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="rightHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end w-100">
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnNew"><i class="fa-solid fa-plus"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnSave" disabled><i class="fa-regular fa-floppy-disk"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnEdit" disabled><i class="fa-regular fa-pen-to-square"></i></button>
-						<button type="button" class="btn btn-outline-danger w-auto" style="font-size: 17px !important;" id="btnDel" disabled><i class="fa-solid fa-trash-can"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnCancel" disabled><i class="fa-solid fa-xmark"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnClose"><i class="fa-solid fa-caret-right"></i></button>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div style="width: 100%;">
-				  	<div class="nav nav-tabs" id="nav-tab">
-						<button class="nav-link active" id="tab1Nav" data-bs-toggle="tab" data-bs-target="#tab1"><spring:message code="baseInfo" text="default text" /></button>
-				  	</div>
-					<div class="tab-content" id="nav-tabContent">
-						<!-- 탭1 기본정보 -->
-						<div class="tab-pane fade show active" id="tab1">
-							<div class="row" style="padding: 5px;">
-								<table class="table table-bordered p-0 m-0">
-									<colgroup>
-										<col width="15%">
-										<col width="35%">
-										<col width="15%">
-										<col width="35%">
-									</colgroup>
-									<tr>
-										<th class="text-center align-middle"><span style="color: #ff0000;">*</span>색상구분</th>
-										<td class="text-center align-middle">
-											<select class="form-select inputGroup" id="colorGubun" disabled>		
-											</select>
-										</td>
-										<th class="text-center align-middle"><span style="color: #ff0000;">*</span>색상코드</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="colorCode" disabled>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle"><span style="color: #ff0000;">*</span>색상번호</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="colorNumber" disabled>
-										</td>
-										<th class="text-center align-middle">사용여부</th>
-										<td class="text-center align-middle">
-											<select class="form-select inputGroup" id="useYn" disabled>		
-												<option value="Y" selected>사용</option>
-												<option value="N">미사용</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle">조색값</th>
-										<td class="text-center align-middle" colspan="3">
-											<input type="text" class="form-control inputGroup" id="toningValue" disabled>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle">대상품목</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="spotNote" disabled>
-										</td>
-										<th class="text-center align-middle">대상지종</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="spotDesc" disabled>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-						<!-- 탭1 기본정보 끝 -->
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<!-- / #main  -->
 </div>
+<!-- /.page-wrapper -->
 
-<!-- 화면설정 script -->
-<script>
-	let isDragging = false;
-	
-	function SetCursor(cursor) {
-		let page = document.getElementById("page");
-		page.style.cursor = cursor;
-	}
-	
-	function StartDrag() {
-		isDragging = true;
-		SetCursor("ew-resize");
-	}
-	
-	function EndDrag(e) {
-		if(isDragging) {
-			dataTableDrawAll(); // dataTable 전체 reload
-			isDragging = false;
-			SetCursor("auto");
-		}
-	}
-	
-	function OnDrag(event) {
-		if (isDragging) {
-			let page = document.getElementById("page");
-			let leftcol = document.getElementById("leftcol");
-			let rightcol = document.getElementById("rightcol");
-			let dragbarWidth = 4;
-			let leftcolMinWidth = 20; // leftcol 최소사이즈
-			$('#leftHeader').children().each(function(index, item) {
-				leftcolMinWidth += $(item).width();
-			});
-			let rightcolMinWidth = 500; // rightcol 최소사이즈
-	
-			let rightColWidth = isDragging ? page.clientWidth - parseInt(Math.max(leftcolMinWidth + 20, event.clientX)) : rightcol.clientWidth;
-
-			console.log(Math.max(rightColWidth, rightcolMinWidth));
-			let cols = [
-				parseInt(Math.max(leftcolMinWidth, page.clientWidth - dragbarWidth - parseInt(Math.max(rightColWidth, rightcolMinWidth)))),
-				dragbarWidth,
-				parseInt(Math.max(rightColWidth, rightcolMinWidth))
-			];
-	
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-	
-			page.style.gridTemplateColumns = newColDefn;
-	
-			event.preventDefault()
-		}
-	}
-	
-	$('#btnOpen').on('click',function() { // right-box 열기버튼 클릭
-		if($('#rightcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '4fr 4px 3fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '0fr 4px 3fr');
-			$('#leftcol').addClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		}
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-	
-	$('#btnClose').on('click',function() { // right-box 닫기버튼 클릭
-		if($('#leftcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '4fr 4px 3fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '4fr 4px 0fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').addClass('d-none');
-		}
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-</script>
+<%@include file="../layout/bottom.jsp" %>
 
 <script>
-	WM_init('new');
-	WM_init('edit');
+	$("#left-width-btn").click(function() {
+		{
+			$("#left-list").animate({
+				width : "55%"
+			}, 200);
+			$("#arrow-left").animate({
+				display : "none"
+			}, 200);
+		}
+
+		state = !state;
+	});
+
+	let currentHref = "bmsc0100";
+	let currentPage = $('.' + currentHref).attr('id');
+
+	$('#' + currentPage).closest('.has-child', 'li').addClass(
+			'has-open has-active');
+	$('#' + currentPage).closest('.menu-item').addClass('has-active');
+	$(document).attr("title","검사항목관리(사출)"); 
 	
-	// 공통코드 조회
-	let colorGubunList = getCommonCode('일반', '035'); //조색비율
+	//변수설정
+	let viewIdx;
+	let sideView = 'add';
+	let btnView = '';
+	var inspCd;
+	var seqCheck = 'G';
+	var seqCpCheck = 'G';
+	var seqCpCheck2 = 'G';
+	var inspGubun;
+	var inspOnchangeCheck = '001';
+	let inspCpCheck = '001';
+	let inspCpCheck2 = '001';
+	let mainGubunList = '001';
+// 	var itemGubunThree = null;
+// 	var itemGubunFour = null;
+// 	var itemGubun = '001';
+	var inspType = "002";
+	var inspExtSeq;
+	var inspSizeSeq;
+	var inspRlbtSeq;
+	var serverDate = "${serverDateTo}";
 
-	selectBoxAppend(colorGubunList, 'colorGubun', '', '2');
+	var sideView2 = "";
+	
+	//화면설정
+	uiProc(true);
 
-	// 자재정보 목록조회
-	$('#spotToningTable thead tr').clone(true).addClass('filters').appendTo('#spotToningTable thead'); // filter 생성
-	let spotToningTable = $('#spotToningTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		rowReorder: {
-			enable: true,
-			dataSrc: 'progressOrder',
+	//공통코드 처리 시작      
+	var useYnCode = new Array();
+	<c:forEach items="${useYn}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	useYnCode.push(json);
+	</c:forEach>
+	
+	var inspChkGrp = new Array();
+	<c:forEach items="${inspChkGrp}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	inspChkGrp.push(json);
+	</c:forEach>
+
+	var methodCode = new Array();
+	<c:forEach items="${methodCodeList}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	methodCode.push(json);
+	</c:forEach>
+	
+	//확인방법 - 제품검사, 외관
+	var inspCheckCode1_1 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '제품검사' && "${info.etc2}" == '외관'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode1_1.push(json);
+	}
+	</c:forEach>
+	
+	//확인방법 - 제품검사, 치수
+	var inspCheckCode1_2 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '제품검사' && "${info.etc2}" == '치수'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode1_2.push(json);
+	}
+	</c:forEach>
+	
+	//확인방법 - 수분측정, 수분측정
+	var inspCheckCode2_2 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '수분측정' && "${info.etc2}" == '수분측정'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode2_2.push(json);
+	}
+	</c:forEach>
+	
+	//확인방법 - 수분측정, 중량
+	var inspCheckCode2_3 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '수분측정' && "${info.etc2}" == '중량'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode2_3.push(json);
+	}
+	</c:forEach>
+	
+	//확인방법 - 공정검사, 외관
+	var inspCheckCode3_1 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '공정검사' && "${info.etc2}" == '외관'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode3_1.push(json);
+	}
+	</c:forEach>
+	
+	//확인방법 - 공정검사, 치수
+	var inspCheckCode3_2 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '공정검사' && "${info.etc2}" == '치수'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode3_2.push(json);
+	}
+	</c:forEach>
+	
+	//확인방법 - 공정검사, 중량
+	var inspCheckCode3_3 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '공정검사' && "${info.etc2}" == '중량'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode3_3.push(json);
+	}
+	</c:forEach>
+	
+	//확인방법 - 수입검사, 외관
+	var inspCheckCode4_1 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '수입검사' && "${info.etc2}" == '외관'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode4_1.push(json);
+	}
+	</c:forEach>
+	
+	//확인방법 - 수입검사, 물성치
+	var inspCheckCode4_2 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '수입검사' && "${info.etc2}" == '물성치'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode4_2.push(json);
+	}
+	</c:forEach>
+	
+	//확인방법 - 자주검사, 외관
+	var inspCheckCode5_1 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '자주검사' && "${info.etc2}" == '외관'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode5_1.push(json);
+	}
+	</c:forEach>
+	
+	//확인방법 - 자주검사, 치수
+	var inspCheckCode5_2 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '자주검사' && "${info.etc2}" == '치수'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode5_2.push(json);
+	}
+	</c:forEach>
+	
+	//확인방법 - 자주검사, 중량
+	var inspCheckCode5_3 = new Array();
+	<c:forEach items="${inspCheck}" var="info">
+	if("${info.etc1}" == '자주검사' && "${info.etc2}" == '중량'){
+		var json = new Object();
+		json.baseCd = "${info.baseCd}";
+		json.baseNm = "${info.baseNm}";
+		inspCheckCode5_3.push(json);
+	}
+	</c:forEach>
+
+	//검사순서
+	var inspOrderCode = new Array();
+	<c:forEach items="${inspOrder}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	inspOrderCode.push(json);
+	</c:forEach>
+
+	//구분
+	var inspStandGubunCode = new Array();
+	<c:forEach items="${inspStandGubun}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	inspStandGubunCode.push(json);
+	</c:forEach>
+
+	//공통코드 처리 종료
+
+	$(document).on('click', '#inspCodePopUpTable2 tbody tr', function () {
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			$(this).find('input[name=check]').prop('checked', false);
+		} else {
+			$(this).addClass('selected');
+			$(this).find('input[name=check]').prop('checked',true);
+		}
+	});
+
+	$(document).on('click', '#copyAddTable tbody tr', function () {
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			$(this).find('input[name=check2]').prop('checked', false);
+		} else {
+			$(this).addClass('selected');
+			$(this).find('input[name=check2]').prop('checked',true);
+		}
+	});
+
+	$('#addCheck').on('click',function(){
+		if($('#addCheck').prop("checked")){
+			$('input:checkbox[name=check]').prop("checked",true);
+			$('#inspCodePopUpTable2 tbody tr').addClass('selected');
+		}else{
+			$('input:checkbox[name=check]').prop("checked",false);
+			$('#inspCodePopUpTable2 tbody tr').removeClass('selected');
+		}
+	});
+	
+	$('#delCheck').on('click',function(){
+		if($('#delCheck').prop("checked")){
+			$('input:checkbox[name=check2]').prop("checked",true);
+			$('#copyAddTable tbody tr').addClass('selected');
+		}else{
+			$('input:checkbox[name=check2]').prop("checked",false);
+			$('#copyAddTable tbody tr').removeClass('selected');
+		}
+	});
+
+	$('#saveBtnModalY').on('click', function() {
+		uiProc(true);
+		$('#btnSave').addClass('d-none');
+		$('#btnAdd').attr('disabled', false);
+		$('#btnEdit').attr('disabled', false);
+		$('#btnDel').attr('disabled', false);
+		$('#btnCopy').attr('disabled', false);
+		$('#inspChkGrp').attr('disabled', false);
+
+		if(inspOnchangeCheck == '001'){
+			$('#inspDescDiv1').addClass('d-none');
+			$('#inspDescDiv2').addClass('d-none');
+		}else if(inspOnchangeCheck == '002'){
+			$('#inspDescDiv1').addClass('d-none');
+			$('#inspDescDiv2').addClass('d-none');
+		}else if(inspOnchangeCheck == '003'){
+			$('#inspDesc1').attr('disabled');
+			$('#inspDesc2').attr('disabled');
+		}else if(inspOnchangeCheck == '004'){
+			$('#inspDescDiv1').addClass('d-none');
+			$('#inspDescDiv2').addClass('d-none');
+		}else if(inspOnchangeCheck == '005'){
+			$('#inspDesc1').attr('disabled');
+			$('#inspDesc2').attr('disabled');
+		}
+		
+		$('#btnExtAdd').addClass('invisible');
+		$('#btnExtEdit').addClass('invisible');
+		$('#btnExtDel').addClass('invisible');
+ 		$('#btnExtSave').addClass('invisible');
+		
+		$('#btnSizeAdd').addClass('invisible');
+		$('#btnSizeEdit').addClass('invisible');
+		$('#btnSizeDel').addClass('invisible');
+ 		$('#btnSizeSave').addClass('invisible');
+		
+		$('#btnRlbtAdd').addClass('invisible');
+		$('#btnRlbtEdit').addClass('invisible');
+		$('#btnRlbtDel').addClass('invisible');
+ 		$('#btnRlbtSave').addClass('invisible');
+
+		$('#btnWeightAdd').addClass('invisible');
+		$('#btnWeightEdit').addClass('invisible');
+		$('#btnWeightDel').addClass('invisible');
+ 		$('#btnWeightSave').addClass('invisible');
+ 		
+ 		//변경이력
+ 		$('#changeHisTable').addClass('d-none');
+		$('#changeHis').val('');
+
+ 		sideView2="";
+ 		$('#weightAdmTable').DataTable().ajax.reload();
+		$('#extAdmTable').DataTable().ajax.reload();
+		$('#sizeAdmTable').DataTable().ajax.reload();
+		$('#sizeAdmTable2').DataTable().ajax.reload();
+		$('#rlbtAdmTable').DataTable().ajax.reload();
+
+		$('#extTab').trigger('click');
+	});
+
+// 	$("#dealCorpNm").attr("disabled", true);
+// 	$("#btnEdit").attr("disabled", true);
+// 	$("#btnDel").attr("disabled", true);
+	
+
+	// 목록
+	let inspAdmTable = $('#inspAdmTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>"
+				+ "<'row'<'col-sm-12'tr>>"
+				+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : true,
+		processing : true,
+		autoWidth : false,
+		scrollX : false,
+		lengthChange : true,
+		pageLength : 20,
+		ajax : {
+			url : '<c:url value="bm/inspAdmList"/>',
+			type : 'GET',
+			data : {
+				'inspGubun' : function(){return inspOnchangeCheck;},
+				'mainGubun' : function(){return '001';},
+			},
 		},
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/spotToningList"/>',
-			type : 'POST',
+		columns : [
+			{
+				data : 'inspCd'
+			}, 
+			{
+				data : 'itemCusNm'
+			}, 
+			{
+				data : 'itemCd'
+			}, 
+			{
+				data : 'itemNm'
+			}, 
+			{
+				data : 'stateCd'
+			}, 
+		],
+		order : [ [ 0, 'asc' ] ],
+		buttons : [ 'copy', {
+			extend : 'excel',
+			title : '검사항목관리'
+		}, 'print' ],
+		columnDefs : [ {
+// 			className : "text-left",
+// 			targets : 2
+		}, ]
+	});
+	
+	//코드 팝업 시작
+	var inspCodePopUpTable;
+	function itemCdSelectInCorpCd() {
+		if (inspCodePopUpTable != null && inspCodePopUpTable != 'undefined') {
+			inspCodePopUpTable.destroy();
+		}
+		inspCodePopUpTable = $('#inspCodePopUpTable').DataTable({	
+			dom : "<'row'<'col-sm-12 col-md-6'><'col-sm-12 col-md-6'f>>"
+					+ "<'row'<'col-sm-12'tr>>"
+					+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+			language : lang_kor,
+			paging : true,
+			info : true,
+			ordering : true,
+			processing : true,
+			autoWidth : false,
+			scrollX : false,
+			lengthChange : true,
+			async : false,
+			pageLength : 10,
+			ajax : {
+				url : '<c:url value="bm/inspPartAdmList"/>',
+				type : 'GET',
+				data : {
+					'inspGubun' : function(){return inspOnchangeCheck;},
+					'itemGubunList' : function(){return itemGubunList;},
+// 					'itemGubun' : function(){return itemGubun;},
+// 					'itemGubunThree' : function(){return itemGubunThree;},
+// 					'itemGubunFour' : function(){return itemGubunFour;},
+					'mainGubun' : function(){return '001';},
+				},
+			},
+			columns : [ 
+				{
+					data : 'mainGubunNm'
+				},
+				{
+					data : 'itemGubunNm'
+				},
+				{
+					data : 'itemCd'
+				}, 
+				{
+					data : 'itemNm'
+				}, 
+				{
+					data : 'itemCusNm'
+				}, 
+				{
+					data : 'stateCdNm'
+				}  
+			],
+			columnDefs : [ {
+				"defaultContent" : "-",
+				"targets" : "_all",
+				"className" : "text-center"
+			} ],
+			order : [ [ 0, 'asc' ] ],
+			buttons : [],
+			drawCallback : function(){
+				if(inspOnchangeCheck == '001'){
+					$('#inspCodePopUpLabel').text('제품검사조회');
+				}else if(inspOnchangeCheck == '002'){
+					$('#inspCodePopUpLabel').text('공정검사조회');
+				}else if(inspOnchangeCheck == '003'){
+					$('#inspCodePopUpLabel').text('수입검사조회');
+				}else if(inspOnchangeCheck == '004'){
+					$('#inspCodePopUpLabel').text('자주검사조회');
+				}else if(inspOnchangeCheck == '005'){
+					$('#inspCodePopUpLabel').text('수분측정조회');
+				}
+			}
+		});
+		
+		$('#inspCodePopUpTable tbody').on('click', 'tr', function() {
+			var data = inspCodePopUpTable.row(this).data();
+			
+			//중복체크
+// 			var itemSeqCheck = false;
+// 			$.ajax({
+// 				url : '<c:url value="bm/inspAdmRead"/>',
+// 				type : 'GET',
+// 				async : false,
+// 				data : {
+// 					'itemSeq' : function(){return data.itemSeq;},
+// 				},
+// 				success : function(res) {
+// 					let data = res.data;
+					
+// 					if(data != null){
+// 						itemSeqCheck = true;
+// 					}
+// 				}
+				
+// 			});
+		
+// 			if (itemSeqCheck) {
+// 				toastr.warning('이미 검사중인 품목이 있습니다.');
+// 				return false;
+// 			} 
+			
+			if(data.mainGubun == '001'){
+				$('#mg1').prop('checked', true);
+				$('#mg2').prop('checked', false);
+				$('#sizeAdmTableDiv2').removeClass('d-none');
+				$('#sizeAdmTableDiv').addClass('d-none');
+			} else if (data.mainGubun == '002'){
+				$('#mg1').prop('checked', false);
+				$('#mg2').prop('checked', true);
+				$('#sizeAdmTableDiv2').addClass('d-none');
+				$('#sizeAdmTableDiv').removeClass('d-none');
+			} else {
+				$('#mg1').prop('checked', false);
+				$('#mg2').prop('checked', false);
+				$('#sizeAdmTableDiv2').addClass('d-none');
+				$('#sizeAdmTableDiv').removeClass('d-none');
+			}
+			$('#itemSeq').val(data.itemSeq);
+			$('#itemCd').val(data.itemCd);
+			$('#itemNm').val(data.itemNm);
+			$('#itemCusNm').val(data.itemCusNm);
+			$('#stateCd').val(data.stateCdNm);
+			
+			sizeAdmTable.draw();
+			sizeAdmTable2.draw();
+
+			console.log(data.mainGubun);
+			$('#inspCodePopUpModal').modal('hide');
+		});
+		$('#inspCodePopUpModal').modal('show');
+	}
+
+	let inspCodePopUpTable1;
+	function copySelectCd(){
+		if(inspCodePopUpTable1 != null && inspCodePopUpTable1 != 'undefined'){
+		    inspCodePopUpTable1.destroy();
+		}
+		inspCodePopUpTable1 = $('#inspCodePopUpTable1').DataTable({
+			dom : "<'row'<'col-sm-12 col-md-6'><'col-sm-12 col-md-6'f>>"
+				+ "<'row'<'col-sm-12'tr>>"
+				+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+			language : lang_kor,
+			paging : true,
+			info : true,
+			ordering : true,
+			processing : true,
+			autoWidth : false,
+			scrollX : false,
+			lengthChange : true,
+			async : false,
+			pageLength : 10,
+			ajax : {
+				url : '<c:url value="bm/inspAdmList"/>',
+				type : 'GET',
+				data : {
+					'inspGubun' : function(){return $('#inspChkCp').val();},
+					'mainGubun' : function(){return '001';},
+				},
+			},
+			columns : [
+				{data : 'inspCd'},
+				{data : 'itemCusNm'},
+				{data : 'itemCd'},
+				{data : 'itemNm'},
+				{data : 'stateCd'},
+			],
+			order : [ [ 0, 'asc' ] ],
+			buttons : [ 'copy', {
+				extend : 'excel',
+				title : '검사항목관리'
+			}, 'print' ],
+			columnDefs : [ {
+				"defaultContent" : "-",
+				"targets" : "_all",
+				"className" : "text-center"
+			}, ]
+		});
+		
+		$('#inspCodePopUpTable1 tbody').on('click', 'tr', function(){
+			let data = inspCodePopUpTable1.row(this).data();
+			$('#inspCp').val(data.inspCd);
+			$('#copyCd').val(data.itemCd);
+// 			$('#itemSeq').val(data.itemSeq);
+
+			$('#inspCodePopUpModal1').modal('hide');
+		});
+		$('#inspCodePopUpModal1').modal('show');
+	}
+
+	let copyAddTable = $('#copyAddTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-6'>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+		language	 : lang_kor,
+		paging		 : false,
+		info		 : false,
+		ordering	 : true,
+		processing	 : true,
+		autoWidth	 : false,
+		lengthChange : false,
+		searching	 : true,
+		scrollY		 : '50vh',
+		ajax : {
+			url	 : '<c:url value="bm/copyAddTableReset"/>',
+			type : 'get',
 			data : {
 			},
 		},
-        rowId: 'idx',
 		columns : [
-			{ data: 'progressOrder', className : 'text-center',
-				render : function(data, type, row, meta) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}	
+			{
+				data : 'itemSeq',
+				render : function(data, type, row, meta){
+					return '<input type="checkbox" name="check2">';
+				}
+			},{
+				data : 'mainGubunNm'
+			},{
+				data : 'itemGubunNm'
+			},{
+				data : 'itemCd'
+			},{
+				data : 'itemNm'
+			},{
+				data : 'itemCusNm'
+			},{
+				data : 'stateCdNm'
 			},
-			{ data: 'colorCode', className : 'text-center',//색상코드
-				render : function(data, type, row, meta) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}	
-			},	
-			{ data: 'colorGubunNm', className : 'text-center',//색상구분
-				render : function(data, type, row, meta) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			},	
-			{ data: 'colorNumber', className : 'text-center',//색상번호
-				render : function(data, type, row, meta) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			},	
-			{ data: 'toningValue', className : 'text-center',//조색값
-				render : function(data, type, row, meta) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			},	
-			{ data: 'spotNote', className : 'text-center',//대상품목
-				render : function(data, type, row, meta) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			},	
-			{ data: 'spotDesc', className : 'text-center',//대상지종
-				render : function(data, type, row, meta) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			},	
-			{ data: 'useYn', className : 'text-center',//사용여부
-				render : function(data, type, row, meta) {
-					let status = '-';
-					if(data == 'Y'){
-						status = '사용';
-					} else if(data == 'N') {
-						status = '미사용';
+		],
+		order 	: [[0, 'asc']],
+		buttons : [],
+		columnDefs : [ {
+			"defaultContent" : "-",
+			"targets" : "_all",
+			"className" : "text-center"
+		}, ]
+	});
+
+	let idxCt;
+	let inspCodePopUpTable2;
+	$('#btnListAdd').on('click', function(){
+		if (inspCodePopUpTable2 != null && inspCodePopUpTable2 != 'undefined') {
+			inspCodePopUpTable2.destroy();
+		}
+		inspCodePopUpTable2 = $('#inspCodePopUpTable2').DataTable({
+			dom : "<'row'<'col-sm-12 col-md-6'><'col-sm-12 col-md-6'f>>"
+					+ "<'row'<'col-sm-12'tr>>"
+					+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+			language : lang_kor,
+			paging : false,
+			info : true,
+			ordering : true,
+			processing : true,
+			autoWidth : false,
+			scrollX : false,
+			scrollY : '60vh',
+			lengthChange : true,
+			async : false,
+			pageLength : 10,
+			ajax : {
+				url : '<c:url value="/bm/inspPartAdmList"/>',
+				type : 'GET',
+				data : {
+					'inspGubun' : function(){return $('#inspChkCp2').val();},
+					//'itemGubunList' : function(){return itemGubunList;},
+					'mainGubun' : function(){return '001';},
+				},
+			},
+			columns : [
+				{
+					data : 'itemSeq',
+					render : function(data, type, row, meta){
+						return '<input type="checkbox" name="check">';
 					}
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+status+'</div>';
-				}	
-			},
-			{ data: 'regNm', className : 'text-center',//등록자
-				render : function(data, type, row, meta) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
+				},
+				{
+					data : 'mainGubunNm'
+				},
+				{
+					data : 'itemGubunNm'
+				},
+				{
+					data : 'itemCd'
+				}, 
+				{
+					data : 'itemNm'
+				}, 
+				{
+					data : 'itemCusNm'
+				}, 
+				{
+					data : 'stateCdNm'
+				}  
+			],
+			columnDefs : [ {
+				"defaultContent" : "-",
+				"targets" : "_all",
+				"className" : "text-center"
+			} ],
+			order : [ [ 0, 'asc' ] ],
+			buttons : [],
+			drawCallback : function(){
+				if(inspOnchangeCheck == '001'){
+					$('#inspCodePopUpLabel').text('제품검사조회');
+				}else if(inspOnchangeCheck == '002'){
+					$('#inspCodePopUpLabel').text('공정검사조회');
+				}else if(inspOnchangeCheck == '003'){
+					$('#inspCodePopUpLabel').text('수입검사조회');
+				}else if(inspOnchangeCheck == '004'){
+					$('#inspCodePopUpLabel').text('자주검사조회');
+				}else if(inspOnchangeCheck == '005'){
+					$('#inspCodePopUpLabel').text('수분측정조회');
 				}
-			},	
-		],
-		columnDefs : [
-// 			{ "targets": '_all', "orderable": false },
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [[0,'asc']],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#spotToningTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 79)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAll').off('keyup',function() {});
-			$('#searchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-			//progressOrder
-			for(var i=0;i<data.length;i++) {
-				let tr = $('#' + table_id + ' tbody').find('tr').eq(i);
-				spotToningTable.row(tr).data().progressOrder = i+1;
-				$(tr).find('td').eq(0).html(i+1);
-			}
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#spotToningTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#spotToningTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	spotToningTable.on('column-reorder', function( e, settings, details ) {
-		let api = spotToningTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#spotToningTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
+			},
+			//$('#inspCodePopUpModal2').modal('hide');
 		});
+		setTimeout(function(){
+			inspCodePopUpTable2.draw();
+		},150);
+		$('#inspCodePopUpModal2').modal('show');
 	});
 
-	// 조회 버튼 click
-	$('#btnSearch').on('click', function() {
-		$('#my-spinner').show();
-		spotToningTable.ajax.reload(function() {});
-
-		setTimeout(function() {
-			$('#my-spinner').hide();
-		}, 100)
+	//복사 리스트 제거
+	$('#btnListDel').on('click',function(){
+		if($('input:checkbox[name=check2]').is(":checked")==false){
+			toastr.warning("삭제할 항목을 선택해주세요.");
+			return false;
+		}
+		var arr = [];
+		$('#copyAddTable tbody tr').each(function(index, item) {
+			if ($(this).find('td input[name=check2]').is(":checked") == true) {
+				arr.push(index);
+			}
+		});
+		$('#copyAddTable').DataTable().rows(arr).remove().draw();	
+		$('input[name=check2]').prop("checked",false); 
+		$('#delCheck').prop("checked",false); 
 	});
+	
+	$('#btnListChk').on('click', function(){
+		if($('input:checkbox[name=check]').is(":checked")==false){
+			toastr.warning("추가할 항목을 선택해주세요.");
+			return false;
+		}
+		$('#inspCodePopUpTable2 tbody tr').each(function(index, item){
+			var data = inspCodePopUpTable2.row(this).data();
+			if($(this).find('td input[name=check]').is(":checked") == true){
+				$('#copyAddTable').DataTable().row.add({
+						'itemSeq'     : data.itemSeq,
+						'mainGubunNm' : data.mainGubunNm,
+						'itemGubunNm' : data.itemGubunNm,
+						'itemCd'	  : data.itemCd,
+						'itemNm'	  : data.itemNm,
+						'itemCusNm'	  : data.itemCusNm,
+						'stateCdNm'	  : data.stateCdNm,
+				}).draw(true);
+			}
+		});
+		$('#inspCodePopUpModal2').modal('hide');
+		$('#addCheck').prop("checked",false);
+	});
+	
+	// 보기
+	$('#inspAdmTable tbody').on('click','tr',function() {
+		if ($('#btnSave').attr('class') == 'btn btn-primary float-right') {
+			$('#saveBtnModal').modal('show');
+			console.log("등록중입니다.");
+			return false;
+		}
 
-	// 조색테이블 click
-	$('#spotToningTable tbody').on('click','tr', function() {
-		let idx = spotToningTable.row(this).data().idx;
-		if(WMCheck('new')) { // 신규등록중일 경우
-			setWM('new', 'idx', idx);
-			return false;
+		if ($(this).hasClass('selected')) {
+			//$(this).removeClass('selected');
+		} else {
+			$('#inspAdmTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
 		}
-		if(WMCheck('edit')) { // 수정중일 경우
-			setWM('edit', 'idx', idx);
-			return false;
+		
+		inspCd = inspAdmTable.row(this).data().inspCd;
+		$('#btnSave').addClass('d-none'); // 저장버튼
+		$('#btnEdit').attr('disabled', false); //수정버튼
+		$('#btnDel').attr('disabled', false); //삭제버튼
+		$('#btnCopy').attr('disabled', false); //복사버튼
+
+		if($("#inspChkGrp option:selected").val()=="005"){
+			$('#sizeTab').trigger('click');
+		}else{
+			$('#extTab').trigger('click');
 		}
-		let data;
+		
+		$('#extTab').removeClass('disabled');
+		$('#sizeTab').removeClass('disabled');
+		$('#rlbtTab').removeClass('disabled');
+		$('#weightTab').removeClass('disabled');
+		
+		//선택 행 데이터 불러오기
 		$.ajax({
-			url: '<c:url value="/bm/spotToningSel"/>',
-            type: 'POST',
-            //async: false,
-            data: {
-                'idx'	:	idx
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
+			url : '<c:url value="/bm/inspAdmRead"/>',
+			type : 'GET',
+			data : {
+				'inspCd' : function(){return inspCd;},
+			},
 			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					data = res.data;
+				let data = res.data;
+				sideView = 'edit';
 
-					$('.inputGroup').attr('disabled', true); // 입력항목
+				$('#inspCd').val(data.inspCd);
+				$('#itemSeq').val(data.itemSeq);
+				$('#itemCd').val(data.itemCd);
+				$('#itemNm').val(data.itemNm);
+				$('#itemCusNm').val(data.itemCusNm);
+				$('#stateCd').val(data.stateCd);
 
-					$('#btnNew').attr('disabled', false); // 신규 버튼
-					$('#btnSave').attr('disabled', true); // 저장 버튼
-					$('#btnEdit').attr('disabled', false); // 수정 버튼
-					$('#btnDel').attr('disabled', false); // 삭제 버튼
-					$('#btnCancel').attr('disabled', true); // 취소 버튼
-					
-					
-					$('#colorGubun').val(data.colorGubun);
-					$('#colorCode').val(data.colorCode);
-					$('#colorNumber').val(data.colorNumber);
-					$('#useYn').val(data.useYn);
-					$('#toningValue').val(data.toningValue);
-					$('#spotNote').val(data.spotNote);
-					$('#spotDesc').val(data.spotDesc);
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
-				} else {
-					toastr.error(res.message);
+				$('#inspDesc1').val(data.inspDesc1);
+				$('#inspDesc2').val(data.inspDesc2);
+
+				$('#inspDescDiv1').addClass('d-none');
+				$('#inspDescDiv2').addClass('d-none');
+				
+				if(data.inspGubun == '001'){
+					$('#inspChk1').prop('checked', true);
+				}else if(data.inspGubun == '002'){
+					$('#inspChk2').prop('checked', true);
+				}else if(data.inspGubun == '003'){
+					$('#inspDescDiv1').removeClass('d-none');
+					$('#inspDescDiv2').removeClass('d-none');
+					$('#inspChk3').prop('checked', true);
+				}else if(data.inspGubun == '004'){
+					$('#inspChk4').prop('checked', true);
+				}else if(data.inspGubun == '005'){
+					$('#inspDescDiv1').removeClass('d-none');
+					$('#inspDescDiv2').removeClass('d-none');
+					$('#inspChk5').prop('checked', true);
 				}
-				$('#my-spinner').hide();				
+
+				//라디오버튼
+				if(data.mainGubun == '001'){
+					$('#mg1').prop('checked', true);
+					$('#sizeAdmTableDiv2').removeClass('d-none');
+					$('#sizeAdmTableDiv').addClass('d-none');
+				}else if(data.mainGubun == '002'){
+					$('#mg2').prop('checked', true);
+					$('#sizeAdmTableDiv2').addClass('d-none');
+					$('#sizeAdmTableDiv').removeClass('d-none');
+				} 
+
+				 //공정순서 항목 숨김처리
+				if(inspOnchangeCheck=="003" && inspType=="002"){
+					sizeAdmTable.column( 4 ).visible(true);
+					sizeAdmTable2.column( 4 ).visible(true);
+				
+					$('#newGroup').removeClass('d-none');
+					$('#basicGroup').addClass('d-none');
+
+					$('#newGroup2').removeClass('d-none');
+					$('#basicGroup2').addClass('d-none');
+
+				}else{
+					sizeAdmTable.column( 4 ).visible(false);
+					sizeAdmTable2.column( 4 ).visible(false);
+
+					$('#newGroup').addClass('d-none');
+					$('#basicGroup').removeClass('d-none');
+
+					$('#newGroup2').addClass('d-none');
+					$('#basicGroup2').removeClass('d-none');
+				} 
+				
+				$('#sizeAdmTable').DataTable().ajax.reload(function(){});
+				$('#sizeAdmTable2').DataTable().ajax.reload(function(){});
+				$('#extAdmTable').DataTable().ajax.reload(function(){});
+				$('#rlbtAdmTable').DataTable().ajax.reload(function(){});
+				$('#weightAdmTable').DataTable().ajax.reload(function(){});
+
 			}
 		});
-	});
-
-	// 작업중 경고 모달 예 버튼 click
-	$('#btnWorkingWarningModalY').on('click', function() {
-		if(WMlastIdx == 'new' || WMlastIdx == 'edit') { // 등록중이거나 수정중이였을 경우
-			$('#btnSave').trigger('click');
-			return false;
-		} else if(WMlastIdx == 'dealNew'){
-			$('#btnDealCorpSave').trigger('click');
-			return false;
-		}
 		
 	});
+	
+	var html1 = '<div class="row">';
+    html1 += '&nbsp;&nbsp;<label class="input-label-sm">유형</label>';
+	html1 += '<div class="form-group input-sub m-0">';
+	html1 += '<select class="custom-select" id="inspChkGrp" onChange="inspOnchange()">';
+	html1 += '</select></div>';
+    html1 += '</div>';
 
-	// 작업중 경고 모달 아니요 버튼 click
-	$('#btnWorkingWarningModalN').on('click', function() {
-		if(WMlastIdx == 'new' || WMlastIdx == 'edit') { // 등록중이거나 수정중이였을 경우
-			if(getWM(WMlastIdx, 'idx') != '' && getWM(WMlastIdx, 'idx') != undefined) {
-				let idx = getWM(WMlastIdx, 'idx');
-				WM_action_OFF(WMlastIdx);
-				setWM(WMlastIdx, 'idx', '');
-				spotToningTable.row('#'+idx).select();
-				$(spotToningTable.row('#'+idx).node()).trigger('click'); // 선택했던 항목 선택처리
-			} else {
-				WM_action_OFF(WMlastIdx);
-				if(window.location != window.parent.location) { // tab일 경우
-					// 부모 탭 닫기버튼 click
-					$('#tab-list', parent.document).find('.active').find('span').eq(1).find('i').trigger('click');
-			    }
-				
-				$('.inputGroup').attr('disabled', true); // 입력항목
-				
-				$('#btnNew').attr('disabled', false); // 신규 버튼
-				$('#btnSave').attr('disabled', true); // 저장 버튼
-				$('#btnEdit').attr('disabled', true); // 수정 버튼
-				$('#btnDel').attr('disabled', true); // 삭제 버튼
-				$('#btnCancel').attr('disabled', true); // 취소 버튼
-			}
+	$('#inspAdmTable_length').html(html1);
+	selectBoxAppend(inspChkGrp, "inspChkGrp", "", "");
+	selectBoxAppend(inspChkGrp, "inspChkCp", "", "");
+	selectBoxAppend(inspChkGrp, "inspChkCp2", "", "");
+	inspType = "002"
+
+	let itemGubunList = ['001'];
+	function inspOnchange(){
+
+		inspType = "002"
+		$('#inspDescDiv1').addClass('d-none');
+		$('#inspDescDiv2').addClass('d-none');
+		$('#extTab').trigger('click');
+		inspOnchangeCheck = $("#inspChkGrp option:selected").val();
+		$('#sizeTab').text('치수');
+		if(inspOnchangeCheck == '001'){
+			$('#inspChk1').prop('checked', true);
+			seqCheck = 'G';
+			itemGubunList = ['001'];
+// 			itemGubunThree = null;
+// 			itemGubunFour = null;
+// 			itemGubun = '001';
+
+			$('#extTab').removeClass('d-none');
+			$('#sizeTab').removeClass('d-none');
+			$('#rlbtTab').addClass('d-none');
+			$('#weightTab').addClass('d-none');
 			
-			return false;
+			$('#sizeTab').addClass('disabled');
+			$('#weightTab').addClass('disabled');
+		}else if(inspOnchangeCheck == '002'){
+			$('#inspChk2').prop('checked', true);
+			seqCheck = 'P';
+			itemGubunList = ['001', '003'];
+// 			itemGubunThree = 'true';
+// 			itemGubunFour = null;
+// 			itemGubun = '001';
+
+			$('#extTab').removeClass('d-none');
+			$('#sizeTab').removeClass('d-none');
+			$('#rlbtTab').addClass('d-none');
+			$('#weightTab').removeClass('d-none');
+			$('#sizeTab').addClass('disabled');
+			$('#weightTab').addClass('disabled');
+		}else if(inspOnchangeCheck == '003'){
+			$('#inspChk3').prop('checked', true);
+			seqCheck = 'E';
+			itemGubunList = ['003', '004', '005'];
+// 			itemGubunThree = 'true';
+// 			itemGubunFour = 'true';
+// 			itemGubun = '005';
+
+			$('#extTab').removeClass('d-none');
+			$('#sizeTab').removeClass('d-none');
+			$('#rlbtTab').removeClass('d-none');
+			$('#weightTab').addClass('d-none');
+			$('#sizeTab').addClass('disabled');
+
+			$('#sizeTab').addClass('disabled');
+			$('#weightTab').addClass('disabled');
+			$('#rlbtTab').addClass('disabled');
+
+			$('#inspDescDiv1').removeClass('d-none');
+			$('#inspDescDiv2').removeClass('d-none');
+			
+			$('#sizeTab').text('물성치');
+		}else if(inspOnchangeCheck == '004'){
+			$('#inspChk4').prop('checked', true);
+			seqCheck = 'J';
+			itemGubunList = ['001', '003'];
+// 			itemGubunThree = 'true';
+// 			itemGubunFour = null;
+// 			itemGubun = '001';
+
+			$('#extTab').removeClass('d-none');
+			$('#sizeTab').removeClass('d-none');
+			$('#rlbtTab').addClass('d-none');
+			$('#weightTab').removeClass('d-none');
+			
+			$('#sizeTab').addClass('disabled');
+			$('#weightTab').addClass('disabled');
+		}else if(inspOnchangeCheck == '005'){
+			$('#inspChk5').prop('checked', true);
+			seqCheck = 'W';
+			itemGubunList = ['004'];
+// 			itemGubunThree = 'true';
+// 			itemGubunFour = 'true';
+// 			itemGubun = '005';
+
+			$('#extTab').addClass('d-none');
+			$('#sizeTab').removeClass('d-none');
+			$('#rlbtTab').addClass('d-none');
+			$('#weightTab').removeClass('d-none');
+
+			$('#extTab').removeClass('active');
+			$('#sizeTab').removeClass('disabled');
+			$('#weightTab').addClass('disabled');
+			$('#sizeTab').trigger('click');
+
+			$('#inspDescDiv1').removeClass('d-none');
+			$('#inspDescDiv2').removeClass('d-none');
+			
+			$('#sizeTab').text('수분측정');
+			inspType = "005"
 		}
-	});
 
-	// 신규 버튼 click
-	$('#btnNew').on('click', function() {
-		$('#btnSave').data('saveType','insert'); // 저장 방식 -> 등록
-		$('.inputGroup').val('');
-		WM_action_ON('new', 'workingWarningModal');
+		$('#inspAdmTable').DataTable().ajax.reload(function(){});
+	}
 
-		$('.inputGroup').attr('disabled', false); // 입력항목
+	function inspOnchange1(){
+		inspCpCheck = $("#inspChkCp option:selected").val();
+		if ( inspCpCheck == '001' ) {//제품검사
+			$('#inspChk1').prop('checked', true);
+			seqCpCheck = 'G';
+		} else if ( inspCpCheck == '002' ) {//공정검사
+			$('#inspChk2').prop('checked', true);
+			seqCpCheck = 'P';
+		} else if ( inspCpCheck == '003' ) {//수입검사
+			$('#inspChk3').prop('checked', true);
+			seqCpCheck = 'E';
+		} else if ( inspCpCheck == '004' ) {//자주검사
+			$('#inspChk4').prop('checked', true);
+			seqCpCheck = 'J';
+		} else if (inspCpCheck == '005') {//수분측정
+			$('#inspChk5').prop('checked', true);
+			seqCpCheck = 'W';
+		}
+		$.ajax({
+			url : '<c:url value="/bm/inspAdmSeq"/>',
+			type : 'POST',
+			data : {
+				'seqCheck' : function(){return seqCpCheck;},
+			}
+		});
+
+		$('#inspAdmTable').DataTable().ajax.reload(function(){});
+	}
+
+	function inspOnchange2(){
+		inspCpCheck2 = $("#inspChkCp2 option:selected").val();
+		if ( inspCpCheck2 == '001' ) {//제품검사
+			$('#inspChk1').prop('checked', true);
+			seqCpCheck2 = 'G';
+		} else if ( inspCpCheck2 == '002' ) {//공정검사
+			$('#inspChk2').prop('checked', true);
+			seqCpCheck2 = 'P';
+		} else if ( inspCpCheck2 == '003' ) {//수입검사
+			$('#inspChk3').prop('checked', true);
+			seqCpCheck2 = 'E';
+		} else if ( inspCpCheck2 == '004' ) {//자주검사
+			$('#inspChk4').prop('checked', true);
+			seqCpCheck2 = 'J';
+		} else if (inspCpCheck2 == '005') {//수분측정
+			$('#inspChk5').prop('checked', true);
+			seqCpCheck2 = 'W';
+		}
+		$.ajax({
+			url : '<c:url value="/bm/inspAdmSeq"/>',
+			type : 'POST',
+			data : {
+				'seqCheck' : function(){return seqCpCheck2;},
+			},
+			success : function(res) {
+				data = res.inspCd;
+				$('#inspCd').val(data);
+			}
+		});
+		$('#inspAdmTable').DataTable().ajax.reload(function(){});
+	}
+	
+	function inspOnclick(){
+
+		$('#inspDescDiv1').addClass('d-none');
+		$('#inspDescDiv2').addClass('d-none');
 		
-		$('#btnNew').attr('disabled', true); // 신규 버튼
-		$('#btnSave').attr('disabled', false); // 저장 버튼
-		$('#btnEdit').attr('disabled', true); // 수정 버튼
-		$('#btnDel').attr('disabled', true); // 삭제 버튼
-		$('#btnCancel').attr('disabled', false); // 취소 버튼
+		inspOnchangeCheck = $('input[name=inspChkGrp]:checked').val();
+		$('#sizeTab').text('치수');
+		inspType = "002"
+		if(inspOnchangeCheck == '001'){
+			$('#extTab').trigger('click');
+			seqCheck = 'G';
+			itemGubunList = ['001'];
+// 			itemGubunThree = null;
+// 			itemGubunFour = null;
+// 			itemGubun = '001';
 
-		$('#useYn').val('Y');
-		$('#colorCode').val('자동채번');
+			$('#extTab').removeClass('d-none');
+			$('#sizeTab').removeClass('d-none');
+			$('#rlbtTab').addClass('d-none');
+			$('#weightTab').addClass('d-none');
+			
+			$('#sizeTab').removeClass('disabled');
+			$('#weightTab').removeClass('disabled');
+			
+		}else if(inspOnchangeCheck == '002'){
+			$('#extTab').trigger('click');
+			seqCheck = 'P';
+			itemGubunList = ['001', '003'];
+// 			itemGubunThree = 'true';
+// 			itemGubunFour = null;
+// 			itemGubun = '001';
+
+			$('#extTab').removeClass('d-none');
+			$('#sizeTab').removeClass('d-none');
+			$('#rlbtTab').addClass('d-none');
+			$('#weightTab').removeClass('d-none');
+			
+			$('#sizeTab').removeClass('disabled');
+			$('#weightTab').removeClass('disabled');
+
+		}else if(inspOnchangeCheck == '003'){
+			$('#extTab').trigger('click');
+			seqCheck = 'E';
+			itemGubunList = ['003', '004', '005'];
+// 			itemGubunThree = 'true';
+// 			itemGubunFour = 'true';
+// 			itemGubun = '005';
+
+			$('#extTab').removeClass('d-none');
+			$('#sizeTab').removeClass('d-none');
+			$('#rlbtTab').removeClass('d-none');
+			$('#weightTab').addClass('d-none');
+			
+			$('#sizeTab').addClass('disabled');
+			$('#sizeTab').removeClass('disabled');
+			$('#weightTab').removeClass('disabled');
+			$('#rlbtTab').removeClass('disabled');
+
+			$('#inspDescDiv1').removeClass('d-none');
+			$('#inspDescDiv2').removeClass('d-none');
+			
+			$('#sizeTab').text('물성치');
+		}else if(inspOnchangeCheck == '004'){
+			$('#extTab').trigger('click');
+			seqCheck = 'J';
+			itemGubunList = ['001', '003'];
+// 			itemGubunThree = 'true';
+// 			itemGubunFour = null;
+// 			itemGubun = '001';
+
+			$('#extTab').removeClass('d-none');
+			$('#sizeTab').removeClass('d-none');
+			$('#rlbtTab').addClass('d-none');
+			$('#weightTab').removeClass('d-none');
+			
+			$('#sizeTab').removeClass('disabled');
+			$('#weightTab').removeClass('disabled');
+			
+		}else if(inspOnchangeCheck == '005'){
+			$('#sizeTab').trigger('click');
+			seqCheck = 'W';
+			itemGubunList = ['003', '004', '005'];
+// 			itemGubunThree = 'true';
+// 			itemGubunFour = 'true';
+// 			itemGubun = '005';
+			
+			$('#extTab').addClass('d-none');
+			$('#rlbtTab').addClass('d-none');
+			$('#sizeTab').removeClass('d-none');
+			$('#weightTab').removeClass('d-none');
+			
+			$('#extTab').removeClass('active');
+			$('#sizeTab').removeClass('disabled');
+			$('#weightTab').removeClass('disabled');
+
+			$('#inspDescDiv1').removeClass('d-none');
+			$('#inspDescDiv2').removeClass('d-none');
+			
+			$('#sizeTab').text('수분측정');
+			inspType = "005"
+		}
+		
+		$.ajax({
+			url : '<c:url value="/bm/inspAdmSeq"/>',
+			type : 'POST',
+			data : {
+				'seqCheck' : function(){return seqCheck;},
+			},
+			success : function(res) {
+				data = res.inspCd;
+				$('#inspCd').val(data);
+			}
+		});
+		
+		$('#extAdmTable').DataTable().ajax.reload();
+		$('#sizeAdmTable2').DataTable().ajax.reload();
+		$('#sizeAdmTable').DataTable().ajax.reload();
+		$('#rlbtAdmTable').DataTable().ajax.reload();
+		$('#weightAdmTable').DataTable().ajax.reload();
+	}
+	
+	function deleteOnclick(){
+		$('#itemSeq').val('');
+		$('#itemCd').val('');
+		$('#itemNm').val('');
+		$('#itemCusNm').val('');
+		$('#stateCd').val('');
+		$('#mg1').prop('checked', false);
+		$('#mg2').prop('checked', false);
+	}
+
+	// 복사폼
+	$('#btnCopy').on('click', function(){
+		$('#formList').each(function() {this.reset();});
+		$('#form').each(function() {this.reset();});
+		$('#copyAddTable').DataTable().ajax.reload(function(){
+			setTimeout(function(){
+				copyAddTable.draw();
+			},150);
+		});
+
+		$('#extAdmTable').DataTable().ajax.reload(function(){});
+		$('#sizeAdmTable').DataTable().ajax.reload(function(){});
+		$('#sizeAdmTable2').DataTable().ajax.reload(function(){});
+		$('#rlbtAdmTable').DataTable().ajax.reload(function(){});
+		$('#weightAdmTable').DataTable().ajax.reload(function(){});
+		
+
+		if(inspCpCheck == '001'){
+			$('#inspChk1').prop('checked', true);
+		}else if(inspCpCheck == '002'){
+			$('#inspChk2').prop('checked', true);
+		}else if(inspCpCheck == '003'){
+			$('#inspChk3').prop('checked', true);
+		}else if(inspCpCheck == '004'){
+			$('#inspChk4').prop('checked', true);
+		}else if(inspCpCheck == '005'){
+			$('#inspChk5').prop('checked', true);
+		}
+		
+		$.ajax({
+			url : '<c:url value="/bm/inspAdmSeq"/>',
+			type : 'post',
+			data : {
+				'seqCheck' : function(){return seqCpCheck;},
+			},
+			success : function(res){
+				data = res.inspCd;
+				$('#inspCd').val(data);
+			}
+		});
+		$('#inspCopyPopUpModal').modal('show');
+	});
+	
+	// 등록폼
+	$('#btnAdd').on('click', function() {
+		sideView = 'add';
+		$('#inspAdmTable').DataTable().$('tr.selected').removeClass('selected');
+		
+		$('#form').each(function() {this.reset();});
+		inspCd = 'none';
+		$('#extAdmTable').DataTable().ajax.reload(function(){});
+		$('#sizeAdmTable').DataTable().ajax.reload(function(){});
+		$('#sizeAdmTable2').DataTable().ajax.reload(function(){});
+		$('#rlbtAdmTable').DataTable().ajax.reload(function(){});
+		$('#weightAdmTable').DataTable().ajax.reload(function(){});
+
+		
+		if(inspOnchangeCheck == '001'){
+			$('#inspChk1').prop('checked', true);
+		}else if(inspOnchangeCheck == '002'){
+			$('#inspChk2').prop('checked', true);
+		}else if(inspOnchangeCheck == '003'){
+			$('#inspChk3').prop('checked', true);
+		}else if(inspOnchangeCheck == '004'){
+			$('#inspChk4').prop('checked', true);
+		}else if(inspOnchangeCheck == '005'){
+			$('#inspChk5').prop('checked', true);
+		}
+		
+		//공정순서 항목 숨김처리
+		if(inspOnchangeCheck=="003" && inspType=="002"){
+			sizeAdmTable.column( 4 ).visible(true);
+			sizeAdmTable2.column( 4 ).visible(true);
+		
+			$('#newGroup').removeClass('d-none');
+			$('#basicGroup').addClass('d-none');
+
+			$('#newGroup2').removeClass('d-none');
+			$('#basicGroup2').addClass('d-none');
+
+		}else{
+			sizeAdmTable.column( 4 ).visible(false);
+			sizeAdmTable2.column( 4 ).visible(false);
+
+			$('#newGroup').addClass('d-none');
+			$('#basicGroup').removeClass('d-none');
+
+			$('#newGroup2').addClass('d-none');
+			$('#basicGroup2').removeClass('d-none');
+		}
+		
+		//설비코드 중복체크
+		/* $('#equipCdCheck').val("false"); */
+		$('#btnCheck').attr("disabled", false);
+		
+		//화면처리        
+		uiProc(false);
+
+		$.ajax({
+			url : '<c:url value="/bm/inspAdmSeq"/>',
+			type : 'POST',
+			data : {
+				'seqCheck' : function(){return seqCheck;},
+			},
+			success : function(res) {
+				data = res.inspCd;
+				$('#inspCd').val(data);
+			}
+		});
+
+		$('#btnSave').removeClass('d-none'); // 등록버튼
+		$('#btnEdit').attr('disabled', true); //수정버튼
+		$('#btnDel').attr('disabled', true); //삭제버튼
+		$('#btnCopy').attr('disabled', true);//복사버튼
+		$('#inspChkGrp').attr('disabled', true);
+		
+		$('#extTab').removeClass('disabled');
+		$('#sizeTab').removeClass('disabled');
+		$('#rlbtTab').removeClass('disabled');
+		$('#weightTab').removeClass('disabled');
+		
+		$('#btnExtAdd').removeClass('invisible');
+		$('#btnExtEdit').removeClass('invisible');
+		$('#btnExtDel').removeClass('invisible');
+ 		$('#btnExtSave').removeClass('invisible');
+		
+		$('#btnSizeAdd').removeClass('invisible');
+		$('#btnSizeEdit').removeClass('invisible');
+		$('#btnSizeDel').removeClass('invisible');
+ 		$('#btnSizeSave').removeClass('invisible');
+		
+		$('#btnRlbtAdd').removeClass('invisible');
+		$('#btnRlbtEdit').removeClass('invisible');
+		$('#btnRlbtDel').removeClass('invisible');
+		$('#btnRlbtSave').removeClass('invisible');
+
+		$('#btnWeightAdd').removeClass('invisible');
+		$('#btnWeightEdit').removeClass('invisible');
+		$('#btnWeightDel').removeClass('invisible');
+ 		$('#btnWeightSave').removeClass('invisible');
+
+ 		
 	});
 
-	// 저장 버튼 click
-	$('#btnSave').on('click', function() {
-		let saveType = $(this).data('saveType');
-
-		if($('#colorGubun').val() == '') {
-			toastr.warning('색상구분을 선택해주세요.');
-			$('#colorGubun').focus();
-			return false;
-		}
-
-		if($('#colorCode').val() == '') {
-			toastr.warning('색상코드를 입력해주세요.');
-			$('#colorCode').focus();
-			return false;
-		}
-
-		if($('#colorNumber').val() == '') {
-			toastr.warning('색상번호를 입력해주세요.');
-			$('#colorNumber').focus();
-			return false;
-		}
-		// 등록할 경우에
-		if(saveType == 'insert') {	
-			$.ajax({
-				url: '<c:url value="/bm/spotToningInsert"/>',
-	            type: 'POST',
-	            //async: false,
-	            data: {
-		            'colorGubun'			:	$('#colorGubun').val(),
-		            'colorCode'				:	$('#colorCode').val(),
-		            'colorNumber'			:	$('#colorNumber').val(),
-		            'useYn'					:	$('#useYn').val(),
-		            'toningValue'			:	$('#toningValue').val(),
-		            'spotNote'				:	$('#spotNote').val(),
-		            'spotDesc'				:	$('#spotDesc').val(),
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('신규 저장되었습니다.');
-
-						$('#btnSearch').trigger('click'); // 조회버튼 click
-
-						WM_action_OFF('new');
-						
-						$('.inputGroup').attr('disabled', true); // 입력항목
-						$('#btnUserIdCheck').attr('disabled', true); // 중복확인 버튼
-						$('#btnSignImage').attr('disabled', true); // 사진선택 버튼
-						
-						$('#btnNew').attr('disabled', false); // 신규 버튼
-						$('#btnSave').attr('disabled', true); // 저장 버튼
-						$('#btnEdit').attr('disabled', true); // 수정 버튼
-						$('#btnDel').attr('disabled', true); // 삭제 버튼
-						$('#btnCancel').attr('disabled', true); // 취소 버튼
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
-						toastr.error(res.message);
-					}
-					$('#my-spinner').hide();
-				}
-			});
-		} else { // 수정할 경우에
-			let idx = spotToningTable.row('.selected').data().idx;
-			$.ajax({
-				url: '<c:url value="/bm/spotToningUpdate"/>',
-	            type: 'POST',
-	            //async: false,
-	            data: {
-	                'idx'				:	idx,
-		            'colorGubun'			:	$('#colorGubun').val(),
-		            'colorCode'				:	$('#colorCode').val(),
-		            'colorNumber'			:	$('#colorNumber').val(),
-		            'useYn'					:	$('#useYn').val(),
-		            'toningValue'			:	$('#toningValue').val(),
-		            'spotNote'				:	$('#spotNote').val(),
-		            'spotDesc'				:	$('#spotDesc').val(),
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('수정 저장되었습니다.');
-
-						$('#btnSearch').trigger('click'); // 조회버튼 click
-
-						WM_action_OFF('edit');
-						
-						$('#btnNew').attr('disabled', false); // 신규 버튼
-						$('#btnSave').attr('disabled', true); // 저장 버튼
-						$('#btnEdit').attr('disabled', true); // 수정 버튼
-						$('#btnDel').attr('disabled', true); // 삭제 버튼
-						$('#btnCancel').attr('disabled', true); // 취소 버튼
-
-						let idx = spotToningTable.row('.selected').data().idx;
-						spotToningTable.row('#'+idx).select();
-						$(spotToningTable.row('#'+idx).node()).trigger('click'); // 선택했던 항목 선택처리
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
-						toastr.error(res.message);
-					}
-					$('#my-spinner').hide();
-				}
-			});
-		}
-	});
-
-	// 수정 버튼 click
+	// 수정폼
 	$('#btnEdit').on('click', function() {
-		$('#btnSave').data('saveType','update'); // 저장 방식 -> 수정
-
-		WM_action_ON('edit', 'workingWarningModal');
-		
-		$('.inputGroup').attr('disabled', false); // 입력항목
-		$('#btnUserIdCheck').attr('disabled', false); // 중복확인 버튼
-		$('#btnSignImage').attr('disabled', false); // 사진선택 버튼
-		
-		$('#btnNew').attr('disabled', true); // 신규 버튼
-		$('#btnSave').attr('disabled', false); // 저장 버튼
-		$('#btnEdit').attr('disabled', true); // 수정 버튼
-		$('#btnDel').attr('disabled', true); // 삭제 버튼
-		$('#btnCancel').attr('disabled', false); // 취소 버튼
-	});
-
-	//순서변경되었을 때
-	spotToningTable.on( 'row-reorder', function ( e, diff, changes ) {
-		if(diff.length != 0){
-			$('#btnProgressSave').attr('disabled',false);
+		if (sideView != 'edit') {
+			toastr.warning("수정할 목록을 선택해 주세요.");
+			return false;
 		}
-	} );
+		uiProc(false);
+		$('input[name=inspChkGrp]').attr('disabled',true);
+		
+		//수정관련 기능(검사코드는 수정 불가)
+		$('#btnAdd').attr('disabled', true);
+		$('#btnDel').attr('disabled', true);
+		$('#baseInfoCd').attr('disabled', true);
+
+		$('#btnCopy').attr('disabled', true);
+		$('#btnSave').removeClass('d-none');
+		$('#inspChkGrp').attr('disabled', true);
+		
+		$('#extTab').removeClass('disabled');
+		$('#sizeTab').removeClass('disabled');
+		$('#rlbtTab').removeClass('disabled');
+		$('#weightTab').removeClass('disabled');
+		
+		$('#btnExtAdd').removeClass('invisible');
+		$('#btnExtEdit').removeClass('invisible');
+		$('#btnExtDel').removeClass('invisible');
+ 		$('#btnExtSave').removeClass('invisible');
+		
+		$('#btnSizeAdd').removeClass('invisible');
+		$('#btnSizeEdit').removeClass('invisible');
+		$('#btnSizeDel').removeClass('invisible');
+ 		$('#btnSizeSave').removeClass('invisible');
+		
+		$('#btnRlbtAdd').removeClass('invisible');
+		$('#btnRlbtEdit').removeClass('invisible');
+		$('#btnRlbtDel').removeClass('invisible');
+ 		$('#btnRlbtSave').removeClass('invisible');
+
+		$('#btnWeightAdd').removeClass('invisible');
+		$('#btnWeightEdit').removeClass('invisible');
+		$('#btnWeightDel').removeClass('invisible');
+ 		$('#btnWeightSave').removeClass('invisible');
+
+ 		
+ 		
+ 		//변경이력
+ 		$('#changeHisTable').removeClass('d-none');
+
+	});
 	
-	//순번 저장
-	$('#btnProgressSave').on('click',function(){
-		let updateList = [];
-		$('#spotToningTable tbody tr').each(function(index){
-			let data = spotToningTable.row(index).data();
-			let obj = {};
-			obj.idx = data.idx;
-			obj.progressOrder = data.progressOrder;
-			updateList.push(obj);
-		});
-		console.log(updateList);
+	//삭제폼
+	$('#btnDel').on('click', function() {
+		if (sideView == 'add') {
+			toastr.warning("삭제할 목록을 선택해 주세요.");
+			return false;
+		}
+		sideView = 'add';
+		
+		$('#form').each(function(){this.reset();});
+		if(inspOnchangeCheck == '001'){
+			$('#inspChk1').prop('checked', true);
+		}else if(inspOnchangeCheck == '002'){
+			$('#inspChk2').prop('checked', true);
+		}else if(inspOnchangeCheck == '003'){
+			$('#inspChk3').prop('checked', true);
+		}else if(inspOnchangeCheck == '004'){
+			$('#inspChk4').prop('checked', true);
+		}else if(inspOnchangeCheck == '005'){
+			$('#inspChk5').prop('checked', true);
+		}
+		
 		$.ajax({
-			url: '<c:url value="/bm/spotToningOrderUpdate"/>',
-            type: 'POST',
-            //async: false,
-            data: {
-            	'updateList' : 	JSON.stringify(updateList)
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
+			url : '<c:url value="bm/inspAdmDelete"/>',
+			type : 'POST',
+			data :{
+				'inspCd' : function(){return inspCd;},
+			},
 			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					toastr.success('순서가 변경되었습니다.');
-					$('#btnProgressSave').attr('disabled',true);
-					spotToningTable.ajax.reload();
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
+				let data = res.result;
+				if (res.result == 'ok') {
+					toastr.success('삭제되었습니다.');
+					$('#inspAdmTable').DataTable().ajax.reload(function() {});
+				}else {
+					toastr.error(res.message);
+				}
+			}
+		});
+		
+	});
+	
+	// 저장 처리
+	$('#btnSave').on('click', function() {
+		var check = true;
+		var check2 = true;
+		var check3 = true;
+		var dataArray = new Array();
+		var dataArray2 = new Array();
+		var dataArray3 = new Array();
+		
+		if(sideView == 'add'){
+			inspCd = $('#inspCd').val();
+		}
+
+		//기본 입력값 검사
+		if (!$.trim($('#inspCd').val())) {
+			toastr.warning('검사항목코드를 입력해주세요.');
+			$('#inspCd').focus();
+			return false;
+		}
+
+		if (!$.trim($('#itemCd').val())) {
+			toastr.warning('품번을 입력해주세요.');
+			$('#btnItemCd').focus();
+			return false;
+		}
+
+		var url = '<c:url value="/bm/inspAdmCreate"/>';
+		if (sideView == "edit") {
+			url = '<c:url value="/bm/inspAdmUpdate"/>';
+		}
+
+		$.ajax({
+			url : url,
+			type : 'POST',
+			async : false,
+			data : {
+				'inspGubun' : $('input[name=inspChkGrp]:checked').val(),
+				'inspCd' : $('#inspCd').val(),
+				'itemSeq' : $('#itemSeq').val(),
+				'inspDesc1' : $('#inspDesc1').val(),
+				'inspDesc2' : $('#inspDesc2').val(),
+			},
+			success : function(res) {
+				let data = res.data;
+				if (res.result == 'ok') {
 				} else {
 					toastr.error(res.message);
 				}
-				$('#my-spinner').hide();				
+			},
+			complete : function() {
+				$('#btnAddConfirm').removeClass('d-none');
+				$('#btnAddConfirmLoading').addClass('d-none');
+				$('#btnSelDealCorp').attr('disabled', true);
+				$('#inspChkGrp').attr('disabled', false);
+				$('#btnAdd').attr('disabled', false);
+				$('#btnEdit').attr('disabled', false);
+				$('#btnDel').attr('disabled', false);
+				$('#btnCopy').attr('disabled', false);
+
+				if(inspOnchangeCheck == '003' || inspOnchangeCheck == '005'){
+					$('#inspDescDiv1').removeClass('d-none');
+					$('#inspDescDiv2').removeClass('d-none');
+				}else {
+					$('#inspDescDiv1').addClass('d-none');
+					$('#inspDescDiv2').addClass('d-none');
+				}
+				
+				$('#btnExtAdd').addClass('invisible');
+				$('#btnExtEdit').addClass('invisible');
+				$('#btnExtDel').addClass('invisible');
+		 		$('#btnExtSave').addClass('invisible');
+				
+				$('#btnSizeAdd').addClass('invisible');
+				$('#btnSizeEdit').addClass('invisible');
+				$('#btnSizeDel').addClass('invisible');
+		 		$('#btnSizeSave').addClass('invisible');
+				
+				$('#btnRlbtAdd').addClass('invisible');
+				$('#btnRlbtEdit').addClass('invisible');
+				$('#btnRlbtDel').addClass('invisible');
+		 		$('#btnRlbtSave').addClass('invisible');
+
+				$('#btnWeightAdd').addClass('invisible');
+				$('#btnWeightEdit').addClass('invisible');
+				$('#btnWeightDel').addClass('invisible');
+		 		$('#btnWeightSave').addClass('invisible');
+						
+			
 			}
 		});
+		
+		if (sideView == "edit" && !(!$.trim($('#changeHis').val()))) {
+			var url = '/sm/systemChangeLogCreate';
+
+			$.ajax({
+				url : url,
+				type : 'POST',
+				async : false,
+				data : {
+					'changeHis'  : $('#changeHis').val(),
+					'menuPath'  : currentHref,
+				},
+				success : function(res) {
+					let data = res.data;
+					if (res.result == 'ok') {
+						toastr.success('변경내역이 등록되었습니다.');
+						$('#changeHisTable').addClass('d-none');
+						$('#changeHis').val('');
+					} else {
+						toastr.error(res.message);
+					}
+				},
+			});
+		}else{
+			$('#changeHisTable').addClass('d-none');
+		}
+		
+		if (sideView == "edit") {
+			toastr.success('수정되었습니다.');
+		} else {
+			toastr.success('등록되었습니다.');
+		}
+		sideView = 'edit';
+		sideView2 = "";
+		
+		//새로고침
+		$('#inspAdmTable').DataTable().ajax.reload(function() {});
+		$('#extAdmTable').DataTable().ajax.reload();
+		$('#sizeAdmTable2').DataTable().ajax.reload();
+		$('#sizeAdmTable').DataTable().ajax.reload();
+		$('#rlbtAdmTable').DataTable().ajax.reload(); 
+		$('#weightAdmTable').DataTable().ajax.reload(); 
+		
+		selectBoxAppend(inspChkGrp, "inspChkGrp", inspOnchangeCheck, "");
+		
+		//화면설정
+		uiProc(true);
+		uiProc_ext(true);
+		uiProc_size(true);
+		uiProc_rlbt(true);
+		uiProc_weight(true);
+
+		$('#btnExtSave').addClass('d-none');
+		$('#btnSizeSave').addClass('d-none');
+		$('#btnRlbtSave').addClass('d-none');
+		$('#btnSave').addClass('d-none');
 	});
 
-	// 삭제 버튼 click
-	$('#btnDel').on('click', function() {
-		if(!$('#spotToningTable tbody tr').hasClass('selected')){
-			toastr.warning('삭제할 행을 선택해주세요.');
+	//복사 저장버튼
+	$('#btnCpSave').on('click', function(){
+		$('#my-spinner').show();
+		let obj = new Object();
+		let dataArray2 = new Array();
+		let rowData2 = new Object();
+
+		//품목확인
+		if (!$.trim(copyAddTable.row().data())) {
+			toastr.warning('품목을 추가해주세요.');
+			$('#btnListAdd').focus();
+			return false;
+		}
+		//품번확인
+		if (!$.trim($('#copyCd').val())) {
+			toastr.warning('복사할 품번을 선택해주세요.');
+			$('#btnCopyCd').focus();
+			return false;
+		}
+		$('#copyAddTable tbody tr').each(function(){
+			rowData2 = new Object();
+			rowData2.itemSeq = copyAddTable.row(this).data().itemSeq;
+			rowData2.inspCp = $('#inspCp').val();
+			rowData2.seqCheck = seqCpCheck2;
+			rowData2.inspGubun = $('#inspChkCp2').val();
+			rowData2.inspDesc1 = $('#inspDesc1').val();
+			rowData2.inspDesc2 = $('#inspDesc2').val();
+			dataArray2.push(rowData2);
+		});
+		
+		$.ajax({
+			url : '<c:url value="bm/inspAdmCpCreate"/>',
+		    type : 'post',
+		    async : false,
+		    dataType : 'json',
+		    data : JSON.stringify(dataArray2),
+		    contentType : "application/json; charset=UTF-8",
+			success : function(res) {
+				let data = res.data;
+				if(res.result == 'ok'){
+					toastr.success('복사 되었습니다.');
+					$('#inspCopyPopUpModal').modal('hide');
+					$('#my-spinner').hide();
+				} else {
+					toastr.error(res.message);
+				}
+		    }
+		});
+		$('#inspAdmTable').DataTable().ajax.reload(function() {});
+	});
+	
+
+	
+	//외관 저장
+	$('#btnExtSave').on('click',function() {
+		var check = true;
+		var dataArray = new Array();
+		
+		if(sideView == 'add'){
+			inspCd = $('#inspCd').val();
+		}
+
+		$('#extAdmTable tbody tr').each(function(index, item) {
+
+			if (extAdmTable.data().count() != 0) {
+				//입력값 검사
+				if ($(this).find('td input[name=inspList]').val()=="") {
+					toastr.warning('기준을 입력해 주세요.');
+					$(this).find('td input[name=inspList]').focus();
+					check = false;
+					return false;
+				}
+			} 
+			
+			var rowData = new Object();
+			rowData.inspCd = inspCd;
+			rowData.inspType = "001";
+			rowData.inspInputMethod = $(this).find('td select[name=inspInputMethod]').val();
+			rowData.inspList = $(this).find('td input[name=inspList]').val();
+			rowData.inspCheck = $(this).find('td select[name=inspCheck]').val();
+			rowData.useYn = $(this).find('td select[name=useYn]').val();
+			
+			dataArray.push(rowData);
+			console.log(rowData)
+		});
+		
+		var url = '<c:url value="/bm/inspDtlCreate"/>';
+
+		if (check == true) {
+			$.ajax({
+				url : url,
+				type : 'POST',
+				dataType : 'json',
+				data : JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
+				success : function(res) {
+					let data = res.data;
+					if (res.result == 'ok') {
+						if (btnView == "edit") {
+							toastr.success("수정되었습니다.");
+						} else {
+							toastr.success("등록되었습니다.");
+						}
+						sideView2 = "";
+						//새로고침
+						$('#extAdmTable').DataTable().ajax.reload();
+						//화면설정
+						uiProc_ext(true);
+						$('#btnExtSave').addClass('d-none');
+					} else {
+						toastr.error(res.message);
+					}
+				},
+				complete : function() {
+					btnView = "";
+				}
+			});
+		}
+	});
+	
+	//치수 저장
+	$('#btnSizeSave').on('click',function() {
+		var check2 = true;
+		var dataArray2 = new Array();
+
+		if(sideView == 'add'){
+			inspCd = $('#inspCd').val();
+		}
+
+		if ($('input[name=mainGubun]:checked').val() == '001') {
+			$('#sizeAdmTable2 tbody tr').each(function(index, item) {
+
+				if (sizeAdmTable2.data().count() != 0) {
+					//입력값 검사
+					if ($(this).find('td input[name=inspList]').val() == "") {
+						toastr.warning('목록을 입력해 주세요.');
+						$(this).find('td input[name=inspList]').focus();
+						check2 = false;
+						return false;
+					}
+					if ($(this).find('td input[name=inspStandUpper]').val() == "") {
+						toastr.warning('기준을 입력해 주세요.');
+						$(this).find('td input[name=inspStandUpper]').focus();
+						check2 = false;
+						return false;
+					}
+					if ($(this).find('td input[name=inspStandLower]').val() == "") {
+						toastr.warning('기준을 입력해 주세요.');
+						$(this).find('td input[name=inspStandLower]').focus();
+						check2 = false;
+						return false;
+					}
+					if ($(this).find('td input[name=inspOrder]').val() == "") {
+						toastr.warning('순서를 선택해 주세요.');
+						$(this).find('td input[name=inspOrder]').focus();
+						check2 = false;
+						return false;
+					}
+				}
+				
+				var rowData = new Object();
+				rowData.inspCd = inspCd;
+				if($("#inspChkGrp option:selected").val()=="005" || $('input[name=inspChkGrp]:checked').val()=="005"){
+					rowData.inspType = "005";
+				}else{
+					rowData.inspType = "002";
+				}
+				
+				rowData.inspSpc = '';
+				rowData.inspList = $(this).find('td input[name=inspList]').val();
+				rowData.inspStandUpper = $(this).find('td input[name=inspStandUpper]').val().replace(/,/g,'');;
+				rowData.inspStandLower = $(this).find('td input[name=inspStandLower]').val().replace(/,/g,'');;
+				rowData.inspInputMethod = $(this).find('td select[name=inspInputMethod]').val();
+				rowData.inspCheck = $(this).find('td select[name=inspCheck]').val();
+				rowData.inspStandGubun = $(this).find('td select[name=inspStandGubun] option:selected').val();
+				
+				if(inspOnchangeCheck=="003" && inspType=="002"){
+					rowData.inspOrder = $(this).find('td select[name=inspOrder] option:selected').val();
+				}else{
+					rowData.inspOrder = '0';
+				}
+				rowData.useYn = $(this).find('td select[name=useYn]').val();
+				
+				dataArray2.push(rowData);
+				console.log(rowData)
+			});
+		} else {
+			$('#sizeAdmTable tbody tr').each(function(index, item) {
+
+				if (sizeAdmTable.data().count() != 0) {
+					//입력값 검사
+					if ($(this).find('td input[name=inspList]').val()=="") {
+						toastr.warning('기준을 입력해 주세요.');
+						$(this).find('td input[name=inspList]').focus();
+						check2 = false;
+						return false;
+					}
+					if ($(this).find('td input[name=inspStandUpper]').val()=="") {
+						toastr.warning('최대를 입력해 주세요.');
+						$(this).find('td input[name=inspStandUpper]').focus();
+						check2 = false;
+						return false;
+					}
+					if ($(this).find('td input[name=inspStandLower]').val()=="") {
+						toastr.warning('최소를 입력해 주세요.');
+						$(this).find('td input[name=inspStandLower]').focus();
+						check2 = false;
+						return false;
+					}
+					if ($(this).find('td input[name=inspOrder]').val() == "") {
+						toastr.warning('순서를 선택해 주세요.');
+						$(this).find('td input[name=inspOrder]').focus();
+						check2 = false;
+						return false;
+					}
+				}
+				
+				var rowData = new Object();
+				rowData.inspCd = inspCd;
+
+				if($("#inspChkGrp option:selected").val()=="005" || $('input[name=inspChkGrp]:checked').val()=="005"){
+					rowData.inspType = "005";
+				}else{
+					rowData.inspType = "002";
+				}
+				
+				if($(this).find('td input[name=inspSpc]').is(':checked')){
+					rowData.inspSpc = '001';
+				} else {
+					rowData.inspSpc = '002';
+				}
+				rowData.inspList = $(this).find('td input[name=inspList]').val();
+				rowData.inspStandUpper = $(this).find('td input[name=inspStandUpper]').val().replace(/,/g,'');;
+				rowData.inspStandLower = $(this).find('td input[name=inspStandLower]').val().replace(/,/g,'');;
+				rowData.inspInputMethod = $(this).find('td select[name=inspInputMethod]').val();
+				rowData.inspCheck = $(this).find('td select[name=inspCheck]').val();
+				rowData.inspStandGubun = $(this).find('td select[name=inspStandGubun] option:selected').val();
+				
+				if(inspOnchangeCheck=="003" && inspType=="002"){
+					rowData.inspOrder = $(this).find('td select[name=inspOrder] option:selected').val();
+				}else{
+					rowData.inspOrder = '0';
+				}
+				rowData.useYn = $(this).find('td select[name=useYn]').val();
+				dataArray2.push(rowData);
+				console.log(rowData)
+			});
+		}
+		
+		
+		var url = '<c:url value="/bm/inspDtlCreate"/>';
+
+		if (check2) {
+			$.ajax({
+				url : '<c:url value="/bm/inspDtlCreate"/>',
+				type : 'POST',
+				dataType : 'json',
+				data : JSON.stringify(dataArray2),
+				contentType : "application/json; charset=UTF-8",
+				success : function(res) {
+					let data = res.data;
+					if (res.result == 'ok') {
+						if (btnView == "edit") {
+							toastr.success("수정되었습니다.");
+						} else {
+							toastr.success("등록되었습니다.");
+						}
+
+						sideView2=""
+						//새로고침
+						$('#sizeAdmTable').DataTable().ajax.reload();
+						$('#sizeAdmTable2').DataTable().ajax.reload();
+						//화면설정
+						uiProc_size(true);
+						$('#btnSizeSave').addClass('d-none');
+					} else {
+						toastr.error(res.message);
+					}
+				},
+				complete : function() {
+					btnView = "";
+				}
+			});
+		}
+	});
+	
+	//신뢰성 저장
+	$('#btnRlbtSave').on('click',function() {
+		var check3 = true;
+		var dataArray3 = new Array();
+		
+		if(sideView == 'add'){
+			inspCd = $('#inspCd').val();
+		}
+
+		$('#rlbtAdmTable tbody tr').each(function(index, item) {
+
+			if (rlbtAdmTable.data().count() != 0) {
+				//입력값 검사
+				if ($(this).find('td input[name=inspPlan]').val()=="") {
+					toastr.warning('계획을 입력해 주세요.');
+					$(this).find('td input[name=inspPlan]').focus();
+					check3 = false;
+					return false;
+				}
+				if ($(this).find('td input[name=inspReport]').val()=="") {
+					toastr.warning('실적을 입력해 주세요.');
+					$(this).find('td input[name=inspReport]').focus();
+					check3 = false;
+					return false;
+				}
+			}
+			
+			var rowData = new Object();
+			rowData.inspCd = inspCd;
+			rowData.inspType = "004";
+			rowData.inspPlanDate = $(this).find('td input[name=inspPlanDate]').val();
+			rowData.inspPlan = $(this).find('td input[name=inspPlan]').val();
+			rowData.inspReport = $(this).find('td input[name=inspReport]').val();
+			rowData.inspInputMethod = $(this).find('td select[name=inspInputMethod]').val();
+			rowData.useYn = $(this).find('td select[name=useYn]').val();
+			dataArray3.push(rowData);
+			console.log(rowData);
+		});
+		
+		var url = '<c:url value="/bm/inspDtlCreate"/>';
+
+		if (check3) {
+			$.ajax({
+				url : '<c:url value="/bm/inspDtlCreate"/>',
+				type : 'POST',
+				dataType : 'json',
+				data : JSON.stringify(dataArray3),
+				contentType : "application/json; charset=UTF-8",
+				success : function(res) {
+					let data = res.data;
+					if (res.result == 'ok') {
+						if (btnView == "edit") {
+							toastr.success("수정되었습니다.");
+						} else {
+							toastr.success("등록되었습니다.");
+						}
+						sideView2= "";
+						//새로고침
+						$('#rlbtAdmTable').DataTable().ajax.reload();
+						//화면설정
+						uiProc_rlbt(true);
+						$('#btnRlbtSave').addClass('d-none');
+					} else {
+						toastr.error(res.message);
+					}
+				},
+				complete : function() {
+					btnView = "";
+				}
+			});
+		}
+	});
+
+
+	//중량 저장
+	$('#btnWeightSave').on('click',function() {
+		var check2 = true;
+		var dataArray2 = new Array();
+
+		if(sideView == 'add'){
+			inspCd = $('#inspCd').val();
+		}
+
+		$('#weightAdmTable tbody tr').each(function(index, item) {
+
+			if (weightAdmTable.data().count() != 0) {
+				//입력값 검사
+				if ($(this).find('td input[name=inspList]').val() == "") {
+					toastr.warning('목록을 입력해 주세요.');
+					$(this).find('td input[name=inspList]').focus();
+					check2 = false;
+					return false;
+				}
+				if ($(this).find('td input[name=inspStandUpper]').val() == "") {
+					toastr.warning('기준을 입력해 주세요.');
+					$(this).find('td input[name=inspStandUpper]').focus();
+					check2 = false;
+					return false;
+				}
+				if ($(this).find('td input[name=inspStandLower]').val() == "") {
+					toastr.warning('기준을 입력해 주세요.');
+					$(this).find('td input[name=inspStandLower]').focus();
+					check2 = false;
+					return false;
+				}
+			}
+			
+			var rowData = new Object();
+			rowData.inspCd = inspCd;
+			rowData.inspType = "003";
+			rowData.inspSpc = '';
+			rowData.inspList = $(this).find('td input[name=inspList]').val();
+			rowData.inspStandUpper = $(this).find('td input[name=inspStandUpper]').val().replace(/,/g,'');
+			rowData.inspStandLower = $(this).find('td input[name=inspStandLower]').val().replace(/,/g,'');
+			rowData.inspInputMethod = $(this).find('td select[name=inspInputMethod]').val();
+			rowData.inspCheck = $(this).find('td select[name=inspCheck]').val();
+			rowData.inspStandGubun = $(this).find('td select[name=inspStandGubun] option:selected').val();
+			rowData.useYn = $(this).find('td select[name=useYn]').val();
+			
+			dataArray2.push(rowData);
+			console.log(rowData)
+		});
+		
+		
+		var url = '<c:url value="/bm/inspDtlCreate"/>';
+
+		if (check2) {
+			$.ajax({
+				url : '<c:url value="/bm/inspDtlCreate"/>',
+				type : 'POST',
+				dataType : 'json',
+				data : JSON.stringify(dataArray2),
+				contentType : "application/json; charset=UTF-8",
+				success : function(res) {
+					let data = res.data;
+					if (res.result == 'ok') {
+						if (btnView == "edit") {
+							toastr.success("수정되었습니다.");
+						} else {
+							toastr.success("등록되었습니다.");
+						}
+						sideView2="";
+						//새로고침
+						$('#weightAdmTable').DataTable().ajax.reload();
+						//화면설정
+						uiProc_weight(true);
+						$('#btnWeightSave').addClass('d-none');
+					} else {
+						toastr.error(res.message);
+					}
+				},
+				complete : function() {
+					btnView = "";
+				}
+			});
+		}
+	});
+
+	function uiProc(flag) {
+		$("input[name='inspChkGrp']").attr("disabled", flag);
+		$('#btnItemCd').attr('disabled', flag);
+		$('#inspDesc1').attr('disabled', flag);
+		$('#inspDesc2').attr('disabled', flag);
+		
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//외관, 치수, 신뢰성 탭
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+ 	//외관 탭 클릭시
+	$('#extTab').on('click', function() {
+		setTimeout(function(){
+			extAdmTable.draw();
+			extAdmTable.draw();
+		},175);
+
+	});
+	
+	//치수 탭 클릭시
+	$('#sizeTab').on('click', function() {
+		setTimeout(function(){
+			sizeAdmTable.draw();
+			sizeAdmTable.draw();
+			sizeAdmTable2.draw();
+			sizeAdmTable2.draw();
+		},175);
+
+	});
+	
+	//신뢰성 탭 클릭시
+	$('#rlbtTab').on('click', function() {
+		setTimeout(function(){
+			rlbtAdmTable.draw();
+			rlbtAdmTable.draw();
+		},175);
+
+	});
+
+	//중량 탭 클릭시
+	$('#weightTab').on('click', function() {
+		setTimeout(function(){
+			weightAdmTable.draw();
+			weightAdmTable.draw();
+		},175);
+
+	});
+
+	
+	//외관 목록
+	let extAdmTable = $('#extAdmTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-7'><'col-sm-12 col-md-5'>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		scrollY: '42vh',
+		pageLength : -1,
+		ajax : {
+			url : '<c:url value="bm/inspDtlList"/>',
+			type : 'GET',
+			async : false,
+			data : {
+				'inspCd' : function(){return inspCd;},
+				'inspType' : function(){return "001";},
+			},
+		},
+		columns : [
+			{
+				render: function(data, type, row, meta) {		
+					return meta.row + meta.settings._iDisplayStart + 1 ;
+	        		},
+					'className' : 'text-center'
+			},
+			{
+				data : 'useYn',
+				render : function(data, type, row, meta) {
+					return selectBoxHtml2(useYnCode,"useYn", data, row, meta);
+				}
+			},
+			{
+				data : 'inspInputMethod',
+				render : function(data, type, row, meta) {
+					var html = "";
+					html = selectBoxHtml2(methodCode,"inspInputMethod", data, row, meta);
+					return html;
+				}
+			},
+			{
+				data : 'inspList',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="inspList" value="'+data+'" style="min-width : 100%" disabled />';
+					} else {
+						return '<input type="text" class="form-control" name="inspList" value="" style="min-width : 100%" />';
+					}
+				}
+			},
+			{
+				data : 'inspCheck',
+				render : function(data, type, row, meta) {
+					var html = "";
+					
+					if (inspOnchangeCheck == "001") {//제품검사
+						html = selectBoxHtml2(inspCheckCode1_1,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "002") {//공정검사
+						html = selectBoxHtml2(inspCheckCode3_1,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "003") {//수입검사
+						html = selectBoxHtml2(inspCheckCode4_1,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "004") {//자주검사
+						html = selectBoxHtml2(inspCheckCode5_1,"inspCheck", data, row, meta);
+						return html;
+					} else {
+						return html;
+					}
+					
+				}
+			},
+		],
+		order : [ [ 0, 'asc' ] ],
+		buttons : [],
+		columnDefs : [ {
+// 			className : "text-left",
+// 			targets : 2
+		}, ]
+	});
+	
+	//치수 목록 - 사출
+	let sizeAdmTable2 = $('#sizeAdmTable2').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-7'><'col-sm-12 col-md-5'>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		scrollY: '42vh',
+		pageLength : -1,
+		ajax : {
+			url : '<c:url value="bm/inspDtlList"/>',
+			type : 'GET',
+			async : false,
+			data : {
+				'inspCd' : function(){return inspCd;},
+				'inspType' : function(){return inspType;},
+			},
+		},
+		columns : [
+			{
+				render: function(data, type, row, meta) {		
+					return meta.row + meta.settings._iDisplayStart + 1 ;
+	        		},
+					'className' : 'text-center'
+			},
+			{
+				data : 'useYn',
+				render : function(data, type, row, meta) {
+					return selectBoxHtml2(useYnCode,"useYn", data, row, meta);
+				}
+			},
+			{
+				data : 'inspInputMethod',
+				render : function(data, type, row, meta) {
+					var html = "";
+					html = selectBoxHtml2(methodCode,"inspInputMethod", data, row, meta);
+					return html;
+				}
+			},
+			{
+				data : 'inspList',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="inspList" value="'+data+'" style="min-width : 100%" disabled />';
+					} else {
+						return '<input type="text" class="form-control" name="inspList" value="" style="min-width : 100%" />';
+					}
+				}
+			},
+			{
+				data : 'inspOrder',
+				render : function(data, type, row, meta) {
+					return selectBoxHtml2(inspOrderCode,"inspOrder", data, row, meta);
+				}
+			},
+			{
+				data : 'inspCheck',
+				render : function(data, type, row, meta) {
+					var html = "";
+					
+					if (inspOnchangeCheck == "001") {//제품검사
+						html = selectBoxHtml2(inspCheckCode1_2,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "005") {//수분측정
+						html = selectBoxHtml2(inspCheckCode2_2,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "002") {//공정검사
+						html = selectBoxHtml2(inspCheckCode3_2,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "003") {//수입검사
+						html = selectBoxHtml2(inspCheckCode4_2,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "004") {//자주검사
+						html = selectBoxHtml2(inspCheckCode5_2,"inspCheck", data, row, meta);
+						return html;
+					} else {
+						return html;
+					}
+				}
+			},
+			{
+				data : 'inspStandGubun',
+				render : function(data, type, row, meta) {
+					return selectBoxHtml2(inspStandGubunCode,"inspStandGubun", data, row, meta);
+				}
+			},
+			{
+				data : 'inspStandLower',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="number" class="form-control" name="inspStandLower" value="'+data+'" style="min-width : 100%;text-align:right;" disabled />';
+					} else {
+						return '<input type="number" class="form-control" name="inspStandLower" value="" style="min-width : 100%;text-align:right;" />';
+					}
+				}
+			}, 
+			{
+				data : 'inspStandUpper',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="number" class="form-control" name="inspStandUpper" value="'+data+'" style="min-width : 100%; text-align:right;" disabled />';
+					} else {
+						return '<input type="number" class="form-control" name="inspStandUpper" value="" style="min-width : 100%; text-align:right;" />';
+					}
+				}
+			},
+		],
+		order : [ [ 0, 'asc' ] ],
+		buttons : [ 'copy', {
+			extend : 'excel',
+			title : '검사항목관리'
+		}, 'print' ],
+		columnDefs : [ {
+// 			className : "text-left",
+// 			targets : 2
+		},
+		],
+		drawCallback : function(){
+			
+		} 
+		
+	});
+	
+	//치수 목록 - 봉제
+	let sizeAdmTable = $('#sizeAdmTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-7'><'col-sm-12 col-md-5'>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		scrollY: '42vh',
+		pageLength : -1,
+		ajax : {
+			url : '<c:url value="bm/inspDtlList"/>',
+			type : 'GET',
+			async : false,
+			data : {
+				'inspCd' : function(){return inspCd;},
+				'inspType' : function(){return inspType;},
+			},
+		},
+		columns : [
+			{
+				render: function(data, type, row, meta) {		
+					return meta.row + meta.settings._iDisplayStart + 1 ;
+	        		},
+					'className' : 'text-center'
+			},
+			{
+				data : 'useYn',
+				render : function(data, type, row, meta) {
+					return selectBoxHtml2(useYnCode,"useYn", data, row, meta);
+				}
+			},
+			{
+				data : 'inspInputMethod',
+				render : function(data, type, row, meta) {
+					var html = "";
+					html = selectBoxHtml2(methodCode,"inspInputMethod", data, row, meta);
+					return html;
+				}
+			},
+			{
+				data : 'inspSpc',
+				render : function(data, type, row, meta) {
+					if (data == null) {
+						return '<input type="checkbox" class="form-control" name="inspSpc" value="" style="min-width : 100%" />';
+					} else if (data == '001') {
+						return '<input type="checkbox" class="form-control" name="inspSpc" value="'+data+'" style="min-width : 100%;" checked disabled/>';
+					} else {
+						return '<input type="checkbox" class="form-control" name="inspSpc" value="'+data+'" style="min-width : 100%;" disabled/>';
+					}
+				}
+			}, 
+			{
+				data : 'inspOrder',
+				render : function(data, type, row, meta) {
+					return selectBoxHtml2(inspOrderCode,"inspOrder", data, row, meta);
+				}
+			},
+			{
+				data : 'inspList',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="inspList" value="'+data+'" style="min-width : 100%;" disabled />';
+					} else {
+						return '<input type="text" class="form-control" name="inspList" value="" style="min-width : 100%;" />';
+					}
+				}
+			},
+			{
+				data : 'inspStandGubun',
+				render : function(data, type, row, meta) {
+					return selectBoxHtml2(inspStandGubunCode,"inspStandGubun", data, row, meta);
+				}
+			},
+			{
+				data : 'inspCheck',
+				render : function(data, type, row, meta) {
+					var html = "";
+					
+					if (inspOnchangeCheck == "001") {//제품검사
+						html = selectBoxHtml2(inspCheckCode1_2,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "005") {//수분측정
+						html = selectBoxHtml2(inspCheckCode2_2,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "002") {//공정검사
+						html = selectBoxHtml2(inspCheckCode3_2,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "003") {//수입검사
+						html = selectBoxHtml2(inspCheckCode4_2,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "004") {//자주검사
+						html = selectBoxHtml2(inspCheckCode5_2,"inspCheck", data, row, meta);
+						return html;
+					} else {
+						return html;
+					}
+				}
+			},
+			{
+				data : 'inspStandLower',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="number" class="form-control" name="inspStandLower" value="'+data+'" style="min-width : 100%;text-align:right;" disabled />';
+					} else {
+						return '<input type="number" class="form-control" name="inspStandLower" value="" style="min-width : 100%;text-align:right;" />';
+					}
+				}
+			}, 
+			{
+				data : 'inspStandUpper',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="number" class="form-control" name="inspStandUpper" value="'+data+'" style="min-width : 100%;text-align:right;" disabled />';
+					} else {
+						return '<input type="number" class="form-control" name="inspStandUpper" value="" style="min-width : 100%;text-align:right;" />';
+					}
+				}
+			}, 
+		],
+		order : [ [ 0, 'asc' ] ],
+		buttons : [ 'copy', {
+			extend : 'excel',
+			title : '검사항목관리'
+		}, 'print' ],
+		columnDefs : [ {
+// 			className : "text-left",
+// 			targets : 2
+		}, 
+		],
+		drawCallback : function(){
+			
+		} 
+	});
+	
+	//신뢰성 목록
+	let rlbtAdmTable = $('#rlbtAdmTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-7'><'col-sm-12 col-md-5'>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		scrollY: '42vh',
+		pageLength : -1,
+		ajax : {
+			url : '<c:url value="bm/inspDtlList"/>',
+			type : 'GET',
+			async : false,
+			data : {
+				'inspCd' : function(){return inspCd;},
+				'inspType' : function(){return "004";},
+			},
+		},
+		columns : [
+			{
+				data : 'useYn',
+				render : function(data, type, row, meta) {
+					return selectBoxHtml2(useYnCode,"useYn", data, row, meta);
+				}
+			},
+			{
+				data : 'inspInputMethod',
+				render : function(data, type, row, meta) {
+					var html = "";
+					html = selectBoxHtml2(methodCode,"inspInputMethod", data, row, meta);
+					return html;
+				}
+			},
+			{
+				data : 'inspPlanDate',
+				render : function(data, type, row, meta) {
+					tempNum = meta.row + meta.settings._iDisplayStart + 1;
+					if (data != null) {
+						var dateData = moment(data).format('YYYY-MM-DD');
+						var html = '<div class="form-group input-sub m-0 row">'
+						html += '<input type="date" class="form-control" value="'+dateData+'" id="inspPlanDate'+tempNum+'" name="inspPlanDate" disabled/>';
+						html += '</div>';
+						return html;
+					} else {
+						var html = '<div class="form-group input-sub m-0 row">'
+							html += '<input type="date" class="form-control" value="'+serverDate+'" id="inspPlanDate'+tempNum+'" name="inspPlanDate"/>';
+							html += '</div>';
+						return html;
+					}
+				}
+			}, 
+			{
+				data : 'inspPlan',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="inspPlan" value="'+data+'" style="min-width : 100%" disabled />';
+					} else {
+						return '<input type="text" class="form-control" name="inspPlan" value="" style="min-width : 100%" />';
+					}
+				}
+			}, 
+			{
+				data : 'inspReport',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="inspReport" value="'+data+'" style="min-width : 100%" disabled />';
+					} else {
+						return '<input type="text" class="form-control" name="inspReport" value="" style="min-width : 100%" />';
+					}
+				}
+			}, 
+		],
+		order : [ [ 0, 'asc' ] ],
+		buttons : [ 'copy', {
+			extend : 'excel',
+			title : '검사항목관리'
+		}, 'print' ],
+		columnDefs : [ {
+// 			className : "text-left",
+// 			targets : 2
+		}, ]
+	});
+
+	//중량 목록
+	let weightAdmTable = $('#weightAdmTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-7'><'col-sm-12 col-md-5'>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		scrollY: '42vh',
+		pageLength : -1,
+		ajax : {
+			url : '<c:url value="bm/inspDtlList"/>',
+			type : 'GET',
+			async : false,
+			data : {
+				'inspCd' : function(){return inspCd;},
+				'inspType' : function(){return "003";},
+			},
+		},
+		columns : [
+			{
+				render: function(data, type, row, meta) {		
+					return meta.row + meta.settings._iDisplayStart + 1 ;
+	        		},
+					'className' : 'text-center'
+			},
+			{
+				data : 'useYn',
+				render : function(data, type, row, meta) {
+					return selectBoxHtml2(useYnCode,"useYn", data, row, meta);
+				}
+			},
+			{
+				data : 'inspInputMethod',
+				render : function(data, type, row, meta) {
+					var html = "";
+					html = selectBoxHtml2(methodCode,"inspInputMethod", data, row, meta);
+					return html;
+				}
+			},
+			{
+				data : 'inspList',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="inspList" value="'+data+'" style="min-width : 100%" disabled />';
+					} else {
+						return '<input type="text" class="form-control" name="inspList" value="" style="min-width : 100%" />';
+					}
+				}
+			},
+			{
+				data : 'inspCheck',
+				render : function(data, type, row, meta) {
+					var html = "";
+					
+					if (inspOnchangeCheck == "005") {//수분측정
+						html = selectBoxHtml2(inspCheckCode2_3,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "002") {//공정검사
+						html = selectBoxHtml2(inspCheckCode3_3,"inspCheck", data, row, meta);
+						return html;
+					} else if (inspOnchangeCheck == "004") {//자주검사
+						html = selectBoxHtml2(inspCheckCode5_3,"inspCheck", data, row, meta);
+						return html;
+					} else {
+						return html;
+					}
+				}
+			},
+			{
+				data : 'inspStandGubun',
+				render : function(data, type, row, meta) {
+					return selectBoxHtml2(inspStandGubunCode,"inspStandGubun", data, row, meta);
+				}
+			},
+			{
+				data : 'inspStandLower',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="number" class="form-control" name="inspStandLower" value="'+data+'" style="min-width : 100%;text-align:right;" disabled />';
+					} else {
+						return '<input type="number" class="form-control" name="inspStandLower" value="" style="min-width : 100%;text-align:right;" />';
+					}
+				}
+			},
+			{
+				data : 'inspStandUpper',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="number" class="form-control" name="inspStandUpper" value="'+data+'" style="min-width : 100%;text-align:right;" disabled />';
+					} else {
+						return '<input type="number" class="form-control" name="inspStandUpper" value="" style="min-width : 100%;text-align:right;" />';
+					}
+				}
+			}, 
+			
+		],
+		order : [ [ 0, 'asc' ] ],
+		buttons : [ 'copy', {
+			extend : 'excel',
+			title : '검사항목관리'
+		}, 'print' ],
+		columnDefs : [ {
+// 			className : "text-left",
+// 			targets : 2
+		}, ]
+	});
+	
+	//외관 데이터 클릭 시
+	$('#extAdmTable tbody').on('click','tr',function() {
+		btnView = "edit";
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			btnView = "";
+			return false;
+		} else {
+			$('#extAdmTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+		
+		tableIdx = $('#extAdmTable').DataTable().row(this).index();
+		inspSeq = extAdmTable.row(tableIdx).data().inspSeq;
+		
+		console.log(tableIdx);
+	});
+	
+	//치수 데이터 클릭 시 - 사출
+	$('#sizeAdmTable2 tbody').on('click','tr',function() {
+		btnView = "edit";
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			btnView = "";
+			return false;
+		} else {
+			$('#sizeAdmTable2').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+		
+		tableIdx = $('#sizeAdmTable2').DataTable().row(this).index();
+		inspSeq = sizeAdmTable2.row(tableIdx).data().inspSeq;
+		
+		console.log(tableIdx);
+	});
+	
+	//치수 데이터 클릭 시 - 봉제
+	$('#sizeAdmTable tbody').on('click','tr',function() {
+		btnView = "edit";
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			btnView = "";
+			return false;
+		} else {
+			$('#sizeAdmTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+		
+		tableIdx = $('#sizeAdmTable').DataTable().row(this).index();
+		inspSeq = sizeAdmTable.row(tableIdx).data().inspSeq;
+		
+		console.log(tableIdx);
+	});
+
+	//신뢰성 데이터 클릭 시
+	$('#rlbtAdmTable tbody').on('click','tr',function() {
+		btnView = "edit";
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			btnView = "";
+			return false;
+		} else {
+			$('#rlbtAdmTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+		tableIdx = $('#rlbtAdmTable').DataTable().row(this).index();
+		inspSeq = rlbtAdmTable.row(tableIdx).data().inspSeq;
+		
+		console.log(tableIdx);
+	});
+
+	//중량 데이터 클릭 시 
+	$('#weightAdmTable tbody').on('click','tr',function() {
+		btnView = "edit";
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			btnView = "";
+			return false;
+		} else {
+			$('#weightAdmTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+		
+		tableIdx = $('#weightAdmTable').DataTable().row(this).index();
+		inspSeq = weightAdmTable.row(tableIdx).data().inspSeq;
+		
+		console.log(tableIdx);
+	});
+	
+	//외관 추가버튼
+	$('#btnExtAdd').on('click', function() {
+		btnView = '';
+		sideView2 = "add";
+		$('#extAdmTable').DataTable().row.add({}).draw(false);
+		
+ 		$('#btnExtSave').removeClass('d-none'); // 등록버튼
+	});
+	
+	//치수 추가버튼
+	$('#btnSizeAdd').on('click', function() {
+		if($('#itemCd').val() == '' || $('#itemCd').val() == undefined){
+			toastr.warning("품번을 입력해주세요.");
+			$('#btnItemCd').focus();
 			return false;
 		}
 		
-		$('#deleteModal').modal('show');
-	});
-
-	// 삭제 경고창 삭제 버튼 click
-	$('#btnDeleteModalY').on('click', function() {
-		let idx = spotToningTable.row('.selected').data().idx;
-		$.ajax({
-			url: '<c:url value="/bm/spotToningDelete"/>',
-            type: 'POST',
-            //async: false,
-            data: {
-                'idx'	:	idx
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
-			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					toastr.success('삭제되었습니다.');
-
-					$('#btnSearch').trigger('click'); // 조회버튼 click
-
-					$('#userAdmin').attr('checked',false);
-					$('#userSign').attr('checked',false);
-					$('.inputGroup').val('');
-
-					$('#btnNew').attr('disabled', false); // 신규 버튼
-					$('#btnSave').attr('disabled', true); // 저장 버튼
-					$('#btnEdit').attr('disabled', true); // 수정 버튼
-					$('#btnDel').attr('disabled', true); // 삭제 버튼
-					$('#btnCancel').attr('disabled', true); // 취소 버튼
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
-				} else {
-					toastr.error(res.message);
-				}
-				$('#my-spinner').hide();
-			}
-		});
-	});
-
-	// 취소 버튼 click
-	$('#btnCancel').on('click', function() {
-		$('#cancelModal').modal('show');
-	});
-
-	// 취소 경고창 취소 버튼 click
-	$('#btnCancelModalY').on('click', function() {
-		toastr.success('취소되었습니다.');
-
-		WM_action_OFF('new');
-		WM_action_OFF('edit');
-
-		$('.inputGroup').attr('disabled', true); // 입력항목
-		$('#btnUserIdCheck').attr('disabled', true); // 중복확인 버튼
-		$('#btnSignImage').attr('disabled', true); // 사진선택 버튼
+		btnView = '';
+		sideView2 = "add";
+		if($('input[name=mainGubun]:checked').val() == '001'){
+			$('#sizeAdmTable2').DataTable().row.add({}).draw(false);
+		} else if($('input[name=mainGubun]:checked').val() == '002') {
+			$('#sizeAdmTable').DataTable().row.add({}).draw(false);
+		}
 		
-		$('#btnNew').attr('disabled', false); // 신규 버튼
-		$('#btnSave').attr('disabled', true); // 저장 버튼
-		$('#btnEdit').attr('disabled', true); // 수정 버튼
-		$('#btnDel').attr('disabled', true); // 삭제 버튼
-		$('#btnCancel').attr('disabled', true); // 취소 버튼
+ 		$('#btnSizeSave').removeClass('d-none'); // 등록버튼
 	});
+
+	//신뢰성 추가버튼
+	$('#btnRlbtAdd').on('click', function() {
+		btnView = '';
+		sideView2 = "add";
+		$('#rlbtAdmTable').DataTable().row.add({}).draw(false);
+ 		$('#btnRlbtSave').removeClass('d-none'); // 등록버튼
+	});
+
+	//중량 추가버튼
+	$('#btnWeightAdd').on('click', function() {
+		if($('#itemCd').val() == '' || $('#itemCd').val() == undefined){
+			toastr.warning("품번을 입력해주세요.");
+			$('#btnItemCd').focus();
+			return false;
+		}
+		
+		btnView = '';
+		sideView2 = "add";
+		if($('input[name=mainGubun]:checked').val() == '001'){
+			$('#weightAdmTable').DataTable().row.add({}).draw(false);
+		} else if($('input[name=mainGubun]:checked').val() == '002') {
+			$('#weightAdmTable').DataTable().row.add({}).draw(false);
+		}
+		
+ 		$('#btnWeightSave').removeClass('d-none'); // 등록버튼
+	});
+	
+	
+	//외관 수정버튼
+	$('#btnExtEdit').on('click', function() {
+		if(btnView != 'edit'){
+			toastr.warning("수정할 항목을 선택해주세요.");
+			return false;
+		}
+// 		btnView = '';
+		console.log(tableIdx);
+		$('#extAdmTable td').find('select[name=inspInputMethod]').eq(tableIdx).attr('disabled',false);
+		$('#extAdmTable td').find('input[name=inspList]').eq(tableIdx).attr('disabled',false);
+		$('#extAdmTable td').find('select[name=inspCheck]').eq(tableIdx).attr('disabled',false);
+		$('#extAdmTable td').find('select[name=useYn]').eq(tableIdx).attr('disabled',false);
+ 		$('#btnExtSave').removeClass('d-none');
+	});
+	
+	//치수 수정버튼
+	$('#btnSizeEdit').on('click', function() {
+		if(btnView != 'edit'){
+			toastr.warning("수정할 항목을 선택해주세요.")
+			return false;
+		}
+// 		btnView = '';
+		console.log(tableIdx);
+		$('#sizeAdmTable td').find('select[name=inspInputMethod]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable td').find('input[name=inspSpc]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable td').find('input[name=inspList]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable td').find('input[name=inspStandUpper]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable td').find('input[name=inspStandLower]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable td').find('select[name=inspCheck]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable td').find('select[name=inspOrder]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable td').find('select[name=inspStandGubun]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable td').find('select[name=useYn]').eq(tableIdx).attr('disabled', false);
+
+		$('#sizeAdmTable2 td').find('select[name=inspInputMethod]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable2 td').find('input[name=inspSpc]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable2 td').find('input[name=inspList]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable2 td').find('input[name=inspStandUpper]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable2 td').find('input[name=inspStandLower]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable2 td').find('select[name=inspCheck]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable2 td').find('select[name=inspOrder]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable2 td').find('select[name=inspStandGubun]').eq(tableIdx).attr('disabled', false);
+		$('#sizeAdmTable2 td').find('select[name=useYn]').eq(tableIdx).attr('disabled', false);
+
+		$('#btnSizeSave').removeClass('d-none');
+	});
+	
+	//신뢰성 수정버튼
+	$('#btnRlbtEdit').on('click', function() {
+		if(btnView != 'edit'){
+			toastr.warning("수정할 항목을 선택해주세요.")
+			return false;
+		}
+// 		btnView = '';
+		console.log(tableIdx);
+		$('#rlbtAdmTable td').find('button[name=inspPlanDate]').eq(tableIdx).attr('disabled',false);
+		$('#rlbtAdmTable td').find('input[name=inspPlan]').eq(tableIdx).attr('disabled',false);
+		$('#rlbtAdmTable td').find('input[name=inspReport]').eq(tableIdx).attr('disabled',false);
+		$('#rlbtAdmTable td').find('select[name=inspInputMethod]').eq(tableIdx).attr('disabled',false);
+		$('#rlbtAdmTable td').find('select[name=useYn]').eq(tableIdx).attr('disabled',false);
+ 		$('#btnRlbtSave').removeClass('d-none');
+	});
+
+
+	//중량 수정버튼
+	$('#btnWeightEdit').on('click', function() {
+		if(btnView != 'edit'){
+			toastr.warning("수정할 항목을 선택해주세요.")
+			return false;
+		}
+// 		btnView = '';
+		console.log(tableIdx);
+		$('#weightAdmTable td').find('select[name=inspInputMethod]').eq(tableIdx).attr('disabled',false);
+		$('#weightAdmTable td').find('input[name=inspSpc]').eq(tableIdx).attr('disabled',false);
+		$('#weightAdmTable td').find('input[name=inspList]').eq(tableIdx).attr('disabled',false);
+		$('#weightAdmTable td').find('input[name=inspStandUpper]').eq(tableIdx).attr('disabled',false);
+		$('#weightAdmTable td').find('input[name=inspStandLower]').eq(tableIdx).attr('disabled',false);
+		$('#weightAdmTable td').find('select[name=inspCheck]').eq(tableIdx).attr('disabled',false);
+		$('#weightAdmTable td').find('select[name=inspStandGubun]').eq(tableIdx).attr('disabled',false);
+		$('#weightAdmTable td').find('select[name=useYn]').eq(tableIdx).attr('disabled',false);
+ 		$('#btnWeightSave').removeClass('d-none');
+	});
+	
+	//외관 삭제버튼
+	$('#btnExtDel').on('click', function() {
+		if (btnView != 'edit') {
+			toastr.warning('삭제할 항목을 선택해주세요.');
+			return false;
+		}
+
+		if (inspSeq != undefined && inspSeq != ''){
+			//외관 삭제
+			$.ajax({
+				url : '<c:url value="bm/inspDtlDelete"/>',
+				type : 'POST',
+				data  : {
+					'inspCd' : function(){return inspCd;},
+					'inspType' : function(){return "001";},
+					'inspSeq' : function(){return inspSeq;},
+				},
+				success  : function(res){
+					if(res.result=="ok"){
+						$('#extAdmTable').DataTable().rows(tableIdx).remove().draw();
+						toastr.success("삭제되었습니다.");
+					}else{
+						toastr.warning("해당 항목으로 검사한 이력이 있어 삭제 할 수 없습니다. 사용여부를 '미사용'으로 수정해주시길 바랍니다.");
+					}
+					
+				}
+			})
+		} else {
+			$('#extAdmTable').DataTable().rows(tableIdx).remove().draw();
+		}
+		
+		
+		btnView = '';
+
+	});
+	
+	//치수 삭제버튼
+	$('#btnSizeDel').on('click', function() {
+		if (btnView != 'edit') {
+			toastr.warning('삭제할 항목을 선택해주세요.');
+			return false;
+		}
+
+		if (inspSeq != undefined && inspSeq != ''){
+			
+			//치수 삭제
+			$.ajax({
+				url : '<c:url value="bm/inspDtlDelete"/>',
+				type : 'POST',
+				data  : {
+					'inspCd' : function(){return inspCd;},
+					'inspType' : function(){return "002";},
+					'inspSeq' : function(){return inspSeq;},
+				},
+				success  : function(res){
+					if(res.result=="ok"){
+						$('#sizeAdmTable').DataTable().rows(tableIdx).remove().draw();
+						$('#sizeAdmTable2').DataTable().rows(tableIdx).remove().draw();
+						toastr.success("삭제되었습니다.");
+					}else{
+						toastr.warning("해당 항목으로 검사한 이력이 있어 삭제 할 수 없습니다. 사용여부를 '미사용'으로 수정해주시길 바랍니다.");
+					}
+				}
+			})
+		} else {
+			$('#sizeAdmTable').DataTable().rows(tableIdx).remove().draw();
+			$('#sizeAdmTable2').DataTable().rows(tableIdx).remove().draw();
+		}
+		
+		btnView = '';
+
+	});
+	
+	//신뢰성 삭제버튼
+	$('#btnRlbtDel').on('click', function() {
+		if (btnView != 'edit') {
+			toastr.warning('삭제할 항목을 선택해주세요.');
+			return false;
+		}
+
+		if (inspSeq != undefined && inspSeq != ''){
+			//신뢰성 삭제
+			$.ajax({
+				url : '<c:url value="bm/inspDtlDelete"/>',
+				type : 'POST',
+				data  : {
+					'inspCd' : function(){return inspCd;},
+					'inspType' : function(){return "004";},
+					'inspSeq' : function(){return inspSeq;},
+				},
+				success  : function(res){
+					if(res.result=="ok"){
+						$('#rlbtAdmTable').DataTable().rows(tableIdx).remove().draw();
+						toastr.success("삭제되었습니다.");
+					}else{
+						toastr.warning("해당 항목으로 검사한 이력이 있어 삭제 할 수 없습니다. 사용여부를 '미사용'으로 수정해주시길 바랍니다.");
+					}
+				}
+				
+			})
+		} else {
+			$('#rlbtAdmTable').DataTable().rows(tableIdx).remove().draw();
+		}
+		
+		btnView = '';
+
+	});
+
+	//치수 삭제버튼
+	$('#btnWeightDel').on('click', function() {
+		if (btnView != 'edit') {
+			toastr.warning('삭제할 항목을 선택해주세요.');
+			return false;
+		}
+
+		if (inspSeq != undefined && inspSeq != ''){
+			//치수 삭제
+			$.ajax({
+				url : '<c:url value="bm/inspDtlDelete"/>',
+				type : 'POST',
+				data  : {
+					'inspCd' : function(){return inspCd;},
+					'inspType' : function(){return "003";},
+					'inspSeq' : function(){return inspSeq;},
+				},
+				success  : function(res){
+					if(res.result=="ok"){
+						$('#weightAdmTable').DataTable().rows(tableIdx).remove().draw();
+						toastr.success("삭제되었습니다.");
+					}else{
+						toastr.warning("해당 항목으로 검사한 이력이 있어 삭제 할 수 없습니다. 사용여부를 '미사용'으로 수정해주시길 바랍니다.");
+					}
+				}
+			})
+		} else {
+			$('#weightAdmTable').DataTable().rows(tableIdx).remove().draw();
+		}
+		
+		btnView = '';
+
+	});
+	
+	function uiProc_ext(flag) {
+		$("input[name='inspList']").attr("disabled", flag);
+	}
+	
+	function uiProc_size(flag) {
+		$("input[name='inspSpc']").attr("disabled", flag);
+		$("input[name='inspList']").attr("disabled", flag);
+		$("input[name='inspStandUpper']").attr("disabled", flag);
+		$("input[name='inspStandLower']").attr("disabled", flag);
+	}
+	
+	function uiProc_rlbt(flag) {
+		$("button[name='inspPlanDate']").attr("disabled", flag);
+		$("input[name='inspPlan']").attr("disabled", flag);
+		$("input[name='inspReport']").attr("disabled", flag);
+	}
+
+	function uiProc_weight(flag) {
+		$("input[name='inspSpc']").attr("disabled", flag);
+		$("input[name='inspList']").attr("disabled", flag);
+		$("input[name='inspStandUpper']").attr("disabled", flag);
+		$("input[name='inspStandLower']").attr("disabled", flag);
+	}
+
+	//셀렉트박스생성
+	function selectBoxHtml2(obj, id, sVal, row, meta) {
+
+		var shtml = "";
+
+		if (sideView2 == "") {
+			shtml = '<select style="min-width : 100%" class="custom-select" name="'+ id +'" data-col="' + meta.col + '" disabled>';
+		} else if (sideView2 == "add" || sideView2 == "edit") {
+			shtml = '<select style="min-width : 100%" class="custom-select" name="'+ id +'" data-col="' + meta.col + '">';
+		}
+		var option;
+		for (key in obj) {
+			var tmp;
+			if (obj[key].baseCd == sVal) {
+				tmp = "<option value="+ obj[key].baseCd+ " selected>"
+						+ obj[key].baseNm + "</option>";
+			} else {
+				tmp = "<option value="+obj[key].baseCd+">"
+						+ obj[key].baseNm + "</option>";
+			}
+			option += tmp;
+		}
+		var ehtml = '</select>';
+		return shtml + option + ehtml;
+	}
+
 
 	
-
+	
 </script>
-
-</body>
-</html>

@@ -16,9 +16,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<script type="text/javascript" src="/resources/assets/vendor/addrlink/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" src="/resources/assets/vendor/addrlink/addrlink.js"></script>
-<link rel="stylesheet" type="text/css" href="/resources/assets/vendor/addrlink/addrlink.css"></link>
+<script type="text/javascript" src="/resources/assets/stylesheets/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/resources/assets/stylesheets/js/addrlink.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/assets/stylesheets/css/addrlink.css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>주소정보연계 | 도로명주소 안내시스템</title>
 <script language="javascript">

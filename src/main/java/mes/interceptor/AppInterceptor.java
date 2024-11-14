@@ -21,7 +21,6 @@ public class AppInterceptor extends HandlerInterceptorAdapter {
 		HashMap<String, Object> tokenMap;
 
 		String jwtToken = request.getHeader("Authorization");
-		logger.info("======================== AppInterceptor");
 
 //		if (jwtToken != null) {
 //			tokenMap = JwtManager.verifyToken(request.getHeader("Authorization"));

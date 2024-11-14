@@ -1,1416 +1,1414 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<% pageContext.setAttribute("newLineChar", "\n"); %>
+<%
+	pageContext.setAttribute("newLineChar", "\n");
+%>
 
-<%@include file="../layout/top.jsp"%>
-<%@include file="../layout/modal.jsp"%>
-<%@include file="../layout/script.jsp"%>
-<div id="page" onmouseup="EndDrag(this)" onmousemove="OnDrag(event)" style="grid-template-areas: 'leftcol dragbar rightcol';
-																		  grid-template-rows: 1fr;
-																		  grid-template-columns: 4fr 4px 3fr;">
-																		
-	<input type="file" id="fileFake" style="display: none;" value="" multiple>																
-	<div id="leftcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="leftHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<%-- <label class="form-label d-flex align-items-center header-label m-0 me-1 h-100"><spring:message code="userStateCd" text="default text" /></label>
-					<select class="form-select w-auto h-100 me-3" id="SearchUserStateCd"></select> --%>
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAll" placeholder="통합검색" >
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnEquipOrdSave" disabled><i class="fa-regular fa-floppy-disk"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnSearch"><i class="fa-regular fa-clipboard"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnOpen"><i class="fa-solid fa-caret-left"></i></button>
+<%@include file="../layout/body-top.jsp"%>
+
+<div class="page-wrapper" id="page-wrapper">
+	<!--header ============================================================== -->
+	<header class="page-title-bar row">
+		<nav aria-label="breadcrumb" class="breadcrumb-padding">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">설비관리</a></li>
+				<li class="breadcrumb-item active">설비등록</li>
+			</ol>
+		</nav>
+	</header>
+	<!-- #main============================================================== -->
+	<div class="container-fluid" id="main">
+		<div class="row table-wrap-hid">
+			<!--======================== .left-list ========================-->
+			<div class="left-list left-sidebar" id="left-list"
+				style="width: 59%;">
+				<div class="card">
+					<div class="open-arrow" id="arrowLeft">
+						<button id="left-width-btn" onclick="openrNav()"
+							class="btn btn-primary input-sub-search" type="button">
+							<i class="mdi mdi-arrow-left"></i>
+						</button>
 					</div>
-				</div>
-			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="equipTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center">No</th>
-							<th class="text-center">설비코드</th>
-							<th class="text-center">설비명</th>
-							<th class="text-center">사용유무</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		</div>
-	</div>
-	<div id="dragbar" onmousedown="StartDrag()"></div>
-	<div id="rightcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="rightHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end w-100">
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnNew"><i class="fa-solid fa-plus"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnSave" disabled><i class="fa-regular fa-floppy-disk"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnEdit" disabled><i class="fa-regular fa-pen-to-square"></i></button>
-						<button type="button" class="btn btn-outline-danger w-auto" style="font-size: 17px !important;" id="btnDel" disabled><i class="fa-solid fa-trash-can"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnCancel" disabled><i class="fa-solid fa-xmark"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnClose"><i class="fa-solid fa-caret-right"></i></button>
+					<!-- .table-responsive -->
+					<div class="table-responsive">
+						<table id="equipCodeTable" class="table table-bordered">
+							<colgroup>
+								<col width="10%">
+								<col width="15%">
+								<col width="25%">
+								<col width="20%">
+								<col width="10%">
+								<col width="20%">
+							</colgroup>
+							<thead class="thead-light">
+								<tr>
+									<th>설비코드</th>
+									<th>구분</th>
+									<th>설비명</th>
+									<th>모델명</th>
+									<th>형식/규격</th>
+									<th>제조사</th>
+								</tr>
+							</thead>
+						</table>
 					</div>
+					<!-- /.table-responsive -->
 				</div>
 			</div>
-			<div class="row">
-				<div style="width: 100%;">
-				  	<div class="nav nav-tabs" id="nav-tab">
-						<button class="nav-link active" id="tab1Nav" data-bs-toggle="tab" data-bs-target="#tab1"><spring:message code="baseInfo" text="default text" /></button>
-						<button class="nav-link" id="tab2Nav" data-bs-toggle="tab" data-bs-target="#tab2">관련자료</button>
-						<button class="nav-link" id="tab3Nav" data-bs-toggle="tab" data-bs-target="#tab3">담당자</button>
-				  	</div>
-					<div class="tab-content" id="nav-tabContent">
-						<!-- 탭1 기본정보 -->
-						<div class="tab-pane fade show active" id="tab1">
-							<div class="row" style="padding: 5px;">
-								<table class="table table-bordered p-0 m-0">
-									<colgroup>
-										<col width="15%">
-										<col width="35%">
-										<col width="15%">
-										<col width="35%">
-									</colgroup>
-									<tr>
-										<th class="text-center align-middle"><span style="color: #ff0000;">*</span>설비코드</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="equipCd" disabled>
-										</td>
-										<th class="text-center align-middle"><span style="color: #ff0000;">*</span>설비명</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="equipNm" disabled>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle">SN</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="serialNo" disabled>
-										</td>
-										<th class="text-center align-middle">제조사</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="makerNm" disabled>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle">구입일자</th>
-										<td class="text-center align-middle">
-											<input type="date" max="9999-12-31" class="form-control inputGroup" id="buyDate" disabled>
-										</td>
-										<th class="text-center align-middle">구입금액</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="buyPrice" style="text-align:right;" onkeyup="numberFormat(this,'int')" disabled>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle">설치위치</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="setupLocation" disabled>
-										</td>
-										<th class="text-center align-middle">비고</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="equipDesc" disabled>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle">사용여부</th>
-										<td class="text-center align-middle">
-											<select class="form-select inputGroup" id="useYn" disabled>
-												<option value="Y" selected>사용</option>
-												<option value="N">미사용</option>
-											</select>
-										</td>
-									</tr>
-								</table>
+			<!-- /.left-list -->
+
+			<!--======================== .right-sidebar 등록,수정 ========================-->
+			<div class="right-list right-sidebar" id="myrSidenav"
+				style="width: 40%;">
+				<!--상단 버튼 part-->
+				<div class="rightsidebar-close">
+					<a href="javascript:void(0)" id="left-expand"
+						class="closebtn float-right" onclick="closerNav()"> <i
+						class="mdi mdi-close"></i>
+					</a>
+				</div>
+				<!--end----상단 버튼 part-->
+				<!--====================TAB-UI=======================-->
+				<div class="card-header card-tab p-0 mb-2">
+					<ul class="nav nav-tabs card-header-tabs m-0">
+						<li class="nav-item"><a class="nav-link active show"
+							data-toggle="tab" href="#tab1" id="info">기본정보</a></li>
+						<li class="nav-item"><a class="nav-link disabled"
+							data-toggle="tab" href="#tab2" id="photo">사진</a></li>
+						<li class="nav-item"><a class="nav-link disabled"
+							data-toggle="tab" href="#tab3" id="corr">교정내역</a></li>
+						<li class="nav-item"><a class="nav-link disabled"
+							data-toggle="tab" href="#tab4" id="etc">기타</a></li>
+					</ul>
+				</div>
+				<div class="card-body p-0">
+					<div id="myTabContent" class="tab-content">
+						<!--========tab1 part=====-->
+						<div class="tab-pane fade active show" id="tab1">
+							<div class="card-body col-sm-12 p-1">
+								<button type="button" class="btn btn-primary float-right ml-1"
+									id="btnEdit">수정</button>
+								<button type="button" class="btn btn-primary float-right ml-1"
+									id="btnAdd">등록</button>
+							</div>
+							<table class="table table-bordered">
+								<colgroup>
+									<col width="20%">
+									<col width="20%">
+									<col width="10%">
+									<col width="20%">
+									<col width="30%">
+								</colgroup>
+								<tr>
+									<th>설비코드</th>
+									<td><input type="text" class="form-control" id="equipCd"
+										name="equipCd" disabled></td>
+									<th>구분</th>
+									<td><select class="custom-select" id="equipGubun"></select></td>
+								</tr>
+								<tr>
+									<th>설비명</th>
+									<td><input type="text" class="form-control" id="equipNm"
+										name="equipNm"></td>
+									<th>모델명</th>
+									<td><input type="text" class="form-control"
+										id="equipModelNm"></td>
+								</tr>
+								<tr>
+									<th>형식/규격</th>
+									<td><input type="text" class="form-control" id="equipType"
+										name="equipType"></td>
+									<th>제조사</th>
+									<td><input type="text" class="form-control" id="mfcCorpNm"
+										name="mfcCorpNm"></td>
+								</tr>
+								<tr>
+									<th>제조번호</th>
+									<td><input type="text" class="form-control" id="mfcNo"
+										name="mfcNo"></td>
+
+									<th>관리번호</th>
+									<td><input type="text" class="form-control" id="admNo"
+										name="admNo"></td>
+								</tr>
+								<tr>
+									<th>관리부서</th>
+									<td><select class="custom-select" id="admDept"></select> <!-- <div class="input-sub m-0">
+			                            	<input type="hidden" class="form-control" id="admDept"  name="admDept">
+			                            	<input type="text" class="form-control" id="admDeptNm" name="admDeptNm" disabled>
+			                            	<button type="button" class="btn btn-primary input-sub-search" id="btnAdmDept" onClick="selectAdmDept()">
+									          	<span class="oi oi-magnifying-glass"></span>
+								         	</button>
+							         	</div> --></td>
+									<th>구입일자</th>
+									<td>
+										<div class="form-group input-sub m-0">
+											<input class="form-control" type="text" id="buyDate"
+												name="buyDate" maxlength="10" disabled />
+											<button
+												onclick="fnPopUpCalendar(buyDate,buyDate,'yyyy-mm-dd')"
+												class="btn btn-secondary input-sub-search"
+												id="buyDateCalendar" type="button">
+												<span class="oi oi-calendar"></span>
+											</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th>구입처</th>
+									<td><input type="text" class="form-control" id="buyCorpNm"
+										name="buyCorpNm"></td>
+									<th>구입가격</th>
+									<td><input type="text" class="form-control" id="buyAmt"
+										name="buyAmt" style="text-align: right;"></td>
+								</tr>
+								<tr>
+									<th>담당자</th>
+									<td>
+										<div class="input-sub m-0">
+											<input type="hidden" class="mainChargr" id="mainChargr"
+												name="mainChargr"> <input type="text"
+												class="form-control" id="mainChargrNm" name="mainChargrNm"
+												disabled>
+											<button type="button"
+												class="btn btn-primary input-sub-search" id="btnMainChargr"
+												onClick="selectMainChargr()">
+												<span class="oi oi-magnifying-glass"></span>
+											</button>
+										</div>
+									</td>
+									<th>작성일</th>
+									<td>
+										<div class="form-group input-sub m-0">
+											<input class="form-control" type="text" id="equipRegDate"
+												name="equipRegDate" maxlength="10" disabled />
+											<button
+												onclick="fnPopUpCalendar(equipRegDate,equipRegDate,'yyyy-mm-dd')"
+												class="btn btn-secondary input-sub-search"
+												id="equipRegDateCalendar" type="button">
+												<span class="oi oi-calendar"></span>
+											</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th>사용유무</th>
+									<td><select class="custom-select" id="useYn"></select></td>
+									<th></th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>특이사항</th>
+									<td colspan="3"><input type="text" class="form-control"
+										style="max-width: 100%" id="equipDesc" name="equipDesc"></td>
+								</tr>
+							</table>
+							<div class="mt-2">
+								<button type="button" class="btn btn-primary float-right d-none"
+									id="btnSave">저장</button>
 							</div>
 						</div>
-						<!-- 탭1 기본정보 끝 -->
-						<!-- 탭2 관련자료-->
+						<!--====end====tab1 part=====-->
+
+						<!--========tab2 part=====-->
 						<div class="tab-pane fade" id="tab2">
-							<div class="row" style="padding: 5px;">
-								<div class="row" style="width:100%;">
-									<div class="d-flex align-items-center justify-content-end w-100" style="margin-bottom:5px;">
-										<input type="text" class="form-control w-auto h-100 me-1" id="searchAllAdt" placeholder="통합검색" >
-										<div class="btn-group" role="group" aria-label="Small button group">
-											<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnAttachDataNew" disabled>
-												<i class="fa-solid fa-plus"></i>
-											</button>											
-											<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnAttachDataSave" disabled>
-												<i class="fa-regular fa-floppy-disk"></i>
-											</button>								
-											<button type="button" class="btn btn-outline-danger w-auto" style="font-size: 17px !important;" id="btnAttachDataDel" disabled>
-												<i class="fa-solid fa-trash-can"></i>
-											</button>								
-											<button type="button" class="d-none btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnAttachDataCancel" disabled>
-												<i class="fa-solid fa-xmark"></i>
-											</button>
-										</div>									
-									</div>
-									<table class="table table-bordered p-0 m-0" id="attachDataTable">
-										<thead class="table-light">
+							<form id="form2" enctype="multipart/form-data">
+								<div class="table-responsive">
+									<table class="table table-bordered">
+										<colgroup>
+											<col width="50%">
+											<col width="50%">
+										</colgroup>
+										<tr>
+											<th colspan="2">금형사진</th>
+										</tr>
+										<tr>
+											<td style="text-align: center">사진1</td>
+											<td style="text-align: center">사진2</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="custom-file" style="height: 150px;">
+													<img alt="등록된 사진이 없습니다." id="imageFile1" src=""
+														name="imageFile1" style="width: 100%; height: 100%">
+												</div>
+											</td>
+
+											<td>
+												<div class="custom-file" style="height: 150px;">
+													<img alt="등록된 사진이 없습니다." id="imageFile2" src=""
+														name="imageFile2" style="width: 100%; height: 100%">
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="form-group">
+													<div class="custom-file" style="width: 90%;">
+														<input type="file" class="custom-file-input" id="imgAdd1"
+															name="imgAdd1" onchange="imageUpload(1)"> <label
+															id="imgName1" class="custom-file-label" for="imgAdd1"></label>
+													</div>
+													<div class="rightsidebar-close"
+														style="width: 10%; padding-top: 4px;">
+														<button type="button" class="btn" name="closeBtn"
+															onclick="deleteImg(1);">
+															<i class="mdi mdi-close"></i>
+														</button>
+													</div>
+												</div>
+											</td>
+											<td>
+												<div class="form-group">
+													<div class="custom-file" style="width: 90%;">
+														<input type="file" class="custom-file-input" id="imgAdd2"
+															name="imgAdd2" onchange="imageUpload(2)"> <label
+															id="imgName2" class="custom-file-label" for="imgAdd2"></label>
+													</div>
+													<div class="rightsidebar-close"
+														style="width: 10%; padding-top: 4px;">
+														<button type="button" class="btn" name="closeBtn"
+															onclick="deleteImg(2);">
+															<i class="mdi mdi-close"></i>
+														</button>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td style="text-align: center">사진3</td>
+											<td style="text-align: center">사진4</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="custom-file" style="height: 150px;">
+													<img alt="등록된 사진이 없습니다." id="imageFile3" src=""
+														name="imageFile3" style="width: 100%; height: 100%">
+												</div>
+											</td>
+
+											<td>
+												<div class="custom-file" style="height: 150px;">
+													<img alt="등록된 사진이 없습니다." id="imageFile4" src=""
+														name="imageFile4" style="width: 100%; height: 100%">
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="form-group">
+													<div class="custom-file" style="width: 90%;">
+														<input type="file" class="custom-file-input" id="imgAdd3"
+															name="imgAdd3" onchange="imageUpload(3)"> <label
+															id="imgName3" class="custom-file-label" for="imgAdd3"></label>
+													</div>
+													<div class="rightsidebar-close"
+														style="width: 10%; padding-top: 4px;">
+														<button type="button" class="btn" name="closeBtn"
+															onclick="deleteImg(3);">
+															<i class="mdi mdi-close"></i>
+														</button>
+													</div>
+												</div>
+											</td>
+											<td>
+												<div class="form-group">
+													<div class="custom-file" style="width: 90%;">
+														<input type="file" class="custom-file-input" id="imgAdd4"
+															name="imgAdd4" onchange="imageUpload(4)"> <label
+															id="imgName4" class="custom-file-label" for="imgAdd4"></label>
+													</div>
+													<div class="rightsidebar-close"
+														style="width: 10%; padding-top: 4px;">
+														<button type="button" class="btn" name="closeBtn"
+															onclick="deleteImg(4);">
+															<i class="mdi mdi-close"></i>
+														</button>
+													</div>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</form>
+						</div>
+						<!--====end====tab2 part=====-->
+						<!--========tab23part=====-->
+						<div class="tab-pane fade" id="tab3">
+							<div class="card-body col-sm-12 p-1">
+								<button type="button" class="btn btn-warning float-right ml-1"
+									id="btnCorrDel">삭제</button>
+								<button type="button" class="btn btn-primary float-right ml-1"
+									id="btnCorrEdit">수정</button>
+								<button type="button" class="btn btn-primary float-right ml-1"
+									id="btnCorrAdd">추가</button>
+
+							</div>
+							<form id="form3" enctype="multipart/form-data">
+								<div class="table-responsive">
+									<table class="table table-bordered" id="equipCorrInfo">
+										<colgroup>
+											<col width="7%">
+											<col width="20%">
+											<col width="25%">
+											<col width="23%">
+											<col width="25%">
+										</colgroup>
+										<thead>
 											<tr>
-												<th class="text-center">순번</th>
-												<th class="text-center">내용</th>
-												<th class="text-center">첨부파일</th>										
+												<th>순번</th>
+												<th>일자</th>
+												<th>이력내용</th>
+												<th>조치및교정기관</th>
+												<th>비고</th>
 											</tr>
 										</thead>
 									</table>
-								</div>	
-							</div>
-						</div> 
-						<div class="tab-pane fade" id="tab3">
-							<div class="row" style="padding: 5px;">
-								<div class="d-flex align-items-center justify-content-end w-100" style="margin-bottom:5px;">
-									<input type="text" class="form-control w-auto h-100 me-1" id="searchAllEut" placeholder="통합검색" >
-									<div class="btn-group" role="group" aria-label="Small button group">
-										<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnEquipUserSave" disabled>
-											<i class="fa-regular fa-floppy-disk"></i>
-										</button>								
-									</div>	
 								</div>
-								<table class="table table-bordered p-0 m-0" id="equipUserTable">
-									<colgroup>
-										<col width="20%">
-										<col width="30%">
-										<col width="20%">
-										<col width="30%">
-									</colgroup>	
-									<thead class="table-light">
-										<tr>
-											<th class="text-center">
-												<input type="checkbox" id="btnAllCheck" style="width:20px; height:20px;">
-											</th>
-											<th class="text-center">아이디</th>
-											<th class="text-center">성명</th>
-											<th class="text-center">소속팀</th>		
-											<th class="text-center">부서</th>														
-											<th class="text-center">담당업무</th>									
-										</tr>
-									</thead>
-								</table>
+							</form>
+							<div class="card-body col-sm-12 p-1">
+								<button type="button"
+									class="btn btn-primary float-right d-none ml-1" id="btnSave2">저장</button>
 							</div>
-						</div> 
-						<!-- 탭2 관련자료 끝 -->
+						</div>
+						<!--====end====tab3 part=====-->
+						<!--========tab23part=====-->
+						<div class="tab-pane fade" id="tab4">
+							<div class="card-body col-sm-12 p-1">
+								<button type="button" class="btn btn-warning float-right ml-1"
+									id="btnEtcDel">삭제</button>
+								<button type="button" class="btn btn-primary float-right ml-1"
+									id="btnEtcEdit">수정</button>
+								<button type="button" class="btn btn-primary float-right ml-1"
+									id="btnEtcAdd">추가</button>
+							</div>
+							<form id="form4" enctype="multipart/form-data">
+								<div class="table-responsive">
+									<table class="table table-bordered" id="equipEtcInfo">
+										<colgroup>
+											<col width="7%">
+											<col width="20%">
+											<col width="73%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>순번</th>
+												<th>구분</th>
+												<th>내용</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</form>
+							<div class="card-body col-sm-12 p-1">
+								<button type="button"
+									class="btn btn-primary float-right d-none ml-1" id="btnSave3">저장</button>
+							</div>
+						</div>
+						<!--====end====tab3 part=====-->
+
 					</div>
 				</div>
 			</div>
+			<!-- /.right-sidebar -->
+			<!--===========================================-->
+			<!-- /.card -->
+			<!--===========================================-->
 		</div>
+		<!-- /.row -->
 	</div>
+	<!-- / #main  -->
 </div>
+<!-- /.page-wrapper -->
 
-<!-- 화면설정 script -->
-<script>
-	let isDragging = false;
-	
-	function SetCursor(cursor) {
-		let page = document.getElementById("page");
-		page.style.cursor = cursor;
-	}
-	
-	function StartDrag() {
-		isDragging = true;
-		SetCursor("ew-resize");
-	}
-	
-	function EndDrag(e) {
-		if(isDragging) {
-			dataTableDrawAll(); // dataTable 전체 reload
-			isDragging = false;
-			SetCursor("auto");
-		}
-	}
-	
-	function OnDrag(event) {
-		if (isDragging) {
-			let page = document.getElementById("page");
-			let leftcol = document.getElementById("leftcol");
-			let rightcol = document.getElementById("rightcol");
-			let dragbarWidth = 4;
-			let leftcolMinWidth = 20; // leftcol 최소사이즈
-			$('#leftHeader').children().each(function(index, item) {
-				leftcolMinWidth += $(item).width();
-			});
-			let rightcolMinWidth = 500; // rightcol 최소사이즈
-	
-			let rightColWidth = isDragging ? page.clientWidth - parseInt(Math.max(leftcolMinWidth + 20, event.clientX)) : rightcol.clientWidth;
-
-			console.log(Math.max(rightColWidth, rightcolMinWidth));
-			let cols = [
-				parseInt(Math.max(leftcolMinWidth, page.clientWidth - dragbarWidth - parseInt(Math.max(rightColWidth, rightcolMinWidth)))),
-				dragbarWidth,
-				parseInt(Math.max(rightColWidth, rightcolMinWidth))
-			];
-	
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-	
-			page.style.gridTemplateColumns = newColDefn;
-	
-			event.preventDefault()
-		}
-	}
-	
-	$('#btnOpen').on('click',function() { // right-box 열기버튼 클릭
-		$('#page').css('grid-template-columns', '4fr 4px 3fr');
-		$('#rightcol').removeClass('d-none');
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-	$('#btnClose').on('click',function() { // right-box 닫기버튼 클릭
-		$('#page').css('grid-template-columns', '1fr');
-		$('#rightcol').addClass('d-none');
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-</script>
+<%@include file="../layout/bottom.jsp"%>
 
 <script>
-	WM_init('new');
-	WM_init('edit');
-	WM_init('dealNew');
-	WM_init('attachDataNew');
-	// 공통코드 조회
-	/* let itemGubunList = getCommonCode('일반', '002'); //품목구분
+	$("#left-width-btn").click(function() {
+		{
+			$("#left-list").animate({
+				width : "59%"
+			}, 200);
+			$("#arrow-left").animate({
+				display : "none"
+			}, 200);
+		}
+		state = !state;
+	});
+
+	let menuAuth = 'emsc0010';
+	let currentHref = "emsc0010";
+	let currentPage = $('.' + currentHref).attr('id');
+	$('#' + currentPage).closest('.has-child', 'li').addClass(
+			'has-open has-active');
+	$('#' + currentPage).closest('.menu-item').addClass('has-active');
+	$(document).attr("title", "설비등록");
 	
-	selectBoxAppend(itemGubunList, 'itemGubun', '', '2'); */
+	let viewIdx;
+	let sideView = 'add';
+	let btnView = '';
+	uiProc(true);
+	var equipCd = null;
+	var serverDate = "${serverDateTo}"
+	var index=0;
 
-	let delStatus = '';
-	
-	// 설비정보 목록조회
-	$('#equipTable thead tr').clone(true).addClass('filters').appendTo('#equipTable thead'); // filter 생성
-	let equipTable = $('#equipTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: false,
-		rowReorder: {
-			enable: true,
-			dataSrc: 'progressOrder',
-		},
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/em/equipInfoListAll"/>',
-			type : 'GET',
-			data : {
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'progressOrder', className : 'text-center'},
-			{ data: 'equipCd', className : 'text-center'},
-			{ data: 'equipNm', className : 'text-center'},
-			{ data: 'useYn', className : 'text-center',
-				render : function(data, type, row, meta) {
-					let status = '-';
-					if(data == 'Y'){
-						status = '사용';
-					} else if(data == 'N') {
-						status = '미사용';
-					}
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+status+'</div>';
-				}	
-			},
-		],
-		columnDefs : [
-// 			{ "targets": '_all', "orderable": false },
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [[0,'asc']],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#equipTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 79)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAll').off('keyup',function() {});
-			$('#searchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-			//progressOrder
-			for(var i=0;i<data.length;i++) {
-				let tr = $('#' + table_id + ' tbody').find('tr').eq(i);
-				equipTable.row(tr).data().progressOrder = i+1;
-				$(tr).find('td').eq(0).html(i+1);
-			}
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#equipTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
+	//공통코드 처리 시작
+	var equipGubunCode = new Array();
+	<c:forEach items = "${equipGubun}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	equipGubunCode.push(json);
+	</c:forEach>
 
-				let title = $(cell).text();
+	var admDeptCode = new Array();
+	<c:forEach items="${admDept}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	admDeptCode.push(json);
+	</c:forEach>
 
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
+	var useYnCode = new Array();
+	<c:forEach items="${useYn}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	useYnCode.push(json);
+	</c:forEach>
 
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#equipTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	equipTable.on('column-reorder', function( e, settings, details ) {
-		let api = equipTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#equipTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
+	var etcGubunCode = new Array();
+	<c:forEach items="${etcGubun}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	etcGubunCode.push(json);
+	</c:forEach>
+	//공통코드 처리 종료
+
+	//선택박스 처리
+	selectBoxAppend(equipGubunCode, "equipGubun", "", "2");
+	selectBoxAppend(admDeptCode, "admDept", "", "2");
+	selectBoxAppend(useYnCode, "useYn", "", "");
+
+	$('#saveBtnModalY').on('click', function() {
+		$('#form').each(function() {
+			this.reset();
 		});
+		uiProc(true);
+		$('#btnSave').addClass('d-none');
+		$('#btnEdit').attr('disabled', false);
 	});
 
-	//설비 순서 변경되었을 때 
-	equipTable.on( 'row-reorder', function ( e, diff, changes ) {
-		if(diff.length != 0){
-			$('#btnEquipOrdSave').attr('disabled',false);
-		}
-	});
+	$('#buyDate').val(serverDate);
+	$('#equipRegDate').val(serverDate);
 
-	$('#btnEquipOrdSave').on('click',function(){
-		let updateList = [];
-		$('#equipTable tbody tr').each(function(index){
-			let data = equipTable.row(index).data();
-			let obj = {};
-			obj.idx = data.idx;
-			obj.progressOrder = data.progressOrder;
-			updateList.push(obj);
-		});
+	//설비정보 목록
+	let equipCodeTable = $('#equipCodeTable')
+			.DataTable(
+					{
+						dom : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>"
+								+ "<'row'<'col-sm-12'tr>>"
+								+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+						language : lang_kor,
+						paging : true,
+						info : true,
+						ordering : false,
+						processing : true,
+						autoWidth : false,
+						lengthChange : false,
+						pageLength : 20,
+						ajax : {
+							url : '<c:url value="/bm/equipCodeAdmList"/>',
+							type : 'GET',
+							data : {},
+						},
+						columns : [ {
+							data : 'equipCd'
+						}, {
+							data : 'equipGubunNm'
+						}, {
+							data : 'equipNm'
+						}, {
+							data : 'equipModelNm'
+						}, {
+							data : 'equipType'
+						}, {
+							data : 'mfcCorpNm'
+						}, 
+						],
+						order : [ [ 0, 'asc' ], ],
+						buttons : [ {
+							extend : 'copy',
+							title : '설비정보관리',
+						}, {
+							extend : 'excel',
+							title : '설비정보관리',
+						}, {
+							extend : 'print',
+							title : '설비정보관리',
+						}, ],
+					});
 
-		$.ajax({
-			url: '<c:url value="/em/equipInfoOrdUpdate"/>',
-            type: 'POST',
-            //async: false,
-            data: {
-            	'updateList' : 	JSON.stringify(updateList)
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
-			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					toastr.success('설비순서가 변경되었습니다.');
-					$('#btnEquipOrdSave').attr('disabled',true);
-					equipTable.ajax.reload();
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
-				} else {
-					toastr.error(res.message);
-				}
-				$('#my-spinner').hide();				
-			}
-		});
-	});
-	
-	let equipIdx = 0;
-	$('#equipTable tbody').on('click','tr', function() {
-		let idx = equipTable.row(this).data().idx;
-		if(WMCheck('new')) { // 신규등록중일 경우
-			setWM('new', 'idx', idx);
-			return false;
-		}
-		if(WMCheck('edit')) { // 수정중일 경우
-			setWM('edit', 'idx', idx);
-			return false;
-		}
-		if(WMCheck('attachDataNew')) { // 관련자료 등록중일 경우
-			setWM('attachDataNew', 'idx', idx);
-			return false;
-		}
-		formData = new FormData();
-		equipIdx = idx;
-		attachDataTable.ajax.reload();
-		equipUserTable.ajax.reload();
-		let data;
-		$.ajax({
-			url: '<c:url value="/em/equipInfoSel"/>',
-            type: 'GET',
-            //async: false,
-            data: {
-                'idx'	:	idx
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
-			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					data = res.data;
+	//설비정보 상세정보 보기
+	$('#equipCodeTable tbody')
+			.on(
+					'click',
+					'tr',
+					function() {
 
-					$('.inputGroup').attr('disabled', true); // 입력항목
+						$('#info').tab('show');
+						if ($('#btnSave').attr('class') == 'btn btn-primary float-right') {
+							$('#saveBtnModal').modal('show');
+							console.log("등록중입니다.");
+							return false;
+						}
 
-					$('#btnNew').attr('disabled', false); // 신규 버튼
-					$('#btnSave').attr('disabled', true); // 저장 버튼
-					$('#btnEdit').attr('disabled', false); // 수정 버튼
-					$('#btnDel').attr('disabled', false); // 삭제 버튼
-					$('#btnCancel').attr('disabled', true); // 취소 버튼
+						if ($(this).hasClass('selected')) {
+							$(this).removeClass('selected');
+						} else {
+							$('#equipCodeTable').DataTable().$('tr.selected')
+									.removeClass('selected');
+							$(this).addClass('selected');
+						}
 
-					$('#btnAttachDataNew').attr('disabled', false); //관련자료 추가 버튼
-					$('#btnAttachDataSave').attr('disabled', true); //관련자료 저장 버튼
-					$('#btnAttachDataDel').attr('disabled', true); //관련자료 삭제 버튼
-					$('#btnAttachDataCancel').attr('disabled', true); //관련자료 취소 버튼
+						equipCd = equipCodeTable.row(this).data().equipCd;
 
-					$('#btnEquipUserSave').attr('disabled',false);
-					$('#equipCd').val(data.equipCd);
-					$('#equipNm').val(data.equipNm);
-					$('#serialNo').val(data.serialNo);
-					$('#makerNm').val(data.makerNm);
-					$('#buyDate').val(moment(data.buyDate,'YYYYMMDD').format('YYYY-MM-DD'));
-					$('#setupLocation').val(data.setupLocation);
-					$('#equipDesc').val(data.equipDesc);
-					$('#buyPrice').val(addCommas(parseFloat(data.buyPrice)));
-					if( $('#buyPrice').val() == 'NaN' ){
-						$('#buyPrice').val('0');
-					}
-					$('#useYn').val(data.useYn);
-					
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
-				} else {
-					toastr.error(res.message);
-				}
-				$('#my-spinner').hide();				
-			}
-		});
-	});
-	
-	// 조회 버튼 click
-	$('#btnSearch').on('click', function() {
-		$('#my-spinner').show();
-		equipTable.ajax.reload(function() {});
-
-		setTimeout(function() {
-			$('#my-spinner').hide();
-		}, 100)
-	});
-
-	// 작업중 경고 모달 예 버튼 click
-	$('#btnWorkingWarningModalY').on('click', function() {
-		if(WMlastIdx == 'new' || WMlastIdx == 'edit') { // 등록중이거나 수정중이였을 경우
-			$('#btnSave').trigger('click');
-			return false;
-		} else if(WMlastIdx == 'dealNew'){
-			$('#btnDealCorpSave').trigger('click');
-			return false;
-		} else if(WMlastIdx == 'attachDataNew'){
-			$('#btnAttachDataSave').trigger('click');
-			return false;
-		}
-		
-	});
-
-	// 작업중 경고 모달 아니요 버튼 click
-	$('#btnWorkingWarningModalN').on('click', function() {
-		if(WMlastIdx == 'new' || WMlastIdx == 'edit') { // 등록중이거나 수정중이였을 경우
-			if(getWM(WMlastIdx, 'idx') != '' && getWM(WMlastIdx, 'idx') != undefined) {
-				let idx = getWM(WMlastIdx, 'idx');
-				WM_action_OFF(WMlastIdx);
-				setWM(WMlastIdx, 'idx', '');
-				equipTable.row('#'+idx).select();
-				$(equipTable.row('#'+idx).node()).trigger('click'); // 선택했던 항목 선택처리
-			} else {
-				WM_action_OFF(WMlastIdx);
-				if(window.location != window.parent.location) { // tab일 경우
-					// 부모 탭 닫기버튼 click
-					$('#tab-list', parent.document).find('.active').find('span').eq(1).find('i').trigger('click');
-			    }
-				
-				$('.inputGroup').attr('disabled', true); // 입력항목
-				$('#btnUserIdCheck').attr('disabled', true); // 중복확인 버튼
-				$('#btnSignImage').attr('disabled', true); // 사진선택 버튼
-				
-				$('#btnNew').attr('disabled', false); // 신규 버튼
-				$('#btnSave').attr('disabled', true); // 저장 버튼
-				$('#btnEdit').attr('disabled', true); // 수정 버튼
-				$('#btnDel').attr('disabled', true); // 삭제 버튼
-				$('#btnCancel').attr('disabled', true); // 취소 버튼
-			}
-			
-			return false;
-		} else if(WMlastIdx == 'attachDataNew') { // 관련자료 등록중
-			if(getWM(WMlastIdx, 'idx') != '' && getWM(WMlastIdx, 'idx') != undefined) {
-				let idx = getWM(WMlastIdx, 'idx');
-				WM_action_OFF(WMlastIdx);
-				setWM(WMlastIdx, 'idx', '');
-				equipTable.row('#'+idx).select();
-				$(equipTable.row('#'+idx).node()).trigger('click'); // 선택했던 항목 선택처리
-			} else {
-				WM_action_OFF(WMlastIdx);
-				if(window.location != window.parent.location) { // tab일 경우
-					// 부모 탭 닫기버튼 click
-					$('#tab-list', parent.document).find('.active').find('span').eq(1).find('i').trigger('click');
-			    }
-				
-				$('.inputGroup').attr('disabled', true); // 입력항목
-				$('#btnUserIdCheck').attr('disabled', true); // 중복확인 버튼
-				$('#btnSignImage').attr('disabled', true); // 사진선택 버튼
-				
-				$('#btnNew').attr('disabled', false); // 신규 버튼
-				$('#btnSave').attr('disabled', true); // 저장 버튼
-				$('#btnEdit').attr('disabled', true); // 수정 버튼
-				$('#btnDel').attr('disabled', true); // 삭제 버튼
-				$('#btnCancel').attr('disabled', true); // 취소 버튼
-			}
-			
-			return false;
-		}
-	});
-
-	// 신규 버튼 click
-	$('#btnNew').on('click', function() {
-		$('#btnSave').data('saveType','insert'); // 저장 방식 -> 등록
-		
-		WM_action_ON('new', 'workingWarningModal');
-
-		$('#tab1Nav').trigger('click');
-		
-		$('#userAdmin').attr('checked',false);
-		$('#userSign').attr('checked',false);
-		$('.inputGroup').val('');
-		
-		$('.inputGroup').attr('disabled', false); // 입력항목
-		$('#btnUserIdCheck').attr('disabled', false); // 중복확인 버튼
-		$('#btnSignImage').attr('disabled', false); // 사진선택 버튼
-		
-		$('#btnNew').attr('disabled', true); // 신규 버튼
-		$('#btnSave').attr('disabled', false); // 저장 버튼
-		$('#btnEdit').attr('disabled', true); // 수정 버튼
-		$('#btnDel').attr('disabled', true); // 삭제 버튼
-		$('#btnCancel').attr('disabled', false); // 취소 버튼
-
-		$('#btnAttachDataNew').attr('disabled', true); //관련자료 추가 버튼
-		$('#btnAttachDataSave').attr('disabled', true); //관련자료 저장 버튼
-		$('#btnAttachDataDel').attr('disabled', true); //관련자료 삭제 버튼
-		$('#btnAttachDataCancel').attr('disabled', true); //관련자료 취소 버튼
-		attachDataTable.clear().draw();
-		
-		$('#useYn').val('Y');
-		$('#buyDate').val(moment().format('YYYY-MM-DD'));
-		$('#buyPrice').val('0');
-	});
-
-	// 저장 버튼 click
-	$('#btnSave').on('click', function() {
-		let saveType = $(this).data('saveType');
-
-		if($('#equipCd').val() == '') {
-			toastr.warning('설비코드를 입력해주세요.');
-			$('#equipCd').focus();
-			return false;
-		}
-
-		if($('#equipNm').val() == '') {
-			toastr.warning('설비명을 입력해주세요.');
-			$('#equipNm').select();
-			return false;
-		}
-
-		if($('#buyPrice').val() == '') {
-			$('#buyPrice').val('0');
-		}
-		
-		// 등록할 경우에
-		if(saveType == 'insert') {	
-			$.ajax({
-				url: '<c:url value="/em/equipInfoInsert"/>',
-	            type: 'POST',
-	            //async: false,
-	            data: {
-		            'equipCd'			:	$('#equipCd').val(),
-		            'equipNm'			:	$('#equipNm').val(),
-		            'serialNo'			:	$('#serialNo').val(),
-		            'makerNm'			:	$('#makerNm').val(),
-		            'buyDate'			:	$('#buyDate').val(),
-		            'buyPrice'			:	$('#buyPrice').val().replaceAll(',',''),
-		            'setupLocation'		:	$('#setupLocation').val(),
-		            'equipDesc'			:	$('#equipDesc').val(),
-		            'useYn'				:	$('#useYn').val(),
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('신규 저장되었습니다.');
-
-						$('#btnSearch').trigger('click'); // 조회버튼 click
-
-						WM_action_OFF('new');
-
-						
-						$('.inputGroup').attr('disabled', true); // 입력항목
-						
-						$('#btnNew').attr('disabled', false); // 신규 버튼
-						$('#btnSave').attr('disabled', true); // 저장 버튼
-						$('#btnEdit').attr('disabled', true); // 수정 버튼
-						$('#btnDel').attr('disabled', true); // 삭제 버튼
-						$('#btnCancel').attr('disabled', true); // 취소 버튼
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
-						toastr.error(res.message);
-					}
-					$('#my-spinner').hide();
-				}
-			});
-		} else { // 수정할 경우에
-			let idx = equipTable.row('.selected').data().idx;
-			$.ajax({
-				url: '<c:url value="/em/equipInfoUpdate"/>',
-	            type: 'POST',
-	            //async: false,
-	            data: {
-		            'idx'				:	function(){ return idx; },
-		            'equipCd'			:	$('#equipCd').val(),
-		            'equipNm'			:	$('#equipNm').val(),
-		            'serialNo'			:	$('#serialNo').val(),
-		            'makerNm'			:	$('#makerNm').val(),
-		            'buyDate'			:	$('#buyDate').val(),
-		            'buyPrice'			:	$('#buyPrice').val().replaceAll(',',''),
-		            'setupLocation'		:	$('#setupLocation').val(),
-		            'equipDesc'			:	$('#equipDesc').val(),
-		            'useYn'				:	$('#useYn').val(),
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('수정 저장되었습니다.');
-
-						$('#btnSearch').trigger('click'); // 조회버튼 click
-
-						WM_action_OFF('edit');
-
-						
-						$('.inputGroup').attr('disabled', true); // 입력항목
-						
-						$('#btnNew').attr('disabled', false); // 신규 버튼
-						$('#btnSave').attr('disabled', true); // 저장 버튼
-						$('#btnEdit').attr('disabled', true); // 수정 버튼
-						$('#btnDel').attr('disabled', true); // 삭제 버튼
-						$('#btnCancel').attr('disabled', true); // 취소 버튼
-
-						let idx = equipTable.row('.selected').data().idx;
-						equipTable.row('#'+idx).select();
-						$(equipTable.row('#'+idx).node()).trigger('click'); // 선택했던 항목 선택처리
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
-						toastr.error(res.message);
-					}
-					$('#my-spinner').hide();
-				}
-			});
-		}
-	});
-
-	// 수정 버튼 click
-	$('#btnEdit').on('click', function() {
-		$('#btnSave').data('saveType','update'); // 저장 방식 -> 수정
-
-		WM_action_ON('edit', 'workingWarningModal');
-		
-		$('.inputGroup').attr('disabled', false); // 입력항목
-		$('#btnUserIdCheck').attr('disabled', false); // 중복확인 버튼
-		$('#btnSignImage').attr('disabled', false); // 사진선택 버튼
-		
-		$('#btnNew').attr('disabled', true); // 신규 버튼
-		$('#btnSave').attr('disabled', false); // 저장 버튼
-		$('#btnEdit').attr('disabled', true); // 수정 버튼
-		$('#btnDel').attr('disabled', true); // 삭제 버튼
-		$('#btnCancel').attr('disabled', false); // 취소 버튼
-	});
-
-	// 삭제 버튼 click
-	$('#btnDel').on('click', function() {
-		delStatus = 'equip';
-		$('#deleteModal').modal('show');
-	});
-
-	// 삭제 경고창 삭제 버튼 click
-	$('#btnDeleteModalY').on('click', function() {
-		if(delStatus == 'equip'){
-			let idx = equipTable.row('.selected').data().idx;
-			$.ajax({
-				url: '<c:url value="/em/equipInfoDelete"/>',
-		        type: 'POST',
-		        //async: false,
-		        data: {
-		            'idx'	:	idx
-		        },
-		        beforeSend: function() {
-		        	$('#my-spinner').show();
-		        },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
 						$.ajax({
-							url: '<c:url value="/em/equipAttachDataDelete"/>',
-					        type: 'POST',
-					        //async: false,
-					        data: {
-					            'equipIdx'	:	idx
-					        },
-					        beforeSend: function() {
-					        	$('#my-spinner').show();
-					        },
+							url : '<c:url value="bm/equipCodeAdmRead"/>',
+							type : 'GET',
+							data : {
+								'equipCd' : function() {
+									return equipCd;
+								},
+							},
 							success : function(res) {
-								if (res.result == "ok") { //응답결과
-									toastr.success('삭제되었습니다.');
-									$('#btnSearch').trigger('click'); // 조회버튼 click
-									$('.inputGroup').attr('disabled', true); // 입력항목
-									$('#btnNew').attr('disabled', false); // 신규 버튼
-									$('#btnSave').attr('disabled', true); // 저장 버튼
-									$('#btnEdit').attr('disabled', true); // 수정 버튼
-									$('#btnDel').attr('disabled', true); // 삭제 버튼
-									$('#btnCancel').attr('disabled', true); // 취소 버튼
-									$('#btnAttachDataNew').attr('disabled',true);
-									$('#btnAttachDataSave').attr('disabled',true);
-									$('#btnAttachDataDel').attr('disabled',true);
-									$('#btnAttachDataCancel').attr('disabled',true);
-									//파일삭제
-									$('#attachDataTable tbody tr').each(function(index, item) {
-										let uuid = attachDataTable.row(index).data().uuid;
-										let ext = attachDataTable.row(index).data().ext;
-										fileDelete({uuid:uuid,ext:ext});
-									});
-									attachDataTable.ajax.reload();
-								} else if(res.result == 'fail') {
-									toastr.warning(res.message);
-								} else {
-									toastr.error(res.message);
-								}
-								$('#my-spinner').hide();
+								let data = res.data;
+								$('#equipCd').val(data.equipCd);
+								$('#equipNm').val(data.equipNm);
+								$('#equipModelNm').val(data.equipModelNm);
+								$('#equipType').val(data.equipType);
+								$('#mfcCorpNm').val(data.mfcCorpNm);
+								$('#mfcNo').val(data.mfcNo);
+								$('#admNo').val(data.admNo);
+								$('#admDept').val(data.admDept);
+								$('#buyCorpNm').val(data.buyCorpNm);
+								$('#buyAmt').val(addCommas(data.buyAmt));
+								$('#buyDate').val(moment(data.buyDate).format('YYYY-MM-DD'));
+								$('#mainChargrNm').val(data.mainChargrNm);
+								$('#equipRegDate').val(moment(data.equipRegDate).format('YYYY-MM-DD'));
+								$('#equipDesc').val(data.equipDesc);
+
+								//선택박스 처리
+								selectBoxAppend(equipGubunCode, "equipGubun",
+										data.equipGubun, "2");
+								selectBoxAppend(admDeptCode, "admDept",
+										data.admDept, "2");
+								selectBoxAppend(useYnCode, "useYn", data.useYn,
+										"");
+
+								//화면처리
+								sideView = 'edit';
+								uiProc(true);
+								$('#btnSave').addClass('d-none'); // 저장버튼
+								$('#btnAdd').attr('disabled', false); //수정버튼
+								$('#btnEdit').attr('disabled', false); //수정버튼
+								$('#photo').removeClass('disabled');
+								$('#corr').removeClass('disabled');
+								$('#etc').removeClass('disabled');
+								imgPrint();
 							}
 						});
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
-						toastr.error(res.message);
-					}
-					$('#my-spinner').hide();
-				}
-			});
-		} else if(delStatus == 'attachData'){
-			let idx = attachDataTable.row('.selected').data().idx;
-			$.ajax({
-				url: '<c:url value="/em/equipAttachDataDelete"/>',
-		        type: 'POST',
-		        //async: false,
-		        data: {
-		            'idx'	:	idx
-		        },
-		        beforeSend: function() {
-		        	$('#my-spinner').show();
-		        },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('삭제되었습니다.');
-						let uuid = attachDataTable.row('.selected').data().uuid;
-						let ext = attachDataTable.row('.selected').data().ext;
-						fileDelete({uuid:uuid,ext:ext});
-						attachDataTable.row('.selected').remove().draw();	
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
-						toastr.error(res.message);
-					}
-					$('#my-spinner').hide();
-				}
-			});
-		}      
-	});
+					});
 
-	// 취소 버튼 click
-	$('#btnCancel').on('click', function() {
-		$('#cancelModal').modal('show');
-	});
-
-	// 취소 경고창 취소 버튼 click
-	$('#btnCancelModalY').on('click', function() {
-		toastr.success('취소되었습니다.');
-
-		WM_action_OFF('new');
-		WM_action_OFF('edit');
-
-		$('.inputGroup').attr('disabled', true); // 입력항목
-		
-		$('#btnNew').attr('disabled', false); // 신규 버튼
-		$('#btnSave').attr('disabled', true); // 저장 버튼
-		$('#btnEdit').attr('disabled', true); // 수정 버튼
-		$('#btnDel').attr('disabled', true); // 삭제 버튼
-		$('#btnCancel').attr('disabled', true); // 취소 버튼
-	});
-
-	/* 관련자료 */	
-	$('#attachDataTable thead tr').clone(true).addClass('filters').appendTo('#attachDataTable thead'); // filter 생성
-	let attachDataTable = $('#attachDataTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'><'me-lg-auto'><'d-flex align-items-center justify-content-end'>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/em/equipAttachDataList"/>',
+	//교정내역 목록
+	let equipCorrInfo = $('#equipCorrInfo').DataTable({	
+		dom : "",	
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		pageLength : 20,
+		ajax : {
+			url : '<c:url value="/bm/equipCorrInfolist"/>',
 			type : 'GET',
 			data : {
-				'equipIdx' : function() { return equipIdx; },
+				'equipCd' : function(){return equipCd;}
 			},
 		},
-        rowId: 'idx',
 		columns : [
-			{ data: 'progressOrder', className : 'text-center'},
-			{ data: 'fileContents', className : 'text-center',
-				render : function(data, type, row, meta) {
-					if(data == null){
-						return '<input type="text" class="form-control" value="" name="fileContents">';
-					} else {
-						return '<input disabled type="text" class="form-control" value="'+data+'" name="fileContents">';
-					}
-				}
-			},
-			{ data : 'fileNm', className : 'text-center',
-				render : function(data, type, row, meta) {
-					if( row['fileStatus']=='F'){
-						let html = '';
-							html += '<div>';
-							html += '	<input type="file" style="display:none;" id="fileNm" name="fileNm" value="" multiple>';
-							html += '	<input type="hidden" class="uuid" id="fileUuid" value="'+ row['fileUuid'] +'"> ';
-							html += '' + row['fileSplitNm'] + '';
+				{
+					render: function(data, type, row, meta) {		
+						return meta.row + meta.settings._iDisplayStart + 1 ;
+		        		},
+						'className' : 'text-center'
+				},
+				{
+					data : 'corrRegDate',
+					render : function(data, type, row, meta) {
+						var value = "";
+						if (data != null) {
+							return '<input class="form-control" type="text" id="corrRegDate'+meta.row + meta.settings._iDisplayStart + 1+'" value="'+data+'" name="corrRegDate" style="text-align:center;" disabled>';
+						} else {
+							var html = '<div class="form-group input-sub m-0">';
+							html += '<input class="form-control" type="text" id="corrRegDate'+meta.row + meta.settings._iDisplayStart + 1+'" value="'+serverDate+'" name="corrRegDate" disabled>';
+							html += '<button onclick="fnPopUpCalendar(corrRegDate'+meta.row + meta.settings._iDisplayStart + 1+',corrRegDate'+meta.row + meta.settings._iDisplayStart + 1+',\'yyyy-mm-dd\')" class="btn btn-secondary input-sub-search" id="corrRegDate" type="button">';;
+							html += '<span class="oi oi-calendar"></span></button>';
 							html += '</div>';
-						return html;	
-					} else{
-						let html = '';
-						if(data != null && data != "") {
-							html += '<a href="/file/fileDownload?uuid='+row.uuid+'&fileName='+row.fileNm+'&ext='+row.ext+'">';
-							html += '<span style="font-size: 14px;">'+data+'</span>';							
-							html += '<input type="hidden" id="fileHidden'+ meta.row +'" value="'+data+'">';
+							return html;
 						}
-						return html;
 					}
+				},
+				{
+					data : 'corrCont',
+					render : function(data, type, row, meta) {
+						if (data != null) {
+							return '<input type="text" class="form-control" name="corrCont" value="'+data+'" disabled />';
+						} else {
+							return '<input type="text" class="form-control" name="corrCont" value=""/>';
+						}
+					}
+				},
+				{
+					data : 'corrActOrgan',
+					render : function(data, type, row, meta) {
+						if (data != null) {
+							return '<input type="text" class="form-control" name="corrActOrgan" value="'+data+'" disabled />';
+						} else {
+							return '<input type="text" class="form-control" name="corrActOrgan" value="" />';
+						}
+					}
+				},
+				{
+					data : 'corrDesc',
+					render : function(data, type, row, meta) {
+						if (data != null) {
+							return '<input type="text" class="form-control" name="corrDesc" value="'+data+'" disabled />';
+						} else {
+							return '<input type="text" class="form-control"  name="corrDesc" value="" />';
+						}
+					}
+				}, 
+			],
+			order : [ [ 0, 'asc' ], ],
+			drawCallback: function(settings) {
+				//uiProc2(true);
+	        }, 
+	});
+
+	//기타 목록
+	let equipEtcInfo = $('#equipEtcInfo')
+			.DataTable(
+					{
+						dom : "",
+						language : lang_kor,
+						paging : true,
+						info : true,
+						ordering : false,
+						processing : true,
+						autoWidth : false,
+						lengthChange : false,
+						pageLength : 20,
+						ajax : {
+							url : '<c:url value="/bm/equipEtcInfoList"/>',
+							type : 'GET',
+							data : {
+								'equipCd' : function() {
+									return equipCd;
+								}
+							},
+						},
+						columns : [
+								{
+									render : function(data, type, row, meta) {
+										return meta.row
+												+ meta.settings._iDisplayStart
+												+ 1;
+									},
+									'className' : 'text-center'
+								},
+								{
+									data : 'etcGubun',
+									render : function(data, type, row, meta) {
+										var html = "";
+										html = selectBoxHtml2(etcGubunCode,"etcGubun", data, row, meta);
+										return html;
+									}
+								},
+								{
+									data : 'etcCont',
+									render : function(data, type, row, meta) {
+										if (data != null) {
+											return '<input type="text" class="form-control" style="max-width:100%" name="etcCont" value="'+ data + '" disabled>';
+										} else {
+											return '<input type="text" class="form-control" style="max-width:100%" name="etcCont" value="">';
+										}
+									}
+								} ],
+						order : [ [ 0, 'asc' ], ],
+						drawCallback: function(settings) {
+				        }, 
+					});
+
+	//교정내역 데이터 클릭 시
+	$('#equipCorrInfo tbody').on(
+			'click',
+			'tr',
+			function() {
+				if ($(this).hasClass('selected')) {
+					$(this).removeClass('selected');
+				} else {
+					$('#equipCorrInfo').DataTable().$('tr.selected').removeClass('selected');
+					$(this).addClass('selected');
+				}
+				tableIdx = $('#equipCorrInfo').DataTable().row(this).index();
+				
+				console.log(tableIdx);
+				btnView = "edit";
+			});
+
+	//기타 데이터 클릭 시
+	$('#equipEtcInfo tbody').on(
+			'click',
+			'tr',
+			function() {
+				if ($(this).hasClass('selected')) {
+					$(this).removeClass('selected');
+				} else {
+					$('#equipEtcInfo').DataTable().$('tr.selected')
+							.removeClass('selected');
+					$(this).addClass('selected');
+				}
+				tableIdx = $('#equipEtcInfo').DataTable().row(this).index();
+				console.log(tableIdx);
+				btnView = "edit";
+			});
+
+	//사진 탭 클릭시
+	$('#photo').on('click', function() {
+		imgPrint();
+
+	});
+
+	//교정내역 탭 클릭시
+	$('#corr').on('click', function() {
+		//$('#btnCorrAdd').attr('disabled',true);
+		//$('#btnCorrDel').attr('disabled',true);
+		$('#btnSave1').addClass('d-none');
+		$('#btnSave2').addClass('d-none');
+		$('#btnSave3').addClass('d-none');
+
+		
+		
+		$('#equipCorrInfo').DataTable().ajax.reload();
+		uiProc2(true);
+	});
+
+	//기타 탭 클릭시
+	$('#etc').on('click', function() {
+		btnView = "";
+		
+		//$('#btnEtcAdd').attr('disabled',true);
+		//$('#btnEtcDel').attr('disabled',true);
+		$('#btnSave1').addClass('d-none');
+		$('#btnSave2').addClass('d-none');
+		$('#btnSave3').addClass('d-none');
+		$('#equipEtcInfo').DataTable().ajax.reload();
+		uiProc3(true);
+	});
+
+	//등록폼
+	$('#btnAdd').on('click', function() {
+		sideView = 'add';
+		//초기화
+		$('.form-control').val(null);
+		uiProc(false);
+
+		$('#btnSave').removeClass('d-none');
+		$('#btnEdit').attr('disabled', true);
+		$('#buyDate').val(serverDate);
+		$('#equipRegDate').val(serverDate);
+
+		$('#photo').addClass('disabled');
+		$('#corr').addClass('disabled');
+		$('#etc').addClass('disabled');
+
+		//선택박스 처리
+		selectBoxAppend(equipGubunCode, "equipGubun", "", "2");
+		selectBoxAppend(admDeptCode, "admDept", "", "2");
+		selectBoxAppend(useYnCode, "useYn", "", "");
+
+		$.ajax({
+			url : '<c:url value="/bm/readEquipSeq"/>',
+			type : 'GET',
+			data : {},
+			success : function(res) {
+				let data = res.data;
+				if (res.result == 'ok') {
+					$('#equipCd').val(data);
+					//$('#equipNm').focus();
+				} else {
+					toastr.error(res.message);
 				}
 			},
-		],
-		columnDefs : [
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'data+'</div>';
-			//	}
-			//}
-		],
-		buttons : [
-			/* { extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	}, */
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#attachDataTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 131)+'px');
-
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllAdt').off('keyup',function() {});
-			$('#searchAllAdt').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-
-			//progressOrder
-			for(var i=0;i<data.length;i++) {
-				let tr = $('#attachDataTable tbody').find('tr').eq(i);
-				attachDataTable.row(tr).data().progressOrder = i+1;
-				$(tr).find('td').eq(0).html(i+1);
-			}
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#attachDataTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#attachDataTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	attachDataTable.on('column-reorder', function( e, settings, details ) {
-		let api = attachDataTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#attachDataTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
+		}); 
 	});
 
-	//테이블 클릭
-	$('#attachDataTable tbody').on('click','tr', function() {
-		$('#btnAttachDataDel').attr('disabled',false);
-	});
-	
-	//관련자료탭클릭시
-	$('#tab2Nav').on('click',function(){
-		attachDataTable.ajax.reload(function(){
-			attachDataTable.draw(false);
-		});
-	});
+	// 수정폼
+	$('#btnEdit').on('click', function() {
 
-	//관련자료 추가 시
-	$('#btnAttachDataNew').on('click',function(){
-		$('#fileFake').trigger('click');
-	});
-
-	//파일 선택
-	let formData = new FormData();
-	$('#fileFake').on('change',function(e) {
-		let fileInput = document.getElementById('fileFake'); 
-		if(fileInput.files.length>0){
-			let files = fileInput.files; //업로드한 파일들의 정보를 넣는다.
-	
-			for(let i = 0; i < document.querySelector('#fileFake').files.length; i++){
-				//폼데이터 넣는곳
-				let uuid = uuid_v4();
-				formData.append('file+'+uuid,files[i]);
-				formData.append('uuid+'+uuid,uuid);
-				formData.append('ext+'+uuid,files[i].name.split('.').at(-1));
-				
-				//페이크 업로드파일로부터 추가된 행에 데이터 옮겨주기
-				let fileData =  document.querySelector('#fileFake').files[i];
-
-				//파일명
-				let fileArr = files[i].name.split('.');
-				let fileNm = _.slice(fileArr, 0, -1).join('.');
-				 
-				attachDataTable.row.add({
-					'progressOrder' : 0,
-					'ext'     : files[i].name.split('.').at(-1),
-		 			'fileNm'		:	fileData.name,
-		 			'fileSplitNm'	:	fileNm,
-		 			'fileStatus'    :  'F',
-		 			'fileUuid' 		: uuid,
-		 			'fileContents'		: null,
-				}).draw(false);
-			}
+		if (sideView != 'edit') {
+			toastr.warning("수정할 항목을 선택해 주세요.");
+			return false;
 		}
-		$('#fileFake').val('');
-		WM_action_ON('attachDataNew', 'workingWarningModal');
-		$('#btnAttachDataSave').attr('disabled',false);
+
+		uiProc(false);
+
+		$('#photo').addClass('disabled');
+		$('#corr').addClass('disabled');
+		$('#etc').addClass('disabled');
+		
+		//$('#btnSave').attr('disabled', false);
+		$('#btnSave').removeClass('d-none');
+	});
+
+	// 교정내역 수정버튼
+	$('#btnCorrEdit').on('click', function() {
+		if(btnView != 'edit'){
+			toastr.warning("수정할 항목을 선택해주세요.")
+			return false;
+		}
+		$('input[name=corrCont]').eq(tableIdx).attr('disabled',false);
+		$('input[name=corrActOrgan]').eq(tableIdx).attr('disabled',false);
+		$('input[name=corrDesc]').eq(tableIdx).attr('disabled',false);
+		btnView ='';
+		//uiProc2(false);
+		//$('#btnCorrAdd').attr('disabled',false);
+		//$('#btnCorrDel').attr('disabled',false);
+		$('#btnSave2').removeClass('d-none');
+	});
+
+	// 기타 수정버튼
+	$('#btnEtcEdit').on('click', function() {
+		if(btnView != 'edit'){
+			toastr.warning("수정할 항목을 선택해주세요.")
+			return false;
+		}
+		//uiProc3(false);
+		console.log(tableIdx);
+		$('select[name=etcGubun]').eq(tableIdx).attr('disabled',false);
+		$('input[name=etcCont]').eq(tableIdx).attr('disabled',false);
+		btnView = '';
+		//$('#btnEtcAdd').attr('disabled',false);
+		//$('#btnEtcDel').attr('disabled',false);
+		$('#btnSave3').removeClass('d-none');
 	});
 	
-	//관련자료 삭제 시
-	$('#btnAttachDataDel').on('click',function(){
-		if( !$('#attachDataTable tbody tr').hasClass('selected') ){
+	//교정내역 추가버튼
+	$('#btnCorrAdd').on('click', function() {
+		//uiProc2(false);
+		$('#equipCorrInfo').DataTable().row.add({}).draw(false);
+		//uiProc2(false);
+		
+		if (equipCorrInfo.data().count() > 0) {
+			$('#btnSave2').removeClass('d-none'); // 등록버튼
+		}
+		btnView = '';
+	});
+
+	//기타 추가버튼
+	$('#btnEtcAdd').on('click', function() {
+		btnView = 'edit';
+		$('#equipEtcInfo').DataTable().row.add({}).draw(false);
+		//uiProc3(false);
+		//$('#btnEtcEdit').attr('disabled',true);
+		if (equipEtcInfo.data().count() > 0) {
+			$('#btnSave3').removeClass('d-none'); // 등록버튼
+		}
+		btnView = '';
+	}); 
+
+
+	//교정내역 삭제버튼
+	$('#btnCorrDel').on('click', function() {
+		if (btnView != 'edit') {
 			toastr.warning('삭제할 항목을 선택해주세요.');
 			return false;
 		}
-		
-		let idx = attachDataTable.row('.selected').data().idx;
-		if(idx != '' && idx != undefined){
-			delStatus = 'attachData';
-			$('#deleteModal').modal('show');
-		} else {
-			//폼데이터로부터 지우고 테이블 다시그리기
-			let selectUuid = $('#attachDataTable tbody').find('.selected').find('.uuid').val();
-			formData.delete('file+'+selectUuid);
-			formData.delete('uuid+'+selectUuid);
-			formData.delete('ext+'+selectUuid);
-			$('#attachDataTable').DataTable().row('.selected').remove().draw();
+		$('#equipCorrInfo').DataTable().rows(tableIdx).remove().draw();
+		//uiProc2(false);
+
+		if(equipCorrInfo.data().count() == 0){
+			$('#btnSave2').addClass('d-none');
+		}else{
+			$('#btnSave2').removeClass('d-none');
 		}
+		
+		btnView = '';
+
 	});
 
-	//관련자료 저장 시
-	$('#btnAttachDataSave').on('click',function(){
-		let fileString = [];
-		let i=0;
-		//삭제된 데이터들로부터 형식맞추는곳
-		let formData2 = new FormData();
-		let entries = formData.entries();
-		for (let pair of entries) {
-			if(i%3 == 0){
-				formData2.append(pair[0].split('+')[0]+'-'+pair[0].split('+')[1],pair[1]);
-			} else {
-				formData2.append(pair[0].split('+')[0],pair[1]);
-			}
-			i++;
+	//기타 삭제버튼
+	$('#btnEtcDel').on('click', function() {
+		if (btnView != 'edit') {
+			toastr.warning('삭제할 항목을 선택해주세요.');
+			return false;
 		}
-		i=0;
-		$('#attachDataTable tbody tr').each(function(index, item) {
-			if( attachDataTable.row(this).data() != undefined && attachDataTable.row(this).data() != null){
-				if( attachDataTable.row(this).data().idx == '' || attachDataTable.row(this).data().idx == undefined ){ 
-					//파일스트링 만드는곳					
-					let fileArr = formData2.getAll('file-'+formData2.getAll('uuid')[i])[0].name.split('.');
-					let fileNm = _.slice(fileArr, 0, -1).join('.');
-					
-					let obj = {};
-					obj.uuid = formData2.getAll('uuid')[i];
-					obj.fileNm = fileNm;
-					obj.ext = formData2.getAll('ext')[i];
-					obj.fileContents = $(this).find('input[name=fileContents').val();
-					fileString.push(obj);
-					i++;
-				}
-			}
-		});
+		$('#equipEtcInfo').DataTable().rows(tableIdx).remove().draw();
+		//uiProc3(false);
 
-		let idx = equipTable.row('.selected').data().idx;
-		
+		if(equipEtcInfo.data().count() == 0){
+			$('#btnSave3').addClass('d-none');
+		}else{
+			$('#btnSave3').removeClass('d-none');
+		}
+	
+		btnView = '';
+
+	});
+
+	//설비정보 기본정보 저장
+	$('#btnSave').on('click', function() {
+		//입력값 검사
+		if ($('#equipGubun option:selected').val() == "") {
+			$('#equipGubun').focus();
+			toastr.warning('구분을 입력해 주세요.');
+			return false;
+		}
+		if (!$.trim($('#equipNm').val())) {
+			toastr.warning('설비명을 입력해 주세요.');
+			$('#equipNm').focus();
+			return false;
+		}
+		if (sideView == "add") {
+			url = '<c:url value="/bm/equipCodeCreate"/>';
+		} else if (sideView == "edit") {
+			url = '<c:url value="/bm/equipCodeUpdate"/>';
+		}
+
 		$.ajax({
-			url: '<c:url value="/em/equipAttachDataInsert"/>',
-            type: 'POST',
-            //async: false,
-            data: {    
-	            'equipIdx'		:	function(){return idx;},
-            	'fileString'		:	JSON.stringify(fileString),
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
+			url : url,
+			type : 'POST',
+			data : {
+				'equipCd' : $('#equipCd').val(),
+				'equipGubun' : $('#equipGubun option:selected').val(),
+				'equipNm' : $('#equipNm').val(),
+				'equipModelNm' : $('#equipModelNm').val(),
+				'equipType' : $('#equipType').val(),
+				'mfcCorpNm' : $('#mfcCorpNm').val(),
+				'mfcNo' : $('#mfcNo').val(),
+				'admNo' : $('#admNo').val(),
+				'admDept' : $('#admDept option:selected').val(),
+				'buyDate' : $('#buyDate').val().replace(/-/g,''),
+				'buyCorpNm' : $('#buyCorpNm').val(),
+				'buyAmt' : $('#buyAmt').val().replace(/,/g,''),
+				'mainChargr' : $('#mainChargr').val(),
+				'equipRegDate' : $('#equipRegDate').val().replace(/-/g,''),
+				'useYn' : $('#useYnCd option:selected').val(),
+				'equipDesc' : $('#equipDesc').val(),
+			},
 			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					toastr.success('저장되었습니다.');
-					//$('#btnSearch').trigger('click'); // 조회버튼 click
+				let data = res.data;
+				if (res.result == 'ok') {
+					toastr.success(res.message);
+					$('#equipCodeTable').DataTable().ajax.reload();
 
-					WM_action_OFF('attachDataNew');
-
-					$('#btnAttachDataNew').attr('disabled',false);
-					$('#btnAttachDataSave').attr('disabled',true);
-					$('#btnAttachDataDel').attr('disabled',true);
-					$('#btnAttachDataCancel').attr('disabled',true);
-					if(fileString != ''){
-						fileUpload(formData2); // 파일 업로드
-					}
-					attachDataTable.ajax.reload(function(){});
-					formData = new FormData();
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
+					$('#photo').removeClass('disabled');
+					$('#corr').removeClass('disabled');
+					$('#etc').removeClass('disabled');
 				} else {
 					toastr.error(res.message);
 				}
-				$('#my-spinner').hide();
+			},
+			complete : function() {
+				uiProc(true);
+				$('#btnEdit').attr('disabled', false);
+				$('#btnSave').addClass('d-none');
+
 			}
 		});
-		
 	});
 
-	//담당자
-	$('#equipUserTable thead tr').clone(true).addClass('filters').appendTo('#equipUserTable thead'); // filter 생성
-	let equipUserTable = $('#equipUserTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		/* select: {
-            style: 'multi',
-            toggleable: true,
-            items: 'row',
-            info: false
-        }, */
-        ajax : {
-			url : '<c:url value="/em/equipUserInfoLst"/>',
+	//설비정보 교정내역 저장
+	$('#btnSave2').on('click',function() {
+		var check = true;
+		var dataArray = new Array();
+
+		$('#equipCorrInfo tbody tr').each(function(index, item) {
+
+			if (equipCorrInfo.data().count() != 0) {
+				//입력값 검사
+				if ($(this).find('td input[name=corrCont]').val()=="") {
+					toastr.warning('이력내용 입력해 주세요.');
+					$(this).find('td input[name=corrCont]').focus();
+					check = false;
+					return false;
+				}
+				if ($(this).find("td input[name=corrActOrgan]").val()=="") {
+					toastr.warning('조치및교정기관을 입력해 주세요.');
+					$(this).find('td input[name=corrActOrgan]').focus();
+					check = false;
+					return false;
+				}
+			}
+
+			var rowData = new Object();
+			rowData.equipCd = equipCd;
+			rowData.corrRegDate = $(this).find('td input[name=corrRegDate]').val();
+			rowData.corrCont = $(this).find('td input[name=corrCont]').val();
+			rowData.corrActOrgan = $(this).find('td input[name=corrActOrgan]').val();
+			rowData.corrDesc = $(this).find('td input[name=corrDesc]').val();
+
+			dataArray.push(rowData);
+			console.log(rowData)
+		});
+
+		if (check == true) {
+			$.ajax({
+				url : '<c:url value="/bm/equipCorrInfoCreate"/>',
+				type : 'POST',
+				dataType : 'json',
+				data : JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
+				success : function(res) {
+					let data = res.data;
+					if (res.result == 'ok') {
+						toastr.success("등록되었습니다.");
+						$('#equipCorrInfo').DataTable().ajax.reload();
+						uiProc2(true);
+						$('#btnSave2').addClass('d-none');
+						//$('#btnCorrAdd').attr('disabled',true);
+						//$('#btnCorrDel').attr('disabled',true);
+					} else if (res.result == "exist") {
+						toastr.error("이미 등록된 일자입니다. 확인해주세요.");
+
+					} else {
+						toastr.error(res.message);
+					}
+				},
+				complete : function() {
+					btnView = "";
+				}
+			});
+		}
+	});
+
+	//설비정보 기타 저장
+	$('#btnSave3').on('click',function() {
+		var check = true;
+		var dataArray = new Array();
+	
+		$('#equipEtcInfo tbody tr').each(function(index, item) {
+	
+			if (equipCorrInfo.data().count() != 0) {
+
+				if ($(this).find('td select[name=etcGubun] option:selected').val() == "") {
+					toastr.warning('구분을 선택해 주세요.');
+					$('input[name=etcGubun]').focus();
+					check = false;
+					return false;
+				}
+				if ($(this).find("td input[name=etcCont]").val() == "") {
+					toastr.warning('내용을 입력해 주세요.');
+					$('input [name=etcCont]').focus();
+					check = false;
+					return false;
+				}
+			}
+
+			var rowData = new Object();
+			rowData.equipCd = equipCd;
+			rowData.etcGubun = $(this).find('td select[name=etcGubun] option:selected').val();
+			rowData.etcCont = $(this).find('td input[name=etcCont]').val();
+
+			dataArray.push(rowData);
+			console.log(dataArray)
+		});
+	
+		if (check == true) {
+			$.ajax({
+				url : '<c:url value="/bm/equipEtcInfoCreate"/>',
+				type : 'POST',
+				dataType : 'json',
+				data : JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
+				success : function(res) {
+					let data = res.data;
+					if (res.result == 'ok') {
+						toastr.success("등록되었습니다.");
+						$('#equipEtcInfo').DataTable().ajax.reload();
+						uiProc3(true);
+						$('#btnEtcEdit').attr('disabled',false);
+						//$('#btnEtcAdd').attr('disabled',true);
+						//$('#btnEtcDel').attr('disabled',true);
+						$('#btnSave3').addClass('d-none');
+					} else if (res.result == "exist") {
+						toastr.error("일자가 중복됩니다.");
+	
+					} else {
+						toastr.error(res.message);
+					}
+				},
+				complete : function() {
+					btnView = "";
+				}
+			});
+		}
+	});
+	
+
+	//이미지 조회
+	function imgPrint() {
+		$.ajax({
+			url : '<c:url value="/bm/equipCodeImgRead"/>',
+			data : {
+				'equipCd' : equipCd
+			},
+			type : 'GET',
+			success : function(res) {
+				var data = res.data;
+				if (data.imageFile1 != null) {
+					$('#imageFile1').attr("src",
+							"data:image/jpg;base64," + data.imageFile1);
+					$('#imgName1').text(data.imageFile1Nm);
+				}
+				if (data.imageFile1 == null) {
+					$('#imageFile1').attr("src", " ");
+					$('#imgName1').text("");
+				}
+				if (data.imageFile2 != null) {
+					$('#imageFile2').attr("src",
+							"data:image/jpg;base64," + data.imageFile2);
+					$('#imgName2').text(data.imageFile2Nm);
+				}
+				if (data.imageFile2 == null) {
+					$('#imageFile2').attr("src", " ");
+					$('#imgName2').text("");
+				}
+				if (data.imageFile3 != null) {
+					$('#imageFile3').attr("src",
+							"data:image/jpg;base64," + data.imageFile3);
+					$('#imgName3').text(data.imageFile3Nm);
+				}
+				if (data.imageFile3 == null) {
+					$('#imageFile3').attr("src", " ");
+					$('#imgName3').text("");
+				}
+				if (data.imageFile4 != null) {
+					$('#imageFile4').attr("src",
+							"data:image/jpg;base64," + data.imageFile4);
+					$('#imgName4').text(data.imageFile4Nm);
+				}
+				if (data.imageFile4 == null) {
+					$('#imageFile4').attr("src", " ");
+					$('#imgName4').text("");
+				}
+			},
+			error : function(xhr, textStatus, error) {
+				alert("예상치 못한 오류가 발생했습니다.");
+			}
+		});
+	}
+
+	//이미지 등록
+	function imageUpload(number) {
+		var value = null;
+
+		value = number;
+
+		var fileListView = "";
+
+		var formData = new FormData(document.getElementById("form2")); //ajax로 넘길 data
+
+		//var fileInput = document.getElementById("imgAdd1"); //id로 파일 태그를 호출
+
+		//var files = fileInput.files; //업로드한 파일들의 정보를 넣는다.
+
+		formData.append("equipCd", equipCd);
+		formData.append("value", value);
+		//formData.append('imgAdd1', files); //업로드한 파일을 하나하나 읽어서 FormData 안에 넣는다.
+
+		$.ajax({
+			url : '<c:url value="/bm/equipCodeImageUpload"/>',
+			data : formData,
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			success : function(data) {
+				if (data.result == "ok") { //응답결과
+					toastr.success('등록되었습니다.');
+				} else if (data.result == "extensionError") {
+					toastr.error('파일형식 또는 확장명이 잘못되었습니다.');
+					$('#imgName' + value).text("");
+				}
+				imgPrint();
+			}
+		});
+
+	}
+
+	function deleteImg(number) {
+		var value = null;
+		value = number;
+
+		if ($('#imgName' + number).text() == "") {
+			toastr.warning('삭제할 항목이 없습니다.');
+			return false;
+		}
+		$.ajax({
+			url : '<c:url value="/bm/equipCodeImageDelete"/>',
 			type : 'POST',
 			data : {
-				idx : function(){ return equipIdx;}, 
+				'equipCd' : equipCd,
+				//'imageFile'			:		function(){a=null; a=$('#imgName'+number).text(); return a;},
+				'value' : value,
+
 			},
-		},
-        rowId: 'idx',
-		columns : [
-			{	data:'equipIdx', className : 'text-center',
-				render : function(data, type, row, meta) {
-					let html = '';
-					if(data != null && data != ''){
-						html += '<input type="checkbox" name="btnCheck" style="width:20px; height:20px;" checked>';
-					} else {
-						html += '<input type="checkbox" name="btnCheck" style="width:20px; height:20px;">';
+			success : function(data) {
+				if (data.result == "ok") { //응답결과
+					toastr.success('삭제되었습니다.');
+					imgPrint();
+				}
+
+			},
+			error : function(xhr, textStatus, error) {
+
+				alert("예상치 못한 오류가 발생했습니다.");
+			}
+		});
+		$('#imgAdd' + value).val("");
+		$('#imgName' + number).val("");
+		$('#imgName' + number).text("");
+		$('#imgName' + number).attr("src", "");
+
+	}
+	//담당자조회 팝업 시작
+	var userPopUpTable;
+	function selectMainChargr() {
+		if (userPopUpTable == null || userPopUpTable == undefined) {
+			userPopUpTable = $('#userPopUpTable').DataTable({
+				language : lang_kor,
+				lengthChange : false,
+				paging : true,
+				info : true,
+				ordering : true,
+				processing : true,
+				autoWidth : false,
+				pageLength : 15,
+				ajax : {
+					url : '/sm/matrlUserDataList',
+					type : 'GET',
+					data : {
+						
 					}
-					return html;
-				}
-			},
-			{ data: 'userId', className : 'text-center'},
-			{ data: 'userName', className : 'text-center'},
-			{ data: 'userTeamNm', className : 'text-center'},
-			
-			{ data: 'userDepartmentNm', className : 'text-center'},
-			{ data: 'userJobNm', className : 'text-center'},
-		],
-		columnDefs : [
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-			{ "targets": [0], "orderable": false },
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			/* { extend: 'colvis',	text: 'Select Col',	}, */
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#equipUserTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 161)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllEut').off('keyup',function() {});
-			$('#searchAllEut').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});			
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#'+table_id+'_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				if(colIdx > 0){
-					$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-					$(cell).css('padding','2px');
-				} else {
-					$(cell).html('');
-					$(cell).css('padding','2px');
-				}
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#'+table_id+'_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
+				},
+				rowId : 'userNumber',
+				columns : [ {
+					data : 'userNm'
+				}, {
+					data : 'departmentNm'
+				}, {
+					data : 'postNm'
+				}, {
+					data : 'chargrDutyNm'
+				}, {
+					data : 'workplaceNm'
+				}, {
+					data : 'userDesc'
+				}, ],
+				columnDefs : [ {
+					"targets" : [ 0, 1, 2, 3, 4, 5 ],
+					"className" : "text-center"
+				} ],
+				order : [ [ 0, 'asc' ] ],
 			});
-		},
-	});
-	// dataTable colReorder event
-	equipUserTable.on('column-reorder', function( e, settings, details ) {
-		let api = equipUserTable;
-		let table_id = $(api.table().node()).attr('id'); // dataTable ID
-		
-		api.columns().eq(0).each(function (colIdx) {
-			$('#'+table_id+'_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
+			$('#userPopUpTable tbody').on('click', 'tr', function() {
+				var data = userPopUpTable.row(this).data();
+				$('#mainChargr').val(data.userNumber);
+				$('#mainChargrNm').val(data.userNm);
+				$('#userPopUpModal').modal('hide');
 			});
-		});
-	});
-	
-	//담당자탭
-	$('#tab3Nav').on('click',function(){
-		equipUserTable.ajax.reload(function(){
-			equipUserTable.draw(false);
-		});
-	});
-	
-	//모든 체크박스 선택
-	$('#btnAllCheck').on('click',function(){
-		if($('#btnAllCheck').prop("checked")){
-			$('input:checkbox[name=btnCheck]').prop("checked",true);
-		}else{
-			$('input:checkbox[name=btnCheck]').prop("checked",false);
+		} else {
+			$('#userPopUpTable').DataTable().ajax.reload(function() {
+			});
 		}
-	});
-	// 모든 체크박스 체크/해제 되도록
-	$(document).on('change','input:checkbox[name=btnCheck]', function(){
-		if( $('input:checkbox[name=btnCheck]').length == $('input:checkbox[name=btnCheck]:checked').length ){ //전체 체크박스 수와 체크된 박스의 수가 같을 때 -> 전체체크박스 체크 , 아닐 경우 해제
-			$('#btnAllCheck').prop("checked",true);
-		} else{
-			$('#btnAllCheck').prop("checked",false);
+
+		$('#userPopUpModal').modal('show');
+	}
+
+	//셀렉트박스생성
+	function selectBoxHtml2(obj, id, sVal, row, meta) {
+
+		var shtml = "";
+
+		if (btnView == "") {
+			shtml = '<select class="custom-select" name="'+ id +'" data-col="' + meta.col + '" disabled>';
+		} else if (btnView == "edit") {
+			shtml = '<select class="custom-select" name="'+ id +'" data-col="' + meta.col + '">';
 		}
- 	});
-
-	$('#btnEquipUserSave').on('click',function(){
-		$('#my-spinner').show();
-		let insertList = [];
-		//체크된 항목들만 탐색
-		$('input:checkbox[name=btnCheck]:checked').each(function(indxe){
-			let tr = $(this).parent().parent(); //해당 tr
-			let data = equipUserTable.row(tr).data(); // 데이터 테이블의 해당 칸
-			let obj = {};
-			obj.USER_IDX = data.userIdx;
-			obj.EQUIP_IDX = equipTable.row('.selected').data().idx;
-			obj.regIdx = '';
-			obj.regDate = '';
-			insertList.push(obj);
-		})
-
-		$('#my-spinner').hide();
-		
-		$.ajax({		    	
-	        url: '<c:url value="/em/equipUserDelIns"/>',
-	        type: 'POST',
-            data: {
-                'insertJson'	:	JSON.stringify(insertList),
-                'idx'	:	equipTable.row('.selected').data().idx,
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
-	        success: function(res){
-	        	if(res.result == "ok"){
-	        		$('#my-spinner').hide();
-	        		toastr.success('저장 되었습니다.');       
-	        		equipUserTable.ajax.reload();
-	        	}
-	        	else{
-	        		$('#my-spinner').hide();
-	        		toastr.error(result.message);
-	        	}
-	        	
-	        }
-		});	 
-
+		var option;
+		for (key in obj) {
+			var tmp;
+			if (obj[key].baseCd == sVal) {
+				tmp = "<option value="+ obj[key].baseCd+ " selected>"
+						+ obj[key].baseNm + "</option>";
+			} else {
+				tmp = "<option value="+obj[key].baseCd+">" + obj[key].baseNm
+						+ "</option>";
+			}
+			option += tmp;
+		}
+		var ehtml = '</select>';
+		return shtml + option + ehtml;
+	}
+	
+	//구입가격 계산
+	$('#buyAmt').on('keyup',function(){
+		var buyAmtValue = uncomma($(this).val());
+		$('#buyAmt').val(addCommas(buyAmtValue));
 	});
 	
+	function uiProc(flag) {
+		$("#equipGubun").attr("disabled", flag);
+		$("#equipNm").attr("disabled", flag);
+		$("#equipModelNm").attr("disabled", flag);
+		$("#equipType").attr("disabled", flag);
+		$("#mfcCorpNm").attr("disabled", flag);
+		$("#mfcNo").attr("disabled", flag);
+		$("#admNo").attr("disabled", flag);
+		$("#admDept").attr("disabled", flag);
+		$("#buyCorpNm").attr("disabled", flag);
+		$("#buyAmt").attr("disabled", flag);
+		$("#useYn").attr("disabled", flag);
+		$("#equipDesc").attr("disabled", flag);
+
+		$('#btnAdmDept').attr("disabled", flag);
+		$('#btnMainChargr').attr("disabled", flag);
+		$('#equipRegDateCalendar').attr("disabled", flag);
+		$('#buyDateCalendar').attr("disabled", flag);
+	}
+
+	function uiProc2(flag) {
+		//$("input [name=corrRegDate]").attr("disabled", flag);
+		$('input[name=corrCont]').attr("disabled", flag);
+		$('input[name=corrActOrgan]').attr("disabled", flag);
+		$('input[name=corrDesc]').attr("disabled", flag);
+		$('button[name=btnCorrRegDate]').attr("disabled", flag);
+	}
+
+	function uiProc3(flag) {
+		//$("select[name=etcGubun]").attr("disabled", flag);
+		$("select[name=etcGubun]").attr("disabled", flag);
+		$("input[name=etcCont]").attr("disabled", flag);
+	}
+
+
 </script>
 </body>
 </html>

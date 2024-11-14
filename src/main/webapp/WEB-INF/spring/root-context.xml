@@ -47,6 +47,18 @@
       <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
    </bean>
 
+ 	<!-- Scheduler 설정 부분 -->
+    <context:annotation-config />
+    <task:annotation-driven />
+ 
+    <task:scheduled-tasks scheduler="batchScheduler"> 
+        <task:scheduled ref="batchInterface" method="batchTmData" cron="0 0 */2 * * *" />
+    </task:scheduled-tasks>     
+		
+	<task:scheduler id="batchScheduler" pool-size="10"/>
+
+	<bean id="batchInterface" class="mes.web.bt.BatchProcController" />
+
    <context:component-scan base-package="mes.persistence.*" />
    <context:component-scan base-package="mes.service.*" />
 

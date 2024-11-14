@@ -1,1006 +1,1696 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
-<%@include file="../layout/top.jsp"%>
-<%@include file="../layout/modal.jsp"%>
-<%@include file="../layout/script.jsp"%>
-<div id="page" onmouseup="EndDrag(this)" onmousemove="OnDrag(event)" style="grid-template-areas: 'leftcol';
-																		  grid-template-rows: 1fr;
-																		  grid-template-columns: 1fr;">
-	<div id="leftcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="leftHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">납품계획일</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="startDate">
-					<label class="form-label d-flex align-items-center m-0 me-1 h-100">~</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="endDate">
-					<select class="form-select w-auto h-100 me-3 monthAdjust" id="monthAdjust">
-					</select>
-					
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">제품</label>
-					<div class="input-group w-auto h-100 me-3">
-						<input type="text" class="form-control" id="itemNm" style="width: 200px;" disabled>
-						<button type="button" class="btnInputDel" style="background-color: transparent; border-color: transparent; position: absolute; top: 0; right: 0; margin: 5px 23px; margin-left: 0px; border: none;">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						<input type="hidden" id="itemIdx">
-						<button type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary" id="btnSearchItem">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</div>
-					
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">수주처</label>
-					<div class="input-group w-auto h-100 me-3">
-						<input type="text" class="form-control" id="searchDealCorpNm" disabled> <input type="hidden" id="searchDealCorpIdx">
-						<button type="button" id="btnSearchDealCorpDel" style="background-color: transparent; border-color: transparent; position: absolute; top: 0; right: 0; margin: 5px 23px; margin-left: 0px; border: none;">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						<button type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary" id="btnSearchDealCorp">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</div>				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnSearch"><i class="fa-regular fa-clipboard"></i></button>
-					</div>
+<%@include file="../layout/body-top.jsp" %>
+
+<div class="page-wrapper" id="page-wrapper">
+	<!-- 창고조회 모달 시작 -->
+	<div class="modal fade" id="locationPopupModal" tabindex="-1" role="dialog" aria-labelledby="locationPopupLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="locationPopupLabel">창고정보조회</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
-			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="bizOrderTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle"><input class="form-check-input" type="checkbox" id="allCheckBox" style="margin: 0px; width: 20px; height: 20px;" autocomplete="one-time-code"></th>
-							<th class="text-center align-middle">수주처</th>
-							<th class="text-center align-middle">수주상세</th>
-							<th class="text-center align-middle">제품명</th>
-							<th class="text-center align-middle">수주수량</th>
-							<th class="text-center align-middle">목표요구일</th>
-							<th class="text-center align-middle">납기요청일</th>
-							<th class="text-center align-middle">납품계획일</th>
-							<th class="text-center align-middle">실제출고일</th>
-							<th class="text-center align-middle">상태</th>
-							<th class="text-center align-middle">이전 공정</th>
-							<th class="text-center align-middle">현재 공정</th>
-							<th class="text-center align-middle">생산량</th>
-							<th class="text-center align-middle">등록자</th>
-							<th class="text-center align-middle">비고</th>
-						</tr>
-					</thead>
-				
-				</table>
+				<div class="modal-body">
+			      	<hr class="text-secondary">	         
+		                <table id="locationPopupTable" class="table table-bordered">
+		                	<colgroup>
+								<col width="12%">
+								<col width="20%">
+								<col width="12%">
+								<col width="12%">
+								<col width="12%">
+								<col width="12%">
+								<col width="20%">
+							</colgroup>	
+		                    <thead class="thead-light">
+			                    <tr>
+			                    	<th>구분</th>
+			                    	<th>창고코드</th>
+			                    	<th>창고구분</th>
+			                    	<th>구역</th>
+			                    	<th>위치</th>
+			                    	<th>사용여부</th>
+			                    	<th>비고</th>
+			                    </tr>
+		                    </thead>
+						</table>
+		 			<hr class="text-secondary"> 
+			    </div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">닫기</button>
+				</div>
 			</div>
 		</div>
 	</div>
+	<!-- 창고조회 모달 끝 -->
+	<!--header ============================================================== -->
+	<header class="page-title-bar row">
+		<nav aria-label="breadcrumb" class="breadcrumb-padding">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">구매자재관리</a></li>
+				<li class="breadcrumb-item active">입고등록(사출)</li>
+			</ol>
+		</nav>
+	</header>
+	<!-- #main============================================================== -->
+	<div class="container-fluid" id="main">
+		<div class="row table-wrap-hid">
+			<!--======================== .left-list ========================-->
+			<div class="left-list left-sidebar" id="left-list" style="width: 52%;">
+				<div class="card">
+					<div class="open-arrow" id="arrowLeft">
+						<button id="left-width-btn" onclick="openrNav()"
+							class="btn btn-primary input-sub-search" type="button">
+							<i class="mdi mdi-arrow-left"></i>
+						</button>
+					</div>
+					<!-- .table-responsive -->
+					<div class="table-responsive">
+						<table id="purchaseOrderTable" class="table table-bordered">
+							<colgroup>
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+								<col width="12%">
+								<col width="19%">
+								<col width="6%">
+								<col width="8%">
+								<col width="8%">
+								<col width="10%">
+								<col width="7%">
+							</colgroup>
+							<thead class="thead-light">
+								<tr>
+									<th>발주번호</th>
+									<th>공급처</th>
+									<th>차종</th>
+									<th>품번</th>
+									<th>품명</th>
+									<th>단위</th>
+									<th class="text-center">발주수량</th>
+									<th class="text-center">입고수량</th>
+									<th>입고일자</th>
+									<th>입고상태</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<!-- /.table-responsive -->
+				</div>
+			</div>
+
+			<!-- /.left-list -->
+			<!--======================== .right-sidebar 등록,수정 ========================-->
+			<div class="right-list right-sidebar"
+				id="myrSidenav" style="width: 47%;">
+				<div class="card mb-2" id="formBox">
+					<div class="rightsidebar-close">
+						<a href="javascript:void(0)" id="left-expand"
+							class="closebtn float-right" onclick="closerNav()"><i
+							class="mdi mdi-close"></i></a>
+					</div>
+					<!--/오른쪽 등록 부분 상단 버튼 영역-->
+					<div id="myTabContent" class="tab-content">
+						<div class="card-body col-sm-12 p-1 mb-2">
+							<input type="number" class="form-control text-right float-left mr-1" id="partPrintCnt" placeholder="매수" style="width:40px;" value="1" disabled>
+							<button type="button" class="btn btn-warning float-left mr-1" id="printLargeBarcode" disabled>라벨인쇄</button><!--onclick="printPartBarcode(1);"   -->
+							<button type="button" class="btn btn-primary d-none float-right"
+								id="btnSave">저장</button>
+							<button class="btn btn-primary d-none" id="btnAddConfirmLoading"
+								type="button" disabled>
+								<span class="spinner-border spinner-border-sm" role="status"
+									aria-hidden="true"></span> 처리중
+							</button>
+							<button type="button" class="btn btn-primary float-right mr-1"
+								id="btnAdd">등록/수정</button>
+							<button class="btn btn-primary d-none" id="btnAddConfirmLoading"
+								type="button" disabled>
+								<span class="spinner-border spinner-border-sm" role="status"
+									aria-hidden="true"></span> 처리중
+							</button>
+						</div> 
+						<div class="table-responsive">
+							<table class="table table-lg table-bordered mb-2"id="">
+								<colgroup>
+									<col width="20%">
+									<col width="30%">
+									<col width="20%">
+									<col width="30%">
+								</colgroup>
+								<thead class="thead-light">
+									<tr>
+										<th>발주수량</th>
+										<td><input type="text" class="form-control" id="ordQty" style="text-align:right; min-width: 100%;" disabled></td>
+										<th>미입고수량</th>
+										<td><input type="text" class="form-control" id="diffQty" style="text-align:right; min-width: 100%;" disabled></td>
+									</tr>
+									<tr>
+										<th>포장수량</th>
+										<td><input type="text" class="form-control" id="boxCount" style="text-align:right; min-width: 100%;" disabled></td>
+										<th>포장단위</th>
+										<td><input type="text" class="form-control" id="itemUnit" style="text-align:center; min-width: 100%;" disabled></td>
+									</tr>
+									<tr>
+										<th>LotNo</th>
+										<td>
+											<input type="text" class="form-control mr-2" id="lotNo" placeholder="30자리 내외" style="border: solid 2px #346cb0;text-align:right; min-width: 100%;" maxlength="30" disabled>
+										</td>
+										<th>입고수량</th>
+										<td>
+											<input type="text" class="form-control mr-3" id="packQty" style="border: solid 2px #346cb0;text-align:right; min-width: 100%;" onkeyup="numberFormat(this, 'int')" disabled>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="6">
+											<button type="button" class="btn btn-primary" id="btnLotCreate" style="min-width: 100%;" disabled>바코드 생성</button>
+										</td>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<!--하단 등록 부분 상단 버튼 영역-->
+						<div class="card-body col-sm-12 p-1">
+		                    <div class="input-sub float-left mr-1">
+		                  		<div class="form-group input-sub m-0 row">
+		                  			<label class="input-label-sm">입고일자</label>
+		                   			<input class="form-control" type="text" style="width:97px;" id="batchPreInWhsDate" name="batchPreInWhsDate" disabled/>
+		                   			<button onclick="fnPopUpCalendar(batchPreInWhsDate,batchPreInWhsDate,'yyyy-mm-dd')"  class="btn btn-secondary input-sub-search" id="batchPreInWhsDateCalendar" type="button">
+		                    			<span class="oi oi-calendar"></span>
+		                   			</button>
+		                  		</div>
+		                  	</div>
+		                  	<button type="button" class="btn btn-primary float-left mr-1" id="btnBatchApply" disabled>일괄적용</button>
+							<button type="button" class="btn btn-warning float-left mr-1"
+								id="btnDtlEdit" disabled>수정</button>
+							<button class="btn btn-primary d-none" id="btnDtlEditConfirmLoading"
+								type="button" disabled>
+								<span class="spinner-border spinner-border-sm" role="status"
+									aria-hidden="true"></span> 처리중
+							</button>
+							<button type="button" class="btn btn-danger float-left"
+								id="btnDtlDel" disabled>삭제</button>
+							<button class="btn btn-primary d-none" id="btnDtlDelConfirmLoading"
+								type="button" disabled>
+								<span class="spinner-border spinner-border-sm" role="status"
+									aria-hidden="true"></span> 처리중
+							</button>
+						</div>
+						<!--/오른쪽 등록 부분 상단 버튼 영역-->
+						<form id="form">
+							<div class="table-responsive">
+								<table class="table table-lg table-bordered mb-2" id="inOutWhsAdmTable">
+									<colgroup>
+										<col width="5%">
+										<col width="15%">
+										<col width="10%">
+										<col width="20%">
+										<col width="10%">
+										<col width="10%">
+										<col width="10%">
+										<col width="20%">
+									</colgroup>
+									<thead class="thead-light">
+										<tr>
+											<th><input type="checkbox" class="" id="checkAll" name="checkAll"></th>
+											<th class="text-center">입고일자</th>
+											<th class="text-center">입고수량</th>
+											<th>BarcodeNo</th>
+											<th>LotNo</th>
+											<th>합/불 판정</th>
+											<th>승인여부</th>
+											<th>창고</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</form>
+					</div>
+					
+				</div>
+				<!-- ===/.right-sidebar 등록,수정===  -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- / #main  -->
+	</div>
+	<!-- /.page-wrapper -->
+		<!-- Modal Start-->
+	<div class="modal modal-alert fade" id="resetModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="resetModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+			        <h5 class="modal-title" id="confirmSaveModalLabel">알림</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+		      	</div>
+				<div class="modal-body">
+					<h6>LOT생성 새로생성/추가 방식을 선택해주세요.</h6>
+				</div>
+				<div class="modal-footer">
+			      	<button type="button" class="btn btn-warning " id="btnLotReset" data-dismiss="modal">새로생성</button>
+			      	<button type="button" class="btn btn-warning " id="btnLotAdd" data-dismiss="modal">추가</button>
+			      	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+			    </div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal End-->
 </div>
-
-<!-- 화면설정 script -->
+<%@include file="../layout/bottom.jsp" %>
+<style>
+input[type="checkbox"]:focus {
+	outline-color : #0078a5;
+	outline-style: solid;
+	outline-width : 1px;
+}
+</style>
 <script>
-	let isDragging = false;
 	
-	function SetCursor(cursor) {
-		let page = document.getElementById("page");
-		page.style.cursor = cursor;
-	}
-	
-	function StartDrag() {
-		isDragging = true;
-		SetCursor("ew-resize");
-	}
-	
-	function EndDrag(e) {
-		if(isDragging) {
-			dataTableDrawAll(); // dataTable 전체 reload
-			isDragging = false;
-			SetCursor("auto");
+	$("#left-width-btn").click(function() {
+		{
+			$("#left-list").animate({
+				width : "52%"
+			}, 200);
+			$("#arrow-left").animate({
+				display : "none"
+			}, 200);
 		}
-	}
 	
-	function OnDrag(event) {
-		if (isDragging) {
-			let page = document.getElementById("page");
-			let leftcol = document.getElementById("leftcol");
-			let rightcol = document.getElementById("rightcol");
-			let dragbarWidth = 4;
-			let leftcolMinWidth = 20; // leftcol 최소사이즈
-			$('#leftHeader').children().each(function(index, item) {
-				leftcolMinWidth += $(item).width();
-			});
-			let rightcolMinWidth = 500; // rightcol 최소사이즈
+		 state = !state; 
+	});
+
+	let currentHref = "iosc0040";
+	let currentPage = $('.' + currentHref).attr('id');
 	
-			let rightColWidth = isDragging ? page.clientWidth - parseInt(Math.max(leftcolMinWidth + 20, event.clientX)) : rightcol.clientWidth;
-
-			console.log(Math.max(rightColWidth, rightcolMinWidth));
-			let cols = [
-				parseInt(Math.max(leftcolMinWidth, page.clientWidth - dragbarWidth - parseInt(Math.max(rightColWidth, rightcolMinWidth)))),
-				dragbarWidth,
-				parseInt(Math.max(rightColWidth, rightcolMinWidth))
-			];
+	$('#'+currentPage).closest('.has-child','li').addClass('has-open has-active');
+	$('#'+currentPage).closest('.menu-item').addClass('has-active');    
+	$(document).attr("title","입고등록(사출)"); 
 	
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
+	let viewIdx;
+	let sideView = 'add';
 	
-			page.style.gridTemplateColumns = newColDefn;
+	var tableIdx=null;
+	var tableIdx2=null;
+	var poNo;
+	var poSeq;	
+	var inSeq;
+	var inSlipNo;
+	var inSlip
+	var itemSeq;
+	var itemCd;
+	var ordQty=0;
+	var index=0;
+	var sum=0;
+
+	var cmd = new Array();
+	var i = 0;
+
+	let printArray = new Array();
 	
-			event.preventDefault()
-		}
-	}
-</script>
-
-<script>
-
-	let monthAdjustList = getCommonCode('시스템', '026'); //날짜조정
-	monthAdjustList = _.sortBy(monthAdjustList, v=>parseInt(v.commonCd));
-	selectBoxAppend(monthAdjustList, 'monthAdjust', '', '2'); //날짜조정
-
-	let dealGubunList = getCommonCode('시스템', '011'); // 거래구분
-	let dealStatusList = getCommonCode('시스템', '015'); // 거래상태
-	let pageLengthCnt = parseInt(getCommonCode('시스템', '025')[0].commonCd); //페이징수량
-	let itemGubunList = getCommonCode('일반', '001'); // 제품구분
-	let useYnCdList = getCommonCode('시스템', '055'); // 사용여부
+	var serverDateFrom =  "${serverDateFrom}";
+	var serverDateTo =  "${serverDateTo}";
+	var startDate = "${serverDateFrom}";
+	var endDate = "${serverDateTo}";
+	var batchPreInWhsDateVal = "${serverDateTo}";
+	var lotNoVal = "";
 	
-	selectBoxAppend(dealGubunList, 'modalDealGubun', '', '1'); //거래구분
-	selectBoxAppend(dealStatusList, 'modalDealCorpStatus', '', '1'); //거래상태
-	selectBoxAppend(itemGubunList, 'modalItemGubunBox', '', '1'); //제품구분
-	selectBoxAppend(useYnCdList, 'modalUseYnCdBox', 'Y', '1'); //사용여부
+	$('input[name=preInWhsDate]').val(serverDateTo);
+	$('#batchPreInWhsDate').val(serverDateTo);
+	
+	//공통코드 처리 시작		
+ 	var inspectYnCode = new Array(); // 상태유무
+	<c:forEach items="${inspectYn}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	inspectYnCode.push(json);
+	</c:forEach> 
 
-	$('#startDate').val(moment().subtract('w',1).format('YYYY-MM-DD'));
-	$('#endDate').val(moment().format('YYYY-MM-DD'));
+	var payYnCode = new Array(); // 상태유무
+	<c:forEach items="${payYn}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	payYnCode.push(json);
+	</c:forEach> 
+	//공통코드 처리 끝		
 
-	// 수주관리 전체 목록조회
-	$('#bizOrderTable thead tr').clone(true).addClass('filters').appendTo('#bizOrderTable thead'); // filter 생성
-	let bizOrderTable = $('#bizOrderTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: false,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		/* select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        }, */
-        ajax : {
-			url : '<c:url value="/bs/deliveryPlanAdmLst"/>',
-			type : 'POST',
-			data : {
-				'startDate' : function(){return $('#startDate').val().replaceAll('-','');},
-				'endDate'	: function(){return $('#endDate').val().replaceAll('-','');},
-				'itemIdx'	: function(){ return $('#itemIdx').val(); },
-				'bizDealCorpidx' : function(){ return $('#searchDealCorpIdx').val(); },
-			
+	uiProc(true);
+
+	$('#saveBtnModalY').on('click', function(){
+		$('#btnSave').addClass('d-none');
+		$('#btnAdd').attr('disabled', false);
+		$('#lotNo').attr('disabled',true);
+		$('#packQty').attr('disabled',true);
+		$('#packQty').val('');
+		$('#btnLotCreate').attr('disabled',true);
+		$('#btnDtlEdit').attr('disabled', true);
+		$('#btnDtlDel').attr('disabled', true);
+		$('#btnBatchApply').attr('disabled', true);
+		$('#inOutWhsAdmTable').DataTable().ajax.reload();
+    });
+	
+	//메인 테이블
+    let purchaseOrderTable = $('#purchaseOrderTable').DataTable({
+    	dom : "<'row'<'col-sm-12 col-md-7'l><'col-sm-12 col-md-5'f>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+        language: lang_kor,
+        paging: true,
+        info: true,
+        ordering: true,
+        processing: true,
+        autoWidth: false,
+        lengthChange : true,
+        pageLength : 20,
+        scrollY : '67vh',
+        ajax: {
+            url: '<c:url value="io/purchaseOrderStatusList"/>',
+            type: 'GET',
+            data: {
+	          	'startDate'		: function(){ return startDate.replace(/-/g,''); },
+	            'endDate'		: function(){ return endDate.replace(/-/g,''); },
+	            'value'  		: function(){ return '가입고'; },
+	            'searchOption' 	: function(){ return "001"; },
+		        'mainGubun' 	: function(){ return '001'; },
+            },
+        },
+        rowId: 'poNo',
+        columns : [ 
+			{//발주번호
+				data :'poNo'
 			},
-		}, 
-        rowId: 'idx',
-		columns : [
-			{ className : 'text-center align-middle', name:'checkbox',
+			{//공급처
+				data : 'dealCorpNm'
+			},
+			{//차종
+				data : 'itemModel'
+			},	
+			{//품번
+				data : 'itemCd'
+			},
+			{//품명
+				data : 'itemNm'
+			},
+			{//단위
+				data : 'itemUnitNm'
+			}, 
+			{//발주수량
+				data : 'ordQty',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return rmDecimal(data);
+					}else{
+						return '0';
+					}
+				},
+				className : 'text-right'
+			},
+			{//입고수량
+				data : 'preInWhsQty',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return rmDecimal(data);
+					}else{
+						return '0';
+					}
+				},
+				className : 'text-right'
+			},
+			/* {data : 'faultyQty',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return addCommas(data);
+					}else{
+						return '0';
+					}
+				},
+				className : 'text-right'
+			},
+			{data : 'inWhsQty',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return addCommas(data);
+					}else{
+						return '0';
+					}
+				},
+				className : 'text-right'
+			}, */
+			{//입고일자
+				data : 'inWhsDate',
 				render: function(data, type, row, meta) {
-					return '<input type="checkbox" name="inputCheck" style="width:20px; height:20px;">';
+					if (data != null) {
+						return moment(data).format("YYYY-MM-DD");
+					} else {
+						return '';
+					}
+					
+// 					if(row['dlvChangeDate']!=null){
+// 						return moment(row['dlvChangeDate']).format("YYYY-MM-DD");
+// 					}else{
+// 						return moment(data).format("YYYY-MM-DD");
+// 					}
 				}
 			},
-			{ data: 'bizDealCorpNm', className : 'text-center align-middle',//수주처
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '-';
+			{//입고상태
+				data : 'statusCd',
+				render: function(data, type, row, meta) {
+					if(data!=null){
+						return data;
+					}else{
+						return '진행중';
 					}
 				}
 			},
-			{ data: 'bizOrdDtlNo', className : 'text-center align-middle',//수주상세
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '-';
+			/* {
+				data : 'importYn',
+				render: function(data, type, row, meta) {
+					if(data="001"){
+						return 'Y';
+					}else{
+						return 'N';
 					}
 				}
 			},
-			{ data: 'itemNm', className : 'text-center align-middle',//제품명
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
+			{data : 'poEndDate',
+				render : function(data, type, row, meta){
+					if(data=='001'){
+						return '발주종료';
+					}else if(data=='002'){
+						return '가입고종료';
+					}else{
 						return '-';
 					}
 				}
+			}, */
+		],
+		columnDefs: [
+		],   
+        order: [
+	    ],
+	    buttons: [
+	    	'copy', 'excel', 'print'                                
+	    ],
+// 	    drawCallback: function() {
+// 		    if(tableIdx2!=null){
+// 		    	$('#purchaseOrderTable tbody tr').eq(tableIdx2).addClass('selected');
+// 		  		printArray = [];
+// 			}
+// 		}
+	  
+    });
+
+	 
+
+	var sysdate = "${serverTime}";
+    
+    var html1 = '<div class="row">';
+    html1 += '<label class="input-label-sm">발주일자</label><div class="form-group input-sub mr-1 row">';
+    html1 += '<input class="form-control" style="width:97px;" type="text" id="preInWhsDateFrom" name="preInWhsDateFrom" disabled/>';
+    html1 += '<button onclick="fnPopUpCalendar(preInWhsDateFrom,preInWhsDateFrom,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="inWhsDateFromCalendar" type="button">';
+    html1 += '<span class="oi oi-calendar"></span>';
+    html1 += '</button>'; 
+    html1 += '</div>';
+    html1 += '&nbsp;~ &nbsp;<div class="form-group input-sub mr-1 row">';
+    html1 += '<input class="form-control" style="width:97px;" type="text" id="preInWhsDateTo" name="preInWhsDateTo" disabled/>';
+    html1 += '<button onclick="fnPopUpCalendar(preInWhsDateTo,preInWhsDateTo,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="inWhsDateToCalendar" type="button">';
+    html1 += '<span class="oi oi-calendar"></span>';
+    html1 += '</button>'; 
+    html1 += '</div>';   
+    html1 += '<button type="button"  class="btn btn-primary mr-1" id="btnRetv">조회</button>'
+    html1 += '<button type="button"  class="btn btn-primary" id="btnAllList">전체조회</button>'
+    html1 += '</div>';
+
+	
+	$('#purchaseOrderTable_length').html(html1);
+	$('#preInWhsDateFrom').val(serverDateFrom);
+	$('#preInWhsDateTo').val(serverDateTo);
+
+	//조회버튼 클릭시
+	$('#btnRetv').on('click', function() {
+    	startDate =  $('#preInWhsDateFrom').val();
+    	endDate =  $('#preInWhsDateTo').val();
+		$('#purchaseOrderTable').DataTable().ajax.reload( function () {});
+    });	
+
+	//전체조회버튼 클릭시
+	$('#btnAllList').on('click', function() {
+		startDate =  "";
+    	endDate =  "";
+		$('#purchaseOrderTable').DataTable().ajax.reload( function () {});
+    });	
+    
+	
+	//창고 정보 가져오기
+	var locationNo;
+	var locationCd;
+	var locationNm;
+	var areaCd;
+	var areaNm;
+	var floorCd;
+	
+	// 세부 목록 보기
+	$('#purchaseOrderTable tbody').on('click','tr',function() {
+		if($('#btnSave').attr('class') == 'btn btn-primary float-right') {
+    		$('#saveBtnModal').modal('show');
+    		console.log("등록중입니다.");
+    		return false;
+    	}
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+		} else {
+			$('#purchaseOrderTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+
+		tableIdx = purchaseOrderTable.row(this).index();
+		
+		poNo = purchaseOrderTable.row(this).data().poNo;
+		poSeq = purchaseOrderTable.row(this).data().poSeq;
+		ordQty = purchaseOrderTable.row(this).data().ordQty;
+		ordQty = purchaseOrderTable.row(this).data().ordQty;
+		itemSeq = purchaseOrderTable.row(this).data().itemSeq;			
+		itemCd = purchaseOrderTable.row(this).data().itemCd;			
+
+		locationNo = purchaseOrderTable.row(this).data().locNo;			
+		locationCd = purchaseOrderTable.row(this).data().locCd;			
+		locationNm = purchaseOrderTable.row(this).data().locationNm;
+		areaCd = purchaseOrderTable.row(this).data().areaCd;			
+		areaNm = purchaseOrderTable.row(this).data().areaCdNm;			
+		floorCd = purchaseOrderTable.row(this).data().floorNm;			
+
+		
+		$('#itemCd').val(purchaseOrderTable.row(this).data().itemCd);
+		$('#itemNm').val(purchaseOrderTable.row(this).data().itemNm);
+		$('#itemModel').val(purchaseOrderTable.row(this).data().itemModel);
+		$('#itemUnit').val(purchaseOrderTable.row(this).data().itemUnitNm);
+		$('#boxCount').val(rmDecimal(purchaseOrderTable.row(this).data().boxCount));
+		$('#ordQty').val(rmDecimal(purchaseOrderTable.row(this).data().ordQty));
+		let ordQtyVal =  parseFloat(purchaseOrderTable.row(this).data().ordQty);
+		let preInWhsQtyVal =  parseFloat(purchaseOrderTable.row(this).data().preInWhsQty);
+		
+		$('#diffQty').val(rmDecimal(ordQtyVal-preInWhsQtyVal)>0?rmDecimal(ordQtyVal-preInWhsQtyVal):"0");
+		
+
+		sideView = "edit";
+		$('#btnSave').addClass('d-none');
+		
+		$('#lotNo').attr('disabled',true);
+		$('#lotNo').val('');
+		$('#packQty').attr('disabled',true);
+		$('#packQty').val('');
+		
+		$('#btnLotCreate').attr('disabled',true);
+		$('#btnDtlEdit').attr('disabled',true);
+		$('#btnDtlDel').attr('disabled',true);
+		$('#btnBatchApply').attr('disabled',true);
+		
+		$('#checkAll').prop('checked',false);
+		$('#batchPreInWhsDate').val(serverDateTo);
+
+		if(purchaseOrderTable.row(this).data().poEndDate=="002"){
+			$('#btnAdd').attr('disabled',true);
+			//$('#btnEdit').attr('disabled',true);
+			$('#btnDel').attr('disabled',true);
+		}else{
+			$('#btnAdd').attr('disabled',false);
+			//$('#btnEdit').attr('disabled',false);
+			$('#btnDel').attr('disabled',false);
+		}
+
+		//라벨인쇄 활성화/비활성화
+		$('#inOutWhsAdmTable').DataTable().ajax.reload( function () {
+			if(inOutWhsAdmTable.data().count()>0){
+				$('#partPrintCnt').attr('disabled',false);
+				$('#printLargeBarcode').attr('disabled',false);
+			}else{
+				$('#partPrintCnt').attr('disabled',true);
+				$('#printLargeBarcode').attr('disabled',true);
+			}
+		});
+
+
+		printArray = [];
+	});
+
+
+	//전체선택클릭
+	$('#checkAll').on('click',function(){
+		if($('#checkAll').prop("checked")){
+			$('input:checkbox[name=printList]').prop("checked",true);
+		}else{
+			$('input:checkbox[name=printList]').prop("checked",false);
+		}
+	});
+	
+
+	//등록 버튼 클릭
+	$('#btnAdd').on('click',function(){
+
+		if(sideView!="edit"){
+			toastr.warning("등록할 항목을 선택해주세요.");
+			return false;
+		}
+
+		$('#lotNo').attr('disabled',false);
+		$('#packQty').attr('disabled',false);
+		$('#btnLotCreate').attr('disabled',false);
+		$('#btnDtlEdit').attr('disabled',false);
+		$('#btnDtlDel').attr('disabled',false);
+		$('#btnBatchApply').attr('disabled',false);
+		//$('#btnEdit').attr('disabled',true);
+	
+	});
+
+	//수정 버튼 클릭
+	/* $('#btnEdit').on('click',function(){
+
+		if(sideView!="edit"){
+			toastr.warning("수정할 발주항목을 선택해주세요.");
+			return false;
+		}
+		$('#packQty').attr('disabled',true);
+		$('#btnLotCreate').attr('disabled',true);
+		$('#btnDtlEdit').attr('disabled',false);
+		$('#btnDtlDel').attr('disabled',false);
+		$('#btnAdd').attr('disabled',true);
+	});
+ */
+	//lot생성 버튼 클릭
+	$('#btnLotCreate').on('click',function(){
+
+		if($('#lotNo').val()==""){
+			toastr.warning("LotNo를 입력해주세요.");
+			return false;
+		}
+
+		if($('#packQty').val()==""){
+			toastr.warning("입고수량을 입력해주세요.");
+			return false;
+		}
+
+		if($('#boxCount').val()=="0" || $('#boxCount').val()==""){
+			toastr.warning("포장수량을 확인해주세요.");
+			return false;
+		}
+
+		$('#resetModal').modal('show');
+		
+		//입고수량이 발주수량을 넘었는지 체크 -> 체크 안함 (2023.02.03)
+		/* var packQty = parseFloat($('#packQty').val().replace(/,/g,''));
+		if(packQty<=$('#diffQty').val().replace(/,/g,'')){
+			$('#resetModal').modal('show');
+		}else{
+			toastr.warning("발주수량값을 초과하였습니다. 확인해주세요");
+		}  */
+		
+	});
+	
+
+	//LOT생성 새로고침 버튼 클릭시
+	$('#btnLotReset').on('click',function(){
+		
+		$('#inOutWhsAdmTable').DataTable().ajax.reload(function(){
+			packQtyVal = $('#packQty').val().replace(/,/g,'');		//입고수량
+			boxCountVal = $('#boxCount').val().replace(/,/g,'');	//포장수량
+			lotNoVal = $('#lotNo').val(); 							//lotNo
+			
+			quotVal = parseInt(packQtyVal/boxCountVal);	//몫
+			remainVal = packQtyVal%boxCountVal;			//나머지
+			
+			console.log("몫:"+quotVal+"/ 나머지:"+remainVal);
+
+			for(var i=0; i<quotVal; i++){
+				
+				$('#inOutWhsAdmTable').DataTable().row.add({
+					'preInWhsQty' : boxCountVal,
+					'statusCd' 	: 'S',
+					'inSeq' 	: '',
+					'lotNo' 	: lotNoVal,
+					//창고 정보 삽입
+					'locationNo' 	: locationNo,
+					'locationCd' 	: locationCd,
+					'locationNm' 	: locationNm,
+					'areaCd' 		: areaCd,
+					'areaNm' 		: areaNm,
+					'floorCd' 		: floorCd,
+				}).draw(false);	
+
+				console.log(i);
+			}
+
+			//나머지가 0이 아닐경우
+			if(remainVal!=0){
+				$('#inOutWhsAdmTable').DataTable().row.add({
+					'preInWhsQty' : remainVal,
+					'statusCd' 	: 'S',
+					'inSeq' 	: '',
+					'lotNo' 	: lotNoVal,
+					//창고 정보 삽입
+					'locationNo' 	: locationNo,
+					'locationCd' 	: locationCd,
+					'locationNm' 	: locationNm,
+					'areaCd' 		: areaCd,
+					'areaNm' 		: areaNm,
+					'floorCd' 		: floorCd,
+				}).draw(false);	
+					
+			}
+		});
+
+		$('#btnSave').removeClass('d-none');
+	});
+
+	
+
+	//LOT생성 추가 버튼 클릭시
+	$('#btnLotAdd').on('click',function(){
+
+		var packQtySum=0;
+		//document.getElementById('inOutWhsAdmTable').rows.length-2!=0
+		
+		if(inOutWhsAdmTable.data().count()!=0){
+			$('#inOutWhsAdmTable tbody tr').each(function(index, item){
+				packQtySum += parseFloat($(this).find("td input[name=preInWhsQty]").val().replace(/,/g,''));
+			});
+		}
+
+		console.log("packQtySum:"+packQtySum)
+		
+		//입고수량이 발주수량을 넘었는지 체크 -> 체크 안함 (2023.02.03)
+// 		if(packQtySum+parseFloat($('#packQty').val()) <= ordQty){
+			
+			packQtyVal = $('#packQty').val().replace(/,/g,'');		//입고수량
+			boxCountVal = $('#boxCount').val().replace(/,/g,'');		//포장수량
+			lotNoVal = $('#lotNo').val(); 							//lotNo
+			
+			quotVal = parseInt(packQtyVal/boxCountVal);	//몫
+			remainVal = packQtyVal%boxCountVal;			//나머지
+			
+			console.log("몫:"+quotVal+"/ 나머지:"+remainVal);
+
+			for(var i=0; i<quotVal; i++){
+				
+				$('#inOutWhsAdmTable').DataTable().row.add({
+					'preInWhsQty' : boxCountVal,
+					'statusCd' 	: 'S',
+					'inSeq' 	: '',
+					'lotNo' 	: lotNoVal,
+					//창고 정보 삽입
+					'locationNo' 	: locationNo,
+					'locationCd' 	: locationCd,
+					'locationNm' 	: locationNm,
+					'areaCd' 		: areaCd,
+					'areaNm' 		: areaNm,
+					'floorCd' 		: floorCd,
+				}).draw(false);	
+			}
+
+			//나머지가 0이 아닐경우
+			if(remainVal!=0){
+				$('#inOutWhsAdmTable').DataTable().row.add({
+					'preInWhsQty' : remainVal,
+					'statusCd' 	: 'S',
+					'inSeq' 	: '',
+					'lotNo' 	: lotNoVal,
+					//창고 정보 삽입
+					'locationNo' 	: locationNo,
+					'locationCd' 	: locationCd,
+					'locationNm' 	: locationNm,
+					'areaCd' 		: areaCd,
+					'areaNm' 		: areaNm,
+					'floorCd' 		: floorCd,
+				}).draw(false);	
+					
+			}
+
+			$('#btnSave').removeClass('d-none');
+// 		}else{
+// 			toastr.warning("발주수량값을 초과하였습니다. 확인해주세요");
+// 		}
+
+	});
+	
+	// 세부목록
+	let inOutWhsAdmTable = $('#inOutWhsAdmTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>"
+				+ "<'row'<'col-sm-12'tr>>",
+		language : lang_kor,
+		destroy : true,
+		paging : false,
+		searching: false,
+		info : true,
+		ordering : true,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		scrollY: "45vh",
+		ajax : {
+			url : '<c:url value="io/preInOutWhsAdmList"/>',
+			type : 'GET',
+			data : {
+				'poNo' :  function(){return poNo;},
+				'poSeq' :  function(){return poSeq;},
+				'itemSeq' :  function(){return itemSeq;},
 			},
-			{ data: 'bizOrdQty', className : 'text-end align-middle',//수주수량
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-					} else {
-						return '-';
+		},
+		columns : [
+			{//체크박스
+				render: function(data, type, row, meta) {
+					return '<input type="checkbox" class="" id="checkLal-'+meta.row+'" name="printList" value="">';
+				},
+				'className' : 'text-center'
+			},
+			{//입고일자
+				data : 'preInWhsDate',
+				render: function(data, type, row, meta) {	
+					if(data!=null && data!=""){
+						return '<input class="form-control" type="date" id="preInWhsDate'+meta.row+'" name="preInWhsDate" value="'+moment(data).format("YYYY-MM-DD")+'" disabled/>'  
+					} else{
+						return '<input class="form-control" type="date" id="preInWhsDate'+meta.row+'" name="preInWhsDate" value="'+serverDateTo+'"/>'  
 					}
-				}
+				}		   
 			},
-			{ data: 'endReqDate', className : 'text-center align-middle',//목표요구일
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
+			{//입고수량
+				data : 'preInWhsQty',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+	    				return '<input type="text" class="form-control number-float0" name="preInWhsQty" value="'+rmDecimal(data)+'" style="text-align:right;" disabled>' ;	
+					} else{
+						return '<input type="text" class="form-control number-float0" name="preInWhsQty" value="0" style="text-align:right;">';	
+					}		    			
+	    		}
 			},
-			{ data: 'outReqDate', className : 'text-center align-middle',//출고(납기)요청일
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
+			{//BarcodeNo
+				data : 'barcodeNo',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+	    				return '<input type="text" class="form-control" name="barcodeNo" value="'+data+'" style="text-align:center;" disabled>' ;	
+					} else{
+						return '<input type="text" class="form-control" name="barcodeNo" value="" placeholder="처리중" style="text-align:center;" disabled>';	
+					}	
+				},
 			},
-			{ data: 'deliveryPlanDate', className : 'text-center align-middle',name:'deliveryPlanDate',//납품계획일
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'realOutDate', className : 'text-center align-middle',//실제출고일
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ className : 'text-center align-middle',//계획상태
-				render : function(data, type, row, meta) {
-					if( row['deliveryPlanDate'] != null && row['deliveryPlanDate'] != '' && row['realOutDate'] != null && row['realOutDate'] != '' ){
-						if(row['deliveryPlanDate']<row['realOutDate']){
-							return '출고지연';
-						} else {
-							return '정상출고';
+			{//LotNo
+				data : 'lotNo',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+						if(row['barcodeNo']==null){
+							return '<input type="text" class="form-control" name="lotNo" value="'+data+'" style="text-align:center;" placeholder="30자리 내외">' ;	
+						}else{
+							return '<input type="text" class="form-control" name="lotNo" value="'+data+'" style="text-align:center;" placeholder="30자리 내외" disabled>' ;	
 						}
-					} else {
-						return '-';
-					}
-				}
+					} else{
+						return '<input type="text" class="form-control" name="lotNo" value="" style="text-align:center;" placeholder="30자리 내외" disabled>';	
+					}	
+				},
 			},
-			{ data: 'workOrdPrcssJson', className : 'text-center align-middle',//이전공정
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						let jsonData = JSON.parse(data);
-						//완료공정
-						let wcPrcssList = _.filter(jsonData, v=> v.progressStatus == 'WC');
-						if(wcPrcssList.length > 0){
-							//완료공정 중 공정순서가 가장 큰것
-							let maxList = _.maxBy(wcPrcssList, v=>v.prcssOrder);
-							return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+maxList.prcssNm+'</div>';
-						} else {
-							return '-';
+			{//합/불 판정
+				data : 'qaEval',
+				render: function(data, type, row, meta){
+					if(data!=null){
+						if(data == "001"){
+							return '<input type="text" class="form-control" name="qaEval" value="합격" style="text-align: center;color: blue;" disabled/>';
+						}else if(data == "002"){
+							return '<input type="text" class="form-control" name="qaEval" value="불합격" style="text-align: center;color: red;" disabled/>';
+						}else if(data == ""){
+							return '<input type="text" class="form-control" name="qaEval" placeholder="미판정" style="text-align: center;" disabled/>';
 						}
+					}else{
+						return '<input type="text" class="form-control" name="qaEval" placeholder="미판정" style="text-align: center;" disabled/>';
+					}
+				},
+				'className' : 'text-center'
+			},
+			{//승인여부
+				data : 'approvalCd',
+				render: function(data, type, row, meta){
+					if(row['statusCd']=="S"){
+						return '<input type="text" class="form-control" name="qaEval" placeholder="승인중" style="text-align: center;" disabled/>';
+					}else{
+						if(data == "001"){
+							return '<input type="text" class="form-control" name="qaEval" value="승인" style="text-align: center;color: blue;" disabled/>';
+						}else{
+							return '<input type="text" class="form-control" name="qaEval" value="미승인" style="text-align: center; color:red;" disabled/>';
+						}
+					}
+				},
+				'className' : 'text-center'
+			},
+			{//창고
+				data : 'locationNo',
+				render: function(data, type, row, meta) {
+					if(data != null){
+						var html = '<div class="input-sub m-0" style="width: 100%;">';
+						html += '<input type="hidden" class="form-control" name="locationCd" value="'+row['locationCd']+'">';
+						html += '<input type="hidden" class="form-control" name="areaCd" value="'+row['areaCd']+'">';
+						html += '<input type="hidden" class="form-control" name="floorCd" value="'+row['floorCd']+'">';
+						html += '<input type="hidden" class="form-control" name="locationNo" value="'+row['locationNo']+'">';
+						html += '<input type="text" class="form-control" name="locationData" value="'+row['locationNm']+"/"+row['areaNm']+"/"+row['floorCd']+'" disabled>';
+						html += '<button type="button" name="btnLocationData" class="btn btn-primary input-sub-search" onClick="locationDataClick()" disabled>';
+						html += '<span class="oi oi-magnifying-glass"></span>';
+						html += '</button>';
+						html += '</div>';
+						return html;	
 					} else {
-						return '-';
+						var html = '<div class="input-sub m-0" style="width: 100%;">';
+						html += '<input type="hidden" class="form-control" name="locationCd" value="">';
+						html += '<input type="hidden" class="form-control" name="areaCd" value="">';
+						html += '<input type="hidden" class="form-control" name="floorCd" value="">';
+						html += '<input type="hidden" class="form-control" name="locationNo" value="">';
+						html += '<input type="text" class="form-control" name="locationData" value="" disabled>';
+						html += '<button type="button" name="btnLocationData" class="btn btn-primary input-sub-search" onClick="locationDataClick()">';
+						html += '<span class="oi oi-magnifying-glass"></span>';
+						html += '</button>';
+						html += '</div>';
+						return html;	
+					}	
+				},
+			},
+			/* {data : 'locationNm',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+	    				return '<input type="text" class="form-control" name="locationNm" value="'+data+'" style="text-align:center;" disabled>' ;	
+					} else{
+						return '<input type="text" class="form-control" name="locationNm" value="" placeholder="처리중" style="text-align:center;" disabled>';	
+					}	
+				},
+			},{data : 'areaNm',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+	    				return '<input type="text" class="form-control" name="areaNm" value="'+data+' / '+row['floorCd']+'" style="text-align:center;" disabled>' ;	
+					} else{
+						return '<input type="text" class="form-control" name="areaNm" value="" placeholder="처리중" style="text-align:center;" disabled>';	
+					}	
+				},
+			}, *//* {data : 'inWhsDesc',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+	    				return '<input type="text" class="form-control" name="inWhsDesc" value="'+data+'" disabled>' ;	
+					} else{
+						return '<input type="text" class="form-control" name="inWhsDesc" value="">';	
+					}		    			
+	    		}
+			} */
+		],  
+		columnDefs: [
+			//{ targets: [2,3] , render: $.fn.dataTable.render.number( ',' ), className : 'text-right' }
+		],
+        order: [
+	        [ 0, 'asc' ]
+	    ],
+	    buttons: [
+	    	'copy', 'excel', 'print'                                
+	    ],
+	}); 
+
+	
+	//인쇄항목 선택
+	$(document).on('change','input:checkbox[name=printList]',function() {
+		if($(this).is(':checked')) {
+	    	var obj = new Object();
+	    	obj.code = purchaseOrderTable.row('.selected').data().partCd;
+	    	obj.rev = purchaseOrderTable.row('.selected').data().partRev;
+	    	obj.item = purchaseOrderTable.row('.selected').data().partNm;
+	    	obj.spec = purchaseOrderTable.row('.selected').data().partSpec;
+	    	obj.date = inOutWhsAdmTable.row($(this).parents().parents()).data().preInWhsDate;
+	    	obj.cnt = inOutWhsAdmTable.row($(this).parents().parents()).data().preInWhsQty;
+	    	obj.barcodeNo = inOutWhsAdmTable.row($(this).parents().parents()).data().barcodeNo;
+    		printArray.push(obj);
+	    } else {
+		    var barcodeNo = inOutWhsAdmTable.row($(this).parents().parents()).data().barcodeNo;
+		    if(printArray.findIndex(i => i.barcodeNo == barcodeNo) != -1) { // 프린트할 배열에 존재할 경우
+		    	printArray.splice(printArray.findIndex(i => i.barcodeNo == barcodeNo),1);
+			}
+		    
+		}
+	});
+
+
+
+	//입고일자 일괄적용 버튼 클릭
+	$('#btnBatchApply').on('click', function(){
+		if ( $('#batchPreInWhsDate').val() == "" ) {
+			toastr.warning("입고일자를 선택해주세요.");
+			return false;
+		} else {
+			batchPreInWhsDateVal = $('#batchPreInWhsDate').val();
+		}
+		if ( !$('input[name=printList]').is(':checked') ) {
+			toastr.warning("일괄적용할 발주항목을 체크해주세요.");
+			return false;
+		}
+
+		let check = false;
+		$('#inOutWhsAdmTable tbody tr').each(function(index, item){
+			if ( $(this).find('td input[name=printList]').is(":checked") && !$(this).find('td input[name=preInWhsDate]').attr('disabled') ) {
+				$(this).find('td input[name=preInWhsDate]').val(batchPreInWhsDateVal);
+				check = true;
+			}
+		});
+		
+		if (check) { $('#btnSave').removeClass('d-none'); }
+	});
+
+	
+	//수정 버튼 클릭
+	$('#btnDtlEdit').on('click', function() {
+		let check = true;
+		
+		if (sideView != 'edit') {
+			toastr.warning("수정할 발주항목을 선택해주세요.");
+			check = false;
+			return false;
+		}
+		if ( !$('input[name=printList]').is(':checked') ) {
+			toastr.warning("수정할 발주항목을 체크해주세요.");
+			check = false;
+			return false;
+		}
+		
+		//1. 선택한 항목들이 수정할 수 있는 것인지 확인
+		$('#inOutWhsAdmTable tbody tr').each(function(index, item){
+			if ( $(this).find('td input[name=printList]').is(":checked") && check ) {
+				let data = inOutWhsAdmTable.row(this).data();
+				inSlipNo = data.inSlipNo; //입고전표번호
+				
+				if ( inSlipNo != '' && inSlipNo != null ) {
+					if ( data.statusCd == "L" ) {
+						toastr.warning("이미 승인되어 수정 할 수 없습니다.");
+						$(this).find('td input[name=printList]').focus();
+						check = false;
+					}
+				} else {
+					toastr.warning('입고등록되지 않은 바코드번호입니다.');
+					$(this).find('td input[name=printList]').focus();
+					check = false;
+				}
+			}
+		});
+		
+		//2. 확인된 항목들 수정 가능하도록 실행
+		if (check) {
+			$('#inOutWhsAdmTable tbody tr').each(function(index, item){
+				if ( $(this).find('td input[name=printList]').is(":checked") ) {
+					let data = inOutWhsAdmTable.row(this).data();
+					
+					if ( data.statusCd == "S" ) {
+						$('input[name=preInWhsDate]').eq(index).attr('disabled', false);
+						$('input[name=preInWhsQty]').eq(index).attr('disabled', false);
+						$('input[name=lotNo]').eq(index).attr('disabled', false);
+						$('button[name=btnLocationData]').eq(index).attr('disabled', false);
+					} else {
+						$('button[name=btnLocationData]').eq(index).attr('disabled', false);
 					}
 				}
+			});
+			
+			$('#btnSave').removeClass('d-none');
+		}
+	});
+	
+	//삭제 버튼 클릭
+	$('#btnDtlDel').on('click', function() {
+		if ( sideView != 'edit' ) {
+			toastr.warning("삭제할 발주항목을 선택해주세요.");
+			return false;
+		}
+		if ( !$('input[name=printList]').is(':checked') ) {
+			toastr.warning("삭제할 발주항목을 체크해주세요.");
+			return false;
+		}
+		
+		$('#deleteSmallModal').modal('show');
+	});
+
+	//삭제 버튼 클릭
+	$('#btnDeleteY').on('click', function() {
+		let delRow = [];
+		let delcount = 0;
+		
+		//1. 확인한 항목들 삭제
+		$('#my-spinner').show();
+		setTimeout(function(){
+			$('#inOutWhsAdmTable tbody tr').each(function(index, item){
+				if ( $(this).find('td input[name=printList]').is(":checked") ) {
+					let data = inOutWhsAdmTable.row(this).data();
+					inSlipNo = data.inSlipNo;   //입고전표번호
+					inSlipSeq = data.inSlipSeq;	//입고전표시퀀스
+					let barcodeNoVal = data.barcodeNo;	//입고전표시퀀스
+					
+					if ( inSlipNo != '' && inSlipNo != null ) {
+						sum += parseInt($(this).find("td input[name=preInWhsQty]").val().replace(/,/g,''));
+						
+						$.ajax({
+							url : '<c:url value="io/preInOutWhsAdmDelete"/>',
+							type : 'GET',
+							async : false,
+							data : {
+								'inSlipNo' 	: function(){ return inSlipNo; },
+								'inSlipSeq' : function(){ return inSlipSeq; },
+								'barcodeNo' : function(){ return barcodeNoVal; },
+							},
+							success : function(res) {
+								if ( res.result == "ok" ) {
+									delRow[delcount] = index;
+									delcount++;
+									toastr.success(res.message);
+								} else if (res.result == "fail") {
+									toastr.warning(res.message);
+								} else {
+								    toastr.error(res.message);
+								}
+
+								$('#my-spinner').hide();
+							}
+						});
+					} else {
+						$('#my-spinner').hide();
+						delRow[delcount] = index;
+						delcount++;
+					}
+				}else{
+					$('#my-spinner').hide();
+				}
+			});
+			
+			if ( delRow.length > 0 ) {
+				$('#checkAll').prop('checked', false);
+				$('#inOutWhsAdmTable').DataTable().rows(delRow).remove().draw(); //여러 행 삭제
+			}
+			$('#diffQty').val( parseFloat($('#diffQty').val().replace(/,/g,'')) + sum );
+			sum = 0;
+			
+			$('#purchaseOrderTable').DataTable().ajax.reload(function(){});
+			$('#deleteSmallModal').modal('hide');
+		},150);
+		
+	});
+
+
+	// 저장 처리
+	$('#btnSave').on('click',function() {
+		var dataArray = new Array();		
+		var check=true;  		
+
+		$('#inOutWhsAdmTable tbody tr').each(function(index, item){
+			sum+=parseInt($(this).find("td input[name=preInWhsQty]").val().replace(/,/g,''));
+		});
+		
+		$('#inOutWhsAdmTable tbody tr').each(function(index, item){
+			if(inOutWhsAdmTable.data().count()!=0){
+				
+				if ($(this).find('td input[name=locationNo]').val()=="") {
+					toastr.warning('창고를 입력해 주세요.');
+					$(this).find('td button[name=btnLocationData]').focus();
+					check = false;
+					return false;
+				}
+
+				var rowData = new Object();
+				
+				rowData.inSlipNo = inOutWhsAdmTable.row(index).data().inSlipNo==null||inOutWhsAdmTable.row(index).data().inSlipNo=="undefined"?"":inOutWhsAdmTable.row(index).data().inSlipNo; ;
+				rowData.inSlipSeq = inOutWhsAdmTable.row(index).data().inSlipSeq==null||inOutWhsAdmTable.row(index).data().inSlipSeq=="undefined"?"":inOutWhsAdmTable.row(index).data().inSlipSeq; ;
+				rowData.poNo= poNo;
+				rowData.poSeq = poSeq;
+				rowData.inSeq = inOutWhsAdmTable.row(index).data().inSeq==null||inOutWhsAdmTable.row(index).data().inSeq=="undefined"?"":inOutWhsAdmTable.row(index).data().inSeq; 
+				rowData.itemSeq= itemSeq;
+				rowData.itemCd= itemCd;
+				rowData.ordQty = ordQty;
+				rowData.preInWhsDate = $(this).find("td input[name=preInWhsDate]").val().replace(/-/g,'');
+				rowData.sum = sum;
+				rowData.preInWhsQty = $(this).find("td input[name=preInWhsQty]").val().replace(/,/g,'');
+				rowData.lotNo = $(this).find("td input[name=lotNo]").val();
+
+				//창고 정보
+				rowData.locationCd = $(this).find("td input[name=locationCd]").val();
+				rowData.areaCd = $(this).find("td input[name=areaCd]").val();
+				rowData.floorCd = $(this).find("td input[name=floorCd]").val();
+				rowData.locationNo = $(this).find("td input[name=locationNo]").val();
+				
+		        dataArray.push(rowData);
+		        console.log(rowData);
+			}else{
+				toastr.warning('입고수량을 입력해주세요');	
+				$(this).find("td #packQty").focus();
+				check=false;
+				return false;
+			}
+		});
+		
+		if(check){
+			$.ajax({
+				url : '<c:url value="io/preInOutWhsAdmCreate"/>',
+				type : 'POST',
+				datatype: 'json',
+				data: JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
+				beforeSend : function(res){
+					$('#my-spinner').show();
+				},
+				success : function(res) {		
+					sum=0;		
+					if (res.result == 'ok') {
+						
+						// 보기					
+						$('#purchaseOrderTable').DataTable().ajax.reload(function() {});
+						$('#inOutWhsAdmTable').DataTable().ajax.reload(function() {});
+						$('#packQty').attr('disabled',true);
+						$('#btnLotCreate').attr('disabled',true);
+
+						$('#btnAdd').attr('disabled',false);
+						//$('#btnEdit').attr('disabled',false);
+
+						$('#btnDtlEdit').attr('disabled',true);
+						$('#btnDtlDel').attr('disabled',true);
+						$('#checkAll').prop('checked',false);
+						$('#btnBatchApply').attr('disabled',true);
+						toastr.success('저장되었습니다.');
+						
+						sideView = 'add';
+						$('#btnSave').addClass('d-none');
+					}else if(res.result == "fail"){
+						toastr.warning(res.message);
+					}
+					else{
+						toastr.error(res.message);
+					}
+				},
+				complete : function() {
+					$('#my-spinner').hide();
+					$('#btnAddConfirm').removeClass('d-none');		
+				}
+			});
+		}
+	});
+	
+
+	function uiProc(flag) {
+		$('input[name=lotNo]').attr('disabled',flag);
+		$('input[name=srLot]').attr('disabled',flag);
+		$('input[name=custItemCd]').attr('disabled',flag);
+		$('input[name=custItemNm]').attr('disabled',flag);
+		$('input[name=preInWhsQty]').attr('disabled',flag);
+		$('input[name=inWhsDesc]').attr('disabled',flag);
+		$("select[name=preInStatus]").attr("disabled", flag);
+		$("button[name=inWhsDateFromCalendar]").attr("disabled",flag);
+	}
+
+
+
+	var temp = 0; 	// 출력 함수를 실행한 횟수
+	var count = 0; 	// 3개씩 출력해야 되는 횟수
+	var last = 0;	// 마지막 한번 출력할때의 라벨 갯수
+	
+
+	
+	// 자재 바코드 인쇄
+	/* function printPartBarcode(gubun){
+		if(printArray.length == 0) {
+			toastr.warning('인쇄할 자재를 체크하고 인쇄해주세요.');
+			return false;
+		}
+
+		var item = '';
+		var spec = '';
+		var date = '';
+		var cnt = '';
+
+		var codeArray = new Array();
+		var revArray = new Array();
+		var barcodeNoArray = new Array();
+		var printList = new Array();
+		
+		for(var i=0;i<printArray.length;i++) {
+			for(var j=0;j<parseInt($('#partPrintCnt').val());j++) {
+				printList.push(printArray[i]);
+			}
+		}
+		
+		if(gubun == 1) { // 기본인쇄
+			var type = 'single';
+			for(var i=0;i<printList.length;i++) {
+				labelPrint(type,
+						printList[i].code,
+						printList[i].rev,
+						printList[i].item,
+						printList[i].spec,
+						printList[i].date,
+						printList[i].cnt,
+						printList[i].barcodeNo);
+			}
+		} else if(gubun == 2) { // 개별인쇄
+			var type = 'multi';
+			for(var i=0;i<printList.length;i++) {
+				if(printList.length == i+1 || i%3 == 2) {
+					codeArray.push(printList[i].code);
+					revArray.push(printList[i].rev);
+					barcodeNoArray.push(printList[i].barcodeNo);
+					labelPrint(type, codeArray, revArray, item, spec, date, cnt, barcodeNoArray);
+					codeArray = [];
+					revArray = [];
+					barcodeNoArray = [];
+				} else {
+					codeArray.push(printList[i].code);
+					revArray.push(printList[i].rev);
+					barcodeNoArray.push(printList[i].barcodeNo);
+				}
+			}
+		}
+	} */
+	// 바코드 인쇄 
+	let printCnt = 0;
+	//라벨인쇄 버튼 클릭
+	$('#printLargeBarcode').on('click',function(){
+		printCnt = $('#partPrintCnt').val();
+		//예외처리
+		if($('#partPrintCnt').val()=="" || $('#partPrintCnt').val()==0){
+			toastr.warning("인쇄할 매수를 입력해주세요.");
+			return false;
+		}
+
+		if(!$('input[name=printList]').is(':checked')){
+			toastr.warning("인쇄할 항목을 선택해주세요.");
+			return false;
+		}
+
+		$('input[name=printList]:checked').each(function() {
+			
+			var obj = new Object();
+		    let idx  = $(this).attr("id").split('-');
+
+		    obj.itemCd = purchaseOrderTable.row(tableIdx).data().itemCd; //품번
+		    obj.itemNm = purchaseOrderTable.row(tableIdx).data().itemNm; //품명
+		    obj.dealCorpNm = purchaseOrderTable.row(tableIdx).data().dealCorpNm; //공급처
+		    obj.itemUnitNm = purchaseOrderTable.row(tableIdx).data().itemUnitNm; //단위
+		    obj.floorNm = purchaseOrderTable.row(tableIdx).data().floorNm; //창고
+		    obj.areaCdNm = purchaseOrderTable.row(tableIdx).data().areaCdNm; //창고
+		    obj.preInWhsDate = inOutWhsAdmTable.row(idx[1]).data().preInWhsDate; //입고일자
+		    obj.preInWhsQty = parseFloat(inOutWhsAdmTable.row(idx[1]).data().preInWhsQty); //입고수량
+		    obj.barcodeNo = inOutWhsAdmTable.row(idx[1]).data().barcodeNo; //바코드번호
+		    obj.lotNo = inOutWhsAdmTable.row(idx[1]).data().lotNo; //lot번호
+			if( inOutWhsAdmTable.row(idx[1]).data().qaEval == "001"){
+		    	obj.qaEval = "합 격"; //합불 판정
+			} else if( inOutWhsAdmTable.row(idx[1]).data().qaEval == "002" ) {
+				obj.qaEval = "불합격"; //합불 판정
+			} else if ( inOutWhsAdmTable.row(idx[1]).data().qaEval == null ){
+				obj.qaEval = "미판정"; //합불 판정
+			}
+	    	for( let i = 1; i <= printCnt; i++){
+		    	if(inOutWhsAdmTable.row(idx[1]).data().approvalCd == '001' && obj.qaEval != '미판정') {
+					labelPrint(obj,"")
+		    	}
+			}
+
+	    	$.ajax({
+				url : '<c:url value="/io/preInOutWhsAdmLabelPrint"/>',
+				type : 'GET',
+				data : {
+					'inSlipNo' : function(){ return inOutWhsAdmTable.row(idx[1]).data().inSlipNo; },
+					'inSlipSeq' : function(){ return inOutWhsAdmTable.row(idx[1]).data().inSlipSeq; }
+				},
+				success : function(res) {
+				}
+			});
+
+		    
+		});
+	});
+	
+	// 창고 팝업 시작
+	var locationPopupTable;
+	function locationDataClick() {
+		if (locationPopupTable != null && locationPopupTable != 'undefined') {
+			locationPopupTable.destroy();
+		}
+		
+		locationPopupTable = $('#locationPopupTable').DataTable({	
+			dom : "<'row'<'col-sm-12 col-md-6'><'col-sm-12 col-md-6'f>>"
+					+ "<'row'<'col-sm-12'tr>>"
+					+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+			language : lang_kor,
+			paging : true,
+			info : true,
+			ordering : true,
+			processing : true,
+			autoWidth : false,
+			scrollX : false,
+			lengthChange : true,
+			async : false,
+			pageLength : 10,
+			ajax : {
+				url : '<c:url value="/bm/locationAdmList"/>',
+				type : 'GET',
+				data : {
+					'mainGubun' : '001'
+				},
 			},
-			{ data: 'workOrdPrcssJson', className : 'text-center align-middle',//현재공정
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						let jsonData = JSON.parse(data);
-						//대기 또는 진행인 공정 리스트
-						let prcssList = _.filter(jsonData, v=> v.progressStatus == 'PI' || v.progressStatus == 'WI');
-						if(prcssList.length > 0){
-							//대기/진행 공정 중 공정순서가 가장 작은것
-							let maxList = _.minBy(prcssList, v=>v.prcssOrder);
-							return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+maxList.prcssNm+'</div>';
-						} else {
-							//0인경우엔 모든공정이 완료된 것
-							//완료공정
-							let wcPrcssList = _.filter(jsonData, v=> v.progressStatus == 'WC');
-							if(wcPrcssList.length > 0){
-								//완료공정 중 공정순서가 가장 큰것
-								let maxList = _.maxBy(wcPrcssList, v=>v.prcssOrder);
-								return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+maxList.prcssNm+'</div>';
-							} else {
+			columns : [ 
+				{
+					data : 'mainGubunNm' 
+				},
+				{
+					data : 'locNo' , 
+						render : function(data, type, row, meta){
+							if(data!=null){
+								return data;
+							} else{
 								return '-';
 							}
 						}
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'qualityPassQty', className : 'text-end align-middle',//생산량
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'regUserNm', className : 'text-center align-middle',name:'regUser',//등록자
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'deliveryPlanDesc', className : 'text-center align-middle',name:'deliveryPlanDesc',//비고
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			
-		],
-		columnDefs : [
-			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvisGroup',	className: 'd-none',	hide: '.colvisHide'},
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#bizOrderTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 79 )+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAll').off('keyup',function() {});
-			$('#searchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#bizOrderTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				if(colIdx > 0){
-					$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-					$(cell).css('padding','2px');
-				}else {
-					$(cell).html('');
-					$(cell).css('padding','2px');
-				}
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#bizOrderTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-			api.button(3).trigger();
-		},
-	});
-	// dataTable colReorder event
-	bizOrderTable.on('column-reorder', function( e, settings, details ) {
-		let api = bizOrderTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#bizOrderTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
+				}, 
+				{
+					data : 'locNm'
+				}, 
+				{
+					data : 'areaNm'
+				}, 
+				{
+					data : 'floorNm'
+				}, 
+				{
+					data : 'useYnNm'
+				}, 
+				{
+					data : 'locDesc'
+				},  
+			],
+			columnDefs : [ {
+				"defaultContent" : "-",
+				"targets" : "_all",
+				"className" : "text-center"
+			} ],
+			order : [ [ 0, 'asc' ] ],
+			buttons : [],
 		});
-	});
 
-	// 모든 체크박스 체크/해제 되도록
-	$(document).on('change','input:checkbox[name=inputCheck]', function(){
-		if( $('input:checkbox[name=inputCheck]').length == $('input:checkbox[name=inputCheck]:checked').length ){ //전체 체크박스 수와 체크된 박스의 수가 같을 때 -> 전체체크박스 체크 , 아닐 경우 해제
-			$('#allCheckBox').prop('checked',true);
-		} else{
-			$('#allCheckBox').prop('checked',false);
-		}
- 	});
-
-	//모든 체크박스 선택
-	$('#allCheckBox').on('click',function(){
-		if($('#allCheckBox').prop("checked")){
-			$('input:checkbox[name=inputCheck]').prop('checked',true);
-		}else{
-			$('input:checkbox[name=inputCheck]').prop('checked',false);
-		}
-	});
-	
-	// 조회 버튼 click
-	$('#btnSearch').on('click', function() {
-		$('#my-spinner').show();
-		bizOrderTable.ajax.reload(function() {});
-
-		setTimeout(function() {
-			$('#my-spinner').hide();
-		}, 100)
-	});
-
-	/* 거래처 모달 */
-	// 거래처조회 버튼 click
-	$('#btnSearchDealCorp').on('click', function() {
-		$('#dealCorpModal').modal('show');
-	});
-	$('#dealCorpModal').on('shown.bs.modal', function() {
-		dealCorpModalTable.ajax.reload(function() {});
-	});
-
-	// 거래처조회 x 버튼 click
-	$('#btnSearchDealCorpDel').on('click', function() {
-		$('#searchDealCorpNm').val('');
-		$('#searchDealCorpIdx').val('');
-	});
-
-	// 거래처관리 목록조회
-	$('#dealCorpModalTable thead tr').clone(true).addClass('filters').appendTo('#dealCorpModalTable thead'); // filter 생성
-	let dealCorpModalTable = $('#dealCorpModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: false,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/dealCorpAdmList"/>',
-			type : 'POST',
-			data : {
-				dealGubun : function(){ return $('#modalDealGubun').val();},
-				dealCorpStatus: function() { return $('#modalDealCorpStatus').val(); }
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'dealGubunNm', className : 'text-center'},
-			{ data: 'dealCorpCd', className : 'text-center'},
-			{ data: 'initial', className : 'text-center'},
-			{ data: 'dealCorpNm', className : 'text-center'},
-			{ data: 'representative', className : 'text-center'},
-			{ data: 'companyNumber', className : 'text-center'},
-		],
-		columnDefs : [
-			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			//let middlecolT_height = parseFloat($('#middlecolT').css('height'));
-			let theadHeight = parseFloat($('#dealCorpModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#dealCorpModalTable_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 230)+'px');
-			
-			$('#dealCorpModalTable_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllAdm').off('keyup',function() {});
-			$('#searchAllAdm').on('keyup',function() {
-				$('#dealCorpModalTable_filter').find('input').val($(this).val());
-				$('#dealCorpModalTable_filter').find('input').trigger('keyup');
-			});
-		},
-		initComplete: function () {
-			let api = this.api();
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#dealCorpModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title.replaceAll('*','') + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#dealCorpModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	dealCorpModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = dealCorpModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#dealCorpModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
+		$('#locationPopupTable tbody').on('click', 'tr', function() {
+			var data = locationPopupTable.row(this).data();
+			$('input[name=locationData]').eq(tableIdx2).val(data.locNm + "/" + data.areaNm + "/" + data.floorNm);
+			$('input[name=locationCd]').eq(tableIdx2).val(data.locCd);
+			$('input[name=areaCd]').eq(tableIdx2).val(data.areaCd);
+			$('input[name=floorCd]').eq(tableIdx2).val(data.floorNm);
+			$('input[name=locationNo]').eq(tableIdx2).val(data.locNo);
+			$('#locationPopupModal').modal('hide');
 		});
-	});
-
-	// 거래처 모달 조회 버튼 click
-	$('#btnDealCorpModalSearch').on('click', function() {
-		$('#my-spinner').show();
-		dealCorpModalTable.ajax.reload(function() {});
-		
-		setTimeout(function() {
-			$('#my-spinner').hide();
-		}, 100)
-	});
-
-	// 거래처 모달 붙여넣기 버튼 click
-	$('#btnDealCorpModalPaste').on('click', function() {
-		if(!$('#dealCorpModalTable tbody tr').hasClass('selected')){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
-			return false;
-		}
-		let data = dealCorpModalTable.row('.selected').data();
-		$('#searchDealCorpNm').val(data.dealCorpNm);
-		$('#searchDealCorpIdx').val(data.idx);
-		$('#dealCorpModal').modal('hide');
-	});
-
-	$('#dealCorpModalTable tbody').on('dblclick','tr',function(){
-		let data = dealCorpModalTable.row(this).data();
-		$('#searchDealCorpNm').val(data.dealCorpNm);
-		$('#searchDealCorpIdx').val(data.idx);
-		$('#dealCorpModal').modal('hide');
-	});
-
-	/* 제품코드 모달  */
+		$('#locationPopupModal').modal('show');
+	}
 	
-	$('#btnSearchItem').on('click',function(){
-		
-		$('#itemCodeModal').modal('show');
-		setTimeout(function() {
-			itemCodeModalTable.ajax.reload(function() {itemCodeModalTable.draw(false);});
-		}, 200);
+	$('#inOutWhsAdmTable tbody').on('click', 'tr', function(){
+		tableIdx2 = $('#inOutWhsAdmTable').DataTable().row(this).index();
 	});
 
-	//제품정보 목록(모달)조회
-	$('#itemCodeModalTable thead tr').clone(true).addClass('filters').appendTo('#itemCodeModalTable thead'); // filter 생성
-	let itemCodeModalTable = $('#itemCodeModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex col-sm'B><'me-lg-auto div-align-center col-sm'p><'d-flex align-items-center justify-content-end col-sm'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: true,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/itemInfoDtlListAll"/>',
-			type : 'GET',
-			data : {
-				useYnCd		: function(){ return $('#modalUseYnCdBox').val(); }, //사용여부
-				itemGubun	: function(){ return $('#modalItemGubunBox').val(); }, //품목구분
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'customerNm', className : 'text-center align-middle'},	//고객사
-			{ data: 'itemNm', className : 'text-center align-middle'}, 		//제품명
-			{ //건별전달사항
-				data: 'relayNotice', className : 'text-start align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space:pre-line;width:330px;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}	
-			},
-			{ data: 'knifeTipSize', className : 'text-center align-middle'}, //칼끝규격
-			{ //자재코드
-				data: 'customerItemCd', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'versionNum', className : 'text-center align-middle'}, //버전번호
-			{ //재질
-				data: 'paperType', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //절수
-				data: 'cutQty', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseFloat(data))+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //개수
-				data: 'eaQty', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseFloat(data))+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'itemColor', className : 'text-center align-middle'}, //COLOR		
-			{ //도수
-				data: 'frequencyNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'itemSize', className : 'text-center align-middle'}, //사이즈
-			{ data: 'coatingMethod', className : 'text-center align-middle'}, //코팅방법
-			{ //특이사항
-				data: 'specialNotice', className : 'text-start align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space:pre-line;width:330px;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'moldingMethod', className : 'text-center align-middle'}, //성형방식
-			{ data: 'moldingContents', className : 'text-center align-middle'}, //성형내용
-			{ //묶음법
-				data: 'bundleMethodNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'bundleUnit', className : 'text-center align-middle'}, //묶음단위
-			{//포장박스
-				data: 'packMethodNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'packUnit', className : 'text-center align-middle'}, //포장단위
-			{ //호기
-				data: 'etc1Nm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //목형번호
-				data: 'woodenCareNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'holeWoodenCd', className : 'text-center align-middle'}, //타공목형번호
-			{ //수지판번호
-				data: 'resinBoardNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //현재고량
-				data: 'stock', className : 'text-end  align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //검수방법
-				data: 'inspectMethodNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{//착인여부
-				data: 'printingYnCheckNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //사용여부
-				data: 'useYnCd', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data == 'Y'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">사용</div>';
-					} else if (data == 'N'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">미사용</div>';
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //등록일자
-				data: 'detailDate', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data,'YYYY-MM-DD').format('YYYY-MM-DD')+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //후가공판번호
-				data: 'etc2Cd', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},		
-			{ data: 'etc3', className : 'text-center align-middle'}, //부분UV	
-			{ data: 'etc4', className : 'text-center align-middle'}, //FOIL	
-			{ data: 'etc6', className : 'text-center align-middle'}, //형압
-			{ data: 'etc7', className : 'text-center align-middle'}, //FSC 유무
-			{ data: 'etc8', className : 'text-center align-middle'}, //납품처
-			{ data: 'etc9', className : 'text-center align-middle'}, //공정실적여부
-			{ data: 'etc10', className : 'text-center align-middle'}, //기타1
-			{ data: 'etc5', className : 'text-center align-middle'}, //기타2
-			{ data: 'pressMethod', className : 'text-center align-middle'},	//기타3
-		],
-		columnDefs : [
-			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#itemCodeModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 250)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#modalItemCodeSearchAll').off('keyup',function() {});
-			$('#modalItemCodeSearchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-			
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#itemCodeModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#itemCodeModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	itemCodeModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = itemCodeModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#itemCodeModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-	
-	$('#btnItemCodeModalSearch').on('click',function(){
-		itemCodeModalTable.ajax.reload(function() {});
-	});
-
-	$('#btnItemCodeModalPaste').on('click',function(){
-		if( !$('#itemCodeModalTable tbody tr').hasClass('selected') ){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
-			return false;
-		}
-
-		let data = itemCodeModalTable.row('.selected').data();
-		$('#itemNm').val(data.itemNm);
-		$('#itemIdx').val(data.idx);
-		$('#itemCodeModal').modal('hide');
-	});
-
-	$('#itemCodeModalTable tbody').on('dblclick','tr',function(){
-		let data = itemCodeModalTable.row(this).data();
-		$('#itemNm').val(data.itemNm);
-		$('#itemIdx').val(data.idx);
-		$('#itemCodeModal').modal('hide');
-	});
 </script>
+<script>
+
+//Do printing...
+/* function labelPrint(type, code, rev, item, spec, date, cnt, barcodeNo) {
+
+	if(type == 'single') { // 기본인쇄
+		var cmds =  "1";
+	 		cmds += "34#$";
+	 		cmds += "^XA";
+	 		cmds += "^PRD";
+	 		cmds += "^SEE:UHANGUL.DAT^FS";
+	 		cmds += "^CW1,E:KFONT3.FNT^CI26^FS";		
+	 		cmds += "^FO70,10^GB200,73,3^FS";
+	 	    cmds += "^FO100,35^A1N,30,30^FDCODE NO^FS";		    
+	 		cmds += "^FO70,80^GB200,73,3^FS";
+	 	    cmds += "^FO110,105^A1N,30,30^FDI T E M^FS";		    
+	 		cmds += "^FO70,150^GB200,73,3^FS";
+	 	    cmds += "^FO110,175^A1N,30,30^FDS P E C^FS";		    
+	 		cmds += "^FO70,220^GB200,73,3^FS";
+	 	    cmds += "^FO85,245^A1N,25,25^FD입고일자/수량^FS";		    
+	 		cmds += "^FO70,290^GB700,73,3^FS";
+	 	if(barcodeNo.length > 13) {
+	 		cmds += "^FO150,297^BY2,3^BCN,40,Y,N,Y^FD" + barcodeNo + "^FS";
+		} else {
+			cmds += "^FO250,297^BY2,3^BCN,40,Y,N,Y^FD" + barcodeNo + "^FS";
+		}
+	 		cmds += "^FO267,10^GB503,73,3^FS";
+	 	    cmds += "^FO282,35^A1N,30,30^FD" + code + "^FS";			
+	 		cmds += "^FO267,80^GB503,73,3^FS";
+	 	    cmds += "^FO282,105^A1N,30,30^FD" + item + "^FS";			
+	 		cmds += "^FO267,150^GB503,73,3^FS";
+	 	    cmds += "^FO282,175^A1N,30,30^FD" + spec + "^FS";		
+	 		cmds += "^FO267,220^GB503,73,3^FS";
+	 	    cmds += "^FO282,245^A1N,30,30^FD" + moment(date).format('YYYY.MM.DD') + "    /    " + cnt + "^FS";		
+	 		cmds += "^XZ";
+ 		sendMessage(cmds);
+	} else if(type == 'multi') { // 개별인쇄
+		
+		var cmds =  "";
+			cmds += "2";
+			cmds += "34#$";
+			cmds += "^XA";
+			cmds += "^PRD";
+			cmds += "^SEE:UHANGUL.DAT^FS";
+			cmds += "^CW1,E:KFONT3.FNT^CI26^FS";
+		for(var i=0;i<code.length;i++) {
+			if(i==0) {
+				cmds += "^FO152,12^GB153,192,2^FS";
+				cmds += "^FO152,12^GB153,25,2^FS";
+				cmds += "^FO152,57^GB153,25,2^FS";
+				cmds += "^FO152,57^GB70,25,2^FS";
+				cmds += "^FO198,16^A1N,20,20^FDCODE^FS";
+				cmds += "^FO165,38^A1N,20,20^FD"+code[i]+"^FS";
+				cmds += "^FO167,60^A1N,20,20^FDREV^FS";
+				cmds += "^FO225,60^A1N,20,20^FD"+rev[i]+"^FS";
+				cmds += "^FO180,85^BQN,2,4^FD123"+barcodeNo[i]+"^FS";
+			} else if(i==1) {
+				cmds += "^FO335,12^GB153,192,2^FS";
+				cmds += "^FO335,12^GB153,25,2^FS";
+				cmds += "^FO335,57^GB153,25,2^FS";
+				cmds += "^FO335,57^GB70,25,2^FS";
+				cmds += "^FO381,16^A1N,20,20^FDCODE^FS";
+				cmds += "^FO348,38^A1N,20,20^FD"+code[i]+"^FS";
+				cmds += "^FO350,60^A1N,20,20^FDREV^FS";
+				cmds += "^FO408,60^A1N,20,20^FD"+rev[i]+"^FS";
+				cmds += "^FO363,85^BQN,2,4^FD123"+barcodeNo[i]+"^FS";
+			} else {
+				cmds += "^FO520,12^GB153,192,2^FS";
+				cmds += "^FO520,12^GB153,25,2^FS";
+				cmds += "^FO520,57^GB153,25,2^FS";
+				cmds += "^FO520,57^GB70,25,2^FS";
+				cmds += "^FO566,16^A1N,20,20^FDCODE^FS";
+				cmds += "^FO533,38^A1N,20,20^FD"+code[i]+"^FS";
+				cmds += "^FO535,60^A1N,20,20^FDREV^FS";
+				cmds += "^FO593,60^A1N,20,20^FD"+rev[i]+"^FS";
+				cmds += "^FO548,85^BQN,2,4^FD123"+barcodeNo[i]+"^FS";
+			}
+		}
+			cmds += "^XZ";
+			
+			sendMessage(cmds);
+			console.log('라벨인쇄');
+	}
+}
+ */
+	 function labelPrint(data, action) {
+		   console.log("data:"+data.itemCd);
+		   let cmds = {};
+		   
+		   let cmd = "";
+		      cmd += "{D0520,0980,0500|}";
+		      cmd += "{AY;+04,0|}";
+		      cmd += "{AX;-020,+000,+00|}";
+		      cmd += "{C|}";
+		
+		      //행
+		      cmd += "{LC;0010,0035,0980,0110,1,5|}";
+		      cmd += "{LC;0010,0035,0980,0180,1,5|}";
+		      cmd += "{LC;0010,0035,0980,0250,1,5|}";
+		      cmd += "{LC;0010,0035,0980,0320,1,5|}";
+		      cmd += "{LC;0010,0035,0980,0485,1,5|}";
+		
+		      //열
+		      cmd += "{LC;0155,0035,0155,0320,0,5|}";
+		      cmd += "{LC;0335,0180,0335,0320,0,5|}";
+		      cmd += "{LC;0490,0180,0490,0320,0,5|}";
+		      cmd += "{LC;0640,0180,0640,0320,0,5|}";
+		      cmd += "{LC;0795,0180,0795,0320,0,5|}";
+		      
+		      //데이터
+		      cmd += "{PV23;0015,0090,0040,0040,01,0,00,B=품목번호|}";
+		      cmd += "{PV23;0170,0090,0040,0040,01,0,00,B="+data.itemCd+"|}";
+		      cmd += "{PV23;0045,0160,0040,0040,01,0,00,B=품명|}";
+		      cmd += "{PV23;0170,0160,0040,0040,01,0,00,B="+data.itemNm+"|}";
+		      cmd += "{PV23;0030,0230,0040,0040,01,0,00,B=입고일|}";
+		      cmd += "{PV23;0170,0230,0035,0035,01,0,00,B="+moment(data.preInWhsDate).format('YYYY.MM.DD')+"|}"; 
+		      cmd += "{PV23;0015,0300,0040,0040,01,0,00,B=입고수량|}";
+		      cmd += "{PV23;0170,0300,0035,0035,01,0,00,B="+data.preInWhsQty+" "+data.itemUnitNm+"|}";
+		      cmd += "{PV23;0345,0230,0040,0040,01,0,00,B=합부판정|}";
+		      cmd += "{PV23;0517,0230,0040,0040,01,0,00,B="+data.qaEval+"|}";
+		      cmd += "{PV23;0345,0300,0040,0040,01,0,00,B=업체로트|}";
+		      if (data.lotNo != null) {
+		      cmd += "{PV23;0505,0300,0035,0035,01,0,00,B="+data.lotNo+"|}";
+		      }
+		      cmd += "{PV23;0681,0230,0040,0040,01,0,00,B=창고|}";
+		      if (data.areaCdNm != null) {
+		      	cmd += "{PV23;0810,0230,0035,0035,01,0,00,B="+data.areaCdNm + '/' + data.floorNm+"|}";
+		      }
+		      cmd += "{PV23;0670,0300,0040,0040,01,0,00,B=업체명|}";
+		      cmd += "{PV23;0810,0300,0035,0035,01,0,00,B="+data.dealCorpNm+"|}";
+		      cmd += "{XB03;0160,0350,9,3,03,0,0100,+0000000001,000,1,00|}";
+		      cmd += "{RB03;"+data.barcodeNo+"|}";
+		      cmd += "{XS;I,0001,0002C4001|}";
+		
+		   cmds.cmd = cmd; // 인쇄 명령어
+		   cmds.action = action; // 동작
+		
+		   sendMessage(JSON.stringify(cmds)); // 전송
+		}
+ 
+</script>
+
+<script>
+	
+	//웹 서버를 접속한다.
+	var webSocket = new WebSocket("ws://localhost:9998");
+	// 웹 서버와의 통신을 주고 받은 결과를 출력할 오브젝트를 가져옵니다.
+	var messageTextArea = document.getElementById("installedPrinterName");
+	// 소켓 접속이 되면 호출되는 함수
+	webSocket.onopen = function(message){
+		toastr.success('인쇄 서버에 연결되었습니다.')
+		$('#wsStateView').text('연결됨');
+		$('#wsStateView').css('color','#19FF00');
+	};
+	// 소켓 접속이 끝나면 호출되는 함수
+	webSocket.onclose = function(message){
+		toastr.error('인쇄 서버가 종료되었습니다.')
+		$('#wsStateView').text('연결끊김');
+		$('#wsStateView').css('color','#FF0004');
+	};
+	// 소켓 통신 중에 에러가 발생되면 호출되는 함수
+	webSocket.onerror = function(message){
+		toastr.warning('현재 인쇄프로그램이 종료되어있습니다. 인쇄프로그램을 시작해주세요.')
+	};
+	// 소켓 서버로 부터 메시지가 오면 호출되는 함수.
+	webSocket.onmessage = function(message){
+		// 출력 area에 메시지를 표시한다.
+		console.log(message);
+	};
+	// 서버로 메시지를 전송하는 함수
+	function sendMessage(cmd){
+		if(webSocket.readyState == 1) {
+			webSocket.send(cmd);
+		} else {
+			toastr.error('인쇄 서버와의 연결을 확인해주세요.');
+			//webSocket = new WebSocket("ws://localhost:9998");
+		}
+	}
+
+</script>
+   	
 
 </body>
 </html>

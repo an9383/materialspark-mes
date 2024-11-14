@@ -1,285 +1,472 @@
-/*! RowsGroup for DataTables v2.0.0
- * 2015-2016 Alexey Shildyakov ashl1future@gmail.com
- * 2016 Tibor Wekerle
+/*! RowGroup 1.1.1
+ * ©2017-2019 SpryMedia Ltd - datatables.net/license
  */
 
 /**
- * @summary     RowsGroup
- * @description Group rows by specified columns
- * @version     2.0.0
- * @file        dataTables.rowsGroup.js
- * @author      Alexey Shildyakov (ashl1future@gmail.com)
- * @contact     ashl1future@gmail.com
- * @copyright   Alexey Shildyakov
- * 
- * License      MIT - http://datatables.net/license/mit
+ * @summary     RowGroup
+ * @description RowGrouping for DataTables
+ * @version     1.1.1
+ * @file        dataTables.rowGroup.js
+ * @author      SpryMedia Ltd (www.sprymedia.co.uk)
+ * @contact     datatables.net
+ * @copyright   Copyright 2017-2019 SpryMedia Ltd.
  *
- * This feature plug-in for DataTables automatically merges columns cells
- * based on it's values equality. It supports multi-column row grouping
- * in according to the requested order with dependency from each previous 
- * requested columns. Now it supports ordering and searching. 
- * Please see the example.html for details.
- * 
- * Rows grouping in DataTables can be enabled by using any one of the following
- * options:
+ * This source file is free software, available under the following license:
+ *   MIT license - http://datatables.net/license/mit
  *
- * * Setting the `rowsGroup` parameter in the DataTables initialisation
- *   to array which containes columns selectors
- *   (https://datatables.net/reference/type/column-selector) used for grouping. i.e.
- *    rowsGroup = [1, 'columnName:name', ]
- * * Setting the `rowsGroup` parameter in the DataTables defaults
- *   (thus causing all tables to have this feature) - i.e.
- *   `$.fn.dataTable.defaults.RowsGroup = [0]`.
- * * Creating a new instance: `new $.fn.dataTable.RowsGroup( table, columnsForGrouping );`
- *   where `table` is a DataTable's API instance and `columnsForGrouping` is the array
- *   described above.
+ * This source file is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
  *
- * For more detailed information please see:
- *     
+ * For details please refer to: http://www.datatables.net
  */
 
-(function($){
+(function( factory ){
+	if ( typeof define === 'function' && define.amd ) {
+		// AMD
+		define( ['jquery', 'datatables.net'], function ( $ ) {
+			return factory( $, window, document );
+		} );
+	}
+	else if ( typeof exports === 'object' ) {
+		// CommonJS
+		module.exports = function (root, $) {
+			if ( ! root ) {
+				root = window;
+			}
 
-ShowedDataSelectorModifier = {
-	order: 'current',
-	page: 'current',
-	search: 'applied',
-}
+			if ( ! $ || ! $.fn.dataTable ) {
+				$ = require('datatables.net')(root, $).$;
+			}
 
-GroupedColumnsOrderDir = 'asc';
+			return factory( $, root, root.document );
+		};
+	}
+	else {
+		// Browser
+		factory( jQuery, window, document );
+	}
+}(function( $, window, document, undefined ) {
+'use strict';
+var DataTable = $.fn.dataTable;
 
 
-/*
- * columnsForGrouping: array of DTAPI:cell-selector for columns for which rows grouping is applied
- */
-var RowsGroup = function ( dt, columnsForGrouping )
-{
-	this.table = dt.table();
-	this.columnsForGrouping = columnsForGrouping;
-	 // set to True when new reorder is applied by RowsGroup to prevent order() looping
-	this.orderOverrideNow = false;
-	this.mergeCellsNeeded = false; // merge after init
-	this.order = []
-	
-	var self = this;
-	dt.on('order.dt', function ( e, settings) {
-		if (!self.orderOverrideNow) {
-			self.orderOverrideNow = true;
-			self._updateOrderAndDraw()
-		} else {
-			self.orderOverrideNow = false;
-		}
-	})
-	
-	dt.on('preDraw.dt', function ( e, settings) {
-		if (self.mergeCellsNeeded) {
-			self.mergeCellsNeeded = false;
-			self._mergeCells()
-		}
-	})
-	
-	dt.on('column-visibility.dt', function ( e, settings) {
-		self.mergeCellsNeeded = true;
-	})
+var RowGroup = function ( dt, opts ) {
+	// Sanity check that we are using DataTables 1.10 or newer
+	if ( ! DataTable.versionCheck || ! DataTable.versionCheck( '1.10.8' ) ) {
+		throw 'RowGroup requires DataTables 1.10.8 or newer';
+	}
 
-	dt.on('search.dt', function ( e, settings) {
-		// This might to increase the time to redraw while searching on tables
-		//   with huge shown columns
-		self.mergeCellsNeeded = true;
-	})
+	// User and defaults configuration object
+	this.c = $.extend( true, {},
+		DataTable.defaults.rowGroup,
+		RowGroup.defaults,
+		opts
+	);
 
-	dt.on('page.dt', function ( e, settings) {
-		self.mergeCellsNeeded = true;
-	})
+	// Internal settings
+	this.s = {
+		dt: new DataTable.Api( dt )
+	};
 
-	dt.on('length.dt', function ( e, settings) {
-		self.mergeCellsNeeded = true;
-	})
+	// DOM items
+	this.dom = {
 
-	dt.on('xhr.dt', function ( e, settings) {
-		self.mergeCellsNeeded = true;
-	})
+	};
 
-	this._updateOrderAndDraw();
-	
-/* Events sequence while Add row (also through Editor)
- * addRow() function
- *   draw() function
- *     preDraw() event
- *       mergeCells() - point 1
- *     Appended new row breaks visible elements because the mergeCells() on previous step doesn't apllied to already processing data
- *   order() event
- *     _updateOrderAndDraw()
- *       preDraw() event
- *         mergeCells()
- *       Appended new row now has properly visibility as on current level it has already applied changes from first mergeCells() call (point 1)
- *   draw() event
- */
+	// Check if row grouping has already been initialised on this table
+	var settings = this.s.dt.settings()[0];
+	var existing = settings.rowGroup;
+	if ( existing ) {
+		return existing;
+	}
+
+	settings.rowGroup = this;
+	this._constructor();
 };
 
 
-RowsGroup.prototype = {
-	setMergeCells: function(){
-		this.mergeCellsNeeded = true;
+$.extend( RowGroup.prototype, {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * API methods for DataTables API interface
+	 */
+
+	/**
+	 * Get/set the grouping data source - need to call draw after this is
+	 * executed as a setter
+	 * @returns string~RowGroup
+	 */
+	dataSrc: function ( val )
+	{
+		if ( val === undefined ) {
+			return this.c.dataSrc;
+		}
+
+		var dt = this.s.dt;
+
+		this.c.dataSrc = val;
+
+		$(dt.table().node()).triggerHandler( 'rowgroup-datasrc.dt', [ dt, val ] );
+
+		return this;
 	},
 
-	mergeCells: function()
+	/**
+	 * Disable - need to call draw after this is executed
+	 * @returns RowGroup
+	 */
+	disable: function ()
 	{
-		this.setMergeCells();
-		this.table.draw();
+		this.c.enable = false;
+		return this;
 	},
 
-	_getOrderWithGroupColumns: function (order, groupedColumnsOrderDir)
+	/**
+	 * Enable - need to call draw after this is executed
+	 * @returns RowGroup
+	 */
+	enable: function ( flag )
 	{
-		if (groupedColumnsOrderDir === undefined)
-			groupedColumnsOrderDir = GroupedColumnsOrderDir
-			
-		var self = this;
-		var groupedColumnsIndexes = this.columnsForGrouping.map(function(columnSelector){
-			return self.table.column(columnSelector).index()
-		})
-		var groupedColumnsKnownOrder = order.filter(function(columnOrder){
-			return groupedColumnsIndexes.indexOf(columnOrder[0]) >= 0
-		})
-		var nongroupedColumnsOrder = order.filter(function(columnOrder){
-			return groupedColumnsIndexes.indexOf(columnOrder[0]) < 0
-		})
-		var groupedColumnsKnownOrderIndexes = groupedColumnsKnownOrder.map(function(columnOrder){
-			return columnOrder[0]
-		})
-		var groupedColumnsOrder = groupedColumnsIndexes.map(function(iColumn){
-			var iInOrderIndexes = groupedColumnsKnownOrderIndexes.indexOf(iColumn)
-			if (iInOrderIndexes >= 0)
-				return [iColumn, groupedColumnsKnownOrder[iInOrderIndexes][1]]
-			else
-				return [iColumn, groupedColumnsOrderDir]
-		})
-		
-		groupedColumnsOrder.push.apply(groupedColumnsOrder, nongroupedColumnsOrder)
-		return groupedColumnsOrder;
+		if ( flag === false ) {
+			return this.disable();
+		}
+
+		this.c.enable = true;
+		return this;
 	},
- 
-	// Workaround: the DT reset ordering to 'asc' from multi-ordering if user order on one column (without shift)
-	//   but because we always has multi-ordering due to grouped rows this happens every time
-	_getInjectedMonoSelectWorkaround: function(order)
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Constructor
+	 */
+	_constructor: function ()
 	{
-		if (order.length === 1) {
-			// got mono order - workaround here
-			var orderingColumn = order[0][0]
-			var previousOrder = this.order.map(function(val){
-				return val[0]
-			})
-			var iColumn = previousOrder.indexOf(orderingColumn);
-			if (iColumn >= 0) {
-				// assume change the direction, because we already has that in previos order
-				return [[orderingColumn, this._toogleDirection(this.order[iColumn][1])]]
-			} // else This is the new ordering column. Proceed as is.
-		} // else got milti order - work normal
-		return order;
+		var that = this;
+		var dt = this.s.dt;
+
+		dt.on( 'draw.dtrg', function () {
+			if ( that.c.enable ) {
+				that._draw();
+			}
+		} );
+
+		dt.on( 'column-visibility.dt.dtrg responsive-resize.dt.dtrg', function () {
+			that._adjustColspan();
+		} );
+
+		dt.on( 'destroy', function () {
+			dt.off( '.dtrg' );
+		} );
+
+		dt.on('responsive-resize.dt', function () {
+			that._adjustColspan();
+		})
 	},
-	
-	_mergeCells: function()
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Private methods
+	 */
+
+	/**
+	 * Adjust column span when column visibility changes
+	 * @private
+	 */
+	_adjustColspan: function ()
 	{
-		var columnsIndexes = this.table.columns(this.columnsForGrouping, ShowedDataSelectorModifier).indexes().toArray()
-		var showedRowsCount = this.table.rows(ShowedDataSelectorModifier)[0].length 
-		this._mergeColumn(0, showedRowsCount - 1, columnsIndexes)
+		$( 'tr.'+this.c.className, this.s.dt.table().body() ).find('td')
+			.attr( 'colspan', this._colspan() );
 	},
-	
-	// the index is relative to the showed data
-	//    (selector-modifier = {order: 'current', page: 'current', search: 'applied'}) index
-	_mergeColumn: function(iStartRow, iFinishRow, columnsIndexes)
+
+	/**
+	 * Get the number of columns that a grouping row should span
+	 * @private
+	 */
+	_colspan: function ()
 	{
-		var columnsIndexesCopy = columnsIndexes.slice()
-		currentColumn = columnsIndexesCopy.shift()
-		currentColumn = this.table.column(currentColumn, ShowedDataSelectorModifier)
-		
-		var columnNodes = currentColumn.nodes()
-		var columnValues = currentColumn.data()
-		
-		var newSequenceRow = iStartRow,
-			iRow;
-		for (iRow = iStartRow + 1; iRow <= iFinishRow; ++iRow) {
-			
-			if (columnValues[iRow] === columnValues[newSequenceRow]) {
-				$(columnNodes[iRow]).hide()
-			} else {
-				$(columnNodes[newSequenceRow]).show()
-				$(columnNodes[newSequenceRow]).attr('rowspan', (iRow-1) - newSequenceRow + 1)
-				
-				if (columnsIndexesCopy.length > 0)
-					this._mergeColumn(newSequenceRow, (iRow-1), columnsIndexesCopy)
-				
-				newSequenceRow = iRow;
+		return this.s.dt.columns().visible().reduce( function (a, b) {
+			return a + b;
+		}, 0 );
+	},
+
+
+	/**
+	 * Update function that is called whenever we need to draw the grouping rows.
+	 * This is basically a bootstrap for the self iterative _group and _groupDisplay
+	 * methods
+	 * @private
+	 */
+	_draw: function ()
+	{
+		var dt = this.s.dt;
+		var groupedRows = this._group( 0, dt.rows( { page: 'current' } ).indexes() );
+
+		this._groupDisplay( 0, groupedRows );
+	},
+
+	/**
+	 * Get the grouping information from a data set (index) of rows
+	 * @param {number} level Nesting level
+	 * @param {DataTables.Api} rows API of the rows to consider for this group
+	 * @returns {object[]} Nested grouping information - it is structured like this:
+	 *	{
+	 *		dataPoint: 'Edinburgh',
+	 *		rows: [ 1,2,3,4,5,6,7 ],
+	 *		children: [ {
+	 *			dataPoint: 'developer'
+	 *			rows: [ 1, 2, 3 ]
+	 *		},
+	 *		{
+	 *			dataPoint: 'support',
+	 *			rows: [ 4, 5, 6, 7 ]
+	 *		} ]
+	 *	}
+	 * @private
+	 */
+	_group: function ( level, rows ) {
+		var fns = $.isArray( this.c.dataSrc ) ? this.c.dataSrc : [ this.c.dataSrc ];
+		var fn = DataTable.ext.oApi._fnGetObjectDataFn( fns[ level ] );
+		var dt = this.s.dt;
+		var group, last;
+		var data = [];
+		var that = this;
+
+		for ( var i=0, ien=rows.length ; i<ien ; i++ ) {
+			var rowIndex = rows[i];
+			var rowData = dt.row( rowIndex ).data();
+			var group = fn( rowData );
+
+			if ( group === null || group === undefined ) {
+				group = that.c.emptyDataGroup;
 			}
 			
+			if ( last === undefined || group !== last ) {
+				data.push( {
+					dataPoint: group,
+					rows: []
+				} );
+
+				last = group;
+			}
+
+			data[ data.length-1 ].rows.push( rowIndex );
 		}
-		$(columnNodes[newSequenceRow]).show()
-		$(columnNodes[newSequenceRow]).attr('rowspan', (iRow-1)- newSequenceRow + 1)
-		if (columnsIndexesCopy.length > 0)
-			this._mergeColumn(newSequenceRow, (iRow-1), columnsIndexesCopy)
+
+		if ( fns[ level+1 ] !== undefined ) {
+			for ( var i=0, ien=data.length ; i<ien ; i++ ) {
+				data[i].children = this._group( level+1, data[i].rows );
+			}
+		}
+
+		return data;
 	},
+
+	/**
+	 * Row group display - insert the rows into the document
+	 * @param {number} level Nesting level
+	 * @param {object[]} groups Takes the nested array from `_group`
+	 * @private
+	 */
+	_groupDisplay: function ( level, groups )
+	{
+		var dt = this.s.dt;
+		var display;
 	
-	_toogleDirection: function(dir)
-	{
-		return dir == 'asc'? 'desc': 'asc';
+		for ( var i=0, ien=groups.length ; i<ien ; i++ ) {
+			var group = groups[i];
+			var groupName = group.dataPoint;
+			var row;
+			var rows = group.rows;
+
+			if ( this.c.startRender ) {
+				display = this.c.startRender.call( this, dt.rows(rows), groupName, level );
+				row = this._rowWrap( display, this.c.startClassName, level );
+
+				if ( row ) {
+					row.insertBefore( dt.row( rows[0] ).node() );
+				}
+			}
+
+			if ( this.c.endRender ) {
+				display = this.c.endRender.call( this, dt.rows(rows), groupName, level );
+				row = this._rowWrap( display, this.c.endClassName, level );
+
+				if ( row ) {
+					row.insertAfter( dt.row( rows[ rows.length-1 ] ).node() );
+				}
+			}
+
+			if ( group.children ) {
+				this._groupDisplay( level+1, group.children );
+			}
+		}
 	},
- 
-	_updateOrderAndDraw: function()
+
+	/**
+	 * Take a rendered value from an end user and make it suitable for display
+	 * as a row, by wrapping it in a row, or detecting that it is a row.
+	 * @param {node|jQuery|string} display Display value
+	 * @param {string} className Class to add to the row
+	 * @param {array} group
+	 * @param {number} group level
+	 * @private
+	 */
+	_rowWrap: function ( display, className, level )
 	{
-		this.mergeCellsNeeded = true;
+		var row;
 		
-		var currentOrder = this.table.order();
-		currentOrder = this._getInjectedMonoSelectWorkaround(currentOrder);
-		this.order = this._getOrderWithGroupColumns(currentOrder)
-		this.table.order($.extend(true, Array(), this.order))
-		this.table.draw()
-	},
+		if ( display === null || display === '' ) {
+			display = this.c.emptyDataGroup;
+		}
+
+		if ( display === undefined || display === null ) {
+			return null;
+		}
+		
+		if ( typeof display === 'object' && display.nodeName && display.nodeName.toLowerCase() === 'tr') {
+			row = $(display);
+		}
+		else if (display instanceof $ && display.length && display[0].nodeName.toLowerCase() === 'tr') {
+			row = display;
+		}
+		else {
+			row = $('<tr/>')
+				.append(
+					$('<td/>')
+						.attr( 'colspan', this._colspan() )
+						.append( display  )
+				);
+		}
+
+		return row
+			.addClass( this.c.className )
+			.addClass( className )
+			.addClass( 'dtrg-level-'+level );
+	}
+} );
+
+
+/**
+ * RowGroup default settings for initialisation
+ *
+ * @namespace
+ * @name RowGroup.defaults
+ * @static
+ */
+RowGroup.defaults = {
+	/**
+	 * Class to apply to grouping rows - applied to both the start and
+	 * end grouping rows.
+	 * @type string
+	 */
+	className: 'dtrg-group',
+
+	/**
+	 * Data property from which to read the grouping information
+	 * @type string|integer|array
+	 */
+	dataSrc: 0,
+
+	/**
+	 * Text to show if no data is found for a group
+	 * @type string
+	 */
+	emptyDataGroup: 'No group',
+
+	/**
+	 * Initial enablement state
+	 * @boolean
+	 */
+	enable: true,
+
+	/**
+	 * Class name to give to the end grouping row
+	 * @type string
+	 */
+	endClassName: 'dtrg-end',
+
+	/**
+	 * End grouping label function
+	 * @function
+	 */
+	endRender: null,
+
+	/**
+	 * Class name to give to the start grouping row
+	 * @type string
+	 */
+	startClassName: 'dtrg-start',
+
+	/**
+	 * Start grouping label function
+	 * @function
+	 */
+	startRender: function ( rows, group ) {
+		return group;
+	}
 };
 
 
-$.fn.dataTable.RowsGroup = RowsGroup;
-$.fn.DataTable.RowsGroup = RowsGroup;
+RowGroup.version = "1.1.1";
 
-// Automatic initialisation listener
-$(document).on( 'init.dt', function ( e, settings ) {
+
+$.fn.dataTable.RowGroup = RowGroup;
+$.fn.DataTable.RowGroup = RowGroup;
+
+
+DataTable.Api.register( 'rowGroup()', function () {
+	return this;
+} );
+
+DataTable.Api.register( 'rowGroup().disable()', function () {
+	return this.iterator( 'table', function (ctx) {
+		if ( ctx.rowGroup ) {
+			ctx.rowGroup.enable( false );
+		}
+	} );
+} );
+
+DataTable.Api.register( 'rowGroup().enable()', function ( opts ) {
+	return this.iterator( 'table', function (ctx) {
+		if ( ctx.rowGroup ) {
+			ctx.rowGroup.enable( opts === undefined ? true : opts );
+		}
+	} );
+} );
+
+DataTable.Api.register( 'rowGroup().dataSrc()', function ( val ) {
+	if ( val === undefined ) {
+		return this.context[0].rowGroup.dataSrc();
+	}
+
+	return this.iterator( 'table', function (ctx) {
+		if ( ctx.rowGroup ) {
+			ctx.rowGroup.dataSrc( val );
+		}
+	} );
+} );
+
+
+// Attach a listener to the document which listens for DataTables initialisation
+// events so we can automatically initialise
+$(document).on( 'preInit.dt.dtrg', function (e, settings, json) {
 	if ( e.namespace !== 'dt' ) {
 		return;
 	}
 
-	var api = new $.fn.dataTable.Api( settings );
-	
-	if ( settings.oInit.rowsGroup ||
-		 $.fn.dataTable.defaults.rowsGroup )
-	{
-		options = settings.oInit.rowsGroup?
-			settings.oInit.rowsGroup:
-			$.fn.dataTable.defaults.rowsGroup;
-		var rowsGroup = new RowsGroup( api, options );
-		$.fn.dataTable.Api.register( 'rowsgroup.update()', function () {
-			rowsGroup.mergeCells();
-			return this;
-		} );
-		$.fn.dataTable.Api.register( 'rowsgroup.updateNextDraw()', function () {
-			rowsGroup.setMergeCells();
-			return this;
-		} );
+	var init = settings.oInit.rowGroup;
+	var defaults = DataTable.defaults.rowGroup;
+
+	if ( init || defaults ) {
+		var opts = $.extend( {}, defaults, init );
+
+		if ( init !== false ) {
+			new RowGroup( settings, opts  );
+		}
 	}
 } );
 
-}(jQuery));
 
-/*
+return RowGroup;
 
-TODO: Provide function which determines the all <tr>s and <td>s with "rowspan" html-attribute is parent (groupped) for the specified <tr> or <td>. To use in selections, editing or hover styles.
-
-TODO: Feature
-Use saved order direction for grouped columns
-	Split the columns into grouped and ungrouped.
-	
-	user = grouped+ungrouped
-	grouped = grouped
-	saved = grouped+ungrouped
-	
-	For grouped uses following order: user -> saved (because 'saved' include 'grouped' after first initialisation). This should be done with saving order like for 'groupedColumns'
-	For ungrouped: uses only 'user' input ordering
-*/
+}));

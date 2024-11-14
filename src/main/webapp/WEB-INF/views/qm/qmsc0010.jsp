@@ -1,2140 +1,4020 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%
-pageContext.setAttribute("newLineChar", "\n");
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% pageContext.setAttribute("newLineChar", "\n"); %>
 
-<%@include file="../layout/top.jsp"%>
-<%@include file="../layout/modal.jsp"%>
-<%@include file="../layout/script.jsp"%>
-<div id="page" onmouseup="EndDrag()" onmousemove="OnDrag(event)" style="grid-template-areas: 'leftcol'; grid-template-rows: 1fr; grid-template-columns: 1fr;">
-	<div id="leftcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="leftHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">수주일자</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="startDate">
-					<label class="form-label d-flex align-items-center m-0 me-1 h-100">~</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="endDate">
-					<select class="form-select w-auto h-100 me-1 monthAdjust" id="monthAdjust">
-					</select>
-					<div class="btn-group me-3" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="3">
-							3개월
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="6">
-							6개월
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="12">
-							12개월
-						</button>
-					</div>
-					
-					<input type="text" class="form-control w-auto h-100 me-1 d-none" id="searchAllAdm" placeholder="통합검색">
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">제품코드</label>
-					<div class="input-group w-auto h-100 me-3">
-						<input type="text" class="form-control" id="itemNm" style="width: 200px;" disabled>
-						<button type="button" class="btnInputDel" style="background-color: transparent; border-color: transparent; position: absolute; top: 0; right: 0; margin: 5px 23px; margin-left: 0px; border: none;">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						<input type="hidden" id="itemIdx">
-						<button type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary" id="btnSearchItem">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</div>
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">거래처</label>
-					<div class="input-group w-auto h-100 me-3">
-						<input type="text" class="form-control" id="searchDealCorpNm" disabled> <input type="hidden" id="searchDealCorpIdx">
-						<button type="button" id="btnSearchDealCorpDel" style="background-color: transparent; border-color: transparent; position: absolute; top: 0; right: 0; margin: 5px 23px; margin-left: 0px; border: none;">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						<button type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary" id="btnSearchDealCorp">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</div>
+<%@include file="../layout/body-top.jsp" %> 
 
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">조회대상</label>
-					<select class="form-select w-auto h-100 me-1" id="searchTarget" style="min-width: 70px;">
-						<option value="">전체</option>
-						<option value="N" selected>미판정</option>
-					</select>
-					<!-- <select class="form-select w-auto h-100 me-3" id="searchTargetConfirm" style="min-width: 70px;">
-						<option value="" selected>전체</option>
-						<option value="N">미승인</option>
-					</select> -->
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAll" placeholder="통합검색" >
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-				
-					<!-- <div class="btn-group me-3" role="group" aria-label="Small button group" >
-						<button type="button" class="btn btn-outline-light w-auto"  data-val="01" id="btnUndecided">미판정</button>
-						<button type="button" class="btn btn-outline-light w-auto"  data-val="02" id="btnJudgmentY">적합</button>
-						<button type="button" class="btn btn-outline-light w-auto"  data-val="03" id="btnJudgmentN">부적합</button>
-						<button type="button" class="btn btn-outline-light w-auto"  id="btnConfirmY">승인</button>	
-					</div> -->
-					
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnSearch">
-							<i class="fa-regular fa-clipboard"></i>
-						</button>
-						<!-- <button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnSave" disabled>
-							<i class="fa-regular fa-floppy-disk"></i>
-						</button> -->
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnEdit">
-							<i class="fa-regular fa-pen-to-square"></i>
-						</button>
-						<button type="button" class="btn btn-outline-danger w-auto" style="font-size: 17px !important;" id="btnDel">
-							<i class="fa-solid fa-trash-can"></i>
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnCancel" disabled>
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="prodQualityTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle"><input type="checkbox" id="btnAllCheck" style="width: 20px; height: 20px;"></th>
-							<th class="text-center align-middle">수주상세</th>
-							<th class="text-center align-middle">수주상태</th>
-							<th class="text-center align-middle">고객사</th>
-							<th class="text-center align-middle" style="min-width:280px;max-width:280px;">제품명</th>
-							<th class="text-center align-middle" style="min-width:80px;max-width:80px;">재고사용수량</th>
-							<th class="text-center align-middle" style="min-width:80px;max-width:80px;">재고활용수량</th>
-							<!-- <th class="text-center align-middle">지시수량</th> -->
-							<th class="text-center align-middle" style="min-width:80px;max-width:80px;">수주수량</th>
-							<th class="text-center align-middle" style="min-width:80px;max-width:80px;">생산수량</th>
-							<th class="text-center align-middle" style="min-width:80px;max-width:80px;">적합수량</th>
-							<th class="text-center align-middle" style="min-width:120px;max-width:130px;">적합여부</th>
-							<th class="text-center align-middle" style="min-width:60px;max-width:60px;">목표요구일</th>
-							<th class="text-center align-middle" style="min-width:60px;max-width:60px;">출고요청일</th>
-							<th class="text-center align-middle" style="min-width:60px;max-width:60px;">판정일자</th>
-							<th class="text-center align-middle" style="max-width:110px;">시험자</th>
-							<th class="text-center align-middle">승인여부</th>
-							<th class="text-center align-middle" style="max-width:110px;">판정자</th>
-							<th class="text-center align-middle" style="min-width:60px;max-width:60px;">승인일자</th>
-							<th class="text-center align-middle">비고</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		</div>
-	</div>
+<div class="page-wrapper" id="page-wrapper">
+
+<!-- 사진 모달 시작-->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-full">
+      <div class="modal-content modal-content-full">
+
+        <!--닫기버튼-->
+        <div class="modal-close">
+          <button class="close md-close" type="button" data-dismiss="modal" aria-hidden="true"><span class="mdi mdi-close"></span></button>
+        </div>
+        <!------------->
+
+        <!--이미지영역-->
+        <img class="modal-img-full" id="fileReferenceImg" src="">
+        <!------------->
+
+      </div>  
+    </div>
 </div>
-
-<!-- 부적합 경고 -->
-<div class="modal fade" id="judgmentWarningModal" tabindex="-1" aria-hidden="true" style="z-index: 9999;">
-	<div class="modal-dialog">
-		<div class="modal-content">
+<!-- 사진 모달 종료-->
+<!-- 불량이력관리 모달 시작--> 
+<div class="modal fade bd-example-modal-lg" id="badPopUpModal" tabindex="-1" role="dialog" aria-labelledby="printPopUpModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" style="margin-right: 40%;">
+		<div class="modal-content" style="width: 150%;">
 			<div class="modal-header">
-				<h5 class="modal-title">
-					<i class="fa-solid fa-triangle-exclamation text-danger"></i>
-					<spring:message code="modal.warning" text="default text" />
-				</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<h5 class="modal-title">불량이력관리 조회</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
-				품질 판정 <i class="fa-solid text-danger">부적합</i>을 선택하셨습니다.<br> 계속하시겠습니까?
+			<hr class="text-secondary">
+			<div class="table-responsive">
+				<table id="badTable" class="table table-bordered" style="font-size: 15px; color: black;">
+					<thead class="thead-light" style="font-size: 15px; color: black;">
+						<tr>
+							<th>승인여부</th>
+							<th>판정</th>
+							<th>구분</th>
+							<th>입고일자</th>
+							<th>협력사</th>
+							<th>품목번호</th>
+							<th>품명</th>
+							<th>차종</th>
+							<th>입고수량</th>
+							<th>불량수량</th>
+							<th>검사일</th>
+						</tr>
+					</thead>
+					<tbody style="font-size: 15px; color: black;"></tbody>
+				</table>
+			</div>
+			<hr class="text-secondary">
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" id="btnJudgmentWarningModalY" data-bs-dismiss="modal" style="width: 70px;">
-					<spring:message code="yes" text="default text" />
-				</button>
-				<button type="button" class="btn btn-secondary" id="btnJudgmentWarningModalN" data-bs-dismiss="modal" style="width: 70px;">
-					<spring:message code="no" text="default text" />
-				</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- 부적합 경고 모달 끝 -->
+<!-- 불량이력관리 모달 종료-->
 
-<!-- 화면설정 script -->
+<!-- 반품이력관리 모달 시작-->
+<div class="modal fade bd-example-modal-lg" id="returnPopUpModal" tabindex="-1" role="dialog" aria-labelledby="returnPopUpModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" style="margin-right: 40%;">
+		<div class="modal-content" style="width: 150%;">
+			<div class="modal-header">
+				<h5 class="modal-title">반품이력관리 조회</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+			<hr class="text-secondary">
+			<div class="table-responsive">
+				<table id="returnTable" class="table table-bordered" style="font-size: 15px; color: black;">
+					<thead class="thead-light" style="font-size: 15px; color: black;">
+						<tr>
+							<th>구분</th>
+							<th>품목번호</th>
+							<th>품명</th>
+							<th>차종</th>
+							<th>반품수량</th>
+							<th>반품등록일</th>
+							<th>담당자</th>
+						</tr>
+					</thead>
+					<tbody style="font-size: 15px; color: black;"></tbody>
+				</table>
+			</div>
+			<hr class="text-secondary">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 반품이력관리 모달 종료-->
+
+<!-- 수입검사성적서 모달 시작-->
+<div class="modal fade bd-example-modal-lg" id="filePopUpModal" tabindex="-1" role="dialog" aria-labelledby="filePopUpModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+    	<div class="modal-content" style="width: 500px; position: absolute; left: 50%; transform: translateX(-50%);">
+        	<div class="modal-header">
+           		<h5 class="modal-title" id="filePopUpLabel">수입검사성적서 등록</h5>
+           		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             		<span aria-hidden="true">&times;</span>
+           		</button>
+         	</div> 
+         	<div class="modal-body">
+         		<table id="filePopUpTable" class="table table-bordered">
+					<colgroup>
+						<col width="10%">
+						<col width="90%">
+					</colgroup>										
+					<thead class="thead-light">
+						<tr>
+							<th>선택</th>
+							<th>수입검사성적서</th>
+						</tr>
+					</thead>
+		 		</table>
+         	</div>
+         	<div class="modal-footer">
+	       		<button type="button" class="btn btn-primary float-right"
+					id="btnFileSave">등록</button>
+				<button class="btn btn-primary d-none" id="btnFileLoading" type="button" disabled>
+					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 처리중
+				</button>
+	          	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+         	</div>
+    	</div>
+	</div>
+</div>
+<!-- 수입검사성적서 모달 종료-->
+
+<!-- 불량유형 모달 시작-->
+<div class="modal fade bd-example-modal-lg" id="faultyTypePopUpModal" tabindex="-1" role="dialog" aria-labelledby="faultyTypePopUpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="faultyTypePopUpLabel">불량유형등록</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div> 
+         <div class="modal-body">
+       		<table id="" class="table table-bordered">
+				<colgroup>
+					<col width="20%">
+					<col width="30%">
+					<col width="20%">
+					<col width="30%">
+				</colgroup>										
+				<thead class="thead-light">
+					<tr>
+						<th>BarcodeNo</th>
+						<td ><input type="text" class="form-control" id="popupBarcodeNo" style="text-align:center; min-width:100%; background:white;border:none;" disabled></td>
+						<th >입고수량</th>
+						<td><input type="text" class="form-control" id="popupPreInWhsQty" style="text-align:center; min-width:100%; background:white;border:none;" disabled></td>
+					</tr>
+				</thead>
+			</table>
+	        <table id="faultyTypePopUpTable" class="table table-bordered">
+		   		<colgroup>
+					<col width="10%">
+					<col width="25%">
+					<col width="20%">
+					<col width="20%">
+					<col width="25%">
+				</colgroup>										
+				<thead class="thead-light">
+					<tr>
+						<th>No.</th>
+						<th>불량유형</th>
+						<th>불량수량</th>
+						<th>불량등록일</th>
+						<th>비고</th>
+					</tr>
+				</thead>
+		 	</table>
+       	 </div>
+         <div class="modal-footer">
+       		<button type="button" class="btn btn-primary float-right" id="btnFaultyTypeSave">저장</button>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+         </div>
+       </div>
+     </div>
+   </div>
+<!-- 불량유형 모달 모달 종료-->
+
+	<!--header ============================================================== -->
+	<header class="page-title-bar row">
+		<nav aria-label="breadcrumb" class="breadcrumb-padding">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">품질관리</a></li>
+				<li class="breadcrumb-item active">수입검사관리대장(사출)</li>
+			</ol>
+		</nav>
+	</header>
+
+	<!-- #main============================================================== -->
+	<div class="container-fluid" id="main">
+		<div class="row table-wrap-hid">
+			<!--======================== .left-list ========================-->
+			<div class="left-list left-sidebar" id="left-list" style="width: 65%;">
+				<div class="card">
+					<div class="open-arrow" id="arrowLeft">
+						<button id="left-width-btn2" onclick="openrNav2()" class="btn btn-primary input-sub-search" type="button">
+							<i class="mdi mdi-arrow-left"></i>
+						</button>
+					</div>
+					<div class="table-responsive">
+						<table id="purchaseOrderAdmTable" class="table table-bordered">
+							<colgroup>
+								<%-- <col width="8%"> --%>
+								<col width="9%">
+								<col width="5%">
+								<col width="5%">
+								<col width="8%">
+								<col width="11%">
+								<col width="18%">
+								<col width="8%">
+								<col width="4%">
+								<col width="6%">
+								<col width="6%">
+								<col width="6%">
+								<col width="8%">
+							</colgroup>
+							<thead class="thead-light">
+								<tr>
+									<th>거래처</th>
+									<th>승인여부</th>
+									<th>판정</th>
+									<th>차종</th>
+									<th>품번</th>
+									<th>품명</th>
+									<th class="text-center">최근 입고일</th>
+									<th>단위</th>
+									<th class="text-center">입고수량</th>
+									<th class="text-center">합격수량</th>
+									<th class="text-center">불합격수량</th>
+									<th>검사일</th>
+<!-- 									<th>부적합처리</th> -->
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- /.left-list -->
+			<!--======================== .right-sidebar 등록,수정 ========================-->
+			<div class="right-list right-sidebar" id="rfSidenav" style="width: 34%;">
+				<!--상단 버튼 part-->
+				<div class="rightsidebar-close">
+					<a href="javascript:void(0)" id="left-expand2" class="closebtn float-right" onclick="closerNav2()">
+						<i class="mdi mdi-close"></i>
+					</a>
+				</div>
+				<!--end----상단 버튼 part-->
+				<!--====================TAB-UI=======================-->
+				<div class="card-header card-tab p-0 mb-2">
+					<ul class="nav nav-tabs card-header-tabs m-0">
+						<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#tab1" id="tab1Head">기본정보</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link disabled" data-toggle="tab" href="#tab2" id="tab2Head">밀시트</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link disabled d-none" data-toggle="tab" href="#tab3" id="tab3Head">자재사진</a>
+						</li>
+					</ul>
+				</div>
+				<!--====================TAB-UI=======================-->
+				<div class="card-body p-0">
+					<div id="myTabContent" class="tab-content">
+						<!--========tab1 part=====-->
+						<div class="tab-pane fade active show" id="tab1">
+							<div class="card-body col-sm-12 p-1">
+								<button type="button" class="btn btn-success float-left mr-1" 	 id="btnApprove">승인</button>
+								<button type="button" class="btn btn-success float-left mr-1" 	id="btnInspPopup">검사항목</button>
+								<button type="button" class="btn btn-primary float-right d-none" id="btnSave">저장</button>
+								<button type="button" class="btn btn-primary float-right mr-1" 	 id="btnEdit">수정</button>
+								<button type="button" class="btn btn-primary float-right mr-1" 	 id="btnAdd">등록</button>
+							</div>
+							<form id="form">
+								<div class="table-responsive">
+									<table class="table table-sm table-bordered mb-1"
+										id="itemInspectAdmTable">
+										<colgroup>
+											<col width="20%">
+											<col width="30%">
+											<col width="20%">
+											<col width="30%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>차종</th>
+												<td><input type="text" class="form-control" id="itemModel" name="itemModel" style="text-align:center;" disabled /></td>
+												<th>단위</th>
+												<td><input type="text" class="form-control" id="itemUnit" name="itemUnit" style="text-align:center;" disabled /></td>
+											</tr>
+											
+											<tr>
+												<th>판정</th>
+												<td>
+													<select class="custom-select" id="qaEval" disabled>
+														<option value="" selected>선택</option>
+														<option value="001">합격</option>
+														<option value="002">불합격</option>
+													</select>
+													
+												</td>
+												<th>발주구분</th>
+												<td><input type="text" class="form-control" id="receiptGubun" name="receiptGubun" style="text-align:center;" disabled/></td>
+											</tr>
+											<tr>
+												<th>검사일</th>
+												<td>
+													<div class="form-group input-sub m-0" style="max-width: 100%">
+													<input class="form-control" style="max-width: 100%" type="text" id="inspectDate" name="inspectDate" maxlength="10" disabled />
+													<button onclick="fnPopUpCalendar(inspectDate,inspectDate,'yyyy-mm-dd')" class="btn btn-secondary input-sub-search" id="inspectDateCalendar" type="button">
+														<span class="oi oi-calendar"></span>
+													</button>
+												</div>
+												<th>검사자</th>
+												<td>
+													<div class="input-sub m-0" style="max-width: 100%">
+														<input type="hidden" class="form-control"style="max-width: 100%" id="inspectChargr"name="inspectChargr" disabled> 
+														<input type="text"class="form-control" style="max-width: 100%"id="inspectChargrNm" name="inspectChargrNm" disabled>
+														<button type="button" class="btn btn-primary input-sub-search"name="btnInspectChargr" id="btnInspectChargr" onClick="selectInspectChargr();">
+															<span class="oi oi-magnifying-glass"></span>
+														</button>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<th>입고수량</th>
+												<td><input type="text" class="form-control" id="preInWhsQty" name="preInWhsQty" style="text-align:right;" disabled /></td>
+												<th>검사수량</th>
+												<td><input type="text" class="form-control" id="inspectCnt" name="inspectCnt" style="text-align:right;" disabled /></td>
+											</tr>
+											<tr>
+												<th>합격수량</th>
+												<td><input type="text" class="form-control" id="pairQty" name="pairQty" disabled style="text-align:right" /></td>
+												<th>불량수량</th>
+												<td><input type="text" class="form-control" id="faultyQty" name="faultyQty" disabled style="text-align:right" /></td>
+											</tr>
+											<tr>
+												<th>LOT NO</th>
+												<td>
+													<input type="text" class="form-control" id="lotNo" name="lotNo" style="min-width : 100%;" disabled/>
+												</td>
+												<th>비고</th>
+												<td>
+													<input type="text" class="form-control" id="inspectDesc" name="inspectDesc" style="min-width : 100%;" maxlength="64" placeholder="64자 내외" disabled/>
+												</td>
+											</tr>
+											<tr style="border-collapse: separate; border-spacing: 0 20px;">
+											<th>MILL SHEET<br>접수</th>
+											<td>
+												<div class="container">	
+													<div class="row">
+														<div class="col-sm">
+															<input class="custom-radio mt-1" type="radio" id="millSheetY" name="millSheet" value="001" disabled> 
+															<label class="" for="millSheetY">유</label>
+														</div>
+														<div class="col-sm">
+															<input class="custom-radio mt-1" type="radio" id="millSheetN" name="millSheet" value="002" disabled> 
+															<label class="" for="millSheetN">무</label>
+														</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+										</thead>
+									</table>
+								</div>
+							</form>
+	
+							<%-- <form id="form2">
+								<div class="table-responsive">
+									<table class="table table-sm table-bordered  mb-1"
+										id="itemInspectDtlTable">
+										<colgroup>
+											<col width="20%">
+											<col width="30%">
+											<col width="20%">
+											<col width="30%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>판정</th>
+												<td><select class="custom-select" id="qaEval"name="qaEval" disabled onchange="javascript:faultyCntChange();"></select></td>
+												<th>검사수량</th>
+												<td><input type="text" class="form-control"
+													id="inspectCnt" name="inspectCnt" disabled style="text-align:right"/></td>
+											</tr>
+											<tr>
+												<th>합격수량</th>
+												<td><input type="text" class="form-control" id="pairCnt"
+													name="pairCnt" disabled style="text-align:right"/></td>
+												<th>불량수량</th>
+												<td><input type="text" class="form-control"
+													id="faultyCnt" name="faultyCnt" disabled style="text-align:right"/></td>
+											</tr>
+											<tr>
+												<th>검사일</th>
+												<td>
+													<div class="form-group input-sub m-0 row">
+														<input class="form-control" type="text" id="inspectDate"
+															name="inspectDate" disabled />
+														<button
+															onclick="fnPopUpCalendar(inspectDate,inspectDate,'yyyy-mm-dd')"
+															class="btn btn-secondary input-sub-search"
+															id="inspectDateCalendar" type="button" disabled>
+															<span class="oi oi-calendar"></span>
+														</button>
+													</div>
+												</td>
+												<th>검사자</th>
+												<td>
+													<div class="input-sub m-0">
+														<input type="hidden" class="inspectChargr"
+															id="inspectChargr" name="inspectChargr"> <input
+															type="text" class="form-control" id="inspectChargrNm"
+															name="inspectChargrNm" disabled>
+														<button type="button"
+															class="btn btn-primary input-sub-search"
+															id="btnInspectChargr" onClick="selectInspectChargr()">
+															<span class="oi oi-magnifying-glass"></span>
+														</button>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<th>비고</th>
+												<td colspan="3"><input type="text" class="form-control" id="" style="min-width: 100%;" disabled></td>
+											</tr>
+											<tr class="d-none">
+												<th colspan="4">수입검사성적서</th>
+											</tr>
+											<tr class="d-none">
+												<th>재질성적서</th>
+												<td colspan="3">
+													<div class="row">
+														<div class="custom-file d-none" id="fileSearch1" style="width: 90%;">
+															<input type="file" class="custom-file-input" id="fileNm1" name="fileNm1" value=""> 
+															<label class="custom-file-label" id="fpValue1" for="fileNm1">파일을 선택해주세요</label>
+														</div>
+														<div class="rightsidebar-close d-none" id="btnFpFileDel1" style="width: 10%;">
+															<button type="button" class="btn" onClick="inspectFileNmDel(1)">
+																<i class="mdi mdi-close"></i>
+															</button>
+														</div>
+													</div> <!--첨부파일1-->
+													<div class="form-group m-0 mr-2 row p-0 " id="fileTag1">
+														<a href="/bm/downloadFile" id="fpHref1"><span id="fpFn1"></span></a>
+													</div>
+												</td>
+											</tr>
+											<tr class="d-none">
+												<th>표면처리성적서</th>
+												<td colspan="3">
+													<div class="row">
+														<div class="custom-file d-none" id="fileSearch2"
+															style="width: 90%;">
+															<input type="file" class="custom-file-input" id="fileNm2"
+																name="fileNm2" value=""> <label
+																class="custom-file-label" id="fpValue2" for="fileNm2">파일을
+																선택해주세요</label>
+														</div>
+	
+														<div class="rightsidebar-close d-none" id="btnFpFileDel2"
+															style="width: 10%;">
+															<button type="button" class="btn"
+																onClick="inspectFileNmDel(2)">
+																<i class="mdi mdi-close"></i>
+															</button>
+														</div>
+													</div> <!--첨부파일1-->
+													<div class="form-group m-0 mr-2 row p-0 " id="fileTag2">
+														<a href="/bm/downloadFile" id="fpHref2"><span id="fpFn2"></span></a>
+													</div>
+												</td>
+											</tr>
+											<tr class="d-none">
+												<th>열처리성적서</th>
+												<td colspan="3">
+													<div class="row">
+														<div class="custom-file d-none" id="fileSearch3"
+															style="width: 90%;">
+															<input type="file" class="custom-file-input" id="fileNm3"
+																name="fileNm3" value=""> <label
+																class="custom-file-label" id="fpValue3" for="fileNm3">파일을
+																선택해주세요</label>
+														</div>
+	
+														<div class="rightsidebar-close d-none" id="btnFpFileDel3"
+															style="width: 10%;">
+															<button type="button" class="btn"
+																onClick="inspectFileNmDel(3)">
+																<i class="mdi mdi-close"></i>
+															</button>
+														</div>
+													</div> <!--첨부파일1-->
+													<div class="form-group m-0 mr-2 row p-0 " id="fileTag3">
+														<a href="/bm/downloadFile" id="fpHref3"><span id="fpFn3"></span></a>
+													</div>
+												</td>
+											</tr>
+											<tr class="d-none">
+												<th>품질보증서(COC)</th>
+												<td colspan="3">
+													<div class="row">
+														<div class="custom-file d-none" id="fileSearch4"
+															style="width: 90%;">
+															<input type="file" class="custom-file-input" id="fileNm4"
+																name="fileNm4" value=""> <label
+																class="custom-file-label" id="fpValue4" for="fileNm4">파일을
+																선택해주세요</label>
+														</div>
+	
+														<div class="rightsidebar-close d-none" id="btnFpFileDel4"
+															style="width: 10%;">
+															<button type="button" class="btn"
+																onClick="inspectFileNmDel(4)">
+																<i class="mdi mdi-close"></i>
+															</button>
+														</div>
+													</div> <!--첨부파일1-->
+													<div class="form-group m-0 mr-2 row p-0 " id="fileTag4">
+														<a href="/bm/downloadFile" id="fpHref4"><span id="fpFn4"></span></a>
+													</div>
+												</td>
+											</tr>
+											<tr class="d-none">
+												<th>수입검사성적서</th>
+												<td colspan="3">
+													<div class="row">
+														<div class="custom-file d-none" id="fileSearch5"
+															style="width: 90%;">
+															<input type="file" class="custom-file-input" id="fileNm5"
+																name="fileNm5" value=""> <label
+																class="custom-file-label" id="fpValue5" for="fileNm5">파일을 선택해주세요</label>
+														</div>
+	
+														<div class="rightsidebar-close d-none" id="btnFpFileDel5"
+															style="width: 10%;">
+															<button type="button" class="btn"
+																onClick="inspectFileNmDel(5)">
+																<i class="mdi mdi-close"></i>
+															</button>
+														</div>
+													</div> <!--첨부파일1-->
+													<div class="form-group m-0 mr-2 row p-0 " id="fileTag5">
+														<a href="/bm/downloadFile" id="fpHref5"><span id="fpFn5"></span></a>
+													</div>
+												</td>
+											</tr>
+											<tr class="d-none">
+												<th>수입검사기준서</th>
+												<td colspan="3">
+													<div class="row">
+														<div class="custom-file d-none" id="fileSearch6"
+															style="width: 90%;">
+															<input type="file" class="custom-file-input" id="fileNm6"
+																name="fileNm6" value=""> <label
+																class="custom-file-label" id="fpValue6" for="fileNm6">파일을 선택해주세요</label>
+														</div>
+	
+														<div class="rightsidebar-close d-none" id="btnFpFileDel6"
+															style="width: 10%;">
+															<button type="button" class="btn"
+																onClick="inspectFileNmDel(6)">
+																<i class="mdi mdi-close"></i>
+															</button>
+														</div>
+													</div> <!--첨부파일1-->
+													<div class="form-group m-0 mr-2 row p-0 " id="fileTag6">
+														<a href="/bm/downloadFile" id="fpHref6"><span id="fpFn6"></span></a>
+													</div>
+												</td>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</form> --%>
+							<!-- <button type="button" class="btn btn-info float-right m-1" id="btnTypeAdd" onclick="selectFaultyType()" disabled>불량유형</button> -->
+							<button type="button" class="btn btn-info float-left m-1" id="btnJrbr" disabled>전량불량</button>
+							<form id="form3">
+								<div class="table-responsive">
+									<table id="itemFaultyTypeTable" class="table table-bordered">
+										<colgroup>
+											<col width="5%">
+											<col width="21%">
+											<col width="16%">
+											<col width="16%">
+											<col width="10%">
+											<col width="16%">
+											<col width="16%">
+										</colgroup>					
+										<thead class="thead-light">
+											<tr>
+												<th>No.</th>
+												<th>BarcodeNo</th>
+												<th class="text-center">입고수량</th>
+												<th class="text-center">합격수량</th>
+												<th>판정</th>
+												<th class="text-center">불량수량</th>
+												<th class="text-center">부적합처리</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</form>
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<colgroup>
+										<col width="50%">
+										<col width="50%">
+									</colgroup>
+									<tr>
+										<th colspan="2">수입검사</th>
+									</tr>
+									<tr>
+										<th>원재료</th>
+										<th>수입검사기준서</th>
+									</tr>
+									<tr>
+										<td>
+											<div class="custom-file" style="height: 150px;">
+												<img alt="등록된 사진이 없습니다." id="imageFile1" src="" onClick="imgShow(imgSrc1)"
+													name="imageFile1" style="width: 100%; height: 100%">
+											</div>
+										</td>
+
+										<td>
+											<div class="custom-file" style="height: 150px;">
+												<img alt="등록된 사진이 없습니다." id="imageFile2" src="" onClick="imgShow(imgSrc2)"
+													name="imageFile2" style="width: 100%; height: 100%">
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>물성추이도</th>
+										<th>Q-POINT</th>
+									</tr>
+									<tr>
+										<td>
+											<div class="custom-file" style="height: 150px;">
+												<img alt="등록된 사진이 없습니다." id="imageFile3" src="" onClick="imgShow(imgSrc3)"
+													name="imageFile3" style="width: 100%; height: 100%">
+											</div>
+										</td>
+
+										<td>
+											<div class="custom-file" style="height: 150px;">
+												<img alt="등록된 사진이 없습니다." id="imageFile4" src="" onClick="imgShow(imgSrc4)"
+													name="imageFile4" style="width: 100%; height: 100%">
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+							<%-- 
+							<div class="mt-2">
+								<ul class="nav nav-tabs card-header-tabs m-0">
+									<li class="nav-item">
+										<a class="nav-link active" data-toggle="tab" href="#tab11" id="extTab">외관</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link disabled" data-toggle="tab" href="#tab22" id="sizeTab">물성치</a>
+									</li>
+								</ul> 
+							</div>
+							<div class="card-body p-0">
+								<div class="tab-content">
+									<div class="tab-pane fade active show" id="tab11">
+										<form id="extForm" enctype="multipart/form-data">
+											<div class="table-responsive">
+												<table class="table table-bordered" id="extAdmTable">
+													<colgroup>
+														<col width="10%">
+														<col width="70%">
+														<col width="20%">
+													</colgroup>
+													<thead>
+														<tr>
+															<th>순번</th>
+															<th>기준</th>
+															<th>판정</th>
+														</tr>
+													</thead>
+												</table>
+											</div>
+										</form>
+									</div>
+									<div class="tab-pane fade" id="tab22">
+										<form id="sizeForm" enctype="multipart/form-data">
+											<div class="table-responsive d-none" id="sizeAdmTableDiv2">
+												<table class="table table-bordered" id="sizeAdmTable2">
+													<colgroup>
+														<col width="10%">
+														<col width="20%">
+														<col width="50%">
+														<col width="5%">
+														<col width="5%">
+														<col width="5%">
+														<col width="5%">
+													</colgroup>
+													<thead>
+														<tr>
+															<th>순번</th>
+															<th>목록</th>
+															<th>기준</th>
+															<th>Xl</th>
+															<th>X2</th>
+															<th>X3</th>
+															<th>X4</th>
+															<th>X5</th>
+														</tr>
+													</thead>
+												</table>
+											</div>
+											<div class="table-responsive" id="sizeAdmTableDiv">
+												<table class="table table-bordered" id="sizeAdmTable">
+													<colgroup>
+														<col width="10%">
+														<col width="15%">
+														<col width="21%">
+														<col width="17%">
+														<col width="5%">
+														<col width="5%">
+														<col width="5%">
+														<col width="4%">
+													</colgroup>
+													<thead>
+														<tr>
+															<th rowspan="2">순번</th>
+															<th rowspan="2">특별특성</th>
+															<th rowspan="2">*기준</th>
+															<th colspan="2">SPEC</th>
+															<th>Xl</th>
+															<th>X2</th>
+															<th>X3</th>
+															<th>X4</th>
+															<th>X5</th>
+														</tr>
+														<tr>
+															<th>*최대</th>
+															<th>*최소</th>
+														</tr>
+													</thead>
+												</table>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div> --%>
+						</div>
+						<!--========tab1 part=====-->
+						<!--========tab2 part=====-->
+						<div class="tab-pane fade" id="tab2">
+							<div class="card-body col-sm-12 p-1 mb-2">
+								<button type="button" class="btn btn-primary float-left mr-1" id="btnAttachAdd" >추가</button>
+								<button type="button" class="btn btn-warning float-left mr-1" id="btnAttachDel">삭제</button>
+								<button type="button" class="btn btn-primary float-right d-none" id="btnAttachSave">저장</button>
+							</div>
+							<form id="form31" enctype="multipart/form-data">
+								<div class="table-responsive">
+									<table class="table table-bordered" id="itemInspectAttachTable">
+										<colgroup>
+											<col width="10%">
+											<col width="30%">
+											<col width="60%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>No.</th>
+												<th>내용</th>
+												<th>밀시트</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</form>
+						</div>
+						<!--====end====tab2 part=====-->
+						<!--========tab3part=====-->
+						<div class="tab-pane fade" id="tab3">
+<!-- 								사진 탭 v2 -->
+<!-- 							<div class="table-responsive"> -->
+<!-- 									<table class="table table-bordered"> -->
+<%-- 										<colgroup> --%>
+<%-- 											<col width="50%"> --%>
+<%-- 											<col width="50%"> --%>
+<%-- 										</colgroup> --%>
+<!-- 										<tr> -->
+<!-- 											<th colspan="2">자재사진</th> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<th>자재1</th> -->
+<!-- 											<th>자재2</th> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td> -->
+<!-- 												<div class="custom-file" style="height: 150px;"> -->
+<!-- 													<img alt="등록된 사진이 없습니다." id="imageFile1" src="" -->
+<!-- 														name="imageFile1" style="width: 100%; height: 100%"> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+
+<!-- 											<td> -->
+<!-- 												<div class="custom-file" style="height: 150px;"> -->
+<!-- 													<img alt="등록된 사진이 없습니다." id="imageFile2" src="" -->
+<!-- 														name="imageFile2" style="width: 100%; height: 100%"> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<th>Q-POINT1</th> -->
+<!-- 											<th>Q-POINT2</th> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td> -->
+<!-- 												<div class="custom-file" style="height: 150px;"> -->
+<!-- 													<img alt="등록된 사진이 없습니다." id="imageFile3" src=""  -->
+<!-- 														name="imageFile3" style="width: 100%; height: 100%"> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+
+<!-- 											<td> -->
+<!-- 												<div class="custom-file" style="height: 150px;"> -->
+<!-- 													<img alt="등록된 사진이 없습니다." id="imageFile4" src="" -->
+<!-- 														name="imageFile4" style="width: 100%; height: 100%"> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 									</table> -->
+<!-- 								</div> -->
+
+<!-- 								사진 탭 v1 -->
+<!-- 							<form id="form21" enctype="multipart/form-data"> -->
+<!-- 								<div class="table-responsive"> -->
+<!-- 									<table class="table table-bordered"> -->
+<%-- 										<colgroup> --%>
+<%-- 											<col width="50%"> --%>
+<%-- 											<col width="50%"> --%>
+<%-- 										</colgroup> --%>
+<!-- 										<tr> -->
+<!-- 											<th>제품사진1</th> -->
+<!-- 											<th>제품사진2</th> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td> -->
+<!-- 												<div class="custom-file" style="height: 150px;"> -->
+<!-- 													<img alt="등록된 사진이 없습니다." id="imageFile1" src="" -->
+<!-- 														name="imageFile1" style="width: 100%; height: 100%"> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+
+<!-- 											<td> -->
+<!-- 												<div class="custom-file" style="height: 150px;"> -->
+<!-- 													<img alt="등록된 사진이 없습니다." id="imageFile2" src="" -->
+<!-- 														name="imageFile2" style="width: 100%; height: 100%"> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td> -->
+<!-- 												<div class="form-group"> -->
+<!-- 													<div class="custom-file" style="width: 90%;"> -->
+<!-- 														<input type="file" class="custom-file-input" id="imgAdd1" -->
+<!-- 															name="imgAdd1" onchange="imageUpload(1)"> <label -->
+<!-- 															id="imgName1" class="custom-file-label" for="imgAdd1"></label> -->
+<!-- 													</div> -->
+<!-- 													<div class="rightsidebar-close" -->
+<!-- 														style="width: 10%; padding-top: 4px;"> -->
+<!-- 														<button type="button" class="btn" name="closeBtn" -->
+<!-- 															onclick="deleteImg(1);"> -->
+<!-- 															<i class="mdi mdi-close"></i> -->
+<!-- 														</button> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+<!-- 											<td> -->
+<!-- 												<div class="form-group"> -->
+<!-- 													<div class="custom-file" style="width: 90%;"> -->
+<!-- 														<input type="file" class="custom-file-input" id="imgAdd2" -->
+<!-- 															name="imgAdd2" onchange="imageUpload(2)"> <label -->
+<!-- 															id="imgName2" class="custom-file-label" for="imgAdd2"></label> -->
+<!-- 													</div> -->
+<!-- 													<div class="rightsidebar-close" -->
+<!-- 														style="width: 10%; padding-top: 4px;"> -->
+<!-- 														<button type="button" class="btn" name="closeBtn" -->
+<!-- 															onclick="deleteImg(2);"> -->
+<!-- 															<i class="mdi mdi-close"></i> -->
+<!-- 														</button> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 									</table> -->
+<!-- 									<table class="table table-bordered"> -->
+<%-- 										<colgroup> --%>
+<%-- 											<col width="50%"> --%>
+<%-- 											<col width="50%"> --%>
+<%-- 										</colgroup> --%>
+<!-- 										<tr> -->
+<!-- 											<th>Q-POINT1</th> -->
+<!-- 											<th>Q-POINT2</th> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td> -->
+<!-- 												<div class="custom-file" style="height: 150px;"> -->
+<!-- 													<img alt="등록된 사진이 없습니다." id="imageFile3" src=""  -->
+<!-- 														name="imageFile3" style="width: 100%; height: 100%"> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+
+<!-- 											<td> -->
+<!-- 												<div class="custom-file" style="height: 150px;"> -->
+<!-- 													<img alt="등록된 사진이 없습니다." id="imageFile4" src="" -->
+<!-- 														name="imageFile4" style="width: 100%; height: 100%"> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td> -->
+<!-- 												<div class="form-group"> -->
+<!-- 													<div class="custom-file" style="width: 90%;"> -->
+<!-- 														<input type="file" class="custom-file-input" id="imgAdd3" -->
+<!-- 															name="imgAdd3" onchange="imageUpload(3)"> <label -->
+<!-- 															id="imgName3" class="custom-file-label" for="imgAdd3"></label> -->
+<!-- 													</div> -->
+<!-- 													<div class="rightsidebar-close" -->
+<!-- 														style="width: 10%; padding-top: 4px;"> -->
+<!-- 														<button type="button" class="btn" name="closeBtn" -->
+<!-- 															onclick="deleteImg(3);"> -->
+<!-- 															<i class="mdi mdi-close"></i> -->
+<!-- 														</button> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+<!-- 											<td> -->
+<!-- 												<div class="form-group"> -->
+<!-- 													<div class="custom-file" style="width: 90%;"> -->
+<!-- 														<input type="file" class="custom-file-input" id="imgAdd4" -->
+<!-- 															name="imgAdd4" onchange="imageUpload(4)"> <label -->
+<!-- 															id="imgName4" class="custom-file-label" for="imgAdd4"></label> -->
+<!-- 													</div> -->
+<!-- 													<div class="rightsidebar-close" -->
+<!-- 														style="width: 10%; padding-top: 4px;"> -->
+<!-- 														<button type="button" class="btn" name="closeBtn" -->
+<!-- 															onclick="deleteImg(4);"> -->
+<!-- 															<i class="mdi mdi-close"></i> -->
+<!-- 														</button> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 									</table> -->
+<!-- 								</div> -->
+<!-- 							</form> -->
+						</div>
+						<!--====end====tab3 part=====-->
+						<!--========tab4 part=====-->
+						<div class="tab-pane fade" id="tab4">
+							<!-- 구축 예정 -->
+							<table class="table table-bordered mt-3">
+								<colgroup>
+									<col width="30%">
+								</colgroup>
+								<tr>
+									<th>구현중입니다.</th>
+								</tr>
+							</table>
+						</div>
+						<!--====end====tab4 part=====-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--  Modal Start-->
+	<div class="modal fade" id="inspPopupModal" tabindex="-1" role="dialog" aria-labelledby="inspSavePopupLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document" style="min-width:1000px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<h5 class="modal-title" id="inspPopuppLabel">검사항목등록</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="">
+						<button type="button" class="btn btn-primary" id="btnExt">외관</button>
+						<button type="button" class="btn btn-primary" id="btnSize">물성치</button>
+						
+						<button type="button" class="btn btn-primary float-right mr-1" id="btnInspSave">저장</button>
+						<!-- <button type="button" class="btn btn-warning float-right mr-1" id="btnInspEdit">수정</button> -->
+						<button type="button" class="btn btn-primary float-right mr-1" id="btnInspAdd">등록/수정</button>
+					</div>
+					<hr>
+					<div class="card-body p-0">
+						<div class="table-responsive" id="extAdmTableDiv">
+							<table class="table table-bordered" id="extAdmTable" style="width:100%;">
+								<colgroup>
+									<col width="10%">
+									<col width="60%">
+									<col width="10%">
+									<col width="20%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>순번</th>
+										<th>기준</th>
+										<th>확인방법</th>
+										<th>판정</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div class="table-responsive d-none" id="sizeAdmTableDiv2">
+							<table class="table table-bordered" id="sizeAdmTable2" style="width:100%;">
+								<thead>
+									<tr>
+										<th rowspan="2">순번</th>
+										<th rowspan="2">목록</th>
+										<th rowspan="2">확인방법</th>
+										<th colspan="2">기준</th>
+										<th rowspan="2">확인값</th>
+									</tr>
+									<tr>
+										<th>하한</th>
+										<th>상한</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div class="table-responsive d-none" id="sizeAdmTableDiv">
+							<table class="table table-bordered" id="sizeAdmTable" style="width:100%;">
+								<thead>
+									<tr>
+										<th rowspan="2">순번</th>
+										<th rowspan="2">특별특성</th>
+										<th rowspan="2">확인방법</th>
+										<th rowspan="2">기준</th>
+										<th colspan="2">SPEC</th>
+										<th rowspan="2">확인값</th>
+									</tr>
+									<tr>
+										<th>하한</th>
+										<th>상한</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!--  Modal End-->
+	</div> 
+</div>
+<%@include file="../layout/bottom.jsp" %>
+<style>
+.tr_highlight_row tr:hover {
+	background-color: #ECFFB3;
+}
+</style>
 <script>
-	let isDraggingV = false;
-	
-	function SetCursor(cursor) {
-		let page = document.getElementById("page");
-		page.style.cursor = cursor;
-	}
-	
-	function StartDrag() {
-		isDraggingV = true;
-		SetCursor("n-resize");
-	}
-	
-	function EndDrag(e) {
-		if(isDraggingV) {
-			dataTableDrawAll(); // dataTable 전체 reload
-			isDraggingV = false;
-			SetCursor("auto");
+
+	$("#left-width-btn2").click(function() {
+		{
+			$("#left-list").animate({
+				width : "65%"
+			}, 200);
+			$("#arrow-left").animate({
+				display : "none"
+			}, 200);
 		}
-	}
 	
-	function OnDrag(event) {
-		if (isDraggingV) {
-			let dragbarWidth = 4;
-	
-			let page_height = parseInt($('#page').height()); 				// 전체 높이
-			let middlecolT_height = parseInt($('#middlecolT').height());	// 상단
-			let middlecolB_height = parseInt($('#middlecolB').height());	// 하단
-	
-			let middlecolT_min_height = 100;	// 상단 최소높이
-			let middlecolB_min_height = 100;	// 하단 최소높이
-	
-			let cursorY = event.clientY;	// 현재 cursor y좌표(위에서부터 얼마나 떨어졌는지)
-	
-			let cols = [
-				Math.min(Math.max(middlecolT_min_height, cursorY), page_height - middlecolB_min_height - dragbarWidth),
-				dragbarWidth,
-				Math.max(page_height - Math.max(middlecolT_min_height, cursorY) - dragbarWidth, middlecolB_min_height)
-			];
-	
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-	
-			$('#page').css('grid-template-rows',newColDefn);
-	
-			event.preventDefault()
-		}
-	}
-</script>
+		state = !state;
+	});
 
-<script>
-	WM_init('ADM');
-
-	let monthAdjustList = getCommonCode('시스템', '026'); //날짜조정
-	monthAdjustList = _.sortBy(monthAdjustList, v=>parseInt(v.commonCd));
-	selectBoxAppend(monthAdjustList, 'monthAdjust', '', '2'); //날짜조정
+	let currentHref = "qmsc0010";
+	let currentPage = $('.' + currentHref).attr('id');
 	
-	//공통코드
-	let ordStatusList = getCommonCode('시스템', '022'); // 수주상태
-	let dealGubunList = getCommonCode('시스템', '011'); // 거래구분
-	let dealStatusList = getCommonCode('시스템', '015'); // 거래상태
-	let qualityJudgmentCdList = getCommonCode('시스템', '020'); // 품질판정
-	let qualityConfirmList = getCommonCode('시스템', '021'); // 품질승인
-	let pageLengthCnt = parseInt(getCommonCode('시스템', '025')[0].commonCd); //페이징수량s
-	let itemGubunList = getCommonCode('일반', '001'); // 제품구분
-	let useYnCdList = getCommonCode('시스템', '055'); // 사용여부
+	$('#'+currentPage).closest('.has-child','li').addClass('has-open has-active');
+	$('#'+currentPage).closest('.menu-item').addClass('has-active');    
+	$(document).attr("title","수입검사관리대장(사출)"); 
+	let viewIdx;
+	let sideView = 'add';
+	let sideView2 = 'add';
+	let btnView = '';
+
+	let printArray = new Array();
 	
-	selectBoxAppend(qualityJudgmentCdList, 'searchTarget', '', '1'); //품질판정
-	selectBoxAppend(dealGubunList, 'modalDealGubun', '', '1'); //거래구분
-	selectBoxAppend(dealStatusList, 'modalDealCorpStatus', '', '1'); //거래상태
-	selectBoxAppend(itemGubunList, 'modalItemGubunBox', '', '1'); //제품구분
-	selectBoxAppend(useYnCdList, 'modalUseYnCdBox', 'Y', '1'); //사용여부
+	var index = 0;
+	var serverDateFrom =  "${serverDateFrom}";
+	var serverDateTo =  "${serverDateTo}";
+	var serverDate = "${serverDate}";
 
-	let selectPeriod = parseInt(getCommonCode('시스템', '040')[0].commonCd); //기본조회기간 일
-	$('#startDate').val(moment().subtract('d',selectPeriod).format('YYYY-MM-DD'));
-	$('#endDate').val(moment().format('YYYY-MM-DD'));
+	var inSlipNo = null;
+	var inSlipSeq = null;
+	var poNo = '';
+	var poSeq = 0;
+	var inSeq = 0;
+	var inspectDate;
+	var preInWhsQty;
+	var inspectFileNm;
+	var tableIdx = 0;
+	var tempView = '';
+	var attachSeq;
+	var mainGubun = null;
+	var itemGubun = null;
+	var approvalYn = null;
+	//외관,물성치 테이블 초기화를 위한 itemSeq 초기화
+	var itemSeq = '';
+	var barcodeNo;
+	var searchOption="003";
+	var approvalYnOption = "";
+	var qaEvalOption = "";
+	var modalHide = true;
+	var poSeq = '';
+	var inSeq = '';
+	var inspCdVal = null;
 
-	//조회대상 - 품질판정 01(미판정)으로 세팅ㅊ
-	$('#searchTarget').val('01');
-
-	let sessionUserNm = "${userNm}";//세션에서 가져온 유저이름
-	let sessionUserIdx = "${userIdx}";//세션에서 가져온 유저식별자
+	let inspDesc1Html = "";
+	let inspDesc2Html = "";
+		
+	var userNm =  "${userNm}";
+	var userNumber = "${userNumber}";
 	
-	// 작지공정 목록조회
-	$('#prodQualityTable thead tr').clone(true).addClass('filters').appendTo('#prodQualityTable thead'); // filter 생성
-	let prodQualityTable = $('#prodQualityTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/qm/prodQualityAdmLst"/>',
-			type : 'POST',
+	var userId = "${userId}";		// 로그인 사용자 정보
+	var menuUrl = "${menuUrl}";		// 메뉴 경로
+	console.log(userId);
+	console.log(menuUrl);
+	var jrCheck = true;
+	
+	//base64를 담는 변수
+	let imgSrc1 = '';
+	let imgSrc2 = '';
+	let imgSrc3 = '';
+	let imgSrc4 = '';
+
+	let poGubun='';
+	let outLocNo='';
+	let outLocCd='';
+	
+	//파일 저장 시간 가져오기
+	var now = new Date();
+	var year = now.getFullYear();
+	var mon = now.getMonth()+1;
+	if (mon < 10) { mon = "0" + mon; }
+	var fileDate = year + "" + mon;
+
+	//승인여부
+	$.ajax({
+		url : '<c:url value="sm/approvalAuthAdmList"/>',
+		type: 'GET',
+		dataType: 'json',
+		async: false,
+		data: {
+			'userId' 	: function() { return userId;},
+			'apprDesc'	: function() { return menuUrl;}
+		},
+		success: function(res) {
+			let data = res.data;
+			if (data.length != 0) {
+				$('#btnApprove').removeClass('d-none');
+			}else if(data.length == 0){
+				$('#btnApprove').addClass('d-none');
+			}
+		},
+	});
+	
+	//공통코드 시작
+	var qaEvalCode=new Array();
+    <c:forEach items="${qaEval}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseNm="${info.baseNm}";
+		qaEvalCode.push(json);
+	</c:forEach>
+
+	var inspectLvlCode=new Array();
+    <c:forEach items="${inspectLvl}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseNm="${info.baseNm}";
+		inspectLvlCode.push(json);
+	</c:forEach>
+
+	var contentsCode=new Array();
+    <c:forEach items="${contents}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseNm="${info.baseNm}";
+		contentsCode.push(json);
+	</c:forEach>
+
+	var inputMethodCode=new Array();	//검사입력방식
+    <c:forEach items="${inputMethod}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseNm="${info.baseNm}";
+		inputMethodCode.push(json);
+	</c:forEach>
+
+	var judgeCode=new Array();	//판정
+    <c:forEach items="${judge}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseNm="${info.baseNm}";
+		judgeCode.push(json);
+	</c:forEach>
+
+	var silhangCode=new Array();	//실행여부
+    <c:forEach items="${silhang}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseNm="${info.baseNm}";
+		silhangCode.push(json);
+	</c:forEach>
+
+	//공통코드 끝
+	
+	uiProc(true);
+
+
+	//선택박스 처리
+	//selectBoxAppend(qaEvalCode, "qaEval", "", "2");
+	selectBoxAppend(inspectLvlCode, "inspectLvl", "", "2");
+	selectBoxAppend(contentsCode, "contents", "", "2");
+
+	$('#saveBtnModalY').on('click', function() {
+		//$('#btnSave').trigger('click');
+		$('#btnAdd').attr('disabled', false);		//등록 버튼
+	    $('#btnEdit').attr('disabled', false);		//수정 버튼
+	    $('#btnSave').addClass('d-none');
+	    
+	    uiProc(true);
+	});
+
+	
+	//수입검사관리대장(사출) 목록조회
+	let purchaseOrderAdmTable = $('#purchaseOrderAdmTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-12'l>>"
+				+ "<'row'<'col-sm-12 col-md-12'f>>"
+				+ "<'row'<'col-sm-12'tr>>"
+				+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>B>",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : true,
+		processing : true,
+		autoWidth : false,
+		paging : true,
+		fixedHeader: true,
+		pageLength : 20, 
+		ajax : {
+			url : '<c:url value="io/itemInspectMasterAdmList"/>',
+			type : 'GET',
 			data : {
-				'startDate' : function(){return $('#startDate').val().replaceAll('-','');},
-				'endDate'	: function(){return $('#endDate').val().replaceAll('-','');},
-				'itemIdx'	: function(){ return $('#itemIdx').val(); },
-				'dealCorpidx' 	: function(){ return $('#searchDealCorpIdx').val();} , 
-				'searchTarget'  : function(){ return $('#searchTarget').val(); },
-				/* 'searchTargetConfirm'	: function(){ return $('#searchTargetConfirm').val(); }, */
-			
+				'preInWhsStartDate' : function() {return serverDateFrom.replace(/-/g, '');},
+				'preInWhsEndDate' : function() { return serverDateTo.replace(/-/g, '');},
+				'approvalYn' : function(){return approvalYnOption},
+				'mainGubun' : function(){return '001'},
 			},
 		}, 
-        rowId: 'idx',
-		columns : [
-			{ className : 'text-center  align-middle', name:'checkbox',
-				render: function(data, type, row, meta) {
-					//승인 및 출고대기상태만 삭제가능하도록
-					if(row['confirmCd'] == '01' && row['bizStatusCd'] == '06'){
-						return '<input type="checkbox" name="inputCheck" style="width:20px; height:20px;">';
-					} else {
-						return '<input disabled type="checkbox" name="inputNotCheck" style="width:20px; height:20px;">';
+		rowId : 'poNo',
+		columns : [ 
+			/* {//입고전표번호
+				data : 'inSlipNo' 
+			},  */
+			{//거래처
+				data : 'dealCorpNm' 
+			}, 
+			{//승인여부
+				data : 'approvalYn',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						if(data=="001"){
+							return "승인";
+						}else{
+							return '<span style="color:red;">미승인</span>';
+						}
+					}else{
+						return '<span style="color:red;">미승인</span>';
 					}
-				}
+					
+				} 
+			}, 
+			{//판정
+				data : 'qaEval',
+				render : function(data, type, row, meta){
+					if(data!=null && data!=""){
+						if(data=="001"){
+							return '<span style="color:blue;">합격</span>';
+						}else if(data=="002"){
+							return '<span style="color:red;">불합격</span>';
+						}else{
+							return '<span>미판정</span>';
+						}
+					}else{
+						return '<span>미판정</span>';
+					}
+				} 
+			}, 
+			{//차종
+				data : 'itemModel' 
+			}, 
+			{//품번
+				data : 'itemCd' 
+			}, 
+			{//품명
+				data : 'itemNm' 
+			}, 
+			{//최근 입고일
+				data : 'preInWhsDate',
+				render : function(data, type, row, meta){
+					return moment(data).format('YYYY-MM-DD');
+				},
 			},
-			{ data: 'bizOrdDtlNo', className : 'text-center align-middle',//수주상세
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '-';
+			{//단위
+				data : 'itemUnitNm' 
+			}, 
+			{//입고수량
+				data : 'preInWhsQty',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return rmDecimal(data);
+					}else{
+						return '0';
 					}
-				}
-			},
-			{ data: 'bizStatusCd', className : 'text-center align-middle', //수주상태
-				render : function(data, type, row, meta) {
-					if(data != null && data !=''){
-						return _.filter(ordStatusList,v=>v.commonCd == data)[0].commonNm;
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'dealCorpNm', className : 'text-center align-middle',//고객사
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'itemNm', className : 'text-center align-middle',//제품명
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						if( row['workQtyCheck'] == '1' ){
-							return '<div><big class="fw-bolder" style="color: #ff0000;">! </big>'+data+'</div>';
-						} else {
-							return '<div>'+data+'</div>';
-						} 
-					} else {
-						return '-';
-					}
-				}
-			},
-			
-			{ data: 'stockUseQty', className : 'text-end align-middle',//재고사용수량
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'stockReUseQty', className : 'text-end align-middle',//재고활용수량
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			
-			/* { data: 'workOrdQty', className : 'text-end align-middle',//지시수량
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			}, */
-			{ data: 'bizOrdQty', className : 'text-end align-middle',//수주수량
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'fairQty', className : 'text-end align-middle',//생산수량
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'passQty', className : 'text-end align-middle',name:'passQty',//적합수량
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-					} else {
+				},
+			}, 
+			{//합격수량
+				data : 'pairQty',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return rmDecimal(data);
+					}else{
 						return '0';
 					}
 				}
 			},
-			{ data: 'qualityJudgmentCd', className : 'text-center align-middle',name:'qualityJudgmentCd',//적합여부
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						let html ='';
-						html += '<div class="row d-flex justify-content-center align-items-center" style="min-width:150px;">';
-						html += '<div class="btn-group" role="group" aria-label="Small button group">';
-						if(data == '02'){
-							html += '<input disabled checked data-val="02" type="checkbox" class="btn-check" id="JudgmentY'+meta.row+'">';
-							html += '<label disabled data-val="02" class="btn btn-outline-primary d-flex justify-content-center align-items-center" style="min-width:75px;max-width:75px;" for="JudgmentY'+meta.row+'" >적합</label>';
-							html += '<input disabled data-val="03" type="checkbox" class="btn-check" id="JudgmentN'+meta.row+'">';
-							html += '<label disabled data-val="03" class="btn btn-outline-danger d-flex justify-content-center align-items-center" style="min-width:75px;max-width:75px;border-color: #dc3545;" for="JudgmentN'+meta.row+'">부적합</label>';
-							html += '</div>';
-							html += '</div>';
-						} else if(data == '03'){
-							html += '<input disabled data-val="02" type="checkbox" class="btn-check" id="JudgmentY'+meta.row+'">';
-							html += '<label disabled data-val="02" class="btn btn-outline-primary d-flex justify-content-center align-items-center" style="min-width:75px;max-width:75px;" for="JudgmentY'+meta.row+'">적합</label>';
-							html += '<input disabled checked data-val="03" type="checkbox" class="btn-check" id="JudgmentN'+meta.row+'">';
-							html += '<label disabled data-val="03" class="btn btn-outline-danger d-flex justify-content-center align-items-center" style="min-width:75px;max-width:75px;border-color: #dc3545;" for="JudgmentN'+meta.row+'">부적합</label>';
-							html += '</div>';
-							html += '</div>';
-						}
-						return html;						
-					} else {
-						let html ='';
-						html += '<div class="row d-flex justify-content-center align-items-center" style="min-width:150px;">';
-						html += '<div class="btn-group" role="group" aria-label="Small button group">';
-						html += '<button type="button" class="btn btn-outline-light w-auto" style="min-width:75px;max-width:75px;" disabled>적합</button>';
-						html += '<button type="button" class="btn btn-outline-light w-auto" style="min-width:75px;max-width:75px;" disabled>부적합</button>';
-						//html += '<label disabled data-val="02" class="btn btn-outline-light d-flex justify-content-center align-items-center" style="min-width:75px;max-width:75px;">적합</label>';
-						//html += '<label disabled data-val="03" class="btn btn-outline-light d-flex justify-content-center align-items-center" style="min-width:75px;max-width:75px;">부적합</label>';
-						html += '</div>';
-						html += '</div>';
-						return html;
+			{//불합격수량
+				data : 'faultyQty',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return rmDecimal(data);
+					}else{
+						return '0';
 					}
 				}
 			},
-			{ data: 'ordEndDate', className : 'text-center align-middle',//목표요구일
+			{//검사일
+				data : 'inspectDate',
 				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
+					if(data!=null){
+						return moment(data).format("YYYY-MM-DD");
+					}else{
 						return '-';
 					}
 				}
 			},
-			{ data: 'outReqDate', className : 'text-center align-middle',//출고요청일
+			{//부적합처리 (숨김)
+				data : 'faultyPcs',
 				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
+					if(data!=null){
+						return data;
+					}else{
 						return '-';
-					}
-				}
-			},
-			{ data: 'judgmentDate', className : 'text-center align-middle',name:'judgmentDate',//판정일자
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'judgmentUserNm', className : 'text-center align-middle',name:'judgmentUserNm',//판정자
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '판정대기';
-					}
-				}
-			},
-			{ data: 'confirmCd', className : 'text-center align-middle',name:'conFirmCd',//승인여부
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+_.filter(qualityConfirmList,v=>v.commonCd == data)[0].commonNm+'</div>';
-					} else {
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">미승인</div>';
-					}
-				}
-			},
-			{ data: 'confirmUserNm', className : 'text-center align-middle',name:'confirmUserNm',//승인자
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'confirmDate', className : 'text-center align-middle',name:'confirmDate',//승인일자
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'qualityDesc', className : 'text-center align-middle',name:'qualityDesc',//비고
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '';
 					}
 				}
 			}, 
-			
 		],
-		columnDefs : [
-			/*{
-				targets: '_all',
-				render: function(data) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
+		columnDefs : [ {
+			targets : [8,9,10],
+			render : $.fn.dataTable.render.number(','),
+			className : 'text-right'
+		}, {//부적합처리 컬럼 숨김처리
+			targets : [12], "visible": false
+		}
+		],
+		buttons : [ 'copy', 'excel', 'print' ],
+		order : []
+
+	});
+
+	var html1 = '<div class="row">';
+	    html1 += '&nbsp;<div class="form-group input-sub m-0 row">';
+	    html1 += '<label class="input-label-sm">입고일자</label>';
+	    html1 += '<input class="form-control" style="width:97px;" type="text" id="preInWhsDateFrom" name="preInWhsDateFrom" disabled/>';
+	    html1 += '<button onclick="fnPopUpCalendar(preInWhsDateFrom,preInWhsDateFrom,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="preInWhsDateFromCalendar" type="button">';
+	    html1 += '<span class="oi oi-calendar"></span>';
+	    html1 += '</button>';
+	    html1 += '</div>';
+	    html1 += '&nbsp;~ &nbsp;<div class="form-group input-sub m-0 row">';
+	    html1 += '<input class="form-control" style="width:97px;" type="text" id="preInWhsDateTo" name="preInWhsDateTo" disabled/>';
+	    html1 += '<button onclick="fnPopUpCalendar(preInWhsDateTo,preInWhsDateTo,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="preInWhsDateToCalendar" type="button">';
+	    html1 += '<span class="oi oi-calendar"></span>';
+	    html1 += '</button>'; 
+	    html1 += '</div>';   
+	    
+	    html1 += '&nbsp;&nbsp;&nbsp;&nbsp;<label class="input-label-sm">승인여부</label>'; 
+		html1 += '<select class="custom-select" id="approvalYnOption">';
+		html1 += '<option value="" selected>전체</option>';
+		html1 += '<option value="001">승인</option>';
+		html1 += '<option value="002">미승인</option>';
+		html1 += '</select>';
+		
+		/* html1 += '&nbsp;&nbsp;&nbsp;&nbsp;<label class="input-label-sm">판정여부</label>'; 
+		html1 += '<select class="custom-select" id="qaEvalOption">';
+		html1 += '<option value="" selected>전체</option>';
+		html1 += '<option value="001">합격</option>';
+		html1 += '<option value="002">일부합격</option>';
+		html1 += '<option value="002">불합격</option>';
+		html1 += '</select>';  */
+		
+	    html1 += '&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary" id="btnRetv">조회</button>'
+	    html1 += '&nbsp;<button type="button" class="btn btn-primary" id="btnAllRetv">전체조회</button>'
+	    html1 += '&nbsp;&nbsp;&nbsp;<input type="number" class="form-control text-right d-none" id="printCnt" placeholder="매수" style="width:40px;" value="1">';
+		html1 += '&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-info d-none" id="btnQAPrint">QA라벨발행</button>'
+	    html1 += '</div>';
+   
+	$('#purchaseOrderAdmTable_length').html(html1);
+	$('#preInWhsDateFrom').val(serverDateFrom);
+	$('#preInWhsDateTo').val(serverDateTo);
+
+	//조회버튼 클릭시
+	$('#btnRetv').on('click',function(){
+		serverDateFrom = $('#preInWhsDateFrom').val();
+		serverDateTo = $('#preInWhsDateTo').val();
+		approvalYnOption = $('#approvalYnOption option:selected').val();
+		//qaEvalOption = $('#qaEvalOption option:selected').val();
+		//searchOption = "003";
+		$('#purchaseOrderAdmTable').DataTable().ajax.reload(function() {});
+	});
+
+	//전체 조회버튼 클릭시
+	$('#btnAllRetv').on('click',function(){
+		serverDateFrom = "";
+		serverDateTo = "";
+		approvalYnOption = "";
+		//qaEvalOption = $('#qaEval option:selected').val();
+		//searchOption = "004";
+		$('#purchaseOrderAdmTable').DataTable().ajax.reload(function() {});
+	});
+
+
+	//수입검사관리대장(사출) 목록 선택시
+	$('#purchaseOrderAdmTable tbody').on('click', 'tr', function(){
+		sideView = "edit";
+		if ($('#btnSave').attr('class') == 'btn btn-primary float-right') {
+			$('#saveBtnModal').modal('show');
+			console.log("등록중입니다.");
+			return false;
+		}
+		
+		if ( $(this).hasClass('selected') ) {
+// 	        $(this).removeClass('selected');
+        }
+        else {
+        	$('#purchaseOrderAdmTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+		
+		$('#itemFaultyTypeTable').addClass('tr_highlight_row');	//hover
+
+		tableIdx = $('#purchaseOrderAdmTable').DataTable().row(this).index();
+		
+		var data = purchaseOrderAdmTable.row(this).data();
+		uiProc(true);
+		
+		inSlipNo = data.inSlipNo;	//입고전표번호
+		poNo = data.poNo;
+	    poSeq = data.poSeq;
+	    itemSeq = data.itemSeq;
+	    mainGubun = data.mainGubun;
+	    itemGubun = data.itemGubun;
+	    inspectDate = data.inspectDate;
+	    preInWhsQty = data.preInWhsQty;
+	    approvalYn = data.approvalYn;
+	    poSeq = data.poSeq;
+		inSeq = data.inSeq;
+		inspCdVal = data.inspCd;
+
+		poGubun = data.poGubun;
+		outLocNo = data.outLocNo;
+		outLocCd = data.outLocCd;
+		
+		sideView2 = "";
+		
+	    $('#itemModel').val(data.itemModel);
+		$('#itemUnit').val(data.itemUnitNm); 
+		$('#receiptGubun').val(data.receiptGubunNm);
+		$('#preInWhsQty').val(data.preInWhsQty == null ? "0" : rmDecimal(data.preInWhsQty));//입고수량
+		$('#inspectCnt').val(data.inspectQty == null ? "0" : rmDecimal(data.inspectQty));	//검사수량
+		$('#pairQty').val(data.pairQty == null ? "0" : rmDecimal(data.pairQty));			//합격수량
+		$('#faultyQty').val(data.faultyQty == null ? "0" : rmDecimal(data.faultyQty));	//불량수량
+		$('#inspectChargr').val(data.inspectChargr == null ? "" : data.inspectChargr);		//검사자
+		$('#inspectChargrNm').val(data.inspectChargrNm == null ? "" : data.inspectChargrNm);	//검사자명
+		$('#inspectDesc').val(data.inspectDesc == null ? "" : data.inspectDesc);				//비고
+		$('#qaEval').val(data.qaEval);
+		$('#lotNo').val(data.lotNo);			
+		data.inspectDate == null ? $('#inspectDate').val('') : $('#inspectDate').val(moment(data.inspectDate).format("YYYY-MM-DD"));
+
+
+		//승인 한 경우(등록,수정 비활성화, 검사항목 수정 x)
+		if (approvalYn == "001") {         //자재상태:입고 -> 승인/승인취소 모두 불가
+			$('#btnApprove').text('승인취소');
+			$('#btnApprove').attr('disabled', false);	//승인 버튼
+			$('#btnAdd').attr('disabled', true);		//등록 버튼
+		    $('#btnEdit').attr('disabled', true);		//수정 버튼
+		    
+		    $('#tab2Head').removeClass('disabled');
+			$('#tab3Head').removeClass('disabled');
+			$('#tab4Head').removeClass('disabled');
+			
+			$('#btnInspPopup').attr('disabled', false);	//검사항목 버튼
+			$('#btnInspAdd').addClass('d-none');		//검사항목 등록버튼
+			$('#btnInspSave').addClass('d-none');		//검사항목 저장버튼
+
+		//승인 안한 경우(등록,수정 비활성화, 검사항목 수정 x)
+	    } else if(approvalYn == "002" || approvalYn==null) {
+	    	if(data.qaEval!=null && data.qaEval!=""){
+	    		$('#btnApprove').text('승인');
+				$('#btnApprove').attr('disabled',false);
+			}else{
+				$('#btnApprove').text('승인');
+				$('#btnApprove').attr('disabled',true);
+			}	
+
+	    	if(inspectDate != null){
+		    	$('#btnAdd').attr('disabled', true);
+		    	$('#btnEdit').attr('disabled', false);	
+		    	$('#tab2Head').removeClass('disabled');
+				$('#tab3Head').removeClass('disabled');
+				$('#tab4Head').removeClass('disabled');
+			}else{
+				$('#btnAdd').attr('disabled', false);
+				$('#btnEdit').attr('disabled', true);
+				$('#tab2Head').addClass('disabled');
+				$('#tab3Head').addClass('disabled');
+				$('#tab4Head').addClass('disabled');
+			}
+			
+	    	$('#btnInspPopup').attr('disabled', false);	//검사항목 버튼
+			$('#btnInspAdd').removeClass('d-none');		//검사항목 등록버튼
+			$('#btnInspSave').removeClass('d-none');	//검사항목 저장버튼
+	    }
+		
+	    $('#btnSave').addClass('d-none');
+
+	  	//사진
+		imgPrint();
+		
+		//탭 보여주기
+		$('#tab1Head').tab('show');
+		
+		//탭 새로고침
+		$('#itemInspectAttachTable').DataTable().ajax.reload(function(){
+			if (itemInspectAttachTable.data().length == 0) {//MILL SHEET 접수 유/무 확인
+				$('#millSheetY').prop('checked', false);
+				$('#millSheetN').prop('checked', true);
+			} else {
+				$('#millSheetY').prop('checked', true);
+				$('#millSheetN').prop('checked', false);
+			}
+		});
+	    $('#itemFaultyTypeTable').DataTable().ajax.reload(function(){});
+
+		//검사항목 목록조회
+	    $('#extAdmTable').DataTable().ajax.reload(function(){});
+	    if(data.mainGubun == '001'){
+			$('#sizeAdmTable2').DataTable().ajax.reload(function(){});
+		}else if(data.mainGubun == '002'){
+			$('#sizeAdmTable').DataTable().ajax.reload(function(){});
+		} 
+
+		
+	});
+	
+	//기본정보 탭 버튼
+	$('#tab1Head').on('click', function() {
+		if (itemInspectAttachTable.data().length == 0) {//MILL SHEET 접수 유/무 확인
+			$('#millSheetY').prop('checked', false);
+			$('#millSheetN').prop('checked', true);
+		} else {
+			$('#millSheetY').prop('checked', true);
+			$('#millSheetN').prop('checked', false);
+		}
+	});
+
+	//수입검사관리대장(사출) 바코드별 목록조회
+	let itemFaultyTypeTable = $('#itemFaultyTypeTable').DataTable({
+		language : lang_kor,		
+		paging : false,
+		searching : false,
+		info : false,
+		ordering : true,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		pageLength : 20,
+		//ordering: false,
+			ajax : {
+			url : '<c:url value="io/preInOutWhsAdmList"/>',
+			type : 'GET',
+			data : {
+				'inSlipNo' :  function(){return inSlipNo;},
+			},
+		},
+		columns : [ 
+			{
+				render : function(data,type,row,meta){
+					return meta.row+1;
+				}
+			}, 
+			{
+				data : 'barcodeNo',
+				render : function(data,type,row,meta){
+					if(data!=null){
+						return data;
+					}else{
 						return '-';
 					}
 				}
-			},*/
-			{ "targets": [0], "orderable": false },
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvisGroup',	className: 'd-none',	hide: '.colvisHide'},
-			/* { extend: 'colvis',	text: 'Select Col',	}, */
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#prodQualityTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 80)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAll').off('keyup',function() {});
-			$('#searchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-
-			let data = api.data();
-			let node = api.nodes();
-			if(data.length > 0){
-				$(node).find('tbody tr').each(function(index, item) {
-					if( prodQualityTable.row(item).data().confirmCd == '01' ) {
-						$(prodQualityTable.row(item).node()).addClass('notEdit')
+			},
+			{
+				data : 'preInWhsQty',
+				render : function(data,type,row,meta){
+					if(data!=null){
+						return rmDecimal(data);
+					}else{
+						return '-';
 					}
-				});
-			}
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#prodQualityTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-				if(colIdx > 0){
-					$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-					$(cell).css('padding','2px');
-				} else {
-					$(cell).html('');
-					$(cell).css('padding','2px');
 				}
-			
-				let cursorPosition = '';
+			},
+			{
+				data : 'pairCnt',
+				render : function(data,type,row,meta){
+					if(data!=null){
+						return rmDecimal(data);
+					}else{
+						return '0';
+					}
+				}
+			},
+			{
+				data : 'qaEval',
+				render : function(data,type,row,meta){
+					if(data!=null){
+						if(data=="001"){
+							return '<span style="color:blue;">합격</span>';
+						}else if(data=="002"){
+							return '<span style="color:red;">불합격</span>';
+						}else{
+							return '미판정';
+						}
+					}else{
+						return '미판정';
+					}
+				}
+			},
+			{
+				data : 'faultyCnt',
+				render : function(data,type,row,meta){
+					if(data!=null){
+						return rmDecimal(data);
+					}else{
+						return '0';
+					}
+				}
+			},			
+			{
+				data : 'unfitProcNm',
+				render : function(data, type, row, meta){
+					if(data != null){
+						return data;
+					}else{
+						return '-';
+					}
+				}
+			},				
+		],
+		columnDefs: [
+			{ targets: [2,3,5] , render: $.fn.dataTable.render.number( ',' ), className : 'text-right' },
+        	{"className": "text-center", "targets": "_all"},
+        ],
+	    order: [
+	    ],
+	});
+
+	//수입검사관리대장(사출) 바코드별 목록 더블클릭시
+    $('#itemFaultyTypeTable tbody').on( 'dblclick', 'tr', function () {
+
+    	if($('#qaEval option:selected').val()==""){
+			toastr.warning("우선 검사항목을 등록해주세요.");
+			return false;
+        }
+        
+       	if($(this).hasClass('selected')){
+	        $(this).removeClass('selected');
+        }else {
+        	$('#itemFaultyTypeTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+
+		tableIdx = $('#itemFaultyTypeTable').DataTable().row(this).index();
+		 
+		inSlipSeq =  itemFaultyTypeTable.row(this).data().inSlipSeq;	//입고전표시퀀스
+		inSeq =  itemFaultyTypeTable.row(this).data().inSeq;
+		barcodeNo =  itemFaultyTypeTable.row(this).data().barcodeNo;
+		preInWhsQty =  itemFaultyTypeTable.row(this).data().preInWhsQty;
+		selectFaultyType();
+
+
+		$('#popupBarcodeNo').val(barcodeNo);
+		$('#popupPreInWhsQty').val(rmDecimal(preInWhsQty));
+		
+		if(approvalYn=="002"){
+			$('#btnFaultyTypeSave').removeClass('d-none');
+	   		$('input[name=faultyTypeQty]').attr('disabled',false)
+	   		$('input[name=faultyTypeDate]').attr('disabled',false)
+	   		$('input[name=faultyTypeDesc]').attr('disabled',false)
+		}else{
+			$('#btnFaultyTypeSave').addClass('d-none');
+	   		$('input[name=faultyTypeQty]').attr('disabled',true)
+	   		$('input[name=faultyTypeDate]').attr('disabled',true)
+	   		$('input[name=faultyTypeDesc]').attr('disabled',true)
+		}
+		
+   		
+    });
+
+
+	//수입검사관리대장(사출) 바코드별 저장 처리
+	$('#btnFaultyTypeSave').on('click',function() {
+		var dataArray = new Array();		
+		var check = true;  	
+		jrCheck=true;	
+		var sum = 0;
+		
+		
+		if ($('#inspectChargrNm').val() == "") {				 
+			toastr.warning('팝업창을 닫고 검사자를 입력해주세요.');
+			check=false;
+			jrCheck=false;
+			return false;
+		}  
+		
+		if(!$.trim($('input[name=faultyTypeQty]').val())){
+			toastr.warning('불량수량을 입력해주세요.');
+			check=false;
+			jrCheck=false;
+			return false;
+		}
+		
+		$('#faultyTypePopUpTable tbody tr').each(function(index, item){
+			sum+=parseFloat($(this).find("td input[name=faultyTypeQty]").val().replace(/,/g,''));
+			if(sum>$('#popupPreInWhsQty').val()){
+				toastr.warning("불량수량값을 초과했습니다.");
+				check=false;
+				jrCheck=false;
+				return false;
+			}
+		});
+		
+		if(check){
+			$('#faultyTypePopUpTable tbody tr').each(function(index, item){
+				var rowData = new Object();
+
+				rowData.inSlipNo= inSlipNo;
+				rowData.inSlipSeq = inSlipSeq;
+				rowData.itemSeq = itemSeq;
+				rowData.pairCnt = parseFloat($('#popupPreInWhsQty').val().replace(/,/g,'')) - sum;
+				rowData.faultyCnt = sum;
+				rowData.qaEval = sum > 0 ? "002" : "001";	//불합격이 있을 경우 : 불합격/ 없을 경우 : 합격
+				rowData.barcodeNo = barcodeNo;
 				
-				// On every keypress in this input
-				$('#prodQualityTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
+				rowData.faultyTypeCd = $(this).find("td input[name=faultyTypeCd]").val();
+				rowData.faultyTypeQty = $(this).find("td input[name=faultyTypeQty]").val()==""?'0':$(this).find("td input[name=faultyTypeQty]").val().replace(/,/g,'');
+				rowData.faultyTypeDate = $(this).find("td input[name=faultyTypeDate]").val().replace(/-/g,'');
+				rowData.faultyTypeDesc = $(this).find("td input[name=faultyTypeDesc]").val();
+		        dataArray.push(rowData);
 			});
-			api.button(3).trigger();
-		},
-	});
-	// dataTable colReorder event
-	prodQualityTable.on('column-reorder', function( e, settings, details ) {
-		let api = prodQualityTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#prodQualityTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
+		}
+		if(check){
+			$.ajax({
+				url : '<c:url value="io/itemInspectFaultyTypeCreate"/>',
+				type : 'POST',
+				datatype: 'json',
+				data: JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
+				async : false,
+				success : function(res) {				
+					if (res.result == 'ok') {
+						$('#purchaseOrderAdmTable').DataTable().ajax.reload(function(){});
+						$('#itemFaultyTypeTable').DataTable().ajax.reload(function(){});
+
+						$('#pairQty').val(res.totalPairQty);
+						$('#faultyQty').val(res.totalFaultyQty);
+						
+						$('#faultyTypePopUpModal').modal('hide');
+					}else if(res.result == "fail"){
+						toastr.error(res.message);
+					}else{
+						toastr.error(res.message);
+					}
+				}
 			});
-		});
+		}
 	});
 
-	//수정눌렀을떄
+	  
+	//등록버튼 클릭시
+	$('#btnAdd').on('click',function(){
+		
+		if(sideView != "edit"){
+			toastr.warning("등록할 항목을 선택해주세요.");
+			return false;
+		}
+		
+		//화면처리
+		uiProc(false);
+		uiProc2(false);
+
+		$('#itemFaultyTypeTable').addClass('tr_highlight_row');	//hover
+		
+		$('#inspectChargr').val(userNumber);
+		$('#inspectChargrNm').val(userNm);
+		$('#inspectDate').val(serverDate);
+		$('#btnSave').removeClass('d-none');
+		$('#btnAdd').attr('disabled',true);
+		$('#btnInspPopup').attr('disabled',false);
+		$('#qaEval').attr('disabled',true);
+		btnView = 'add';
+	});
+	
+	//수정버튼 클릭시
 	$('#btnEdit').on('click',function(){
-		var i = 0;
-		WM_action_ON('ADM', 'workingWarningModal');
+		
+		if(sideView != "edit"){
+			toastr.warning("수정할 항목을 선택해주세요.");
+			return false;
+		}
+		
+		//화면처리
+		uiProc(false);
+		uiProc2(false);
+		//$('#qaEval').attr('disabled',true);
+		$('#itemFaultyTypeTable').addClass('tr_highlight_row');	//hover
+		
+		$('#btnSave').removeClass('d-none');
+		btnView = 'edit';
+	});	
+	
+	
+	let isClickInBtnApprove = false; //승인 버튼 중복클릭 방지 변수
+	
+	//승인 버튼 클릭시
+	$('#btnApprove').on('click', function(){
+		if (!isClickInBtnApprove) {
+			isClickInBtnApprove = true;
+			
+			$('#my-spinner').show(function(){
+				let check = true;
+				let dataArray = new Array();
+				
+				if(sideView != "edit"){
+					toastr.warning("승인할 항목을 선택해주세요.");
+					$('#my-spinner').hide(function(){isClickInBtnApprove = false;});
+					check = false;
+					return false;
+				}
+				if(inspectDate == null || inspectDate == ""){
+					toastr.warning("우선 수입검사를 등록해주세요.");
+					$('#my-spinner').hide(function(){isClickInBtnApprove = false;});
+					check = false;
+					return false;
+				}
+				if ( $('#qaEval').val() == '' ) {
+					toastr.warning("미판정된 수입검사입니다.");
+					$('#my-spinner').hide(function(){isClickInBtnApprove = false;});
+					check = false;
+					return false;
+				}
 
-		$('#btnSearch').attr('disabled',false);
-		$('#btnSave').attr('disabled',false);
-		$('#btnEdit').attr('disabled',true);
-		$('#btnCancel').attr('disabled',false);
-		$('#btnConfirmY').attr('disabled',true);
+				if (check) {
+					$('#itemFaultyTypeTable tbody tr').each(function(index, item){
+						var rowData = new Object();
+			
+						rowData.inSlipNo = inSlipNo;
+						rowData.inSlipSeq = itemFaultyTypeTable.row(this).data().inSlipSeq;
+						rowData.poNo = poNo;
+						rowData.itemGubun = itemGubun;
+						rowData.itemSeq = itemFaultyTypeTable.row(this).data().itemSeq;
+						let preInWhsQty = parseFloat(itemFaultyTypeTable.row(this).data().preInWhsQty.replace(/,/g,''));
+						let faultyCnt = parseFloat(itemFaultyTypeTable.row(this).data().faultyCnt.replace(/,/g,''));
+						rowData.inWhsQty = preInWhsQty-faultyCnt;
+						rowData.inWhsDate = itemFaultyTypeTable.row(this).data().preInWhsDate;
+						rowData.qaEval = $('#qaEval option:selected').val();
+						rowData.barcodeNo = itemFaultyTypeTable.row(this).data().barcodeNo;
+						
+						//창고 내용 입력
+						let tempLocNo;
+						let tempAreaCd;
+						let tempFloorNm;
+						let tempLocCd;
+						
+						$.ajax({
+							url : '<c:url value="io/preInOutWhsAdmList"/>',
+							type : 'GET',
+							async : false,
+							data : {
+								'inSlipNo' : function() {return inSlipNo;},
+								'inSlipSeq' : function() {return inSlipSeq;},
+							},
+							success : function(res) {
+								let data = res.data;
+								
+								tempLocNo = data[0].locationNo;
+								tempAreaCd = data[0].areaCd;
+								tempFloorNm = data[0].floorCd;
+								tempLocCd = data[0].locationCd;
+							}
+						});
+						
+						rowData.locationNo = tempLocNo;
+						rowData.locationCd = tempLocCd;
+						rowData.areaCd = tempAreaCd;
+						rowData.floorNm = tempFloorNm;
+
+						rowData.poGubun = poGubun;
+						rowData.outLocNo = outLocNo;
+						rowData.outLocCd = outLocCd;
+				        dataArray.push(rowData);
+					});
+					console.log(dataArray);
+
+					if ( $('#btnApprove').text() == '승인' ) {
+						if(check){
+							$.ajax({
+								url : '<c:url value="qm/poStatusUpdate"/>',
+								type : 'POST',
+								async:false,
+								datatype: 'json',
+								data: JSON.stringify(dataArray),
+								contentType : "application/json; charset=UTF-8",
+								success : function(res) {				
+									if(res.result == "ok"){
+										toastr.success("승인 되었습니다.");
+										$('#btnApprove').text('승인취소');
+										$('#btnInspPopup').attr('disabled', true);
+										$('#btnEdit').attr('disabled', true);
+										
+										$('#purchaseOrderAdmTable').DataTable().ajax.reload(function() {});
+									}else if(res.result == "fail"){
+										toastr.warning(res.message);
+									}else{
+										toastr.error(res.message);
+									}
+								},
+								complete : function(){
+									$('#my-spinner').hide(function(){isClickInBtnApprove = false;});
+								},
+							});
+						}
+					} else if ( $('#btnApprove').text() == '승인취소' ){
+						if(check){
+							$.ajax({
+								url : '<c:url value="qm/poApprovalCancel"/>',
+								type : 'POST',
+								async:false,
+								datatype: 'json',
+								data: JSON.stringify(dataArray),
+								contentType : "application/json; charset=UTF-8",
+								success : function(res) {
+									if ( res.result == "ok" ) {
+										toastr.success("승인취소 되었습니다.");
+										$('#btnApprove').text('승인');
+										$('#btnInspPopup').attr('disabled', true);
+										$('#btnEdit').attr('disabled', false);
+										
+										$('#purchaseOrderAdmTable').DataTable().ajax.reload(function(){});
+									} else if ( res.result == "stockFail" ) {
+										toastr.warning(res.message);
+									} else {
+										toastr.error(res.message);
+									}
+								},
+								complete : function(){
+									$('#my-spinner').hide(function(){isClickInBtnApprove = false;});
+								},
+							});
+						}
+					} else {
+						$('#my-spinner').hide(function(){isClickInBtnApprove = false;});
+						console.log("예상치 못한 오류가 발생했습니다. - btnApprove onclick");
+					}
+				}
+			});
+		}
+	});
+
+	
+	//저장버튼 클릭시
+	$('#btnSave').on('click',function(){
+
+		//예외처리
+		/* if($('#qaEval').val()==""){
+			toastr.warning("판정을 선택해주세요.");
+			return false;
+		} */
+
+		if($('#inspectDate').val()==""){
+			toastr.warning("검사일자를 선택해주세요.");
+			return false;
+		}
+
+		if($('#inspectChargr').val()==""){
+			toastr.warning("검사자를 선택해주세요.");
+			return false;
+		}
+
+		if($('#inspectCnt').val()=="0"){
+			toastr.warning("검사수량을 선택해주세요.");
+			return false;
+		}
+
+		var url= "";
+		if(btnView=="add"){
+			url = '<c:url value="qm/itemInspectMasterCreate"/>';
+		}else{
+			url = '<c:url value="qm/itemInspectMasterUpdate"/>';
+		}
 		
-		$('#prodQualityTable_wrapper').find('.filters th').each(function(index, item) {
-			$(item).find('input').attr('disabled', true); // 검색 필터 disabled
+		$.ajax({
+			url : url,
+			type : 'POST',
+			data : {
+				'inSlipNo' : function(){return inSlipNo;},
+				'itemSeq' : function(){return itemSeq;},
+				'inspectCnt' : function(){return $('#inspectCnt').val().replace(/,/g,'')},
+				'inspectDate' : function(){return $('#inspectDate').val().replace(/-/g,'')},
+				'inspectChargr' : function(){return $('#inspectChargr').val()},
+				'qaEval' : function(){return $('#qaEval').val()},
+				'approvalYn' : "002",	//미승인
+				'inspectDesc' : function(){return $('#inspectDesc').val()}
+				},
+			success : function(res){
+				if(res.result == "ok"){
+					toastr.success("저장 되었습니다.");
+					uiProc(true);
+
+					$('#btnAdd').attr('disabled', true);
+			    	$('#btnEdit').attr('disabled', false);	
+			    	$('#btnQAPrint').attr('disabled', false);
+			    	$('#btnSave').addClass('d-none');
+			    	$('#tab2Head').removeClass('disabled');
+					$('#tab3Head').removeClass('disabled');
+					$('#tab4Head').removeClass('disabled');
+					$('#btnApprove').attr('disabled', false);
+
+					$('#purchaseOrderAdmTable').DataTable().ajax.reload(function(){});
+
+					$('#itemFaultyTypeTable').removeClass('tr_highlight_row');	//hover
+				}else{
+					toastr.error(res.message);
+				}
+			}
 		});
-		//열 움직이는 기능 잠금
-		prodQualityTable.colReorder.disable();
 		
-		$('#prodQualityTable tbody').find('tr').each(function(index_tr, tr) {
-			if(!$(tr).hasClass('notEdit')){
-				$(tr).find('td').each(function(index_td, td) {
-					let data = prodQualityTable.row(tr).data();
-					if(!isEmptyCheck(data)){
-						let bizOrdQty = parseInt(data.bizOrdQty);		//수주수량
-						let stockUseQty = parseInt(data.stockUseQty);	//재고사용수량
-						let fairQty = parseInt(isEmptyCheck(data.fairQty) ? 0 : data.fairQty);
-						// 수주>재고사용수량 and 생산이 된경우 OR 수주<=재고사용수량인경우
-						if( (bizOrdQty > stockUseQty && fairQty != 0) || (bizOrdQty <= stockUseQty) ){
-							if(index_td == prodQualityTable.column('passQty:name').index()) { //적합수량
-								//let value = prodQualityTable.row(tr).data().fairQty != null && prodQualityTable.row(tr).data().fairQty != '' ? prodQualityTable.row(tr).data().fairQty : 0;
-								//value = addCommas(parseInt(value));
+	}) 
+	
+
+	//담당자 팝업 시작
+	var userPopUpTable;
+	function selectInspectChargr() {
+		if (userPopUpTable == null || userPopUpTable == undefined) {
+			userPopUpTable = $('#userPopUpTable').DataTable({
+				language : lang_kor,
+				lengthChange : false,
+				paging : true,
+				info : true,
+				ordering : true,
+				processing : true,
+				autoWidth : false,
+				pageLength : 15,
+				ajax : {
+					url : '/sm/matrlUserDataList',
+					type : 'GET',
+					data : {
+						//'departmentCd' : '007'			
+					}
+				},
+				rowId : 'userNumber',
+				columns : [ {
+					data : 'userNm'
+				}, {
+					data : 'departmentNm'
+				}, {
+					data : 'postNm'
+				}, {
+					data : 'chargeDutyNm'
+				}, {
+					data : 'userDesc'
+				}, ],
+				columnDefs : [ {
+					"targets" : [ 0, 1, 2, 3, 4 ],
+					"className" : "text-center"
+				} ],
+				order : [ [ 0, 'asc' ] ],
+			});
+			$('#userPopUpTable tbody').on('click', 'tr', function() {
+				var data = userPopUpTable.row(this).data();
+				$('#inspectChargr').val(data.userNumber);
+				$('#inspectChargrNm').val(data.userNm);
+				$('#userPopUpModal').modal('hide');
+			});
+		} else {
+			$('#userPopUpTable').DataTable().ajax.reload(function() {
+			});
+		}
+		$('#userPopUpModal').modal('show');
+	}
+
+
+	//불량유형 팝업 시작
+	var faultyTypePopUpTable;
+	function selectFaultyType() {
+		if (faultyTypePopUpTable == null || faultyTypePopUpTable == undefined) {
+			faultyTypePopUpTable = $('#faultyTypePopUpTable').DataTable({
+				language : lang_kor,
+				lengthChange : false,
+				paging : false,
+				info : true,
+				ordering : true,
+				processing : true,
+				autoWidth : false,
+				searching : false,
+				ajax : {
+					url : '<c:url value="qm/itemInspectFaultyTypeList"/>',
+					type : 'GET',
+					async : false,
+					data : {
+						'inSlipNo' : function(){return inSlipNo;},
+						'inSlipSeq' : function(){return inSlipSeq;},
+					}
+				},
+				rowId : 'etc1',
+				columns : [ 
+					{
+						render: function(data, type, row, meta){
+							return meta.row+1;
+						}
+					},
+					{data : 'faultyTypeNm',
+						render: function(data, type, row, meta){
+							var html="";
+							html += '<input type="hidden" name="faultyTypeCd" value="'+row['faultyTypeCd']+'" style="text-align:center;">';
+							html += '<input type="text" class="form-control" name="faultyTypeNm" value="'+data+'"  style="text-align:center; border:none;" readonly >';
+							return html;
+						}
+					},
+					{data : 'faultyTypeQty',
+						render: function(data, type, row, meta) {
+							if(data!=null){
+								return '<input type="text" class="form-control" name="faultyTypeQty" value="'+data+'"  style="text-align:right;">';
+							}else{
+								return '<input type="text" class="form-control" name="faultyTypeQty" value="0" style="text-align:right;">';
+							}
+						}
+					},
+					{data : 'faultyTypeDate',
+						render: function(data, type, row, meta) {	
+							if(data!=null){
+								return '<input type="date" class="form-control"  name="faultyTypeDate" value="'+moment(data).format("YYYY-MM-DD")+'" />'  
 								
-								let value = '';
-								if(data.rowGubun == 'workOrd'){
-									value = isEmptyCheck(prodQualityTable.row(tr).data().fairQty) ? 0 : prodQualityTable.row(tr).data().fairQty;
-								} else if(data.rowGubun == 'bizStockUse'){
-									value = isEmptyCheck(prodQualityTable.row(tr).data().workOrdQty) ? 0 : prodQualityTable.row(tr).data().workOrdQty;
-								}
-								value = parseInt(value) + parseInt(prodQualityTable.row(tr).data().stockUseQty);
-								
-								value = addCommas(parseInt(value));
-								$(td).html('<input type="text" name="passQty" class="form-control text-end calValue" onkeyup="numberFormat(this, \'int\')" value="'+value+'">');
-							} else if(index_td == prodQualityTable.column('judgmentUserNm:name').index()) { //판정자
-								let value = prodQualityTable.row(tr).data().judgmentUserNm;
-								let html = '';
-								if(value != null && value != ''){
-									html += '<div class="input-group" style="min-width: 105px;max-width: 105px;">';
-									html += '	<input type="text" class="form-control" value="'+value+'" disabled>';
-									html += '	<button type="button" class="btnInputDel" style="background-color: transparent;';
-									html += '		border-color: transparent; position: absolute;';
-									html += '		top: 0; right:0;';
-									html += '		margin: 1px 23px; margin-left: 0px;';
-									html += '		border: none;';
-									html += '		">';
-									html += '		<i class="fa-solid fa-xmark"></i>';
-									html += '	</button>';
-									html += '	<input type="hidden" value="'+prodQualityTable.row(tr).data().judgmentUserIdx+'">';
-									html += '	<button data-type="judgmentUserNm" type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary btnUserModalShow">';
-									html += '		<i class="fa-solid fa-magnifying-glass"></i>';
-									html += '	</button>';
-									html += '</div>';
-								} else {
-									html += '<div class="input-group" style="min-width: 105px;max-width: 105px;">';
-									html += '	<input type="text" class="form-control" value="'+sessionUserNm+'" disabled>';
-									html += '	<button type="button" class="btnInputDel" style="background-color: transparent;';
-									html += '		border-color: transparent; position: absolute;';
-									html += '		top: 0; right:0;';
-									html += '		margin: 1px 23px; margin-left: 0px;';
-									html += '		border: none;';
-									html += '		">';
-									html += '		<i class="fa-solid fa-xmark"></i>';
-									html += '	</button>';
-									html += '	<input type="hidden" value="'+sessionUserIdx+'">';
-									html += '	<button data-type="judgmentUserNm" type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary btnUserModalShow">';
-									html += '		<i class="fa-solid fa-magnifying-glass"></i>';
-									html += '	</button>';
-									html += '</div>';
-								}
-								html += '<span class="d-none"></span>';
-								$(td).html(html);
-							} else if(index_td == prodQualityTable.column('judgmentDate:name').index()) { //판정일자
-								let value = prodQualityTable.row(tr).data().judgmentDate;
-								if(value == null || value == ''){
-									value =  moment().format('YYYY-MM-DD');
-								}
-								value = moment(value).format('YYYY-MM-DD');
-								$(td).html('<input name="judgmentDate" type="date" max="9999-12-31" class="form-control text-center" value="'+value+'">');
-							} /* else if(index_td == prodQualityTable.column('conFirmCd:name').index()) { //승인여부
-								let value = prodQualityTable.row(tr).data().conFirmCd;
-								let html ='';
-								html += '<select class="form-select">';
-								if(value != null && value != ''){
-									qualityConfirmList.forEach(function(item) {
-										if(item.commonCd==value) {
-											html +='	<option value="'+item.commonCd+'" selected>'+item.commonNm+'</option>';
-										} else {
-											html +='	<option value="'+item.commonCd+'">'+item.commonNm+'</option>';
-										}
-									});
-								} else {
-									qualityConfirmList.forEach(function(item) {
-										html +='	<option value="'+item.commonCd+'">'+item.commonNm+'</option>';
-									});
-								}
-								html += '</select>';
-								
-								$(td).html(html);
-							} */ else if(index_td == prodQualityTable.column('qualityJudgmentCd:name').index()) { //적합여부
-								let value = prodQualityTable.row(tr).data().qualityJudgmentCd;
-								let html ='';
-								html += '<div class="row d-flex justify-content-center align-items-center" style="min-width:150px;">';
-								html += '<div class="btn-group" role="group" aria-label="Small button group">';
-								//html += '<button type="button" class="btn btn-outline-light w-auto" style="min-width:75px;max-width:75px;" data-val="02" name="btnJudgmentY">적합</button>';
-								//html += '<button type="button" class="btn btn-outline-light w-auto" style="min-width:75px;max-width:75px;" data-val="03" name="btnJudgmentN">부적합</button>';
-								html += '<input data-val="02" type="checkbox" class="btn-check" name="JudgmentY" id="JudgmentY'+i+'">';
-								html += '<label data-val="02" class="btn btn-outline-primary d-flex justify-content-center align-items-center" style="min-width:75px;max-width:75px;" for="JudgmentY'+i+'" name="btnJudgmentY">적합</label>';
-								html += '<input data-val="03" type="checkbox" class="btn-check" name="JudgmentN" id="JudgmentN'+i+'">';
-								html += '<label data-val="03" class="btn btn-outline-danger d-flex justify-content-center align-items-center" style="min-width:75px;max-width:75px;border-color: #dc3545;" for="JudgmentN'+i+'" name="btnJudgmentN">부적합</label>';
-								html += '</div>';
-								html += '</div>';
-								/* html += '<select name="qualityJudgmentCd" class="form-select">';
-								if(value != null && value != ''){
-									qualityJudgmentCdList.forEach(function(item) {
-										if(item.commonCd==value) {
-											html +='	<option value="'+item.commonCd+'" selected>'+item.commonNm+'</option>';
-										} else {
-											html +='	<option value="'+item.commonCd+'">'+item.commonNm+'</option>';
-										}
-									});
-								} else {
-									qualityJudgmentCdList.forEach(function(item) {
-										html +='	<option value="'+item.commonCd+'">'+item.commonNm+'</option>';
-									});
-								}
-								html += '</select>'; */
-								i++;
-								$(td).html(html);
-							} else if(index_td == prodQualityTable.column('confirmUserNm:name').index()) { //승인자
-								let value = prodQualityTable.row(tr).data().confirmUserNm;
-								let html = '';
-								if(value != null && value != ''){
-									html += '<div class="input-group" style="min-width: 105px;max-width: 105px;">';
-									html += '	<input type="text" class="form-control" value="'+value+'" disabled>';
-									html += '	<button type="button" class="btnInputDel" style="background-color: transparent;';
-									html += '		border-color: transparent; position: absolute;';
-									html += '		top: 0; right:0;';
-									html += '		margin: 1px 23px; margin-left: 0px;';
-									html += '		border: none;';
-									html += '		">';
-									html += '		<i class="fa-solid fa-xmark"></i>';
-									html += '	</button>';
-									html += '	<input type="hidden" value="'+prodQualityTable.row(tr).data().confirmUserIdx+'">';
-									html += '	<button data-type="confirmUserNm" type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary btnUserModalShow">';
-									html += '		<i class="fa-solid fa-magnifying-glass"></i>';
-									html += '	</button>';
-									html += '</div>';
-								} else {
-									html += '<div class="input-group" style="min-width: 105px;max-width: 105px;">';
-									html += '	<input type="text" class="form-control" value="'+sessionUserNm+'" disabled>';
-									html += '	<button type="button" class="btnInputDel" style="background-color: transparent;';
-									html += '		border-color: transparent; position: absolute;';
-									html += '		top: 0; right:0;';
-									html += '		margin: 1px 23px; margin-left: 0px;';
-									html += '		border: none;';
-									html += '		">';
-									html += '		<i class="fa-solid fa-xmark"></i>';
-									html += '	</button>';
-									html += '	<input type="hidden" value="'+sessionUserIdx+'">';
-									html += '	<button data-type="confirmUserNm" type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary btnUserModalShow">';
-									html += '		<i class="fa-solid fa-magnifying-glass"></i>';
-									html += '	</button>';
-									html += '</div>';
-								}
-								html += '<span class="d-none"></span>';
-								$(td).html(html);
-							} else if(index_td == prodQualityTable.column('confirmDate:name').index()) { //승인일자
-								let value = prodQualityTable.row(tr).data().confirmDate;
-								if(value == null || value == ''){
-									value =  moment().format('YYYY-MM-DD');
-								}
-								value = moment(value).format('YYYY-MM-DD');
-								$(td).html('<input name="judgmentDate" type="date" max="9999-12-31" class="form-control text-center" value="'+value+'">');
+							} else{
+								return '<input type="date" class="form-control" name="faultyTypeDate" value="'+serverDate+'" />'  
+
+							}
+						}
+					},		   
+					{data : 'faultyTypeDesc',
+						render: function(data, type, row, meta) {
+							if(data!=null){
+								return '<input type="text" class="form-control" name="faultyTypeDesc" maxlength="64" placeholder="64자 내외" value="'+data+'">';
+							}else{
+								return '<input type="text" class="form-control" name="faultyTypeDesc" maxlength="64" placeholder="64자 내외" value="">';
 							}
 						}
 					}
-				})
-			}
+			],
+		    order: [
+		        [ 2, 'desc' ] ,[1,'asc']
+		    ],
+		    columnDefs: [
+	        	{"className": "text-center", "targets": "_all"},
+	        	
+	        ],
 		});
-
-		prodQualityTable.draw(false);
-	})
-	
-	$('#btnSearch').on('click',function(){
-		WM_action_OFF('ADM');
-		prodQualityTable.ajax.reload();
-		prodQualityTable.colReorder.enable();
-		$('#prodQualityTable_wrapper').find('.filters th').each(function(index, item) {
-			$(item).find('input').attr('disabled', false); // 검색 필터 disabled
-		});
-		$('#btnSave').attr('disabled', true); // 저장 버튼
-		$('#btnEdit').attr('disabled', false); // 수정 버튼
-		$('#btnDel').attr('disabled', false); // 삭제 버튼
-		$('#btnCancel').attr('disabled', true); // 취소 버튼
-		$('#btnConfirmY').attr('disabled',false);
-
-		$('#btnAllCheck').prop("checked",false);
-	});
-	
-	//저장
-	$('#btnSave').on('click',function(){
-		let array = [];
-		let arrayConfirm = [];
-		let state = true;
-		let workOrdResultIdxString = '';
-		let bizOrdDtlIdxString = '';
-		$('#prodQualityTable tbody').find('tr').each(function(index, item) {
-			if( $(item).find('td').find('input[name=inputCheck]').prop('checked') ){
-				let td = $(item).find('td');
-				let data = prodQualityTable.row($(item)).data();
-				let node = prodQualityTable.row($(item)).node();
+			/* $('#faultyTypePopUpTable tbody').on('click', 'tr', function() {
+				var data = userPopUpTable.row(this).data();
+				$('#inspectChargr').val(data.userNumber);
+				$('#inspectChargrNm').val(data.userNm);
 				
-				let passQty = removeCommas($(td).eq(prodQualityTable.column('passQty:name').index()).find('input').val());
-				//let qualityJudgmentCd = $(td).eq(prodQualityTable.column('qualityJudgmentCd:name').index()).find('select').val();
-				let qualityJudgmentElement = $(td).eq(prodQualityTable.column('qualityJudgmentCd:name').index()).find('input:checked');
-				let qualityJudgmentCd = $(qualityJudgmentElement[0]).data('val');
-				let judgmentUserIdx = $(td).eq(prodQualityTable.column('judgmentUserNm:name').index()).find('input[type=hidden]').val();
-				let judgmentDate = $(td).eq(prodQualityTable.column('judgmentDate:name').index()).find('input').val().replaceAll('-','');
-				let confirmUserIdx = $(td).eq(prodQualityTable.column('confirmUserNm:name').index()).find('input[type=hidden]').val();
-				let confirmDate = $(td).eq(prodQualityTable.column('confirmDate:name').index()).find('input').val().replaceAll('-','');
-	
-				if(passQty == '' || passQty == null || passQty == undefined){
-					toastr.warning('적합수량을 입력 해주세요.');
-					$(td).eq(prodQualityTable.column('passQty:name').index()).find('input').focus();
-					state = false;
-					return false;
-				}
-				//if(qualityJudgmentCd == '' || qualityJudgmentCd == null || qualityJudgmentCd == undefined){
-				if(qualityJudgmentElement.length == 0){
-					toastr.warning('적합여부를 선택 해주세요.');
-					$(td).eq(prodQualityTable.column('qualityJudgmentCd:name').index()).find('select').focus();
-					state = false;
-					return false;
-				}		
-				if(judgmentUserIdx == '' || judgmentUserIdx == null || judgmentUserIdx == undefined){
-					toastr.warning('판정자를 선택 해주세요.');
-					$(td).eq(prodQualityTable.column('judgmentUserNm:name').index()).find('.btnUserModalShow').focus();
-					state = false;
-					return false;
-				}			
-				if(judgmentDate == '' || judgmentDate == null || judgmentDate == undefined){
-					toastr.warning('판정일자를 선택 해주세요.');
-					$(td).eq(prodQualityTable.column('judgmentDate:name').index()).find('input').focus();
-					state = false;
-					return false;
-				}		
-				if(confirmUserIdx == '' || confirmUserIdx == null || confirmUserIdx == undefined){
-					toastr.warning('승인자를 선택 해주세요.');
-					$(td).eq(prodQualityTable.column('confirmUserNm:name').index()).find('.btnUserModalShow').focus();
-					state = false;
-					return false;
-				}			
-				if(confirmDate == '' || confirmDate == null || confirmDate == undefined){
-					toastr.warning('승인일자를 선택 해주세요.');
-					$(td).eq(prodQualityTable.column('confirmDate:name').index()).find('input').focus();
-					state = false;
-					return false;
-				}				
-				let obj = new Object();
-				obj.idx = data.idx;
-				
-				if(data.rowGubun == 'workOrd'){
-					obj.testGubun = '01'; //시스템 035번 검사구분 01 생산제품검사 
-					obj.workOrdResultIdx = data.workOrdResultIdx;
-					obj.bizOrdDtlIdx = 0;
-				} else if(data.rowGubun == 'bizStockUse'){
-					obj.testGubun = '02'; //시스템 035번 검사구분 02 재고제품검사
-					obj.workOrdResultIdx = 0;
-					obj.bizOrdDtlIdx = data.bizOrdDtlIdx;
-				}
-				
-				obj.passQty = passQty;
-				obj.qualityJudgmentCd = qualityJudgmentCd;
-				obj.judgmentUserIdx = judgmentUserIdx
-				obj.judgmentDate = judgmentDate;
-				obj.confirmUserIdx = confirmUserIdx;
-				obj.confirmDate = confirmDate;
-				array.push(obj);
-				//품질 적합,부적합인경우 승인도 같이 되도록 변경
-				if(qualityJudgmentCd == '02' || qualityJudgmentCd == '03'){
-					let obj = new Object();
-					obj.idx = data.idx;
-					obj.workOrdResultIdx = data.workOrdResultIdx;
-					obj.itemIdx = data.itemIdx;
-					obj.bizOrdDtlIdx = data.bizOrdDtlIdx;
-					obj.bizOrdDtlNo = data.bizOrdDtlNo;
-					arrayConfirm.push(obj);
-					bizOrdDtlIdxString += data.bizOrdDtlIdx +',';
-					workOrdResultIdxString += data.workOrdResultIdx +',';
-				} 
-			}
-		});
-		if(!state) {
-			return false;
+				$('#userPopUpModal').modal('hide');
+			}); */
+		} else {
+			$('#faultyTypePopUpTable').DataTable().ajax.reload(function() {});
 		}
-		
-		if(array.length == 0 && arrayConfirm.length == 0) {
-			toastr.warning('등록할 항목을 체크해주세요.');
-			state = false;
-			return false;
+
+		if(modalHide){
+			$('#faultyTypePopUpModal').modal('show');
 		}
-		
-		let updateList = _.filter(array, v=> v.idx != null && v.idx != '');
-		let insertList = _.filter(array, v=> v.idx == null || v.idx == '');
-		workOrdResultIdxString = workOrdResultIdxString.slice(0,-1);
-		bizOrdDtlIdxString = bizOrdDtlIdxString.slice(0,-1);
+	}
+
+
+	function uiProc(flag) {
+		$('#inspectDateCalendar').attr('disabled', flag);
+		$('#btnInspectChargr').attr('disabled', flag);
+		$('#qaEval').attr('disabled', flag);
+		$('#inspectCnt').attr('disabled', flag);
+		$('#inspectDesc').attr('disabled', flag); // 비고 input
+		$('#btnJrbr').attr('disabled', flag); // 전량불량 버튼
+	}
+
+	function uiProc2(flag) {
+		$('input[name=faultyTypeQty]').attr('disabled', flag);
+		$('button[name=faultyTypeDateFromCalendar]').attr('disabled', flag);
+		$('input[name=faultyTypeDesc]').attr('disabled', flag);
+	}
+	
+
+	//파일 삭제버튼
+   	function inspectFileNmDel(value) {
+	
 		$.ajax({
-			url: '<c:url value="/qm/prodQualityAdmUpd"/>',
-            type: 'POST',
-            data: {
-                'updateList'	:	JSON.stringify(updateList),
-                'insertList'	:	JSON.stringify(insertList),
-                'insertConfimList' :	JSON.stringify(arrayConfirm),
-                'workOrdResultIdxString' : function(){ return workOrdResultIdxString; },
-                'bizOrdDtlIdxString'		: function(){ return bizOrdDtlIdxString; },
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
-			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					toastr.success('수정되었습니다.');
-					$('#prodQualityTable_wrapper').find('.filters th').each(function(index, item) {
-						$(item).find('input').attr('disabled', false); // 검색 필터 disabled
-					});
-					//열 움직이는 기능 잠금
-					prodQualityTable.colReorder.enable();
-					WM_action_OFF('ADM');
-					prodQualityTable.rows('.selected').deselect();
-					
-					prodQualityTable.ajax.reload();
-					$('#btnSearch').attr('disabled',false);
-					$('#btnSave').attr('disabled',true);
-					$('#btnEdit').attr('disabled',false);
-					$('#btnCancel').attr('disabled',true);
-					$('#btnConfirmY').attr('disabled',false);
-					$('#btnAllCheck').prop("checked",false);
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
-				} else {
-					toastr.error(res.message);
+			url : '<c:url  value="qm/inspectFileDelete"/>',
+			type : 'GET',
+			data : {
+				'poNo' : poNo,
+				'poSeq' : poSeq,
+				'inSeq' : inSeq,
+				'value' : value
+			},
+			success : function(res){
+				if(res.result == "ok"){
+					toastr.success("파일이 삭제되었습니다.");
 				}
-				$('#my-spinner').hide();
 			}
 		});
 		
-	})
+		$('#fileNm' + value).val('');
+		$('#fpValue' + value).text("파일을 선택해주세요");
+	}
+
+
+	//QA라벨발행 버튼 클릭시
+	$(document).on('click','#btnQAPrint',function(){
+		var count=0;
+
+		$('#purchaseOrderAdmTable tbody tr').each(function(index, item) {
+			if($('input[name=checkbox]').eq(index).is(':checked')) {
+
+				count++;
+			}
+		});
+		
+		if(count == 0) {
+			toastr.warning('인쇄할 제품을 체크하고 인쇄해주세요.');
+			count=0;
+			return false;
+		}
+
+		var cnt = $('#printCnt').val();
+
+    	for(var i=0;i<printArray.length;i++) {
+        	for(var j=0;j<cnt;j++) {
+        		labelPrint(	printArray[i].qaEval,
+	    				printArray[i].preInWhsDate,
+	    				printArray[i].preInWhsQty,
+	    				printArray[i].poNo,
+	    				printArray[i].inspectDate,
+	    				printArray[i].inspectChargrNm,
+	    				printArray[i].partCd);
+            }
+        }
+
+    	printArray =[];	//프린트 배열 초기화
+    	$('input[name=checkbox]').prop('checked',false);
+    	count=0;
+    });
 	
-	$('#btnCancel').on('click', function() {
-		$('#cancelModal').modal('show');
-		$('#cancelModal').data('cancelType', 'ADM');
-	});
+	
+</script>
+<script>
 
-	// 취소 경고창 취소 버튼 click
-	$('#btnCancelModalY').on('click', function() {
-		let cancelType = $('#cancelModal').data('cancelType');
+//Do printing...
+function labelPrint(qaEval,
+					preInWhsDate,
+					preInWhsQty,
+					poNo,
+					inspectDate,
+					inspectChargrNm,
+					partCd) {
 
-		if(cancelType == 'ADM') {
-			toastr.success('취소되었습니다.');
-			WM_action_OFF('ADM');
+		var cmds="";
+		
+		var cmds =  "1";
+	 		cmds += "34#$";
+	 		cmds += "^XA";
+	 		cmds += "^PRD";
+	 		cmds += "^SEE:UHANGUL.DAT^FS";
+	 		cmds += "^CW1,E:KFONT3.FNT^CI26^FS";
+	 		cmds += "^FO60,10^GB210,352,2^FS";
+	 		cmds += "^FO268,10^GB170,352,2^FS";
+	 		cmds += "^FO268,10^GB500,72,2^FS";
+	 		cmds += "^FO268,80^GB500,72,2^FS";
+	 		cmds += "^FO268,150^GB500,72,2^FS";
+	 		cmds += "^FO268,220^GB500,72,2^FS";
+	 		cmds += "^FO268,290^GB500,72,2^FS";
+	 		if(qaEval == '합격') {
+	 			cmds += "^FO95,140^A1N,65,65^FD"+qaEval+"^FS";
+		 	} else if(qaEval == '불합격') {
+		 		cmds += "^FO70,40^A1N,70,70^FDNOK^FS";
+		 		cmds += "^FO70,140^A1N,65,65^FD"+qaEval+"^FS";
+			}
+	 		cmds += "^FO90,270^A1N,30,30^FD  "+inspectChargrNm+"^FS";
+	 		cmds += "^FO90,320^A1N,30,30^FD품질보증팀^FS";
+	 	    cmds += "^FO280,30^A1N,33,33^FD입고일자^FS";
+	 	   	cmds += "^FO450,30^A1N,33,33^FD"+preInWhsDate+"^FS";
+	 	    cmds += "^FO280,100^A1N,33,33^FD입고수량^FS";
+	 	   	cmds += "^FO450,100^A1N,33,33^FD"+preInWhsQty+"^FS";
+	 	    cmds += "^FO280,170^A1N,33,33^FDPO.NO^FS";
+	 	   	cmds += "^FO450,170^A1N,33,33^FD"+poNo+"^FS";
+	 	    cmds += "^FO280,240^A1N,33,33^FD검사일자^FS";
+	 	   	cmds += "^FO450,240^A1N,33,33^FD"+inspectDate+"^FS";
+	 	    cmds += "^FO280,310^A1N,33,33^FDCODE^FS";
+	 	   	cmds += "^FO450,310^A1N,33,33^FD"+partCd+"^FS";
 
-			$('#btnSearch').trigger('click'); // 조회 버튼 click
+	 	    
+	 		//cmds += "^FO70,80^GB200,73,3^FS";
+	 	    //cmds += "^FO110,105^A1N,30,30^FDI T E M^FS";		    
+	 		//cmds += "^FO70,150^GB200,73,3^FS";
+	 	    //cmds += "^FO110,175^A1N,30,30^FDS P E C^FS";		    
+	 		//cmds += "^FO70,220^GB200,73,3^FS";
+	 	    //cmds += "^FO85,245^A1N,25,25^FD입고일자/수량^FS";		    
+	 		//cmds += "^FO70,290^GB700,73,3^FS";	
+	 		cmds += "^XZ";
+			sendMessage(cmds);
+}
 
-			prodQualityTable.clear();
-		}
-	});
+	//불량이력관리팝업
+	var partCd= '';
+	var partRev= '';
+	var inspectDate= '';
+	
+	function selectBad(idx) {
+		itemSeq = itemInspectTable.row(idx).data().itemSeq;
+		inspectDate = itemInspectTable.row(idx).data().inspectDate;
+		
+		//목록
+		let badTable = $('#badTable').DataTable({
+			dom : "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'f>>"
+				+ "<'row'<'col-sm-12'tr>>"
+				+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			language : lang_kor,		
+			paging : true,
+			searching : true,
+			info : true,
+			destroy: true,
+			ordering : true,
+			processing : true,
+			autoWidth : false,
+			lengthChange : true,
+			pageLength : 15,
+			//ordering: false,
+			ajax : {
+				url : '<c:url value="qm/itemInspectAdmPopUpList"/>',
+				type : 'GET',
+				data : {
+					'itemSeq'	: function(){return itemSeq;},
+					'inspectDate' : function(){return inspectDate;}
+					
+				},
+			},
+			rowId : 'soNb',
+			columns : [
+				{data : 'statusCd',
+					render: function(data, type, row, meta){
+						if(data == "A" || data == "L"){
+							return '승인';
+						}else{
+							return '미승인';
+						}
+					}
+				},
+				{data : 'qaEval',
+					render: function(data, type, row, meta){
+						if(data == null){
+							return '-';
+						}else{
+							return data;
+						}
+					}
+				},
+				{data : 'itemGubun',
+					render: function(data, type, row, meta){
+						if(data == null){
+							return '-';
+						}else{
+							return data;
+						}
+					}
+				},	
+				{data : 'preInWhsDate',
+					render: function(data, type, row, meta) {
+						return moment(data).format("YYYY-MM-DD");
+					}
+				},
+				{data : 'dealCorpNm' ,
+					render : function(data, type, row, meta){
+						if(data!=null){
+							return data;
+						}else{
+							return row['spplyCorpNm'];
+						}
+					}
+				}, 
+				{data : 'itemCd'},
+				{data : 'itemNm'},
+				{data : 'itemModel'},
+				{data : 'preInWhsQty',
+					className : 'text-right',
+					render : function(data, type, row, meta){
+						if(data!=null){
+							return rmDecimal(data);
+						}else{
+							return '-';
+						}
+					}
+				},
+				{data : 'faultyCnt',
+					className : 'text-right',
+					render : function(data, type, row, meta){
+						if(data!=null){
+							return rmDecimal(data);
+						}else{
+							return '-';
+						}
+					}
+				},
+				{data : 'inspectDate',
+					render: function(data, type, row, meta){
+						if(data == null){
+							return '-';
+						}else{
+							return moment(data).format("YYYY-MM-DD");
+						}
+					}
+				},
+			],
+			drawCallback: function(settings) {
+	        }, 
+	        columnDefs : [ {
+				"defaultContent": "-", "targets": "_all",	"className": "text-center"
+			}],
+		    order : [
+				[10, 'desc']
+			]
+		});
+		$('#badPopUpModal').modal('show');
+	}
 
-	$('#btnWorkingWarningModalY').on('click', function() {
-		if(WMlastIdx == 'ADM') {
-			$('#btnSave').trigger('click');
-			return false;
-		}
-	});
+	
+	//반품이력관리
+	function selectReturn(idx) {
+		itemSeq = itemInspectTable.row(idx).data().itemSeq;
+		inspectDate = itemInspectTable.row(idx).data().inspectDate;
 
-	/* 승인처리 */
-	$('#btnConfirmY').on('click',function(){
-		let array = [];
-		let state = true;
-		$('#prodQualityTable tbody').find('tr').each(function(index, item) {
-			if( $(item).find('td').find('input[name=inputCheck]').prop('checked') ){
-				let td = $(item).find('td');
-				let data = prodQualityTable.row($(item)).data();
-				let node = prodQualityTable.row($(item)).node();
-
-				//미판정인경우
-				if(data.qualityJudgmentCd == '01'){
-					toastr.warning('미판정인 경우 승인할 수 없습니다.<br>수주상세 : '+data.bizOrdDtlNo);
-					//$(td).eq(prodQualityTable.column('checkbox:name').index()).find('input').focus();
-					state = false;
-					return false;
-				}
-								
-				let obj = new Object();
-				obj.idx = data.idx;
-				obj.itemIdx = data.itemIdx;
-				obj.itemVersionIdx = data.itemVersionIdx;
-				obj.bizOrdDtlIdx = data.bizOrdDtlIdx;
-				obj.bizOrdDtlNo = data.bizOrdDtlNo;n
+		//반품 목록
+		let returnTable = $('#returnTable').DataTable({
+			dom : "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'f>>"
+				+ "<'row'<'col-sm-12'tr>>"
+				+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			language : lang_kor,		
+			paging : true,
+			searching : true,
+			info : true,
+			destroy: true,
+			ordering : true,
+			processing : true,
+			autoWidth : false,
+			lengthChange : true,
+			pageLength : 15,
+			//ordering: false,
+			ajax : {
+				url : '<c:url value="qm/itemInspectReturnPopUpList"/>',
+				type : 'GET',
+				data : {
+					'itemSeq'		: function(){return itemSeq;},
+					'inspectDate' 	: function(){return inspectDate;}
+				},
+			},
+			rowId : 'soNb',
+			columns : [
+				{ data : 'itemGubun' 		},
+				{ data : 'itemCd'  			},
+				{ data : 'itemNm'  			},
+				{ data : 'itemModel'  		},
+				{data : 'returnQty',
+					className : 'text-right',
+					render : function(data, type, row, meta){
+						if(data!=null){
+							return rmDecimal(data);
+						}else{
+							return '-';
+						}
+					}
+				},
+				{data : 'returnDate',
+					render: function(data, type, row, meta){
+						if(data == null){
+							return '-';
+						}else{
+							return moment(data).format("YYYY-MM-DD");
+						}
+					}
+				},
 				
-				array.push(obj);
+				{ data : 'faultyChargrNm' 	},
+			],
+			drawCallback: function(settings) {
+	        }, 
+	        columnDefs : [ {
+				"defaultContent": "-", "targets": "_all",	"className": "text-center"
+			}],
+		    order : [
+				[5, 'desc']
+			]
+		});
+		$('#returnPopUpModal').modal('show');
+	}
+	
+	//밀시트 탭 클릭시
+	$('#tab2Head').on('click', function() {
+		$('#itemInspectAttachTable').DataTable().ajax.reload();
+		var attachSaveCheck = true;
+		$('#itemInspectAttachTable tbody tr').each(function(index, item) {
+			if ($(this).find("td input[name=fileNm]").val() == "" && $(this).find("td input[name=fileNm]").val() != undefined) {
+				attachSaveCheck = false;
 			}
 		});
-		
-		if(!state) {
-			return false;
+		if(attachSaveCheck) {
+			$('#btnAttachSave').addClass('d-none');
+		} else {
+			$('#btnAttachSave').removeClass('d-none');
 		}
 		
-		if(array.length == 0) {
-			toastr.warning('승인할 항목을 체크해주세요.');
-			state = false;
-			return false;
-		}
+		$('#btnAttachAdd').attr('disabled', false);
+		$('#btnAttachDel').attr('disabled', false);
+		
+	});
+	
+	//이미지 등록
+	function imageUpload(number) {
+		var value = null;
+
+		value = number;
+
+		var fileListView = "";
+
+		var formData = new FormData(document.getElementById("form21")); //ajax로 넘길 data
+
+		//var fileInput = document.getElementById("imgAdd1"); //id로 파일 태그를 호출
+
+		//var files = fileInput.files; //업로드한 파일들의 정보를 넣는다.
+		
+		formData.append("inSlipNo", inSlipNo);
+		formData.append("value", value);
+		//formData.append('imgAdd1', files); //업로드한 파일을 하나하나 읽어서 FormData 안에 넣는다.
 
 		$.ajax({
-			url: '<c:url value="/qm/prodQualityAdmConfirmUpd"/>',
-            type: 'POST',
-            data: {
-                'updateList'	:	JSON.stringify(array)
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
-			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					toastr.success('승인되었습니다.');
-					$('#prodQualityTable_wrapper').find('.filters th').each(function(index, item) {
-						$(item).find('input').attr('disabled', false); // 검색 필터 disabled
-					});
-					//열 움직이는 기능 잠금
-					prodQualityTable.colReorder.enable();
-					WM_action_OFF('ADM');
-					prodQualityTable.rows('.selected').deselect();
-					
-					prodQualityTable.ajax.reload();
-					$('#btnSearch').attr('disabled',false);
-					$('#btnSave').attr('disabled',true);
-					$('#btnEdit').attr('disabled',false);
-					$('#btnCancel').attr('disabled',true);
-					$('#btnConfirmY').attr('disabled',false);
-					$('#btnAllCheck').prop("checked",false);
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
-				} else {
-					toastr.error(res.message);
+			url : '<c:url value="/qm/itemInspectImageUpload"/>',
+			data : formData,
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			success : function(data) {
+				if (data.result == "ok") { //응답결과
+					toastr.success('등록되었습니다.');
+				} else if (data.result == "extensionError") {
+					toastr.error('파일형식 또는 확장명이 잘못되었습니다.');
+					$('#imgName' + value).text("");
 				}
-				$('#my-spinner').hide();
+// 				imgPrint();
 			}
 		});
-	});
 
-	/* 삭제처리 */
-	$('#btnDel').on('click',function(){
-		/* if($('#prodQualityTable tbody').find('tr.selected').length == 0) {
+	}
+	
+	//이미지 조회
+// 	function imgPrint() {
+// 		$.ajax({
+// 			url : '<c:url value="/qm/itemInspectImgRead"/>',
+// 			data : {
+// 				'inSlipNo' : function(){return inSlipNo;},
+// 			},
+// 			type : 'GET',
+// 			success : function(res) {
+// 				var data = res.data;
+// 				if (data.imageFile1 != null) {
+// 					$('#imageFile1').attr("src", "data:image/jpg;base64," + data.imageFile1);
+// 					$('#imgName1').text(data.imageFile1Nm);
+// 				} else {
+// 					$('#imageFile1').attr("src", " ");
+// 					$('#imgName1').text("");
+// 				}
+				
+// 				if (data.imageFile2 != null) {
+// 					$('#imageFile2').attr("src", "data:image/jpg;base64," + data.imageFile2);
+// 					$('#imgName2').text(data.imageFile2Nm);
+// 				} else {
+// 					$('#imageFile2').attr("src", " ");
+// 					$('#imgName2').text("");
+// 				}
+				
+// 				if (data.imageFile3 != null) {
+// 					$('#imageFile3').attr("src", "data:image/jpg;base64," + data.imageFile3);
+// 					$('#imgName3').text(data.imageFile3Nm);
+// 				} else {
+// 					$('#imageFile3').attr("src", " ");
+// 					$('#imgName3').text("");
+// 				}
+				
+// 				if (data.imageFile4 != null) {
+// 					$('#imageFile4').attr("src", "data:image/jpg;base64," + data.imageFile4);
+// 					$('#imgName4').text(data.imageFile4Nm);
+// 				} else {
+// 					$('#imageFile4').attr("src", " ");
+// 					$('#imgName4').text("");
+// 				}
+// 			},
+// 			error : function(xhr, textStatus, error) {
+// 				alert("예상치 못한 오류가 발생했습니다.");
+// 			}
+// 		});
+// 	}
+	
+	//이미지 삭제
+	function deleteImg(number) {
+		var value = null;
+		value = number;
+
+		if ($('#imgName' + number).text() == "") {
+			toastr.warning('삭제할 항목이 없습니다.');
+			return false;
+		}
+		$.ajax({
+			url : '<c:url value="/qm/itemInspectImageDelete"/>',
+			type : 'POST',
+			data : {
+				'poNo' : function(){return poNo;},
+				'poSeq' : function(){return poSeq;},
+				'inSeq' : function(){return inSeq;},
+				'value' : function(){return value;},
+			},
+			success : function(data) {
+				if (data.result == "ok") { //응답결과
+					toastr.success('삭제되었습니다.');
+// 					imgPrint();
+				}
+			},
+			error : function(xhr, textStatus, error) {
+				alert("예상치 못한 오류가 발생했습니다.");
+			}
+		});
+		$('#imgAdd' + value).val("");
+		$('#imgName' + number).val("");
+		$('#imgName' + number).text("");
+		$('#imgName' + number).attr("src", "");
+	}
+	
+	//관련자료 탭 클릭시
+	$('#tab3Head').on('click', function() {
+		$('#btnSave').addClass('d-none');
+		
+		imgPrint();
+// 		$('#itemInspectAttachTable').DataTable().ajax.reload();
+		
+	});
+	
+	//관련자료 목록
+	let itemInspectAttachTable = $('#itemInspectAttachTable').DataTable({
+		dom : "",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		pageLength : 10,
+		ajax : {
+			url : '<c:url value="/bm/attachDataList"/>',
+			type : 'GET',
+			async : false,
+			data : {
+				'attachCd' : function(){return inSlipNo;},
+				'attachGubun' : function(){return 'II';},
+			},
+		},
+		columns : [
+				{
+					render : function(data, type, row, meta) {
+						tempNum = meta.row + meta.settings._iDisplayStart + 1;
+						return tempNum;
+					},
+					'className' : 'text-center'
+				},
+				{
+					data : 'contents',
+					render : function(data, type, row, meta) {
+						var html = "";
+						html = selectBoxHtml2(contentsCode,"contents", data, row, meta, "100");
+						return html;
+					
+						/* if (data != null) {
+							var html = '<input type="hidden" class="form-control" style="text-align:center" name="attachSeq" value="'+row['attachSeq']+'" disabled />';
+							html += '<input type="text" class="form-control" style="text-align:center" name="contents" value="'+data+'" disabled />';
+							return html;
+						} else {
+							return '<input type="text" class="form-control" style="text-align:center" name="contents" value="" />';
+						} */
+					}
+				},
+				{
+					data : 'attachFn',
+					render : function(data, type, row, meta) {
+						if (data != null) {
+							var html = '<a href="/bm/attachDataDownload?attachFn='+data+'&attachSeq='+row['attachSeq']+'&attachCd='+inSlipNo+'&attachGubun=II">'+data+'</a>';
+							return html;
+						} else {
+							var html = '<form id="formFile'+tempNum+'" method="post" enctype="multipart/form-data"> <div class="custom-file">';
+							html += '<input type="file" class="custom-file-input" id="fileErNm'+tempNum+'" name="fileNm">';
+							html += '<label class="custom-file-label" for="fileErNm'+tempNum+'"></label>';
+							html += '</div></form>';
+							return html;
+						}
+					}
+				},
+			],
+		order : [ [ 0, 'asc' ], ],
+		drawCallback: function(settings) {
+        }, 
+	});
+	
+	//관련자료 데이터 클릭 시
+	$('#itemInspectAttachTable tbody').on('click','tr',function() {
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			tempView = "";
+		} else {
+			$('#itemInspectAttachTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+		tableIdx = $('#itemInspectAttachTable').DataTable().row(this).index();
+		attachSeq = itemInspectAttachTable.row(tableIdx).data().attachSeq;
+		tempView = "edit";
+	});
+	
+	//관련자료 추가버튼
+	$('#btnAttachAdd').on('click', function() {
+ 		sideView2 = 'add';
+
+ 		$('#itemInspectAttachTable').DataTable().row.add({}).draw(false);
+		$('#btnAttachSave').removeClass('d-none'); // 등록버튼
+		$('#btnAttachAdd').attr('disabled', true);
+ 		$('#btnAttachDel').attr('disabled', true);
+
+ 		//추가한 행만 비활성화
+ 		$('select[name=contents]').eq(itemInspectAttachTable.data().count()-1).attr('disabled',false);
+
+		tempView = '';
+	});
+	
+	//관련자료 삭제버튼
+	$('#btnAttachDel').on('click', function() {
+		if (tempView != 'edit') {
 			toastr.warning('삭제할 항목을 선택해주세요.');
 			return false;
 		}
-		let idx = prodQualityTable.row('.selected').data().idx;
-		if(idx == null || idx == 'null' || idx == '' || idx == undefined){
-			toastr.warning('검사된 항목만 삭제할 수 있습니다.');
-			return false;
-		} */ 
-		if($('input[name=inputCheck]:checked').length == 0){
-			toastr.warning('삭제할 항목을 체크해주세요.');
-			return false;
-		}
-		$('#deleteModal').modal('show');
-		$('#deleteModal').data('deleteType','ADM');
-	});
-
-	$('#btnDeleteModalY').on('click',function(){
-		let deleteType = $('#deleteModal').data('deleteType');
-		if(deleteType == 'ADM'){
-			let array = [];
-			
-			$('input[name=inputCheck]:checked').each(function(index, item){
-				let tr = $(item).parent().parent();
-				let node = prodQualityTable.row(tr).node();
-				let data = prodQualityTable.row(tr).data();
-
-				let obj = {};
-				obj.idx = data.idx;
-				obj.bizOrdDtlIdx = data.bizOrdDtlIdx;
-				obj.bizOrdDtlNo = data.bizOrdDtlNo;
-				array.push(obj);
-			});
+		
+		if(attachSeq != undefined && attachSeq != null){
+			//관련자료 삭제
 			$.ajax({
-				url: '<c:url value="/qm/prodQualityAdmDel"/>',
-	            type: 'POST',
-	            data: {
-		            'deleteList'	:	function(){ return JSON.stringify(array); }
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('삭제되었습니다.');
-						$('#btnSearch').trigger('click');
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
-						toastr.error(res.message);
-					}
-					$('#my-spinner').hide();
-				}
-			});
-			/* let idx = prodQualityTable.row('.selected').data().idx;
-			let bizOrdDtlIdx = prodQualityTable.row('.selected').data().bizOrdDtlIdx;
-			let bizOrdDtlNo = prodQualityTable.row('.selected').data().bizOrdDtlNo;
-			$.ajax({
-				url: '<c:url value="/qm/prodQualityAdmDel"/>',
-	            type: 'POST',
-	            data: {
-		            'idx'				:	function(){ return idx; },
-		            'bizOrdDtlIdx'		:	function(){ return bizOrdDtlIdx; },
-	            	'bizOrdDtlNo'		:	function(){ return bizOrdDtlNo; },
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('삭제되었습니다.');
-						$('#btnSearch').trigger('click');
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
-						toastr.error(res.message);
-					}
-					$('#my-spinner').hide();
-				}
-			}); */
-						
-		}
-		
-	});
-	
-	/* 거래처 모달 */
-	
-	// 거래처조회 버튼 click
-	$('#btnSearchDealCorp').on('click', function() {
-		$('#dealCorpModal').modal('show');
-	});
-	$('#dealCorpModal').on('shown.bs.modal', function() {
-		dealCorpModalTable.ajax.reload(function() {});
-	});
-
-	// 거래처조회 x 버튼 click
-	$('#btnSearchDealCorpDel').on('click', function() {
-		$('#searchDealCorpNm').val('');
-		$('#searchDealCorpIdx').val('');
-	});
-
-	// 거래처관리 목록조회
-	$('#dealCorpModalTable thead tr').clone(true).addClass('filters').appendTo('#dealCorpModalTable thead'); // filter 생성
-	let dealCorpModalTable = $('#dealCorpModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: false,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/dealCorpAdmList"/>',
-			type : 'POST',
-			data : {
-				dealGubun : function(){ return $('#modalDealGubun').val();},
-				dealCorpStatus: function() { return $('#modalDealCorpStatus').val(); }
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'dealGubunNm', className : 'text-center'},
-			{ data: 'dealCorpCd', className : 'text-center'},
-			{ data: 'initial', className : 'text-center'},
-			{ data: 'dealCorpNm', className : 'text-center'},
-			{ data: 'representative', className : 'text-center'},
-			{ data: 'companyNumber', className : 'text-center'},
-		],
-		columnDefs : [
-			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			//let middlecolT_height = parseFloat($('#middlecolT').css('height'));
-			let theadHeight = parseFloat($('#dealCorpModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#dealCorpModalTable_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 230)+'px');
-			
-			$('#dealCorpModalTable_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllAdm').off('keyup',function() {});
-			$('#searchAllAdm').on('keyup',function() {
-				$('#dealCorpModalTable_filter').find('input').val($(this).val());
-				$('#dealCorpModalTable_filter').find('input').trigger('keyup');
-			});
-		},
-		initComplete: function () {
-			let api = this.api();
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#dealCorpModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title.replaceAll('*','') + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#dealCorpModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	dealCorpModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = dealCorpModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#dealCorpModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-
-	// 거래처 모달 조회 버튼 click
-	$('#btnDealCorpModalSearch').on('click', function() {
-		$('#my-spinner').show();
-		dealCorpModalTable.ajax.reload(function() {});
-		
-		setTimeout(function() {
-			$('#my-spinner').hide();
-		}, 100)
-	});
-
-	// 거래처 모달 붙여넣기 버튼 click
-	$('#btnDealCorpModalPaste').on('click', function() {
-		if(!$('#dealCorpModalTable tbody tr').hasClass('selected')){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
-			return false;
-		}
-		let data = dealCorpModalTable.row('.selected').data();
-		$('#searchDealCorpNm').val(data.dealCorpNm);
-		$('#searchDealCorpIdx').val(data.idx);
-		$('#dealCorpModal').modal('hide');
-	});
-
-	$('#dealCorpModalTable tbody').on('dblclick','tr',function(){
-		let data = dealCorpModalTable.row(this).data();
-		$('#searchDealCorpNm').val(data.dealCorpNm);
-		$('#searchDealCorpIdx').val(data.idx);
-		$('#dealCorpModal').modal('hide');
-	});
-	
-	/* 제품코드 모달  */
-	
-	$('#btnSearchItem').on('click',function(){
-		
-		$('#itemCodeModal').modal('show');
-		setTimeout(function() {
-			itemCodeModalTable.ajax.reload(function() {itemCodeModalTable.draw(false);});
-		}, 200);
-	});
-
-	//제품정보 목록(모달)조회
-	$('#itemCodeModalTable thead tr').clone(true).addClass('filters').appendTo('#itemCodeModalTable thead'); // filter 생성
-	let itemCodeModalTable = $('#itemCodeModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex col-sm'B><'me-lg-auto div-align-center col-sm'p><'d-flex align-items-center justify-content-end col-sm'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: true,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: pageLengthCnt,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/itemInfoDtlListAll"/>',
-			type : 'GET',
-			data : {
-				useYnCd		: function(){ return $('#modalUseYnCdBox').val(); }, //사용여부
-				itemGubun	: function(){ return $('#modalItemGubunBox').val(); }, //품목구분
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'customerNm', className : 'text-center align-middle'},	//고객사
-			{ data: 'itemNm', className : 'text-center align-middle'}, 		//제품명
-			{ //건별전달사항
-				data: 'relayNotice', className : 'text-start align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space:pre-line;width:330px;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}	
-			},
-			{ data: 'knifeTipSize', className : 'text-center align-middle'}, //칼끝규격
-			{ //자재코드
-				data: 'customerItemCd', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'versionNum', className : 'text-center align-middle'}, //버전번호
-			{ //재질
-				data: 'paperType', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //절수
-				data: 'cutQty', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseFloat(data))+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //개수
-				data: 'eaQty', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseFloat(data))+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'itemColor', className : 'text-center align-middle'}, //COLOR		
-			{ //도수
-				data: 'frequencyNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'itemSize', className : 'text-center align-middle'}, //사이즈
-			{ data: 'coatingMethod', className : 'text-center align-middle'}, //코팅방법
-			{ //특이사항
-				data: 'specialNotice', className : 'text-start align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space:pre-line;width:330px;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'moldingMethod', className : 'text-center align-middle'}, //성형방식
-			{ data: 'moldingContents', className : 'text-center align-middle'}, //성형내용
-			{ //묶음법
-				data: 'bundleMethodNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'bundleUnit', className : 'text-center align-middle'}, //묶음단위
-			{//포장박스
-				data: 'packMethodNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'packUnit', className : 'text-center align-middle'}, //포장단위
-			{ //호기
-				data: 'etc1Nm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //목형번호
-				data: 'woodenCareNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'holeWoodenCd', className : 'text-center align-middle'}, //타공목형번호
-			{ //수지판번호
-				data: 'resinBoardNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //현재고량
-				data: 'stock', className : 'text-end  align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //검수방법
-				data: 'inspectMethodNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{//착인여부
-				data: 'printingYnCheckNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //사용여부
-				data: 'useYnCd', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data == 'Y'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">사용</div>';
-					} else if (data == 'N'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">미사용</div>';
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //등록일자
-				data: 'detailDate', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data,'YYYY-MM-DD').format('YYYY-MM-DD')+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //후가공판번호
-				data: 'etc2Cd', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},		
-			{ data: 'etc3', className : 'text-center align-middle'}, //부분UV	
-			{ data: 'etc4', className : 'text-center align-middle'}, //FOIL	
-			{ data: 'etc6', className : 'text-center align-middle'}, //형압
-			{ data: 'etc7', className : 'text-center align-middle'}, //FSC 유무
-			{ data: 'etc8', className : 'text-center align-middle'}, //납품처
-			{ data: 'etc9', className : 'text-center align-middle'}, //공정실적여부
-			{ data: 'etc10', className : 'text-center align-middle'}, //기타1
-			{ data: 'etc5', className : 'text-center align-middle'}, //기타2
-			{ data: 'pressMethod', className : 'text-center align-middle'},	//기타3
-		],
-		columnDefs : [
-			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#itemCodeModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 250)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#modalItemCodeSearchAll').off('keyup',function() {});
-			$('#modalItemCodeSearchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-			
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#itemCodeModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#itemCodeModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	itemCodeModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = itemCodeModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#itemCodeModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-	
-	$('#btnItemCodeModalSearch').on('click',function(){
-		itemCodeModalTable.ajax.reload(function() {});
-	});
-
-	$('#btnItemCodeModalPaste').on('click',function(){
-		if( !$('#itemCodeModalTable tbody tr').hasClass('selected') ){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
-			return false;
-		}
-
-		let data = itemCodeModalTable.row('.selected').data();
-		$('#itemNm').val(data.itemNm);
-		$('#itemIdx').val(data.idx);
-		$('#itemCodeModal').modal('hide');
-	});
-
-	$('#itemCodeModalTable tbody').on('dblclick','tr',function(){
-		let data = itemCodeModalTable.row(this).data();
-		$('#itemNm').val(data.itemNm);
-		$('#itemIdx').val(data.idx);
-		$('#itemCodeModal').modal('hide');
-	});
-
-	/* 사용자 모달 */
-	// 유저모달 버튼 click
-	$(document).on('click', '.btnUserModalShow', function() {
-		$('#userModal').data('type',$(this).data('type'));
-		$('#userModal').modal('show');
-	});
-	$('#userModal').on('shown.bs.modal', function() {
-		userModalTable.ajax.reload(function() {});
-	});
-
-	// 사용자정보 목록조회
-	$('#userModalTable thead tr').clone(true).addClass('filters').appendTo('#userModalTable thead'); // filter 생성
-	let userModalTable = $('#userModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/sm/userLst"/>',
-			type : 'POST',
-			data : {
-				userStateCd: function() { return $('#SearchUserStateCd').val(); }
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'userId', className : 'text-center'},
-			{ data: 'userName', className : 'text-center'},
-			{ data: 'userDepartmentNm', className : 'text-center'},
-			{ data: 'userPositionNm', className : 'text-center'},
-			{ data: 'userJobCd', className : 'text-center'},
-		],
-		columnDefs : [
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#userModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 197)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAll').off('keyup',function() {});
-			$('#searchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#userModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#userModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	userModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = userModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#userModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-
-	// 사용자목록 적용 버튼 click
-	$('#btnUserModalPaste').on('click', function(){
-		if(!$('#userModalTable tbody tr').hasClass('selected')){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
-			return false;
-		}
-		let table = $('#prodQualityTable').dataTable().api();
-		let node = table.row('.selected').node();
-		let data = table.row('.selected').data();
-		let selectNodeModalData = userModalTable.row('.selected').data();
-		$(node).find('td').eq(table.column($('#userModal').data('type')+':name').index()).find('input[type=hidden]').val(selectNodeModalData.idx);	//사용자 식별자
-		$(node).find('td').eq(table.column($('#userModal').data('type')+':name').index()).find('input[type=text]').val(selectNodeModalData.userName);		//사용자 이름
-		$('#userModal').modal('hide');
-	});
-	
-	$('#userModalTable tbody').on('dblclick','tr',function(){
-		let table = $('#prodQualityTable').dataTable().api();
-		let node = table.row('.selected').node();
-		let data = table.row('.selected').data();
-		let selectNodeModalData = userModalTable.row(this).data();
-		$(node).find('td').eq(table.column($('#userModal').data('type')+':name').index()).find('input[type=hidden]').val(selectNodeModalData.idx);	//사용자 식별자
-		$(node).find('td').eq(table.column($('#userModal').data('type')+':name').index()).find('input[type=text]').val(selectNodeModalData.userName);		//사용자 이름
-		$('#userModal').modal('hide');
-	});
-	
-	//모든 체크박스 선택
-	$('#btnAllCheck').on('click',function(){
-		if($('#btnAllCheck').prop("checked")){
-			$('input:checkbox[name=inputCheck]').prop("checked",true);
-		}else{
-			$('input:checkbox[name=inputCheck]').prop("checked",false);
-		}
-	});
-	// 모든 체크박스 체크/해제 되도록
-	$(document).on('change','input:checkbox[name=inputCheck]', function(){
-		if( $('input:checkbox[name=inputCheck]').length == $('input:checkbox[name=inputCheck]:checked').length ){ //전체 체크박스 수와 체크된 박스의 수가 같을 때 -> 전체체크박스 체크 , 아닐 경우 해제
-			$('#btnAllCheck').prop("checked",true);
-		} else{
-			$('#btnAllCheck').prop("checked",false);
-		}
- 	});
-
-	//일괄 미판정,적합,부적합
-	$('#btnUndecided, #btnJudgmentY, #btnJudgmentN').on('click',function(){
-		let btnVal = $(this).data('val');
-		$('input[name=inputCheck]:checked').each(function(index,item){
-			let tr = $(item).parent().parent();
-			let node = prodQualityTable.row(tr).node();
-			let data = prodQualityTable.row(tr).data();
-
-			$(node).find('select[name=qualityJudgmentCd]').val(btnVal);
-		});
-	});
-
-	//적합 / 부적합 버튼 클릭시 해당 선택되도록
-	/*$(document).on('change', 'input[name=JudgmentY]', function(){
-		if( $(this).prop('checked') ) {
-			$(this).next().css('background-color','#3daf33');
-			$(this).next().css('color','#FFFFFF');
-			$(this).parent().find('input[name=JudgmentN]').prop('checked',false);
-			$(this).parent().find('label[name=btnJudgmentN]').css('background-color','#FFFFFF');
-			$(this).parent().find('label[name=btnJudgmentN]').css('color','#3daf33');
-		} else {   
-			$(this).next().css('background-color','#FFFFFF');
-			$(this).next().css('color','#3daf33');
-		}
-	});
-	$(document).on('change', 'input[name=JudgmentN]', function(){
-		if( $(this).prop('checked') ) {
-			$(this).next().css('background-color','#3daf33');
-			$(this).next().css('color','#FFFFFF');
-			$(this).parent().find('input[name=JudgmentY]').prop('checked',false);
-			$(this).parent().find('label[name=btnJudgmentY]').css('background-color','#FFFFFF');
-			$(this).parent().find('label[name=btnJudgmentY]').css('color','#3daf33');
-		} else {   
-			$(this).next().css('background-color','#FFFFFF');
-			$(this).next().css('color','#3daf33');
-		}
-	});*/
-	$(document).on('click', 'label[name=btnJudgmentN], label[name=btnJudgmentY]', function(){
-		$('#my-spinner').show();
-		let tr = $(this).parent().parent().parent().parent();
-
-		let array = [];
-		let arrayConfirm = [];
-		let state = true;
-		let workOrdResultIdxString = '';
-		let bizOrdDtlIdxString = '';
-
-		let td = $(tr).find('td');
-		let data = prodQualityTable.row(tr).data();
-		let node = prodQualityTable.row(tr).node();
-		
-		let passQty = removeCommas($(td).eq(prodQualityTable.column('passQty:name').index()).find('input').val());
-		//let qualityJudgmentCd = $(td).eq(prodQualityTable.column('qualityJudgmentCd:name').index()).find('select').val();
-		let qualityJudgmentCd = $(this).data('val');
-		let judgmentUserIdx = $(td).eq(prodQualityTable.column('judgmentUserNm:name').index()).find('input[type=hidden]').val();
-		let judgmentDate = $(td).eq(prodQualityTable.column('judgmentDate:name').index()).find('input').val().replaceAll('-','');
-		let confirmUserIdx = $(td).eq(prodQualityTable.column('confirmUserNm:name').index()).find('input[type=hidden]').val();
-		let confirmDate = $(td).eq(prodQualityTable.column('confirmDate:name').index()).find('input').val().replaceAll('-','');
-
-		let bizOrdQty = parseInt(data.bizOrdQty);		//수주수량
-		let stockUseQty = parseInt(data.stockUseQty);	//재고사용수량
-		let fairQty = parseInt(isEmptyCheck(data.fairQty) ? 0 : data.fairQty);			//생산수량
-
-		//수주수량 > 재고사용수량인 경우 생산수량이 있을 경우 검사하도록
-		//원래는 jsp말고 컨트롤러랑 프로시저에서 체크해줘야함 -> 동시성이나 여러가지 문제되면 그때바꾸면됨
-		if(bizOrdQty > stockUseQty && fairQty == 0){
-			toastr.warning('해당 수주는 생산이 완료된 경우<br>검사할 수 있습니다.');
-			state = false;
-		}
-		
-		if(passQty == '' || passQty == null || passQty == undefined || passQty == 0){
-			toastr.warning('적합수량을 입력 해주세요.');
-			$(td).eq(prodQualityTable.column('passQty:name').index()).find('input').focus();
-			state = false;
-		}
-
-		if(judgmentUserIdx == '' || judgmentUserIdx == null || judgmentUserIdx == undefined){
-			toastr.warning('판정자를 선택 해주세요.');
-			$(td).eq(prodQualityTable.column('judgmentUserNm:name').index()).find('.btnUserModalShow').focus();
-			state = false;
-		}			
-		if(judgmentDate == '' || judgmentDate == null || judgmentDate == undefined){
-			toastr.warning('판정일자를 선택 해주세요.');
-			$(td).eq(prodQualityTable.column('judgmentDate:name').index()).find('input').focus();
-			state = false;
-		}		
-		if(confirmUserIdx == '' || confirmUserIdx == null || confirmUserIdx == undefined){
-			toastr.warning('승인자를 선택 해주세요.');
-			$(td).eq(prodQualityTable.column('confirmUserNm:name').index()).find('.btnUserModalShow').focus();
-			state = false;
-		}			
-		if(confirmDate == '' || confirmDate == null || confirmDate == undefined){
-			toastr.warning('승인일자를 선택 해주세요.');
-			$(td).eq(prodQualityTable.column('confirmDate:name').index()).find('input').focus();
-			state = false;
-		}				
-
-		//부적합판정인경우 경고모달
-		if(qualityJudgmentCd == '03' && state == true){
-			$('#my-spinner').hide();
-			$(this).prop('checked',false);
-			$(this).css('background-color','transparent');
-			$(this).css('color','#dc3545');
-			showModal()
-				.then(function() {
-					// 모달 확인 버튼을 눌렀을 때
-					let obj = new Object();
-					obj.idx = data.idx;
+				url : '<c:url value="bm/attachDataDelete" />',
+				type : 'POST',
+				async : false,
+				data  : {
+					'attachGubun' : function(){return 'II';},
+					'attachCd' : function(){return inSlipNo;},
+					'etc1' : function(){return inSlipSeq;},
+					'etc2' : function(){return inSeq;},
+					'attachSeq' : function(){return attachSeq;},
+				},
+				success  : function(res){
+					$('#itemInspectAttachTable').DataTable().ajax.reload();
+					toastr.success("삭제되었습니다.");
 					
-					if(data.rowGubun == 'workOrd'){
-						obj.testGubun = '01'; //시스템 035번 검사구분 01 생산제품검사 
-						obj.workOrdResultIdx = data.workOrdResultIdx;
-						obj.bizOrdDtlIdx = data.bizOrdDtlIdx;
-					} else if(data.rowGubun == 'bizStockUse'){
-						obj.testGubun = '02'; //시스템 035번 검사구분 02 재고제품검사
-						obj.workOrdResultIdx = data.workOrdResultIdx;
-						obj.bizOrdDtlIdx = data.bizOrdDtlIdx;
-					}
-					
-					obj.passQty = passQty;
-					obj.qualityJudgmentCd = qualityJudgmentCd;
-					obj.judgmentUserIdx = judgmentUserIdx
-					obj.judgmentDate = judgmentDate;
-					obj.confirmUserIdx = confirmUserIdx;
-					obj.confirmDate = confirmDate;
-					array.push(obj);
-					//품질 적합,부적합인경우 승인도 같이 되도록 변경
-					if(qualityJudgmentCd == '02' || qualityJudgmentCd == '03'){
-						let obj = new Object();
-						obj.idx = data.idx;
-						obj.workOrdResultIdx = data.workOrdResultIdx;
-						obj.itemIdx = data.itemIdx;
-						obj.bizOrdDtlIdx = data.bizOrdDtlIdx;
-						obj.bizOrdDtlNo = data.bizOrdDtlNo;
-						arrayConfirm.push(obj);
-						bizOrdDtlIdxString += data.bizOrdDtlIdx +',';
-						workOrdResultIdxString += data.workOrdResultIdx +',';
-					} 
-					if(!state) {
-						$('#my-spinner').hide();
-						return false;
-					}
-					let updateList = _.filter(array, v=> v.idx != null && v.idx != '');
-					let insertList = _.filter(array, v=> v.idx == null || v.idx == '');
-					workOrdResultIdxString = workOrdResultIdxString.slice(0,-1);
-					bizOrdDtlIdxString = bizOrdDtlIdxString.slice(0,-1);
-					$.ajax({
-						url: '<c:url value="/qm/prodQualityAdmUpd"/>',
-			            type: 'POST',
-			            data: {
-			                'updateList'	:	JSON.stringify(updateList),
-			                'insertList'	:	JSON.stringify(insertList),
-			                'insertConfimList' :	JSON.stringify(arrayConfirm),
-			                'workOrdResultIdxString' : function(){ return workOrdResultIdxString; },
-			                'bizOrdDtlIdxString'		: function(){ return bizOrdDtlIdxString; },
-			            },
-			            beforeSend: function() {
-			            	$('#my-spinner').show();
-			            },
-						success : function(res) {
-							if (res.result == "ok") { //응답결과
-								toastr.success('수정되었습니다.');
-								$('#prodQualityTable_wrapper').find('.filters th').each(function(index, item) {
-									$(item).find('input').attr('disabled', false); // 검색 필터 disabled
-								});
-								//열 움직이는 기능 잠금
-								prodQualityTable.colReorder.enable();
-								WM_action_OFF('ADM');
-								prodQualityTable.rows('.selected').deselect();
-								
-								prodQualityTable.ajax.reload(function(){
-									$('#btnEdit').trigger('click');
-								}, false);
-								$('#btnSearch').attr('disabled',false);
-								$('#btnSave').attr('disabled',true);
-								$('#btnEdit').attr('disabled',false);
-								$('#btnCancel').attr('disabled',true);
-								$('#btnConfirmY').attr('disabled',false);
-								$('#btnAllCheck').prop("checked",false);
-							} else if(res.result == 'fail') {
-								toastr.warning(res.message);
-							} else {
-								toastr.error(res.message);
-							}
-							$('#my-spinner').hide();
-						}
-					});
-				})
-				.catch(function() {
-					$('#my-spinner').hide();
-				});
+				}
+			});
 		} else {
-			let obj = new Object();
-			obj.idx = data.idx;
-			
-			if(data.rowGubun == 'workOrd'){
-				obj.testGubun = '01'; //시스템 035번 검사구분 01 생산제품검사 
-				obj.workOrdResultIdx = data.workOrdResultIdx;
-				obj.bizOrdDtlIdx = data.bizOrdDtlIdx;
-			} else if(data.rowGubun == 'bizStockUse'){
-				obj.testGubun = '02'; //시스템 035번 검사구분 02 재고제품검사
-				obj.workOrdResultIdx = data.workOrdResultIdx;
-				obj.bizOrdDtlIdx = data.bizOrdDtlIdx;
+			$('#itemInspectAttachTable').DataTable().rows(tableIdx).remove().draw();
+			//toastr.success("삭제되었습니다.");
+		}
+		
+		var attachSaveCheck = true;
+		$('#itemInspectAttachTable tbody tr').each(function(index, item) {
+			if ($(this).find("td input[name=fileNm]").val() == "" && $(this).find("td input[name=fileNm]").val() != undefined) {
+				attachSaveCheck = false;
 			}
-			
-			obj.passQty = passQty;
-			obj.qualityJudgmentCd = qualityJudgmentCd;
-			obj.judgmentUserIdx = judgmentUserIdx
-			obj.judgmentDate = judgmentDate;
-			obj.confirmUserIdx = confirmUserIdx;
-			obj.confirmDate = confirmDate;
-			array.push(obj);
-			//품질 적합,부적합인경우 승인도 같이 되도록 변경
-			if(qualityJudgmentCd == '02' || qualityJudgmentCd == '03'){
-				let obj = new Object();
-				obj.idx = data.idx;
-				obj.workOrdResultIdx = data.workOrdResultIdx;
-				obj.itemIdx = data.itemIdx;
-				obj.bizOrdDtlIdx = data.bizOrdDtlIdx;
-				obj.bizOrdDtlNo = data.bizOrdDtlNo;
-				arrayConfirm.push(obj);
-				bizOrdDtlIdxString += data.bizOrdDtlIdx +',';
-				workOrdResultIdxString += data.workOrdResultIdx +',';
-			} 
-			if(!state) {
-				$('#my-spinner').hide();
+		});
+		if(attachSaveCheck) {
+			$('#btnAttachSave').addClass('d-none');
+		} else {
+			$('#btnAttachSave').removeClass('d-none');
+		}
+		
+		tempView = '';
+
+	});
+	
+	// 관련자료 저장
+	$('#btnAttachSave').on('click', function() {
+		var check = true;
+		var check2 = true;
+		var dataArray = new Array();
+	
+		$('#itemInspectAttachTable tbody tr').each(function(index, item) {
+
+			if ($(this).find("td input[name=fileNm]").val() == "" && $(this).find("td input[name=fileNm]").val() != undefined) {
+				toastr.warning('파일을 선택해 주세요.');
+				$(this).find("td input[name=fileNm]").focus();
+				check = false;
 				return false;
 			}
-			let updateList = _.filter(array, v=> v.idx != null && v.idx != '');
-			let insertList = _.filter(array, v=> v.idx == null || v.idx == '');
-			workOrdResultIdxString = workOrdResultIdxString.slice(0,-1);
-			bizOrdDtlIdxString = bizOrdDtlIdxString.slice(0,-1);
-			$.ajax({
-				url: '<c:url value="/qm/prodQualityAdmUpd"/>',
-	            type: 'POST',
-	            data: {
-	                'updateList'	:	JSON.stringify(updateList),
-	                'insertList'	:	JSON.stringify(insertList),
-	                'insertConfimList' :	JSON.stringify(arrayConfirm),
-	                'workOrdResultIdxString' : function(){ return workOrdResultIdxString; },
-	                'bizOrdDtlIdxString'		: function(){ return bizOrdDtlIdxString; },
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('수정되었습니다.');
-						$('#prodQualityTable_wrapper').find('.filters th').each(function(index, item) {
-							$(item).find('input').attr('disabled', false); // 검색 필터 disabled
-						});
-						//열 움직이는 기능 잠금
-						prodQualityTable.colReorder.enable();
-						WM_action_OFF('ADM');
-						prodQualityTable.rows('.selected').deselect();
-						
-						prodQualityTable.ajax.reload(function(){
-							$('#btnEdit').trigger('click');
-						}, false);
-						$('#btnSearch').attr('disabled',false);
-						$('#btnSave').attr('disabled',true);
-						$('#btnEdit').attr('disabled',false);
-						$('#btnCancel').attr('disabled',true);
-						$('#btnConfirmY').attr('disabled',false);
-						$('#btnAllCheck').prop("checked",false);
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
-						toastr.error(res.message);
+			
+			index++;
+			check2 = true;
+			if ($(this).find("td input[name=fileNm]").val() == undefined) {
+				check2 = false;
+			}
+			
+			if(check && check2){
+				var formData = new FormData(document.getElementById("formFile"+index));
+
+				$.ajax({
+					url : '<c:url value="/bm/attachDataSeq"/>',
+					type : 'GET',
+					async : false,
+					
+					data : {
+						'attachGubun' : 'II',
+						'attachCd' : function(){return inSlipNo;},
+					},
+					success : function(res) {
+						attachDataSeq = res.seq;
 					}
-					$('#my-spinner').hide();
+				});
+				
+				formData.append('path', fileDate);
+				formData.append('attachCd', inSlipNo);
+				formData.append('attachSeq', attachDataSeq);
+				formData.append('attachGubun', 'II');
+				formData.append('idCheck', 'II');
+				formData.append('contents', $(this).find("td select[name=contents]").val());
+
+				console.log($(this).find("td select[name=contents]").val());
+				
+				$.ajax({
+					url : '<c:url value="/bm/attachDataCreate"/>',
+					type : 'POST',
+					data : formData,
+				    processData: false,
+			        contentType: false,
+			        async : false,
+					success : function(res) {
+						let data = res.data;
+						if (res.result == 'ok') {
+							sideView2 = "";
+							$('#btnAttachAdd').attr('disabled', false);
+							$('#btnAttachDel').attr('disabled', false);
+							$('#itemInspectAttachTable').DataTable().ajax.reload();
+							
+							tempView = "";
+							$('#btnAttachSave').addClass('d-none');
+							
+						} else if (res.result == 'error') {
+							toastr.error(res.message);
+						}
+					}
+				});
+			}
+			
+		});
+		if(check && check2){
+			toastr.success('등록되었습니다.');
+		}
+		
+	});
+	
+
+/*
+	//수입검사성적서 등록
+	let filePopUpTable;
+	let checkBoxArray;
+	
+	function fileOnclick() {
+		if (filePopUpTable == null || filePopUpTable == undefined) {
+			filePopUpTable = $('#filePopUpTable').DataTable({
+				dom : "<'row'<'col-sm-12 col-md-6'><'col-sm-12 col-md-6'>>"
+					+ "<'row'<'col-sm-12'tr>>"
+					+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>B",
+				language : lang_kor,
+				paging : true,
+				info : true,
+				ordering : true,
+				processing : true,
+				autoWidth : false,
+				scrollX : false,
+				lengthChange : true,
+				async : false,
+				pageLength : 10,
+				ajax : {
+					url : '<c:url value="/bm/commonCodeList"/>',
+					type : 'GET',
+					data : {
+						'baseGroupCd' : function() { return '116'; }
+					}
+				},
+				columns : [ 
+				{
+					render : function(data, type, row, meta) {
+						return '<input type="checkbox" class="form-control" name="checkBox1" value="" style="min-width : 100%"/>';
+					}
+				},
+				{
+					data : 'baseNm',
+					render : function(data, type, row, meta) {
+						if (data != null) {
+							return '<input type="text" class="form-control" style="text-align:center; min-width:100%" name="baseNm" value="'+data+'" disabled />';
+						} else {
+							return '<input type="text" class="form-control" style="text-align:center; min-width:100%" name="baseNm" value="" />';
+						}
+					}
+				}
+				],
+				columnDefs : [ {} ],
+		        buttons: [ ],
+				order : [ [ 0, 'asc' ] ],
+			});
+			
+			$('#btnFileSave').on('click', function() {
+				checkBoxArray = [];
+				var baseNm;
+				var checkBoxCheck = true;
+				var fileCheck = false;
+				$('#filePopUpTable tbody tr').each(function(index, item) {
+					if($(this).find('td input[name="checkBox1"]').prop('checked')){
+						var data = filePopUpTable.row(this).data();
+						var baseNm = data.baseNm;
+						checkBoxCheck = false;
+						
+						$('#itemInspectAttachTable tbody tr').each(function(index, item) {
+							
+							if ($(this).find("td input[name=contents]").val() == baseNm) {
+								toastr.warning($(this).find("td input[name=contents]").val() + ' 파일은 이미 등록되어 있습니다.');
+								fileCheck = true;
+								return false;
+							}
+							if(fileCheck){return false;}
+							
+						});
+						
+						checkBoxArray.push(baseNm);
+						
+					}
+					
+					
+				});
+				
+				if(checkBoxCheck){
+					toastr.warning('등록할 수입검사성적서를 선택해주세요.');
+					return false;
+				}
+				
+				if(fileCheck){
+					return false;
+				}
+				
+				var tempCheck = true;
+				$('#filePopUpTable tbody tr').each(function(index, item) {
+				
+					if($(this).find('td input[name="checkBox1"]').prop('checked')){
+						
+						var dataArray = new Array();
+						var formData = new FormData();
+						
+						$.ajax({
+							url : '<c:url value="/bm/attachDataSeq"/>',
+							type : 'GET',
+							async : false,
+							data : {
+								'attachGubun' : 'II',
+								'attachCd' : function(){return poNo;},
+								'etc1' : function(){return poSeq;},
+								'etc2' : function(){return inSeq;},
+							},
+							success : function(res) {
+								attachSeq = res.seq;
+							}
+						});
+	
+						formData.append('path', fileDate);
+						formData.append('attachCd', poNo);
+						formData.append('attachSeq', attachSeq);
+						formData.append('contents', $(this).find("td input[name=baseNm]").val());
+						formData.append('attachGubun', 'II');
+						formData.append('idCheck', 'II');
+						formData.append('etc1', poSeq);
+						formData.append('etc2', inSeq);
+						
+						
+						$.ajax({
+							url : '<c:url value="/bm/attachDataCreate"/>',
+							type : 'POST',
+							data : formData,
+						    processData: false,
+					        contentType: false,
+					        async : false,
+							success : function(res) {
+								let data = res.data;
+								if (res.result == 'ok' && tempCheck) {
+									toastr.success('등록되었습니다.');
+									tempCheck = false;
+								} else if (res.result == 'error') {
+									toastr.error(res.message);
+								}
+							},
+							complete : function() {
+								$('#itemInspectAttachTable').DataTable().ajax.reload();
+								$('#btnAttachSave').removeClass('d-none');
+								$('#btnAttachAdd').attr('disabled', false);
+								$('#btnAttachDel').attr('disabled', false);
+								$('#filePopUpModal').modal('hide');
+								tempView = "";
+							}
+						});
+						
+						
+					}
+				
+				});
+				
+				
+			});
+			
+		} else {
+			$('#filePopUpTable').DataTable().ajax.reload(function() {});
+			checkBoxArray = [];
+		}
+
+		$('#filePopUpModal').modal('show');
+	} */
+
+	// 선택 event
+  	$(document).on('change','input:checkbox[name=checkbox]',function() {
+
+		if($(this).is(':checked')) {
+			var data = itemInspectTable.row($(this).parents().parents()).data();
+	    	var obj = new Object();
+	    	obj.qaEval = data.qaEval;
+	    	obj.preInWhsDate = moment(data.preInWhsDate).format('YYYY.MM.DD');
+	    	obj.preInWhsQty = rmDecimal(data);
+	    	obj.poNo = data.poNo;
+	    	obj.inspectDate = moment(data.inspectDate).format('YYYY.MM.DD');
+	    	obj.inspectChargrNm = data.inspectChargrNm == null ? "-" : data.inspectChargrNm;
+	    	obj.partCd = data.partCd;
+	    	obj.barcodeNo = data.barcodeNo;
+    		printArray.push(obj);
+    		
+	    } else if($(this).is(':checked')==false) {
+		    
+		    var data = itemInspectTable.row($(this).parents().parents()).data();
+		    var barcodeNo = data.barcodeNo;
+
+		    if(printArray.findIndex(i => i.barcodeNo == barcodeNo) != -1) { // 프린트할 배열에 존재할 경우
+		    	printArray.splice(printArray.findIndex(i => i.barcodeNo == barcodeNo),1);
+			}
+		}
+	}); 
+
+
+ 	//검사항목등록
+	$('#btnInspPopup').on('click',function(){
+		if(!$('#purchaseOrderAdmTable tbody tr').hasClass('selected')){
+			toastr.warning("검사항목 등록할 목록을 선택해 주세요");
+			return false;
+		}
+		inspTypeVal = '외관';
+		$('#inspPopupModal').modal('show');
+
+		$('#extAdmTableDiv').removeClass('d-none');
+		$('#sizeAdmTableDiv').addClass('d-none');
+		$('#sizeAdmTableDiv2').addClass('d-none');
+
+		//수분기준 조회
+		$.ajax({
+			url : '<c:url value="/bm/inspAdmRead"/>',
+			type : 'GET',
+			data : {
+				'inspCd' : function(){return inspCdVal}
+			},
+			success : function(res){
+				let data = res.data;
+				inspDesc1Html = data.inspDesc1==null?"":data.inspDesc1;
+				inspDesc2Html = data.inspDesc2==null?"":data.inspDesc2;
+
+				var html = '<p class="m-0" style="text-align: right; color: #0073ff;">'+inspDesc1Html+'</p>';
+				html += '<p class="m-0" style="text-align: right;">'+inspDesc2Html+'</p>';
+				
+				$('#sizeAdmTable_length').html(html);
+				$('#sizeAdmTable2_length').html(html);
+			}
+		});
+
+		setTimeout(function(){
+			extAdmTable.draw();
+		},200)
+	});
+
+
+	var inspTypeVal="외관";
+	//외관 버튼 클릭시
+	$('#btnExt').on('click',function(){
+		console.log('외관 버튼 클릭');
+
+		inspTypeVal = '외관';
+
+		$('#extAdmTableDiv').removeClass('d-none');
+		$('#sizeAdmTableDiv').addClass('d-none');
+		$('#sizeAdmTableDiv2').addClass('d-none');
+		
+		$('#extAdmTable').DataTable().ajax.reload(function(){});
+		setTimeout(function(){
+			extAdmTable.draw();
+		},200);
+	});
+	
+	//물성치 버튼 클릭시
+	$('#btnSize').on('click',function(){
+
+		console.log('물성치 버튼 클릭');
+
+		inspTypeVal = '물성치';
+		if(mainGubun == '001'){
+			$('#extAdmTableDiv').addClass('d-none');
+			$('#sizeAdmTableDiv2').removeClass('d-none');
+			$('#sizeAdmTableDiv').addClass('d-none');
+			$('#sizeAdmTable2').DataTable().ajax.reload(function(){});
+		}else if(mainGubun == '002'){
+			$('#extAdmTableDiv').addClass('d-none');
+			$('#sizeAdmTableDiv2').addClass('d-none');
+			$('#sizeAdmTableDiv').removeClass('d-none');
+			$('#sizeAdmTable').DataTable().ajax.reload(function(){});
+		}
+		
+		setTimeout(function(){
+			sizeAdmTable.draw();
+			sizeAdmTable2.draw();
+		},200);
+	});
+
+
+	//등록버튼 클릭시
+	$('#btnInspAdd').on('click',function(){
+		if(inspTypeVal=="외관"){
+			$('select[name=inspResult]').attr('disabled',false);
+			$('#extAdmTable select[name=inspResult').eq(0).focus();
+			
+		}else{
+			let inspTypeArr = ['001'];
+			
+			$.ajax({
+				url : '<c:url value="bm/getInspResult" />',
+				type : 'GET',
+				data : {
+					'inspCd' 		  : function(){return inspCdVal},
+					'inspResultGubun' : "003",
+					'inspSourceNo' : function(){return inSlipNo},
+					'inspTypeArr' : function(){return inspTypeArr},
+					'inspType' : function(){return "001"}
+				}, 
+				success : function(res){
+					if(res.data != "U"){
+						$('input[name=inspX1]').attr('disabled',false);
+						$('#sizeAdmTable input[name=inspX1]').eq(0).focus();
+						$('#sizeAdmTable input[name=inspX1]').eq(0).select();
+						$('#sizeAdmTable2 input[name=inspX1]').eq(0).focus();
+						$('#sizeAdmTable2 input[name=inspX1]').eq(0).select();
+					}else{
+						toastr.warning("외관을 우선 검사해주세요.");
+					}
 				}
 			});
 		}
 	});
 
-	function showModal() {
-		return new Promise(function(resolve, reject) {
-			$('#judgmentWarningModal').modal('show');
-		   
-		    $('#btnJudgmentWarningModalY').on('click', function() {
-		    	$('#judgmentWarningModal').modal('hide');
-		    	resolve(); 
-		    });
-		    
-		    $('#btnJudgmentWarningModalN').on('click', function() {
-		    	$('#judgmentWarningModal').modal('hide');
-		    	reject(); 
-		    });
+
+	//저장버튼 클릭시
+	$('#btnInspSave').on('click',function(){
+		var check = true;
+		var dataArray = new Array(); 
+		
+		if ( inspTypeVal == "외관" ) {
+			$('#extAdmTable tbody tr').each(function(index, item) {
+
+				var rowData = new Object();
+
+				rowData.inspResultGubun = "003";
+				rowData.inspSourceNo = inSlipNo;
+				rowData.inspSourceSubNo = "";
+				rowData.inspCd = extAdmTable.row(index).data().inspCd;
+				rowData.inspType = extAdmTable.row(index).data().inspType;
+				rowData.inspSeq = extAdmTable.row(index).data().inspSeq;
+
+				rowData.inspResult = $(this).find('td select[name=inspResult]').val();	////최종판정 합격:001/불합격:002
+				
+				rowData.inspX1 = $(this).find('td select[name=inspResult]').val();
+				rowData.inspX2 = "";
+				rowData.inspX3 = "";
+				rowData.inspX4 = "";
+				rowData.inspX5 = "";
+				rowData.inspX6 = "";
+				rowData.inspectGubun = "";
+				dataArray.push(rowData);
+				console.log(rowData)
+			});
+		} else { //물성치
+			if ( mainGubun == "001" ) {
+				$('#sizeAdmTable2 tbody tr').each(function(index, item) {
+
+					var rowData = new Object();
+					
+					rowData.inspResultGubun = "003";
+					rowData.inspSourceNo = inSlipNo;
+					rowData.inspSourceSubNo = "";
+					rowData.inspCd = sizeAdmTable2.row(index).data().inspCd;
+					rowData.inspType = sizeAdmTable2.row(index).data().inspType;
+					rowData.inspSeq = sizeAdmTable2.row(index).data().inspSeq;
+					
+					//최종판정
+					let min = sizeAdmTable2.row(index).data().inspStandLower;
+					let max = sizeAdmTable2.row(index).data().inspStandUpper;
+					let inspData= $(this).find('td input[name=inspX1]').val().replace(/,/g,'');
+
+					console.log("min:"+min);
+					console.log("max:"+max);
+					console.log("inspData:"+inspData);
+					
+					if(inspData!=null && inspData!=""){
+						if((parseFloat(min) > parseFloat(inspData)) || (parseFloat(inspData) > parseFloat(max))){
+							rowData.inspResult = "002";	//합격:001/불합격:002
+						}else{
+							rowData.inspResult = "001";	//합격:001/불합격:002
+						}
+					}else{
+						rowData.inspResult = "";
+					}
+					
+					rowData.inspX1 = $(this).find('td input[name=inspX1]').val().replace(/,/g,'');
+					rowData.inspX2 = "";
+					rowData.inspX3 = "";
+					rowData.inspX4 = "";
+					rowData.inspX5 = "";
+					rowData.inspX6 = "";
+					rowData.inspectGubun = "";
+					dataArray.push(rowData);
+					console.log(rowData)
+				});
+			} else {
+				$('#sizeAdmTable tbody tr').each(function(index, item) {
+
+					var rowData = new Object();
+					
+					rowData.inspResultGubun = "003";
+					rowData.inspSourceNo = inSlipNo;
+					rowData.inspSourceSubNo = "";
+					rowData.inspCd = sizeAdmTable.row(index).data().inspCd;
+					rowData.inspType = sizeAdmTable.row(index).data().inspType;
+					rowData.inspSeq = sizeAdmTable.row(index).data().inspSeq;
+					
+					//최종판정
+					let min = sizeAdmTable.row(index).data().inspStandLower;
+					let max = sizeAdmTable.row(index).data().inspStandUpper;
+					let inspData= $(this).find('td input[name=inspX1]').val().replace(/,/g,'');
+
+					console.log("min:"+min);
+					console.log("max:"+max);
+					console.log("inspData:"+inspData);
+					
+					if(inspData!=null && inspData!=""){
+						if((parseFloat(min) > parseFloat(inspData)) || (parseFloat(inspData) > parseFloat(max))){
+							rowData.inspResult = "002";	//합격:001/불합격:002
+						}else{
+							rowData.inspResult = "001";	//합격:001/불합격:002
+						}
+					}else{
+						rowData.inspResult = "";
+					}
+					
+					rowData.inspX1 = $(this).find('td input[name=inspX1]').val().replace(/,/g,'');
+					rowData.inspX2 = "";
+					rowData.inspX3 = "";
+					rowData.inspX4 = "";
+					rowData.inspX5 = "";
+					rowData.inspX6 = "";
+					rowData.inspectGubun = "";
+					dataArray.push(rowData);
+					console.log(rowData)
+				});
+			}
+		}
+		
+		if (check) {
+			$.ajax({
+				url : '<c:url value="/bm/inspResultAdmCreate"/>',
+				type : 'POST',
+				dataType : 'json',
+				data : JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
+				beforeSend : function(){
+					$('#my-spinner').show();
+				},
+				success : function(res) {
+					let data = res.data;
+					if (res.result == 'ok') {
+						$('select[name=inspResult]').attr('disabled',true);
+						$('input[name=inspX1]').attr('disabled',true);
+
+						let inspTypeArr = ['001','002'];
+
+						$.ajax({
+							url : '<c:url value="bm/getInspResult" />',
+							type : 'GET',
+							data : {
+								'inspCd' 		  : function(){return inspCdVal},
+								'inspResultGubun' : "003",
+								'inspSourceNo' : function(){return inSlipNo},
+								'inspTypeArr' : function(){return inspTypeArr},
+							}, 
+							beforeSend : function(res){
+								$('#my-spinner').show();
+							},
+							success : function(res){
+								var inspectResult = res.data;		//검사항목 결과
+								if(inspectResult == "Y"){
+									$('#qaEval').val('001').attr('checked',true);
+									$('#btnApprove').attr('disabled',false);
+								}else if(inspectResult == "N"){
+									$('#qaEval').val('002').attr('checked',true);
+									$('#btnApprove').attr('disabled',false);
+								}else if(inspectResult == "U"){
+									$('#qaEval').val('').attr('checked',true);
+								}
+
+								$.ajax({
+									url : '<c:url value="qm/itemInspectMasterUpdate"/>',
+									type : 'POST',
+									data : {
+										'inSlipNo' : function(){return inSlipNo;},
+										'qaEval' : function(){return $('#qaEval').val()},
+									},
+									success : function(res){
+										if(res.result == "ok"){
+									    	$('#purchaseOrderAdmTable').DataTable().ajax.reload();
+									    
+										}else{
+											toastr.error(res.message);
+										}
+									}
+								});
+
+								if(inspectResult!="U"){
+									var dataArray = new Array();		
+									$('#itemFaultyTypeTable tbody tr').each(function(index, item){
+										var rowData = new Object();
+										rowData.inSlipNo = inSlipNo;
+										rowData.inSlipSeq = itemFaultyTypeTable.row(this).data().inSlipSeq;
+										rowData.itemSeq = itemFaultyTypeTable.row(this).data().itemSeq;
+
+										if(inspectResult=="Y"){
+											rowData.pairCnt = itemFaultyTypeTable.row(this).data().preInWhsQty.replace(/,/g,'');
+											rowData.faultyCnt = "0";
+											rowData.qaEval = "001";	//합격
+										}else if(inspectResult=="N"){
+											rowData.pairCnt = "0";
+											rowData.faultyCnt = "0";
+											rowData.qaEval = "";	//미판정
+										}
+								        dataArray.push(rowData);
+									});
+
+									$.ajax({
+										url : '<c:url value="qm/itemInspectAllCreate"/>',
+										type : 'POST',
+										datatype: 'json',
+										data: JSON.stringify(dataArray),
+										contentType : "application/json; charset=UTF-8",
+										success : function(res) {				
+											if (res.result == 'ok') {
+												$('#itemFaultyTypeTable').DataTable().ajax.reload(function(){});
+											}else{
+												toastr.error(res.message);
+											}
+
+											$('#my-spinner').hide();
+											toastr.success("등록되었습니다.");
+										}
+									});
+
+									console.log(dataArray);
+									
+								}else{
+									$.ajax({
+										url : '<c:url value="qm/itemInspectAdmDelete"/>',
+										type : 'POST',
+										data: {
+											'inSlipNo' : function(){return inSlipNo;},
+										},
+										success : function(res) {				
+											if (res.result == 'ok') {
+												$('#itemFaultyTypeTable').DataTable().ajax.reload(function(){});
+											}else{
+												toastr.error(res.message);
+											}
+
+											$('#my-spinner').hide();
+											toastr.success("등록되었습니다.");
+										}
+									});
+								}
+							}
+						});
+					} else {
+						toastr.error(res.message);
+					}
+				}
+			});
+		}
+	});
+
+	
+	
+	//외관 목록
+	let extAdmTable = $('#extAdmTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-7'><'col-sm-12 col-md-5'>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		scrollY: '35vh',
+		pageLength : 100000000,
+		ajax : {
+			url : '<c:url value="bm/inspResultAdmList"/>',
+			type : 'GET',
+			async : false,
+			data : {
+				'inspResultGubun' : function(){return "003"},
+				'inspSourceNo' : function(){return inSlipNo;},
+				'inspGubun' : function(){return "003"},
+				'inspType' : function(){return "001";},
+				'itemSeq' : function(){return itemSeq;},
+				
+			},
+		},
+		columns : [
+			{
+				render: function(data, type, row, meta) {		
+					return meta.row + meta.settings._iDisplayStart + 1 ;
+	        		},
+					'className' : 'text-center'
+			},
+			{
+				data : 'inspList',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="inspList" value="'+data+'" style="min-width : 100%" disabled />';
+					} else {
+						return '<input type="text" class="form-control" name="inspList" value="" style="min-width : 100%" disabled/>';
+					}
+				}
+			},
+			{
+				data : 'inspCheckNm',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return data;
+					} else {
+						return '';
+					}
+				},
+				className : 'text-center',
+				name: 'rowspanW'
+			},
+			{
+				data : 'inspInputMethod',
+				render : function(data, type, row, meta) {
+					if(data=="001"){
+						return selectBoxHtml2(judgeCode,"inspResult", row['inspX1'], row, meta, "1");
+					}else if(data=="002"){
+						return selectBoxHtml2(silhangCode,"inspResult", row['inspX1'], row, meta, "1");
+					}else{
+						return selectBoxHtml2(judgeCode,"inspResult", row['inspX1'], row, meta, "1");
+					}
+				},
+				'className' : 'text-center'
+			},
+		],
+		order : [ [ 0, 'asc' ] ],
+		buttons : [],
+		columnDefs : [ {
+// 			className : "text-left",
+// 			targets : 2
+		}, ]
+	});
+	
+	//물성치 목록 - 사출
+	let sizeAdmTable2 = $('#sizeAdmTable2').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-9'><'col-sm-12 col-md-3'l>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : true,
+		scrollY: '35vh',
+		pageLength : 100000000,
+		ajax : {
+			url : '<c:url value="bm/inspResultAdmList"/>',
+			type : 'GET',
+			async : false,
+			data : {
+				'inspResultGubun' : function(){return "003"},
+				'inspSourceNo' : function(){return inSlipNo;},
+				
+				'inspGubun' : function(){return "003"},
+				'inspType' : function(){return "002";},
+				'itemSeq' : function(){return itemSeq;},
+			},
+		},
+		columns : [
+			{
+				render: function(data, type, row, meta) {		
+					return meta.row + meta.settings._iDisplayStart + 1 ;
+	        		},
+					'className' : 'text-center'
+			},
+			{
+				data : 'inspList',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="inspList" value="'+data+'" style="min-width : 100%" disabled />';
+					} else {
+						return '<input type="text" class="form-control" name="inspList" value="" style="min-width : 100%" />';
+					}
+				}
+			},
+			{
+				data : 'inspCheckNm',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return data;
+					} else {
+						return '';
+					}
+				},
+				className : 'text-center',
+				name: 'rowspanW'
+			},
+			{
+				data : 'inspStandLower',
+				render : function(data, type, row, meta) {
+					
+					if (data != null) {
+						if(row['inspStandGubun']=="001"||row['inspStandGubun']=="003"){ //전체||하한
+							return '<input type="text" class="form-control" name="inspStandLower" value="'+rmDecimal(data)+'" style="min-width : 100%;text-align:right;" disabled />';
+						}else{
+							return '<input type="text" class="form-control" name="inspStandLower" value="" style="min-width : 100%;text-align:right;" disabled />';
+						}
+					} else {
+						return '<input type="text" class="form-control" name="inspStandLower" value="" style="min-width : 100%;text-align:right;" />';
+					}
+				}
+			}, 
+			{
+				data : 'inspStandUpper',
+				render : function(data, type, row, meta) {
+
+					if (data != null) {
+						if(row['inspStandGubun']=="001"||row['inspStandGubun']=="002"){ //전체||상한
+							return '<input type="text" class="form-control" name="inspStandUpper" value="'+rmDecimal(data)+'" style="min-width : 100%;text-align:right;" disabled />';
+						}else{
+							return '<input type="text" class="form-control" name="inspStandUpper" value="" style="min-width : 100%;text-align:right;" disabled />';
+						}
+					} else {
+						return '<input type="text" class="form-control" name="inspStandUpper" value="" style="min-width : 100%;text-align:right;" />';
+					}
+				}
+			}, 
+			{//확인값
+				data : 'inspX1',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="inspX1" id="s2-inspX1-'+meta.row+'" onkeyup="numberFormat(this, \'float\')" onkeydown="moveFocus(\'s2\',1,'+meta.row+')" onChange="sizeCheck('+row['inspStandLower']+','+row['inspStandUpper']+',\'inspX1\',\''+meta.row+'\')"; value="'+rmDecimal(data)+'" style="min-width : 100%;text-align:right;" disabled/>';
+					} else {
+						return '<input type="text" class="form-control" name="inspX1" id="s2-inspX1-'+meta.row+'" onkeyup="numberFormat(this, \'float\')" onkeydown="moveFocus(\'s2\',1,'+meta.row+')" onChange="sizeCheck('+row['inspStandLower']+','+row['inspStandUpper']+',\'inspX1\',\''+meta.row+'\')"; value="" style="min-width : 100%;text-align:right;" disabled/>';
+					}
+				}
+			}, 
+		],
+		order : [ [ 0, 'asc' ] ],
+		buttons : [ 'copy', {
+			extend : 'excel',
+			title : '검사항목관리'
+		}, 'print' ],
+		columnDefs : [ {
+// 			className : "text-left",
+// 			targets : 2
+			}, 
+		],
+		drawCallback : function() {
+			var api = this.api();
+
+			for(var i=0;i<api.data().count();i++) {
+
+				let min = api.row(i).data().inspStandLower;
+				let max = api.row(i).data().inspStandUpper;
+
+				for(var r=1; r<=1; r++){
+					let rString = "inspX"+r;
+					let inspResult = "";
+					if(r==1){
+						inspResult = api.row(i).data().inspX1;
+					}else if(r==2){
+						inspResult = api.row(i).data().inspX2;
+					}else if(r==3){
+						inspResult = api.row(i).data().inspX3;
+					}else if(r==4){
+						inspResult = api.row(i).data().inspX4;
+					}else if(r==5){
+						inspResult = api.row(i).data().inspX5;
+					}
+					
+					if((parseFloat(min) > parseFloat(inspResult)) || (parseFloat(inspResult) > parseFloat(max))){
+						$('input[name='+rString+']').eq(i).css('background','#ff0000');
+					}else if((parseFloat(min) <= parseFloat(inspResult)) && (parseFloat(inspResult) <= parseFloat(max))){
+						$('input[name='+rString+']').eq(i).css('background','#92d050');
+					}else{
+						$('input[name='+rString+']').eq(i).css('background','#f6f7f9');
+					}
+				}
+			} 
+		}
+	});
+	
+	//물성치 목록 - 봉제
+	let sizeAdmTable = $('#sizeAdmTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-9'><'col-sm-12 col-md-3'l>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : true,
+		scrollY: '30vh',
+		pageLength : 100000000,
+		ajax : {
+			url : '<c:url value="bm/inspResultAdmList"/>',
+			type : 'GET',
+			async : false,
+			data : {
+				'inspResultGubun' : function(){return "003"},
+				'inspSourceNo' : function(){return inSlipNo;},
+				'inspGubun' : function(){return "003"},
+				'inspType' : function(){return "002";},
+				'itemSeq' : function(){return itemSeq;},
+			},
+		},
+		columns : [
+			{
+				render: function(data, type, row, meta) {		
+					return meta.row + meta.settings._iDisplayStart + 1 ;
+	        		},
+					'className' : 'text-center'
+			},
+			{
+				data : 'inspSpc',
+				render : function(data, type, row, meta) {
+					if (data == null) {
+						return '<input type="checkbox" class="form-control" name="inspSpc" value="" style="min-width : 100%" />';
+					} else if (data == '001') {
+						return '<input type="checkbox" class="form-control" name="inspSpc" value="'+data+'" style="min-width : 100%" checked disabled/>';
+					} else {
+						return '<input type="checkbox" class="form-control" name="inspSpc" value="'+data+'" style="min-width : 100%" disabled/>';
+					}
+				}
+			}, 
+			{
+				data : 'inspList',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="inspList" value="'+data+'" style="min-width : 100%" disabled />';
+					} else {
+						return '<input type="text" class="form-control" name="inspList" value="" style="min-width : 100%" />';
+					}
+				}
+			},
+			{
+				data : 'inspCheckNm',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return data;
+					} else {
+						return '';
+					}
+				},
+				className : 'text-center',
+				name: 'rowspanW'
+			},
+			{
+				data : 'inspStandLower',
+				render : function(data, type, row, meta) {
+					
+					if (data != null) {
+						if(row['inspStandGubun']=="001"||row['inspStandGubun']=="003"){ //전체||하한
+							return '<input type="text" class="form-control" name="inspStandLower" value="'+rmDecimal(data)+'" style="min-width : 100%;text-align:right;" disabled />';
+						}else{
+							return '<input type="text" class="form-control" name="inspStandLower" value="" style="min-width : 100%;text-align:right;" disabled />';
+						}
+					} else {
+						return '<input type="text" class="form-control" name="inspStandLower" value="" style="min-width : 100%;text-align:right;" />';
+					}
+				}
+			}, 
+			{
+				data : 'inspStandUpper',
+				render : function(data, type, row, meta) {
+
+					if (data != null) {
+						if(row['inspStandGubun']=="001"||row['inspStandGubun']=="002"){ //전체||상한
+							return '<input type="text" class="form-control" name="inspStandUpper" value="'+rmDecimal(data)+'" style="min-width : 100%;text-align:right;" disabled />';
+						}else{
+							return '<input type="text" class="form-control" name="inspStandUpper" value="" style="min-width : 100%;text-align:right;" disabled />';
+						}
+					} else {
+						return '<input type="text" class="form-control" name="inspStandUpper" value="" style="min-width : 100%;text-align:right;" />';
+					}
+				}
+			}, 
+			{//확인값
+				data : 'inspX1',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="inspX1" id="s-inspX1-'+meta.row+'" onkeyup="numberFormat(this, \'float\')" onkeydown="moveFocus(\'s\',1,'+meta.row+')" onChange="sizeCheck('+row['inspStandLower']+','+row['inspStandUpper']+',\'inspX1\',\''+meta.row+'\')"; value="'+rmDecimal(data)+'" style="min-width : 100%;text-align:right;" disabled />';
+					} else {
+						return '<input type="text" class="form-control" name="inspX1" id="s-inspX1-'+meta.row+'" onkeyup="numberFormat(this, \'float\')" onkeydown="moveFocus(\'s\',1,'+meta.row+')" onChange="sizeCheck('+row['inspStandLower']+','+row['inspStandUpper']+',\'inspX1\',\''+meta.row+'\')"; value="" style="min-width : 100%;text-align:right;"disabled />';
+					}
+				}
+			}, 
+		],
+		order : [ [ 0, 'asc' ] ],
+		buttons : [ 'copy', {
+			extend : 'excel',
+			title : '검사항목관리'
+		}, 'print' ],
+		columnDefs : [ {
+// 			className : "text-left",
+// 			targets : 2
+		}, ]
+	});
+
+
+	var html = '<p class="m-0" style="text-align: right; color: #0073ff;">    · ISO 수분 관리 기준 : 0.08% ↓</p>';
+	html += '<p class="m-0" style="text-align: right;">최종 사내 수분 관리 기준 : 0.07% ↓ </p>';
+	$('#sizeAdmTable_length').html(html);
+	$('#sizeAdmTable2_length').html(html);
+
+	
+	//x1~x5 결과값 onchage시
+	function sizeCheck(min,max,result,row){
+
+		let inspResult = $('input[name='+result+']').eq(row).val().replace(/,/g,'');
+		
+		if((parseFloat(min) > parseFloat(inspResult)) || (parseFloat(inspResult) > parseFloat(max))  ){
+			$('input[name='+result+']').eq(row).css('background','#ff0000');
+		}else{
+			$('input[name='+result+']').eq(row).css('background','#92d050');
+		}
+	}  
+	
+
+	
+	
+	$('#btnJrbr').on('click', function() {
+		modalHide = false;
+		jrCheck = false;
+		$('#my-spinner').show();
+		
+		setTimeout(function(){
+			$('#itemFaultyTypeTable tbody tr').each(function(index, item) {
+				tableIdx = $('#itemFaultyTypeTable').DataTable().row(this).index();
+				inSlipSeq =  itemFaultyTypeTable.row(this).data().inSlipSeq;
+				barcodeNo =  itemFaultyTypeTable.row(this).data().barcodeNo;
+				preInWhsQty =  itemFaultyTypeTable.row(this).data().preInWhsQty;
+				selectFaultyType();
+				$('#popupBarcodeNo').val(barcodeNo);
+				$('#popupPreInWhsQty').val(rmDecimal(preInWhsQty));
+				$('input[name=faultyTypeQty]').val('0');
+				$('input[name=faultyTypeQty]').eq(0).val(preInWhsQty);
+				$('#btnFaultyTypeSave').trigger('click');
+			});
+
+			console.log("jrCheck:"+jrCheck);
+			
+			if(jrCheck){
+				$('#my-spinner').hide();
+				$('#inspectDesc').val("전량불량");
+				$('#qaEval').val("002").prop(':chekced');
+				toastr.success('전량불량이 적용되었습니다.');
+				modalHide = true;
+			}
+		},200);
+	});
+
+	//셀렉트박스생성
+	function selectBoxHtml2(obj, id, sVal, row, meta, idx) {
+
+		var shtml = '<select style="min-width : 100%" class="custom-select" name="'+ id +'" id="e-'+id+'-'+meta.row+'" onkeydown="moveFocus(\'e\','+idx+','+meta.row+')" data-col="' + meta.col + '" disabled>';
+		
+		var option = "<option value=''>선택</option>";
+		for (key in obj) {
+			var tmp; 
+			if (obj[key].baseCd == sVal) {
+				tmp = "<option value="+ obj[key].baseCd+ " selected>"
+						+ obj[key].baseNm + "</option>";
+			} else {
+				tmp = "<option value="+obj[key].baseCd+">"
+						+ obj[key].baseNm + "</option>";
+			}
+			option += tmp;
+		}
+		var ehtml = '</select>';
+		return shtml + option + ehtml;
+	}
+
+	//이미지 조회
+	function imgPrint() {
+		$.ajax({
+			url : '<c:url value="/bm/itemInfoImageRead"/>',
+			data : {
+				'itemSeq' : function(){return itemSeq;},
+			},
+			type : 'GET',
+			success : function(res) {
+				var data = res.data;
+				if (data.imageFile1 != null) {
+					$('#imageFile1').attr("src", "data:image/jpg;base64," + data.imageFile1);
+					$('#imgName1').text(data.imageFile1Nm);
+					
+					imgSrc1 = data.imageFile1;
+				} else {
+					$('#imageFile1').attr("src", " ");
+					$('#imgName1').text("");
+					
+					imgSrc1 = '';
+				}
+				
+				if (data.imageFile2 != null) {
+					$('#imageFile2').attr("src", "data:image/jpg;base64," + data.imageFile2);
+					$('#imgName2').text(data.imageFile2Nm);
+					
+					imgSrc2 = data.imageFile2;
+				} else {
+					$('#imageFile2').attr("src", " ");
+					$('#imgName2').text("");
+					
+					imgSrc2 = '';
+				}
+				
+				if (data.imageFile3 != null) {
+					$('#imageFile3').attr("src", "data:image/jpg;base64," + data.imageFile3);
+					$('#imgName3').text(data.imageFile3Nm);
+					
+					imgSrc3 = data.imageFile3;
+				} else {
+					$('#imageFile3').attr("src", " ");
+					$('#imgName3').text("");
+					
+					imgSrc3 = '';
+				}
+				
+				if (data.imageFile4 != null) {
+					$('#imageFile4').attr("src", "data:image/jpg;base64," + data.imageFile4);
+					$('#imgName4').text(data.imageFile4Nm);
+					
+					imgSrc4 = data.imageFile4;
+				} else {
+					$('#imageFile4').attr("src", " ");
+					$('#imgName4').text("");
+					
+					imgSrc4 = '';
+				}
+			},
+			error : function(xhr, textStatus, error) {
+				alert("예상치 못한 오류가 발생했습니다.");
+			}
 		});
+	}
+	
+	//커서이동
+	var rowCount;
+	function moveFocus(type, value, row){
+		if(event.keyCode == 13){
+			console.log("커서이동입니다.");
+			console.log("value:" + value);	//inspX1
+			console.log("row:" + row);		//0
+
+			if(type=="w"){//중량
+				rowCount = weightTable.data().count()-1;	//행수
+			}else if(type=="s"){//치수-봉제
+				rowCount = sizeAdmTable.data().count()-1;	//행수
+			}else if(type=="s2"){//치수-사출
+				rowCount = sizeAdmTable2.data().count()-1;	//행수
+			}else if(type=="e"){//외관
+				rowCount = extAdmTable.data().count()-1;	//행수
+			}
+
+			console.log(rowCount >= row+1);
+			console.log('#'+type+'-inspResult'+(value+1)+'-'+(row+1));
+			
+			if(type=="e"){
+				if(rowCount >= row+1){
+					setTimeout(function(){ 
+						$('#'+type+'-inspResult'+'-'+(row+1)+'').focus();
+						$('#'+type+'-inspResult'+'-'+(row+1)+'').select();
+					},10);
+				}else{
+					setTimeout(function(){ 
+						$('#'+type+'-inspResult'+(value+1)+'-0').focus();
+						$('#'+type+'-inspResult'+(value+1)+'-0').select();
+					},10);
+				}
+			} else {
+				if(rowCount >= row+1){
+					setTimeout(function(){ 
+						$('#'+type+'-inspX'+(value)+'-'+(row+1)+'').focus();
+						$('#'+type+'-inspX'+(value)+'-'+(row+1)+'').select();
+					},10);
+				}else{
+					setTimeout(function(){ 
+						$('#'+type+'-inspX'+(value+1)+'-0').focus();
+						$('#'+type+'-inspX'+(value+1)+'-0').select();
+					},10);
+				}
+			}
+			
+			
+		}
+	}
+	
+	function imgShow(imgSrc){
+		$('#imageModal').modal('show');
+		$('#fileReferenceImg').attr("src","data:image/jpg;base64," + imgSrc);
 	}
 	
 </script>

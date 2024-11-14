@@ -7,47 +7,72 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import mes.domain.sm.MenuAuthVo;
+import mes.domain.sm.UserMenuAuthVo;
 import mes.persistence.sm.MenuAuthDAO;
 
 @Service
-public class MenuAuthServiceImpl implements MenuAuthService {
-
+public class MenuAuthServiceImpl implements MenuAuthService{
+	
 	@Inject
 	private MenuAuthDAO dao;
 	
-	// 메뉴권한관리 사용자별 목록조회
+	//권한 목록조회
 	@Override
-	public List<MenuAuthVo> menuAuthLstByUserIdx(MenuAuthVo menuAuthVo) throws Exception {
-		return dao.menuAuthLstByUserIdx(menuAuthVo);
+	public List<MenuAuthVo> listAll(MenuAuthVo menuAuthVo) throws Exception{
+		return dao.listAll(menuAuthVo);
+	}
+
+	//권한 상세조회
+	@Override
+	public MenuAuthVo read(MenuAuthVo menuAuthVo) throws Exception{
+		return dao.read(menuAuthVo);
 	}
 	
-	// 메뉴권한관리 메뉴목록조회 리스트
+	//특정 부서 전체 조회
 	@Override
-	public List<MenuAuthVo> menuAuthLstForMenuList(MenuAuthVo menuAuthVo) throws Exception {
-		return dao.menuAuthLstForMenuList(menuAuthVo);
+	public List<MenuAuthVo> readAll(MenuAuthVo menuAuthVo) throws Exception{
+		return dao.readAll(menuAuthVo);
 	}
 	
-	// 메뉴권한관리 등록
+	//권한 등록
 	@Override
-	public void menuAuthIns(MenuAuthVo menuAuthVo) throws Exception {
-		dao.menuAuthIns(menuAuthVo);
+	public void create(List<MenuAuthVo> menuAuthVo) throws Exception{
+		dao.create(menuAuthVo);
+	}				
+	
+	//권한 수정
+	@Override
+	public void update(MenuAuthVo menuAuthVo) throws Exception{
+		dao.update(menuAuthVo);
 	}
 	
-	// 메뉴권한관리 수정
+	//권한 삭제
 	@Override
-	public void menuAuthUpd(MenuAuthVo menuAuthVo) throws Exception {
-		dao.menuAuthUpd(menuAuthVo);
+	public void delete(MenuAuthVo menuAuthVo) throws Exception{
+		dao.delete(menuAuthVo);
 	}
 	
-	// 메뉴권한관리 삭제
+	//중복 체크
 	@Override
-	public void menuAuthDel(MenuAuthVo menuAuthVo) throws Exception {
-		dao.menuAuthDel(menuAuthVo);
+	public MenuAuthVo check(MenuAuthVo menuAuthVo) throws Exception{
+		return dao.check(menuAuthVo);
 	}
 	
-	// 메뉴권한관리 복사
+	//메뉴 권한 패스 조회
 	@Override
-	public void menuAuthCopyNPaste(MenuAuthVo menuAuthVo) throws Exception {
-		dao.menuAuthCopyNPaste(menuAuthVo);
+	public String menuAuthPath(MenuAuthVo menuAuthVo) throws Exception{
+		return dao.menuAuthPath(menuAuthVo);
+	}	
+	
+
+	//user권한 검색
+	public MenuAuthVo readCheck(MenuAuthVo menuAuthVo) throws Exception{
+		return dao.readCheck(menuAuthVo);
+	}
+
+	//메뉴 권한 패스 조회
+	@Override
+	public String menuAuthPathAdmin(MenuAuthVo menuAuthVo) throws Exception{
+		return dao.menuAuthPathAdmin(menuAuthVo);
 	}
 }

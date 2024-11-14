@@ -1,25 +1,33 @@
 package mes.domain.sm;
 
-import org.apache.ibatis.type.Alias;
-
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import mes.domain.sm.SystemAccessLogVo;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
-@Alias("SystemAccessLogVo")
-public class SystemAccessLogVo{
-	private String idx;
-	private String userIdx;
-	private String userNm;
+public class SystemAccessLogVo {
+	
+	private String userNumber;
 	private String userId;
-	private String userPositionNm;
-	private String userDepartmentNm;
-	private String accessMenuNm;
-	private String accessUrl;
-	private String accessIp;
-	private String accessDate;
+	private String userNm;
+	private String departmentCd;
+	private String menuId;
+	private String menuPath;
+	private String regId;
+	private String regDate;
+	private String updId;
+	private String updDate;
+	private String departmentNm;
+	private String ipAddr;	//ip주소
 	
 	private String startDate;
 	private String endDate;
+	
+	//추가
+	private String menuNm;
+	private String LastDate;
+	private String postNm;
+	private String changeHis;
+	private String menuDtlNm;
+
+	
 }

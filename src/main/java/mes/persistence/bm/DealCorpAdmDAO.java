@@ -6,42 +6,42 @@ import mes.domain.bm.DealCorpAdmVo;
 
 public interface DealCorpAdmDAO {
 
-	// 거래처정보 목록조회
-	public List<DealCorpAdmVo> dealCorpAdmList(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//거래처정보관리 목록조회
+	public List<DealCorpAdmVo> listAll(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처정보(투입자재 발주처) 목록조회
-	public List<DealCorpAdmVo> matrlDealCorpAdmList(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//거래처정보관리 목록조회2
+	public List<DealCorpAdmVo> dealCorpDataJustList(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처정보 상세조회
-	public DealCorpAdmVo dealCorpAdmSel(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//거래처정보관리 상세조회
+	public DealCorpAdmVo read(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처정보 등록
-	public String dealCorpAdmIns(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//거래처정보관리 등록
+	public void create(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처정보 수정
-	public void dealCorpAdmUpd(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//거래처정보관리 수정
+	public void update(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처정보 삭제
-	public void dealCorpAdmDel(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//거래처정보관리 거래처명 중복검사
+	public Integer overlapDealCorpNm(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처정보 담당자 목록조회
-	public List<DealCorpAdmVo> dealCorpManagerList(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//거래처정보관리 거래처명 중복검사
+	public Integer overlapDealCordCd(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처정보 담당자 등록
-	public void dealCorpManagerIns(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//방문관련자료 목록 조회
+	public List<DealCorpAdmVo> dealCorpVisitList(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처정보 담당자 삭제
-	public void dealCorpManagerDel(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//방문관련자료 등록
+	public int dealCorpVisitCreate(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처정보 관련파일 목록조회
-	public List<DealCorpAdmVo> dealCorpFileList(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//방문관련자료 삭제
+	public int dealCorpVisitDelete(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처정보 관련파일 등록
-	public void dealCorpFileIns(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//방문관련자료 시퀀스 값
+	public String dealCorpVisitSeq(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처정보 관련파일 삭제
-	public void dealCorpFileDel(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//파일명 가져오기
+	public String getFileNm(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 	
-	// 거래처 코드 중복 체크
-	public DealCorpAdmVo dealCorpCdCheck(DealCorpAdmVo dealCorpAdmVo) throws Exception;
+	//삭제
+	public void dealCorpDataDelete(DealCorpAdmVo dealCorpAdmVo) throws Exception;
 }

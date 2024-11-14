@@ -15,83 +15,82 @@ public class DealCorpAdmServiceImpl implements DealCorpAdmService {
 	@Inject
 	private DealCorpAdmDAO dao;
 
-	// 거래처정보 목록조회
+	//거래처정보관리 목록조회
 	@Override
-	public List<DealCorpAdmVo> dealCorpAdmList(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return dao.dealCorpAdmList(dealCorpAdmVo);
+	public List<DealCorpAdmVo> listAll(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return dao.listAll(dealCorpAdmVo);
 	}
 	
-	// 거래처정보(투입자재 발주처) 목록조회
+	//거래처정보관리 목록조회2
 	@Override
-	public List<DealCorpAdmVo> matrlDealCorpAdmList(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return dao.matrlDealCorpAdmList(dealCorpAdmVo);
+	public List<DealCorpAdmVo> dealCorpDataJustList(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return dao.dealCorpDataJustList(dealCorpAdmVo);
+	}
+
+	//거래처정보관리 상세조회
+	@Override
+	public DealCorpAdmVo read(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return dao.read(dealCorpAdmVo);	
 	}
 	
-	// 거래처정보 상세조회
+	//거래처정보관리 등록
 	@Override
-	public DealCorpAdmVo dealCorpAdmSel(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return dao.dealCorpAdmSel(dealCorpAdmVo);
+	public void create(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		dao.create(dealCorpAdmVo);
 	}
 	
-	// 거래처정보 등록
+	//거래처정보관리 수정
 	@Override
-	public String dealCorpAdmIns(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return dao.dealCorpAdmIns(dealCorpAdmVo);
+	public void update(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		dao.update(dealCorpAdmVo);
 	}
 	
-	// 거래처정보 수정
-	@Override
-	public void dealCorpAdmUpd(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		dao.dealCorpAdmUpd(dealCorpAdmVo);
+	//거래처정보관리 거래처명 중복검사
+	public Integer overlapDealCorpNm(DealCorpAdmVo dealCorpAdmVo) throws Exception{
+		return dao.overlapDealCorpNm(dealCorpAdmVo);
 	}
 	
-	// 거래처정보 삭제
-	@Override
-	public void dealCorpAdmDel(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		dao.dealCorpAdmDel(dealCorpAdmVo);
+	//거래처정보관리 거래처명 중복검사
+	public Integer overlapDealCordCd(DealCorpAdmVo dealCorpAdmVo) throws Exception{
+		return dao.overlapDealCordCd(dealCorpAdmVo);
 	}
 	
-	// 거래처정보 담당자 목록조회
+	//방문관련자료 목록 조회
 	@Override
-	public List<DealCorpAdmVo> dealCorpManagerList(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return dao.dealCorpManagerList(dealCorpAdmVo);
+	public List<DealCorpAdmVo> dealCorpVisitList(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return dao.dealCorpVisitList(dealCorpAdmVo);
 	}
 	
-	// 거래처정보 담당자 등록
+	//방문관련자료 등록
 	@Override
-	public void dealCorpManagerIns(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		dao.dealCorpManagerIns(dealCorpAdmVo);
+	public int dealCorpVisitCreate(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return dao.dealCorpVisitCreate(dealCorpAdmVo);
 	}
 	
-	// 거래처정보 담당자 삭제
+	//방문관련자료 삭제
 	@Override
-	public void dealCorpManagerDel(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		dao.dealCorpManagerDel(dealCorpAdmVo);
+	public int dealCorpVisitDelete(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return dao.dealCorpVisitDelete(dealCorpAdmVo);
 	}
 	
-	// 거래처정보 담당자 목록조회
+	//방문자관련자료 시퀀스 값
 	@Override
-	public List<DealCorpAdmVo> dealCorpFileList(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return dao.dealCorpFileList(dealCorpAdmVo);
+	public String dealCorpVisitSeq(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return dao.dealCorpVisitSeq(dealCorpAdmVo);
 	}
 	
-	// 거래처정보 담당자 등록
+	//파일명 가져오기
 	@Override
-	public void dealCorpFileIns(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		dao.dealCorpFileIns(dealCorpAdmVo);
+	public String getFileNm(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return dao.getFileNm(dealCorpAdmVo);
 	}
 	
-	// 거래처정보 담당자 삭제
+	//삭제
 	@Override
-	public void dealCorpFileDel(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		dao.dealCorpFileDel(dealCorpAdmVo);
+	public void dealCorpDataDelete(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		dao.dealCorpDataDelete(dealCorpAdmVo);
 	}
 	
-	// 거래처 코드 중복 체크
-	@Override
-	public DealCorpAdmVo dealCorpCdCheck(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return dao.dealCorpCdCheck(dealCorpAdmVo);
-	}
 }
 
 	

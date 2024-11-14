@@ -1,1084 +1,1207 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
-<%@include file="../layout/top.jsp"%>
-<%@include file="../layout/modal.jsp"%>
-<%@include file="../layout/script.jsp"%>
-<div id="page" onmouseup="EndDrag(this)" onmousemove="OnDrag(event)" style="grid-template-areas: 'leftcol dragbar rightcol';
-																		  grid-template-rows: 1fr;
-																		  grid-template-columns: 2.3fr 4px 3.5fr;">
-	<div id="leftcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="leftHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAllIpr" placeholder="통합검색" >
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-danger w-auto" style="font-size: 17px !important;" id="btnAdmDel"><i class="fa-solid fa-trash-can"></i></button>								
-						<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnSearch"><i class="fa-regular fa-clipboard"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnOpen"><i class="fa-solid fa-caret-left"></i></button>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="itemPrcssRoutingListTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle">라우팅 번호</th>
-							<th class="text-center align-middle">공정순서</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		</div>
-	</div>
-	<div id="dragbar" onmousedown="StartDrag()"></div>
-	<div id="rightcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="rightHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">라우팅 번호</label>
-					<input type="hidden" id="hiddenRoutingNo">
-					<input type="text" max="9999-12" class="form-control w-auto h-100 me-3" id="routingNo" disabled="disabled">
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAllIprd" placeholder="통합검색" >
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-					<div class="btn-group me-3" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto" id="btnPrcssNew" disabled="disabled">공정 불러오기</button>
-					</div>
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnNew">
-							<i class="fa-solid fa-plus"></i>
-						</button>			
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnSave" disabled="disabled">
-							<i class="fa-regular fa-floppy-disk"></i>
+<%@include file="../layout/body-top.jsp" %>
+
+<div class="page-wrapper" id="page-wrapper">
+	<!--header ============================================================== -->
+	<header class="page-title-bar row">
+		<nav aria-label="breadcrumb" class="breadcrumb-padding">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">기준정보관리</a></li>
+				<li class="breadcrumb-item active">창고정보관리</li>
+			</ol>
+		</nav>
+	</header>
+	<!-- #main============================================================== -->
+	<div class="container-fluid" id="main">
+		<div class="row table-wrap-hid">
+			<!--======================== .left-list ========================-->
+			<div class="left-list left-sidebar" id="left-list"
+				style="width: 55%;">
+				<div class="card">
+					<div class="open-arrow" id="arrowLeft">
+						<button id="left-width-btn" onclick="openrNav()"
+							class="btn btn-primary input-sub-search" type="button">
+							<i class="mdi mdi-arrow-left"></i>
 						</button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnEdit">
-							<i class="fa-regular fa-pen-to-square"></i>
-						</button>				
-						<button type="button" class="btn btn-outline-danger w-auto" style="font-size: 17px !important;" id="btnDel">
-							<i class="fa-solid fa-trash-can"></i>
-						</button>								
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnCancel" disabled="disabled">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnClose"><i class="fa-solid fa-caret-right"></i></button>
+					
+					</div>
+					<div class="row">
+<!-- 						<button type="button" class="btn btn-primary d-none" id="printBarcode">바코드출력</button> -->
+						<form method="POST" enctype="multipart/form-data" id="fileUploadForm" action="" class="col-sm-12 col-md">
+						<label for="locationAdmUpload" class="btn btn-info mr-1 d-none">엑셀업로드</label>
+						<input type="file" id="locationAdmUpload" name="excelfile" style="display: none" />
+						<a href="/bm/locationBasicForm"><button type="button" class="btn btn-secondary d-none" id="btnFileDownload">기본양식다운로드</button></a></form>
+					</div>
+					
+					<!-- .table-responsive -->
+					<div class="table-responsive">
+						<table id="locationAdmTable" class="table table-bordered">
+							<thead class="thead-light">
+								<tr>
+									<th><input type="checkbox" class="checkbox" id="checkAll" style="min-width:20px; min-height:20px;"></th>
+									<th>구분</th>
+									<th>창고</th>
+									<th>구역</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<!-- /.table-responsive -->
+				</div>
+			</div>
+			<!-- /.left-list -->
+
+			<!--======================== .right-sidebar 등록,수정 ========================-->
+			<div class="right-list right-sidebar" id="myrSidenav"
+				style="width: 44%;">
+				<div class="card mb-2" id="formBox">
+					<div id="myTabContent" class="tab-content">
+						<div class="card-body col-sm-12 p-1 mb-2">
+							<button type="button" class="btn btn-primary float-right d-none" id="btnSave">저장</button>
+							<button type="button" class="btn btn-warning float-right mr-1" id="btnEdit">수정</button>
+							<button type="button" class="btn btn-primary float-right mr-1" id="btnAdd">등록</button>
+							<input type="number" class="form-control float-left text-right mr-1" id="partPrintCnt2" placeholder="매수" style="width:40px;" value="1">
+							<button type="button" class="btn btn-success float-left" id="printBarcodeSingle">개별라벨인쇄</button>
+						</div>
+						<hr>
+						<!--/오른쪽 등록 부분 상단 버튼 영역-->
+						<form id="form">
+							<div class="table-responsive">
+								<table class="table table-bordered">
+			                    	<colgroup>
+			                           <col width="20%"> 
+			                           <col width="30%">
+			                           <col width="20%">
+			                           <col width="30%">
+			                        </colgroup>
+			                        <tr>   
+			                           <th>구분</th>
+			                           <td>
+			                              	<div class="row">
+			                                 	<div class="custom-control custom-radio row">
+			                                    	<input type="radio" class="custom-control-input" name="mainGubun" id="mg1" value="001" disabled> 
+			                                    	<label class="custom-control-label input-label-sm" for="mg1">사출</label>
+			                                 	</div>
+			                                 	<div class="custom-control custom-radio row">
+			                                    	<input type="radio" class="custom-control-input" name="mainGubun" id="mg2" value="002" disabled> 
+			                                    	<label class="custom-control-label input-label-sm" for="mg2">봉제</label>
+			                                	</div>
+			                            	</div>
+			                        	</td>
+			                        	<th>창고</th>
+										<td>
+											<select style="min-width : 100%" class="custom-select" id="locCd" name="locCd" disabled></select>
+										</td>
+			                    	</tr>
+			                    </table>
+			                    <div class="card-body col-sm-12 p-0">
+				                    <button type="button" class="btn btn-danger float-right mr-1 mb-2" id="btnArDel" disabled>위치삭제</button>
+									<button type="button" class="btn btn-primary float-right mr-1 mb-2" id="btnArAdd" disabled>위치추가</button>
+			                    </div>
+								<table class="table table-bordered" id="locationDtlTable">
+									<colgroup>
+										<col width="5%">
+										<col width="15%">
+										<col width="20%">
+										<col width="25%">
+										<col width="10%">
+										<col width="25%">
+									</colgroup>
+									<thead class="thead-light">
+										<tr>
+											<th><input type="checkbox" id="checkAll2" name="checkAll2" style="min-width:20px; min-height:20px;"></th>
+											<th class="text-center">구역</th>
+											<th>위치</th>
+											<th>위치코드</th>
+											<th>사용여부</th>
+											<th>비고</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</form>
+						<table class="table table-bordered mt-2 d-none" id="changeHisTable">
+							<colgroup>
+								<col width="20%">
+								<col width="30%">
+								<col width="20%">
+								<col width="30%">
+							</colgroup>
+							<tr>
+								<th>변경내역</th>
+								<td colspan='3'><input type="text" class="form-control" style="max-width: 100%" id="changeHis" maxlength="20"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<!-- ===/.right-sidebar 등록,수정=== -->
+			</div>
+			<!-- /.row -->
+			<!-- 모달 영역 -->
+			<div class="modal fade bd-example-modal-lg" id="inModal" tabindex="-1"
+				role="dialog" aria-labelledby="inModalLabel2" aria-hidden="true">
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="inLabel">창고정보관리 엑셀조회</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body" >
+							<hr class="text-secondary">
+							<div class="table-responsive">
+							<table id="inTable" class="table table-bordered">
+								<thead class="thead-light">
+									<tr>
+										<th>창고코드</th>
+										<th>구분</th>
+										<th>구역</th>
+										<th>위치</th>
+										<th>사용여부</th>
+										<th>비고</th>
+									</tr>
+								</thead>
+							</table>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary"
+								id="btnApply">적용</button>
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">닫기</button>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div style="width: 100%;">
-				 	<table class="table table-bordered p-0 m-0" id="itemPrcssRoutingDtlTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle">공정순서</th>
-							<th class="text-center align-middle">공정코드</th>							
-							<th class="text-center align-middle">공정명</th>
-							<th class="text-center align-middle">설비정보</th>
-							<th class="text-center align-middle">수량단위</th>
-						</tr>
-					</thead>
-				</table>
-				  
-				</div>
-			</div>
+			<!-- 모달 영역 -->
 		</div>
+		<!-- / #main  -->
 	</div>
+	<!-- /.page-wrapper -->
 </div>
-
-<!-- 화면설정 script -->
-<script>
-	let isDragging = false;
-	
-	function SetCursor(cursor) {
-		let page = document.getElementById("page");
-		page.style.cursor = cursor;
-	}
-	
-	function StartDrag() {
-		isDragging = true;
-		SetCursor("ew-resize");
-	}
-	
-	function EndDrag(e) {
-		if(isDragging) {
-			dataTableDrawAll(); // dataTable 전체 reload
-			isDragging = false;
-			SetCursor("auto");
-		}
-	}
-	
-	function OnDrag(event) {
-		if (isDragging) {
-			let page = document.getElementById("page");
-			let leftcol = document.getElementById("leftcol");
-			let rightcol = document.getElementById("rightcol");
-			let dragbarWidth = 4;
-			let leftcolMinWidth = 20; // leftcol 최소사이즈
-			$('#leftHeader').children().each(function(index, item) {
-				leftcolMinWidth += $(item).width();
-			});
-			let rightcolMinWidth = 1110; // rightcol 최소사이즈
-	
-			let rightColWidth = isDragging ? page.clientWidth - parseInt(Math.max(leftcolMinWidth + 20, event.clientX)) : rightcol.clientWidth;
-
-			let cols = [
-				parseInt(Math.max(leftcolMinWidth, page.clientWidth - dragbarWidth - parseInt(Math.max(rightColWidth, rightcolMinWidth)))),
-				dragbarWidth,
-				parseInt(Math.max(rightColWidth, rightcolMinWidth))
-			];
-	
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-	
-			page.style.gridTemplateColumns = newColDefn;
-	
-			event.preventDefault()
-		}
-	}
-	
-	$('#btnOpen').on('click',function() { // right-box 열기버튼 클릭
-		if($('#rightcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '2.3fr 4px 3.5fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '0fr 4px 3.5fr');
-			$('#leftcol').addClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		}
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-	$('#btnClose').on('click',function() { // right-box 닫기버튼 클릭
-		if($('#leftcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '2.3fr 4px 3.5fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '2.3fr 4px 0fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').addClass('d-none');
-		}
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-</script>
+<%@include file="../layout/bottom.jsp"%>
 
 <script>
-	WM_init('ADM');
-	WM_init('DTL_NEW');
-	WM_init('DTL_EDIT');
+	$("#left-width-btn").click(function() {
+		{
+			$("#left-list").animate({
+				width : "50%"
+			}, 200);
+			$("#arrow-left").animate({
+				display : "none"
+			}, 200);
+		}
 
-	//변수 선언 모음
-	let routingNo = '';
-	let setView = '';
-	let prcssEquipList = [];
+		state = !state;
+	});
 
-	//페이지 접속시 설비정보 불러오기
-	$(document).ready(function(){
-		$.ajax({
-			url : '<c:url value="/em/prcssEquipInfoListAll"/>',
-			type : 'POST',
-			async: false,
+	let currentHref = "bmsc0110";
+	let currentPage = $('.' + currentHref).attr('id');
+
+	$('#' + currentPage).closest('.has-child', 'li').addClass('has-open has-active');
+	$('#' + currentPage).closest('.menu-item').addClass('has-active');
+	$(document).attr("title", "창고정보관리");
+	
+	uiProc(true);
+	let sideView = 'add';
+	let sideView2 = 'add';
+	let tableIdx;
+	let urlData = null;
+	let printArray = new Array();
+	let mainGubunVal = '-'; //처음 화면을 보여줄 땐 메인 테이블에 데이터가 하나도 조회 안되도록 구현
+	let locCdVal = ''; 
+	let areaCdVal = '';
+	let mainGubunData = '';
+	let locCdData = '';
+	let areaCdData = '';
+
+	//공통코드 처리 시작      
+	let useYnCode = new Array(); // 사용여부
+	<c:forEach items="${useYn}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	useYnCode.push(json);
+	</c:forEach>
+
+	let locCdCode = new Array(); // 창고코드
+	<c:forEach items="${locCd}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	locCdCode.push(json);
+	</c:forEach>
+
+	let areaCode = new Array(); // 구역코드
+	<c:forEach items="${area}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	areaCode.push(json);
+	</c:forEach>
+	
+	let mainGubun = new Array();
+	<c:forEach items="${mainGubun}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	mainGubun.push(json);
+	</c:forEach>
+	
+	let outCorpArray = new Array();
+	<c:forEach items="${outCorp}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.dealCorpCd}";
+	json.baseNm = "${info.dealCorpNm}";
+	outCorpArray.push(json);
+	</c:forEach>
+	//공통코드 처리 종료
+
+	//선택박스 처리 시작
+	selectBoxAppend(locCdCode, "locCd", "", "2");
+	//선택박스 처리 끝
+
+	$('#saveBtnModalY').on('click', function() {
+		uiProc(true);
+		$('#btnSave').addClass('d-none');
+		$('#btnAdd').attr('disabled', false);
+		$('#btnEdit').attr('disabled', false);
+		$('#btnDel').attr('disabled', false);
+		$('#btnArAdd').attr('disabled', true);
+		$('#btnArDel').attr('disabled', true);
+		$('#locationDtlTable').DataTable().clear().draw();
+		$('#changeHisTable').addClass('d-none');
+		$('#changeHis').val('');
+		$('#locationAdmTable').DataTable().ajax.reload(null, false);
+	});
+	
+	//메인 테이블
+	let locationAdmTable = $('#locationAdmTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4'f>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>B",
+		language : lang_kor,
+		paging : true,
+		lengthChange : true,
+		info : true,
+		ordering : true,
+		processing : true,
+		autoWidth : false,
+		scrollX : false,
+		pageLength : -1,
+		scrollY: '70vh',
+		ajax : {
+			url : '<c:url value="bm/locationAdmList2"/>',
+			type : 'GET',
 			data : {
-				prcssEquipSelectGubun : function(){ return 'prcssAll';}
+				'mainGubun' : function(){ return mainGubunVal; },
+				'locCd' 	: function(){ return locCdVal; },
+				'areaCd' 	: function(){ return areaCdVal; },
 			},
-			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					prcssEquipList = res.data;
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
-				} else {
-					toastr.error(res.message);
-				}
-				$('#my-spinner').hide();
-			}
-		});
+		},
+		rowId: 'locNo',
+		columns : [ 
+			{//체크박스
+				render: function(data, type, row, meta) {
+					return '<input type="checkbox" class="checkbox" id="checkLal-'+meta.row+'" name="printList" value="" style="min-width:20px; min-height:20px;">';
+				},
+				'className' : 'text-center p-0'
+			}, 
+			{//구분
+				data : 'mainGubunNm',
+				'className' : 'text-center'
+			}, 
+			{//창고
+				data : 'locNm',
+				'className' : 'text-center'
+			}, 
+			{//구역
+				data : 'areaNm',
+				'className' : 'text-center'
+			}, 
+		],
+		order : [],
+		buttons : [ 'copy', {
+			extend : 'excel',
+			title : '창고정보관리'
+		}, 'print' ],
+		columnDefs : [
+
+		]
 	});
+
+	let html1 = '<div class="row">';
+	html1 += '&nbsp;&nbsp;<input type="number" class="form-control text-right" id="partPrintCnt" placeholder="매수" style="width:40px;" value="1">';
+	html1 += '&nbsp;&nbsp;<button type="button" class="btn btn-success mr-2" id="printBarcode">전체라벨출력</button>';
+	html1 += '<label class="input-label-sm">구분</label>';
+	html1 += '<div class="form-group input-sub m-0">';
+	html1 += '<select class="custom-select" id="mainGubun2">';
+	html1 += '</select></div>&nbsp;&nbsp;&nbsp;';
+	html1 += '<label class="input-label-sm">창고</label>';
+	html1 += '<div class="form-group input-sub m-0">';
+	html1 += '<select class="custom-select" id="locCd2">';
+	html1 += '</select></div>&nbsp;&nbsp;&nbsp;';
+	html1 += '<label class="input-label-sm">구역</label>';
+	html1 += '<div class="form-group input-sub m-0">';
+	html1 += '<select class="custom-select mr-1" id="areaCd2"style="width:70px;">';
+	html1 += '</select></div>';
+	html1 += '<button type="button" class="btn btn-primary" id="btnRetv">조회</button>&nbsp;&nbsp;';
+	html1 += '</div>';
+
+	$('#locationAdmTable_length').html(html1);
+	
+	selectBoxAppend(mainGubun, "mainGubun2", "", "1");
+	selectBoxAppend(locCdCode, "locCd2", "", "1");
+	selectBoxAppend(areaCode, "areaCd2", "", "1");
+	
+	//조회 버튼 클릭시
+	$('#btnRetv').on('click', function() {
+		$("#mainGubun").val(mainGubunVal).prop("selected", true);
+		$("#locCd").val(locCdVal).prop("checked", true);
+		$("#areaCd").val(areaCdVal).prop("checked", true);
 		
-	// 작업중 경고 모달 예 버튼 click
-	$('#btnWorkingWarningModalY').on('click', function() {
-		if(WMlastIdx == 'DTL_NEW' || WMlastIdx == 'DTL_EDIT') { // 등록중이거나 수정중이였을 경우
-			$('#btnSave').trigger('click');
+		mainGubunVal = $("#mainGubun2 option:selected").val();
+		locCdVal = $("#locCd2 option:selected").val();
+		areaCdVal = $("#areaCd2 option:selected").val();
+		
+		$('#locationAdmTable').DataTable().ajax.reload( function () {});
+    });
+	
+	//전체조회 버튼 클릭시
+	$('#btnAllRetv').on('click', function(){
+		mainGubunVal = "";
+		locCdVal = "";
+		areaCdVal = "";
+		
+		$('#locationAdmTable').DataTable().ajax.reload(function(){});  
+	});
+	
+	//전체선택 체크
+	$('#checkAll').change(function() {
+		if($(this).is(':checked')) {
+			$("input[name=printList]").prop("checked",true);
+			printArray = [];
+			$('input[name=printList]').each(function() {
+				var obj = new Object();
+		    	obj.locNo = $(this).parents().parents().attr('id');
+		    	obj.floorNm = locationAdmTable.row($(this).parents().parents()).data().areaNm + '-' + locationAdmTable.row($(this).parents().parents()).data().floorNm;
+	    		printArray.push(obj);
+			});
+		} else {
+			$("input[name=printList]").prop("checked",false);
+			printArray = [];
+		}
+	})
+	
+	//전체선택 체크
+	$('#checkAll2').change(function() {
+		if($(this).is(':checked')) {
+			$("input[name=printList2]").prop("checked",true);
+		} else {
+			$("input[name=printList2]").prop("checked",false);
+		}
+	})
+	
+	//인쇄창고 체크
+	$(document).on('change','input:checkbox[name=printList]',function() {
+    	if($(this).is(':checked')) {
+	    	var obj = new Object();
+	    	obj.locNo = $(this).parents().parents().attr('id');
+	    	obj.floorNm = locationAdmTable.row($(this).parents().parents()).data().areaNm + '-' + locationAdmTable.row($(this).parents().parents()).data().floorNm;
+    		printArray.push(obj);
+	    } else {
+		    var locNo = $(this).parents().parents().attr('id');
+		    if(printArray.findIndex(i => i.locNo == locNo) != -1) { // 프린트할 배열에 존재할 경우
+		    	printArray.splice(printArray.findIndex(i => i.locNo == locNo),1);
+			}
+		}
+   	});
+
+	//메인 테이블 행 클릭시
+	$('#locationAdmTable tbody').on('click','tr',function() {
+		sideView = "edit";
+		if ($('#btnSave').attr('class') == 'btn btn-primary float-right'|| $('#btnSave').attr('class') == 'btn btn-primary float-right') {
+			$('#saveBtnModal').modal('show');
+			console.log("등록중입니다.");
 			return false;
 		}
-	});
-	
-	// 작업중 경고 모달 아니요 버튼 click
-	$('#btnWorkingWarningModalN').on('click', function() {
-		if(WMlastIdx == 'DTL_NEW' || WMlastIdx == 'DTL_EDIT') { // 등록중이거나 수정중이였을 경우
-			if(getWM(WMlastIdx, 'idx') != '' && getWM(WMlastIdx, 'idx') != undefined) {
-				let idx = getWM(WMlastIdx, 'idx');
-				WM_action_OFF(WMlastIdx);
-				setWM(WMlastIdx, 'idx', '');
-				itemPrcssRoutingListTable.row('#'+idx).select();
-				$(itemPrcssRoutingListTable.row('#'+idx).node()).trigger('click'); // 선택했던 항목 선택처리
-			} else {
-				WM_action_OFF(WMlastIdx);
-				if(window.location != window.parent.location) { // tab일 경우
-					// 부모 탭 닫기버튼 click
-					$('#tab-list', parent.document).find('.active').find('span').eq(1).find('i').trigger('click');
-			    }
-				$('#btnNew').attr('disabled', false); // 신규 버튼
-				$('#btnSave').attr('disabled', true); // 저장 버튼
-				$('#btnEdit').attr('disabled', false); // 수정 버튼
-				$('#btnDel').attr('disabled', false); // 삭제 버튼
-				$('#btnCancel').attr('disabled', false); // 취소 버튼
-				$('#btnPrcssNew').attr('disabled', true); // 공정불러오기 버튼
-				$('#routingNo').attr('disabled', true); // 라우팅 번호
-				$('#routingNo').val('')
-				
-			}
+
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+		} else {
+			$('#locationAdmTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
 		}
+
+		sideView2 = "";
+		$('#btnSave').addClass('d-none'); // 저장버튼
+		$('#btnEdit').attr('disabled', false); //수정버튼
+		$('#btnDel').attr('disabled', false); //삭제버튼
+		
+		mainGubunData = locationAdmTable.row(this).data().mainGubun;
+		locCdData = locationAdmTable.row(this).data().locCd;
+		areaCdData = locationAdmTable.row(this).data().areaCd;
+
+		//라디오버튼
+		var tempMainGubun = locationAdmTable.row(this).data().mainGubun;
+ 		if (tempMainGubun == '001') {
+			$('#mg1').prop('checked', true);
+		} else if (tempMainGubun == '002') {
+			$('#mg2').prop('checked', true);
+		}
+
+		selectBoxAppend(locCdCode, "locCd", locCdData, "2"); // 구역 셀렉트박스가 창고 셀렉트박스의 값에 따라 달라지므로 세부 테이블 새로고침 전에 창고 셀렉트박스 값이 정정되어야 함.
+		$('#locationDtlTable').DataTable().ajax.reload(function(){});
+		
 	});
 	
-	//공정라우팅 조회
-	$('#itemPrcssRoutingListTable thead tr').clone(true).addClass('filters').appendTo('#itemPrcssRoutingListTable thead'); // filter 생성
-	let itemPrcssRoutingListTable = $('#itemPrcssRoutingListTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/itemPrcssRoutingListAll"/>',
+	//서브 테이블
+	let locationDtlTable = $('#locationDtlTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4'>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>B",
+		language : lang_kor,
+		destroy : true,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		pageLength : -1,
+		scrollY : '50vh',
+		ajax : {
+			url : '<c:url value="bm/locationAdmRead"/>',
 			type : 'GET',
 			data : {
+				'mainGubun' : function(){ return mainGubunData; },
+				'locCd' 	: function(){ return locCdData; },
+				'areaCd' 	: function(){ return areaCdData; },
 			},
 		},
-        rowId: 'routingNo',
 		columns : [
-			{ data: 'routingNo', className : 'text-center align-middle'},
-			{ data: 'prcssOrderFlow', className : 'text-center align-middle'},			
-		],
-		columnDefs : [
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [[0,'asc']],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#itemPrcssRoutingListTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 79)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllIpr').off('keyup',function() {});
-			$('#searchAllIpr').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#itemPrcssRoutingListTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#itemPrcssRoutingListTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-
-	// 공정라우팅 상세조회
-	$('#itemPrcssRoutingDtlTable thead tr').clone(true).addClass('filters').appendTo('#itemPrcssRoutingDtlTable thead'); // filter 생성
-	let itemPrcssRoutingDtlTable = $('#itemPrcssRoutingDtlTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: false,
-		rowReorder: {
-			enable: false,
-			dataSrc: 'prcssOrder',
-		},
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/itemPrcssRoutingSel"/>',
-			type : 'GET',
-			data : {
-				'routingNo'	:	function(){ return routingNo; },
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			//공정순서
-			{ data: 'prcssOrder', className : 'text-center', name:'prcssOrder'},
-			//공정코드
-			{ data: 'prcssCd', className : 'text-center align-middle',name:'prcssCd',
+			{//체크박스
+				render: function(data, type, row, meta) {
+					return '<input type="checkbox" class="checkbox" id="checkLal2-'+meta.row+'" name="printList2" value="" data-index='+meta.row+' style="min-width:20px; min-height:20px;">';
+				},
+				'className' : 'text-center p-0'
+			}, 
+			{//구역
+				data : 'areaCd',
 				render : function(data, type, row, meta) {
-					let html='';
-					html += '<div style="display: flex; flex-wrap: 1 1 auto;">';
-					html += '<input type="text" class="form-control" name="prcssCd" style="mix-width: 100px;" disabled="disabled" value="'+data+'">';
-					html += '<input type="hidden" name="prcssInfoIdx" value="'+row['prcssInfoIdx']+'">';
-					html += '</div>';
+					var html = "";
+					if ( $('#locCd').val() == '017' ) {
+						html = selectBoxHtml2(outCorpArray, "areaCd", data, row, meta);
+					} else {
+						html = selectBoxHtml2(areaCode, "areaCd", data, row, meta);
+					}
 					return html;
 				}
 			},
-			//공정명
-			{ data: 'prcssNm', className : 'text-center align-middle',name:'prcssNm',
+			{//위치
+				data : 'floorNm',
 				render : function(data, type, row, meta) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + data + '</div>';
+					if (data != null) {
+						return '<input type="text" class="form-control" style= "max-width:100%; text-align:center;" name="floorNm" id="floorNm'
+								+ meta.row
+								+ '" value="'
+								+ data + '"  disabled>';
+					} else {
+						return '<input type="text" class="form-control" style= "max-width:100%; text-align:center;" name="floorNm" id="floorNm'
+								+ meta.row + '" value="">';
+					}
+	
 				}
 			},
-			{ data: 'equipNm', className : 'text-center',
-				render: function(data, type, row, meta) {
-					if( data == null && data != '' ){
-						let html='';
-						let prcssEquipFilterList = _.filter(prcssEquipList,v=>v.prcssIdx == row['prcssInfoIdx']);
-						html += '<select disabled name="equipIdx" class="form-select" style="min-width:150px;">';
-						html += '<option selected value="">선택</option>';				
-						for(var i=0; i<prcssEquipFilterList.length; i++){
-							if( i == 0 && row['rowGubun'] == 'add'){
-								html += '<option selected value="'+prcssEquipFilterList[i].equipIdx+'">'+prcssEquipFilterList[i].equipNm +'</option>';
-							} else {
-								html += '<option value="'+prcssEquipFilterList[i].equipIdx+'">'+prcssEquipFilterList[i].equipNm +'</option>';
-							}
-						}
-						html += '</select>';
-						return html;
+			{//위치코드
+				data : 'locNo',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" style= "max-width:100%; text-align:center;" name="locNo" value="'+ data + '"  disabled>';
 					} else {
-						let html='';
-						let prcssEquipFilterList = _.filter(prcssEquipList,v=>v.prcssIdx == row['prcssInfoIdx']);
-						html += '<select disabled name="equipIdx" class="form-select" style="min-width:150px;">'						
-						for(var i=0; i<prcssEquipFilterList.length; i++){
-							if(prcssEquipFilterList[i].equipIdx == row['equipIdx']){
-								html += '<option selected value="'+prcssEquipFilterList[i].equipIdx+'">'+prcssEquipFilterList[i].equipNm +'</option>';
-							} else {
-								html += '<option value="'+prcssEquipFilterList[i].equipIdx+'">'+prcssEquipFilterList[i].equipNm +'</option>';
-							}
-						}
-						html += '</select>';
-						return html;
+						return '<input type="text" class="form-control" style= "max-width:100%; text-align:center;" name="locNo" value="" placeholder="자동생성"  disabled>';
 					}
 				}
 			},
-			//수량단위		
-			{ data: 'qtyUnitNm', className : 'text-center align-middle',name:'qtyUnitNm',
+			{//사용여부
+				data : 'useYn',
 				render : function(data, type, row, meta) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + data + '</div>';
+					return selectBoxHtml2(useYnCode,"useYn", data, row, meta);
 				}
 			},
-		],
-		columnDefs : [
-			{ "targets": '_all', "orderable": false },
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [[0,'asc']],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#itemPrcssRoutingDtlTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 79)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllIprd').off('keyup',function() {});
-			$('#searchAllIprd').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-
-			//progressOrder
-			for(var i=0;i<data.length;i++) {
-				let tr = $('#' + table_id + ' tbody').find('tr').eq(i);
-				itemPrcssRoutingDtlTable.row(tr).data().prcssOrder = i+1;
-				$(tr).find('td').eq(0).html(i+1);
+			{//비고
+				data : 'locDesc',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						var html = '<input type="text" class="form-control" style= "max-width:100%;" name="locDesc" id="locDesc'
+								+ meta.row
+								+ '" value="'
+								+ data + '"  disabled>';
+					} else {
+						var html = '<input type="text" class="form-control" style= "max-width:100%;" name="locDesc" id="locDesc'
+								+ meta.row + '" value="">';
+					}
+					return html;
+				}
 			}
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#itemPrcssRoutingDtlTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#itemPrcssRoutingDtlTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
+		],
+		order : [ [ 0, 'asc' ] ],
+		buttons : [ ],
+		columnDefs : [
+		],
 	});
 	
-	// dataTable colReorder event
-	itemPrcssRoutingDtlTable.on('column-reorder', function( e, settings, details ) {
-		let api = itemPrcssRoutingDtlTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#itemPrcssRoutingDtlTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
+	//서브 테이블 행 클릭시
+	$('#locationDtlTable tbody').on('click','tr',function() {
 
-	//공정순서변경되었을 때
-	itemPrcssRoutingDtlTable.on('row-reorder', function ( e, diff, changes ) {
-		if(diff.length != 0){
-			$('#btnSave').attr('disabled',false);
-			$('#btnEdit').attr('disabled',true);
-			$('#btnNew').attr('disabled',true);
-		}
-	} );
-	
-	$('#itemPrcssRoutingListTable tbody').on('click', 'tr', function(){
-
-		//console.log('hear!!!');
-		//console.log('WMCheck(\'DTL_NEW\'):'+WMCheck('DTL_NEW'));
-		//console.log('WMCheck(\'DTL_EDIT\'):'+WMCheck('DTL_EDIT'));
-		
-		routingNo = itemPrcssRoutingListTable.row(this).data().routingNo;
-		//console.log("routingNo:"+routingNo)
-		
-		if(WMCheck('DTL_NEW')) { // 등록중일 경우
-			//console.log('new');
-			setWM('DTL_NEW', 'idx', routingNo);
-			return false;
-		} 
-		if(WMCheck('DTL_EDIT')) { // 수정중일 경우
-			//console.log('edit');
-			setWM('DTL_EDIT', 'idx', routingNo);
-			return false;
-		}  
-
-		//필터 잠금
-		$('#itemPrcssRoutingDtlTable_wrapper').find('.filters th').each(function(index, item) {
-			$(item).find('input').attr('disabled', false); // 검색 필터 disabled
-		});
-
-		$('#routingNo').val(routingNo);
-		$('#routingNo').attr('disabled', true); // 라우팅 번호
-		$('#btnNew').attr('disabled', false); // 신규 버튼
-		$('#btnSave').attr('disabled', true); // 저장 버튼
-		$('#btnEdit').attr('disabled', false); // 수정 버튼
-		$('#btnDel').attr('disabled', false); // 삭제 버튼
-		$('#btnCancel').attr('disabled', true); // 취소 버튼
-		$('#btnPrcssNew').attr('disabled', true); // 신규 버튼
-		itemPrcssRoutingDtlTable.ajax.reload(function(){});
- 		
-	});
-
-
-	$('#btnNew').on('click',function(){
-		setView = 'add';
-		
-		itemPrcssRoutingDtlTable.clear().draw();
-
-		//열 움직이는 기능 잠금
-		itemPrcssRoutingDtlTable.colReorder.disable();
-
-		//rowReorder 해제
-		itemPrcssRoutingDtlTable.rowReorder.enable();	
-		
-		//필터 잠금
-		$('#itemPrcssRoutingDtlTable_wrapper').find('.filters th').each(function(index, item) {
-			$(item).find('input').attr('disabled', true); // 검색 필터 disabled
-		});
-		
-		WM_action_ON('DTL_NEW', 'workingWarningModal');
-
-		$('#routingNo').val('');
-		$('#routingNo').attr('disabled',false);
-		$('#btnPrcssNew').attr('disabled',false);
-
-		$('#btnNew').attr('disabled', true); // 신규 버튼
-		$('#btnSave').attr('disabled', false); // 저장 버튼
-		$('#btnEdit').attr('disabled', true); // 수정 버튼
-		$('#btnDel').attr('disabled', false); // 삭제 버튼
-		$('#btnCancel').attr('disabled', true); // 취소 버튼
-	})
-
-
-	//멀티셀렉트 값 바뀌면 테이블 헤더 보정
-	$(document).on('change','select[name=workMethodMultiSelect]',function(){
-		processInfoTable.draw(false);
-	});
-	
-
-	// 수정버튼 클릭시
-	$('#btnEdit').on('click',function(){
-
-		if($('#itemPrcssRoutingListTable tbody').find('tr.selected').length == 0) {
-			toastr.warning('수정할 항목을 선택해주세요.');
-			return false;
-		}
-		
-		setView = 'edit';
-		
-		itemPrcssRoutingDtlTable.columns.adjust().draw(false);
-		
-		//열 움직이는 기능 잠금
-		itemPrcssRoutingDtlTable.colReorder.disable();
-
-		//rowReorder 해제
-		itemPrcssRoutingDtlTable.rowReorder.enable();	
-		
-		//필터 잠금
-		$('#itemPrcssRoutingDtlTable_wrapper').find('.filters th').each(function(index, item) {
-			$(item).find('input').attr('disabled', true); // 검색 필터 disabled
-		});
-
-		WM_action_ON('DTL_EDIT', 'workingWarningModal');
-
-		$('#btnNew').attr('disabled',true);
-		$('#btnSave').attr('disabled',false);
-		$('#btnEdit').attr('disabled',true);
-		$('#btnDel').attr('disabled',false);
-		$('#btnCancel').attr('disabled',false);
-		$('#btnPrcssNew').attr('disabled',false);
-		$('select[name=equipIdx]').attr('disabled',false);
-		
-		$('#hiddenRoutingNo').val( $('#routingNo').val() );
-		$('#routingNo').attr('disabled', false);
-	});
-	
- 	
-	//저장처리
-	$('#btnSave').on('click',function(){
-		routingNo = $('#routingNo').val();
-		$('#my-spinner').show();	
-		itemPrcssRoutingIns();
-	});
-
-	function itemPrcssRoutingIns(){
-		let array = [];
-		let state = true;
-
-		if(itemPrcssRoutingDtlTable.data().count()=="0"){
-			toastr.warning('등록할 공정이 없습니다.<br> 공정 불러오기를 하십시오.');
-			$('#my-spinner').hide();	
-			state = false;
-			return false;
-		}
-
-		if($('#routingNo').val()==''){
-			toastr.warning('라우팅 번호를 입력해주세요.');
-			$('#my-spinner').hide();	
-			state = false;
-			return false;
-		}
-
-		$('#itemPrcssRoutingDtlTable tbody').find('tr').each(function(index, item) {
-			let obj = new Object();
-			obj.routingNo = routingNo;
-			obj.prcssOrder = itemPrcssRoutingDtlTable.row(index).data().prcssOrder;
-			obj.prcssInfoIdx = itemPrcssRoutingDtlTable.row(index).data().prcssInfoIdx;
-			obj.equipIdx = $(this).find('td').eq(3).find('select').val();
-
-			array.push(obj);
-			//console.log(array);
-		});
-
-		if(state){
-			$.ajax({
-				url: '<c:url value="/bm/itemPrcssRoutingInsert"/>',
-	            type: 'POST',
-	            data: {
-	            	'array'	:	JSON.stringify(array),
-	            	'setView' : function(){return setView;},
-	            	'routingNo' :   function(){return setView == 'add' ? routingNo : $('#hiddenRoutingNo').val();}
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('등록되었습니다.');
-						itemPrcssRoutingListTable.rows('.selected').deselect();
-						itemPrcssRoutingDtlTable.rows('.selected').deselect();
-						itemPrcssRoutingListTable.ajax.reload();
-						itemPrcssRoutingDtlTable.ajax.reload();
-
-						//열 움직이는 기능 잠금
-						itemPrcssRoutingDtlTable.colReorder.enable();
-
-						//rowReorder 잠금
-						itemPrcssRoutingDtlTable.rowReorder.disable();	
-						
-						//필터 잠금
-						$('#itemPrcssRoutingDtlTable_wrapper').find('.filters th').each(function(index, item) {
-							$(item).find('input').attr('disabled', false); // 검색 필터 disabled
-						});
-
-						if(setView=="add"){
-							WM_action_OFF('DTL_NEW');
-
-						}else{
-							WM_action_OFF('DTL_EDIT');
-						}
-						
-						$('#btnNew').attr('disabled',false);
-						$('#btnSave').attr('disabled',true);
-						$('#btnEdit').attr('disabled',false);
-						$('#btnDel').attr('disabled',false);
-						$('#btnCancel').attr('disabled',true);
-						$('#routingNo').attr('disabled',true);
-						$('#btnPrcssNew').attr('disabled',true);
-
-						//itemPrcssRoutingListTable.ajax.reload();이 동기적으로 실행되는 도중에 아래 코드가 실행되면 오류 발생. (2023.08.18)
-// 						$('#itemPrcssRoutingListTable').DataTable().row('.selected').remove().draw(false);
-
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
-						toastr.error(res.message);
-					}
-					$('#my-spinner').hide();
-				}
-			});
-		} else{
-			$('#my-spinner').hide();
-		}
-		
-	}
-	
-	//삭제처리
-	$('#btnDel').on('click',function(){
-		if($('#itemPrcssRoutingDtlTable tbody').find('tr.selected').length == 0) {
-			toastr.warning('삭제할 항목을 선택해주세요.');
-			return false;
-		}
-
-		let idx = itemPrcssRoutingDtlTable.row('.selected').data().idx;
-		if(isEmptyCheck(idx)){
-			itemPrcssRoutingDtlTable.row('.selected').remove().draw(false);
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
 		} else {
-			$('#deleteModal').modal('show');
-			$('#deleteModal').data('deleteType','DTL');
+			$('#locationDtlTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
 		}
+
+		tableIdx = $('#locationDtlTable').DataTable().row(this).index();
+		sideView2 = "edit";
+		$('#formBox').removeClass('d-none');
+		$('#btnSave').attr('disabled', false); //수정버튼
+	});
+	
+	// 등록 버튼 클릭시
+	$('#btnAdd').on('click', function() {
+		sideView = 'add';
+		$('#locationAdmTable').DataTable().$('tr.selected').removeClass('selected');
+		$('#form').each(function() {
+			this.reset();
+		});
+
+		$('#locationDtlTable').DataTable().clear().draw();
+		//화면처리        
+		uiProc(false);
+		
+		$('#btnCheck').attr("disabled", false);
+		$('#formBox').removeClass('d-none');
+		$('#btnEdit').attr('disabled', true);
+		$('#btnDel').attr('disabled', true);
+		$('#btnArAdd').attr('disabled', false); 
+		$('#btnArDel').attr('disabled', false); 
+		$('#btnSave').removeClass('d-none');
 	});
 
-	//삭제처리
-	$('#btnAdmDel').on('click',function(){
-		if($('#itemPrcssRoutingListTable tbody').find('tr.selected').length == 0) {
-			toastr.warning('삭제할 항목을 선택해주세요.');
+	// 수정 버튼 클릭시
+	$('#btnEdit').on('click', function() {
+		if (sideView != 'edit') {
+			toastr.warning("수정할 목록을 선택해 주세요!");
+			return false;
+		}
+		uiProc(false);
+		//수정관련 기능(검사코드는 수정 불가)
+		uiProc2(false);
+		$('#btnAdd').attr('disabled', true);
+		$('#btnDel').attr('disabled', true);
+		$('#btnArAdd').attr('disabled', false);
+		$('#btnArDel').attr('disabled', false);
+		$('#btnSave').removeClass('d-none');
+		$('#changeHisTable').removeClass('d-none');
+	});
+	
+	// 위치추가 버튼 클릭시
+	$('#btnArAdd').on('click', function() {
+		sideView2 = 'add';
+		if (locationDtlTable.data().count() == 0) {
+			$('#locationDtlTable tbody').empty();
+		}
+		$('#locationDtlTable').DataTable().row.add({}).draw(true);
+		
+		$('#btnSave').removeClass('d-none'); //저장
+
+	});
+
+	// 위치수정 버튼 클릭시
+	$('#btnArEdit').on('click', function() {
+
+		if (sideView2 != 'edit') {
+			toastr.warning("수정할 항목을 선택해주세요.");
 			return false;
 		}
 
-		$('#deleteModal').modal('show');
-		$('#deleteModal').data('deleteType','ADM');
+		$('input[name=areaNm]').eq(tableIdx).attr('disabled', false);
+		$('input[name=etc2]').eq(tableIdx).attr('disabled', false);
+		$('input[name=baseInfoDesc]').eq(tableIdx).attr('disabled', false);
+		$('select[name=area]').eq(tableIdx).attr('disabled', false);
+		$('#btnSave').removeClass('d-none');
+		sideView2 = '';
 	});
 
-	$('#btnDeleteModalY').on('click',function(){
-		let deleteType = $('#deleteModal').data('deleteType');
-		//console.log('deleteType:'+deleteType);
-		if(deleteType == 'DTL'){
-			let idx = itemPrcssRoutingDtlTable.row('.selected').data().idx;
-			let routingNo = $('#routingNo').val();
+	// 위치삭제 버튼 클릭시
+	$('#btnArDel').on('click',function() {
+		if (sideView2 != 'edit') {
+			toastr.warning("삭제할 항목을 선택해주세요.");
+			return false;
+		}
+
+		//DB삭제
+		if (locationDtlTable.row(tableIdx).data().locNo != null) {
 			$.ajax({
-				url: '<c:url value="/bm/itemPrcssRoutingDelete"/>',
-	            type: 'POST',
-	            data: {
-		            'idx'		:	function(){ return idx; },
-		            'routingNo'	:	function(){ return routingNo; },
-		            'delGubun' 	: 	function(){ return deleteType; },
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
+				url : '<c:url value="bm/locationAdmDelete"/>',
+				type : 'POST',
+				data :{
+					'locNo' : function() {return locationDtlTable.row(tableIdx).data().locNo;}
+				},
 				success : function(res) {
-					if (res.result == "ok") { //응답결과
+					let data = res.result;
+					if (res.result == 'ok') {
 						toastr.success('삭제되었습니다.');
-						$('#itemPrcssRoutingDtlTable').DataTable().row('.selected').remove().draw(false);
-						itemPrcssRoutingListTable.ajax.reload(function(){});
-						
-						if(itemPrcssRoutingDtlTable.data().length == 0){
-							$('#btnNew').attr('disabled',false);
-							$('#btnSave').attr('disabled',true);
-							$('#btnEdit').attr('disabled',false);
-							$('#btnDel').attr('disabled',false);
-							$('#btnCancel').attr('disabled',true);
-							$('#routingNo').attr('disabled',true);
-							$('#btnPrcssNew').attr('disabled',true);
-							$('#routingNo').attr('disabled',true);
-							$('#routingNo').val('');
-						}else{
-							itemPrcssRoutingListTable.row('#'+routingNo).select();
-							//$(itemPrcssRoutingListTable.row('#'+routingNo).node()).trigger('click');
-						}
-					} else {
+						$('#locationDtlTable').DataTable().rows(tableIdx).remove().draw(false);
+					}else {
 						toastr.error(res.message);
 					}
-					$('#my-spinner').hide();
 				}
-			});
-		}else {
+			});			
+		} else {
+			$('#locationDtlTable').DataTable().rows(tableIdx).remove().draw(false);
+		}
+
+		sideView2 = '';
+	});
+	
+	// 저장 버튼 클릭시 
+	$('#btnSave').on('click',function() {
+		var check = true;
+		var dataArray = new Array();
+
+		//입렵값 검사
+		if ($('input[name=mainGubun]:checked').val() == '' || $('input[name=mainGubun]:checked').val() == undefined) {
+			toastr.warning('구분을 선택해주세요.');
+			$('#mg1').focus();
+			return false;
+		}
+		
+		if (!$.trim($('#locCd').val())) {
+			toastr.warning('창고구분을 선택해주세요.');
+			$('#locCd').focus();
+			return false;
+		}
+
+		if(locationDtlTable.data().count() <= 0) {
+			toastr.warning('위치를 추가해주세요.');
+			$('#btnArAdd').focus();
+			return false;
+		}
+		
+		$('#locationDtlTable tbody tr').each(function(index, item) {
+			if ($(this).find('td input[name=floorNm]').val() == "") {
+				toastr.warning('저장위치를 입력해주세요.');
+				$(this).find('td input[name=floorNm]').focus();
+				check = false;
+				return false;
+			}
+			if ( $('#locCd').val() == '017' ) {
+				if ($(this).find('td select[name=areaCd]').val().length <= 3) {
+					toastr.warning('외주창고가 아닌 데이터가 있습니다.');
+					$(this).find('td select[name=areaCd]').focus();
+					check = false;
+					return false;
+				}
+			} else {
+				if ($(this).find('td select[name=areaCd]').val().length > 3) {
+					toastr.warning('외주창고의 데이터가 있습니다.');
+					$(this).find('td select[name=areaCd]').focus();
+					check = false;
+					return false;
+				}
+			}
+			
+			var rowData = new Object();
+			rowData.locCd = $('#locCd').val(); //창고코드
+			rowData.mainGubun =  $('input[name=mainGubun]:checked').val(); 
+			rowData.locNo = $(this).find('td input[name=locNo]').val(); 
+			rowData.areaCd =  $(this).find('td select[name=areaCd] option:selected').val(); 
+			rowData.floorNm = $(this).find('td input[name=floorNm]').val();  
+			rowData.locDesc = $(this).find('td input[name=locDesc]').val();
+			rowData.useYn = $(this).find('td select[name=useYn] option:selected').val(); 
+
+			dataArray.push(rowData);
+		});
+
+		if (check) {
 			$.ajax({
-				url: '<c:url value="/bm/itemPrcssRoutingDelete"/>',
-	            type: 'POST',
-	            data: {
-		            'routingNo'	:	function(){ return routingNo; },
-		            'delGubun' 	: 	function(){ return deleteType; },
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
+				url : '<c:url value="/bm/locationAdmCreate"/>',
+				type : 'POST',
+				async : false,
+				datatype : 'json',
+				data : JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
 				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('삭제되었습니다.');
-						$('#itemPrcssRoutingListTable').DataTable().row('.selected').remove().draw(false);
-						itemPrcssRoutingDtlTable.clear().draw();
-						$('#routingNo').val('');
+					let data = res.data;
+					if (res.result == 'ok') {
+						uiProc(true);
+						$('#btnArAdd').attr('disabled', true);
+						$('#btnArDel').attr('disabled', true);
+						$('#btnAdd').attr('disabled', false);
+						$('#btnEdit').attr('disabled', false);
+						$('#btnDel').attr('disabled', false);
+						$('#btnSave').addClass('d-none');
+						$('#changeHisTable').addClass('d-none');
+						$('#changeHis').val('');
+						
+						selectBoxAppend(locCdCode, "locCd","", "2");
+						
+						if (sideView == 'add') {
+							toastr.success('등록되었습니다.');
+						} else {
+							toastr.success('수정되었습니다.');
+						}
 						
 					} else {
 						toastr.error(res.message);
 					}
-					$('#my-spinner').hide();
+				},
+				complete : function() {
+					sideView = "";
+					sideView2 = "";
+					$('#locationDtlTable').DataTable().clear().draw();
+					$('#locationAdmTable').DataTable().ajax.reload();
 				}
 			});
 		}
-	});	
+		
+		if (sideView == "edit" && !(!$.trim($('#changeHis').val()))) {
+			var url = '/sm/systemChangeLogCreate';
 
-
+			$.ajax({
+				url : url,
+				type : 'POST',
+				async : false,
+				data : {
+					'changeHis'  : $('#changeHis').val(),
+					'menuPath'  : currentHref,
+				},
+				success : function(res) {
+					let data = res.data;
+					if (res.result == 'ok') {
+						toastr.success('변경내역이 등록되었습니다.');
+						$('#changeHisTable').addClass('d-none');
+						$('#changeHis').val('');
+					} else {
+						toastr.error(res.message);
+					}
+				},
+				complete : function() {
+//						$('#btnAddConfirm').removeClass('d-none');
+//						$('#btnAddConfirmLoading').addClass('d-none');
+				}
+			});
+		}
+		
+	});
 	
-	//취소처리
-	$('#btnCancel').on('click', function() {
-		$('#cancelModal').modal('show');
-	});
-
-	$('#btnCancelModalY').on('click',function(){
-		WM_action_OFF('ADM');
-		WM_action_OFF('DTL_NEW');
-		WM_action_OFF('DTL_EDIT');
-
-		itemPrcssRoutingDtlTable.rows('.selected').deselect();
-		itemPrcssRoutingDtlTable.ajax.reload();
-
-		//열 움직이는 기능 잠금
-		itemPrcssRoutingDtlTable.colReorder.enable();
-		//필터 잠금
-		$('#itemPrcssRoutingDtlTable_wrapper').find('.filters th').each(function(index, item) {
-			$(item).find('input').attr('disabled', false); // 검색 필터 disabled
-		});
-		
-		$('#btnNew').attr('disabled', false); // 신규 버튼
-		$('#btnSave').attr('disabled', true); // 저장 버튼
-		$('#btnEdit').attr('disabled', false); // 수정 버튼
-		$('#btnDel').attr('disabled', false); // 삭제 버튼
-		$('#btnCancel').attr('disabled', true); // 취소 버튼
-		$('#btnPrcssNew').attr('disabled',true); // 공정불러오기 버튼
-		$('#routingNo').attr('disabled',true);
-		$('#routingNo').val('');
-		
-	});
-
-	$('#btnSearch').on('click',function(){
-		WM_action_OFF('ADM');
-		WM_action_OFF('DTL_NEW');
-		WM_action_OFF('DTL_EDIT');
-
-		routingNo = '';
-
-		itemPrcssRoutingListTable.rows('.selected').deselect();
-		itemPrcssRoutingDtlTable.rows('.selected').deselect();
-		itemPrcssRoutingListTable.ajax.reload();
-		itemPrcssRoutingDtlTable.ajax.reload();
-		$('#routingNo').val('');
-		
-		//열 움직이는 기능 잠금
-		itemPrcssRoutingDtlTable.colReorder.enable();
-		//필터 잠금
-		$('#itemPrcssRoutingDtlTable_wrapper').find('.filters th').each(function(index, item) {
-			$(item).find('input').attr('disabled', false); // 검색 필터 disabled
-		});
-		
-		$('#btnNew').attr('disabled', false); // 신규 버튼
-		$('#btnSave').attr('disabled', true); // 저장 버튼
-		$('#btnEdit').attr('disabled', true); // 수정 버튼
-		$('#btnDel').attr('disabled', false); // 삭제 버튼
-		$('#btnCancel').attr('disabled', true); // 취소 버튼
-	});
-
-	//공정정보모달 조회
-	$('#prcssModalTable thead tr').clone(true).addClass('filters').appendTo('#prcssModalTable thead'); // filter 생성
-	let prcssModalTable = $('#prcssModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'multi',
-            toggleable: true,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/prcssListAll"/>',
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//엑셀업로드 모달
+	let inTable = $('#inTable').DataTable({
+		language : lang_kor,
+		paging : false,
+		destroy : true,
+		info : false,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		ajax : {
+			url : '<c:url value="bm/locationExcelDataList" />',
 			type : 'GET',
 			data : {
-			},
+				'url' : function(){return urlData;}
+			}
 		},
-        rowId: 'idx',
 		columns : [
-			{ data: 'prcssCd', className : 'text-center'},
-			{ data: 'prcssNm', className : 'text-center'},
-			{ data: 'qtyUnitNm', className : 'text-center'},
-			{ data: 'initial', className : 'text-center'},
-			{ data: 'prcssDesc', className : 'text-center'},
+			{  
+				render : function(data, type, row, meta) {
+					return meta.row
+							+ meta.settings._iDisplayStart
+							+ 1;
+				}
+			},
+			{data : 'locCd'},
+			{data : 'areaCd'},
+			{data : 'floorNm'},
+			{data : 'useYn',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						console.log(data);
+						return data;
+					}else{
+						console.log("001")
+						return "001";
+					}
+				}
+			}, 
+			{data : 'locDesc'}
 		],
-		columnDefs : [
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#prcssModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			let baseTableHeight = parseFloat($('#rightcolM').css('height'));
-			
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 197)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			//$('#searchAll').off('keyup',function() {});
-			//$('#searchAll').on('keyup',function() {
-			//	$('#'+table_id+'_filter').find('input').val($(this).val());
-			//	$('#'+table_id+'_filter').find('input').trigger('keyup');
-			//});
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#prcssModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#prcssModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
+		columnDefs: [
+        	{"targets": "_all" , "className": "text-center"},
+        ],
 	});
-	// dataTable colReorder event
-	prcssModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = prcssModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#prcssModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
+	
+	//파일 선택
+	$('#locationAdmUpload').change( function() {
+		var formData = new FormData($('#fileUploadForm')[0]);
+	
+		var str = $('#locationAdmUpload').val();
+	
+		if (str.substring(str.lastIndexOf(".") + 1) == "xls"
+				|| str.substring(str.lastIndexOf(".") + 1) == "xlsx") {
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				data : formData,
+				url : '<c:url value="bm/locationAdmUpload"/>',
+				processData : false,
+				contentType : false,
+				cache : false,
+				beforeSend : function(){
+					$('#my-spinner').show();
+				},
+				success : function(res) {
+					urlData = res.data;
+					$('#inTable').DataTable().ajax.reload(function(){});
+					$('#inModal').modal('show');
+
+					$('#locationAdmUpload').val("");
+					$('#my-spinner').hide();
+				},
+				complete : function() {
+				}
 			});
-		});
-	});
 
-	//공정 추가
-   	$('#btnPrcssNew').on('click',function(){
-  	 	prcssModalTable.rows('.selected').deselect();
-		$('#prcssModal').modal('show');   	
-		setTimeout(function() {
-			prcssModalTable.ajax.reload(function() {});
-		}, 200);
-   	});
-
-	//공정 복사
-	$('#btnPrcssModalPaste').on('click',function(){
-		let status = true;
-		let ngPrcssCd = '';
-		
-		if(!$('#prcssModalTable tbody tr').hasClass('selected')){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
+		} else {
+			toastr.warning("excel파일을 선택해 주세요.");
 			return false;
 		}
 
-		$('#my-spinner').show();
-		let selectedIndex = prcssModalTable.rows('.selected').toArray()[0];
-		if( status ){
-			//모달창에서 선택되어있는 공정 IDX들( 붙여넣을 항목 )
-			let prcssIdxArray = getPrcssIdx(prcssModalTable.rows('.selected').data().toArray(),"idx");
-			let i = 0;
-			let j = 0;
-			let rowDeleteCnt = 0;
-			let prcssTableLen = $('#itemPrcssRoutingDtlTable tbody tr').length - $('#itemPrcssRoutingDtlTable tbody tr').find('.dataTables_empty').length;
-			//필터된 array(삽입 해야할 항목)
-			for(i = 0; i < prcssIdxArray.length; i++){
-				//모달 행 위치
-				let modalRow = getPrcssIdx(prcssModalTable.data().toArray(),"idx").indexOf(prcssIdxArray[i]); 
-				//console.log("modalRow:"+modalRow)
-				//추가될 row = 테이블 행 갯수 - 데이터가 없는 경우 나오는 행
-				let rowLvl = $('#itemPrcssRoutingDtlTable tbody tr').length - $('#itemPrcssRoutingDtlTable tbody tr').find('.dataTables_empty').length;
+	});
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//셀렉트박스생성
+	function selectBoxHtml2(obj, id, sVal, row, meta) {
+		var shtml = "";
 
-				let modalData = prcssModalTable.row(modalRow).data();
-				//console.log("modalData:"+modalData)
-				
-				$('#itemPrcssRoutingDtlTable').DataTable().row.add({
-					'rowGubun'				: 'add',
-					'prcssOrder'			: rowLvl+1,
-					'prcssInfoIdx'			: modalData.idx,
-					'prcssCd'				: modalData.prcssCd,
-					'prcssNm'				: modalData.prcssNm,
-					'qtyUnitNm'				: modalData.qtyUnitNm,
-				}).draw(false);
-			} 
-			itemPrcssRoutingDtlTable.draw(false);
-			$('select[name=equipIdx]').attr('disabled',false);
-			$('#prcssModal').modal('hide'); 
-			toastr.success('공정이 추가되었습니다.');
-		} else {				
-			toastr.warning('이미 추가된 공정이 있습니다.<br>추가된 공정 코드 : '+ngPrcssCd);
+		if (sideView2 == "") {
+			shtml = '<select style="min-width : 100%" class="custom-select" name="'+ id +'" data-col="' + meta.col + '" disabled>';
+		} else if (sideView2 == "add" || sideView2 == "edit") {
+			shtml = '<select style="min-width : 100%" class="custom-select" name="'+ id +'" data-col="' + meta.col + '">';
 		}
-		$('#my-spinner').hide();
+		var option;
+		for (key in obj) {
+			var tmp;
+			if (obj[key].baseCd == sVal) {
+				tmp = "<option value="+ obj[key].baseCd+ " selected>"
+						+ obj[key].baseNm + "</option>";
+			} else {
+				tmp = "<option value="+obj[key].baseCd+">"
+						+ obj[key].baseNm + "</option>";
+			}
+			option += tmp;
+		}
+		var ehtml = '</select>';
+		return shtml + option + ehtml;
+	}
+
+	function uiProc(flag) {
+		$("#locCd").attr("disabled", flag);
+		$("#mg1").attr("disabled", flag);
+		$("#mg2").attr("disabled", flag);
+	}
+
+	function uiProc2(flag) {
+		$("select[name=areaCd]").attr("disabled", flag);
+		$("input[name=floorNm]").attr("disabled", flag);
+		$("input[name=locDesc]").attr("disabled", flag);
+		$("select[name=useYn]").attr("disabled", flag);
+	}
+
+	let printCnt = 0;
+	//바코드 출력 버튼 click
+	$('#printBarcode').on('click',function() {
+		printCnt = $('#partPrintCnt').val();
+		if($('#partPrintCnt').val()=="" || $('#partPrintCnt').val()==0){
+			toastr.warning("인쇄할 매수를 입력해주세요.");
+			return false;
+		}
+
+		if(!$('input[name=printList]').is(':checked')){
+			toastr.warning("인쇄할 항목을 선택해주세요.");
+			return false;
+		}
+
+		$('input[name=printList]:checked').each(function() {
+
+			$.ajax({
+				url : '<c:url value="bm/locationAdmRead"/>',
+				type : 'GET',
+				data : {
+					'mainGubun' : function(){ return mainGubunData; },
+					'locCd' 	: function(){ return locCdData; },
+					'areaCd' 	: function(){ return areaCdData; },
+				},
+				success : function(res){
+					let data = res.data;
+					for(var i=0; i<data.length; i++){
+						var obj = new Object();
+					    obj.locNo = data[i].locNo; //창고코드
+					    obj.locNm = data[i].locNm; //창고
+					    obj.areaNm = data[i].areaNm; //구역
+					    obj.floorNm = data[i].floorNm; //위치
+					    
+					    for( let i = 1; i <= printCnt; i++){
+							labelPrint(obj,"")
+						}
+					}
+				}
+			})
+			
+		});
+		/* if(printArray.length == 0) {
+			toastr.warning('인쇄할 자재를 체크하고 인쇄해주세요.');
+			return false;
+		}
+
+		var locNoArray = new Array();
+		var floorNmArray = new Array();
+
+		for(var i=0;i<printArray.length;i++) {
+			if(printArray.length == i+1 || i%3 == 2) {
+				locNoArray.push(printArray[i].locNo);
+				floorNmArray.push(printArray[i].floorNm);
+				labelPrint(locNoArray,floorNmArray);
+				locNoArray = [];
+				floorNmArray = [];
+			} else {
+				locNoArray.push(printArray[i].locNo);
+				floorNmArray.push(printArray[i].floorNm);
+			}
+		} */
 	});
 
-	//객체(json)에서 키(field)로 값 찾기
-	function getPrcssIdx(input, field) {
-	    let output = [];
-	    for (let i=0; i < input.length ; ++i)
-	        output.push(input[i][field]);
-	    return output;
-	}
+
+	let printCnt2 = 0;
+	//바코드 출력 버튼 click
+	$('#printBarcodeSingle').on('click',function() {
+		printCnt2 = $('#partPrintCnt2').val();
+		if($('#partPrintCnt2').val()=="" || $('#partPrintCnt2').val()==0){
+			toastr.warning("인쇄할 매수를 입력해주세요.");
+			return false;
+		}
+
+		if(!$('input[name=printList2]').is(':checked')){
+			toastr.warning("인쇄할 항목을 선택해주세요.");
+			return false;
+		}
+
+		$('input[name=printList2]:checked').each(function(index,item) {
+
+			var obj = new Object();
+		    obj.locNo = locationDtlTable.row($(this).attr('data-index')).data().locNo; //창고코드
+		    obj.locNm = locationDtlTable.row($(this).attr('data-index')).data().locNm; //창고
+		    obj.areaNm = locationDtlTable.row($(this).attr('data-index')).data().areaNm; //구역
+		    obj.floorNm = locationDtlTable.row($(this).attr('data-index')).data().floorNm; //위치
+		    console.log(obj);
+		    for( let i = 1; i <= printCnt2; i++){
+				labelPrint(obj,"")
+			}
+			
+		});
+	});
 	
 </script>
+<script>
+
+//Do printing...
+/* function labelPrint(locNo, floorNm) {
+
+	var cmds =  "";
+		cmds += "2";
+		cmds += "34#$";
+		cmds += "^XA";
+		cmds += "^PRD";
+		cmds += "^SEE:UHANGUL.DAT^FS";
+		cmds += "^CW1,E:KFONT3.FNT^CI26^FS";
+	for(var i=0;i<locNo.length;i++) {
+		if(i==0) {
+			cmds += "^FO177,35^A1N,30,30^FD"+floorNm[i]+"^FS";
+			cmds += "^FO177,65^BQN,2,5^FD123"+locNo[i]+"^FS";
+		} else if(i==1) {
+			cmds += "^FO360,35^A1N,30,30^FD"+floorNm[i]+"^FS";
+			cmds += "^FO360,65^BQN,2,5^FD123"+locNo[i]+"^FS";
+		} else {
+			cmds += "^FO545,35^A1N,30,30^FD"+floorNm[i]+"^FS";
+			cmds += "^FO545,65^BQN,2,5^FD123"+locNo[i]+"^FS";
+		}
+	}
+		cmds += "^XZ";
+				
+		sendMessage(cmds);
+		console.log('라벨인쇄');
+} */
+	//도시바 프린터
+	function labelPrint(data, action) {
+		console.log("data:"+data.itemCd);
+	   let cmds = {};
+	   
+	   let cmd = "";
+	      cmd += "{D0520,0980,0500|}";
+	      cmd += "{AY;+04,0|}";
+	      cmd += "{AX;-020,+000,+00|}";
+	      cmd += "{C|}";
+	
+	      //행
+	      //cmd += "{LC;0010,0035,0980,0110,1,5|}";
+	      cmd += "{LC;0010,0035,0980,0180,1,5|}";
+	      //cmd += "{LC;0010,0035,0980,0250,1,5|}";
+	      cmd += "{LC;0010,0035,0980,0320,1,5|}";
+	      cmd += "{LC;0010,0035,0980,0485,1,5|}";
+	
+	      //열
+	      cmd += "{LC;0250,0035,0250,0320,0,5|}";
+	      cmd += "{LC;0490,0185,0490,0320,0,5|}";
+	      cmd += "{LC;0740,0185,0740,0320,0,5|}";
+	      
+	      //데이터
+	      cmd += "{PV23;0085,0125,0050,0050,01,0,00,B=창고|}";
+	      cmd += "{PV23;0270,0125,0050,0050,01,0,00,B="+data.locNm+"|}";
+
+	      cmd += "{PV23;0085,0265,0050,0050,01,0,00,B=구역|}";
+	      cmd += "{PV23;0270,0265,0050,0050,01,0,00,B="+data.areaNm+"|}";
+	      cmd += "{PV23;0565,0265,0050,0050,01,0,00,B=위치|}";
+	      cmd += "{PV23;0760,0265,0050,0050,01,0,00,B="+data.floorNm+"|}";
+	      
+	     /*  cmd += "{PV23;0050,0230,0040,0040,01,0,00,B=위치|}";
+	      cmd += "{PV23;0270,0230,0040,0040,01,0,00,B="+parseFloat(data.inWhsQty)+"|}";
+	      cmd += "{PV23;0530,0230,0040,0040,01,0,00,B=추가될항목1|}";
+	      cmd += "{PV23;0760,0230,0040,0040,01,0,00,B="+"|}";  //+moment(data.inWhsDate).format('YYYY-MM-DD')
+
+		  cmd += "{PV23;0050,0300,0040,0040,01,0,00,B=추가될항목2|}";
+	      cmd += "{PV23;0270,0300,0040,0040,01,0,00,B="+"|}"; //+data.location
+	      cmd += "{PV23;0530,0300,0040,0040,01,0,00,B=추가될항목3|}";
+	      cmd += "{PV23;0760,0300,0040,0040,01,0,00,B="+"|}";//+data.area+"/"+data.floor */
+
+	      cmd += "{XB03;0250,0350,9,3,03,0,0100,+0000000001,000,1,00|}";
+	      cmd += "{RB03;"+data.locNo+"|}";
+	      cmd += "{XS;I,0001,0002C4001|}";
+	
+	   cmds.cmd = cmd; // 인쇄 명령어
+	   cmds.action = action; // 동작
+	
+	   sendMessage(JSON.stringify(cmds)); // 전송
+	}
+</script>
+
+<script>
+		
+	let webSocket = new WebSocket("ws://localhost:9998");
+	
+	// 웹소켓 연결
+	function wsConnect() {
+	   webSocket = new WebSocket("ws://localhost:9998");
+	}
+	
+	// 웹소켓 상태확인
+	function getWsStatus() {
+	   return webSocket.readyState;
+	}
+	
+	// 소켓 접속이 되면 호출되는 함수
+	webSocket.onopen = function(message){
+	   toastr.success('인쇄 서버에 연결되었습니다.')
+	   $('#wsStateView').text('연결됨');
+	   $('#wsStateView').css('color','#19FF00');
+	   wsState = true;
+	};
+	// 소켓 접속이 끝나면 호출되는 함수
+	webSocket.onclose = function(message){
+	   toastr.error('인쇄 서버가 종료되었습니다.')
+	   $('#wsStateView').text('연결끊김');
+	   $('#wsStateView').css('color','#FF0004');
+	   wsState = false;
+	};
+	// 소켓 통신 중에 에러가 발생되면 호출되는 함수
+	webSocket.onerror = function(message){
+	   toastr.warning('현재 인쇄프로그램이 종료되어있습니다. 인쇄프로그램을 시작해주세요.')
+	};
+	// 소켓 서버로 부터 메시지가 오면 호출되는 함수.
+	webSocket.onmessage = function(message){
+	   // 출력 area에 메시지를 표시한다.
+	   console.log(message);
+	};
+	// 서버로 메시지를 전송하는 함수
+	function sendMessage(cmd){
+	   if(webSocket.readyState == 1) {
+	      webSocket.send(cmd);
+	   } else {
+	      toastr.error('인쇄 서버와의 연결을 확인해주세요.');
+	   }
+	}
+
+	//모델창 적용버튼 클릭 시
+	$('#btnApply').on('click',function(){
+		console.log("적용버튼 클릭함");
+		var dataArray = new Array();		
+		var check2 = true;
+		
+		$('#inTable tbody tr').each(function(index, item){
+			var rowData = new Object();
+			rowData.locNo= inTable.row(index).data().locNo==null?"": inTable.row(index).data().locNo;
+			rowData.locCd= inTable.row(index).data().locCd==null?"": inTable.row(index).data().locCd;
+			rowData.areaCd= inTable.row(index).data().areaCd==null?"": inTable.row(index).data().areaCd;
+			rowData.floorNm= inTable.row(index).data().floorNm==null?"": inTable.row(index).data().floorNm;
+			rowData.locDesc= inTable.row(index).data().locDesc==null?"": inTable.row(index).data().locDesc;
+			rowData.useYn= inTable.row(index).data().useYn==null?"": inTable.row(index).data().useYn;
+			console.log(rowData);
+	        dataArray.push(rowData);
+		});
+		
+		if(check2 == true){
+			$.ajax({
+				url : '<c:url value="bm/locationExcelCreate"/>',
+				type : 'POST',
+				datatype: 'json',
+				data: JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
+				beforeSend : function() {
+					//처리중..
+					$('#my-spinner').show();
+				},
+				success : function(res) {	
+					console.log("res.data"+res.data);
+					console.log("ok인가요?"+res.result);			
+					if (res.result == 'ok') {
+						$('#locationAdmTable').DataTable().ajax.reload(function(){});
+						$('#inModal').modal('hide');
+						console.log("success나와주랑");
+						toastr.success('저장되었습니다.');
+					}else {
+						toastr.error(res.message);
+					}
+	
+					//처리완료..
+					$('#my-spinner').hide();
+				},
+				complete : function() {
+					$('#btnAddConfirm').removeClass('d-none');
+					$('#btnAddConfirmLoading').addClass('d-none');				
+				}
+			});
+		}
+	});
+	
+</script>
+   	
 
 </body>
 </html>

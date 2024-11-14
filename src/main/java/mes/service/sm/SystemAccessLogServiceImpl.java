@@ -15,15 +15,47 @@ public class SystemAccessLogServiceImpl implements SystemAccessLogService {
 	@Inject
 	private SystemAccessLogDAO dao;
 	
-	// 시스템 접속기록 목록조회
+	//사용자 목록조회
 	@Override
-	public List<SystemAccessLogVo> systemAccessLogLst(SystemAccessLogVo systemAccessLogVo) throws Exception {
-		return dao.systemAccessLogLst(systemAccessLogVo);
+	public List<SystemAccessLogVo> smlistAll(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		return dao.smlistAll(systemAccessLogVo);
 	}
 	
-	// 시스템 접속기록 등록
+	//로그이력관리 목록조회
 	@Override
-	public void systemAccessLogIns(SystemAccessLogVo systemAccessLogVo) throws Exception {
-		dao.systemAccessLogIns(systemAccessLogVo);
+	public List<SystemAccessLogVo> systemChangeLogList(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		return dao.systemChangeLogList(systemAccessLogVo);
 	}
+
+	//사용자 상세조회
+	@Override
+	public SystemAccessLogVo read(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		return dao.read(systemAccessLogVo);
+	}
+
+	//로그 등록
+	@Override
+	public void create(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		dao.create(systemAccessLogVo);
+	}
+
+	//사용자 수정
+	@Override
+	public void update(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		dao.update(systemAccessLogVo);
+
+	}
+
+	//사번 시퀀스
+	@Override
+	public String selectUserNumberSeq() throws Exception {
+		return dao.selectUserNumberSeq();
+	}
+	
+	//이력 등록
+	@Override
+	public void systemChangeLogCreate(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		dao.systemChangeLogCreate(systemAccessLogVo);
+	}
+
 }

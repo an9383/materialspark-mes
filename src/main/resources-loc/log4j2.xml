@@ -14,7 +14,7 @@
 		<RollingFile name="rollingFile" fileName="C:\LOG\daelim\web.log" filePattern="D:\logs\daelim\web_%d{yyyyMMdd}.log">
 			<PatternLayout pattern="${layoutPattern}" />
 			<Policies>
-				<SizeBasedTriggeringPolicy size="100MB" /> 
+				<SizeBasedTriggeringPolicy size="2000MB" /> 
 			</Policies>
 			<DefaultRolloverStrategy max="50" fileIndex="min" />
 		</RollingFile>
@@ -23,7 +23,7 @@
 		<RollingFile name="errorFile" fileName="C:\LOG\daelim\error.log" filePattern="C:\LOG\daelim\error_%d{yyyyMMdd}.log">
 			<PatternLayout pattern="${layoutPattern}" />
 			<Policies>
-				<SizeBasedTriggeringPolicy size="100MB" /> 
+				<SizeBasedTriggeringPolicy size="2000MB" /> 
 			</Policies>
 			<ThresholdFilter level="ERROR"/>
 			<!--
@@ -60,7 +60,7 @@
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		<Logger name="org.springframework.web" level="DEBUG" additivity="false">
+		<Logger name="org.springframework.web" level="ERROR" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
@@ -85,7 +85,7 @@
 
 
 		<!-- JDBC START-->
-		<Logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
+		<Logger name="jdbc.sqltiming" level="ERROR" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
@@ -126,4 +126,3 @@
 	</Loggers>
 
 </Configuration>
-

@@ -1,4386 +1,1867 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
-<%@include file="../layout/top.jsp"%>
-<%@include file="../layout/modal.jsp"%>
-<%@include file="../layout/script.jsp"%>
-<div id="page" onmouseup="EndDrag(this)" onmousemove="OnDrag(event)" style="grid-template-areas: 'leftcol dragbar rightcol';
-																		  grid-template-rows: 1fr;
-																		  grid-template-columns: 5.5fr 4px 4fr;">
-	<div id="leftcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="leftHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">수주일자</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="startDate">
-					<label class="form-label d-flex align-items-center m-0 me-1 h-100">~</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="endDate">
-					<select class="form-select w-auto h-100 me-1 monthAdjust" id="monthAdjust">
-					</select>
-					<div class="btn-group me-3" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="3">
-							3개월
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="6">
-							6개월
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="12">
-							12개월
+<%@include file="../layout/body-top.jsp" %>
+
+<div class="page-wrapper" id="page-wrapper">
+	<!--header ============================================================== -->
+	<header class="page-title-bar row">
+		<nav aria-label="breadcrumb" class="breadcrumb-padding">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">품질관리</a></li>
+				<li class="breadcrumb-item active">수입검사 부적합관리대장</li>
+			</ol>
+		</nav>
+	</header>
+	<!-- #main============================================================== -->
+	<div class="container-fluid" id="main">
+		<div class="row table-wrap-hid">
+			<!--======================== .left-list ========================-->
+			<div class="left-list left-sidebar" id="left-list"
+				style="width: 65%;">
+				<div class="card">
+					<div class="open-arrow" id="arrowLeft">
+						<button id="left-width-btn" onclick="openrNav()"
+							class="btn btn-primary input-sub-search" type="button">
+							<i class="mdi mdi-arrow-left"></i>
 						</button>
 					</div>
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAll" placeholder="통합검색" >
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnSearch"><i class="fa-regular fa-clipboard"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnOpen">
-							<i class="fa-solid fa-caret-left"></i>
-						</button>
-					</div>
-				</div>
-			</div>
-			<div class="row" id="leftSecondHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100" style="min-height:30px;">조회대상</label>
-					<select class="form-select w-auto h-100 me-3" id="searchTarget" style="min-width: 70px;">
-						<option value="" selected>전체</option>
-						<option value="Y">출력</option>
-						<option value="N" selected>미출력</option>
-					</select>
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100" style="min-height:30px;">번들링여부</label>
-					<select class="form-select w-auto h-100 me-3" id="bundleCount" style="min-width: 70px;">
-						<option value="" selected>전체</option>
-						<option value="Y">O</option>
-						<option value="N">X</option>
-					</select>
-					
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">제품코드</label>
-					<div class="input-group w-auto h-100 me-3">
-						<input type="text" class="form-control" id="itemNm" style="width: 200px;" disabled>
-						<button type="button" class="btnInputDel" style="background-color: transparent; border-color: transparent; position: absolute; top: 0; right: 0; margin: 5px 23px; margin-left: 0px; border: none;">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						<input type="hidden" id="itemIdx">
-						<button type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary" id="btnSearchItem">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</div>
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">거래처</label>
-					<div class="input-group w-auto h-100 me-3">
-						<input type="text" class="form-control" id="searchDealCorpNm" disabled> <input type="hidden" id="searchDealCorpIdx">
-						<button type="button" id="btnSearchDealCorpDel" style="background-color: transparent; border-color: transparent; position: absolute; top: 0; right: 0; margin: 5px 23px; margin-left: 0px; border: none;">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						<button type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary" id="btnSearchDealCorp">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</div>
-					
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-					<div class="btn-group" role="group" aria-label="Small button group">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="qualityEndItemTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle text-nowrap"><input class="form-check-input" type="checkbox" id="allCheckBox" style="margin: 0px; width: 20px; height: 20px;"></th>
-							<th class="text-center align-middle text-nowrap">수주번호</th>
-							<th class="text-center align-middle text-nowrap">고객사</th>
-							<th class="text-center align-middle text-nowrap" style="max-width:200px;min-width:200px;">제품명</th>
-							<th class="text-center align-middle text-nowrap">수주상태</th>
-							<th class="text-center align-middle text-nowrap">진행상태</th>
-							<th class="text-center align-middle text-nowrap">검사결과</th>
-							<th class="text-center align-middle text-nowrap">수주수량</th>
-							<th class="text-center align-middle text-nowrap">출고수량</th>
-							<th class="text-center align-middle text-nowrap">출고요청일</th>
-							<th class="text-center align-middle text-nowrap">출고일</th>
-							<th class="text-center align-middle text-nowrap">시험자</th>
-							<th class="text-center align-middle text-nowrap">판정자</th>
-							<th class="text-center align-middle text-nowrap">출력여부</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		</div>
-	</div>
-	<div id="dragbar" onmousedown="StartDrag()"></div>
-	<div id="rightcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="rightHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end w-100">
-					<select class="form-select w-auto h-100 me-3" id="qualityReportSelect">
-					</select>
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<%-- <button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;"
-								id="btnGmail" onclick="window.open('about:blank').location.href='https://mail.google.com/mail/u/0/?tab=rm#inbox?compose=new'">
-							<img class="w-auto" src="<c:url value='/resources/assets/images/gmail_icon.jpg?ver=1'/>" style="height: 14px; margin-bottom: 3px;">
-						</button> --%>
-						<!-- <button type="button" class="btn  btn-outline-light w-auto" style="font-size: 18px !important;" id="btnDownload"><i class="fa-solid fa-download"></i></button> -->
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnPrint"><i class="fa-solid fa-print"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnClose">
-							<i class="fa-solid fa-caret-right"></i>
-						</button>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div style="width: 100%;">
-				  	<div class="nav nav-tabs" id="nav-tab">
-						<button class="nav-link active" id="tab1Nav" data-bs-toggle="tab" data-bs-target="#tab1">자재시험성적서</button>
-				  	</div>
-					<div class="tab-content" id="nav-tabContent">
-						<div class="tab-pane fade show active" id="tab1">
-							<div class="row" style="padding: 5px;">
-								<table id="qualityReportTable" class="table table-bordered m-0 d-none" style="border:1px solid #ffffff;">
-									<colgroup id="trAppendTarget">
-										<col width="3%"><col width="3%"><col width="3%"><col width="3%"><col width="3%"><col width="3%">
-										<col width="3%"><col width="3%"><col width="3%"><col width="3%"><col width="3%"><col width="3%">
-										<col width="3%"><col width="3%"><col width="3%"><col width="3%"><col width="3%"><col width="3%">
-										<col width="3%"><col width="3%"><col width="3%"><col width="3%"><col width="3%"><col width="3%">
-										<col width="3%"><col width="3%"><col width="3%"><col width="3%"><col width="3%"><col width="3%">
+					<!-- .table-responsive -->
+					<div class="table-responsive">
+						<div style="height:450px">
+						<table id="itemFaultyAdmMasterTable" class="table table-bordered">
+							<colgroup>
+								<col width="10%">
+								<col width="7%">
+								<col width="10%">
+								<col width="12%">
+								<col width="12%">
+								<col width="6%">
+								<col width="6%">
+								<col width="8%">
+								
+								<col width="7%">
+								
+								<col width="8%">
+								<col width="6%">
+								<col width="8%">
+							</colgroup>
+							<thead class="thead-light">
+								<tr>
+									<th>입고전표번호</th>
+									<th>승인여부</th>
+									<th>차종</th>
+									<th>품번</th>
+									<th>품명</th>
+									<th>입고수량</th>
+									<th>불량수량</th>
+									<th>검사자</th>
+									<th>검사일</th>
+									<th>불량유형</th>
+									<th>처리결과</th>
+									<th>불량등록일</th>
+								</tr>
+							</thead>
+						</table>
+						</div>
+						<hr>
+						<div class="row pt-1">
+							<div class="col-sm-7 p-1">
+								<div class="card-body p-0 mb-2">
+									<button type="button" class="btn btn-primary float-left mr-1"
+									 	id="btnDtlAdd">등록</button>
+									 <button class="btn btn-primary d-none" id="btnDtlAddConfirmLoading"
+									 	type="button" disabled>
+									 	<span class="spinner-border spinner-border-sm" role="status"
+									 		aria-hidden="true"></span> 처리중
+								   	 </button>
+								   	  <button type="button" class="btn btn-primary float-left mr-1"
+									 	id="btnDtlEdit">수정</button>
+									 <button class="btn btn-warning d-none" id="btnDtlEditConfirmLoading"
+									 	type="button" disabled>
+									 	<span class="spinner-border spinner-border-sm" role="status"
+									 		aria-hidden="true"></span> 처리중
+									 </button>
+								 	 <button type="button" class="btn btn-primary float-left mr-1 d-none"
+									 	id="btnDtlSave">저장</button>
+									 <button class="btn btn-primary d-none" id="btnDtlSaveConfirmLoading"
+									 	type="button" disabled>
+									 	<span class="spinner-border spinner-border-sm" role="status"
+									 		aria-hidden="true"></span> 처리중
+								   	 </button>
+									 <button type="button" class="btn btn-primary float-right mr-1"
+										id="btnApprove">승인</button>
+									 <button class="btn btn-warning d-none" id="btnApproveConfirmLoading"
+										type="button" disabled>
+										<span class="spinner-border spinner-border-sm" role="status"
+											aria-hidden="true"></span> 처리중
+									 </button>
+								</div>
+								 <form id="form2">
+								  	<table class="table table-bordered mb-2" id="">
+										<colgroup>
+											<col width="20%">
+											<col width="30%">
+											<col width="20%">
+											<col width="30%">
+										</colgroup>
+										<thead class="thead-light">
+											<tr>
+												<th colspan="4">부적합처리</th>
+											</tr>
+											<tr>
+												<th>부적합처리</th>
+												<td colspan="3">
+													<div class="">
+														<div class="custom-control custom-control-inline custom-radio row">
+							                           	 	<input type="radio" class="custom-control-input" name="approvalYn" id="apr1" value="001" onclick="javascript:faultyPcsChange(1);"> 
+							                           	 	<label class="custom-control-label" for="apr1">특채</label>
+							                          	</div>	
+							                         	 <div class="custom-control custom-control-inline custom-radio row">
+							                            	<input type="radio" class="custom-control-input" name="approvalYn" id="apr2" value="002" onclick="javascript:faultyPcsChange(2);"> 
+							                            	<label class="custom-control-label" for="apr2">선별</label>
+							                          	</div>
+							                          	<div class="custom-control custom-control-inline custom-radio row">
+							                            	<input type="radio" class="custom-control-input" name="approvalYn" id="apr3" value="003" onclick="javascript:faultyPcsChange(3);"> 
+							                            	<label class="custom-control-label" for="apr3">반품</label>
+							                          	</div>
+							                          	<div class="custom-control custom-control-inline custom-radio row">
+							                            	<input type="radio" class="custom-control-input" name="approvalYn" id="apr4" value="004" onclick="javascript:faultyPcsChange(4);"> 
+							                            	<label class="custom-control-label" for="apr4">리워크</label>
+							                          	</div>
+						                          	</div>
+												</td>
+											</tr>
+											<tr>
+												<th>부적합 등록일</th>
+												<td>
+													<div class="form-group input-sub m-0" style="max-width: 100%">
+														<input class="form-control" style="max-width: 100%"
+															type="text" id="faultyDate" name="faultyDate"
+															maxlength="10" disabled />
+														<button
+															onclick="fnPopUpCalendar(faultyDate,faultyDate,'yyyy-mm-dd')"
+															class="btn btn-secondary input-sub-search"
+															id="faultyDateCalendar" type="button">
+															<span class="oi oi-calendar"></span>
+														</button>
+													</div>
+												</td>
+												<th>부적합 담당자</th>
+												<td>
+													<div class="input-sub m-0" style="max-width: 100%">
+													<input type="hidden" class="form-control"
+														style="max-width: 100%" id="faultyChargr" name="faultyChargr"
+														disabled> <input type="text" class="form-control"
+														style="max-width: 100%" id="faultyChargrNm" name="faultyChargrNm"
+														disabled>
+													<button type="button"
+														class="btn btn-primary input-sub-search" name="btnfaultyChargr"
+														id="btnfaultyChargr" onClick="selectadmChargr(2);">
+														<span class="oi oi-magnifying-glass"></span>
+													</button>
+												</div>
+												</td>
+											</tr>
+											<tr>
+												<th>양품수량</th>
+												<td><input type="text" class="form-control" id="pairCnt" name="pairCnt" style="text-align:right;" disabled></td>
+												<th>불량수량</th>
+												<td><input type="text" class="form-control" id="faultyCnt" name="faultyCnt" style="text-align:right;" disabled></td>
+											</tr>
+											<tr>
+												<th>비고</th>
+												<td colspan="3"><input type="text" class="form-control" id="faultyDesc" name="faultyDesc" style="max-width:100%" disabled></td>
+											</tr>
+										</thead>
+								    </table>
+						       </form>
+						 	</div>
+						 	<div class="col-sm-5 p-1">
+						 		<div class="card-body p-0 mt-4"></div>
+						 		<table class="table table-bordered mt-2 mb-2 d-none" id="itemFaultyJdgAdmTable">
+									<colgroup>
+										<col width="20%">
+										<col width="30%">
+										<col width="50%">
 									</colgroup>
-								</table>
+									<thead class="thead-light">
+										<tr>
+											<th></th>
+											<th>수량</th>
+											<th>등록일</th>
+										</tr>
+										<tr>
+											<th>반품</th>
+											<td><input type="text" class="form-control" id="returnQty" name="returnQty" style="text-align:right;" onchange="javascript:pairCntChange();"></td>
+											<td>
+												<input type="date" class="form-control" id="returnDate" name="returnDate" style="max-width:100%">
+												<!-- <div class="form-group input-sub m-0" style="max-width: 100%">
+													<input class="form-control" style="max-width: 100%"
+														type="text" id="returnDate" name="returnDate"
+														maxlength="10" disabled />
+													<button
+														onclick="fnPopUpCalendar(returnDate,returnDate,'yyyy-mm-dd')"
+														class="btn btn-secondary input-sub-search"
+														id="returnDateCalendar" type="button">
+														<span class="oi oi-calendar"></span>
+													</button>
+												</div> -->
+											</td>
+										</tr>
+										<tr>
+											<th>폐기</th>
+											<td><input type="text" class="form-control" id="disuseQty" name="disuseQty" style="text-align:right;" onchange="javascript:pairCntChange();"></td>
+											<td>
+												<input type="date" class="form-control" id="disuseDate" name="disuseDate" style="max-width:100%">
+												<!-- <div class="form-group input-sub m-0" style="max-width: 100%">
+													<input class="form-control" style="max-width: 100%"
+														type="text" id="returnDate" name="returnDate"
+														maxlength="10" disabled />
+													<button
+														onclick="fnPopUpCalendar(returnDate,returnDate,'yyyy-mm-dd')"
+														class="btn btn-secondary input-sub-search"
+														id="returnDateCalendar" type="button">
+														<span class="oi oi-calendar"></span>
+													</button>
+												</div> -->
+											</td>
+										</tr>
+									</thead>
+						       </table>
+						 	</div>
+						</div>
+					</div>
+					<!-- /.table-responsive -->
+				</div>
+			</div>
+			<!-- /.left-list -->
+
+			<!--======================== .right-sidebar 등록,수정 ========================-->
+			<div class="right-list right-sidebar" id="myrSidenav"
+				style="width: 34%;">
+				<div class="card mb-2" id="formBox">
+					<!--오른쪽 등록 부분 상단 버튼 영역-->
+					<div class="card-body col-sm-12 p-0">
+						<div class="rightsidebar-close">
+							<a href="javascript:void(0)" id="left-expand"
+								class="closebtn float-right" onclick="closerNav()"><i
+								class="mdi mdi-close"></i></a>
+						</div>
+						<div class="card-header card-tab p-0">
+							<!-- .nav-tabs tablist -->
+							<ul class="nav nav-tabs card-header-tabs m-0">
+								<li class="nav-item"><a class="nav-link active show"
+									id="tab1Nav" data-toggle="tab" href="#tab1">기본정보</a></li>
+								<li class="nav-item"><a class="nav-link disabled"
+									id="tab2Nav" data-toggle="tab" href="#tab2">관련자료</a></li>
+							</ul>
+							<!-- /.nav-tabs -->
+						</div>
+						
+					</div>
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade active show" id="tab1">
+							<table id="itemFaultyTypeTable" class="table table-bordered" style="margin:0!important">
+								<colgroup>
+									<col width="10%">
+									<col width="25%">
+									<col width="20%">
+									<col width="20%">
+									<col width="25%">
+								</colgroup>										
+								<thead class="thead-light">
+									<tr>
+										<th>No.</th>
+										<th>불량 유형</th>
+										<th>불량 수량</th>
+										<th>불량 등록일</th>
+										<th>비고</th>
+									</tr>
+								</thead>
+						  	</table>
+							<div class="card-body col-sm-12 p-1 mt-2 mb-2">
+								<button type="button" class="btn btn-primary float-left mr-1"
+									id="btnAdd">등록</button>
+								<button class="btn btn-primary d-none" id="btnAddConfirmLoading"
+									type="button" disabled>
+									<span class="spinner-border spinner-border-sm" role="status"
+										aria-hidden="true"></span> 처리중
+								</button>
+								<button type="button" class="btn btn-primary float-left"
+									id="btnEdit">수정</button>
+								<button class="btn btn-warning d-none" id="btnEditConfirmLoading"
+									type="button" disabled>
+									<span class="spinner-border spinner-border-sm" role="status"
+										aria-hidden="true"></span> 처리중
+								</button>
+								<button type="button"
+									class="btn btn-primary d-none float-right d-none" id="btnSave">저장</button>
+								<button class="btn btn-primary d-none" id="btnAddConfirmLoading"
+									type="button" disabled>
+									<span class="spinner-border spinner-border-sm" role="status"
+										aria-hidden="true"></span> 처리중
+								</button>
+							</div>
+							<form id="form" enctype="multipart/form-data" method="post">
+								<div class="table-responsive">
+									<table id="itemFaultyDtlTable" class="table table-lg table-bordered mb-2">
+										<colgroup>
+											<col width="20%">
+											<col width="30%">
+											<col width="20%">
+											<col width="30%">
+										</colgroup>
+										<tr>
+											<th>부서명</th>
+											<td><select class="custom-select" id="admDept"
+												name="admDept"></select></td>
+											<th>담당자</th>
+											<td>
+												<div class="input-sub m-0" style="max-width: 100%">
+													<input type="hidden" class="form-control"
+														style="max-width: 100%" id="admChargr" name="admChargr"
+														disabled> <input type="text" class="form-control"
+														style="max-width: 100%" id="admChargrNm" name="admChargrNm"
+														disabled>
+													<button type="button"
+														class="btn btn-primary input-sub-search" name="btnAdmChargr"
+														id="btnAdmChargr" onClick="selectadmChargr(1);">
+														<span class="oi oi-magnifying-glass"></span>
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<th>작성일자</th>
+											<td>
+												<div class="form-group input-sub m-0" style="max-width: 100%">
+													<input class="form-control" style="max-width: 100%"
+														type="text" id="faultyRegDate" name="faultyRegDate"
+														maxlength="10" disabled />
+													<button
+														onclick="fnPopUpCalendar(faultyRegDate,faultyRegDate,'yyyy-mm-dd')"
+														class="btn btn-secondary input-sub-search"
+														id="faultyRegDateCalendar" type="button">
+														<span class="oi oi-calendar"></span>
+													</button>
+												</div>
+											</td>
+											<th></th>
+											<td></td>
+										</tr>
+										<tr>
+											<th>불량현상</th>
+											<td colspan="3"><textarea class="form-control" rows="2"
+													id="faultyStatus" name="faultyStatus"
+													style="max-width: 100%; resize: none;"></textarea></td>
+										</tr>
+										<tr>
+											<th>불량원인</th>
+											<td colspan="3"><textarea class="form-control" rows="2"
+													id="faultyCause" name="faultyCause"
+													style="max-width: 100%; resize: none;"></textarea></td>
+										</tr>
+										<tr>
+											<th colspan="2">사진1</th>
+											<th colspan="2">사진2</th>
+										</tr>
+										<tr>
+											<td colspan="2">
+												<div class="custom-file" style="height: 100px;">
+													<img alt="등록된 사진이 없습니다." id="imageFile1" src=""
+														name="imageFile1" style="width: 100%; height: 100%">
+												</div>
+											</td>
+											<td colspan="2">
+												<div class="custom-file" style="height: 100px;">
+													<img alt="등록된 사진이 없습니다." id="imageFile2" src=""
+														name="imageFile2" style="width: 100%; height: 100%">
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="2">
+												<div class="form-group" id="imgTag1">
+													<div class="custom-file" style="width: 90%;">
+														<input type="file" class="custom-file-input" id="imgAdd1"
+															name="imgAdd1"> <label id="imgName1"
+															class="custom-file-label" for="imgAdd1"></label>
+													</div>
+													<div class="rightsidebar-close"
+														style="width: 10%; padding-top: 4px;">
+														<button type="button" class="btn" name="closeBtn"
+															onclick="deleteImg(1);">
+															<i class="mdi mdi-close"></i>
+														</button>
+													</div>
+												</div>
+											</td>
+											<td colspan="2">
+												<div class="form-group">
+													<div class="custom-file" style="width: 90%;">
+														<input type="file" class="custom-file-input" id="imgAdd2"
+															name="imgAdd2"> <label id="imgName2"
+															class="custom-file-label" for="imgAdd2"></label>
+													</div>
+													<div class="rightsidebar-close"
+														style="width: 10%; padding-top: 4px;">
+														<button type="button" class="btn" name="closeBtn"
+															onclick="deleteImg(2);">
+															<i class="mdi mdi-close"></i>
+														</button>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<th>조치사항</th>
+											<td><input class="form-control" type="text" id="faultyAct"
+												name="faultyAct"></td>
+											<th>부적합보고서 발행번호</th>
+											<td><input class="form-control" type="text" id="faultyNo"
+												name="faultyNo"></td>
+											<!-- <th>귀책부서</th>
+											<td><input class="form-control" type="text"
+												id="faultyDept" name="faultyDept"></td> -->
+										</tr>
+										<tr>
+											<th>개선사항</th>
+											<td><input class="form-control" type="text"
+												id="faultyImprv" name="faultyImprv"></td>
+											<th>진행사항</th>
+											<td><input class="form-control" type="text"
+												id="faultyProg" name="faultyProg"></td>
+										</tr>
+										<tr>
+											<th>유효성</th>
+											<td><input class="form-control" type="text"
+												id="faultyEffect" name="faultyEffect"></td>
+											<th></th>
+											<td></td>
+										</tr>
+										<tr>
+											<th>부적합처리</th>
+											<td colspan="3">
+												<div class="row">
+													<div class="custom-file d-none" id="fileSearch" style="width: 90%;">
+														<input type="file" class="custom-file-input" id="fileNm1" name="fileNm1" value=""> 
+															<label class="custom-file-label" id="fpValue" for="fileNm1">파일을선택해주세요</label>
+													</div>
+													<div class="rightsidebar-close d-none" id="btnFpFileDel"
+														style="width: 10%;">
+														<button type="button" class="btn"
+															onClick="deleteImg(3)">
+															<i class="mdi mdi-close"></i>
+														</button>
+													</div>
+												</div> <!--첨부파일1-->
+												<div class="form-group m-0 mr-2 row p-0 " id="fileTag">
+													<a href="/bm/downloadFile" id="fpHref"><span id="fpFn"></span></a>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</form>
+						</div>
+						<!--====end====tab2 part=====-->
+						<div class="tab-pane fade" id="tab2">
+							<div class="card-body col-sm-12 p-1 mb-2">
+								<button type="button" class="btn btn-warning float-right mr-1"
+									id="btnAttachDel">삭제</button>
+								<button class="btn btn-primary d-none"
+									id="btnAttachDelConfirmLoading" type="button" disabled>
+									<span class="spinner-border spinner-border-sm" role="status"
+										aria-hidden="true"></span> 처리중
+								</button>
+								<button type="button" class="btn btn-primary float-right mr-1"
+									id="btnAttachAdd">추가</button>
+								<button class="btn btn-primary d-none"
+									id="btnAttachAddConfirmLoading" type="button" disabled>
+									<span class="spinner-border spinner-border-sm" role="status"
+										aria-hidden="true"></span> 처리중
+								</button>
+							</div>
+							<form id="form3" enctype="multipart/form-data">
+								<div class="table-responsive">
+									<table class="table table-bordered"
+										id="faultyAttachDataTable">
+										<colgroup>
+											<col width="10%">
+											<col width="10%">
+											<col width="10%">
+											<%-- <col width="33%"> --%>
+											<col width="70%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>No.</th>
+												<th>등록일</th>
+												<th>등록자</th>
+												<!-- <th>내용</th> -->
+												<th>첨부파일</th>
+											</tr>
+										</thead>
+										<tbody>
+
+										</tbody>
+										<!--==========/table 내용 추가==========-->
+									</table>
+								</div>
+							</form>
+							<div class="mt-2">
+								<button type="button"
+									class="btn btn-primary d-none float-right d-none"
+									id="btnAttachSave">저장</button>
+								<button class="btn btn-primary d-none" id="btnAddConfirmLoading"
+									type="button" disabled>
+									<span class="spinner-border spinner-border-sm" role="status"
+										aria-hidden="true"></span> 처리중
+								</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- ===/.right-sidebar 등록,수정===  -->
 		</div>
+		<!-- /.row -->
 	</div>
+	<!-- / #main  -->
 </div>
+<!-- /.page-wrapper -->
 
-<!-- 화면설정 script -->
-<script>
-	let isDragging = false;
-	
-	function SetCursor(cursor) {
-		let page = document.getElementById("page");
-		page.style.cursor = cursor;
-	}
-	
-	function StartDrag() {
-		isDragging = true;
-		SetCursor("ew-resize");
-	}
-	
-	function EndDrag(e) {
-		if(isDragging) {
-			dataTableDrawAll(); // dataTable 전체 reload
-			isDragging = false;
-			SetCursor("auto");
-		}
-	}
-	
-	function OnDrag(event) {
-		if (isDragging) {
-			let page = document.getElementById("page");
-			let leftcol = document.getElementById("leftcol");
-			let rightcol = document.getElementById("rightcol");
-			let dragbarWidth = 4;
-			let leftcolMinWidth = 100; // leftcol 최소사이즈
-			$('#leftHeader').children().each(function(index, item) {
-				leftcolMinWidth += $(item).width();
-			});
-			let rightcolMinWidth = 800; // rightcol 최소사이즈
-	
-			let rightColWidth = isDragging ? page.clientWidth - parseInt(Math.max(leftcolMinWidth + 20, event.clientX)) : rightcol.clientWidth;
-
-			//console.log(Math.max(rightColWidth, rightcolMinWidth));
-			let cols = [
-				parseInt(Math.max(leftcolMinWidth, page.clientWidth - dragbarWidth - parseInt(Math.max(rightColWidth, rightcolMinWidth)))),
-				dragbarWidth,
-				parseInt(Math.max(rightColWidth, rightcolMinWidth))
-			];
-	
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-	
-			page.style.gridTemplateColumns = newColDefn;
-	
-			event.preventDefault()
-		}
-	}
-	
-	$('#btnOpen').on('click',function() { // right-box 열기버튼 클릭
-		if($('#rightcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '7fr 4px 4fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '0fr 4px 4fr');
-			$('#leftcol').addClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		}
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-	$('#btnClose').on('click',function() { // right-box 닫기버튼 클릭
-		if($('#leftcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '7fr 4px 4fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '7fr 4px 0fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').addClass('d-none');
-		}
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-</script>
-
-<!-- 인쇄용지설정 -->
-<style type="text/css" media="print" id="printPaperTypeStyle">
-@media print {
-   @page { size: A3 landscape; margin: 3mm; }, /*landscape 가로  portrait 세로 */
-   html, body { width: 297mm;height: 420mm; }
-}
-</style>
+<%@include file="../layout/bottom.jsp" %>
 
 <script>
-	WM_init('new');
-	WM_init('edit');
-
-	let monthAdjustList = getCommonCode('시스템', '026'); //날짜조정
-	monthAdjustList = _.sortBy(monthAdjustList, v=>parseInt(v.commonCd));
-	selectBoxAppend(monthAdjustList, 'monthAdjust', '', '2'); //날짜조정
-	
-	let dealGubunList = getCommonCode('시스템', '011'); //거래구분
-	let dealCorpStatusList = getCommonCode('시스템', '015'); //거래상태
-	let pageLengthCnt = parseInt(getCommonCode('시스템', '025')[0].commonCd); //페이징수량
-	let itemGubunList = getCommonCode('일반', '001'); // 제품구분
-	let useYnCdList = getCommonCode('시스템', '055'); // 사용여부
-	
-	selectBoxAppend(dealGubunList, 'modalDealGubun', '', '1'); //거래구분
-	selectBoxAppend(dealCorpStatusList, 'modalDealCorpStatus', '', '1'); //거래상태
-	selectBoxAppend(itemGubunList, 'modalItemGubunBox', '', '1'); //제품구분
-	selectBoxAppend(useYnCdList, 'modalUseYnCdBox', 'Y', '1'); //사용여부
-
-	let qualityReportList = getCommonCode('시스템', '028'); //성적서 종류
-	qualityReportList = _.orderBy(qualityReportList, ['commonCd'], ['asc']);
-	selectBoxAppend(qualityReportList,'qualityReportSelect', '', 2);
-	
-	//시험성적서 내용 가져오기
-	let testContents = getCommonCode('시스템', '060'); //시험성적서 내용
-	const targetCommonCds = ['시험자', '판정자'];
-	const testContentsList = {};
-
-	targetCommonCds.forEach((targetCd) => {
-		const foundSentence = testContents.find((sentence) => sentence.commonCd === targetCd);
-		if (foundSentence) {
-			testContentsList[targetCd] = foundSentence.commonNm;
-		}
-	});
-	//시험성적서 내용 가져오기 끝
-	
-	//select 요소중 인덱스가 1인(2번째 항목) 선택
-	//$('#qualityReportSelect').prop('selectedIndex',1);
-	$('#qualityReportSelect').val('01');
-	let selectPeriod = parseInt(getCommonCode('시스템', '040')[0].commonCd); //기본조회기간 일
-	$('#startDate').val(moment().subtract('d',selectPeriod).format('YYYY-MM-DD'));
-	$('#endDate').val(moment().format('YYYY-MM-DD'));
-	
-
-	// 사용자정보 목록조회
-	$('#qualityEndItemTable thead tr').clone(true).addClass('filters').appendTo('#qualityEndItemTable thead'); // filter 생성
-	let qualityEndItemTable = $('#qualityEndItemTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: -1,
-		colReorder: false,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/qm/prodQualityPassLst"/>',
-			type : 'POST',
-			data : {
-				startDate : function() { return moment($('#startDate').val()).format('YYYYMMDD'); },
-				endDate : function() { return moment($('#endDate').val()).format('YYYYMMDD'); },
-				searchTarget : function() { return $('#searchTarget').val(); },
-				bundleCount : function() { return $('#bundleCount').val(); }, //번들링여부
-				itemIdx	: function(){ return $('#itemIdx').val(); },
-				dealCorpidx	: function(){ return $('#searchDealCorpIdx').val();} , 
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ //체크박스
-				className : 'text-center align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					return '<div style="white-space:nowrap;"><input class="form-check-input" type="checkbox" name="checkBox" style="margin: 0px; width: 20px; height: 20px;"></div>';
-				}
-			},
-			{ //수주번호
-				data: 'bizOrdDtlNo', className : 'text-center align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+data+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ //고객사
-				data: 'bizOrdDealCorpNm', className : 'text-center align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+data+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ //제품명
-				data: 'itemNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						//return '<div style="white-space:nowrap;">'+data+'</div>';
-						return data;
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ //수주상태
-				data: 'bizStatusCdNm', className : 'text-center align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+data+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ //진행상태
-				data: 'workMethodJson', className : 'text-center align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if(data != '' && data != null) {
-						let parseData = JSON.parse(data);
-						//진행,완료된 공정의 리스트
-						let filterList = parseData.filter(v=>v.progressStatus == 'WI' || v.progressStatus == 'WC');
-						let finshPrcssCount = filterList.length;
-						//진행 , 완료된 공정이 없다면 -> 첫 공정 작업대기 
-						if(finshPrcssCount == 0){
- 							return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + parseData[0].prcssNm + '(작업대기)</div>';
-						} else if( finshPrcssCount > 0){
-							// 진행 마지막 실적의 공정명, 모든 공정이 완료된(parseData길이 ==finshPrcssCount길이)경우 작업완료 
-							let progressNm = '-';
-							filterList = parseData.filter(v=>v.progressStatus == 'WC');
-							finshPrcssCount = filterList.length;
-							if( finshPrcssCount == parseData.length){
-								progressNm = '생산완료';
-							} else {
-								// 작업중, 작업대기
-								//pi,wc리스트
-								let workFilterList = parseData.filter(v=>v.progressStatus == 'PI' || v.progressStatus == 'WI');
-								if(workFilterList[0].progressStatus == 'PI'){
-									progressNm = workFilterList[0].prcssNm + '(작업대기)';
-								} else if(workFilterList[0].progressStatus == 'WI'){
-									progressNm = workFilterList[0].prcssNm + '(작업중)';
-								}
-							}
- 							return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + progressNm + '</div>';
-						} else{
-							return '-';
-						}
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ //검사결과
-				data: 'qualityJudgmentNm', className : 'text-center align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+data+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ //수주수량
-				data: 'bizOrdQty', className : 'text-end align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+addCommas(parseFloat(data))+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ //출고수량
-				data: 'outQty', className : 'text-end align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+addCommas(parseFloat(data))+'</div>';
-					} else {
-						return '0';
-					}
-				}
-			},
-			{ //출고요청일
-				data: 'bizOutReqDate', className : 'text-center align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ //출고일
-				data: 'outDate', className : 'text-center align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ //시험자
-				data: 'judUserName', className : 'text-center align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+data+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ //판정자
-				data: 'conUserName', className : 'text-center align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+data+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ //출력여부
-				data: 'printYn', className : 'text-center align-middle text-nowrap',
-				render : function(data, type, row, meta) {
-					if( data == 'Y' ) {
-						return '<i class="fa-solid fa-check mt-1 text-success"></i>';
-					} else {
-						return '<i class="fa-solid fa-x mt-1 text-danger"></i>';
-					}
-				}
-			},
-		],
-		columnDefs : [
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-			{ "targets": [0], "orderable": false },
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let headerHeight = parseFloat($('#leftHeader').css('height')) + parseFloat($('#leftSecondHeader').css('height'));
-			let theadHeight = parseFloat($('#qualityEndItemTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - headerHeight - 43)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAll').off('keyup',function() {});
-			$('#searchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-			
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#qualityEndItemTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				if(colIdx > 0){
-					$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-					$(cell).css('padding','2px');
-				} else {
-					$(cell).html('');
-					$(cell).css('padding','2px');
-				}
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#qualityEndItemTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	qualityEndItemTable.on('column-reorder', function( e, settings, details ) {
-		let api = qualityEndItemTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#qualityEndItemTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-
-	// 모든 체크박스 체크/해제 되도록
-	$(document).on('change','input:checkbox[name=checkBox]', function(){
-		if( $('input:checkbox[name=checkBox]').length == $('input:checkbox[name=checkBox]:checked').length ){ //전체 체크박스 수와 체크된 박스의 수가 같을 때 -> 전체체크박스 체크 , 아닐 경우 해제
-			$('#allCheckBox').prop('checked',true);
-		} else{
-			$('#allCheckBox').prop('checked',false);
-		}
- 	});
-
-	//모든 체크박스 선택
-	$('#allCheckBox').on('click',function(){
-		if($('#allCheckBox').prop("checked")){
-			$('input:checkbox[name=checkBox]').prop('checked',true);
-		}else{
-			$('input:checkbox[name=checkBox]').prop('checked',false);
-		}
-		$('#my-spinner').show();
-		paperCreate();
-	});
-	
-	/* $('#qualityEndItemTable tbody').on('click','tr', function() {
-		let data = qualityEndItemTable.row(this).data();
-		
-		$('#purchaseCustomerNm').text(data.bizOrdDealCorpNm);//고객사
-		$('#testItemNm').text(data.itemNm);//제품명
-		$('#workDate').val(moment(data.workDate).format('YYYY-MM-DD'));//제조일자
-		$('#bizOrdDtlNo').text(data.bizOrdDtlNo);//제조번호
-		$('#testJudgmentDate').val(moment(data.judgmentDate).format('YYYY-MM-DD'));//검사일자
-		let customerItemCd = isEmptyCheck(data.customerItemCd) ? '' : data.customerItemCd;
-		$('#itemVersion').text(customerItemCd + ' / ' + data.itemVersion);//도안번호
-		$('#paperType').text(data.paperType);//재질명
-		$('#quailtyPassQty').val(addCommas(parseFloat(data.outQty)));//입고수량
-		$('#eaQty').text(addCommas(parseFloat(data.eaQty)));//원판수량
-		let bundleMethodNm = isEmptyCheck(data.bundleMethodNm) ? '' : data.bundleMethodNm;
-		$('#inPackMethod').text(data.bundleUnit + ' / ' + bundleMethodNm);//포장방법 내부
-		$('#outPackMethod').text(data.packMethodNm);//포장방법 외부
-		$('#coatingMethod').text(data.coatingMethod);//코팅
-		$('#itemColor').text(data.itemColor);//색상
-		$('#moldingMethod').text(data.moldingMethod);//성형방식
-
-
-		$('#testPaperType').text(data.paperType);//재질명
-		//$('#testSizeXY').text(data.sizeX +'*'+data.sizeY);//규격
-		$('#testSizeXY').text(data.itemSize); //규격
-		$('#testItemVersion').text(data.itemVersion);//도안번호
-		$('#testItemColor').text(data.itemColor);//색상
-		$('#testCoatingMethod').text(data.coatingMethod);//코팅
-
-		$('#judUserName').val(testContentsList['시험자']);//시험자
-		$('#judgmentDate').val(moment(data.judgmentDate).format('YYYY.MM.DD)'));//시험일자
-		$('#conUserName').val(testContentsList['판정자']);//판정자
-		$('#confirmDate').val(moment(data.confirmDate).format('YYYY.MM.DD)'));//판정일자
-		$('#qualityJudgmentNm').val(data.qualityJudgmentNm);//판정결과
-	}); */
-	
-	// 성적서출력 체크
-	$(document).on('change','input[name=checkBox]', function() {
-		$('#my-spinner').show();
-		paperCreate();
-	});
-
-	$('#qualityReportSelect').on('change',function(){
-		$('#my-spinner').show();
-		paperCreate();
-	});
-	
-	// 조회 버튼 click
-	$('#btnSearch').on('click', function() {
-		$('#my-spinner').show();
-		qualityEndItemTable.row('.selected').deselect();
-		qualityEndItemTable.ajax.reload(function() {});
-		$('#checkAll').prop("checked",false);
-		$('#btnSave').attr('disabled',true);
-		$('#btnEdit').attr('disabled',false);
-		$('#btnCancel').attr('disabled',true);
-		
-		$('.dtlList').find('td').html('&nbsp;');
-		setTimeout(function() {
-			$('#my-spinner').hide();
-		}, 100)
-	});
-
-	// 발주서 인쇄 버튼 click
-	$('#btnPrint').on('click',function() {
-		//해당 스타일시트날리고
-	    $('#printPaperTypeStyle').remove();
-	    //스타일시트 생성
-	    $('<style>')
-	    	.prop('type', 'text/css').prop('id','printPaperTypeStyle').prop('media','print')
-	    	.html('@media print { @page { size: A4 portrait; margin: 3mm; }, html, body { width: 210mm; height: 297mm; } }')
-	    	.appendTo('body');
-	    
-		$('#my-spinner').show();
-		cssChange(); // css반영
-
-		setTimeout(function(){
-			let updIdx = '';
-			//updIdx += qualityEndItemTable.row('.selected').data().idx +', ';
-			let checkObj = $('input[name=checkBox]:checked');
-			checkObj.each(function(index,item){
-				let tr = $(item).parent().parent().parent();
-				let data = qualityEndItemTable.row(tr).data();
-				updIdx += data.bizOrdDtlIdx +',';
-			});
-			updIdx = updIdx.slice(0,-1);
-
-			$.ajax({
-				url: '<c:url value="/qm/prodQualityPaperUpd"/>',
-	            type: 'POST',
-	            async: false,
-	            data: {    
-		            'idx'				:	function(){return updIdx;},
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
-				success : function(res) {
-					qualityEndItemTable.ajax.reload(function(){
-						$('#allCheckBox').prop('checked',false);
-						$('#my-spinner').show();
-						paperCreate();
-					}, false);
-				}
-			});
-			
-			$('#qualityReportTable').print({
-				globalStyles: true,
-				mediaPrint: true
-			});
-			
-			setTimeout(function() {
-				$('#my-spinner').hide();
+	$("#left-width-btn").click(function() {
+		{
+			$("#left-list").animate({
+				width : "59%"
 			}, 200);
-		}, 10);		
-	});
-
-	// 초기 셋팅
-	$(document).ready(function() {
-		$('#trAppendTarget').after(makeEmptyTr($('#qualityReportSelect').val()));
-		cssChange();
-		$('#my-spinner').hide();
-		$('#qualityReportTable').removeClass('d-none');
-		
-
-		$('input').attr('autocomplete','one-time-code');
-	});
-
-	function cssChange() {
-		//$('#qualityReportTable').find('td').css('font-weight', '900');
-		$('#qualityReportTable').find('td').css('border', '1px solid black');
-		$('#qualityReportTable').find('td').css('padding', '0.1rem');
-		$('#qualityReportTable').find('td').css('color', '#000000');
-
-		$('#qualityReportTable').find('.fw200').css('font-weight', '200');
-		$('#qualityReportTable').find('.fw900').css('font-weight', '900');
-		$('#qualityReportTable').find('.bd2px').css('border', '2px solid black');
-		
-		$('#qualityReportTable').find('.bg-gray').css('background-color', '#C9C9C9');
-		
-		$('#qualityReportTable').find('.theadFirstCol').css('border-top', '0px');
-		//$('#qualityReportTable').find('.theadFirstCol').css('border-left', '2px');
-		$('#qualityReportTable').find('.theadNotFisrtCol').css('border-top', '0px');
-		$('#qualityReportTable').find('.theadNotFisrtCol').css('border-left', '0px');
-		
-		$('#qualityReportTable').find('.tbodyFirstCol').css('border-top', '0px');
-		//$('#qualityReportTable').find('.tbodyFirstCol').css('border-left', '2px');
-		$('#qualityReportTable').find('.tbodyNotFirstCol').css('border-top', '0px');
-		$('#qualityReportTable').find('.tbodyNotFirstCol').css('border-left', '0px');
-
-		//$('#qualityReportTable').find('.bd-doblue').css('border', '5px double');
-		
-		$('#qualityReportTable').find('.fs-8').css('font-size', '8px');
-		$('#qualityReportTable').find('.fs-10').css('font-size', '10px');
-		$('#qualityReportTable').find('.fs-11').css('font-size', '11px');
-		$('#qualityReportTable').find('.fs-12').css('font-size', '12px');
-		$('#qualityReportTable').find('.fs-13').css('font-size', '13px');
-		$('#qualityReportTable').find('.fs-15').css('font-size', '15px');
-		$('#qualityReportTable').find('.fs-20').css('font-size', '20px');
-		$('#qualityReportTable').find('.fs-25').css('font-size', '25px');
-		$('#qualityReportTable').find('.fs-30').css('font-size', '30px');
-		$('#qualityReportTable').find('.fs-50').css('font-size', '50px');
-		$('#qualityReportTable').find('.fc-red').css('color', '#ff0000');
-		$('#qualityReportTable').find('.bt-2').css('border-top', '2px solid black');
-		$('#qualityReportTable').find('.bd-n').css('border', '0px solid #ffffff');
-		$('#qualityReportTable').find('.bt-n').css('border-top', '0px solid #ffffff');
-		$('#qualityReportTable').find('.br-n').css('border-right', '0px solid #ffffff');
-		$('#qualityReportTable').find('.bb-n').css('border-bottom', '0px solid #ffffff');
-		$('#qualityReportTable').find('.bl-n').css('border-left', '0px solid #ffffff');
-		$('#qualityReportTable').find('.h-5').css('height', '5px');
-		$('#qualityReportTable').find('.h-10').css('height', '10px');
-		$('#qualityReportTable').find('.h-15').css('height', '15px');
-		$('#qualityReportTable').find('.h-20').css('height', '20px');
-		$('#qualityReportTable').find('.h-25').css('height', '25px');
-		$('#qualityReportTable').find('.h-30').css('height', '30px');
-		$('#qualityReportTable').find('.h-40').css('height', '40px');
-		$('#qualityReportTable').find('.h-55').css('height', '55px');
-		$('#qualityReportTable').find('.h-70').css('height', '70px');
-		$('#qualityReportTable').find('.h-75').css('height', '75px');
-		$('#qualityReportTable').find('.h-100').css('height', '100px');
-		$('#qualityReportTable').find('.maxh-5').css('max-height', '5px');
-		$('#qualityReportTable').find('.maxh-10').css('max-height', '10px');
-		$('#qualityReportTable').find('.maxh-20').css('max-height', '20px');
-		$('#qualityReportTable').find('.maxh-25').css('max-height', '25px');
-		$('#qualityReportTable').find('.maxh-30').css('max-height', '30px');
-		$('#qualityReportTable').find('.maxh-40').css('max-height', '40px');
-		$('#qualityReportTable').find('.maxh-55').css('max-height', '55px');
-		$('#qualityReportTable').find('.maxh-70').css('max-height', '70px');
-		$('#qualityReportTable').find('.maxh-75').css('max-height', '75px');
-		$('#qualityReportTable').find('.maxh-100').css('max-height', '100px');
-		
-
-		// 인쇄할 때 css 적용하려면 important 붙여줘야함.
-		for(var i=0;i<$('#qualityReportTable').find('td').length;i++) {
-			let tdStyle = $('#qualityReportTable').find('td').eq(i).attr('style') == undefined?'':$('#qualityReportTable').find('td').eq(i).attr('style');
-			$('#qualityReportTable').find('td').eq(i).attr('style',tdStyle.replaceAll(';',' !important;'));
+			$("#arrow-left").animate({
+				display : "none"
+			}, 200);
 		}
-	}
 
+		state = !state;
+	});
 
-	/* 거래처 모달 */
+	let currentHref = "qmsc0020";
+	let currentPage = $('.' + currentHref).attr('id');
+
+	$('#' + currentPage).closest('.has-child', 'li').addClass(
+			'has-open has-active');
+	$('#' + currentPage).closest('.menu-item').addClass('has-active');
+	$(document).attr("title","수입검사 부적합관리대장"); 
 	
-	// 거래처조회 버튼 click
-	$('#btnSearchDealCorp').on('click', function() {
-		$('#dealCorpModal').modal('show');
-	});
-	$('#dealCorpModal').on('shown.bs.modal', function() {
-		dealCorpModalTable.ajax.reload(function() {});
-	});
+	let viewIdx;
+	let sideView = 'add';
+	let sideView2 = 'add';
+	let status = '';
+	
+	uiProc(true);
+	uiProc2(true);
+	var serverDateFrom = "${serverDateFrom}";
+	var serverDateTo = "${serverDateTo}";
+	var serverDate = "${serverDate}";
 
-	// 거래처조회 x 버튼 click
-	$('#btnSearchDealCorpDel').on('click', function() {
-		$('#searchDealCorpNm').val('');
-		$('#searchDealCorpIdx').val('');
-	});
+	var tableIdx = null;
+	let tableIdx2 = null;
+	var poNo=null;
+	var poSeq=null;
+	var inSeq=null;
+	var inSlipNo = null;
+	var inSlipSeq = null;
+	
+	var itemSeq=null;
+	var faultyCnt=null;
+	var sourceNoVal=null;
+	var attachCdVal=null;
+	var faultyTypeCd=null;
+	var approvalYnOption = "";
+	
+	var userNm =  "${userNm}";
+	var userNumber = "${userNumber}";
 
-	// 거래처관리 목록조회
-	$('#dealCorpModalTable thead tr').clone(true).addClass('filters').appendTo('#dealCorpModalTable thead'); // filter 생성
-	let dealCorpModalTable = $('#dealCorpModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: false,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/dealCorpAdmList"/>',
-			type : 'POST',
-			data : {
-				dealGubun : function(){ return $('#modalDealGubun').val();},
-				dealCorpStatus: function() { return $('#modalDealCorpStatus').val(); }
-			},
+	var userId = "${userId}";		// 로그인 사용자 정보
+	var menuUrl = "${menuUrl}";		// 메뉴 경로
+
+	//승인여부
+	$.ajax({
+		url : '<c:url value="sm/approvalAuthAdmList"/>',
+		type: 'GET',
+		dataType: 'json',
+		async: false,
+		data: {
+			'userId' 	: function() { return userId;},
+			'apprDesc'	: function() { return menuUrl;}
 		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'dealGubunNm', className : 'text-center'},
-			{ data: 'dealCorpCd', className : 'text-center'},
-			{ data: 'initial', className : 'text-center'},
-			{ data: 'dealCorpNm', className : 'text-center'},
-			{ data: 'representative', className : 'text-center'},
-			{ data: 'companyNumber', className : 'text-center'},
-		],
-		columnDefs : [
-			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
+		success: function(res) {
+			let data = res.data;
+			
+			console.log(data.length);
+			console.log(data);
+			if (data.length != 0) {
+				console.log('hi');
+				$('#btnApprove').removeClass('d-none');
+			}else if(data.length == 0){
+				$('#btnApprove').addClass('d-none');
+			}
+		},
+	});
+	
+	//공통코드 처리 시작      
+	var admDeptCode = new Array(); // 상태여부
+	<c:forEach items="${admDept}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	admDeptCode.push(json);
+	</c:forEach>
+
+	var faultyPcsCode = new Array(); // 상태여부
+	<c:forEach items="${faultyPcs}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	faultyPcsCode.push(json);
+	</c:forEach>
+	//공통코드 처리 종료   
+
+	//선택박스 처리
+	selectBoxAppend(admDeptCode, "admDept", "", "");
+	selectBoxAppend(faultyPcsCode, "faultyPcs", "", "2");
+
+	$('#faultyRegDate').val(serverDate);
+	$('#faultyDate').val(serverDate);
+	$('#returnDate').val(serverDate);
+	$('#disuseDate').val(serverDate);
+
+	
+	//관련자료 탭 클릭시
+	$('#tab2Nav').on('click',function(){
+		$('#faultyAttachDataTable').DataTable().ajax.reload();
+	});
+	
+
+	//저장 변환 여부 모달
+	$('#saveBtnModalY').on('click', function() {
+		uiProc2(true);
+
+		$('#form2').each(function() {
+			this.reset();
+		});
+		$('#btnDtlSave').addClass('d-none');
+		
+		uiProc(true);
+		$('#btnSave').addClass('d-none');
+		$('#btnEdit').attr('disabled', false);
+		$('#fileSearch').addClass('d-none');
+		$('#fileSearch2').addClass('d-none');
+		$('#btnFpFileDel').addClass('d-none');
+		$('#btnFpFileDel2').addClass('d-none');
+		$('#fileTag').removeClass('d-none');
+		$('#fileTag2').removeClass('d-none');
+	});
+
+	//승인 변환 여부 모달
+	$('#approveSaveModalY').on('click', function() {
+		console.log("모달창에서 예 버튼 클릭함")
+		$.ajax({
+			url : '<c:url value="qm/itemFaultyJdgApproveYnUpdate" />',
+			type : 'GET',
+			data  : {
+				'inSlipNo' : inSlipNo,
+				'inSlipSeq' : inSlipSeq,
+				'faultyCnt' : $('#faultyCnt').val(),
+			},
+			success : function(res){
+				if(res.result=="ok"){
+					$('#btnApprove').attr('disabled',true);
+					$('#btnDtlEdit').attr('disabled',true);
+					$('#itemFaultyAdmMasterTable').DataTable().ajax.reload();
+					toastr.success("승인되었습니다.");
+				}else {
+					toastr.error(res.message);
 				}
 			}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			//let middlecolT_height = parseFloat($('#middlecolT').css('height'));
-			let theadHeight = parseFloat($('#dealCorpModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#dealCorpModalTable_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 230)+'px');
-			
-			$('#dealCorpModalTable_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllAdm').off('keyup',function() {});
-			$('#searchAllAdm').on('keyup',function() {
-				$('#dealCorpModalTable_filter').find('input').val($(this).val());
-				$('#dealCorpModalTable_filter').find('input').trigger('keyup');
-			});
-		},
-		initComplete: function () {
-			let api = this.api();
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#dealCorpModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title.replaceAll('*','') + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#dealCorpModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	dealCorpModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = dealCorpModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#dealCorpModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
+		})
 	});
 
-	// 거래처 모달 조회 버튼 click
-	$('#btnDealCorpModalSearch').on('click', function() {
-		$('#my-spinner').show();
-		dealCorpModalTable.ajax.reload(function() {});
-		
-		setTimeout(function() {
-			$('#my-spinner').hide();
-		}, 100)
-	});
 
-	// 거래처 모달 붙여넣기 버튼 click
-	$('#btnDealCorpModalPaste').on('click', function() {
-		if(!$('#dealCorpModalTable tbody tr').hasClass('selected')){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
-			return false;
-		}
-		let data = dealCorpModalTable.row('.selected').data();
-		$('#searchDealCorpNm').val(data.dealCorpNm);
-		$('#searchDealCorpIdx').val(data.idx);
-		$('#dealCorpModal').modal('hide');
-	});
-
-	$('#dealCorpModalTable tbody').on('dblclick','tr',function(){
-		let data = dealCorpModalTable.row(this).data();
-		$('#searchDealCorpNm').val(data.dealCorpNm);
-		$('#searchDealCorpIdx').val(data.idx);
-		$('#dealCorpModal').modal('hide');
-	});
-
-	/* 제품코드 모달  */
 	
-	$('#btnSearchItem').on('click',function(){
-		
-		$('#itemCodeModal').modal('show');
-		setTimeout(function() {
-			itemCodeModalTable.ajax.reload(function() {itemCodeModalTable.draw(false);});
-		}, 200);
-	});
-
-	//제품정보 목록(모달)조회
-	$('#itemCodeModalTable thead tr').clone(true).addClass('filters').appendTo('#itemCodeModalTable thead'); // filter 생성
-	let itemCodeModalTable = $('#itemCodeModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex col-sm'B><'me-lg-auto div-align-center col-sm'p><'d-flex align-items-center justify-content-end col-sm'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: true,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: pageLengthCnt,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/itemInfoDtlListAll"/>',
+	// 목록
+	let itemFaultyAdmMasterTable = $('#itemFaultyAdmMasterTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-12'l>>"
+			    + "<'row'<'col-sm-12 col-md-12'f>>"
+				+ "<'row'<'col-sm-12'tr>>"
+				+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : true,
+		processing : true,
+		autoWidth : false,
+		lengthChange : true,
+		pageLength : 10,
+		ajax : {
+			url : '<c:url value="qm/itemFaultyAdmMasterList"/>',
 			type : 'GET',
 			data : {
-				useYnCd		: function(){ return $('#modalUseYnCdBox').val(); }, //사용여부
-				itemGubun	: function(){ return $('#modalItemGubunBox').val(); }, //품목구분
+				'startDate' : function() {return serverDateFrom.replace(/-/g, "");},
+				'endDate' : function() { return serverDateTo.replace(/-/g, "");},
+				'approvalYn' : function(){return approvalYnOption},		
 			},
 		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'customerNm', className : 'text-center align-middle'},	//고객사
-			{ data: 'itemNm', className : 'text-center align-middle'}, 		//제품명
-			{ //건별전달사항
-				data: 'relayNotice', className : 'text-start align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space:pre-line;width:330px;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}	
-			},
-			{ data: 'knifeTipSize', className : 'text-center align-middle'}, //칼끝규격
-			{ //자재코드
-				data: 'customerItemCd', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'versionNum', className : 'text-center align-middle'}, //버전번호
-			{ //재질
-				data: 'paperType', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //절수
-				data: 'cutQty', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseFloat(data))+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //개수
-				data: 'eaQty', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseFloat(data))+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'itemColor', className : 'text-center align-middle'}, //COLOR		
-			{ //도수
-				data: 'frequencyNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'itemSize', className : 'text-center align-middle'}, //사이즈
-			{ data: 'coatingMethod', className : 'text-center align-middle'}, //코팅방법
-			{ //특이사항
-				data: 'specialNotice', className : 'text-start align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space:pre-line;width:330px;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'moldingMethod', className : 'text-center align-middle'}, //성형방식
-			{ data: 'moldingContents', className : 'text-center align-middle'}, //성형내용
-			{ //묶음법
-				data: 'bundleMethodNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'bundleUnit', className : 'text-center align-middle'}, //묶음단위
-			{//포장박스
-				data: 'packMethodNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'packUnit', className : 'text-center align-middle'}, //포장단위
-			{ //호기
-				data: 'etc1Nm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //목형번호
-				data: 'woodenCareNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ data: 'holeWoodenCd', className : 'text-center align-middle'}, //타공목형번호
-			{ //수지판번호
-				data: 'resinBoardNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //현재고량
-				data: 'stock', className : 'text-end  align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //검수방법
-				data: 'inspectMethodNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{//착인여부
-				data: 'printingYnCheckNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //사용여부
-				data: 'useYnCd', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data == 'Y'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">사용</div>';
-					} else if (data == 'N'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">미사용</div>';
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //등록일자
-				data: 'detailDate', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data,'YYYY-MM-DD').format('YYYY-MM-DD')+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},
-			{ //후가공판번호
-				data: 'etc2Cd', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return "";
-					}
-				}
-			},		
-			{ data: 'etc3', className : 'text-center align-middle'}, //부분UV	
-			{ data: 'etc4', className : 'text-center align-middle'}, //FOIL	
-			{ data: 'etc6', className : 'text-center align-middle'}, //형압
-			{ data: 'etc7', className : 'text-center align-middle'}, //FSC 유무
-			{ data: 'etc8', className : 'text-center align-middle'}, //납품처
-			{ data: 'etc9', className : 'text-center align-middle'}, //공정실적여부
-			{ data: 'etc10', className : 'text-center align-middle'}, //기타1
-			{ data: 'etc5', className : 'text-center align-middle'}, //기타2
-			{ data: 'pressMethod', className : 'text-center align-middle'},	//기타3
-		],
-		columnDefs : [
+		rowId : 'poNo',
+		columns : [ 
 			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
+				data : 'inSlipNo'
+			}, 
+			{
+				data : 'approvalYn',
+				render:function(data,type,row,meta){
+					if(data!=null){
+						if(data=="001"){
+							return '승인';
+						}else{
+							return '<span style="color:red;">미승인</span>';
+						}
+					}else{
+						return '<span style="color:red;">미승인</span>';
+					}
 				}
+			},
+			{
+				data : 'itemModelNm'
+			}, {
+				data : 'itemCd'//품번
+			}, {
+				data : 'itemNm'//품명
+			}, {
+				data : 'preInWhsQty'//입고수량
+			}, {
+				data : 'faultyCnt'//불량수량
+			}, {
+				data : 'inspectChargrNm'
+			}, {
+				data : 'inspectDate',
+				render : function(data, type, row, meta) {
+					if(data!=null){
+						return moment(data).format('YYYY-MM-DD');
+					}else{
+						return '-';
+					}
+				}
+			}, 
+			{
+				data : 'faultyTypeNm',
+				render : function(data, type, row, meta) {
+					if(data!=null){
+						return data;
+					}else{
+						return '-';
+					}
+				}
+			}, 
+			{
+				data : 'faultyPcs',
+				render : function(data, type, row, meta) {
+					if(data!=null){
+						return data;
+					}else{
+						return '-';
+					}
+				}
+			}, 
+			{
+				data : 'faultyTypeDate',
+				render : function(data, type, row, meta) {
+					return moment(data).format("YYYY-MM-DD");
+				}
+			}, 
+		],
+		order : [ [ 0, 'desc' ] ],
+		buttons : [ 'copy', {
+			extend : 'excel',
+			title : '수입검사 부적합관리대장'
+		}, 'print' 
+		],
+		columnDefs: [
+			{ targets: [5,6] , render: $.fn.dataTable.render.number( ',' ), className : 'text-right' },
+        	{"className": "text-center", "targets": "_all"},
+        ],
+	});
+	
+	// 보기
+	$('#itemFaultyAdmMasterTable tbody').on('click','tr',function() {
+
+		if ($('#btnDtlSave').attr('class') == 'btn btn-primary float-right mr-1') {
+			$('#saveBtnModal').modal('show');
+			console.log("등록중입니다.");
+			return false;
+		}
+
+		if ($(this).hasClass('selected')) {
+		} else {
+			$('#itemFaultyAdmMasterTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+
+		uiProc(true);
+		uiProc2(true);
+		
+		$('#form').each(function() {
+			this.reset();
+		});
+		$('#form2').each(function() {
+			this.reset();
+		});
+
+		$('#tab2Nav').removeClass('disabled');	//관련자료 탭 활성화
+		$('#btnSave').addClass('d-none'); 		// 등록버튼
+		$('#btnAdd').attr('disabled', false); 	// 수정버튼
+		$('#btnEdit').attr('disabled', false); 	// 수정버튼
+		$('#btnDtlSave').addClass('d-none');	//하단 저장버튼
+
+		$('#imageFile1').attr('src','');
+		$('#imageFile2').attr('src','');
+	    $('#imgName1').text('');
+	    $('#imgName2').text('');
+		
+		$('#fileSearch').addClass('d-none');
+		$('#fileTag').addClass('d-none');
+		$('#fpValue').text('');
+		tableIdx2 = $('#itemFaultyAdmMasterTable').DataTable().row(this).index();
+
+		
+		inSlipNo = itemFaultyAdmMasterTable.row(this).data().inSlipNo;
+		inSlipSeq = itemFaultyAdmMasterTable.row(this).data().inSlipSeq;
+		itemSeq = itemFaultyAdmMasterTable.row(this).data().itemSeq;
+		faultyCnt = itemFaultyAdmMasterTable.row(this).data().faultyCnt;
+		faultyTypeCd = itemFaultyAdmMasterTable.row(this).data().faultyTypeCd;;
+
+		sideView2 = "edit";
+
+		sourceNoVal = inSlipNo+"/"+inSlipSeq+"/"+faultyTypeCd;
+		$('#faultyAttachDataTable').DataTable().ajax.reload(function(){});
+		$('#itemFaultyTypeTable').DataTable().ajax.reload(function(){});
+
+		//선택 행 데이터 불러오기
+		$.ajax({
+			url : '<c:url value="qm/itemFaultyJdgAdmRead"/>',
+			type : 'GET',
+			data : {
+				'inSlipNo' : inSlipNo,
+				'inSlipSeq' : inSlipSeq,
+			},
+			success : function(res) {
+				let data = res.data;
+
+				console.log(data.faultyPcs)
+				if(data.faultyPcs!=null){
+					$('#btnDtlAdd').attr('disabled',true);
+					$('#btnDtlEdit').attr('disabled',false);
+				}else{
+					$('#btnDtlAdd').attr('disabled',false);
+					$('#btnDtlEdit').attr('disabled',true);
+				}
+
+				//부적합처리 승인여부
+				if(data.approvalYn=="001"){
+					$('#btnApprove').attr("disabled",true);	//승인
+					$('#btnDtlEdit').attr('disabled',true);
+				}else{	
+					$('#btnApprove').attr("disabled",false);	//승인
+				}
+				
+				$('input[name=approvalYn][value="'+data.faultyPcs+'"]').prop('checked',true);
+				$('#pairCnt').val(data.pairCnt);
+				$('#faultyCnt').val(data.faultyCnt);
+				$('#faultyDate').val(moment(data.fualtyDate).format('YYYY-MM-DD'));
+				$('#faultyChargrNm').val(data.faultyChargrNm);
+				$('#faultyChargr').val(data.faultyChargr);
+				$('#faultyDesc').val(data.faultyDesc);
+			}
+		});
+	});
+
+	// 불량유형 목록조회
+	let itemFaultyTypeTable = $('#itemFaultyTypeTable').DataTable({
+		dom : "",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : true,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		pageLength : 10000,
+		scrollY: "200px",
+		scrollCollapse: true,
+		ajax : {
+			url : '<c:url value="qm/itemFaultyAdmList"/>',
+			type : 'GET',
+			data : {
+				'inSlipNo' : function(){return inSlipNo;},
+				'inSlipSeq' : function(){return inSlipSeq;},
+			},
+		},
+		rowId : 'inSlipNo',
+		columns : [
+			{
+				render : function(data, type, row, meta) {
+					return meta.row+1;
+				}
+			}, {
+				data : 'faultyTypeNm'
+			}, {
+				data : 'faultyTypeQty'
+			}, {
+				data : 'faultyTypeDate',
+				render : function(data, type, row, meta) {
+					if(data!=null){
+						return moment(data).format("YYYY-MM-DD");
+					}else{
+						return '-';
+					}
+				}
+			}, {
+				data : 'faultyTypeDesc'
 			}
 		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
+		order : [ [ 0, 'asc' ] ],
+		buttons : [ 'copy', {
+			extend : 'excel',
+			title : '수입검사 부적합관리대장'
+		}, 'print' 
 		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#itemCodeModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 250)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#modalItemCodeSearchAll').off('keyup',function() {});
-			$('#modalItemCodeSearchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-			
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#itemCodeModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
+		columnDefs: [
+			{ targets: [2] , render: $.fn.dataTable.render.number( ',' ), className : 'text-right' },
+        	{"className": "text-center", "targets": "_all"},
+        ],
 
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#itemCodeModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
 	});
-	// dataTable colReorder event
-	itemCodeModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = itemCodeModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#itemCodeModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
+
+	// 불랴유형 목록 선택시
+	$('#itemFaultyTypeTable tbody').on('click','tr',function() {
+
+		if ($('#btnSave').attr('class') == 'btn btn-primary float-right') {
+			$('#saveBtnModal').modal('show');
+			console.log("등록중입니다.");
+			return false;
+		}
+
+		if ($(this).hasClass('selected')) {
+		} else {
+			$('#itemFaultyTypeTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+
+		faultyTypeCd = itemFaultyTypeTable.row(this).data().faultyTypeCd;
+		faultyRegDate = itemFaultyTypeTable.row(this).data().faultyRegDate;
+		sourceNoVal = inSlipNo+"/"+inSlipSeq+"/"+faultyTypeCd;
+
+		if (faultyRegDate != null) {
+			$('#btnAdd').attr('disabled', true);
+			$('#btnEdit').attr('disabled', false);
+		} else {
+			$('#btnAdd').attr('disabled', false);
+			$('#btnEdit').attr('disabled', true);
+		}
+
+		$('#tab1Nav').tab('show');	
+		$('#tab2Nav').removeClass('disabled');	//관련자료 탭 활성화
+		$('#btnSave').addClass('d-none'); // 저장버튼
+		$('#fileSearch').addClass('d-none');
+		$('#btnFpFileDel').addClass('d-none');
+		$('#fileTag').removeClass('d-none');
+
+		//선택 행 데이터 불러오기
+		$.ajax({
+			url : '<c:url value="qm/itemFaultyAdmRead"/>',
+			type : 'GET',
+			data : {
+				'inSlipNo' : inSlipNo,
+				'inSlipSeq' : inSlipSeq,
+				'faultyTypeCd' : faultyTypeCd
+			},
+			success : function(res) {
+				let data = res.data;
+				sideView = 'edit';
+
+				$('#admChargrNm').val(data.admChargrNm);
+				$('#admChargr').val(data.admChargr);
+				if (data.faultyRegDate == null|| data.faultyRegDate == "") {
+					$('#faultyRegDate').val(serverDate);
+				} else {
+					$('#faultyRegDate').val(moment(data.faultyRegDate).format('YYYY-MM-DD'));
+				}
+				$('#faultyStatus').val(data.faultyStatus);
+				$('#faultyCause').val(data.faultyCause);
+				$('#faultyAct').val(data.faultyAct);
+				$('#faultyDept').val(data.faultyDept);
+				$('#faultyNo').val(data.faultyNo);
+				$('#faultyProg').val(data.faultyProg);
+				$('#faultyImprv').val(data.faultyImprv);
+				$('#faultyEffect').val(data.faultyEffect);
+
+				if (res.faultyImage1 != null) {
+					$('#imageFile1').attr("src",'data:image/jpg;base64,'+ res.faultyImage1);
+					$('#imgName1').text(data.faultyImage1Nm);
+				} else {
+					$('#imageFile1').attr("src", " ");
+					$('#imgName1').text("파일을 선택해주세요");
+				}
+
+				if (res.faultyImage2 != null) {
+					$('#imageFile2').attr("src",'data:image/jpg;base64,'+ res.faultyImage2);
+					$('#imgName2').text(data.faultyImage2Nm);
+				} else {
+					$('#imageFile2').attr("src", " ");
+					$('#imgName2').text("파일을 선택해주세요");
+				}
+
+				$('#fpFn').text(data.faultyFile1Nm);
+				(data.faultyFile1Nm == null || data.faultyFile1Nm == "")?$('#fpValue').text("파일을 선택해주세요"):$('#fpValue').text(data.faultyFile1Nm);
+				$('#fpHref').attr('href','qm/downloadFile2?inSlipNo='+inSlipNo+'&inSlipSeq='+inSlipSeq+'&value=1&faultyTypeCd='+faultyTypeCd);
+				
+				//선택박스 처리
+				selectBoxAppend(admDeptCode, "admDept",data.admDept, "");
+			}
 		});
 	});
 	
-	$('#btnItemCodeModalSearch').on('click',function(){
-		itemCodeModalTable.ajax.reload(function() {});
-	});
 
-	$('#btnItemCodeModalPaste').on('click',function(){
-		if( !$('#itemCodeModalTable tbody tr').hasClass('selected') ){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
+	// 등록폼
+	$('#btnAdd').on('click', function() {
+
+		if (sideView != "edit") {
+			toastr.warning("부적합관리 등록할 항목을 선택해주세요.");
 			return false;
 		}
 
-		let data = itemCodeModalTable.row('.selected').data();
-		$('#itemNm').val(data.itemNm);
-		$('#itemIdx').val(data.idx);
-		$('#itemCodeModal').modal('hide');
-	});
-
-	$('#itemCodeModalTable tbody').on('dblclick','tr',function(){
-		let data = itemCodeModalTable.row(this).data();
-		$('#itemNm').val(data.itemNm);
-		$('#itemIdx').val(data.idx);
-		$('#itemCodeModal').modal('hide');
-	});
-
-	/* 사용자 모달 */
-	// 유저모달 버튼 click
-	$(document).on('click', '.btnUserModalShow', function() {
-		$('#userModal').data('type',$(this).data('type'));
-		$('#userModal').modal('show');
-	});
-	$('#userModal').on('shown.bs.modal', function() {
-		userModalTable.ajax.reload(function() {});
-	});
-
-	// 사용자정보 목록조회
-	$('#userModalTable thead tr').clone(true).addClass('filters').appendTo('#userModalTable thead'); // filter 생성
-	let userModalTable = $('#userModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/sm/userLst"/>',
-			type : 'POST',
-			data : {
-				userStateCd: function() { return $('#SearchUserStateCd').val(); }
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'userId', className : 'text-center'},
-			{ data: 'userName', className : 'text-center'},
-			{ data: 'userDepartmentNm', className : 'text-center'},
-			{ data: 'userPositionNm', className : 'text-center'},
-			{ data: 'userJobCd', className : 'text-center'},
-		],
-		columnDefs : [
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#userModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 197)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-// 			$('#searchAll').off('keyup',function() {});
-// 			$('#searchAll').on('keyup',function() {
-// 				$('#'+table_id+'_filter').find('input').val($(this).val());
-// 				$('#'+table_id+'_filter').find('input').trigger('keyup');
-// 			});
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#userModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#userModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	userModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = userModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#userModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
+		sideView = 'add';
+		$('#form').each(function() {
+			this.reset();
 		});
+
+		//화면처리        
+		uiProc(false);
+
+		$('#admChargrNm').val(userNm);
+		$('#admChargr').val(userNumber);
+
+		$('#faultyRegDate').val(serverDate);
+		$('#btnSave').removeClass('d-none'); // 등록버튼
+		$('#btnEdit').attr('disabled', true); // 수정버튼
+
+		$('#fileSearch').removeClass('d-none');
+		$('#fileSearch2').removeClass('d-none');
+// 		$('#fileSearch7').removeClass('d-none');
+		$('#btnFpFileDel').removeClass('d-none');
+		$('#btnFpFileDel2').removeClass('d-none');
+// 		$('#btnFpFileDel7').removeClass('d-none');
+		$('#fileTag').addClass('d-none');
+		$('#fileTag2').addClass('d-none');
+// 		$('#fileTag7').addClass('d-none');
 	});
 
-	// 사용자목록 적용 버튼 click
-	$('#btnUserModalPaste').on('click', function(){
-		if(!$('#userModalTable tbody tr').hasClass('selected')){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
+	// 수정폼
+	$('#btnEdit').on('click', function() {
+		if (sideView != 'edit') {
+			toastr.warning("부적합관리 수정할 항목을 선택해주세요.");
 			return false;
 		}
-		let table = $('#prodQualityTable').dataTable().api();
-		let node = table.row('.selected').node();
-		let data = table.row('.selected').data();
-		let selectNodeModalData = userModalTable.row('.selected').data();
-		$(node).find('td').eq(table.column($('#userModal').data('type')+':name').index()).find('input[type=hidden]').val(selectNodeModalData.idx);	//사용자 식별자
-		$(node).find('td').eq(table.column($('#userModal').data('type')+':name').index()).find('input[type=text]').val(selectNodeModalData.userName);		//사용자 이름
-		$('#userModal').modal('hide');
+		uiProc(false);
+		//수정관련 기능(검사코드는 수정 불가)
+		$('#baseInfoCd').attr('disabled', true);
+
+		$('#viewBox').addClass('d-none');
+		$('#formBox').removeClass('d-none');
+		$('#btnSave').removeClass('d-none');
+		
+		$('#fileSearch').removeClass('d-none');
+		$('#fileSearch2').removeClass('d-none');
+// 		$('#fileSearch7').removeClass('d-none');
+		$('#btnFpFileDel').removeClass('d-none');
+		$('#btnFpFileDel2').removeClass('d-none');
+// 		$('#btnFpFileDel7').removeClass('d-none');
+		$('#fileTag').addClass('d-none');
+		$('#fileTag2').addClass('d-none');
+// 		$('#fileTag7').addClass('d-none');
 	});
 
-		
-	function makeEmptyTr(paperType){
-		let html = '';
-		if(paperType == '00'){
-			//번들링 성적서
-			html += '	<tr style="page-break-before: always!important;">';
-			html += '		<td class="bd-n h-25" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '		<td colspan="13" class="text-center max-h75 h-75 bd2px align-middle bt-n bl-n br-n">';
-			html += '			<img src="/resources/assets/images/header_logo.png" style="width:70%;height:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="11" class="bt-n bl-n br-n max-h70 bd2px fs-12" style="height:100%!important;">';
-			html += '			㈜ 창영테크팩<br>';
-			html += '			주소 : 경기도 수원시 권선구 산업로 156번길 88-39<br>';
-			html += '			Tel : 031-292-6553<br>';
-			html += '			Fax : 031-292-6507';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td class="bd-n h-25" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '		<td colspan="14" class="fs-30 fw900 bd2px text-center bt-n bl-n br-n">자&nbsp;&nbsp;재&nbsp;&nbsp;시&nbsp;&nbsp;험&nbsp;&nbsp;성&nbsp;&nbsp;적&nbsp;&nbsp;서</td>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="12" class="fs-20 fw900 bd2px text-center bt-n bl-n br-n" name="purchaseCustomerNm"></td>';
-			html += '		<td colspan="15" class="fs-20 fw900 bd2px bd-n">貴中</td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제 품 명</td>';
-			html += '		<td colspan="21" class="fs-12 text-center align-middle " name="testItemNm"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조일자</td>';
-			html += '		<td colspan="11" class="bg-gray fs-12 text-center align-middle ">';
-			html += '			<input name="workDate" type="text" class="bg-gray text-center p-0 fs-15" style="border:none !important;max-width:70px">';
-			html += '		</td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">제조번호</td>';
-			html += '		<td colspan="8" class="bg-gray fs-12 text-center align-middle " name="bizOrdDtlNo"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">검사일자</td>';
-			html += '		<td colspan="11" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="testJudgmentDate" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:70px;">';
-			html += '		</td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">입고수량</td>';
-			html += '		<td colspan="8" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="quailtyPassQty" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:200px;min-width:200px;">';
-			html += '		</td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
+	function deleteImg(value) {
+		$.ajax({
+			url : '<c:url  value="qm/itemFaultyImageDelete"/>',
+			type : 'GET',
+			data : {
+				'value' : value,
+				'inSlipNo' : inSlipNo,
+				'inSlipSeq' : inSlipSeq,
+			},
+			success : function(res) {
+				if (res.result == "ok") {
+					toastr.success("파일이 삭제되었습니다.");
+					if (value == 1) {
+						$('#imgAdd1').focus();
+						$('#imgName1').text("파일을 선택해주세요");
+						$('#imageFile1').attr("src", " ");
+						$('#imgAdd1').val("");
+					} else if (value == 2) {
+						$('#imgAdd2').focus();
+						$('#imgName2').text("파일을 선택해주세요");
+						$('#imageFile2').attr("src", " ");
+						$('#imgAdd2').val("");
+					} else if (value == 3) {
+						$('#fpValue').text("파일을 선택해주세요");
+						$('#fpHref').attr("src", " ");
+						$('#fpFn').val("");
+					} else if (value == 4) {
+						$('#fpValue2').text("파일을 선택해주세요");
+						$('#fpHref2').attr("src", " ");
+						$('#fpFn2').val("");
+					}
 
-			html += ' <tr class="bundleInfoTr">';
-			html += ' 	<td colspan="3" class="bd-n"></td>';
-			html += '	<td colspan="3" class="fs-12 text-center align-middle">item</td>';
-			html += '	<td colspan="11" class="fs-12 text-center align-middle">Bundling Packet 조합</td>';
-			html += '	<td colspan="2" class="fs-12 text-center align-middle" nowrap>제조번호</td>';
-			html += '	<td colspan="4" class="fs-12 text-center align-middle">자재코드</td>';
-			html += '	<td colspan="4" class="fs-12 text-center align-middle">버전번호</td>';
-			html += ' 	<td colspan="3" class="bd-n"></td>';
-			html += ' </tr>';
-
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">포장방법</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">내부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="bundleUnit"></td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">/</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="bundleMethodNm"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">외부</td>';
-			html += '		<td colspan="5" class="fs-12 text-center align-middle " name="packMethodNm"></td>';
-			
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle ">시험항목</td>';
-			html += '		<td colspan="6" class="br-n fs-12 text-center align-middle ">기준</td>';
-			html += '		<td colspan="7" class="bl-n br-n fs-12 text-center align-middle ">검사내용</td>';
-			html += '		<td colspan="7" class="bl-n fs-12 text-center align-middle ">시험결과</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr class="bundlePackInfoTr">';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="rowMerge fs-12 text-start align-middle ">1)Packet 조합</td>';
-			html += '		<td colspan="6" class="h-20 fs-12 text-center align-middle " name="itemNmTd0"></td>';
-			html += '		<td colspan="7" class="rowMerge fs-10 text-start align-middle ">Packet조합은 바르게 되었는가?</td>';
-			html += '		<td colspan="7" class="rowMerge fs-10 text-start align-middle ">결과 : 적합&nbsp;,&nbsp;부적합</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle ">2)자재별 품질</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="">자재별 품질관리 결과</td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">자재별 성적서를 확인하였는가??</td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">결과 : 적합&nbsp;,&nbsp;부적합</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr class="bundlePharmacodeTr">';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="rowMerge fs-12 text-start align-middle ">3)Pharmacode</td>';
-			html += '		<td colspan="6" class="h-20 fs-12 text-center align-middle " name="itemNmTd0"></td>';
-			html += '		<td colspan="7" class="rowMerge fs-10 text-start align-middle ">Pharmacode가 모두 올바른가?</td>';
-			html += '		<td colspan="7" class="rowMerge fs-10 text-start align-middle ">결과 : 적합&nbsp;,&nbsp;부적합,&nbsp;미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle ">4)Banding 상태</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="">Banding 상태</td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">테이핑이 잘되었는가?</td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">결과 : 적합&nbsp;,&nbsp;부적합</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			
-			html += '	<tr class="bundleCntCheckTr">';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td rowspan="2" colspan="4" class="rowMerge fs-12 text-start align-middle ">5)수량 확인</td>';
-			html += '		<td rowspan="2" colspan="6" class="fs-10 text-center align-middle " name="">Bundling 전후 수량 및 잔량</td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">전후 전체 수량이 일치하는가</td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">결과 : 일치&nbsp;,&nbsp;불일치</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">불일치시 전수검사를 실시하여<br>누락 여부를 확인하였는가?</td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">결과 : 적합&nbsp;,&nbsp;부적합,&nbsp;미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle ">6)라벨</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle">내부 규정범위</td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">라벨 표기사항 부착 여부</td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">결과 : 양호&nbsp;,&nbsp;보통,&nbsp;미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle ">7)포장</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle">내부 규정범위</td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">내용물이 안보이게 포장되었는가?</td>';
-			html += '		<td colspan="7" class="fs-10 text-start align-middle ">결과 : 양호&nbsp;,&nbsp;보통,&nbsp;미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			
-			html += '	<tr>';
-			html += '		<td colspan="30" class="text-center align-middle bd-n fw200 fs-8" name="fscTd">';
-			html += '		</td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '';		
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">시&nbsp;&nbsp;험&nbsp;&nbsp;자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="judUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="judgmentDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판&nbsp;&nbsp;정&nbsp;&nbsp;자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="conUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="confirmDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정&nbsp;결과 : </td>';
-			html += '		<td colspan="20" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="qualityJudgmentNm" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input value="문서&nbsp;번호 : &nbsp;&nbsp;&nbsp;시험성적서 7-220713-03" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-		} else if(paperType == '01'){
-			//시험성적서
-			html += '	<tr style="page-break-before: always!important;">';
-			html += '		<td class="bd-n h-25" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '		<td colspan="13" class="text-center max-h75 h-75 bd2px align-middle bt-n bl-n br-n">';
-			html += '			<img src="/resources/assets/images/header_logo.png" style="width:70%;height:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="11" class="bt-n bl-n br-n max-h70 bd2px fs-12" style="height:100%!important;">';
-			html += '			㈜ 창영테크팩<br>';
-			html += '			주소 : 경기도 수원시 권선구 산업로 156번길 88-39<br>';
-			html += '			Tel : 031-292-6553<br>';
-			html += '			Fax : 031-292-6507';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td class="bd-n h-15" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '		<td colspan="14" class="fs-30 fw900 bd2px text-center bt-n bl-n br-n">자&nbsp;&nbsp;재&nbsp;&nbsp;시&nbsp;&nbsp;험&nbsp;&nbsp;성&nbsp;&nbsp;적&nbsp;&nbsp;서</td>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="12" class="fs-20 fw900 bd2px text-center bt-n bl-n br-n" name="purchaseCustomerNm"></td>';
-			html += '		<td colspan="15" class="fs-20 fw900 bd2px bd-n">貴中</td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제 품 명</td>';
-			html += '		<td colspan="21" class="fs-12 text-center align-middle " name="testItemNm"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle ">';
-			html += '			<input name="workDate" type="text" class="bg-gray text-center p-0 fs-15" style="border:none !important;max-width:70px">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조번호</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " name="bizOrdDtlNo"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">검사일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="testJudgmentDate" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:70px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">도안번호</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle " name="itemVersion"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">재질명</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="paperType"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">입고수량</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="quailtyPassQty" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:200px;min-width:200px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">원판 수량</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="eaQty"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">포장방법</td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">내부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="inPackMethod"></td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">외부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="outPackMethod"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">코팅</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="coatingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">색 상</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle " name="itemColor"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">성형방식</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="moldingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">보관조건</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle ">온도 : 실온( 1 ~ 30℃ )</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">시험항목</td>';
-			html += '		<td colspan="7" class="br-n fs-12 text-center align-middle ">기준</td>';
-			html += '		<td colspan="9" class="bl-n br-n fs-12 text-center align-middle ">검사내용</td>';
-			html += '		<td colspan="5" class="bl-n fs-12 text-center align-middle ">시험결과</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">1)재질</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testPaperType"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">기준과 실제 생산용</td>';
-			html += '		<td colspan="1" class="fs-10 text-start align-middle br-n">재질 :</td>';
-			html += '		<td colspan="3" class="fs-10 text-start align-middle bl-n br-n" style="width: 100%;">';
-			html += '			<input type="text" class="text-end p-0" style="width: 100%; border: none; font-size: 10px !important; box-sizing: border-box;">';
-			html += '		</td>';
-			html += '		<td colspan="1" class="fs-10 text-start align-middle bl-n">㎡</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="2" class="fs-12 text-start align-middle ">2)규격</td>';
-			html += '		<td colspan="7" rowspan="2" class="fs-12 text-center align-middle " name="testSizeXY"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">정확한 자로 규격을 측정한다<sub style="font-size:6px!important;transform: translate(-8%, -50%) scale(0.8);display: inline-block;">(오차범위±0.5mm)</sub></td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle" style="width: 100%;">';
-			html += '			<div style="display: flex; width: 100%;">';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 34%; border: none; font-size: 10px !important; box-sizing: border-box;">(L)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 10px !important; box-sizing: border-box;">(W)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 10px !important; box-sizing: border-box;">(H)';
-			html += '		  	</div>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">재단면 또는 톰슨은 완벽한가</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle text-nowrap">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>'; //가로 길이 유지를 위한 공백 부여
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">3)도안번호</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemVersion"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">도안번호 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">4)색 상</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemColor"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">지정 색도와 일치하는가를 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">5)표시사항</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">문자, 글꼴등 견본과 일치하는가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="3" class="fs-12 text-start align-middle ">6)인쇄 상태</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 부위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">1㎟ 미만의 점이 3개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 외 부위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">1㎟ 미만의 점이 5개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">인쇄 전체</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">이중인쇄 인쇄번짐이 없는가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="bg-gray fs-12 text-start align-middle ">7)바코드</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">정확하게 읽혀야 한다.</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="2" class="bg-gray fs-12 text-start align-middle ">8)코팅</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testCoatingMethod"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">코팅상태가 깨끗하여야한다.</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">라미네이팅시 표면 접착강도</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">테이프시험시 인쇄가 떨어지지 않는다.</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="bg-gray fs-12 text-start align-middle ">9)접착면</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">접착 품질 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">10)외관</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">손상, 파손등의 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">11)라벨</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">라벨 표기사항 부착 여부</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">12)포장</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">Tapping 상태</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle  br-n">특기사항 기록란</td>';
-			html += '		<td colspan="19" class="fs-15 text-start align-middle  bl-n bb-n">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-start align-middle  bb-n bt-n">';
-			html += '			<input type="text" class="text-start p-0 fs-15" style="border:none !important;max-width:600px;min-width:600px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle  bt-n br-n">유효일자</td>';
-			html += '		<td colspan="19" class="fs-15 text-start align-middle  bt-n bl-n bb-n"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-start align-middle  bb-n bt-n">';
-			html += '			<input type="text" class="text-start p-0 fs-15" style="border:none !important;max-width:600px;min-width:600px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-center align-middle bt-n fw200 fs-8" name="fscTd">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '';		
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">시험자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="judUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="judgmentDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="conUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="confirmDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정결과 : </td>';
-			html += '		<td colspan="20" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="qualityJudgmentNm" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="14" class="fs-15 text-start align-middle bd-n"></td>';
-			html += '		<td colspan="10" class="fs-15 text-start align-middle bd-n">㈜ 창영테크팩    최 재 성';
-			html += '			<img src="/resources/assets/images/ceo_sign.png" style="width:35%;height:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input value="문서번호 : 시험성적서 1-190910-03" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-		} else if(paperType == '02'){
-			//셀트리온 시험성적서
-			html += '	<tr style="page-break-before: always!important;">';
-			html += '		<td class="bd-n h-25" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '		<td colspan="13" class="text-center max-h75 h-75 bd2px align-middle bt-n bl-n br-n">';
-			html += '			<img src="/resources/assets/images/header_logo.png" style="width:70%;height:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="11" class="bt-n bl-n br-n max-h70 bd2px fs-12" style="height:100%!important;">';
-			html += '			㈜ 창영테크팩<br>';
-			html += '			주소 : 경기도 수원시 권선구 산업로 156번길 88-39<br>';
-			html += '			Tel : 031-292-6553<br>';
-			html += '			Fax : 031-292-6507';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td class="bd-n h-20" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '		<td colspan="14" class="fs-30 fw900 bd2px text-center bt-n bl-n br-n">자&nbsp;&nbsp;재&nbsp;&nbsp;시&nbsp;&nbsp;험&nbsp;&nbsp;성&nbsp;&nbsp;적&nbsp;&nbsp;서</td>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="12" class="fs-20 fw900 bd2px text-center bt-n bl-n br-n" name="purchaseCustomerNm"></td>';
-			html += '		<td colspan="15" class="fs-20 fw900 bd2px bd-n">貴中</td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제 품 명</td>';
-			html += '		<td colspan="21" class="fs-12 text-center align-middle " name="testItemNm"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle ">';
-			html += '			<input name="workDate" type="text" class="bg-gray text-center p-0 fs-15" style="border:none !important;max-width:70px">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조번호</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " name="bizOrdDtlNo"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">검사일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="testJudgmentDate" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:70px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">도안번호</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle " name="itemVersion"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">재질명</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="paperType"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">입고수량</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="quailtyPassQty" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:200px;min-width:200px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">원판 수량</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="eaQty"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">포장방법</td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">내부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="inPackMethod"></td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">외부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="outPackMethod"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">코팅</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="coatingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">색 상</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle bg-gray" name="itemColor"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">성형방식</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="moldingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">판정 결과</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle">';
-			html += '			<input name="qualityResult" type="text" class="text-start p-0 " style="border:none !important;width:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">시험항목</td>';
-			html += '		<td colspan="7" class="br-n fs-12 text-center align-middle ">기준</td>';
-			html += '		<td colspan="9" class="bl-n br-n fs-12 text-center align-middle ">검사내용</td>';
-			html += '		<td colspan="5" class="bl-n fs-12 text-center align-middle ">시험결과</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">1)재질</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testPaperType"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">기준과 실제 생산용</td>';
-			html += '		<td colspan="1" class="fs-12 text-start align-middle br-n">재질 :</td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle bl-n br-n" style="width: 100%;">';
-			html += '			<input type="text" class="text-end p-0" style="width: 100%; border: none; font-size: 12px !important; box-sizing: border-box;">';
-			html += '		</td>';
-			html += '		<td colspan="1" class="fs-12 text-start align-middle bl-n">㎡</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="2" class="fs-12 text-start align-middle ">2)규격</td>';
-			html += '		<td colspan="7" rowspan="2" class="fs-12 text-center align-middle " name="testSizeXY"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">정확한 자로 규격을 측정한다</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle" style="width: 100%;">';
-			html += '			<div style="display: flex; width: 100%;">';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 34%; border: none; font-size: 12px !important; box-sizing: border-box;">(L)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 12px !important; box-sizing: border-box;">(W)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 12px !important; box-sizing: border-box;">(H)';
-			html += '		  	</div>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">절단면은 박리 현상 유무</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle text-nowrap">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>'; //가로 길이 유지를 위한 공백 부여
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">3)도안번호</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemVersion"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">도안번호 확인</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">4)색 상</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemColor"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">지정 색도와 일치하는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">5)표시사항</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">문자, 글꼴등 견본과 일치하는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="3" class="fs-12 text-start align-middle ">6)인쇄 상태</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 부위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">1㎟ 미만의 점이 3개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 외 부위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">1㎟ 미만의 점이 5개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">인쇄 전체</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">이중인쇄 인쇄번짐이 없는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="3" class="bg-gray fs-12 text-start align-middle ">7)바코드</td>';
-			//html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			//html += '		<td colspan="9" class="fs-10 text-start align-middle ">정확하게 읽혀야 한다.</td>';
-			//html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 부정확, 미적용</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">7)코팅</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testCoatingMethod"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">코팅상태가 깨끗하여야한다.</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="7" class="fs-12 text-center align-middle ">라미네이팅시 표면 접착강도</td>';
-			//html += '		<td colspan="9" class="fs-10 text-start align-middle ">테이프시험시 인쇄가 떨어지지 않는다.</td>';
-			//html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="2" class="fs-12 text-start align-middle ">8)접착면</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">접착 과다 및 위치 여부</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">접착 후 조립 이상 유무</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">9)라벨</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">라벨 표기사항 부착 여부</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">10)포장</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">내용물이 안보이게 포장되었는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle  br-n">특기사항 기록란</td>';
-			html += '		<td colspan="19" class="fs-15 text-start align-middle  bl-n bb-n">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="24" class="text-start align-middle  bb-n bt-n">';
-			//html += '			<input type="text" class="text-start p-0 fs-15" style="border:none !important;max-width:600px;min-width:600px;">';
-			//html += '		</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="5" class="fs-15 text-start align-middle  bt-n br-n">유효일자</td>';
-			//html += '		<td colspan="19" class="fs-15 text-start align-middle  bt-n bl-n bb-n"></td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-start align-middle bb-n bt-n ">';
-			html += '			<textarea rows="4" name="issueDesc" class="form-control text-start p-0 fs-15" style="resize: none;overflow:hidden;border:none !important;max-width:600px;min-width:600px;"></textarea>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-center align-middle bt-n fw200 fs-8" name="fscTd">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '';		
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">시험자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="judUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="judgmentDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="conUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="confirmDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정결과 : </td>';
-			html += '		<td colspan="20" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="qualityJudgmentNm" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input value="문서번호 : 시험성적서 3-190910-03" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-		}  else if(paperType == '03'){
-			//셀트리온 시험성적서-영문판
-			html += '	<tr style="page-break-before: always!important;">';
-			html += '		<td class="bd-n h-25" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '		<td colspan="13" class="text-center max-h75 h-75 bd2px align-middle bt-n bl-n br-n">';
-			html += '			<img src="/resources/assets/images/header_logo.png" style="width:70%;height:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="11" class="bt-n bl-n br-n max-h70 bd2px fs-12" style="height:100%!important;">';
-			html += '			ChangYoung Techpack co., Ltd.<br>';
-			html += '			Add: 88-39, Saneop-ro 156beon-gil, Gwonseon-gu,<br>';
-			html += '			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Suwon-si, Gyeonggi-do, Republic of Korea<br>';
-			html += '			Tel: 82-31-292-6553&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fax: 82-31-292-6507';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td class="bd-n h-20" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="7" class="bd-n"></td>';
-			html += '		<td colspan="16" class="fs-30 fw900 bd2px text-center bt-n bl-n br-n">Certification of Analysis</td>';
-			html += '		<td colspan="7" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="10" class="fs-20 fw900 bd2px text-center bt-n bl-n br-n">Celltrion</td>';
-			html += '		<td colspan="17" class="fs-20 fw900 bd2px bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle"><sub style="font-size:6px!important;transform: translate(0%, 0%);display: inline-block;">Product Name</sub></td>';
-			html += '		<td colspan="20" class="fs-12 text-center align-middle " name="testItemNm"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle ">MFG. date</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle ">';
-			html += '			<input name="workDate" type="text" class="bg-gray text-center p-0 fs-15" style="border:none !important;max-width:70px">';
-			html += '		</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle ">Lot No.</td>';
-			html += '		<td colspan="10" class="bg-gray fs-12 text-center align-middle " name="bizOrdDtlNo"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle ">Test date</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="testJudgmentDate" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:70px;">';
-			html += '		</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle ">Catalog No.</td>';
-			html += '		<td colspan="10" class="fs-12 text-center align-middle " name="itemVersion"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle "><sub style="font-size:2px!important;transform: translate(0%, 0%);display: inline-block;">Paper material</sub></td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="paperType"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle "><sub style="font-size:2px!important;transform: translate(0%, 0%);display: inline-block;">Delivery qunantity</sub></td>';
-			html += '		<td colspan="10" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="quailtyPassQty" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:200px;min-width:200px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle "><sub style="font-size:2px!important;transform: translate(0%, 0%);display: inline-block;">Negative quantity</sub></td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="eaQty"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle ">Packaging</td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">Inner</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="inPackMethod"></td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">Outer</td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle " name="outPackMethod"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle ">Coating</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="coatingMethod"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle ">Color</td>';
-			html += '		<td colspan="10" class="fs-12 text-center align-middle bg-gray" name="itemColor"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle ">Forming type</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="moldingMethod"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle ">Test result</td>';
-			html += '		<td colspan="10" class="fs-12 text-center align-middle">';
-			html += '			<input name="qualityResult" type="text" class="text-start p-0 " style="border:none !important;width:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle ">Test tem</td>';
-			html += '		<td colspan="7" class="br-n fs-12 text-center align-middle ">Inspection criteria</td>';
-			html += '		<td colspan="9" class="bl-n br-n fs-12 text-center align-middle ">Inspection content</td>';
-			html += '		<td colspan="4" class="bl-n fs-12 text-center align-middle ">Result</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">1)Paper material</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testPaperType"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">actual material for production</td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle bl-n br-n" style="width: 100%;">';
-			html += '			<input type="text" class="text-end p-0" style="width: 100%; border: none; font-size: 12px !important; box-sizing: border-box;">';
-			html += '		</td>';
-			html += '		<td colspan="1" class="fs-12 text-start align-middle bl-n">㎡</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" rowspan="2" class="fs-12 text-start align-middle ">2)Paper Size</td>';
-			html += '		<td colspan="7" rowspan="2" class="fs-12 text-center align-middle " name="testSizeXY"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">measure paper with a ruler</td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle" style="width: 100%;">';
-			html += '			<div style="display: flex; width: 100%;">';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 34%; border: none; font-size: 12px !important; box-sizing: border-box;">(L)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 12px !important; box-sizing: border-box;">(W)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 12px !important; box-sizing: border-box;">(H)';
-			html += '		  	</div>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">check for insection separation phenomenon</td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle text-nowrap">Result : Good / Fair&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle ">3)Drawing No.</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemVersion"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">check for drawing no.</td>';
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">Result : Good / Fair / Unapplied</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle ">4)Color</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemColor"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">check for chromaticity consistent with the specified</td>';
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">Result : Good / Fair / Unapplied</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle ">5)Mark item</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">sample criteria</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">check for consistent with the criteria sample</td>';
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">Result : Good / Fair / Unapplied</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" rowspan="3" class="fs-12 text-start align-middle ">6)Print quality</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">Contents of printed</td>';
-			html += "		<td colspan='9' class='fs-10 text-start align-middle '>check for printing defects<br>- Dot size : less than 1㎟ / Q'ty : less than 3</td>";
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">Result : Accuracy /<br>Inaccuracy / Unapplied</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">Except contents of printed</td>';
-			html += "		<td colspan='9' class='fs-10 text-start align-middle '>check for printing defects<br>- Dot size : less than 1㎟ / Q'ty : less than 5</td>";
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">Result : Accuracy /<br>Inaccuracy / Unapplied</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">Entire print status</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">check for mackle or bad printing</td>';
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">Result : Accuracy /<br>Inaccuracy / Unapplied</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="3" class="bg-gray fs-12 text-start align-middle ">7)바코드</td>';
-			//html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			//html += '		<td colspan="9" class="fs-10 text-start align-middle ">정확하게 읽혀야 한다.</td>';
-			//html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 부정확, 미적용</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle ">7)Coating</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">non-coated</td>'; //testCoatingMethod
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">check for coating area</td>';
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">Result : Good / Fair / Unapplied</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="7" class="fs-12 text-center align-middle ">라미네이팅시 표면 접착강도</td>';
-			//html += '		<td colspan="9" class="fs-10 text-start align-middle ">테이프시험시 인쇄가 떨어지지 않는다.</td>';
-			//html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" rowspan="2" class="fs-12 text-start align-middle ">8)adherend</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">Internal specification range</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">check for adherend area</td>';
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">Result : Good / Fair / Unapplied</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">Internal specification range</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">check for the status of assembly</td>';
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">Result : Good / Fair / Unapplied</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle ">9)Label</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">Internal specification range</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">check for labeling</td>';
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">Result : Good / Fair / Unapplied</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-12 text-start align-middle ">10)Packaging</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">Internal specification range</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">check for packaging status</td>';
-			html += '		<td colspan="4" class="fs-10 text-start align-middle ">Result : Good / Fair / Unapplied</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle  br-n">Remarks</td>';
-			html += '		<td colspan="19" class="fs-15 text-start align-middle  bl-n bb-n">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="24" class="text-start align-middle  bb-n bt-n">';
-			//html += '			<input type="text" class="text-start p-0 fs-15" style="border:none !important;max-width:600px;min-width:600px;">';
-			//html += '		</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="5" class="fs-15 text-start align-middle  bt-n br-n">유효일자</td>';
-			//html += '		<td colspan="19" class="fs-15 text-start align-middle  bt-n bl-n bb-n"></td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-start align-middle bb-n bt-n ">';
-			html += '			<textarea rows="4" name="issueDesc" class="form-control text-start p-0 fs-15" style="resize: none;overflow:hidden;border:none !important;max-width:600px;min-width:600px;"></textarea>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-center align-middle bt-n fw200 fs-8" name="fscTd">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '';		
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">Experimenter : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="judUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(Date : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="judgmentDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">Approver : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="conUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(Date : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="confirmDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">Test result : </td>';
-			html += '		<td colspan="20" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="qualityJudgmentNm" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>'; 
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input value="문서번호 : 시험성적서 3-190910-03" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-		} else if(paperType == '04'){
-			//셀트리온제약 오창,한독 
-			html += '	<tr style="page-break-before: always!important;">';
-			html += '		<td class="bd-n h-25" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '		<td colspan="13" class="text-center max-h75 h-75 bd2px align-middle bt-n bl-n br-n">';
-			html += '			<img src="/resources/assets/images/header_logo.png" style="width:70%;height:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="11" class="bt-n bl-n br-n max-h70 bd2px fs-12" style="height:100%!important;">';
-			html += '			㈜ 창영테크팩<br>';
-			html += '			주소 : 경기도 수원시 권선구 산업로 156번길 88-39<br>';
-			html += '			Tel : 031-292-6553<br>';
-			html += '			Fax : 031-292-6507';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td class="bd-n h-15" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '		<td colspan="14" class="fs-30 fw900 bd2px text-center bt-n bl-n br-n">자&nbsp;&nbsp;재&nbsp;&nbsp;시&nbsp;&nbsp;험&nbsp;&nbsp;성&nbsp;&nbsp;적&nbsp;&nbsp;서</td>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="12" class="fs-20 fw900 bd2px text-center bt-n bl-n br-n" name="purchaseCustomerNm"></td>';
-			html += '		<td colspan="15" class="fs-20 fw900 bd2px bd-n">貴中</td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제 품 명</td>';
-			html += '		<td colspan="21" class="fs-12 text-center align-middle " name="testItemNm"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle ">';
-			html += '			<input name="workDate" type="text" class="bg-gray text-center p-0 fs-15" style="border:none !important;max-width:70px">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조번호</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " name="bizOrdDtlNo"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">검사일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="testJudgmentDate" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:70px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">도안번호</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle " name="itemVersion"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">재질명</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="paperType"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">입고수량</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="quailtyPassQty" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:200px;min-width:200px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">원판 수량</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="eaQty"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">포장방법</td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">내부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="inPackMethod"></td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">외부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="outPackMethod"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">코팅</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="coatingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">색 상</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle " name="itemColor"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">성형방식</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="moldingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">보관조건</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle ">온도 : 실온( 15 ~ 25℃ )</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">시험항목</td>';
-			html += '		<td colspan="7" class="br-n fs-12 text-center align-middle ">기준</td>';
-			html += '		<td colspan="9" class="bl-n br-n fs-12 text-center align-middle ">검사내용</td>';
-			html += '		<td colspan="5" class="bl-n fs-12 text-center align-middle ">시험결과</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">1)재질</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testPaperType"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">기준과 실제 생산용</td>';
-			html += '		<td colspan="1" class="fs-10 text-start align-middle br-n">재질 :</td>';
-			html += '		<td colspan="3" class="fs-10 text-start align-middle bl-n br-n" style="width: 100%;">';
-			html += '			<input type="text" class="text-end p-0" style="width: 100%; border: none; font-size: 10px !important; box-sizing: border-box;">';
-			html += '		</td>';
-			html += '		<td colspan="1" class="fs-10 text-start align-middle bl-n">㎡</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="3" class="fs-12 text-start align-middle ">2)규격</td>';
-			html += '		<td colspan="7" rowspan="3" class="fs-12 text-center align-middle " name="testSizeXY"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">정확한 자로 규격을 측정한다.<sub style="font-size:6px!important;transform: translate(-8%, -50%) scale(0.8);display: inline-block;">(오차범위±0.5mm)</sub></td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle" style="width: 100%;">';
-			html += '			<div style="display: flex; width: 100%;">';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 34%; border: none; font-size: 10px !important; box-sizing: border-box;">(L)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 10px !important; box-sizing: border-box;">(W)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 10px !important; box-sizing: border-box;">(H)';
-			html += '		  	</div>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">재단면 또는 톰슨은 완벽한가</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle text-nowrap">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>'; //가로 길이 유지를 위한 공백 부여
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">접지 후 규격을 측정한다.<sub style="font-size:6px!important;transform: translate(-8%, -50%) scale(0.8);display: inline-block;">(오차범위±2mm)</sub></td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle" style="width: 100%;">';
-			html += '			<div style="display: flex; width: 100%;">';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 34%; border: none; font-size: 10px !important; box-sizing: border-box;">(L)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 10px !important; box-sizing: border-box;">(W)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 10px !important; box-sizing: border-box;">(H)';
-			html += '		  	</div>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">3)도안번호</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemVersion"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">도안번호 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">4)색 상</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemColor"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">지정 색도와 일치하는가를 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">5)표시사항</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">문자, 글꼴등 견본과 일치하는가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="3" class="fs-12 text-start align-middle ">6)인쇄 상태</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 부위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">1㎟ 미만의 점이 3개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 외 부위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">1㎟ 미만의 점이 5개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">인쇄 전체</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">이중인쇄 인쇄번짐이 없는가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="bg-gray fs-12 text-start align-middle ">7)바코드</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">정확하게 읽혀야 한다.</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="2" class="bg-gray fs-12 text-start align-middle ">8)코팅</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testCoatingMethod"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">코팅상태가 깨끗하여야한다.</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">라미네이팅시 표면 접착강도</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">테이프시험시 인쇄가 떨어지지 않는다.</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="bg-gray fs-12 text-start align-middle ">9)접착면</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">접착 품질 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">10)외관</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">손상, 파손등의 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">11)라벨</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">라벨 표기사항 부착 여부</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">12)포장</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">Tapping 상태</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle  br-n">특기사항 기록란</td>';
-			html += '		<td colspan="19" class="fs-15 text-start align-middle  bl-n bb-n">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-start align-middle  bb-n bt-n">';
-			html += '			<input type="text" class="text-start p-0 fs-15" style="border:none !important;max-width:600px;min-width:600px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle  bt-n br-n">유효일자</td>';
-			html += '		<td colspan="19" class="fs-15 text-start align-middle  bt-n bl-n bb-n"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-start align-middle bb-n bt-n ">';
-			html += '			<input type="text" class="text-start p-0 fs-15" style="border:none !important;max-width:600px;min-width:600px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-center align-middle bt-n fw200 fs-8" name="fscTd">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '';		
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">시험자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="judUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="judgmentDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="conUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="confirmDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정결과 : </td>';
-			html += '		<td colspan="20" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="qualityJudgmentNm" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="14" class="fs-15 text-start align-middle bd-n"></td>';
-			html += '		<td colspan="10" class="fs-15 text-start align-middle bd-n">㈜ 창영테크팩    최 재 성';
-			html += '			<img src="/resources/assets/images/ceo_sign.png" style="width:28%;height:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input value="문서번호 : 시험성적서 4-190910-03" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-		} else if(paperType == '05'){
-			//명인 시험성적서
-			html += '	<tr style="page-break-before: always!important;">';
-			html += '		<td class="bd-n h-25" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '		<td colspan="13" class="text-center max-h75 h-75 bd2px align-middle bt-n bl-n br-n">';
-			html += '			<img src="/resources/assets/images/creativeLab.jpeg" style="width:70%;height:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="11" class="bt-n bl-n br-n max-h70 bd2px fs-12" style="height:100%!important;">';
-			html += '			크리에이티브 랩<br>';
-			html += '			주소 : 경기도 수원시 권선구 산업로 156번길 88-39<br>';
-			html += '			Tel : 031-292-6553<br>';
-			html += '			Fax : 031-292-6507';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td class="bd-n h-20" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '		<td colspan="14" class="fs-30 fw900 bd2px text-center bt-n bl-n br-n">자&nbsp;&nbsp;재&nbsp;&nbsp;시&nbsp;&nbsp;험&nbsp;&nbsp;성&nbsp;&nbsp;적&nbsp;&nbsp;서</td>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="12" class="fs-20 fw900 bd2px text-center bt-n bl-n br-n" name="purchaseCustomerNm"></td>';
-			html += '		<td colspan="15" class="fs-20 fw900 bd2px bd-n">貴中</td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제 품 명</td>';
-			html += '		<td colspan="21" class="fs-12 text-center align-middle " name="testItemNm"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle ">';
-			html += '			<input name="workDate" type="text" class="bg-gray text-center p-0 fs-15" style="border:none !important;max-width:70px">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조번호</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " name="bizOrdDtlNo"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">검사일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="testJudgmentDate" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:70px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">도안번호</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle " name="itemVersion"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">재질명</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="paperType"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">입고수량</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="quailtyPassQty" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:200px;min-width:200px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">원판 수량</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="eaQty"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">포장방법</td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">내부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="inPackMethod"></td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">외부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="outPackMethod"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">코팅</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="coatingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">색 상</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle" name="itemColor"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">성형방식</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="moldingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">판정 결과</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle">';
-			html += '			<input name="qualityResult" type="text" class="text-start p-0 " style="border:none !important;width:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">시험항목</td>';
-			html += '		<td colspan="7" class="br-n fs-12 text-center align-middle ">기준</td>';
-			html += '		<td colspan="9" class="bl-n br-n fs-12 text-center align-middle ">검사내용</td>';
-			html += '		<td colspan="5" class="bl-n fs-12 text-center align-middle ">시험결과</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">1)재질</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testPaperType"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">기준과 실제 생산용</td>';
-			html += '		<td colspan="1" class="fs-12 text-start align-middle br-n">재질 :</td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle bl-n br-n" style="width: 100%;">';
-			html += '			<input type="text" class="text-end p-0" style="width: 100%; border: none; font-size: 12px !important; box-sizing: border-box;">';
-			html += '		</td>';
-			html += '		<td colspan="1" class="fs-12 text-start align-middle bl-n">㎡</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="2" class="fs-12 text-start align-middle ">2)규격</td>';
-			html += '		<td colspan="7" rowspan="2" class="fs-12 text-center align-middle " name="testSizeXY"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">정확한 자로 규격을 측정한다</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle" style="width: 100%;">';
-			html += '			<div style="display: flex; width: 100%;">';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 34%; border: none; font-size: 12px !important; box-sizing: border-box;">(L)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 12px !important; box-sizing: border-box;">(W)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 12px !important; box-sizing: border-box;">(H)';
-			html += '		  	</div>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">절단면은 박리 현상 유무</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle text-nowrap">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>'; //가로 길이 유지를 위한 공백 부여
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">3)도안번호</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemVersion"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">도안번호 확인</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">4)색 상</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemColor"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">지정 색도와 일치하는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">5)표시사항</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">문자, 글꼴등 견본과 일치하는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="3" class="fs-12 text-start align-middle ">6)인쇄 상태</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 부위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">1㎟ 미만의 점이 3개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 외 부위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">1㎟ 미만의 점이 5개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">인쇄 전체</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">이중인쇄 인쇄번짐이 없는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="3" class="bg-gray fs-12 text-start align-middle ">7)바코드</td>';
-			//html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			//html += '		<td colspan="9" class="fs-10 text-start align-middle ">정확하게 읽혀야 한다.</td>';
-			//html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 부정확, 미적용</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">7)코팅</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testCoatingMethod"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">코팅상태가 깨끗하여야한다.</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="7" class="fs-12 text-center align-middle ">라미네이팅시 표면 접착강도</td>';
-			//html += '		<td colspan="9" class="fs-10 text-start align-middle ">테이프시험시 인쇄가 떨어지지 않는다.</td>';
-			//html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="2" class="fs-12 text-start align-middle ">8)접착면</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">접착 과다 및 위치 여부</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">접착 후 조립 이상 유무</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">9)라벨</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">라벨 표기사항 부착 여부</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">10)포장</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">내용물이 안보이게 포장되었는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle  br-n">특기사항 기록란</td>';
-			html += '		<td colspan="19" class="fs-15 text-start align-middle  bl-n bb-n">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="24" class="text-start align-middle  bb-n bt-n">';
-			//html += '			<input type="text" class="text-start p-0 fs-15" style="border:none !important;max-width:600px;min-width:600px;">';
-			//html += '		</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="5" class="fs-15 text-start align-middle  bt-n br-n">유효일자</td>';
-			//html += '		<td colspan="19" class="fs-15 text-start align-middle  bt-n bl-n bb-n"></td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-start align-middle bb-n bt-n ">';
-			html += '			<textarea rows="6" name="issueDesc" class="form-control text-start p-0 fs-15" style="resize: none;overflow:hidden;border:none !important;max-width:600px;min-width:600px;"></textarea>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-center align-middle bt-n fw200 fs-8" name="fscTd">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '';		
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">시험자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="judUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="judgmentDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="conUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="confirmDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정결과 : </td>';
-			html += '		<td colspan="20" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="qualityJudgmentNm" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input value="문서번호 : 시험성적서 6-190910-03" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-		} else if(paperType == '06'){
-			//크리, 건일
-			html += '	<tr style="page-break-before: always!important;">';
-			html += '		<td class="bd-n h-25" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '		<td colspan="13" class="text-center max-h75 h-75 bd2px align-middle bt-n bl-n br-n">';
-			html += '			<img src="/resources/assets/images/creativeLab.jpeg" style="width:70%;height:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="11" class="bt-n bl-n br-n max-h70 bd2px fs-12" style="height:100%!important;">';
-			html += '			크리에이티브 랩<br>';
-			html += '			주소 : 경기도 수원시 권선구 산업로 156번길 88-39<br>';
-			html += '			Tel : 031-292-6553<br>';
-			html += '			Fax : 031-292-6507';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td class="bd-n h-20" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '		<td colspan="14" class="fs-30 fw900 bd2px text-center bt-n bl-n br-n">자&nbsp;&nbsp;재&nbsp;&nbsp;시&nbsp;&nbsp;험&nbsp;&nbsp;성&nbsp;&nbsp;적&nbsp;&nbsp;서</td>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="12" class="fs-20 fw900 bd2px text-center bt-n bl-n br-n" name="purchaseCustomerNm"></td>';
-			html += '		<td colspan="15" class="fs-20 fw900 bd2px bd-n">貴中</td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제 품 명</td>';
-			html += '		<td colspan="21" class="fs-12 text-center align-middle " name="testItemNm"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle ">';
-			html += '			<input name="workDate" type="text" class="bg-gray text-center p-0 fs-15" style="border:none !important;max-width:70px">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조번호</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " name="bizOrdDtlNo"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">검사일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="testJudgmentDate" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:70px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">도안번호</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle " name="itemVersion"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">재질명</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="paperType"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">입고수량</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="quailtyPassQty" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:200px;min-width:200px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">원판 수량</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="eaQty"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">포장방법</td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">내부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="inPackMethod"></td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">외부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="outPackMethod"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">코팅</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="coatingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">색 상</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle" name="itemColor"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">성형방식</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="moldingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">판정 결과</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle">';
-			html += '			<input name="qualityResult" type="text" class="text-start p-0 " style="border:none !important;width:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">시험항목</td>';
-			html += '		<td colspan="7" class="br-n fs-12 text-center align-middle ">기준</td>';
-			html += '		<td colspan="9" class="bl-n br-n fs-12 text-center align-middle ">검사내용</td>';
-			html += '		<td colspan="5" class="bl-n fs-12 text-center align-middle ">시험결과</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">1)재질</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testPaperType"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">기준과 실제 생산용</td>';
-			html += '		<td colspan="1" class="fs-12 text-start align-middle br-n">재질 :</td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle bl-n br-n" style="width: 100%;">';
-			html += '			<input type="text" class="text-end p-0" style="width: 100%; border: none; font-size: 12px !important; box-sizing: border-box;">';
-			html += '		</td>';
-			html += '		<td colspan="1" class="fs-12 text-start align-middle bl-n">㎡</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="2" class="fs-12 text-start align-middle ">2)규격</td>';
-			html += '		<td colspan="7" rowspan="2" class="fs-12 text-center align-middle " name="testSizeXY"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">정확한 자로 규격을 측정한다</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle" style="width: 100%;">';
-			html += '			<div style="display: flex; width: 100%;">';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 34%; border: none; font-size: 12px !important; box-sizing: border-box;">(L)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 12px !important; box-sizing: border-box;">(W)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 12px !important; box-sizing: border-box;">(H)';
-			html += '		  	</div>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">절단면은 박리 현상 유무</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle text-nowrap">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>'; //가로 길이 유지를 위한 공백 부여
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">3)도안번호</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemVersion"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">도안번호 확인</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">4)색 상</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemColor"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">지정 색도와 일치하는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">5)표시사항</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">문자, 글꼴등 견본과 일치하는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="3" class="fs-12 text-start align-middle ">6)인쇄 상태</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 부위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">1㎟ 미만의 점이 3개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 외 부위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">1㎟ 미만의 점이 5개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">인쇄 전체</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">이중인쇄 인쇄번짐이 없는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="3" class="bg-gray fs-12 text-start align-middle ">7)바코드</td>';
-			//html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			//html += '		<td colspan="9" class="fs-10 text-start align-middle ">정확하게 읽혀야 한다.</td>';
-			//html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 부정확, 미적용</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">7)코팅</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testCoatingMethod"></td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">코팅상태가 깨끗하여야한다.</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="7" class="fs-12 text-center align-middle ">라미네이팅시 표면 접착강도</td>';
-			//html += '		<td colspan="9" class="fs-10 text-start align-middle ">테이프시험시 인쇄가 떨어지지 않는다.</td>';
-			//html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="2" class="fs-12 text-start align-middle ">8)접착면</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">접착 과다 및 위치 여부</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">접착 후 조립 이상 유무</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">9)라벨</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">라벨 표기사항 부착 여부</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">10)포장</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-12 text-start align-middle ">내용물이 안보이게 포장되었는가?</td>';
-			html += '		<td colspan="5" class="fs-12 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle  br-n">특기사항 기록란</td>';
-			html += '		<td colspan="19" class="fs-15 text-start align-middle  bl-n bb-n">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="24" class="text-start align-middle  bb-n bt-n">';
-			//html += '			<input type="text" class="text-start p-0 fs-15" style="border:none !important;max-width:600px;min-width:600px;">';
-			//html += '		</td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			//html += '	<tr>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '		<td colspan="5" class="fs-15 text-start align-middle  bt-n br-n">유효일자</td>';
-			//html += '		<td colspan="19" class="fs-15 text-start align-middle  bt-n bl-n bb-n"></td>';
-			//html += '		<td colspan="3" class="bd-n"></td>';
-			//html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-start align-middle bb-n bt-n ">';
-			html += '			<textarea rows="6" name="issueDesc" class="form-control text-start p-0 fs-15" style="resize: none;overflow:hidden;border:none !important;max-width:600px;min-width:600px;"></textarea>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-center align-middle bt-n fw200 fs-8" name="fscTd">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '';		
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">시험자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="judUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="judgmentDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="conUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="confirmDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정결과 : </td>';
-			html += '		<td colspan="20" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="qualityJudgmentNm" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-20"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input value="문서번호 : 시험성적서 5-190910-03" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-		} else if(paperType == '07'){
-			//대웅제약 오송
-			html += '	<tr style="page-break-before: always!important;">';
-			html += '		<td class="bd-n h-25" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '		<td colspan="13" class="text-center max-h75 h-75 bd2px align-middle bt-n bl-n br-n">';
-			html += '			<img src="/resources/assets/images/header_logo.png" style="width:70%;height:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="11" class="bt-n bl-n br-n max-h70 bd2px fs-12" style="height:100%!important;">';
-			html += '			㈜ 창영테크팩<br>';
-			html += '			주소 : 경기도 수원시 권선구 산업로 156번길 88-39<br>';
-			html += '			Tel : 031-292-6553<br>';
-			html += '			Fax : 031-292-6507';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n max-h75 h-75"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td class="bd-n h-15" colspan="30">';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '		<td colspan="14" class="fs-30 fw900 bd2px text-center bt-n bl-n br-n">자&nbsp;&nbsp;재&nbsp;&nbsp;시&nbsp;&nbsp;험&nbsp;&nbsp;성&nbsp;&nbsp;적&nbsp;&nbsp;서</td>';
-			html += '		<td colspan="8" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="12" class="fs-20 fw900 bd2px text-center bt-n bl-n br-n" name="purchaseCustomerNm"></td>';
-			html += '		<td colspan="15" class="fs-20 fw900 bd2px bd-n">貴中</td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제 품 명</td>';
-			html += '		<td colspan="21" class="fs-12 text-center align-middle " name="testItemNm"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle ">';
-			html += '			<input name="workDate" type="text" class="bg-gray text-center p-0 fs-15" style="border:none !important;max-width:70px">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">제조번호</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " name="bizOrdDtlNo"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">검사일자</td>';
-			html += '		<td colspan="6" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="testJudgmentDate" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:70px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">도안번호</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle " name="itemVersion"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">재질명</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="paperType"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">입고수량</td>';
-			html += '		<td colspan="12" class="bg-gray fs-12 text-center align-middle " >';
-			html += '			<input name="quailtyPassQty" type="text" class="bg-gray text-center p-0 " style="border:none !important;max-width:200px;min-width:200px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">원판 수량</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="eaQty"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">포장방법</td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">내부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="inPackMethod"></td>';
-			html += '		<td colspan="2" class="fs-12 text-center align-middle ">외부</td>';
-			html += '		<td colspan="4" class="fs-12 text-center align-middle " name="outPackMethod"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">코팅</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="coatingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">색 상</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle " name="itemColor"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">성형방식</td>';
-			html += '		<td colspan="6" class="fs-12 text-center align-middle " name="moldingMethod"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">보관조건</td>';
-			html += '		<td colspan="12" class="fs-12 text-center align-middle ">온도 : 실온( 1 ~ 30℃ )</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-center align-middle ">시험항목</td>';
-			html += '		<td colspan="7" class="br-n fs-12 text-center align-middle ">기준</td>';
-			html += '		<td colspan="9" class="bl-n br-n fs-12 text-center align-middle ">검사내용</td>';
-			html += '		<td colspan="5" class="bl-n fs-12 text-center align-middle ">시험결과</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">1)재질</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testPaperType"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">기준과 실제 생산용</td>';
-			html += '		<td colspan="1" class="fs-10 text-start align-middle br-n">재질 :</td>';
-			html += '		<td colspan="3" class="fs-10 text-start align-middle bl-n br-n" style="width: 100%;">';
-			html += '			<input type="text" class="text-end p-0" style="width: 100%; border: none; font-size: 10px !important; box-sizing: border-box;">';
-			html += '		</td>';
-			html += '		<td colspan="1" class="fs-10 text-start align-middle bl-n">㎡</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="2" class="fs-12 text-start align-middle ">2)규격</td>';
-			html += '		<td colspan="7" rowspan="2" class="fs-12 text-center align-middle " name="testSizeXY"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">정확한 자로 규격을 측정한다<sub style="font-size:6px!important;transform: translate(-8%, -50%) scale(0.8);display: inline-block;">(오차범위±1mm)</sub></td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle" style="width: 100%;">';
-			html += '			<div style="display: flex; width: 100%;">';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 34%; border: none; font-size: 10px !important; box-sizing: border-box;">(L)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 10px !important; box-sizing: border-box;">(W)*';
-			html += '		    	<input type="text" class="text-end p-0" style="width: 33%; border: none; font-size: 10px !important; box-sizing: border-box;">(H)';
-			html += '		  	</div>';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">재단면 또는 톰슨은 완벽한가</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle text-nowrap">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>'; //가로 길이 유지를 위한 공백 부여
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">3)도안번호</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemVersion"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">도안번호 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">4)색 상</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testItemColor"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">지정 색도와 일치하는가를 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">5)표시사항</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">문자, 글꼴등 견본과 일치하는가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="3" class="fs-12 text-start align-middle ">6)인쇄 상태</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 부위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">1㎟ 미만의 점이 3개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">문안 외 부위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">1㎟ 미만의 점이 5개이내인가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">인쇄 전체</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">이중인쇄 인쇄번짐이 없는가?</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="bg-gray fs-12 text-start align-middle ">7)바코드</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">기준 견본</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">정확하게 읽혀야 한다.</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 정확, 부정확, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" rowspan="2" class="bg-gray fs-12 text-start align-middle ">8)코팅</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle " name="testCoatingMethod"></td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">코팅상태가 깨끗하여야한다.</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">라미네이팅시 표면 접착강도</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">테이프시험시 인쇄가 떨어지지 않는다.</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="bg-gray fs-12 text-start align-middle ">9)접착면</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">접착 품질 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">10)외관</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">손상, 파손등의 확인</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">11)라벨</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">라벨 표기사항 부착 여부</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="3" class="fs-12 text-start align-middle ">12)포장</td>';
-			html += '		<td colspan="7" class="fs-12 text-center align-middle ">내부 규정 범위</td>';
-			html += '		<td colspan="9" class="fs-10 text-start align-middle ">Tapping 상태</td>';
-			html += '		<td colspan="5" class="fs-10 text-start align-middle ">결과 : 양호, 보통&nbsp;&nbsp;&nbsp;, 미적용</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="30" class="bd-n h-10"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle  br-n">특기사항 기록란</td>';
-			html += '		<td colspan="19" class="fs-15 text-start align-middle  bl-n bb-n">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-start align-middle  bb-n bt-n">';
-			html += '			<input type="text" class="text-start p-0 fs-15" style="border:none !important;max-width:600px;min-width:600px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle  bt-n br-n">유효일자</td>';
-			html += '		<td colspan="19" class="fs-15 text-start align-middle  bt-n bl-n bb-n"></td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-start align-middle bb-n bt-n ">';
-			html += '			<input name="effDate" type="text" class="text-start p-0 fs-15" style="border:none !important;max-width:600px;min-width:600px;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="text-center align-middle bt-n fw200 fs-8" name="fscTd">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '';		
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">시험자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="judUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="judgmentDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정자 : </td>';
-			html += '		<td colspan="8" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input name="conUserName" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="7" class="fs-15 text-end align-middle bd-n">(일자 : </td>';
-			html += '		<td colspan="5" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="confirmDate" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="4" class="fs-15 text-start align-middle bd-n">판정결과 : </td>';
-			html += '		<td colspan="20" class="fs-15 text-start align-middle bd-n" >';
-			html += '			<input name="qualityJudgmentNm" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="14" class="fs-15 text-start align-middle bd-n"></td>';
-			html += '		<td colspan="10" class="fs-15 text-start align-middle bd-n">㈜ 창영테크팩    최 재 성';
-			html += '			<img src="/resources/assets/images/ceo_sign.png" style="width:35%;height:100%;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-			html += '	<tr>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '		<td colspan="24" class="fs-15 text-start align-middle bd-n">';
-			html += '			<input value="문서번호 : 시험성적서 2-190910-03" type="text" class="text-start p-0 " style="border:none !important;width:100%;font-size:15px!important;">';
-			html += '		</td>';
-			html += '		<td colspan="3" class="bd-n"></td>';
-			html += '	</tr>';
-		}
-		return html;
-
+				} else {
+					toastr.error(res.message);
+				}
+			}
+		});
 	}
 
-	//성적서
-	function paperCreate(){
-		setTimeout(function(){
-			let checkObj = $('input[name=checkBox]:checked');
-			let checkNodeCnt = checkObj.length;
-			$('#qualityReportTable').find('tr').remove();
-			if( checkNodeCnt > 0 ){
-				//0보다 클경우 성적서를 만들고 해당값 넣어줘야함
-				for( var i = 0; i < checkNodeCnt ; i++){
-					$('#trAppendTarget').after(makeEmptyTr($('#qualityReportSelect').val()));
+	// 저장 처리
+	$('#btnSave').on('click',function() {
+
+		//입력값 검사
+		if (!$.trim($('#faultyStatus').val())) {
+			toastr.warning('불량현상을 입력해주세요.');
+			$('#faultyStatus').focus();
+			return false;
+		}
+
+		/* if (!$.trim($('#faultyPcs').val())) {
+			toastr.warning('부적합처리를 선택해주세요.');
+			$('#faultyPcs').focus();
+			return false;
+		} */
+
+		var formData = new FormData(document.getElementById("form"));
+		formData.append('inSlipNo', inSlipNo);
+		formData.append('inSlipSeq', inSlipSeq);
+		formData.append('itemSeq', itemSeq);
+		formData.append('admChargr', $('#admChargr').val());
+		formData.append('faultyRegDate', $('#faultyRegDate').val().replace(/-/g, ''));
+		formData.append('faultyTypeCd', faultyTypeCd);
+
+		var url = '<c:url value="/qm/itemFaultyAdmCreate"/>';
+
+		if (sideView == "edit") {
+			url = '<c:url value="/qm/itemFaultyAdmUpdate"/>';
+		}
+
+		$.ajax({
+			url : url,
+			type : 'POST',
+			data : formData,
+			processData : false,
+			contentType : false,
+			success : function(res) {
+				let data = res.data;
+				if (res.result == 'ok') {
+					// 보기
+					$('#itemFaultyTypeTable').DataTable().ajax.reload(function() {});
+					uiProc(true);
+					$('#btnSave').addClass('d-none');
 					
+					$('#fileSearch').addClass('d-none');
+					$('#btnFpFileDel').addClass('d-none');
+					$('#fileTag').removeClass('d-none');
+					$('#fileSearch2').addClass('d-none');
+					$('#btnFpFileDel2').addClass('d-none');
+					$('#fileTag2').removeClass('d-none');
+// 					$('#fileSearch7').addClass('d-none');
+// 					$('#btnFpFileDel7').addClass('d-none');
+// 					$('#fileTag7').removeClass('d-none');
+
+					$('#fpFn').text(res.faultyFile1);
+					$('#fpFn2').text(res.faultyFile2);
+					
+					if (sideView == "edit") {
+						toastr.success('수정되었습니다.');
+					} else {
+						toastr.success('등록되었습니다.');
+						$('#btnAdd').attr('disabled', true);
+						$('#btnEdit').attr('disabled', false);
+					}
+
+					$('#imageFile1').attr("src",'data:image/jpg;base64,'+ res.faultyImage1);
+					$('#imageFile2').attr("src",'data:image/jpg;base64,'+ res.faultyImage2);
+
+					sideView = 'edit';
+				} else {
+					toastr.error(res.message);
 				}
-			} else {
-				//0보다 큰 경우가 아닐 경우 빈 성적서만 만들어주면됨
-				$('#trAppendTarget').after(makeEmptyTr($('#qualityReportSelect').val()));
+			},
+			complete : function() {
+				$('#btnAddConfirm').removeClass('d-none');
+				$('#btnAddConfirmLoading').addClass('d-none');
+			}
+		});
+	});
+
+	//부적합처리 선택시
+	function faultyPcsChange(value){
+		if(value==1){	//특채
+			$('#pairCnt').val(faultyCnt);
+			$('#faultyCnt').val(0);
+			$('#faultyCnt').attr('disabled',true);
+		}else{
+			$('#faultyCnt').attr('disabled',false);
+		} 
+	}
+	
+	//등록버튼
+	$('#btnDtlAdd').on('click',function(){
+		if (sideView2 != 'edit') {
+			toastr.warning("부적합처리 등록할 항목을 선택해주세요.");
+			return false;
+		}
+
+		$('#form2').each(function() {
+			this.reset();
+		});
+
+		btnView = 'add';
+		uiProc2(false);
+
+		$('#faultyChargrNm').val(userNm);
+		$('#faultyChargr').val(userNumber);
+		
+		$('#pairCnt').val(faultyCnt);
+		$('#faultyCnt').val(0);
+
+		$('#faultyDate').val(serverDate);
+		$('#returnDate').val(serverDate);
+		$('#disuseDate').val(serverDate);
+		$('#btnDtlSave').removeClass('d-none');
+	});
+
+	//수정버튼
+	$('#btnDtlEdit').on('click',function(){
+		if (sideView2 != 'edit') {
+			toastr.warning("부적합처리 수정할 항목을 선택해주세요.");
+			return false;
+		}
+		
+		btnView = 'edit';
+		uiProc2(false);
+		$('#btnDtlSave').removeClass('d-none');
+	});
+
+
+	//승인버튼
+	$('#btnApprove').on('click',function(){
+		if (sideView2 != 'edit') {
+			toastr.warning("부적합처리 승인할 항목을 선택해주세요.");
+			return false;
+		}
+		
+		if ($('#btnDtlAdd').is(":disabled")==false ) {
+			console.log("save disabled equal undefinded")
+			toastr.warning("부적합처리 등록 후 승인해주세요.");
+			$('#btnDtlAdd').focus();
+			return false;
+		}else{
+			if ($('#btnApprove').attr('class') == 'btn btn-primary float-right mr-1') {
+				$('#approveSaveModal').modal('show');
+				console.log("등록중입니다.");
+				return false;
+			}
+		}
+		
+	});
+
+
+	//저장버튼
+	$('#btnDtlSave').on('click',function(){
+
+		if($('input:radio[name=approvalYn]:checked').val()==null || $('input:radio[name=approvalYn]:checked').val()==""){
+			toastr.warning("부적합처리를 선택해주세요.");
+			return false;
+		}
+
+		
+		if(btnView=="add"){
+			url = '<c:url value="qm/itemFaultyJdgAdmCreate" />';
+		}else{
+			url = '<c:url value="qm/itemFaultyJdgAdmUpdate" />';
+		}
+		 
+		$.ajax({
+			url : url,
+			type : 'GET',
+			data : {
+				'inSlipNo' : inSlipNo,
+				'inSlipSeq' : inSlipSeq,
+				'faultyPcs' : $('input[name=approvalYn]:checked').val(),
+				'pairCnt' : $('#pairCnt').val(),
+				'faultyCnt' : $('#faultyCnt').val(),
+				'faultyDate'  :$('#faultyDate').val().replace(/-/g,''),
+				'faultyChargr'  :$('#faultyChargr').val(),
+				'faultyDesc'  :$('#faultyDesc').val(),
+			},
+			success : function(res){
+
+				if(res.result=="ok"){
+					if(btnView=="add"){
+						toastr.success("등록되었습니다.");
+					}else{
+						toastr.success("수정되었습니다.");
+					}
+					uiProc2(true);
+					$('#btnDtlSave').addClass('d-none');
+					$('#btnDtlAdd').attr('disabled',true);
+					$('#btnDtlEdit').attr('disabled',false);
+
+					$('#itemFaultyAdmMasterTable').DataTable().ajax.reload(function(){});
+					
+				}else if(res.result=="excess"){
+					toastr.warning("불량수량을 초과하였습니다.");
+				}
+				
+				
 				
 			}
-			checkObj.each(function(index,item){
-				let tr = $(item).parent().parent().parent();
-				let data = qualityEndItemTable.row(tr).data();
+		})
+		
+	});
 
-				//FSC가 사용인 품목이면 품명 앞에 *표시 추가, 문구 보여주도록 수정 (2023.07.21)
-				const itemNmVal = data.etc7 == 'Y' ? '* ' + data.itemNm : data.itemNm;
-				if ( $('#qualityReportSelect').val() != '03' && data.etc7 == 'Y' ) {
-					$('td[name=fscTd]').text('*표시된 제품은 ㈜창영테크팩에서 생산된 FSC인증 제품입니다. 인증번호: SGSHK-COC-340249 인증타입: FSC Mix Credit');
-				} else {
-					$('td[name=fscTd]').text('');
-				}
-				
-				//명세서수량기준이 출고량이면 출고수량, 아니면 수주수량 보여주도록 수정 (2023.07.27)
-				const quailtyPassQtyVal = data.statementStandard == '002' ? data.outQty : data.bizOrdQty;
-				
-				if($('#qualityReportSelect').val() == '00'){
-					let bundleJson = JSON.parse(data.bundleJson);
-					let PAC = '';
-					let leaflet = '';
-					if(!isEmptyCheck(bundleJson)){
-						PAC = bundleJson.filter(v=> v.ITEM_NM.includes('PAC'));
-						leaflet = bundleJson.filter(v=> !v.ITEM_NM.includes('PAC'));
-						let bundleInfoTrHtml = '';
-						let bundlePackInfoTrHtml = '';
-						let bundleCntCheckTrHtml = '';
-						
-						const itemNmArray = []; //Bundling Packet 조합 값들을 넣는 배열
-						
-						//PAC
-						for(var i = 0; i < PAC.length; i++){
-							bundleInfoTrHtml += '<tr>';
-							bundleInfoTrHtml += '<td colspan="3" class="bd-n"></td>';
-							bundleInfoTrHtml += '<td colspan="3" class="fs-12 text-center align-middle">Pac card</td>';
-							bundleInfoTrHtml += '<td colspan="11" class="fs-10 text-center align-middle">'+PAC[i].ITEM_NM+'</td>';
-							bundleInfoTrHtml += '<td colspan="2" class="bg-gray fs-10 text-center align-middle">'+PAC[i].BIZ_ORD_DTL_NO+'</td>';
-							bundleInfoTrHtml += '<td colspan="4" class="fs-10 text-center align-middle">'+PAC[i].CUSTOMER_ITEM_CD+'</td>';
-							bundleInfoTrHtml += '<td colspan="4" class="fs-10 text-center align-middle">'+PAC[i].ITEM_VERSION+'</td>';
-							bundleInfoTrHtml += '</tr>';
-							
-							bundleCntCheckTrHtml += '<tr>';
-							bundleCntCheckTrHtml += '<td colspan="3" class="bd-n"></td>';
-							if(i==0){
-								let rowspanVal = PAC.length + leaflet.length + 1;
-								bundleCntCheckTrHtml += '<td rowspan="'+rowspanVal+'" colspan="6" class="fs-10 text-center align-middle " name="">수량 기록</td>';
-							}
-							bundleCntCheckTrHtml += '<td colspan="7" class="fs-10 text-start align-middle ">PAC Card</td>';
-							bundleCntCheckTrHtml += '<td colspan="7" class="bg-gray fs-10 text-start align-middle ">'+addCommas(parseInt(data.workFairQty)) + 'Ea' +'</td>';
-							bundleCntCheckTrHtml += '</tr>';
-							
-							itemNmArray.push(PAC[i].ITEM_NM);
-						}
-						//leaflet
-						for(var i = 0; i < leaflet.length; i++ ){
-							bundleInfoTrHtml += '<tr>';
-							bundleInfoTrHtml += '<td colspan="3" class="bd-n"></td>';
-							bundleInfoTrHtml += '<td colspan="3" class="fs-12 text-center align-middle">leaflet '+(i+1)+'</td>';
-							bundleInfoTrHtml += '<td colspan="11" class="fs-10 text-center align-middle">'+leaflet[i].ITEM_NM+'</td>';
-							bundleInfoTrHtml += '<td colspan="2" class="bg-gray fs-10 text-center align-middle">'+leaflet[i].BIZ_ORD_DTL_NO+'</td>';
-							bundleInfoTrHtml += '<td colspan="4" class="fs-10 text-center align-middle">'+leaflet[i].CUSTOMER_ITEM_CD+'</td>';
-							bundleInfoTrHtml += '<td colspan="4" class="fs-10 text-center align-middle">'+leaflet[i].ITEM_VERSION+'</td>';
-							bundleInfoTrHtml += '</tr>';
+	//숫자만 입력하게 처리
+	$(document).on('keyup',"input[name=faultyCnt]", function(event){
+		var faultyCntData = $(this).val();						//불량수량
+
+		if(parseFloat(faultyCnt)<parseFloat(faultyCntData)){
+			toastr.warning("불량수량을 초과하였습니다.");
+			$(this).val("");
+			$('#pairCnt').val(addCommas(faultyCnt));
+			return false;
+		}
+		
+		if (!((event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) || (event.which >= 37 && event.which <= 40) || event.which == 8 || event.which == 9 || event.which == 13 || event.which == 16 || event.which == 46)) {
+			$('.number-float0').on("blur keyup", function() {
+				$(this).val( $(this).val().replace(",", ""));
+			}); 
+			toastr.warning('숫자만 입력해주세요.');
+			$(this).val("");
+			$(this).select();
+			$('#pairCnt').val(addCommas(faultyCnt));
+			event.preventDefault();
+			return false;
+		}else{
+			$(this).val(addCommas($(this).val().replace(",", "")));
+			$('#pairCnt').val(parseFloat(faultyCnt)-parseFloat($(this).val().replace(",", "")))
+		}
+		
+	});
 
 
-							bundleCntCheckTrHtml += '<tr>';
-							bundleCntCheckTrHtml += '<td colspan="3" class="bd-n"></td>';
-							if(i==0 && PAC.length == 0){
-								let rowspanVal = PAC.length + leaflet.length + 1;
-								bundleCntCheckTrHtml += '<td rowspan="'+rowspanVal+'" colspan="6" class="fs-10 text-center align-middle " name="">수량 기록</td>';
-							}
-							bundleCntCheckTrHtml += '<td colspan="7" class="fs-10 text-start align-middle ">leaflet '+ (i+1) +'</td>';
-							bundleCntCheckTrHtml += '<td colspan="7" class="bg-gray fs-10 text-start align-middle ">'+addCommas(parseInt(data.workFairQty)) + 'Ea' +'</td>';
-							bundleCntCheckTrHtml += '</tr>';
-							
-							itemNmArray.push(leaflet[i].ITEM_NM);
-						}
-						//Pack조합 및 Pharmacode
-						for(var i = 0; i < PAC.length + leaflet.length - 1; i++ ){
-							bundlePackInfoTrHtml += '<tr>';
-							bundlePackInfoTrHtml += '<td colspan="3" class="bd-n"></td>';
-							bundlePackInfoTrHtml += `<td colspan="6" class="h-20 fs-12 text-center align-middle " name="itemNmTd\${i+1}"></td>`;
-							bundlePackInfoTrHtml += '<td colspan="3" class="bd-n"></td>';
-							bundlePackInfoTrHtml += '</tr>';
-						}
-						
-						bundleCntCheckTrHtml += '<tr>';
-						bundleCntCheckTrHtml += '<td colspan="3" class="bd-n"></td>';
-						bundleCntCheckTrHtml += '<td colspan="7" class="fs-10 text-start align-middle ">Bundle</td>';
-						bundleCntCheckTrHtml += '<td colspan="7" class="bg-gray fs-10 text-start align-middle ">' + addCommas(parseInt(data.workFairQty)) + 'Ea' +'</td>';
-						bundleCntCheckTrHtml += '</tr>';
-						
-						let bundlePackTr = $('.bundlePackInfoTr')[index];
-						let bundlePharmacodeTr = $('.bundlePharmacodeTr')[index];
-						let bundleCntCheckTr = $('.bundleCntCheckTr')[index];
-						
-						//행추가
-						$($('.bundleInfoTr')[index]).after(bundleInfoTrHtml);
-						$(bundlePackTr).after(bundlePackInfoTrHtml);
-						$(bundlePharmacodeTr).after(bundlePackInfoTrHtml);
-						$(bundleCntCheckTr).next().after(bundleCntCheckTrHtml);
-						
-						//값 할당
-						for (let i = 0; i < itemNmArray.length; i++) {
-							$(`td[name="itemNmTd\${i}"]`).text(itemNmArray[i]);
-						}
-
-						//행 합치기
-						$(bundlePackTr).find('td').filter('.rowMerge').attr('rowspan', (PAC.length + leaflet.length));
-						$(bundlePharmacodeTr).find('td').filter('.rowMerge').attr('rowspan', (PAC.length + leaflet.length));
-						$(bundleCntCheckTr).find('td').filter('.rowMerge').attr('rowspan', (PAC.length + leaflet.length + 3));					
-						
-						//번들링성적서
-						$($('[name=purchaseCustomerNm]')[index]).text(data.bizOrdDealCorpInitial);//고객사
-						$($('[name=testItemNm]')[index]).text(itemNmVal);//제품명
-						$($('[name=workDate]')[index]).val(moment(data.workDate).format('YYYY-MM-DD'));//제조일자
-						$($('[name=bizOrdDtlNo]')[index]).text(data.bizOrdDtlNo);//제조번호
-						$($('[name=testJudgmentDate]')[index]).val(moment().format('YYYY-MM-DD'));//검사일자
-						let customerItemCd = isEmptyCheck(data.customerItemCd) ? '' : data.customerItemCd;
-						$($('[name=quailtyPassQty]')[index]).val(addCommas(parseFloat(quailtyPassQtyVal)));//입고수량
-						let bundleMethodNm = isEmptyCheck(data.bundleMethodNm) ? '' : data.bundleMethodNm;
-
-						$($('[name=bundleUnit]')[index]).text(data.bundleUnit); //내부포장방법
-						$($('[name=bundleMethodNm]')[index]).text(bundleMethodNm); //내부포장방법
-						$($('[name=packMethodNm]')[index]).text(data.packMethodNm); //외부포장방법
-						
-						$($('[name=judUserName]')[index]).val(testContentsList['시험자']);//시험자
-						$($('[name=judgmentDate]')[index]).val(moment(data.judgmentDate).format('YYYY.MM.DD)'));//시험일자
-						$($('[name=conUserName]')[index]).val(testContentsList['판정자']);//판정자
-						$($('[name=confirmDate]')[index]).val(moment(data.confirmDate).format('YYYY.MM.DD)'));//판정일자
-						$($('[name=qualityJudgmentNm]')[index]).val(data.qualityJudgmentNm);//판정결과
-						
+	//관련자료 목록조회
+	let faultyAttachDataTable = $('#faultyAttachDataTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>"
+				+ "<'row'<'col-sm-12'tr>>"
+				+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+		language : lang_kor,
+		destroy : true,
+		info : false,
+		ordering : true,
+		processing : true,
+		autoWidth : false,
+		paging : false,
+		searching : false,
+		ajax : {
+			url : '<c:url value="qm/faultyAttachDataRead"/>',
+			type : 'GET',
+			data : {
+				'sourceNo' : function() {return sourceNoVal;}
+			},
+		},
+		columns : [
+				{
+					render : function(data, type, row, meta) {
+						return meta.row
+								+ meta.settings._iDisplayStart
+								+ 1;
 					}
-				} else if($('#qualityReportSelect').val() == '01'){
-					//시험성적서
-					$($('[name=purchaseCustomerNm]')[index]).text(data.bizOrdDealCorpInitial);//고객사
-					$($('[name=testItemNm]')[index]).text(itemNmVal);//제품명
-					$($('[name=workDate]')[index]).val(moment(data.workDate).format('YYYY-MM-DD'));//제조일자
-					$($('[name=bizOrdDtlNo]')[index]).text(data.bizOrdDtlNo);//제조번호
-					$($('[name=testJudgmentDate]')[index]).val(moment().format('YYYY-MM-DD'));//검사일자
-					let customerItemCd = isEmptyCheck(data.customerItemCd) ? '' : data.customerItemCd;
-					$($('[name=itemVersion]')[index]).text(customerItemCd + ' / ' + data.itemVersion);//도안번호
-					$($('[name=paperType]')[index]).text(data.paperType);//재질명
-					$($('[name=quailtyPassQty]')[index]).val(addCommas(parseFloat(quailtyPassQtyVal)));//입고수량
-					$($('[name=eaQty]')[index]).text(addCommas(parseFloat(data.eaQty)));//원판수량
-					let bundleMethodNm = isEmptyCheck(data.bundleMethodNm) ? '' : data.bundleMethodNm;
-					$($('[name=inPackMethod]')[index]).text(data.bundleUnit + ' / ' + bundleMethodNm);//포장방법 내부
-					$($('[name=outPackMethod]')[index]).text(data.packMethodNm);//포장방법 외부
-					$($('[name=coatingMethod]')[index]).text(data.coatingMethod);//코팅
-					$($('[name=itemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=moldingMethod]')[index]).text(data.moldingMethod);//성형방식
-		
-		
-					$($('[name=testPaperType]')[index]).text(data.paperType);//재질명
-					//$('[name=testSizeXY').text(data.sizeX +'*'+data.sizeY);//규격
-					$($('[name=testSizeXY]')[index]).text(data.itemSize); //규격
-					$($('[name=testItemVersion]')[index]).text(data.itemVersion);//도안번호
-					$($('[name=testItemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=testCoatingMethod]')[index]).text(data.coatingMethod);//코팅
-		
-					$($('[name=judUserName]')[index]).val(testContentsList['시험자']);//시험자
-					$($('[name=judgmentDate]')[index]).val(moment(data.judgmentDate).format('YYYY.MM.DD)'));//시험일자
-					$($('[name=conUserName]')[index]).val(testContentsList['판정자']);//판정자
-					$($('[name=confirmDate]')[index]).val(moment(data.confirmDate).format('YYYY.MM.DD)'));//판정일자
-					$($('[name=qualityJudgmentNm]')[index]).val(data.qualityJudgmentNm);//판정결과
-					
-				} else if($('#qualityReportSelect').val() == '02'){
-					//셀트리온 시험성적서
-					$($('[name=purchaseCustomerNm]')[index]).text(data.bizOrdDealCorpInitial);//고객사
-					$($('[name=testItemNm]')[index]).text(itemNmVal);//제품명
-					$($('[name=workDate]')[index]).val(moment(data.workDate).format('YYYY-MM-DD'));//제조일자
-					$($('[name=bizOrdDtlNo]')[index]).text(data.bizOrdDtlNo);//제조번호
-					$($('[name=testJudgmentDate]')[index]).val(moment().format('YYYY-MM-DD'));//검사일자
-					let customerItemCd = isEmptyCheck(data.customerItemCd) ? '' : data.customerItemCd;
-					$($('[name=itemVersion]')[index]).text(customerItemCd + ' / ' + data.itemVersion);//도안번호
-					$($('[name=paperType]')[index]).text(data.paperType);//재질명
-					$($('[name=quailtyPassQty]')[index]).val(addCommas(parseFloat(quailtyPassQtyVal)));//입고수량
-					$($('[name=eaQty]')[index]).text(addCommas(parseFloat(data.eaQty)));//원판수량
-					let bundleMethodNm = isEmptyCheck(data.bundleMethodNm) ? '' : data.bundleMethodNm;
-					$($('[name=inPackMethod]')[index]).text(data.bundleUnit + ' / ' + bundleMethodNm);//포장방법 내부
-					$($('[name=outPackMethod]')[index]).text(data.packMethodNm);//포장방법 외부
-					$($('[name=coatingMethod]')[index]).text(data.coatingMethod);//코팅
-					$($('[name=itemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=moldingMethod]')[index]).text(data.moldingMethod);//성형방식
-		
-		
-					$($('[name=testPaperType]')[index]).text(data.paperType);//재질명
-					//$('[name=testSizeXY').text(data.sizeX +'*'+data.sizeY);//규격
-					$($('[name=testSizeXY]')[index]).text(data.itemSize); //규격
-					$($('[name=testItemVersion]')[index]).text(data.itemVersion);//도안번호
-					$($('[name=testItemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=testCoatingMethod]')[index]).text(data.coatingMethod);//코팅
-		
-					$($('[name=judUserName]')[index]).val(testContentsList['시험자']);//시험자
-					$($('[name=judgmentDate]')[index]).val(moment(data.judgmentDate).format('YYYY.MM.DD)'));//시험일자
-					$($('[name=conUserName]')[index]).val(testContentsList['판정자']);//판정자
-					$($('[name=confirmDate]')[index]).val(moment(data.confirmDate).format('YYYY.MM.DD)'));//판정일자
-					$($('[name=qualityJudgmentNm]')[index]).val(data.qualityJudgmentNm);//판정결과
-					$($('[name=qualityResult]')[index]).val(data.qualityJudgmentNm);//판정결과
+				},
+				{data : 'attachRegDate',
+					render: function(data, type, row, meta) {	
+						if(data!=null){
+							return '<input type="date" class="form-control"  name="attachRegDate_'+meta.row+'" value="'+moment(data).format("YYYY-MM-DD")+'" style="text-align:center;" disabled/>'  
+							
+						} else{
+							return '<input type="date" class="form-control" name="attachRegDate_'+meta.row+'" value="'+serverDate+'"  style="text-align:center;"/>'  
 
-					let issueDesc = isEmptyCheck(data.etc1Nm) ? '' : (data.etc1Nm+' 호기');
-					
-					$($('[name=issueDesc]')[index]).val(issueDesc);//특기사항 기록란
-				}  else if($('#qualityReportSelect').val() == '03'){
-					//셀트리온 시험성적서-영문
-					$($('[name=purchaseCustomerNm]')[index]).text(data.bizOrdDealCorpInitial);//고객사
-					$($('[name=testItemNm]')[index]).text(itemNmVal);//제품명
-					$($('[name=workDate]')[index]).val(moment(data.workDate).format('YYYY-MM-DD'));//제조일자
-					$($('[name=bizOrdDtlNo]')[index]).text(data.bizOrdDtlNo);//제조번호
-					$($('[name=testJudgmentDate]')[index]).val(moment().format('YYYY-MM-DD'));//검사일자
-					let customerItemCd = isEmptyCheck(data.customerItemCd) ? '' : data.customerItemCd;
-					$($('[name=itemVersion]')[index]).text(customerItemCd + ' / ' + data.itemVersion);//도안번호
-					$($('[name=paperType]')[index]).text(data.paperType);//재질명
-					$($('[name=quailtyPassQty]')[index]).val(addCommas(parseFloat(quailtyPassQtyVal)));//입고수량
-					$($('[name=eaQty]')[index]).text(addCommas(parseFloat(data.eaQty)));//원판수량
-					let bundleMethodNm = isEmptyCheck(data.bundleMethodNm) ? '' : data.bundleMethodNm;
-					$($('[name=inPackMethod]')[index]).text(data.bundleUnit + ' / ' + bundleMethodNm);//포장방법 내부
-					$($('[name=outPackMethod]')[index]).text(data.packMethodNm);//포장방법 외부
-					$($('[name=coatingMethod]')[index]).text(data.coatingMethod);//코팅
-					$($('[name=itemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=moldingMethod]')[index]).text(data.moldingMethod);//성형방식
-		
-		
-					$($('[name=testPaperType]')[index]).text(data.paperType);//재질명
-					//$('[name=testSizeXY').text(data.sizeX +'*'+data.sizeY);//규격
-					$($('[name=testSizeXY]')[index]).text(data.itemSize); //규격
-					$($('[name=testItemVersion]')[index]).text(data.itemVersion);//도안번호
-					$($('[name=testItemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=testCoatingMethod]')[index]).text(data.coatingMethod);//코팅
-		
-					$($('[name=judUserName]')[index]).val(testContentsList['시험자']);//시험자
-					$($('[name=judgmentDate]')[index]).val(moment(data.judgmentDate).format('YYYY.MM.DD)'));//시험일자
-					$($('[name=conUserName]')[index]).val(testContentsList['판정자']);//판정자
-					$($('[name=confirmDate]')[index]).val(moment(data.confirmDate).format('YYYY.MM.DD)'));//판정일자
-					$($('[name=qualityJudgmentNm]')[index]).val(data.qualityJudgmentNm);//판정결과
-					$($('[name=qualityResult]')[index]).val(data.qualityJudgmentNm);//판정결과
+						}
+					}
+				},		
+				{
+					data : 'regNm',
+					render : function(data, type, row, meta) {
+						if (data != null) {
+							return data;
+						} else {
+							return userNm;
+						}
+					},
+					'className' : 'text-center'
+				},   
+			/* 	{
+					data : 'attachContent',
+					render : function(data, type, row, meta) {
+						if (data != null) {
+							return '<input class="form-control" type="text" id="attachContent_'+meta.row+'" name="attachContent_'+meta.row+'" value="'+data+'" style="border:none;" disabled/>';
+						} else {
+							return '<input class="form-control" type="text" id="attachContent_'+meta.row+'" name="attachContent_'+meta.row+'" />';
+						}
+					}
+				}, */
+				{
+					data : 'attachFn',
+					render : function(data, type, row, meta) {
 
-					//let issueDesc = isEmptyCheck(data.etc1Nm) ? '' : (data.etc1Nm+' 호기');
-					
-					//$($('[name=issueDesc]')[index]).val(issueDesc);//특기사항 기록란
-				} else if($('#qualityReportSelect').val() == '04'){
-					//셀트리온 제약 오창,한독 성적서
-					$($('[name=purchaseCustomerNm]')[index]).text(data.bizOrdDealCorpInitial);//고객사
-					$($('[name=testItemNm]')[index]).text(itemNmVal);//제품명
-					$($('[name=workDate]')[index]).val(moment(data.workDate).format('YYYY-MM-DD'));//제조일자
-					$($('[name=bizOrdDtlNo]')[index]).text(data.bizOrdDtlNo);//제조번호
-					$($('[name=testJudgmentDate]')[index]).val(moment().format('YYYY-MM-DD'));//검사일자
-					let customerItemCd = isEmptyCheck(data.customerItemCd) ? '' : data.customerItemCd;
-					$($('[name=itemVersion]')[index]).text(customerItemCd + ' / ' + data.itemVersion);//도안번호
-					$($('[name=paperType]')[index]).text(data.paperType);//재질명
-					$($('[name=quailtyPassQty]')[index]).val(addCommas(parseFloat(quailtyPassQtyVal)));//입고수량
-					$($('[name=eaQty]')[index]).text(addCommas(parseFloat(data.eaQty)));//원판수량
-					let bundleMethodNm = isEmptyCheck(data.bundleMethodNm) ? '' : data.bundleMethodNm;
-					$($('[name=inPackMethod]')[index]).text(data.bundleUnit + ' / ' + bundleMethodNm);//포장방법 내부
-					$($('[name=outPackMethod]')[index]).text(data.packMethodNm);//포장방법 외부
-					$($('[name=coatingMethod]')[index]).text(data.coatingMethod);//코팅
-					$($('[name=itemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=moldingMethod]')[index]).text(data.moldingMethod);//성형방식
-		
-		
-					$($('[name=testPaperType]')[index]).text(data.paperType);//재질명
-					//$('[name=testSizeXY').text(data.sizeX +'*'+data.sizeY);//규격
-					$($('[name=testSizeXY]')[index]).text(data.itemSize); //규격
-					$($('[name=testItemVersion]')[index]).text(data.itemVersion);//도안번호
-					$($('[name=testItemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=testCoatingMethod]')[index]).text(data.coatingMethod);//코팅
-		
-					$($('[name=judUserName]')[index]).val(testContentsList['시험자']);//시험자
-					$($('[name=judgmentDate]')[index]).val(moment(data.judgmentDate).format('YYYY.MM.DD)'));//시험일자
-					$($('[name=conUserName]')[index]).val(testContentsList['판정자']);//판정자
-					$($('[name=confirmDate]')[index]).val(moment(data.confirmDate).format('YYYY.MM.DD)'));//판정일자
-					$($('[name=qualityJudgmentNm]')[index]).val(data.qualityJudgmentNm);//판정결과
-					
-				} else if($('#qualityReportSelect').val() == '05'){
-					//명인시험 성적서
-					$($('[name=purchaseCustomerNm]')[index]).text(data.bizOrdDealCorpInitial);//고객사
-					$($('[name=testItemNm]')[index]).text(itemNmVal);//제품명
-					$($('[name=workDate]')[index]).val(moment(data.workDate).format('YYYY-MM-DD'));//제조일자
-					$($('[name=bizOrdDtlNo]')[index]).text(data.bizOrdDtlNo);//제조번호
-					$($('[name=testJudgmentDate]')[index]).val(moment().format('YYYY-MM-DD'));//검사일자
-					let customerItemCd = isEmptyCheck(data.customerItemCd) ? '' : data.customerItemCd;
-					$($('[name=itemVersion]')[index]).text(customerItemCd + ' / ' + data.itemVersion);//도안번호
-					$($('[name=paperType]')[index]).text(data.paperType);//재질명
-					$($('[name=quailtyPassQty]')[index]).val(addCommas(parseFloat(quailtyPassQtyVal)));//입고수량
-					$($('[name=eaQty]')[index]).text(addCommas(parseFloat(data.eaQty)));//원판수량
-					let bundleMethodNm = isEmptyCheck(data.bundleMethodNm) ? '' : data.bundleMethodNm;
-					$($('[name=inPackMethod]')[index]).text(data.bundleUnit + ' / ' + bundleMethodNm);//포장방법 내부
-					$($('[name=outPackMethod]')[index]).text(data.packMethodNm);//포장방법 외부
-					$($('[name=coatingMethod]')[index]).text(data.coatingMethod);//코팅
-					$($('[name=itemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=moldingMethod]')[index]).text(data.moldingMethod);//성형방식
-		
-		
-					$($('[name=testPaperType]')[index]).text(data.paperType);//재질명
-					//$('[name=testSizeXY').text(data.sizeX +'*'+data.sizeY);//규격
-					$($('[name=testSizeXY]')[index]).text(data.itemSize); //규격
-					$($('[name=testItemVersion]')[index]).text(data.itemVersion);//도안번호
-					$($('[name=testItemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=testCoatingMethod]')[index]).text(data.coatingMethod);//코팅
-		
-					$($('[name=judUserName]')[index]).val(testContentsList['시험자']);//시험자
-					$($('[name=judgmentDate]')[index]).val(moment(data.judgmentDate).format('YYYY.MM.DD)'));//시험일자
-					$($('[name=conUserName]')[index]).val(testContentsList['판정자']);//판정자
-					$($('[name=confirmDate]')[index]).val(moment(data.confirmDate).format('YYYY.MM.DD)'));//판정일자
-					$($('[name=qualityJudgmentNm]')[index]).val(data.qualityJudgmentNm);//판정결과
-					$($('[name=qualityResult]')[index]).val(data.qualityJudgmentNm);//판정결과
-
-					//let issueDesc = isEmptyCheck(data.etc1Nm) ? '' : (data.etc1Nm+' 호기');
-					
-					//$($('[name=issueDesc]')[index]).val(issueDesc);//특기사항 기록란
-				} else if($('#qualityReportSelect').val() == '06'){
-					//크리, 건일 성적서
-					$($('[name=purchaseCustomerNm]')[index]).text(data.bizOrdDealCorpInitial);//고객사
-					$($('[name=testItemNm]')[index]).text(itemNmVal);//제품명
-					$($('[name=workDate]')[index]).val(moment(data.workDate).format('YYYY-MM-DD'));//제조일자
-					$($('[name=bizOrdDtlNo]')[index]).text(data.bizOrdDtlNo);//제조번호
-					$($('[name=testJudgmentDate]')[index]).val(moment().format('YYYY-MM-DD'));//검사일자
-					let customerItemCd = isEmptyCheck(data.customerItemCd) ? '' : data.customerItemCd;
-					$($('[name=itemVersion]')[index]).text(customerItemCd + ' / ' + data.itemVersion);//도안번호
-					$($('[name=paperType]')[index]).text(data.paperType);//재질명
-					$($('[name=quailtyPassQty]')[index]).val(addCommas(parseFloat(quailtyPassQtyVal)));//입고수량
-					$($('[name=eaQty]')[index]).text(addCommas(parseFloat(data.eaQty)));//원판수량
-					let bundleMethodNm = isEmptyCheck(data.bundleMethodNm) ? '' : data.bundleMethodNm;
-					$($('[name=inPackMethod]')[index]).text(data.bundleUnit + ' / ' + bundleMethodNm);//포장방법 내부
-					$($('[name=outPackMethod]')[index]).text(data.packMethodNm);//포장방법 외부
-					$($('[name=coatingMethod]')[index]).text(data.coatingMethod);//코팅
-					$($('[name=itemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=moldingMethod]')[index]).text(data.moldingMethod);//성형방식
-		
-		
-					$($('[name=testPaperType]')[index]).text(data.paperType);//재질명
-					//$('[name=testSizeXY').text(data.sizeX +'*'+data.sizeY);//규격
-					$($('[name=testSizeXY]')[index]).text(data.itemSize); //규격
-					$($('[name=testItemVersion]')[index]).text(data.itemVersion);//도안번호
-					$($('[name=testItemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=testCoatingMethod]')[index]).text(data.coatingMethod);//코팅
-		
-					$($('[name=judUserName]')[index]).val(testContentsList['시험자']);//시험자
-					$($('[name=judgmentDate]')[index]).val(moment(data.judgmentDate).format('YYYY.MM.DD)'));//시험일자
-					$($('[name=conUserName]')[index]).val(testContentsList['판정자']);//판정자
-					$($('[name=confirmDate]')[index]).val(moment(data.confirmDate).format('YYYY.MM.DD)'));//판정일자
-					$($('[name=qualityJudgmentNm]')[index]).val(data.qualityJudgmentNm);//판정결과
-					$($('[name=qualityResult]')[index]).val(data.qualityJudgmentNm);//판정결과
-
-					//let issueDesc = isEmptyCheck(data.etc1Nm) ? '' : (data.etc1Nm+' 호기');
-					
-					//$($('[name=issueDesc]')[index]).val(issueDesc);//특기사항 기록란
-				} else if($('#qualityReportSelect').val() == '07'){
-					//대웅제약 오송
-					$($('[name=purchaseCustomerNm]')[index]).text(data.bizOrdDealCorpInitial);//고객사
-					$($('[name=testItemNm]')[index]).text(itemNmVal);//제품명
-					$($('[name=workDate]')[index]).val(moment(data.workDate).format('YYYY-MM-DD'));//제조일자
-					$($('[name=bizOrdDtlNo]')[index]).text(data.bizOrdDtlNo);//제조번호
-					$($('[name=testJudgmentDate]')[index]).val(moment().format('YYYY-MM-DD'));//검사일자
-					let customerItemCd = isEmptyCheck(data.customerItemCd) ? '' : data.customerItemCd;
-					$($('[name=itemVersion]')[index]).text(customerItemCd + ' / ' + data.itemVersion);//도안번호
-					$($('[name=paperType]')[index]).text(data.paperType);//재질명
-					$($('[name=quailtyPassQty]')[index]).val(addCommas(parseFloat(quailtyPassQtyVal)));//입고수량
-					$($('[name=eaQty]')[index]).text(addCommas(parseFloat(data.eaQty)));//원판수량
-					let bundleMethodNm = isEmptyCheck(data.bundleMethodNm) ? '' : data.bundleMethodNm;
-					$($('[name=inPackMethod]')[index]).text(data.bundleUnit + ' / ' + bundleMethodNm);//포장방법 내부
-					$($('[name=outPackMethod]')[index]).text(data.packMethodNm);//포장방법 외부
-					$($('[name=coatingMethod]')[index]).text(data.coatingMethod);//코팅
-					$($('[name=itemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=moldingMethod]')[index]).text(data.moldingMethod);//성형방식
-		
-		
-					$($('[name=testPaperType]')[index]).text(data.paperType);//재질명
-					//$('[name=testSizeXY').text(data.sizeX +'*'+data.sizeY);//규격
-					$($('[name=testSizeXY]')[index]).text(data.itemSize); //규격
-					$($('[name=testItemVersion]')[index]).text(data.itemVersion);//도안번호
-					$($('[name=testItemColor]')[index]).text(data.itemColor);//색상
-					$($('[name=testCoatingMethod]')[index]).text(data.coatingMethod);//코팅
-		
-					$($('[name=judUserName]')[index]).val(testContentsList['시험자']);//시험자
-					$($('[name=judgmentDate]')[index]).val(moment(data.judgmentDate).format('YYYY.MM.DD)'));//시험일자
-					$($('[name=conUserName]')[index]).val(testContentsList['판정자']);//판정자
-					$($('[name=confirmDate]')[index]).val(moment(data.confirmDate).format('YYYY.MM.DD)'));//판정일자
-					$($('[name=qualityJudgmentNm]')[index]).val(data.qualityJudgmentNm);//판정결과
-					$($('[name=qualityResult]')[index]).val(data.qualityJudgmentNm);//판정결과
-					$($('[name=effDate]')[index]).val('제조년월일로부터 3년');
-
-					//let issueDesc = isEmptyCheck(data.etc1Nm) ? '' : (data.etc1Nm+' 호기');
-					
-					//$($('[name=issueDesc]')[index]).val(issueDesc);//특기사항 기록란
+					/*  var del;
+		               
+					   del = '<div class="rightsidebar-close">';
+					   del += '<button type="button" class="btn" name="closeBtn" onclick=deleteWorkStandard("'+row['prcssCd']+'");>';
+					   del += '<i class="mdi mdi-close"></i>';
+					   del += '</button>';
+					   del += '</div>'; */
+					   
+					   var html;
+					   if(data == null){
+						   html = '<div class="custom-file">'
+						   html += '<input type="file" class="custom-file-input" id="fileNm_'+meta.row+'" name="fileNm_'+meta.row+'" onchange=uploadAttachData('+meta.row+'); />'    
+			 			   html += '<label class="custom-file-label" for="fileNm_'+meta.row+'" name="fileLabel_'+meta.row+'">파일을 선택해주세요.</label></div>'
+			 			   
+					   } else{
+						  html = '<a href="/qm/faultyAttachDataDownload?attachGubun=FI&attachCd='+row['attachCd']+'&sourceNo='+row['sourceNo']+'">'+data+'</a>';
+					   }
+						
+					   return  html;
 				}
-			});
-			cssChange();
+		} ],
+		columnDefs : [ {
+			"targets" : [ 0, 1 ],
+			"className" : "text-center"
+		},
 
-			$('#my-spinner').hide();
-		},10);
-	} 
+		],
+		buttons : []
+	});
+
+
+	//데이터 클릭 시
+	$('#faultyAttachDataTable tbody').on('click','tr',function() {
+
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+		} else {
+			$('#faultyAttachDataTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+
+		tableIdx = $('#faultyAttachDataTable').DataTable().row(this).index();
+		attachCdVal = faultyAttachDataTable.row(this).data().attachCd;
+
+		status = 'choice';
+	});
+
 	
+	//추가버튼
+	$('#btnAttachAdd').on('click', function() {
+		/* if(status != "choice"){
+			toastr.warning("관련자료 항목을 선택해주세요.");
+		} */
+
+		
+		$('#faultyAttachDataTable').DataTable().row.add({}).draw(false);
+
+		//$('#btnAttachAdd').attr('disabled', true);
+		//$('#btnAttachDel').attr('disabled', true);
+
+		//$('#btnAttachSave').removeClass('d-none');
+
+	});
+
+
+	//삭제버튼
+	$('#btnAttachDel').on('click', function() {
+		if (status != "choice") {
+			toastr.warning("삭제할 항목을 선택해주세요.");
+			return false;
+		}
+
+
+		
+		$.ajax({
+			url : '<c:url value="qm/faultyAttachDataDelete" />',
+			type : 'GET',
+			data : {
+				'attachCd' : function() {return attachCdVal;},
+				'attachGubun' : "FI"
+			},
+			success : function(res) {
+				if (res.result == 'ok') {
+					toastr.success('삭제되었습니다.');
+					status = '';
+				} else {
+					toastr.error(res.message);
+				}
+
+			    $('#faultyAttachDataTable').DataTable().rows(tableIdx).remove().draw();
+				//$('#faultyAttachDataTable').DataTable().ajax.reload();
+			}
+		});
+
+	});
+	
+
+
+	// 관련자료 등록
+	function uploadAttachData(index) {
+		
+		var formData = new FormData(document.getElementById("form3")); //ajax로 넘길 data
+
+		formData.append("attachGubun", "FI");
+		formData.append("sourceNo", sourceNoVal);
+		
+		//attachContentVal = $('input[name=attachContent_'+index+']').val();
+		//formData.append("attachContent", attachContentVal==null||attachContentVal==""?"-":attachContentVal);
+		
+		formData.append("attachRegDate", $('input[name=attachRegDate_'+index+']').val().replace(/-/g,''));
+		formData.append("index", index);
+		
+
+		$.ajax({
+			url : '<c:url value="qm/faultyAttachDataCreate"/>',
+			data : formData,
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			success : function(data) {
+				if (data.result == "ok") { //응답결과
+					toastr.success('등록되었습니다.');
+					$('#faultyAttachDataTable').DataTable().ajax.reload(function(){});
+				} 
+			}
+		});
+
+	}
+	
+
+	
+	//담당자조회 팝업 시작
+	var value2;
+	var userPopUpTable;
+	function selectadmChargr(value) {
+		value2 = value;
+		if (userPopUpTable == null || userPopUpTable == undefined) {
+			userPopUpTable = $('#userPopUpTable').DataTable({
+				language : lang_kor,
+				lengthChange : false,
+				paging : true,
+				info : true,
+				ordering : true,
+				processing : true,
+				autoWidth : false,
+				pageLength : 20,
+				ajax : {
+					url : '/sm/matrlUserDataList',
+					type : 'GET',
+					data : {
+					}
+				},
+				rowId : 'userNumber',
+				columns : [ {
+					data : 'userNm'
+				}, {
+					data : 'departmentNm'
+				}, {
+					data : 'postNm'
+				}, {
+					data : 'chargeDutyNm'
+				}, {
+					data : 'userDesc'
+				}, ],
+				columnDefs : [ {
+					"targets" : '_all',"className" : "text-center"
+				} ],
+				order : [ [ 0, 'asc' ] ],
+			});
+			$('#userPopUpTable tbody').on('click', 'tr', function() {
+				var data = userPopUpTable.row(this).data();
+				if(value2=="1"){
+					$('#admChargr').val(data.userNumber);
+					$('#admChargrNm').val(data.userNm);
+				}else if(value2=="2"){
+					$('#faultyChargr').val(data.userNumber);
+					$('#faultyChargrNm').val(data.userNm);
+				}
+				
+				$('#userPopUpModal').modal('hide');
+			});
+		} else {
+			$('#userPopUpTable').DataTable().ajax.reload(function() {});
+		}
+
+		$('#userPopUpModal').modal('show');
+	}
+	
+
+	var sysdate = "${serverTime}";
+
+	var html1 = '<div class="row">';
+	html1 += '&nbsp;<div class="form-group input-sub m-0 row">';
+	html1 += '<label class="input-label-sm">수입검사일자</label>'; 
+	html1 += '<input class="form-control" style="width:97px;" type="text" id="inspectDateFrom" name="inspectDateFrom" disabled/>';
+	html1 += '<button onclick="fnPopUpCalendar(inspectDateFrom,inspectDateFrom,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="inspectDateFromCalendar" type="button">';
+	html1 += '<span class="oi oi-calendar"></span>';
+	html1 += '</button>';
+	html1 += '</div>';
+	html1 += '&nbsp;~ &nbsp;<div class="form-group input-sub m-0 row">';
+	html1 += '<input class="form-control" style="width:97px;" type="text" id="inspectDateTo" name="inspectDateTo" disabled/>';
+	html1 += '<button onclick="fnPopUpCalendar(inspectDateTo,inspectDateTo,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="inspectDateToCalendar" type="button">';
+	html1 += '<span class="oi oi-calendar"></span>';
+	html1 += '</button>';
+	html1 += '</div>';
+
+	html1 += '&nbsp;&nbsp;&nbsp;&nbsp;<label class="input-label-sm">승인여부</label>'; 
+    html1 += '<select class="custom-select" id="approvalYnOption">';
+	html1 += '<option value="" selected>전체</option>';
+	html1 += '<option value="001">승인</option>';
+	html1 += '<option value="002">미승인</option>';
+	html1 += '</select>';
+
+		
+	html1 += '&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary" id="btnRetv">조회</button>'
+	html1 += '&nbsp;&nbsp;&nbsp;<input type="number" class="form-control text-right" id="printCnt" placeholder="매수" style="width:40px;" value="1">';
+	html1 += '&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-info" id="btnQAPrint">QA라벨발행</button>'
+	html1 += '</div>';
+
+	$('#itemFaultyAdmMasterTable_length').html(html1);
+	$('#inspectDateFrom').val(serverDateFrom);
+	$('#inspectDateTo').val(serverDateTo);
+
+	$('#btnRetv').on('click', function() {
+		serverDateFrom = $('#inspectDateFrom').val();
+		serverDateTo = $('#inspectDateTo').val();
+		approvalYnOption = $('#approvalYnOption option:selected').val();
+		
+		$('#itemFaultyAdmMasterTable').DataTable().ajax.reload(function() {});
+
+	});
+	
+	//QA라벨발행 버튼 클릭시
+	/* $(document).on('click','#btnQAPrint',function(){
+		var count=0;
+
+		$('#purchaseOrderAdmTable tbody tr').each(function(index, item) {
+			if($('input[name=checkbox]').eq(index).is(':checked')) {
+
+				count++;
+			}
+		});
+		
+		if(count == 0) {
+			toastr.warning('구현중입니다.');
+// 			toastr.warning('인쇄할 제품을 체크하고 인쇄해주세요.');
+			count=0;
+			return false;
+		}
+
+		var cnt = $('#printCnt').val();
+
+    	for(var i=0;i<printArray.length;i++) {
+        	for(var j=0;j<cnt;j++) {
+        		labelPrint(	printArray[i].qaEval,
+	    				printArray[i].preInWhsDate,
+	    				printArray[i].preInWhsQty,
+	    				printArray[i].poNo,
+	    				printArray[i].inspectDate,
+	    				printArray[i].inspectChargrNm,
+	    				printArray[i].partCd);
+            }
+        }
+
+    	printArray =[];	//프린트 배열 초기화
+    	$('input[name=checkbox]').prop('checked',false);
+    	count=0;
+    }); */
+    let printCnt = 0;
+    //QA라벨인쇄 버튼 클릭
+	$('#btnQAPrint').on('click',function(){
+		printCnt = $('#printCnt').val();
+		//예외처리
+		if($('#printCnt').val()=="" || $('#printCnt').val()==0){
+			toastr.warning("인쇄할 매수를 입력해주세요.");
+			return false;
+		}
+		//테이블이 아무것도 선택되지 않았음을 tableIdx2가 null일 경우로 판단
+		if( tableIdx2 == null ){
+			toastr.warning("인쇄할 항목을 선택해주세요.");
+			return false;
+		} else {
+			
+			var obj = new Object();
+
+		    obj.itemCd = itemFaultyAdmMasterTable.row(tableIdx2).data().itemCd;
+		    obj.itemNm = itemFaultyAdmMasterTable.row(tableIdx2).data().itemNm;
+		    obj.faultyCnt = itemFaultyAdmMasterTable.row(tableIdx2).data().faultyCnt;
+		    obj.faultyTypeDate = itemFaultyAdmMasterTable.row(tableIdx2).data().faultyTypeDate;
+		    obj.inspectChargrNm = itemFaultyAdmMasterTable.row(tableIdx2).data().inspectChargrNm;
+			if( itemFaultyAdmMasterTable.row(tableIdx2).data().faultyPcs != null){
+		    	obj.faultyPcs = itemFaultyAdmMasterTable.row(tableIdx2).data().faultyPcs;
+			} else{
+				obj.faultyPcs = "처리중";
+			}
+		    obj.barcodeNo = itemFaultyAdmMasterTable.row(tableIdx2).data().barcodeNo; 
+
+		    for( let i = 1; i <= printCnt; i++){
+				labelPrint(obj,"")
+			}
+		}
+	});
+    
+	function uiProc(flag) {
+		$("#admDept").attr("disabled", flag);
+		$("#btnAdmChargr").attr("disabled", flag);
+		$("#faultyRegDateCalendar").attr("disabled", flag);
+		$("#faultyStatus").attr("disabled", flag);
+
+		$("#faultyCause").attr("disabled", flag);
+		$("#imgAdd1").attr("disabled", flag);
+		$("#imgAdd2").attr("disabled", flag);
+		$("#faultyAct").attr("disabled", flag);
+		$("#faultyDept").attr("disabled", flag);
+		$("#faultyNo").attr("disabled", flag);
+		$("#faultyProg").attr("disabled", flag);
+		$("#faultyImprv").attr("disabled", flag);
+		$("#faultyEffect").attr("disabled", flag);
+		$("#faultyPcs").attr("disabled", flag);
+		$('button[name=closeBtn]').attr("disabled", flag);
+	}
+
+	function uiProc2(flag) {
+		$("input[name=approvalYn]").attr("disabled", flag);
+		$("#btnfaultyChargr").attr("disabled", flag);
+		$("#faultyDateCalendar").attr("disabled", flag);
+		//$("#pairCnt").attr("disabled", flag);
+		$("#faultyCnt").attr("disabled", flag);
+		//$("#itemFaultyJdgAdmTable").removeClass("d-none")
+		$("#faultyDesc").attr("disabled", flag);
+	}
+	
+</script>
+
+<script>
+//Do printing...
+	function labelPrint(data, action) {
+		console.log("data:"+data.itemCd);
+	   let cmds = {};
+	   
+	   let cmd = "";
+	      cmd += "{D0520,0980,0500|}";
+	      cmd += "{AY;+04,0|}";
+	      cmd += "{AX;-020,+000,+00|}";
+	      cmd += "{C|}";
+	
+	      //행
+	      cmd += "{LC;0010,0035,0980,0110,1,5|}";
+	      cmd += "{LC;0010,0035,0980,0180,1,5|}";
+	      cmd += "{LC;0010,0035,0980,0250,1,5|}";
+	      cmd += "{LC;0010,0035,0980,0320,1,5|}";
+	      cmd += "{LC;0010,0035,0980,0485,1,5|}";
+	
+	      //열
+	      cmd += "{LC;0250,0035,0250,0320,0,5|}";
+	      cmd += "{LC;0490,0180,0490,0320,0,5|}";
+	      cmd += "{LC;0740,0180,0740,0320,0,5|}";
+	      
+	      //데이터
+	      cmd += "{PV23;0050,0090,0040,0040,01,0,00,B=품번|}";
+	      cmd += "{PV23;0270,0090,0040,0040,01,0,00,B="+data.itemCd+"|}";
+	      cmd += "{PV23;0050,0160,0040,0040,01,0,00,B=품명|}";
+	      cmd += "{PV23;0270,0160,0040,0040,01,0,00,B="+data.itemNm+"|}";
+	      cmd += "{PV23;0050,0230,0040,0040,01,0,00,B=불량수량|}";
+	      cmd += "{PV23;0270,0230,0040,0040,01,0,00,B="+parseFloat(data.faultyCnt)+"|}";
+	      cmd += "{PV23;0530,0230,0040,0040,01,0,00,B=불량등록일|}";
+	      cmd += "{PV23;0760,0230,0040,0040,01,0,00,B="+moment(data.faultyTypeDate).format('YYYY-MM-DD')+"|}";
+	      cmd += "{PV23;0050,0300,0040,0040,01,0,00,B=검사자|}";
+	      cmd += "{PV23;0270,0300,0040,0040,01,0,00,B="+data.inspectChargrNm+"|}";
+	      cmd += "{PV23;0530,0300,0040,0040,01,0,00,B=처리결과|}";
+	      cmd += "{PV23;0760,0300,0040,0040,01,0,00,B="+data.faultyPcs+"|}";
+	      cmd += "{XB03;0160,0350,9,3,03,0,0100,+0000000001,000,1,00|}";
+	      cmd += "{RB03;"+data.barcodeNo+"|}";
+	      cmd += "{XS;I,0001,0002C4001|}";
+	
+	   cmds.cmd = cmd; // 인쇄 명령어
+	   cmds.action = action; // 동작
+	
+	   sendMessage(JSON.stringify(cmds)); // 전송
+	}
+	
+
+	let webSocket = new WebSocket("ws://localhost:9998");
+	
+	// 웹소켓 연결
+	function wsConnect() {
+	   webSocket = new WebSocket("ws://localhost:9998");
+	}
+	
+	// 웹소켓 상태확인
+	function getWsStatus() {
+	   return webSocket.readyState;
+	}
+	
+	// 소켓 접속이 되면 호출되는 함수
+	webSocket.onopen = function(message){
+	   toastr.success('인쇄 서버에 연결되었습니다.')
+	   $('#wsStateView').text('연결됨');
+	   $('#wsStateView').css('color','#19FF00');
+	   wsState = true;
+	};
+	// 소켓 접속이 끝나면 호출되는 함수
+	webSocket.onclose = function(message){
+	   toastr.error('인쇄 서버가 종료되었습니다.')
+	   $('#wsStateView').text('연결끊김');
+	   $('#wsStateView').css('color','#FF0004');
+	   wsState = false;
+	};
+	// 소켓 통신 중에 에러가 발생되면 호출되는 함수
+	webSocket.onerror = function(message){
+	   toastr.warning('현재 인쇄프로그램이 종료되어있습니다. 인쇄프로그램을 시작해주세요.')
+	};
+	// 소켓 서버로 부터 메시지가 오면 호출되는 함수.
+	webSocket.onmessage = function(message){
+	   // 출력 area에 메시지를 표시한다.
+	   console.log(message);
+	};
+	// 서버로 메시지를 전송하는 함수
+	function sendMessage(cmd){
+	   if(webSocket.readyState == 1) {
+	      webSocket.send(cmd);
+	   } else {
+	      toastr.error('인쇄 서버와의 연결을 확인해주세요.');
+	   }
+	}
+
 </script>
 </body>
 </html>

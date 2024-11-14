@@ -10,11 +10,10 @@
 		</layout>
 	</appender>
 	
-    <!-- By Date Log File Create(All) -->
+	 <!-- By Date Log File Create(All) -->
     <appender name="rollingFile" class="org.apache.log4j.DailyRollingFileAppender">
-    
-		<!-- dev Linux  -->
-        <param name="File" value="/data/tomcat/tomcat16/logs/all.log"/>
+    	<!-- Local or Real Windows  -->
+        <param name="File" value="D:/LOG/dalim/all.log"/>
         <param name="Append" value="true"/>
         <!-- param name="MaxFileSize" value="100MB"/ -->
         <!-- param name="MaxBackupIndex" value="2"></param -->
@@ -24,11 +23,10 @@
         </layout>  
     </appender>
      
-    <!-- By Date Log File Create(Spring) -->
+    <!-- By Date Log File Create(Spring) --> 
     <appender name="springFile" class="org.apache.log4j.DailyRollingFileAppender">
-
-        <!-- dev Linux  -->
-        <param name="File" value="/data/tomcat/tomcat16/logs/spring.log"/>
+    	<!-- Local or Real Windows  -->
+        <param name="File" value="D:/LOG/dalim/spring.log"/>
         <param name="Append" value="true"/>
         <!-- param name="MaxFileSize" value="100MB"/ -->
         <!-- param name="MaxBackupIndex" value="2"></param -->
@@ -38,12 +36,12 @@
         </layout>  
     </appender>
      
-    <!-- By Date Log File Create(Error) -->
+     <!-- By Date Log File Create(Error) --> 
     <appender name="errFile" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="Threshold" value="ERROR"/>
         
-        <!-- dev Linux  -->
-        <param name="File" value="/data/tomcat/tomcat16/logs/error.log"/>
+        <!-- Local or Real Windows  -->
+        <param name="File" value="D:/LOG/dalim/error.log"/>
         <param name="Append" value="true"/>
         <!-- param name="MaxFileSize" value="100MB"/ -->
         <!-- param name="MaxBackupIndex" value="2"></param -->
@@ -53,7 +51,6 @@
         </layout>  
     </appender>
      
-    <!-- Package Log Create -->
     <logger name="org.apache.ibatis">
         <level value="DEBUG"/>
     </logger>
@@ -65,11 +62,11 @@
     	log4j slf4j 21-01-28-
     -->
     <logger name="java.sql">
-        <level value="INFO"/>
+        <level value="OFF"/>
     </logger>
     
 	<logger name="jdbc.sqlonly">
-		<level value="DEBUG" />
+		<level value="ERROR" />
 	</logger>
 
 	<logger name="jdbc.sqltiming">
@@ -92,10 +89,8 @@
 		<level value="ERROR" />
 	</logger>
     <!-- 
-    	log4j slf4j 21-01-28 -
+    	log4j slf4j 21-01-28
     -->
- 
-    <!-- Basic Output Configuration -->
     <root>
         <level value="DEBUG" />
         <appender-ref ref="console" />

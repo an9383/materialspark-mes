@@ -18,83 +18,80 @@ public class DealCorpAdmDAOImpl implements DealCorpAdmDAO{
 	
 	private static String namespace = "mes.mappers.bm.dealCorpAdmMapper";
 	
-	// 거래처정보 목록조회
+	//거래처정보관리 목록조회
 	@Override
-	public List<DealCorpAdmVo> dealCorpAdmList(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return session.selectList(namespace+".dealCorpAdmList", dealCorpAdmVo);
+	public List<DealCorpAdmVo> listAll(DealCorpAdmVo dealCorpAdmVo) throws Exception{
+		return session.selectList(namespace+".listAll" ,dealCorpAdmVo );
 	}
 	
-	// 거래처정보(투입자재 발주처) 목록조회
+	//거래처정보관리 목록조회2
 	@Override
-	public List<DealCorpAdmVo> matrlDealCorpAdmList(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return session.selectList(namespace+".matrlDealCorpAdmList", dealCorpAdmVo);
+	public List<DealCorpAdmVo> dealCorpDataJustList(DealCorpAdmVo dealCorpAdmVo) throws Exception{
+		return session.selectList(namespace + ".dealCorpDataJustList", dealCorpAdmVo );
+	}
+
+	//거래처정보관리 상세조회
+	@Override
+	public DealCorpAdmVo read(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return session.selectOne(namespace+".read", dealCorpAdmVo);
 	}
 	
-	// 거래처정보 상세조회
+	//거래처정보관리 등록
 	@Override
-	public DealCorpAdmVo dealCorpAdmSel(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return session.selectOne(namespace+".dealCorpAdmSel", dealCorpAdmVo);
+	public void create(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		session.insert(namespace+".create", dealCorpAdmVo);
 	}
 	
-	// 거래처정보 등록
+	//거래처정보관리 수정
 	@Override
-	public String dealCorpAdmIns(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		session.insert(namespace+".dealCorpAdmIns", dealCorpAdmVo);
-		String idx = dealCorpAdmVo.getIdx();
-		return idx;
+	public void update(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		session.update(namespace+".update", dealCorpAdmVo);
+	}	
+	
+	//거래처정보관리 거래처명 중복검사
+	public Integer overlapDealCorpNm(DealCorpAdmVo dealCorpAdmVo) throws Exception{
+		return session.selectOne(namespace +".overlapDealCorpNm" , dealCorpAdmVo);
 	}
 	
-	// 거래처정보 수정
-	@Override
-	public void dealCorpAdmUpd(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		session.update(namespace+".dealCorpAdmUpd", dealCorpAdmVo);
+	//거래처정보관리 거래처명 중복검사
+	public Integer overlapDealCordCd(DealCorpAdmVo dealCorpAdmVo) throws Exception{
+		return session.selectOne(namespace+".overlapDealCordCd" , dealCorpAdmVo);
 	}
 	
-	// 거래처정보 삭제
+	//방문관련자료 목록 조회
 	@Override
-	public void dealCorpAdmDel(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		session.delete(namespace+".dealCorpAdmDel", dealCorpAdmVo);
-	}
-			
-	// 거래처정보 담당자 목록조회
-	@Override
-	public List<DealCorpAdmVo> dealCorpManagerList(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return session.selectList(namespace+".dealCorpManagerList", dealCorpAdmVo);
+	public List<DealCorpAdmVo> dealCorpVisitList(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return session.selectList(namespace + ".dealCorpVisitList" ,dealCorpAdmVo );
 	}
 	
-	// 거래처정보 담당자 등록
+	//방문관련자료 등록
 	@Override
-	public void dealCorpManagerIns(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		session.insert(namespace+".dealCorpManagerIns", dealCorpAdmVo);
+	public int dealCorpVisitCreate(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return session.insert(namespace + ".dealCorpVisitCreate" , dealCorpAdmVo);
 	}
 	
-	// 거래처정보 담당자 삭제
+	//방문관련자료 삭제
 	@Override
-	public void dealCorpManagerDel(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		session.delete(namespace+".dealCorpManagerDel", dealCorpAdmVo);
+	public int dealCorpVisitDelete(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return session.delete(namespace + ".dealCorpVisitDelete", dealCorpAdmVo);
 	}
 	
-	// 거래처정보 담당자 목록조회
+	//방문자관련자료 시퀀스 값
 	@Override
-	public List<DealCorpAdmVo> dealCorpFileList(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return session.selectList(namespace+".dealCorpFileList", dealCorpAdmVo);
+	public String dealCorpVisitSeq(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return session.selectOne(namespace + ".dealCorpVisitSeq", dealCorpAdmVo);
 	}
 	
-	// 거래처정보 담당자 등록
+	//파일명 가져오기
 	@Override
-	public void dealCorpFileIns(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		session.insert(namespace+".dealCorpFileIns", dealCorpAdmVo);
+	public String getFileNm(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		return session.selectOne(namespace + ".getFileNm", dealCorpAdmVo);
 	}
 	
-	// 거래처정보 담당자 삭제
+	//삭제
 	@Override
-	public void dealCorpFileDel(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		session.delete(namespace+".dealCorpFileDel", dealCorpAdmVo);
+	public void dealCorpDataDelete(DealCorpAdmVo dealCorpAdmVo) throws Exception {
+		session.insert(namespace+".dealCorpDataDelete", dealCorpAdmVo);
 	}
-	
-	// 거래처 코드 중복 체크
-	@Override
-	public DealCorpAdmVo dealCorpCdCheck(DealCorpAdmVo dealCorpAdmVo) throws Exception {
-		return session.selectOne(namespace+".dealCorpCdCheck", dealCorpAdmVo);
-	}
+		
 }

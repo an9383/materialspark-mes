@@ -15,17 +15,49 @@ public class SystemAccessLogDAOImpl implements SystemAccessLogDAO {
 	@Inject
 	private SqlSession session;
 	
-	private static String namespace = "mes.mappers.sm.systemAccessLogMapper";
+	private static final String namespace = "mes.mappers.sm.SystemAccessLogMapper";
 	
-	// 시스템 접속기록 목록조회
+	//사용자 목록 조회
 	@Override
-	public List<SystemAccessLogVo> systemAccessLogLst(SystemAccessLogVo systemAccessLogVo) throws Exception {
-		return session.selectList(namespace+".systemAccessLogLst", systemAccessLogVo);
+	public List<SystemAccessLogVo> smlistAll(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		return session.selectList(namespace + ".smlistAll", systemAccessLogVo);	
 	}
 	
-	// 시스템 접속기록 등록
+	//로그이력관리 조회
 	@Override
-	public void systemAccessLogIns(SystemAccessLogVo systemAccessLogVo) throws Exception {
-		session.insert(namespace+".systemAccessLogIns", systemAccessLogVo);
+	public List<SystemAccessLogVo> systemChangeLogList(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		return session.selectList(namespace + ".systemChangeLogList", systemAccessLogVo);	
 	}
+
+	//사용자 상세조회
+	@Override
+	public SystemAccessLogVo read(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		return session.selectOne(namespace + ".read", systemAccessLogVo);
+	}
+
+	//로그 등록
+	@Override
+	public void create(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		session.insert(namespace + ".create", systemAccessLogVo);
+	}
+
+	//사용자 수정
+	@Override
+	public void update(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		session.update(namespace + ".update", systemAccessLogVo);
+
+	}
+
+	//사번 시퀀스
+	@Override
+	public String selectUserNumberSeq() throws Exception {
+		return session.selectOne(namespace + ".selectUserNumberSeq");
+	}
+	
+	//이력 등록
+	@Override
+	public void systemChangeLogCreate(SystemAccessLogVo systemAccessLogVo) throws Exception {
+		session.insert(namespace + ".systemChangeLogCreate", systemAccessLogVo);
+	}
+
 }

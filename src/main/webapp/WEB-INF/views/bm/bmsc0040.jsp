@@ -1,1181 +1,1222 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<% pageContext.setAttribute("newLineChar", "\n"); %>
+<%
+	pageContext.setAttribute("newLineChar", "\n");
+%>
 
-<%@include file="../layout/top.jsp"%>
-<%@include file="../layout/modal.jsp"%>
-<%@include file="../layout/script.jsp"%>
-<div id="page" onmouseup="EndDrag(this)" onmousemove="OnDrag(event)" style="grid-template-areas: 'leftcol dragbar rightcol';
-																		  grid-template-rows: 1fr;
-																		  grid-template-columns: 4fr 4px 3fr;">
-	<div id="leftcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="leftHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">사용여부</label>
-					<select class="form-select w-auto h-100 me-3" id="searchUseYn">
-						<option value="" selected>전체</option>
-						<option value="Y">사용</option>
-						<option value="N">미사용</option>
-					</select>
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAll" placeholder="통합검색" >
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnSearch"><i class="fa-regular fa-clipboard"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnOpen"><i class="fa-solid fa-caret-left"></i></button>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="woodenInfoAdmTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle">소모품구분</th>
-							<th class="text-center align-middle">구분코드</th>
-							<th class="text-center align-middle">코드</th>
-							<th class="text-center align-middle">사이즈</th>
-							<th class="text-center align-middle">사용여부</th>
-							<th class="text-center align-middle">코팅방법</th>
-							<th class="text-center align-middle">후가공</th>
-							<th class="text-center align-middle">후가공호기</th>
-							<th class="text-center align-middle">성형방식</th>
-							<th class="text-center align-middle">성형내용</th>
-							<th class="text-center align-middle">묶음법</th>
-							<th class="text-center align-middle">묶음단위</th>
-							<th class="text-center align-middle">포장단위</th>
-							<th class="text-center align-middle">포장박스</th>
-							<th class="text-center align-middle">사용종료예정일</th>
-							<th class="text-center align-middle">입고일</th>
-							<th class="text-center align-middle">호기</th>
-							<th class="text-center align-middle">기본통수</th>
-							<th class="text-center align-middle">기존통수</th>
-							<th class="text-center align-middle">사용통수</th>
-							<th class="text-center align-middle">잔여통수</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		</div>
+<%@include file="../layout/body-top.jsp"%>
+
+<div class="page-wrapper" id="page-wrapper">
+	<!-- 공정정보관리 - 설비정보 모달 시작-->
+	<div class="modal fade bd-example-modal-lg" id="prcssEquipPopUpModal" tabindex="-1" role="dialog" aria-labelledby="prcssEquipPopUpModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+	      		<div class="modal-header">
+	        		<h5 class="modal-title" id="prcssEquipPopUpLabel">설비코드조회</h5>
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          			<span aria-hidden="true">&times;</span>
+	       			</button>
+	      		</div> 
+	      		<div class="modal-body">
+	      			<hr class="text-secondary">	         
+	        			<table id="prcssEquipPopUpTable" class="table table-bordered">
+	                   		<thead class="thead-light">
+		                   		<tr>
+									<th style="width : 30%">설비코드</th>
+									<th style="width : 70%">설비명</th>
+		                   		</tr>
+	                   		</thead>
+						</table>
+					<hr class="text-secondary"> 
+	      		</div>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+	      		</div>
+	    	</div>
+	  	</div>
 	</div>
-	<div id="dragbar" onmousedown="StartDrag()"></div>
-	<div id="rightcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="rightHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end w-100">
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnNew"><i class="fa-solid fa-plus"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnSave" disabled><i class="fa-regular fa-floppy-disk"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnEdit" disabled><i class="fa-regular fa-pen-to-square"></i></button>
-						<button type="button" class="btn btn-outline-danger w-auto" style="font-size: 17px !important;" id="btnDel" disabled><i class="fa-solid fa-trash-can"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnCancel" disabled><i class="fa-solid fa-xmark"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnClose"><i class="fa-solid fa-caret-right"></i></button>
+	<!-- 공정정보관리 - 설비정보 모달 종료-->
+	<!--header ============================================================== -->
+	<header class="page-title-bar row">
+		<nav aria-label="breadcrumb" class="breadcrumb-padding">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">기준정보관리</a></li>
+				<li class="breadcrumb-item active">공정정보관리(SUB)</li>
+			</ol>
+		</nav>
+	</header>
+	<!-- #main============================================================== -->
+	<div class="container-fluid" id="main">
+		<div class="row table-wrap-hid">
+			<!--======================== .left-list ========================-->
+			<div class="left-list left-sidebar" id="left-list"
+				style="width: 59%;">
+				<div class="card">
+					<div class="open-arrow" id="arrowLeft">
+						<button id="left-width-btn" onclick="openrNav()"
+							class="btn btn-primary input-sub-search" type="button">
+							<i class="mdi mdi-arrow-left"></i>
+						</button>
 					</div>
+					<!-- .table-responsive -->
+					<div class="table-responsive">
+						<table id="prcssCodeAdmTable" class="table table-bordered">
+							<colgroup>
+								<col width="10%">
+								<col width="10%">
+								<col width="24%">
+								<col width="14%">
+								<col width="14%">
+								<col width="14%">
+								<col width="14%">
+							</colgroup>
+							<thead class="thead-light">
+								<tr>
+									<th>구분</th>
+									<th>공정코드</th>
+									<th>공정명</th>
+									<th>관리기준1(공실)</th>
+									<th>관리기준2(설비)</th>
+									<th>관리기준3(품질)</th>
+									<th>주석(공정설명)</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<!-- /.table-responsive -->
 				</div>
 			</div>
-			<div class="row">
-				<div style="width: 100%;">
-				  	<div class="nav nav-tabs" id="nav-tab">
-						<button class="nav-link active" id="tab1Nav" data-bs-toggle="tab" data-bs-target="#tab1">기본정보</button>
-						<button class="nav-link" id="tab2Nav" data-bs-toggle="tab" data-bs-target="#tab2">사용이력</button>
-				  	</div>
-					<div class="tab-content" id="nav-tabContent">
-						<div class="tab-pane fade show active" id="tab1">
-							<div class="row" style="padding: 5px;">
-								<table class="table table-bordered p-0 m-0">
+			<!-- /.left-list -->
+
+			<!--======================== .right-sidebar 등록,수정 ========================-->
+			<div class="right-list right-sidebar" id="myrSidenav"
+				style="width: 40%;">
+				<!--상단 버튼 part-->
+				<div class="rightsidebar-close">
+					<a href="javascript:void(0)" id="left-expand"
+						class="closebtn float-right" onclick="closerNav()"> <i
+						class="mdi mdi-close"></i>
+					</a>
+				</div>
+				<!--end----상단 버튼 part-->
+				<!--====================TAB-UI=======================-->
+				<div class="card-header card-tab p-0 mb-2">
+					<ul class="nav nav-tabs card-header-tabs m-0">
+						<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#tab1" id="tab1Nav">기본정보</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link disabled" data-toggle="tab" href="#tab2" id="tab2Nav">설비정보</a>
+						</li>
+					</ul>
+				</div>
+				<div class="card-body p-0">
+					<div id="myTabContent" class="tab-content">
+						
+						<!--========tab1 part=====-->
+						<div class="tab-pane fade active show" id="tab1">
+							<div class="card-body col-sm-12 p-1">
+								<button type="button" class="btn btn-danger float-right ml-1" id="btnDel">삭제</button>
+								<button type="button" class="btn btn-warning float-right ml-1" id="btnEdit">수정</button>
+								<button type="button" class="btn btn-primary float-right ml-1" id="btnAdd">등록</button>
+							</div>
+							<form id="form1" enctype="multipart/form-data">
+								<table class="table table-bordered">
 									<colgroup>
-										<col width="15%">
-										<col width="35%">
-										<col width="15%">
-										<col width="35%">
+										<col width="20%"> 
+										<col width="30%">
+										<col width="20%">
+										<col width="30%">
 									</colgroup>
 									<tr>
-										<th class="text-center align-middle"><span style="color:#ff0000;">*</span>소모품구분</th>
-										<td class="text-center align-middle">
-											<select class="form-select w-100 h-100 me-3 inputGroup" id="expendGubun" disabled></select>
-										</td>
-										<th class="text-center align-middle"><span style="color:#ff0000;">*</span>구분코드</th>
-										<td class="text-center align-middle">
-											<select class="form-select w-100 h-100 me-3 inputGroup" id="wdGubun" disabled></select>
+										<th>*공정코드</th>
+										<td><input type="text" class="form-control" id="prcssCd" name="prcssCd"></td>
+										<th>*공정명</th>
+										<td><input type="text" class="form-control" id="prcssNm" name="prcssNm"></td>
+									</tr>
+									<tr>
+										<th>이니셜</th>
+										<td><input type="text" class="form-control" id="prcssInitial" name="prcssInitial"></td>
+										<th>공정구분</th>
+										<td><select class="custom-select" id="prcssGubun"></select></td>
+									</tr>
+									<tr>
+										<th>UPH</th>
+										<td><input type="text" class="form-control" id="prcssUph" name="prcssUph"></td>
+										<th>외주여부</th>
+										<td><select class="custom-select" id="osrcYn"></select></td>
+									</tr>
+									<tr>
+										<th>관리기준1(공실)</th>
+										<td colspan='3'>
+											<input type="text" class="form-control" id="prcssStand1" name="prcssStand1" style="min-width : 100%">
 										</td>
 									</tr>
 									<tr>
-										<th class="text-center align-middle"><span style="color:#ff0000;">*</span>코드</th>
-										<td class="text-center align-middle" colspan='3' >
-											<input type="text" class="form-control inputGroup" id="wdCd" disabled>
-										</td>
-									</tr>
-									<!-- <tr>
-										<th class="text-center align-middle"><span style="color:#ff0000;">*</span>명칭</th>
-										<td class="text-center align-middle" colspan='3' >
-											<input type="text" class="form-control inputGroup" id="wdNm" disabled>
-										</td>
-									</tr> -->
-									<tr>
-										<th class="text-center align-middle" style="background-color: rgb(192, 229, 249) !important;">사이즈</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="wdSize" disabled>
-										</td>
-										<th class="text-center align-middle" style="background-color: rgb(255, 248, 207) !important;">코팅방법</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="coating" disabled>
+										<th>관리기준2(설비)</th>
+										<td colspan='3'>
+											<input type="text" class="form-control" id="prcssStand2" name="prcssStand2" style="min-width : 100%">
 										</td>
 									</tr>
 									<tr>
-										<th class="text-center align-middle" style="background-color: rgb(192, 229, 249) !important;">성형방식</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="moldingContents" disabled>
-										</td>
-										<th class="text-center align-middle" style="background-color: rgb(255, 248, 207) !important;">호기</th>
-										<td class="text-center align-middle">
-											<select class="form-select inputGroup" id="wdUnit" disabled></select>
-									</tr>
-									<tr>
-										<th class="text-center align-middle" style="background-color: rgb(192, 229, 249) !important;">성형내용</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="moldingContentsReal" disabled>
-										</td>
-										<th class="text-center align-middle">후가공</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="afterProcessing" disabled>
+										<th>관리기준3(품질)</th>
+										<td colspan='3'>
+											<input type="text" class="form-control" id="prcssStand3" name="prcssStand3" style="min-width : 100%">
 										</td>
 									</tr>
 									<tr>
-										<th class="text-center align-middle" style="background-color: rgb(192, 229, 249) !important;">묶음법</th>
-										<td class="text-center align-middle">
-											<select class="form-select inputGroup" id="bundleMethod" disabled></select>
-										</td>
-										<th class="text-center align-middle" style="background-color: rgb(192, 229, 249) !important;">묶음단위</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="bundleUnit" disabled>
+										<th>주석(공정설명)</th>
+										<td colspan='3'>
+											<input type="text" class="form-control" id="prcssDesc" name="prcssDesc" style="min-width : 100%">
 										</td>
 									</tr>
-									<tr>
-										<th class="text-center align-middle" style="background-color: rgb(192, 229, 249) !important;">포장단위</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="packUnit" disabled>
-										</td>
-										<th class="text-center align-middle" style="background-color: rgb(192, 229, 249) !important;">포장박스</th>
-										<td class="text-center align-middle">
-											<select class="form-select inputGroup" id="packMethod" disabled></select>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle"><span style="color:#ff0000;">*</span>사용여부</th>
-										<td class="text-center align-middle">
-											<select class="form-select w-100 h-100 me-3 inputGroup" id="useYn" disabled>
-												<option value="Y" selected>사용</option>
-												<option value="N">미사용</option>
-											</select>
-										</td>
-										<th class="text-center align-middle">후가공호기</th>
-										<td class="text-center align-middle">
-											<select class="form-select inputGroup" id="afterProcessingWdUnit" disabled></select>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle"><span style="color:#ff0000;">*</span>기본통수</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control text-end inputGroup" id="baseHitQty" onkeyup="numberFormat(this, 'int')" disabled>
-										</td>
-										<th class="text-center align-middle"><span style="color:#ff0000;">*</span>기존통수</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control text-end inputGroup" id="initHitQty" onkeyup="numberFormat(this, 'int')" disabled>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle">사용통수</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control text-end" id="useHitQty" disabled>
-										</td>
-										<th class="text-center align-middle">잔여통수</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control text-end" id="remainHitQty" disabled>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle">사용종료예정일</th>
-										<td class="text-center align-middle">
-											<input type="date" max="9999-12-31" class="form-control inputGroup" id="exEndDate" disabled>
-										</td>
-										<th class="text-center align-middle"><span style="color:#ff0000;">*</span>입고일</th>
-										<td class="text-center align-middle">
-											<input type="date" max="9999-12-31" class="form-control inputGroup" id="inputDate" disabled>
-										</td>
-									</tr>
-									<tr>
-										<th class="text-center align-middle">위치</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="location" disabled>
-										</td>
-										<th class="text-center align-middle">비고</th>
-										<td class="text-center align-middle">
-											<input type="text" class="form-control inputGroup" id="wdDesc" disabled>
-										</td>
-									</tr>
-									
 								</table>
+							</form>
+							<table class="table table-bordered mt-5 d-none" id="changeHisTable">
+								<colgroup>
+									<col width="20%">
+									<col width="30%">
+									<col width="20%">
+									<col width="30%">
+								</colgroup>
+								<tr>
+									<th>변경내역</th>
+									<td colspan='3'>
+										<input type="text" class="form-control" style="max-width: 100%" id="changeHis" maxlength="20">
+									</td>
+								</tr>
+							</table>
+							<div class="mt-2">
+								<button type="button" class="btn btn-primary float-right d-none"
+									id="btnSave1">저장</button>
 							</div>
 						</div>
+						<!--====end====tab1 part=====-->
+
+						<!--========tab2 part=====-->
 						<div class="tab-pane fade" id="tab2">
-							<div class="row" style="padding: 5px;">
-								<div class="d-flex align-items-center justify-content-end w-100 my-1">
-									<input type="text" class="form-control w-auto h-100 me-1" id="searchAllWil" placeholder="통합검색" >
-								</div>
-								<table class="table table-bordered p-0 m-0" id="woodenInfoLogTable">
-									<thead class="table-light">
-										<tr>
-											<th class="text-center align-middle">수주번호</th>
-											<th class="text-center align-middle">사용통수</th>
-											<th class="text-center align-middle">등록자</th>
-											<th class="text-center align-middle">등록일자</th>
-											<!-- <th class="text-center align-middle">구분코드</th>
-											<th class="text-center align-middle">기본통수</th>
-											<th class="text-center align-middle">등록시 누적통수</th>
-											<th class="text-center align-middle">비고</th>
-											<th class="text-center align-middle">등록자</th>
-											<th class="text-center align-middle">등록일자</th>
-											<th class="text-center align-middle">관리</th> -->
-										</tr>
-									</thead>
-								</table>
+							<div class="card-body col-sm-12 p-1">
+								<button type="button" class="btn btn-primary float-right ml-1 d-none" id="btnSave2">저장</button>
+								<button type="button" class="btn btn-danger float-right ml-1" id="btnCodeDel">삭제</button>
+								<button type="button" class="btn btn-warning float-right ml-1" id="btnCodeEdit">수정</button>
+								<button type="button" class="btn btn-primary float-right ml-1" id="btnCodeAdd">추가</button>
 							</div>
+							<form id="form2" enctype="multipart/form-data">
+								<div class="table-responsive">
+									<table class="table table-bordered" id="equipAdmInfo">
+										<colgroup>
+											<col width="7%">
+											<col width="20%">
+											<col width="25%">
+											<col width="25%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>No</th>
+												<th>*설비코드</th>
+												<th>설비명</th>
+												<th>비고</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</form>
 						</div>
+						<!--====end====tab2 part=====-->
+
 					</div>
+				</div>
+			</div>
+			<!-- /.right-sidebar -->
+			<!--===========================================-->
+			<!-- /.card -->
+			<!--===========================================-->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- / #main  -->
+	<div class="modal fade bd-example-modal-lg" id="inModal" tabindex="-1"
+		role="dialog" aria-labelledby="inModalLabel2" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="inLabel">공정정보관리 엑셀조회</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<hr class="text-secondary">
+					<table id="inTable" class="table table-bordered">
+						<thead class="thead-light">
+							<tr>
+								<th>No.</th>
+								<th>자산코드</th>
+								<th>자산구분</th>
+								<th>매입가</th>
+								<th>설비코드</th>
+								<th>설비명</th>
+								<th>공정명</th>
+								<th>규격</th>
+								<th>제작일자</th>
+								<th>제조사</th>
+								<th>설비조건</th>
+								<th>상한</th>
+								<th>하한</th>
+								<th>부대설비</th>
+								<th>제작일자</th>
+								<th>제조사</th>
+								<th>소모품</th>
+								<th>규격</th>
+								<th>구입처</th>
+							</tr>
+						</thead>
+					</table>
+					<hr class="text-secondary">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						id="btnApply">적용</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<!-- /.page-wrapper -->
 
-<!-- 화면설정 script -->
-<script>
-	let isDragging = false;
-	
-	function SetCursor(cursor) {
-		let page = document.getElementById("page");
-		page.style.cursor = cursor;
-	}
-	
-	function StartDrag() {
-		isDragging = true;
-		SetCursor("ew-resize");
-	}
-	
-	function EndDrag(e) {
-		if(isDragging) {
-			dataTableDrawAll(); // dataTable 전체 reload
-			isDragging = false;
-			SetCursor("auto");
-		}
-	}
-	
-	function OnDrag(event) {
-		if (isDragging) {
-			let page = document.getElementById("page");
-			let leftcol = document.getElementById("leftcol");
-			let rightcol = document.getElementById("rightcol");
-			let dragbarWidth = 4;
-			let leftcolMinWidth = 20; // leftcol 최소사이즈
-			$('#leftHeader').children().each(function(index, item) {
-				leftcolMinWidth += $(item).width();
-			});
-			let rightcolMinWidth = 500; // rightcol 최소사이즈
-	
-			let rightColWidth = isDragging ? page.clientWidth - parseInt(Math.max(leftcolMinWidth + 20, event.clientX)) : rightcol.clientWidth;
-
-			console.log(Math.max(rightColWidth, rightcolMinWidth));
-			let cols = [
-				parseInt(Math.max(leftcolMinWidth, page.clientWidth - dragbarWidth - parseInt(Math.max(rightColWidth, rightcolMinWidth)))),
-				dragbarWidth,
-				parseInt(Math.max(rightColWidth, rightcolMinWidth))
-			];
-	
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-	
-			page.style.gridTemplateColumns = newColDefn;
-	
-			event.preventDefault()
-		}
-	}
-	
-	$('#btnOpen').on('click',function() { // right-box 열기버튼 클릭
-		if($('#rightcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '4fr 4px 3fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '0fr 4px 3fr');
-			$('#leftcol').addClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		}
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-	
-	$('#btnClose').on('click',function() { // right-box 닫기버튼 클릭
-		if($('#leftcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '4fr 4px 3fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '4fr 4px 0fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').addClass('d-none');
-		}
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-	
-</script>
+<%@include file="../layout/bottom.jsp"%>
 
 <script>
-	WM_init('new');
-	WM_init('edit');
-
-	let idxVal = '';
-
-	// 공통코드 조회
-	let expendGubunList = getCommonCode('일반', '025'); // 소모품구분
-	let wdGubunList = getCommonCode('일반', '010'); // 목형구분
-	let wdUnitList = getCommonCode('일반', '037'); // 호기
-	let packMethodList = getCommonCode('일반', '013'); // 포장방법
-	let bundleList = getCommonCode('일반', '005'); // 묶음법
-	
-	selectBoxAppend(expendGubunList, 'expendGubun', '', '1');
-	selectBoxAppend(wdGubunList, 'wdGubun', '', '1');
-	selectBoxAppend(wdUnitList, 'wdUnit', '', '2');
-	selectBoxAppend(wdUnitList, 'afterProcessingWdUnit', '', '2');
-	selectBoxAppend(packMethodList, 'packMethod', '', '2'); //포장방법
-	selectBoxAppend(bundleList, 'bundleMethod', '', '2'); //묶음법
-
-	// 목형정보관리 기본정보 목록조회
-	$('#woodenInfoAdmTable thead tr').clone(true).addClass('filters').appendTo('#woodenInfoAdmTable thead'); // filter 생성
-	let woodenInfoAdmTable = $('#woodenInfoAdmTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: -1,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/woodenInfoAdmLst"/>',
-			type : 'POST',
-			data : {
-				useYn: function() { return $('#searchUseYn').val(); }
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'expendGubunNm', className : 'text-center align-middle'},
-			{ data: 'wdGubunNm', className : 'text-center align-middle'},
-			{ data: 'wdCd', className : 'text-center align-middle'},
-			{ data: 'wdSize', className : 'text-center align-middle'},//사이즈
-			{ data: 'useYn', className : 'text-center align-middle',//사용여부
-				render : function(data, type, row, meta) {
-					if(data == 'Y') {
-						return '사용';
-					} else {
-						return '미사용';
-					}
-				}
-			},
-			{ data: 'coating', className : 'text-center align-middle'},//코팅방법
-			{ data: 'afterProcessing', className : 'text-center align-middle'},//후가공
-			{ data: 'afterProcessingWdUnitNm', className : 'text-center align-middle'},//후가공호기
-			{ data: 'moldingContents', className : 'text-center align-middle'},//성형방식
-			{ data: 'moldingContentsReal', className : 'text-center align-middle'},//성형내용
-			{ data: 'bundleMethodNm', className : 'text-center align-middle'},//묶음법
-			{ data: 'bundleUnit', className : 'text-center align-middle'},//묶음단위 
-			{ data: 'packUnit', className : 'text-center align-middle'},//포장단위
-			{ data: 'packMethodNm', className : 'text-center align-middle'},//포장박스
-			{ data: 'exEndDate', className : 'text-center align-middle',//사용종료예정일
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'inputDate', className : 'text-center align-middle',//입고일
-				render : function(data, type, row, meta) {
-					if(data != null && data != '') {
-						return '<div style="white-space:nowrap;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'wdUnitNm', className : 'text-center align-middle'},//호기
-			{ data: 'baseHitQty', className : 'text-center align-middle',//기본통수
-				render : function(data){
-					if(data!=null){
-						return addCommas(parseInt(data));
-					}
-				}
-			},
-			{ data: 'initHitQty', className : 'text-center align-middle',//기존통수
-				render : function(data){
-					if(data!=null){
-						return addCommas(parseInt(data));
-					}
-				}
-			},
-			{ data: 'useHitQty', className : 'text-center align-middle',//사용통수
-				render : function(data){
-					if(data!=null){
-						return addCommas(parseInt(data));
-					}
-				}
-			},
-			{ className : 'text-center align-middle',//잔여통수
-				render : function(data, type, row, meta){
-					if(row['baseHitQty']!=null&&row['initHitQty']!=null&&row['useHitQty']!=null){
-						return addCommas(parseInt(row['baseHitQty'])-parseInt(row['initHitQty'])-parseInt(row['useHitQty']));
-					} else {
-						return '0';
-					}
-				}
-			},
-			
-		],
-		columnDefs : [
-			{
-				targets: [0,1,2,3,4,5,6,7,8,9,10],
-				render: function(data) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '';
-					}
-				}
-			}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#woodenInfoAdmTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 79)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAll').off('keyup',function() {});
-			$('#searchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-
-			let node = api.rows().nodes();
-
-			if(api.data().length>0){
-				$(node).each(function(index, item){
-					let data = woodenInfoAdmTable.row(item).data();
-					if(data.baseHitQty!=null&&data.initHitQty!=null&&data.useHitQty!=null){
-						if(parseInt(data.baseHitQty)-parseInt(data.initHitQty)-parseInt(data.useHitQty)<0){
-							$(this).css('background-color', '#ffb4b4')
-						}
-					}
-				})
-			}
-		},
-		initComplete: function () {
-			let api = this.api();
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#woodenInfoAdmTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#woodenInfoAdmTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
+	$("#left-width-btn").click(function() {
+		{
+			$("#left-list").animate({
+				width : "59%"
+			}, 200);
+			$("#arrow-left").animate({
+				display : "none"
+			}, 200);
+		}
+		state = !state;
 	});
-	// dataTable colReorder event
-	woodenInfoAdmTable.on('column-reorder', function( e, settings, details ) {
-		let api = woodenInfoAdmTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#woodenInfoAdmTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
+
+	let menuAuth = 'bmsc0040';
+	let currentHref = "bmsc0040";
+	let currentPage = $('.' + currentHref).attr('id');
+	$('#' + currentPage).closest('.has-child', 'li').addClass('has-open has-active');
+	$('#' + currentPage).closest('.menu-item').addClass('has-active');
+	$(document).attr("title","공정정보관리(SUB)"); 
+	
+	uiProc(true);
+	const serverDate = "${serverDateTo}";
+	let sideView = 'add';
+	let btnView = '';
+	let btnView2 = '';
+	let prcssCd = null;
+	let equipCd = null;
+	let urlData = null;
+	let itemSeq = null;
+	
+	//서버 시간 입력
+	$('#mfcDate').val(serverDate);
+	$('#ancDate').val(serverDate);
+	
+	//공통코드 처리 시작
+	let prcssGubun = new Array();
+	<c:forEach items = "${prcssGubun}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	prcssGubun.push(json);
+	</c:forEach>
+	
+	let osrcYn = new Array();
+	<c:forEach items = "${osrcYn}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	osrcYn.push(json);
+	</c:forEach>
+	
+	let useYn = new Array();
+	<c:forEach items = "${useYn}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	useYn.push(json);
+	</c:forEach>
+	////공통코드 처리 끝
+
+	//선택박스 처리
+	selectBoxAppend(prcssGubun, "prcssGubun", "", "");
+	selectBoxAppend(osrcYn, "osrcYn", "", "");
+
+	//진행 확인 버튼 
+	$('#saveBtnModalY').on('click', function() {
+		$('#form').each(function() {
+			this.reset();
 		});
+		uiProc(true);
+		$('#btnSave1').addClass('d-none');
+		$('#btnAdd').attr('disabled', false);
+		$('#btnEdit').attr('disabled', false);
+		$('#btnDel').attr('disabled', false);
+		$('#changeHisTable').addClass('d-none');
+		$('#changeHis').val('');
 	});
-
-	// 조회 버튼 click
-	$('#btnSearch').on('click', function() {
-		$('#my-spinner').show();
-		woodenInfoAdmTable.ajax.reload(function() {});
-		
-
-		setTimeout(function() {
-			$('#my-spinner').hide();
-		}, 100)
+	
+	//메인 테이블
+	let prcssCodeAdmTable = $('#prcssCodeAdmTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : true,
+		pageLength : 20,
+		scrollY : '65vh',
+		ajax : {
+			url : '<c:url value="/bm/prcssCodeAdmList"/>',
+			type : 'GET',
+			data : {
+				'prcssType' : function(){ return '002'; },
+				'mainGubun' : function(){ return $("#mainGubunBox").val(); },
+			},
+		},
+		rowId : 'prcssCd',
+		columns : [
+			{//구분
+				data : 'prcssGubunNm',
+				'className' : 'text-center'
+			},
+			{//공정코드
+				data : 'prcssCd',
+				'className' : 'text-center'
+			},
+			{//공정명
+				data : 'prcssNm',
+				'className' : 'text-center'
+			},
+			{//관리기준1(공실)
+				data : 'prcssStand1',
+				'className' : 'text-center'
+			},
+			{//관리기준2(설비)
+				data : 'prcssStand2',
+				'className' : 'text-center'
+			},
+			{//관리기준3(품질)
+				data : 'prcssStand3',
+				'className' : 'text-center'
+			},
+			{//주석(공정설명)
+				data : 'prcssDesc',
+				'className' : 'text-center'
+			} 
+		],
+		order : [ [ 0, 'asc' ], ],
+		buttons : [ {
+			extend : 'copy',
+			title : '공정정보관리(SUB)',
+		}, {
+			extend : 'excel',
+			title : '공정정보관리(SUB)',
+		}, {
+			extend : 'print',
+			title : '공정정보관리(SUB)',
+		}, ],
 	});
+	
+	let html1 = '<div class="row">';
+	html1 += '<label class="input-label-sm">구분</label>';
+	html1 += '<div class="form-group input-sub m-0">';
+	html1 += '<select class="custom-select" id="mainGubunBox" onChange="mainOnchange()">';
+	html1 += '</select></div>&nbsp;&nbsp;&nbsp;'; 
+	html1 += '<form method="POST" enctype="multipart/form-data" id="fileUploadForm" action="" class="col-sm-12 col-md">';
+	html1 += '<label for="btnExcelUpload" class="btn btn-info mr-1 d-none">엑셀업로드</label>'
+	html1 += '<input type="file" id="btnExcelUpload" name="excelfile" style="display: none" />';
+	html1 += '<a href="/bm/equipBasicForm"><button type="button" class="btn btn-secondary d-none" id="btnFileDownload">기본양식다운로드</button></a></form>';
+	html1 += '</div>';
+	$('#prcssCodeAdmTable_length').html(html1);
+	
+	selectBoxAppend(prcssGubun, "mainGubunBox", "", "1");
+	
+	function mainOnchange(){
+		$('#prcssCodeAdmTable').DataTable().ajax.reload();
+	}
 
-	// 목형목록 click
-	$('#woodenInfoAdmTable tbody').on('click','tr', function() {
-		let idx = woodenInfoAdmTable.row(this).data().idx;
+	//기본정보 상세정보 보기
+	$('#prcssCodeAdmTable tbody').on('click', 'tr', function() {
+		$('#tab1Nav').tab('show');
+		if ($('#btnSave1').attr('class') == 'btn btn-primary float-right') {
+			$('#saveBtnModal').modal('show');
+			console.log("등록중입니다.");
+			return false;
+		}
+
+		if ($(this).hasClass('selected')) {
+// 			$(this).removeClass('selected');
+		} else {
+			$('#prcssCodeAdmTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+
+		prcssCd = prcssCodeAdmTable.row(this).data().prcssCd;
 		
-		if(WMCheck('new')) { // 신규등록중일 경우
-			setWM('new', 'idx', idx);
-			return false;
-		}
-		if(WMCheck('edit')) { // 수정중일 경우
-			setWM('edit', 'idx', idx);
-			return false;
-		}
+		$('#equipAdmInfo').DataTable().ajax.reload();	//설비정보 새로고침
 
-		idxVal = idx;
-		
-		let data = woodenInfoAdmSel(idx);
-
-		$('#expendGubun').val(data.expendGubun);
-		$('#wdGubun').val(data.wdGubun);
-		$('#wdCd').val(data.wdCd);
-		//$('#wdNm').val(data.wdNm);
-		$('#wdSize').val(data.wdSize);
-		$('#useYn').val(data.useYn);
-		$('#coating').val(data.coating);
-		$('#moldingContents').val(data.moldingContents);
-		$('#exEndDate').val(moment(data.exEndDate,'YYYYMMDD').format('YYYY-MM-DD'));
-		$('#inputDate').val(moment(data.inputDate,'YYYYMMDD').format('YYYY-MM-DD'));
-		$('#location').val(data.location);
-		$('#wdDesc').val(data.wdDesc);
-		$('#moldingContentsReal').val(data.moldingContentsReal);
-		$('#afterProcessing').val(data.afterProcessing);
-		$('#afterProcessingWdUnit').val(data.afterProcessingWdUnit);
-		$('#bundleMethod').val(data.bundleMethod);
-		$('#bundleUnit').val(data.bundleUnit);
-		$('#packUnit').val(data.packUnit);
-		$('#packMethod').val(data.packMethod);
-		
-
-		
-		let baseHitQty = parseInt(data.baseHitQty); // 기본통수
-		let initHitQty = parseInt(data.initHitQty); // 기존통수
-		let useHitQty = 0; // 사용통수
-		let remainHitQty = baseHitQty - initHitQty - useHitQty; // 잔여통수
-		$('#baseHitQty').val(addCommas(baseHitQty));
-		$('#initHitQty').val(addCommas(initHitQty));
-		$('#useHitQty').val(addCommas(useHitQty));
-		$('#remainHitQty').val(addCommas(remainHitQty));
-
-		$('#wdUnit').val(data.wdUnit);
-		
-		$('.inputGroup').attr('disabled', true); // 입력항목
-
-		$('#btnNew').attr('disabled', false); // 신규 버튼
-		$('#btnSave').attr('disabled', true); // 저장 버튼
-		$('#btnEdit').attr('disabled', false); // 수정 버튼
-		$('#btnDel').attr('disabled', false); // 삭제 버튼
-		$('#btnCancel').attr('disabled', true); // 취소 버튼
-
-		woodenInfoLogTable.ajax.reload(function() {});
-	});
-
-	// 작업중 경고 모달 예 버튼 click
-	$('#btnWorkingWarningModalY').on('click', function() {
-		if(WMlastIdx == 'new' || WMlastIdx == 'edit') { // 등록중이거나 수정중이였을 경우
-			$('#btnSave').trigger('click');
-			if(WMlastIdx == 'new' || WMlastIdx == 'edit') { // 등록중이거나 수정중이였을 경우
-				if(getWM(WMlastIdx, 'idx') != '' && getWM(WMlastIdx, 'idx') != undefined) {
-					let idx = getWM(WMlastIdx, 'idx');
-					WM_action_OFF(WMlastIdx);
-					setWM(WMlastIdx, 'idx', '');
-					woodenInfoAdmTable.row('#'+idx).select();
-					$(woodenInfoAdmTable.row('#'+idx).node()).trigger('click'); // 선택했던 항목 선택처리
-				}
-			}
-			return false;
-		}
-	});
-
-	// 작업중 경고 모달 아니요 버튼 click
-	$('#btnWorkingWarningModalN').on('click', function() {
-		if(WMlastIdx == 'new' || WMlastIdx == 'edit') { // 등록중이거나 수정중이였을 경우
-			if(getWM(WMlastIdx, 'idx') != '' && getWM(WMlastIdx, 'idx') != undefined) {
-				let idx = getWM(WMlastIdx, 'idx');
-				WM_action_OFF(WMlastIdx);
-				setWM(WMlastIdx, 'idx', '');
-				woodenInfoAdmTable.row('#'+idx).select();
-				$(woodenInfoAdmTable.row('#'+idx).node()).trigger('click'); // 선택했던 항목 선택처리
-			} else {
-				WM_action_OFF(WMlastIdx);
-				if(window.location != window.parent.location) { // tab일 경우
-					// 부모 탭 닫기버튼 click
-					$('#tab-list', parent.document).find('.active').find('span').eq(1).find('i').trigger('click');
-			    }
-				
-				$('.inputGroup').attr('disabled', true); // 입력항목
-				
-				$('#btnNew').attr('disabled', false); // 신규 버튼
-				$('#btnSave').attr('disabled', true); // 저장 버튼
-				$('#btnEdit').attr('disabled', true); // 수정 버튼
-				$('#btnDel').attr('disabled', true); // 삭제 버튼
-				$('#btnCancel').attr('disabled', true); // 취소 버튼
-			}
-			
-			return false;
-		}
-	});
-
-	// 신규 버튼 click
-	$('#btnNew').on('click', function() {
-		$('#btnSave').data('saveType','insert'); // 저장 방식 -> 등록
-		
-		WM_action_ON('new', 'workingWarningModal');
-
-		$('.inputGroup').val('');
-		$('#wdGubun').val('02'); // 구분코드
-		$('#useYn').val('Y'); // 사용여부
-		$('#inputDate').val(moment().format('YYYY-MM-DD')); // 입고일
-		$('#initHitQty').val('0'); // 기존통수
-		$('#useHitQty').val('0'); // 사용통수
-		$('#remainHitQty').val('0'); // 잔여통수
-		
-		$('.inputGroup').attr('disabled', false); // 입력항목
-		
-		$('#btnNew').attr('disabled', true); // 신규 버튼
-		$('#btnSave').attr('disabled', false); // 저장 버튼
-		$('#btnEdit').attr('disabled', true); // 수정 버튼
-		$('#btnDel').attr('disabled', true); // 삭제 버튼
-		$('#btnCancel').attr('disabled', false); // 취소 버튼
-
-		woodenInfoLogTable.clear().draw();
-	});
-
-	// 저장 버튼 click
-	$('#btnSave').on('click', function() {
-		let saveType = $(this).data('saveType');
-
-		if($('#expendGubun').val() == '') {
-			toastr.warning('소모품구분을 선택해주세요.');
-			$('#expendGubun').focus();
-			return false;
-		}
-		if($('#wdGubun').val() == '') {
-			toastr.warning('구분코드를 선택해주세요.');
-			$('#wdGubun').focus();
-			return false;
-		}
-		if($('#wdCd').val() == '') {
-			toastr.warning('목형코드를 입력해주세요.');
-			$('#wdCd').select();
-			return false;
-		}
-		/* if($('#wdNm').val() == '') {
-			toastr.warning('목형명을 입력해주세요.');
-			$('#wdNm').select();
-			return false;
-		} */
-		/* if($('#wdSize').val() == '') {
-			toastr.warning('목형사이즈를 입력해주세요.');
-			$('#wdSize').select();
-			return false;
-		} */
-		if($('#inputDate').val() == '') {
-			toastr.warning('입고일자를 선택해주세요.');
-			$('#inputDate').select();
-			return false;
-		}
-		if($('#baseHitQty').val() == '') {
-			toastr.warning('기본통수를 입력해주세요.');
-			$('#baseHitQty').select();
-			return false;
-		}
-		if($('#initHitQty').val() == '') {
-			toastr.warning('기존통수를 입력해주세요.');
-			$('#initHitQty').select();
-			return false;
-		}
-
-		let data = woodenInfoAdmSel(idxVal);
-
-		let baseHitQty = parseInt($('#baseHitQty').val().replaceAll(/,/g,''));
-		let initHitQty = parseInt($('#initHitQty').val().replaceAll(/,/g,''));
-		//신규일 경우 검색해온 데이터가 없기에 사용 통수를 0으로 세팅
-		let useHitQty = data != null ? parseInt(data.useHitQty) : 0;//parseInt(data.useHitQty);
-		let calHitQty = initHitQty + useHitQty;
-		let remainHitQty = baseHitQty - calHitQty;
-
-		let url = '';
-		if(saveType == 'insert') {
-			url = '/bm/woodenInfoAdmIns';
-		} else if(saveType == 'update'){
-			url = '/bm/woodenInfoAdmUpd';
-		}
 		$.ajax({
-			url: url,
-            type: 'POST',
-            data: {
-            	'idx'					:	idxVal,
-            	'expendGubun'			:	$('#expendGubun').val(),
-            	'wdGubun'				:	$('#wdGubun').val(),
-            	'wdCd'					:	$('#wdCd').val(),
-            	'wdSize'				:	$('#wdSize').val(),
-            	'useYn'					:	$('#useYn').val(),
-            	'coating'				:	$('#coating').val(),
-            	'moldingContents'		:	$('#moldingContents').val(),
-            	'exEndDate'				:	($('#exEndDate').val()==''?'':moment($('#exEndDate').val()).format('YYYYMMDD')),
-            	'location'				:	$('#location').val(),
-            	'inputDate'				:	($('#inputDate').val()==''?'':moment($('#inputDate').val()).format('YYYYMMDD')),
-            	'baseHitQty'			:	baseHitQty,
-            	'initHitQty'			:	initHitQty,
-            	'useHitQty'				:	useHitQty,
-            	'calHitQty'				:	calHitQty,
-            	'remainHitQty'			:	remainHitQty,
-            	'wdDesc'				:	$('#wdDesc').val(),
-            	'wdUnit'				:	$('#wdUnit').val(),
-            	'moldingContentsReal'	:	$('#moldingContentsReal').val(),
-            	'afterProcessing'		:	$('#afterProcessing').val(),
-            	'afterProcessingWdUnit' :	$('#afterProcessingWdUnit').val(),
-            	'bundleMethod'			:	$('#bundleMethod').val(),
-            	'bundleUnit'			:	$('#bundleUnit').val(),
-            	'packUnit'				:	$('#packUnit').val(),
-            	'packMethod'			:	$('#packMethod').val(),			
-            	
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
+			url : '<c:url value="bm/prcssCodeAdmRead"/>',
+			type : 'GET',
+			data : {
+				'prcssCd' 	: function(){ return prcssCd; },
+				'prcssType'	: function(){ return '002'; },
+			},
 			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					if(saveType == 'insert') {
-						toastr.success('신규 저장되었습니다.');
-						WM_action_OFF('new');
-					} else if(saveType == 'update'){
-						toastr.success('수정 저장되었습니다.');
-						WM_action_OFF('edit');
-					}
+				let data = res.data;
+				
+				$('#prcssCd').val(data.prcssCd);
+				$('#prcssNm').val(data.prcssNm);
+				$('#prcssInitial').val(data.prcssInitial);
+				$('#prcssUph').val(data.prcssUph);
+				$('#prcssStand1').val(data.prcssStand1);
+				$('#prcssStand2').val(data.prcssStand2);
+				$('#prcssStand3').val(data.prcssStand3);
+				$('#prcssDesc').val(data.prcssDesc);
+				
+				//선택박스 처리
+				selectBoxAppend(prcssGubun, "prcssGubun", data.prcssGubun, "");
+				selectBoxAppend(osrcYn, "osrcYn", data.osrcYn, "");
 
-					$('#btnSearch').trigger('click'); // 조회버튼 click
-					
-					$('.inputGroup').attr('disabled', true); // 입력항목
-					
-					$('#btnNew').attr('disabled', false); // 신규 버튼
-					$('#btnSave').attr('disabled', true); // 저장 버튼
-					$('#btnEdit').attr('disabled', true); // 수정 버튼
-					$('#btnDel').attr('disabled', true); // 삭제 버튼
-					$('#btnCancel').attr('disabled', true); // 취소 버튼
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
+				sideView = 'edit';
+				uiProc(true);
+				$('#btnSave1').addClass('d-none'); // 저장버튼
+				$('#btnAdd').attr('disabled', false); //생성버튼
+				$('#btnEdit').attr('disabled', false); //수정버튼
+				$('#btnDel').attr('disabled', false);
+				$('#tab2Nav').removeClass('disabled');
+			}
+		});
+		
+	});
+	
+	// 기본정보 등록버튼
+	$('#btnAdd').on('click', function() {
+		sideView = 'add';
+		$('#prcssCodeAdmTable').DataTable().$('tr.selected').removeClass('selected');
+		
+		//초기화
+		$('.form-control').val(null);
+		uiProc(false);
+
+		$('#btnSave1').removeClass('d-none');
+		$('#btnEdit').attr('disabled', true);
+		$('#btnDel').attr('disabled', true);
+
+		$('#tab2Nav').addClass('disabled');
+
+		//선택박스 처리
+		selectBoxAppend(prcssGubun, "prcssGubun", "", "");
+		selectBoxAppend(osrcYn, "osrcYn", "", "");
+
+		$.ajax({
+			url : '<c:url value="/bm/readEquipSeq"/>',
+			type : 'GET',
+			data : {},
+			success : function(res) {
+				let data = res.data;
+				if (res.result == 'ok') {
+					prcssCd = data;
 				} else {
 					toastr.error(res.message);
 				}
-				$('#my-spinner').hide();
-			}
-		});
+			},
+		}); 
 	});
 
-	// 수정 버튼 click
+	// 기본정보 수정버튼
 	$('#btnEdit').on('click', function() {
-		$('#btnSave').data('saveType','update'); // 저장 방식 -> 수정
 
-		WM_action_ON('edit', 'workingWarningModal');
+		if (sideView != 'edit') {
+			toastr.warning("수정할 항목을 선택해 주세요.");
+			return false;
+		}
+
+		uiProc(false);
+		$('#prcssCd').attr('disabled', true);
+
+		$('#btnAdd').attr('disabled', true);
+		$('#btnDel').attr('disabled', true);
 		
-		$('.inputGroup').attr('disabled', false); // 입력항목
+		$('#mfcDate').attr('disabled', true);
+		$('#ancDate').attr('disabled', true);
+		$('#tab2Nav').addClass('disabled');
 		
-		$('#btnNew').attr('disabled', true); // 신규 버튼
-		$('#btnSave').attr('disabled', false); // 저장 버튼
-		$('#btnEdit').attr('disabled', true); // 수정 버튼
-		$('#btnDel').attr('disabled', true); // 삭제 버튼
-		$('#btnCancel').attr('disabled', false); // 취소 버튼
+		$('#btnSave1').removeClass('d-none');
+		$('#changeHisTable').removeClass('d-none');
 	});
-
-	// 삭제 버튼 click
+	
+	//기본정보 삭제버튼
 	$('#btnDel').on('click', function() {
-		if(!$('#woodenInfoAdmTable tbody tr').hasClass('selected')){
-			toastr.warning('삭제할 행을 선택해주세요.');
+		if (sideView == 'add') {
+			toastr.warning("삭제할 목록을 선택해 주세요.");
+			return false;
+		}
+		sideView = 'add';
+		
+		$('#form1').each(function(){this.reset();});
+		
+		$.ajax({
+			url : '<c:url value="bm/prcssAdmDelete"/>',
+			type : 'POST',
+			data :{
+				'prcssCd' : function(){return prcssCd;},
+				'prcssType' : function(){return '002';},
+			},
+			success : function(res) {
+				let data = res.result;
+				if (res.result == 'ok') {
+					toastr.success('삭제되었습니다.');
+					$('#prcssCodeAdmTable').DataTable().ajax.reload(function() {});
+					
+					$('#tab2Nav').addClass('disabled');
+				}else {
+					toastr.error(res.message);
+				}
+			}
+		});
+		
+	});
+	
+	//기본정보 저장
+	$('#btnSave1').on('click', function() {
+		
+		if (!$.trim($('#prcssCd').val())) {
+			toastr.warning('공정코드를 입력해 주세요.');
+			$('#prcssCd').focus();
 			return false;
 		}
 		
-		$('#deleteModal').modal('show').data('type','adm');
-	});
-
-	// 삭제 경고창 삭제 버튼 click
-	$('#btnDeleteModalY').on('click', function() {
-		let type = $('#deleteModal').data('type');
-		if(type == 'adm') {
-			let idx = woodenInfoAdmTable.row('.selected').data().idx;
+		var prcssCdCheck = false;
+		
+		if(sideView == 'add'){
 			$.ajax({
-				url: '<c:url value="/bm/woodenInfoAdmDel"/>',
-	            type: 'POST',
-	            async: false,
-	            data: {
-	                'idx'	:	idx
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
+				url : '<c:url value="bm/prcssCodeAdmRead"/>',
+				type : 'GET',
+				async : false,
+				data : {
+					'prcssCd' : function() {return $('#prcssCd').val();},
+					'prcssType' : function() {return '002';},
+				},
 				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('삭제되었습니다.');
+					let data = res.data;
+					
+					if(data != null){
+						prcssCdCheck = true;
+					}
+				}
+				
+			});
+		}
+		
+		if (prcssCdCheck) {
+			toastr.warning('중복된 공정코드 입니다.');
+			$('#prcssCd').val('');
+			$('#prcssCd').focus();
+			return false;
+		}
+		
+		if (!$.trim($('#prcssNm').val())) {
+			toastr.warning('공정명을 입력해 주세요.');
+			$('#prcssNm').focus();
+			return false;
+		}
+		
+		if (sideView == "add") {
+			url = '<c:url value="/bm/prcssCodeAdmCreate"/>';
+		} else if (sideView == "edit") {
+			url = '<c:url value="/bm/prcssCodeAdmUpdate"/>';
+		}
 
-						$('#btnSearch').trigger('click'); // 조회버튼 click
-						
-						$('.inputGroup').val('');
-						
-						$('.inputGroup').attr('disabled', true); // 입력항목
+		$.ajax({
+			url : url,
+			type : 'POST',
+			async : false,
+			data : {
+				'prcssCd' : $('#prcssCd').val(),
+				'prcssType' : '002',
+				'lowerPrcssCd' : $('#prcssCd').val(),
+				'prcssSeq' : '1',
+				'prcssNm' : $('#prcssNm').val(),
+				'prcssInitial' : $('#prcssInitial').val(),
+				'prcssGubun' : $('#prcssGubun option:selected').val(),
+				'prcssUph' : $('#prcssUph').val(),
+				'osrcYn' : $('#osrcYn option:selected').val(),
+				'prcssStand1' : $('#prcssStand1').val(),
+				'prcssStand2' : $('#prcssStand2').val(),
+				'prcssStand3' : $('#prcssStand3').val(),
+				'prcssDesc' : $('#prcssDesc').val(),
+// 				'ancDate' : $('#ancDate').val().replace(/-/g,''),
+			},
+			success : function(res) {
+				let data = res.data;
+				if (res.result == 'ok') {
+					if (sideView == "edit") {
+						toastr.success('수정되었습니다.');
+					} else {
+						toastr.success('등록되었습니다.');
+					}
 
-						$('#btnNew').attr('disabled', false); // 신규 버튼
-						$('#btnSave').attr('disabled', true); // 저장 버튼
-						$('#btnEdit').attr('disabled', true); // 수정 버튼
-						$('#btnDel').attr('disabled', true); // 삭제 버튼
-						$('#btnCancel').attr('disabled', true); // 취소 버튼
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
+					$('#tab2Nav').removeClass('disabled');
+				} else {
+					toastr.error(res.message);
+				}
+			},
+			complete : function() {
+				uiProc(true);
+				$('#prcssCodeAdmTable').DataTable().ajax.reload();
+				$('#btnAdd').attr('disabled', false);
+				$('#btnEdit').attr('disabled', false);
+				$('#btnDel').attr('disabled', false);
+				$('#btnSave1').addClass('d-none');
+
+			}
+		});
+		
+		if (sideView == "edit" && !(!$.trim($('#changeHis').val()))) {
+			var url = '/sm/systemChangeLogCreate';
+
+			$.ajax({
+				url : url,
+				type : 'POST',
+				async : false,
+				data : {
+					'changeHis'  : $('#changeHis').val(),
+					'menuPath'  : currentHref,
+				},
+				success : function(res) {
+					let data = res.data;
+					if (res.result == 'ok') {
+						toastr.success('변경내역이 등록되었습니다.');
+						$('#changeHisTable').addClass('d-none');
+						$('#changeHis').val('');
 					} else {
 						toastr.error(res.message);
 					}
-					$('#my-spinner').hide();
+				},
+				complete : function() {
+//						$('#btnAddConfirm').removeClass('d-none');
+//						$('#btnAddConfirmLoading').addClass('d-none');
 				}
 			});
-		} else if(type == 'log'){
-			let idx = woodenInfoLogTable.row('.selected').data().idx;
-			let wdIdx = idxVal;
+		}else{
+			$('#changeHisTable').addClass('d-none');
+		}
+		
+	});
+
+	//설비정보 테이블
+	let equipAdmInfo = $('#equipAdmInfo').DataTable({	
+		dom : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>B",
+		language : lang_kor,
+		paging : true,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		pageLength : -1,
+		scrollY : '57vh',
+		ajax : {
+			url : '<c:url value="/bm/prcssEquipAdmList"/>',
+			type : 'GET',
+			async : false,
+			data : {
+				'prcssCd' : function(){ return prcssCd; },
+			},
+		},
+		columns : [
+			{//No
+				render: function(data, type, row, meta) {
+					return meta.row + meta.settings._iDisplayStart + 1 ;
+        		},
+				'className' : 'text-center'
+			},
+			{//설비코드
+				data : 'equipCd',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						let html = '<div class="input-sub m-0" style="width: 100%;">';
+						html += '<input type="hidden" class="form-control" id="equipCd1" name="equipCd1">';
+						html += '<input type="text" class="form-control" name="equipCd" value="'+data+'" disabled>';
+						html += '<button type="button" name="btnAccCd" class="btn btn-primary input-sub-search" onClick="equipCdSelectInCorpCd()">';
+						html += '<span class="oi oi-magnifying-glass"></span>';
+						html += '</button>';
+						html += '</div>';
+						return html;
+					} else {
+						let html = '<div class="input-sub m-0" style="width: 100%;">';
+						html += '<input type="hidden" class="form-control" id="equipCd1" name="equipCd1">';
+						html += '<input type="text" class="form-control" name="equipCd" value="" disabled>';
+						html += '<button type="button" name="btnAccCd" class="btn btn-primary input-sub-search" onClick="equipCdSelectInCorpCd()">';
+						html += '<span class="oi oi-magnifying-glass"></span>';
+						html += '</button>';
+						html += '</div>';
+						return html;
+					}
+				}
+			},
+			{//설비명
+				data : 'equipNm',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="equipNm" value="'+data+'" disabled/>';
+					} else {
+						return '<input type="text" class="form-control" name="equipNm" value="" disabled/>';
+					}
+				}
+			},
+			{//비고
+				data : 'prcssDesc',
+				render : function(data, type, row, meta) {
+					if (data != null) {
+						return '<input type="text" class="form-control" name="prcssEqDesc" value="'+data+'" disabled />';
+					} else {
+						return '<input type="text" class="form-control"  name="prcssEqDesc" value="" />';
+					}
+				}
+			}, 
+		],
+		order : [ [ 0, 'asc' ], ],
+		buttons : [ {
+			extend : 'copy',
+			title : '공정정보관리(SUB)',
+		}, {
+			extend : 'excel',
+			title : '공정정보관리(SUB)',
+		}, {
+			extend : 'print',
+			title : '공정정보관리(SUB)',
+		}, ],
+		drawCallback: function(settings) {
+        }, 
+	});
+	
+	//설비코드 팝업 시작
+	let mainGubunVal = '001';
+	let prcssEquipPopUpTable;
+	function equipCdSelectInCorpCd() {
+		if (prcssEquipPopUpTable == null || prcssEquipPopUpTable == 'undefined') {
+			prcssEquipPopUpTable = $('#prcssEquipPopUpTable').DataTable({
+				dom : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>"
+						+ "<'row'<'col-sm-12'tr>>"
+						+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+				language : lang_kor,
+				paging : true,
+				info : true,
+				ordering : true,
+				processing : true,
+				autoWidth : false,
+				scrollX : false,
+				lengthChange : true,
+				pageLength : 10,
+				ajax : {
+					url : '<c:url value="/bm/equipCodeAdmList"/>',
+					type : 'GET',
+					data : {
+						'mainGubun' : function(){ return mainGubunVal; },
+					},
+				},
+				columns : [
+					{
+						data : 'equipNo',
+						"className" : "text-center"
+					},
+					{
+						data : 'equipNm',
+						"className" : "text-center"
+					}  
+				],
+				columnDefs : [],
+				order : [ [ 0, 'asc' ] ],
+				buttons : [],
+			});
+			
+			let html2 = '';
+			html2 += '<div class="row">&nbsp;&nbsp;';
+			html2 += '<label class="input-label-sm">구분</label>';
+			html2 += '<div class="form-group input-sub m-0">';
+			html2 += '<select id="prcssGubunBox" class="select w80 col-12 custom-select">';
+			html2 += '</select>';
+			html2 += '</div>&nbsp;&nbsp;&nbsp;';
+			html2 += '</div>';
+
+			$('#prcssEquipPopUpTable_length').html(html2);
+			selectBoxAppend(prcssGubun, "prcssGubunBox", "001", "");
+
+			$('#prcssEquipPopUpTable tbody').on('click', 'tr', function() {
+				let data = prcssEquipPopUpTable.row(this).data();
+				//중복되는 설비코드 필터링
+				let tempVal;
+				for (var i = 0; i < equipAdmInfo.data().length; i++) {
+					tempVal = $('input[name=equipCd]').eq(i).val();
+					if ( tempVal != 'undefined' ) {
+						if ( tempVal == data.equipNo ) {
+							toastr.warning("중복된 설비코드가 있습니다.");
+							return false;
+						}
+					} else {
+						break;
+					}
+				}
+				
+				$('input[name=equipCd]').eq(tableIdx).val(data.equipNo);
+				$('input[name=equipNm]').eq(tableIdx).val(data.equipNm);
+				$('#prcssEquipPopUpModal').modal('hide');
+
+			});
+		} else {
+			$('#prcssEquipPopUpTable').DataTable().ajax.reload();
+		}
+		$('#prcssEquipPopUpModal').modal('show');
+	}
+	
+   	//설비코도조회 조건 변경 시
+	$(document).on('change', '#prcssGubunBox', function () {
+		mainGubunVal = $('#prcssGubunBox').val();
+		
+		$('#prcssEquipPopUpTable').DataTable().ajax.reload();
+	});
+
+	//설비정보 탭 클릭시
+	$('#tab2Nav').on('click', function() {
+		$('#btnSave1').addClass('d-none');
+		$('#btnSave2').addClass('d-none');
+		
+		$('#equipAdmInfo').DataTable().ajax.reload();
+		uiProc2(true);
+		
+		setTimeout(function(){
+			equipAdmInfo.draw();
+			equipAdmInfo.draw();
+		}, 300);
+	});
+	
+	//설비정보 데이터 클릭 시
+	$('#equipAdmInfo tbody').on('click', 'tr', function() {
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			btnView2 = "";
+			return false;
+		} else {
+			$('#equipAdmInfo').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+		
+		tableIdx = $('#equipAdmInfo').DataTable().row(this).index();
+		equipCd = equipAdmInfo.row(tableIdx).data().equipCd;
+		
+		console.log(tableIdx);
+		btnView2 = "edit";
+	});
+	
+	//설비정보 추가버튼
+	$('#btnCodeAdd').on('click', function() {
+		$('#equipAdmInfo').DataTable().row.add({}).draw(false);
+		
+		if (equipAdmInfo.data().count() > 0) {
+			$('#btnSave2').removeClass('d-none'); // 등록버튼
+		}
+		btnView2 = '';
+	});
+	
+	// 설비정보 수정버튼
+	$('#btnCodeEdit').on('click', function() {
+		if(btnView2 != 'edit'){
+			toastr.warning("수정할 항목을 선택해주세요.")
+			return false;
+		}
+		console.log(tableIdx);
+		$('input[name=prcssEqDesc]').eq(tableIdx).attr('disabled', false);
+		$('button[name=btnAccCd]').eq(tableIdx).attr('disabled', false);
+		btnView2 ='';
+		$('#btnSave2').removeClass('d-none');
+	});
+	
+	//설비정보 삭제버튼
+	$('#btnCodeDel').on('click', function() {
+		if (btnView2 != 'edit') {
+			toastr.warning('삭제할 항목을 선택해주세요.');
+			return false;
+		}
+
+		//설비정보 삭제
+		$.ajax({
+			url : '<c:url value="bm/prcssEquipDelete" />',
+			type : 'POST',
+			data  : {
+				'prcssCd' : prcssCd,
+				'equipCd' : equipCd,
+			},
+			success  : function(res){
+				$('#equipAdmInfo').DataTable().rows(tableIdx).remove().draw();
+				toastr.success("삭제되었습니다.");
+			}
+		})
+		
+		btnView2 = '';
+
+	});
+
+	//설비정보 저장
+	$('#btnSave2').on('click',function() {
+		let check = true;
+		let dataArray = new Array();
+
+		if (equipAdmInfo.data().count() > 0) {
+			$('#equipAdmInfo tbody tr').each(function(index, item) {
+				//입력값 검사
+				if ($(this).find('td input[name=equipCd]').val() == "") {
+					toastr.warning('설비코드를 입력해 주세요.');
+					$(this).find('td input[name=equipCd]').focus();
+					check = false;
+					return false;
+				}
+				
+				let rowData = new Object();
+				rowData.prcssCd = prcssCd;
+				rowData.equipCd = $(this).find('td input[name=equipCd]').val();
+				rowData.prcssDesc = $(this).find('td input[name=prcssEqDesc]').val();
+				rowData.useYn = '001';
+
+				dataArray.push(rowData);
+				console.log(rowData)
+			});
+		} else {
+			toastr.warning('설비정보를 추가해 주세요.');
+			$('#btnCodeAdd').focus();
+			check = false;
+			return false;
+		}
+
+		if (check) {
 			$.ajax({
-				url: '<c:url value="/bm/woodenInfoLogDel"/>',
-	            type: 'POST',
-	            async: false,
-	            data: {
-	                'idx'		:	idx,
-	                'wdIdx'		:	wdIdx
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
+				url : '<c:url value="/bm/prcssCodeEqCreate"/>',
+				type : 'POST',
+				dataType : 'json',
+				data : JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
 				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('삭제되었습니다.');
-
-						$('#btnSearch').trigger('click'); // 조회버튼 click
-
-						$(woodenInfoAdmTable.row('.selected').node()).trigger('click');
-
-						woodenInfoLogTable.ajax.reload(function() {});
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
+					let data = res.data;
+					if (res.result == 'ok') {
+						if (btnView2 == "edit") {
+							toastr.success("수정되었습니다.");
+						} else {
+							toastr.success("등록되었습니다.");
+						}
+						
+						//새로고침
+						$('#equipAdmInfo').DataTable().ajax.reload();
+						//화면설정
+						uiProc2(true);
+						$('#btnSave2').addClass('d-none');
 					} else {
 						toastr.error(res.message);
 					}
-					$('#my-spinner').hide();
+				},
+				complete : function() {
+					btnView2 = "";
+				}
+			});
+		}
+		
+	});
+	
+	//기본정보 화면설정
+	function uiProc(flag) {
+		$("#prcssCd").attr("disabled", flag);
+		$("#prcssNm").attr("disabled", flag);
+		$("#prcssInitial").attr("disabled", flag);
+		$("#prcssGubun").attr("disabled", flag);
+		$("#prcssUph").attr("disabled", flag);
+		$("#osrcYn").attr("disabled", flag);
+		$("#prcssStand1").attr("disabled", flag);
+		$("#prcssStand2").attr("disabled", flag);
+		$("#prcssStand3").attr("disabled", flag);
+		$("#prcssDesc").attr("disabled", flag);
+	}
+
+	//설비정보 화면설정
+	function uiProc2(flag) {
+		$('input[name=equipCd]').attr("disabled", flag);
+		$('input[name=equipNm]').attr("disabled", flag);
+		$('input[name=prcssEqDesc]').attr("disabled", flag);
+		$('button[name=btnAccCd]').attr("disabled", flag);
+	}
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	//엑셀업로드 모달
+	let inTable = $('#inTable').DataTable({
+		language : lang_kor,
+		paging : true,
+		destroy : true,
+		info : false,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		pageLength : 20,
+		ajax : {
+			url : '<c:url value="bm/equipExcelDataList" />',
+			type : 'GET',
+			data : {
+				'url' : function(){return urlData;}
+			}
+		},
+		columns : [
+			{  
+				render : function(data, type, row, meta) {
+					return meta.row+ meta.settings._iDisplayStart+ 1;
+				}
+			},
+			{data : 'assetCd'},
+			{data : 'assetGubun'},
+			{data : 'buyAmt'},
+			{data : 'equipNo'},
+			{data : 'equipNm'},
+			{data : 'prcNm'},
+			{data : 'equipType'},
+			{data : 'mfcDate'},
+			{data : 'mfcCorpCd'},
+			{data : 'equipCond'},
+			{data : 'upperAmt'},
+			{data : 'lowerAmt'},
+			{data : 'ancEquipNm'},
+			{data : 'ancDate'},
+			{data : 'ancCorpCd'}, 
+			{data : 'expNm'}, 
+			{data : 'ancEquipType'}, 
+			{data : 'buyCorpNm'}, 
+		],
+		columnDefs: [
+			{ targets: [12] , render: $.fn.dataTable.render.number( ',' ), className : 'text-right' },
+        	{"targets": "_all" , "className": "text-center"},
+        	
+        ],
+	});
+
+	//파일 선택
+	$('#btnExcelUpload').change( function() {
+		console.log("파일선택했습니다.");
+		var formData = new FormData($('#fileUploadForm')[0]);
+
+		var str = $('#btnExcelUpload').val();
+
+		if (str.substring(str.lastIndexOf(".") + 1) == "xls"
+				|| str.substring(str.lastIndexOf(".") + 1) == "xlsx") {
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				data : formData,
+				url : '<c:url value="bm/equipExcelUpload"/>',
+				processData : false,
+				contentType : false,
+				cache : false,
+				success : function(res) {
+					urlData = res.data;
+					$('#inTable').DataTable().ajax.reload(function(){});
+					$('#inModal').modal('show');
+
+					$('#btnExcelUpload').val("");
+				},
+				error : function(e) {
+				}
+			});
+
+		} else {
+			//toastr.warning("excel파일을 선택해 주세요.");
+			return false;
+		}
+
+	});
+	
+	$('#btnApply').on('click',function(){
+		console.log("적용버튼 클릭함");
+		var dataArray = new Array();		
+		var check=true;  	
+		
+		
+		$('#inTable tbody tr').each(function(index, item){
+			 
+			var rowData = new Object();
+			rowData.assetCd= inTable.row(index).data().assetCd;
+			rowData.assetGubun= inTable.row(index).data().assetGubun;
+			rowData.buyAmt= inTable.row(index).data().buyAmt;
+			
+			rowData.equipNo= inTable.row(index).data().equipNo;
+			rowData.equipNm= inTable.row(index).data().equipNm;
+			rowData.prcNm= inTable.row(index).data().prcNm;
+			rowData.equipType= inTable.row(index).data().equipType;
+			rowData.mfcDate= inTable.row(index).data().mfcDate;
+			rowData.mfcCorpCd= inTable.row(index).data().mfcCorpCd;
+			
+			rowData.equipCond= inTable.row(index).data().equipCond;
+			rowData.upperAmt= inTable.row(index).data().upperAmt;
+			rowData.lowerAmt= inTable.row(index).data().lowerAmt;
+			
+			rowData.ancEquipNm= inTable.row(index).data().ancEquipNm;
+			rowData.ancDate= inTable.row(index).data().ancDate;
+			rowData.ancCorpCd= inTable.row(index).data().ancCorpCd;
+			rowData.expNm= inTable.row(index).data().expNm;
+			rowData.ancEquipType= inTable.row(index).data().ancEquipType;
+			rowData.buyCorpNm= inTable.row(index).data().buyCorpNm;
+			
+	        dataArray.push(rowData);
+		});
+			
+		if(check == true){
+			$.ajax({
+				url : '<c:url value="bm/equipExcelCreate"/>',
+				type : 'POST',
+				datatype: 'json',
+				data: JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
+				beforeSend : function() {
+					// $('#btnAddConfirm').addClass('d-none');
+				},
+				success : function(res) {				
+					if (res.result == 'ok') {
+						$('#prcssCodeAdmTable').DataTable().ajax.reload(function(){});
+						$('#inModal').modal('hide');
+						
+						toastr.success('저장되었습니다.');
+					}else if(res.result == 'exist') {
+						toastr.warning("동일한 부품코드가 존재합니다.");
+					}else {
+						toastr.error(res.message);
+					}
+				},
+				complete : function() {
+					$('#inOutWhsTable').DataTable().ajax.reload();
+					$('#btnAddConfirm').removeClass('d-none');
+					$('#btnAddConfirmLoading').addClass('d-none');				
 				}
 			});
 		}
 	});
+	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	// 취소 버튼 click
-	$('#btnCancel').on('click', function() {
-		$('#cancelModal').modal('show');
-	});
-
-	// 취소 경고창 취소 버튼 click
-	$('#btnCancelModalY').on('click', function() {
-		toastr.success('취소되었습니다.');
-
-		WM_action_OFF('new');
-		WM_action_OFF('edit');
-
-		$('.inputGroup').attr('disabled', true); // 입력항목
-		
-		$('#btnNew').attr('disabled', false); // 신규 버튼
-		$('#btnSave').attr('disabled', true); // 저장 버튼
-		$('#btnEdit').attr('disabled', true); // 수정 버튼
-		$('#btnDel').attr('disabled', true); // 삭제 버튼
-		$('#btnCancel').attr('disabled', true); // 취소 버튼
-	});
-
-
-
-
-
-	// 목형정보관리 사용이력 목록조회
-	$('#woodenInfoLogTable thead tr').clone(true).addClass('filters').appendTo('#woodenInfoLogTable thead'); // filter 생성
-	let woodenInfoLogTable = $('#woodenInfoLogTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/woodenInfoLogLst"/>',
-			type : 'POST',
-			data : {
-				wdIdx: function() { return idxVal; }
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'bizOrdDtlNo', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return data;
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'useQty', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					return addCommas(parseInt(data));
-				}
-			},
-			{ data: 'regIdxNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return data;
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'regDate', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return moment(data).format('YYYY-MM-DD');
-					} else {
-						return '';
-					}
-				}
-			},
-			/* { data: 'wdGubunNm', className : 'text-center align-middle'},
-			{ data: 'baseHitQty', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					return addCommas(parseInt(data));
-				}
-			},
-			{ data: 'calHitQty', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					return addCommas(parseInt(data));
-				}
-			},
-			{ data: 'wdDesc', className : 'text-center align-middle'},
-			{ data: 'regIdxNm', className : 'text-center align-middle'},
-			{ data: 'regDate', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					return moment(data).format('YYYY-MM-DD');
-				}
-			},
-			{ className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(meta.row != 0) {
-						return '<button type="button" class="btn btn-outline-danger w-auto btnLogDel"><i class="fa-solid fa-trash-can"></i></button>';
-					} else {
-						return '<button type="button" class="btn btn-outline-danger w-auto btnLogDel" disabled><i class="fa-solid fa-trash-can"></i></button>';
-					}
-				}
-			}, */
-		],
-		columnDefs : [
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#woodenInfoLogTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#woodenInfoLogTable_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 124)+'px');
-			
-			$('#woodenInfoLogTable_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllWil').off('keyup',function() {});
-			$('#searchAllWil').on('keyup',function() {
-				$('#woodenInfoLogTable_filter').find('input').val($(this).val());
-				$('#woodenInfoLogTable_filter').find('input').trigger('keyup');
-			});
-
-			// 삭제버튼 click
-			$('.btnLogDel').off('click');
-			$('.btnLogDel').on('click', function() {
-				$('#deleteModal').modal('show').data('type','log');
-			});
-		},
-		initComplete: function () {
-			let api = this.api();
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#woodenInfoLogTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	woodenInfoLogTable.on('column-reorder', function( e, settings, details ) {
-		let api = woodenInfoLogTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#woodenInfoLogTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-
-	// 사용이력 탭을 열었을 경우
-	$('#tab2Nav').on('click', function() {
-		setTimeout(function() {
-			woodenInfoLogTable.ajax.reload(function() {
-				woodenInfoLogTable.draw(false);
-			});
-		}, 100);
-	});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// 목형정보관리 기본정보 상세조회
-	function woodenInfoAdmSel(idx) {
-		let result = '';
-		$.ajax({
-			url: '<c:url value="/bm/woodenInfoAdmSel"/>',
-            type: 'POST',
-            async: false,
-            data: {
-                'idx'	:	idx
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
-			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					result = res.data;
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
-				} else {
-					toastr.error(res.message);
-				}
-				$('#my-spinner').hide();
-			}
-		});
-		return result;
-	}
 </script>
-
 </body>
 </html>

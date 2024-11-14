@@ -11,7 +11,7 @@
 		</Console>
 
 		<!-- INFO print -->
-		<RollingFile name="rollingFile" fileName="C:\LOG\gscert\web.log" filePattern="D:\logs\gscert\web_%d{yyyyMMdd}.log">
+		<RollingFile name="rollingFile" fileName="C:\LOG\daelim\web.log" filePattern="D:\logs\daelim\web_%d{yyyyMMdd}.log">
 			<PatternLayout pattern="${layoutPattern}" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="100MB" /> 
@@ -20,7 +20,7 @@
 		</RollingFile>
 
 		<!-- ERROR print -->
-		<RollingFile name="errorFile" fileName="C:\LOG\gscert\error.log" filePattern="C:\LOG\gscert\error_%d{yyyyMMdd}.log">
+		<RollingFile name="errorFile" fileName="C:\LOG\daelim\error.log" filePattern="C:\LOG\daelim\error_%d{yyyyMMdd}.log">
 			<PatternLayout pattern="${layoutPattern}" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="100MB" /> 
@@ -61,22 +61,22 @@
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		<Logger name="org.springframework.web" level="INFO" additivity="false">
+		<Logger name="org.springframework.web" level="DEBUG" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		<Logger name="org.springframework" level="INFO" additivity="false">
+		<Logger name="org.springframework" level="DEBUG" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
+
 		<Logger name="org.apache.ibatis" level="WARN" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		
 		<Logger name="org.mybatis" level="WARN" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
@@ -86,7 +86,7 @@
 
 
 		<!-- JDBC START-->
-		<Logger name="jdbc.sqltiming" level="ERROR" additivity="false">
+		<Logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
@@ -119,7 +119,7 @@
 		<!-- JDBC END-->
 
 
-		<Root level="INFO">
+		<Root level="DEBUG">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>

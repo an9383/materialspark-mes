@@ -1,1808 +1,1307 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
-<%@include file="../layout/top.jsp"%>
-<%@include file="../layout/modal.jsp"%>
-<%@include file="../layout/script.jsp"%>
-<div id="page" onmouseup="EndDrag()" onmousemove="OnDrag(event)" style="grid-template-areas: 'rightcol';
-																		  grid-template-rows: 1fr;
-																		  grid-template-columns: 1fr;">
-	<div id="rightcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="rightHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">수주등록일</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="startDate">
-					<label class="form-label d-flex align-items-center m-0 me-1 h-100">~</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="endDate">
-					<select class="form-select w-auto h-100 me-1 monthAdjust" id="monthAdjust">
-					</select>
-					<div class="btn-group me-3" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="3">
-							3개월
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="6">
-							6개월
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="12">
-							12개월
+<%@include file="../layout/body-top.jsp" %>
+
+<div class="page-wrapper" id="page-wrapper">
+	<div class="modal fade" id="saveBtnModal" tabindex="-1" role="dialog" aria-labelledby="saveBtnModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+	    	<div class="modal-content">
+	      		<div class="modal-header">
+	        		<h5 class="modal-title" id="saveBtnModalLabel">주의</h5>
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          			<span aria-hidden="true">&times;</span>
+	        		</button>
+	      		</div>
+	      		<div class="modal-body">
+	      			<h6>발주등록을 새로 하시겠습니까?</h6> 
+	      		</div>
+	      		<div class="modal-footer">
+	      			<button type="button" class="btn btn-primary" id="saveBtnModalY" data-dismiss="modal">예</button>
+	      			<button type="button" class="btn btn-danger" id="saveBtnModalN" data-dismiss="modal">아니요</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+	<!-- 거래처 모달 시작-->
+	<div class="modal fade bd-example-modal-lg" id="dealCorpPopUpModal" tabindex="-1" role="dialog" aria-labelledby="dealCorpPopUpModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+	      		<div class="modal-header">
+	        		<h5 class="modal-title" id="dealCorpPopUpLabel">공급사조회</h5>
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          			<span aria-hidden="true">&times;</span>
+	       			</button>
+	      		</div> 
+	      		<div class="modal-body">
+	      			<hr class="text-secondary">	         
+	        			<table id="dealCorpPopUpTable" class="table table-bordered">
+	                   		<thead class="thead-light">
+		                   		<tr>
+									<th style="width : 20%">공급사</th>
+									<th style="width : 15%">공급사코드</th>
+									<th style="width : 25%">대표자</th>
+									<th style="width : 15%">대표품목</th>
+									<th style="width : 25%">사업자번호</th>
+		                   		</tr>
+	                   		</thead>
+						</table>
+					<hr class="text-secondary"> 
+	      		</div>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+	<!-- 거래처 모달 종료-->
+	<!--header ============================================================== -->
+	<header class="page-title-bar row">
+		<nav aria-label="breadcrumb" class="breadcrumb-padding">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">구매자재관리</a></li>
+				<li class="breadcrumb-item active">발주관리(사출)</li>
+			</ol>
+		</nav>
+	</header>
+	<!-- #main============================================================== -->
+	<div class="container-fluid" id="main">
+	          <!-- 상단 sorting part -->
+              <div class="card top_sortbox p-2">
+               <div class="row">
+                <div class="col-5 row p-0">
+                <!-- 일자 -->
+                  <label class="input-label-md">년/월</label>
+                  <div class="m-1">
+                     <div class="input-sub-md">
+	                  <div class="form-group input-sub m-0 row">
+	                   <input class="form-control-md" type="month" id="mrpDateFrom" name="mrpDateFrom"/>
+	                  </div>
+                     </div>
+                  </div>
+                  <!-- ~ -->
+                  <label class="input-label-md">~</label>
+                  <!-- 일자 -->
+                  <div class="m-1">
+                     <div class="input-sub-md">
+	                  <div class="form-group input-sub m-0 row">
+	                   <input class="form-control-md" type="month" id="mrpDateTo" name="mrpDateTo"/>
+	                  </div>
+                     </div>
+                  </div>
+                  <!-- 조회 -->
+                  <button type="button"  class="btn btn-primary m-1" id="btnRetv">조회</button>
+                  <button type="button"  class="btn btn-primary m-1" id="btnAllList">전체조회</button>
+               </div> 
+              </div>
+             </div>
+	        <!-- / end 상단 sorting part -->
+		<div class="row table-wrap-hid">
+			<!--======================== .left-list ========================-->
+			<div class="left-list left-sidebar" id="left-list"
+				style="width: 53%;">
+				<div class="card">
+					<div class="open-arrow" id="arrowLeft">
+						<button id="left-width-btn" onclick="openrNav()"
+							class="btn btn-primary input-sub-search" type="button">
+							<i class="mdi mdi-arrow-left"></i>
 						</button>
 					</div>
-				
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">차량배정</label>
-					<select class="form-select w-auto h-100 me-1" id="carAssignment" style="min-width: 70px;">
-					</select>
-					
-					<div class="d-flex align-items-center justify-content-end me-3">
-						<div class="btn-group" role="group" aria-label="Small button group">
-							<button type="button" class="btn btn-outline-light w-auto" id="btnCopy">
-								<!-- <i class="fa-regular fa-copy"></i> -->
-								적용
+
+					<!-- .table-responsive -->
+					<div class="table-responsive">
+						<table class="table table-bordered" id="bizOrderMrpTable">
+							<colgroup>
+								<col width="3%">
+								<col width="10%">
+								<col width="12%">
+								<col width="15%">
+								<col width="20%">
+								<col width="11%">
+								<col width="11%">
+								<col width="11%">
+								<col width="7%">
+							</colgroup>
+							<thead class="thead-light">
+								<tr>
+									<th><input type="checkbox" id="btnAllCheck"></th>
+									<th>공급사</th>
+									<th>차종</th>
+									<th>품번</th>
+									<th>품명</th>
+									<th class="text-center">발주예정수량</th>
+									<th class="text-center">확정수량</th>
+									<th class="text-center">미확정수량</th>
+									<th>상세</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<!-- /.table-responsive -->
+				</div>
+			</div>
+			<!-- /.left-list -->
+
+			<!--======================== .right-sidebar 등록,수정 ========================-->
+			<div class="right-list right-sidebar" id="myrSidenav"
+				style="width: 46%;">
+				<div class="card">
+					<!--오른쪽 등록 부분 상단 버튼 영역-->
+					<div class="card-body col-sm-12">
+						<button type="button" class="btn btn-primary float-right d-none" id="btnSave">발주등록</button>
+					</div>
+					<!--/오른쪽 등록 부분 상단 버튼 영역-->
+					<div id="myTabContent" class="tab-content">
+						<form id="form">
+							<div class="table-responsive">
+								<table class="table table-sm table-bordered mb-2"
+									id="purchaseOrderAdmTable">
+									<colgroup>
+										<col width="20%">
+										<col width="27%">
+										<col width="25%">
+										<col width="28%">
+									</colgroup>
+									<tr>
+										<th>발주번호</th>
+										<td>
+											<div class="row">
+												<input class="form-control" type="text" id="poNo" name="poNo" style="max-width: 100%" disabled>
+											</div>
+										</td>
+										<th>공급사</th>
+										<td>
+											<div class="input-sub m-0" style="max-width: 100%">
+												<input type="text" class="form-control"
+													style="max-width: 100%" id="dealCorpNm" name="dealCorpNm"
+													disabled> <input type="hidden" id="dealCorpCd"
+													name="dealCorpCd">
+												<button type="button"
+													class="btn btn-primary input-sub-search d-none"
+													name="btnDealCorp" id="btnDealCorp"
+													onClick="selectDealCorp();">
+													<span class="oi oi-magnifying-glass"></span>
+												</button>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>발주자</th>
+										<td>
+											<div class="input-sub m-0" style="max-width: 100%">
+												<input type="hidden" class="form-control"style="max-width: 100%" id="mainChargr"name="mainChargr" disabled> 
+												<input type="text"class="form-control" style="max-width: 100%"id="mainChargrNm" name="mainChargrNm" disabled>
+												<button type="button" class="btn btn-primary input-sub-search"name="btnMainChargr" id="btnMainChargr" onClick="selectMainChargr();">
+													<span class="oi oi-magnifying-glass"></span>
+												</button>
+											</div>
+										</td>
+										<th>발주일자</th>
+										<td>
+											<div class="form-group input-sub m-0"
+												style="max-width: 100%">
+												<input class="form-control" style="max-width: 100%"
+													type="date" id="poDate" name="poDate" maxlength="10"
+													 disabled/>
+											</div>
+										</td>
+										
+									</tr>
+									<tr>
+										<th>발주구분</th>
+										<td><select class="custom-select" type="text" id="receiptGubun" style="max-width: 100%" disabled></select></td>
+										<th></th>
+										<td></td>
+									</tr>
+									<tr>
+										<th>비고</th>
+										<td colspan="3">
+											<input class="form-control" type="text" id="poDesc" style="max-width: 100%" disabled/>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</form>
+						<div>
+							<button type="button" class="btn btn-success float-left mr-1" id="btnCancle" disabled>
+								<span class="oi oi-arrow-left">&nbsp;&nbsp;발주취소</span>
+							</button>
+							<div class="row float-right">
+								<div class="row" id="inWhsDateDiv">
+									<label class="input-label-sm mr-1">납기일 선택</label>
+									&nbsp;&nbsp;
+									<input class="form-control" style="width:97px;" type="date" id="selectDay" disabled/>
+									&nbsp;&nbsp;&nbsp;&nbsp;
+									<button type="button" class="btn btn-primary" id="applyDate" disabled>전체적용</button>
+								</div>
+							</div>
+							
+							<button class="btn btn-warning d-none" id="btnCancleConfirmLoading"
+								type="button" disabled>
+								<span class="spinner-border spinner-border-sm" role="status"
+									aria-hidden="true"></span>처리중
 							</button>
 						</div>
+						<div class="table-responsive">
+							<table id="purchaseOrderDtlTable" class="table table-bordered">
+								<colgroup>
+									<col width="3%">
+									<col width="15%">
+									<col width="10%">
+									<col width="21%">
+									<col width="10%">
+									<col width="10%">
+									<col width="7%">
+									<col width="10%">
+									<col width="14%">
+								</colgroup>
+								<thead>
+									<tr>	
+										<th><input type="checkbox" class="form-control" id="btnAllCheck2"></th>
+										<th>품번</th>
+										<th>차종</th>
+										<th>품명</th>
+										<th>미발주량</th>
+										<th>확정수량</th>
+										<th>단위</th>
+										<th>단가</th>		
+										<th>납기일자</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
 					</div>
-					
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">조회대상</label>
-					<select class="form-select w-auto h-100 me-3" id="searchTarget" style="min-width: 70px;">
-						<option value="">전체</option>
-						<option value="N" selected>출고대상</option>
-					</select>
-					
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100" style="background-color: #ffb4b4;">수량부족</label>
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAll" placeholder="통합검색" >
 				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-					<select class="form-select w-auto h-100 me-1" id="printPaperType">
-					</select>
-				
-					<div class="btn-group me-3" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto" id="btnBizDtlPoEnd">PO완료</button>
-						<button type="button" class="btn btn-outline-light w-auto" id="btnlabelPrint">라벨 출력</button>
+				<!-- ===/.right-sidebar 등록,수정===  -->
+			</div>
+			
+		</div><!-- /.row -->
+		
+	</div><!-- / #main  -->
+	<!-- Modal Start-->
+	<div class="modal fade" id="purchaseOrderDtlPopupModal" tabindex="-1"
+		role="dialog" aria-labelledby="purchaseOrderDtlPopupLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-xl" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="purchaseOrderDtlPopupLabel">발주상세조회</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="table-responsive" style="height: 300px">
+						<table id="purchaseOrderDtlPopupTable"
+							class="table table-sm table-bordered">
+							<thead>
+								<tr>
+									<th>발주번호</th>
+									<th>공급사</th>
+									<th>품번</th>
+									<th>차종</th>
+									<th>품명</th>
+									<th class="text-center">확정수량</th>
+									<th>단위</th>
+									<th>단가</th>
+									<th>납기일자</th>
+									<th>변경납기일자</th>
+								</tr>
+							</thead>
+						</table>
 					</div>
-				
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnDtlSearch"><i class="fa-regular fa-clipboard"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnSave" disabled><i class="fa-regular fa-floppy-disk"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnEdit" ><i class="fa-regular fa-pen-to-square"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnCancel" disabled><i class="fa-solid fa-xmark"></i></button>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">닫기</button>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="bizOrderDtlTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle"><input type="checkbox" id="btnAllCheck" style="width:20px; height:20px;"></th>
-							<th class="text-center align-middle">수주상세번호</th>
-							<th class="text-center align-middle">고객사</th>
-							<th class="text-center align-middle" style="min-width:300px;max-width:300px;">제품명</th>
-							<th class="text-center align-middle">수주상태</th>
-							<th class="text-center align-middle">진행상태</th>
-							<th class="text-center align-middle">제품<br>검사</th>
-							<th class="text-center align-middle">수주<br>수량</th>
-							<th class="text-center align-middle">기출고<br>수량</th>
-							<th class="text-center align-middle"><span style="color:#ff0000;">*</span>출고량</th>
-							<th class="text-center align-middle">꼬리표<br>비고</th>
-							<!-- <th class="text-center align-middle">재고활용수량</th> -->
-							<th class="text-center align-middle">현재고</th>
-							<th class="text-center align-middle">생산<br>수량</th>
-							<th class="text-center align-middle">목표요구일</th>
-							<th class="text-center align-middle">납품요구일</th>
-							<th class="text-center align-middle">출고일</th>
-							<th class="text-center align-middle">출하비고사항</th>
-							<th class="text-center align-middle">건별주의사항</th>
-							<th class="text-center align-middle">포장<br>단위</th>
-							<th class="text-center align-middle">포장<br>박스</th>
-							<th class="text-center align-middle">박스<br>수량</th>
-							<th class="text-center align-middle"><span style="color:#ff0000;">*</span>납품처</th>
-							<th class="text-center align-middle"><span style="color:#ff0000;">*</span>납품장소</th>
-							<!-- <th class="text-center align-middle"><span style="color:#ff0000;">*</span>사업장구분</th> -->
-							<th class="text-center align-middle">출고차량</th>
-							<th class="text-center align-middle colvisHide"><span style="color:#ff0000;">*</span>창고</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
 		</div>
 	</div>
+	<!-- Modal End-->
 </div>
-<!-- PO완료 경고 -->
-<div class="modal fade" id="bizDtlPoEndModal" tabindex="-1" aria-hidden="true" style="z-index: 9999;">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">
-					<i class="fa-solid fa-triangle-exclamation text-danger"></i>
-					<spring:message code="modal.warning" text="default text" />
-				</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<label style="">PO완료 진행시</label> 
-				<br> 
-				<label class="mt-2" style="color: red;">1. 더 이상 수정 및 복구가 불가능합니다.</label> 
-				<br>
-				<!-- <label style="color: red;">&nbsp&nbsp&nbsp단, 진행되지 않은 작업지시는 삭제됩니다.</label>
-				<br>
-				<label style="color: red;">2. 미확정 발주건들은 삭제됩니다.</label>
-				<br>
-				<label style="color: red;">3. 더 이상 수정 및 복구가 불가능합니다.</label>
-				<br> -->
-				<label class="mt-2">계속하시겠습니까?</label>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" id="btnBizDtlPoEndY" data-bs-dismiss="modal" style="width: 70px;">
-					<spring:message code="yes" text="default text" />
-				</button>
-				<button type="button" class="btn btn-secondary" id="btnBizDtlPoEndN" data-bs-dismiss="modal" style="width: 70px;">
-					<spring:message code="no" text="default text" />
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- PO완료 경고 모달 끝 -->
-<!-- 꼬리표 모달 -->
-<div class="modal fade" id="tailTableModal" tabindex="-1" aria-hidden="true" style="z-index: 9999;">
-	<div class="modal-dialog" style="max-width:40vw;">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">꼬리표 모달</h5>
-			</div>
-			<div class="modal-body">
-				<div class="row" style="min-width: 19cm;
-										max-width: 19cm;
-										min-height: 10.8cm;
-										max-height: 10.8cm;">
-					<table id="tailTable" class="table table-bordered m-0 d-none" style="border:1px solid #ffffff;transform: scaleX(-1) scaleY(-1);">
-						<colgroup id="trTtailTableAppendTarget">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-						</colgroup>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- 꼬리표 모달 끝 -->
-<!-- 번들링 모달 -->
-<div class="modal fade" id="bundlingLabelModal" tabindex="-1" aria-hidden="true" style="z-index: 9999;">
-	<div class="modal-dialog" style="max-width:40vw;">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">번들링 모달</h5>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<table id="bundlingLabelTable" class="table table-bordered m-0 d-none" style="border:1px solid #ffffff;">
-						<colgroup id="trBundlingLabelAppendTarget">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-							<col width="1%"><col width="1%"><col width="1%"><col width="1%"><col width="1%">
-						</colgroup>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- 번들링 모달 끝 -->
-
-<!-- 화면설정 script -->
+<%@include file="../layout/bottom.jsp" %>
+<style>
+.modal-side {
+    margin: 10rem auto;
+    margin-right: 1rem;
+  }
+</style>
 <script>
-	let isDragging = false;
-
-	function SetCursor(cursor) {
-		let page = document.getElementById("page");
-		page.style.cursor = cursor;
-	}
-
-	function StartDrag() {
-		isDragging = true;
-		SetCursor("ew-resize");
-	}
-
-	function EndDrag(e) {
-		if(isDragging) {
-			dataTableDrawAll(); // dataTable 전체 reload
-			isDragging = false;
-			SetCursor("auto");
+	$("#left-width-btn").click(function() {
+		{
+			$("#left-list").animate({
+				width : "53%"
+			}, 200);
+			$("#arrow-left").animate({
+				display : "none"
+			}, 200);
 		}
-	}
-
-	function OnDrag(event) {
-		if (isDragging) {
-			let page = document.getElementById("page");
-			let leftcol = document.getElementById("leftcol");
-			let rightcol = document.getElementById("rightcol");
-			let dragbarWidth = 4;
-			let leftcolMinWidth = 20; // leftcol 최소사이즈
-			$('#leftHeader').children().each(function(index, item) {
-				leftcolMinWidth += $(item).width();
-			});
-			let rightcolMinWidth = 700; // rightcol 최소사이즈
 	
-			let rightColWidth = isDragging ? page.clientWidth - parseInt(Math.max(leftcolMinWidth + 20, event.clientX)) : rightcol.clientWidth;
-
-			let cols = [
-				parseInt(Math.max(leftcolMinWidth, page.clientWidth - dragbarWidth - parseInt(Math.max(rightColWidth, rightcolMinWidth)))),
-				dragbarWidth,
-				parseInt(Math.max(rightColWidth, rightcolMinWidth))
-			];
-	
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-	
-			page.style.gridTemplateColumns = newColDefn;
-	
-			event.preventDefault()
-		}
-	}
-	
-	$('#btnOpen').on('click',function() { // right-box 열기버튼 클릭
-		if($('#rightcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '2fr 4px 3fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '0fr 4px 3fr');
-			$('#leftcol').addClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		}
-		dataTableDrawAll(); // dataTable 전체 reload
+		state = !state;
 	});
-	$('#btnClose').on('click',function() { // right-box 닫기버튼 클릭
-		if($('#leftcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '2fr 4px 3fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '2fr 4px 0fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').addClass('d-none');
+ 
+	let currentHref = "iosc0010";
+	let currentPage = $('.' + currentHref).attr('id');
+	
+	$('#'+currentPage).closest('.has-child','li').addClass('has-open has-active');
+	$('#'+currentPage).closest('.menu-item').addClass('has-active');    
+	$(document).attr("title","발주관리(사출)"); 
+	
+	let viewIdx;
+	let sideView = 'add';
+	let btnView = '';
+
+	var tableIdx=null;
+	var tableIdx2=null;
+	var poNo = null;
+	var poSeq = null;
+	var ordCnt = null;
+	var mrpNoVal= null;
+	var mrpSeqVal= null;
+	var itemCdVal = null;
+	var itemCd = null;
+	var itemCus = null;
+	
+	var mrpDateFromCal =  "${serverDateFrom}".substr(0,7);;
+	var mrpDateToCal =  "${serverDateTo}".substr(0,7);;
+	var dlvDateCal =  "${serverDateTo}";
+
+	var mainChargr =  "${userNumber}";
+	var mainChargrNm =  "${userNm}";	
+	var poStatusOption = '001';		//발주상태 초기값 : 진행
+	var dealGubun = "";
+	
+	uiProc(true);
+
+	$('#mrpDateFrom').val(mrpDateFromCal);
+	$('#mrpDateTo').val(mrpDateToCal);
+	$('#selectDay').val(dlvDateCal);
+
+	//공통코드 시작
+	var receiptGubunCode = new Array(); // 입고구분
+	<c:forEach items="${receiptGubun}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	receiptGubunCode.push(json);
+	</c:forEach>
+	//공통코드 끝
+	
+	selectBoxAppend(receiptGubunCode, "receiptGubun", "002", ""); 
+	
+    $('#saveBtnModalY').on('click',function() {
+    	itemCus = null;
+    	$('#itemCus').val('');
+    	
+    	uiProc(true);
+		$('#form').each(function(){
+        	this.reset();
+        	$('input[type=hidden]').val('');
+    	});
+		$('#bizOrderMrpTable').DataTable().ajax.reload(function(){});
+		$('#purchaseOrderDtlTable').DataTable().clear().draw();
+		
+		$('#btnSave').addClass('d-none');
+		$('#btnCancle').attr('disabled', true);
+		$('#btnAllCheck').prop("checked", false);
+		$('input[name=check]').prop("checked", false);
+    });
+
+
+  	//조회 버튼 click
+	$('#btnRetv').on('click', function() {
+		if($('#mrpDateFrom').val()==''||$('#mrpDateTo').val()==''){
+			toastr.warning("날짜를 선택해주세요.");
+			return false;
 		}
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-</script>
+		
+    	mrpDateFromCal =  $('#mrpDateFrom').val();
+    	mrpDateToCal =  $('#mrpDateTo').val();
+		$('#bizOrderMrpTable').DataTable().ajax.reload( function () {});
+    });	
 
-<script>
-	WM_init('new');
-
-	let monthAdjustList = getCommonCode('시스템', '026'); //날짜조정
-	monthAdjustList = _.sortBy(monthAdjustList, v=>parseInt(v.commonCd));
-	selectBoxAppend(monthAdjustList, 'monthAdjust', '', '2'); //날짜조정
 	
-	let dealCorpIdxVal = '';
+	//전체조회 버튼 click
+	$('#btnAllList').on('click', function() {
+      mrpDateFromCal =  "";
+      mrpDateToCal =  "";
+      
+      //공급사
+      $('#itemRealCus').val(''); 
+	  $('#itemCus').val('');
+	  itemCus = '';
+	  
+      $('#bizOrderMrpTable').DataTable().ajax.reload( function () {});
+    });   
 
-	let carAssignmentList = getCommonCode('일반', '039'); // 차량배정
-	let dealGubunList = getCommonCode('시스템', '011'); // 거래구분
-	let dealCorpStatusList = getCommonCode('시스템', '015'); // 거래상태
-	let ordStatusList = getCommonCode('시스템', '022'); // 수주상태
-	
-	selectBoxAppend(carAssignmentList, 'carAssignment', '', '2'); //차량배정
-	selectBoxAppend(dealGubunList, 'modalDealGubun', '', '1'); //거래구분
-	selectBoxAppend(dealCorpStatusList, 'modalDealCorpStatus', '', '1'); //거래상태
 
-	let overProdOutYn = getCommonCode('시스템', '027')[0].commonCd; //과출고여부
-
-	let printPaperTypeList = getCommonCode('시스템', '054'); // 출고라벨종류
-	selectBoxAppend(printPaperTypeList, 'printPaperType', '', '2'); //출고라벨종류
-	
-	let workplaceList = new Array();	// 사업장 리스트
-	let locationList = new Array();
-	// 사업장정보 조회
-	$.ajax({
-		url : '<c:url value="/sm/workplaceLst"/>',
-		type : 'POST',
-		async : false,
-		data : {
-			'useYnCd' : function() { return '001'; }
-		},
-		success : function(res) {
-			if (res.result == "ok") { //응답결과
-				let data = res.data;
-				data.forEach((item) => {
-					var workplaceData = new Object();
-					workplaceData.id = item.idx;
-					workplaceData.text = item.workplaceNm;
-					workplaceList.push(workplaceData);
-				});
-			} else if(res.result == 'fail') {
-				toastr.warning(res.message);
-			} else {
-				toastr.error(res.message);
-			}
-		}
-	});
-	//창고정보 조회
-	$.ajax({
-
-		url : '<c:url value="/bm/locationAdmList"/>',
-		type : 'GET',
-		async : false,
-		data : {
-			itemGubun	:	'',
-			'lcTypeOutput' : function() { return 'Y'; }
-		},
-		success : function(res) {
-			if (res.result == "ok") { //응답결과
-				let data = res.data;
-				data.forEach((item) => {
-					var locationData = new Object();
-					locationData.id = item.idx;
-					locationData.text = item.lcNm;
-					locationList.push(locationData);
-				});
-			} else if(res.result == 'fail') {
-				toastr.warning(res.message);
-			} else {
-				toastr.error(res.message);
-			}
-		}
-	});
-	
-	let selectPeriod = parseInt(getCommonCode('시스템', '040')[0].commonCd); //기본조회기간 일
-	$('#startDate').val(moment().subtract('d',selectPeriod).format('YYYY-MM-DD'));
-	$('#endDate').val(moment().format('YYYY-MM-DD'));
-
-	// 수주상세목록조회
-	$('#bizOrderDtlTable thead tr').clone(true).addClass('filters').appendTo('#bizOrderDtlTable thead'); // filter 생성
-	let bizOrderDtlTable = $('#bizOrderDtlTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'B><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: false,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/stock/bizOrderDtlList"/>',
-			type : 'POST',
+	//발주관리(사출) 목록조회
+	let bizOrderMrpTable = $('#bizOrderMrpTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-7'l><'col-sm-12 col-md-5'f>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>B",
+		language : lang_kor,
+		lengthChange : true,	
+		destroy : true,	
+		paging : true,
+		searching : true,
+		info : true,
+		ordering : true,
+		processing : true,
+		autoWidth : false,
+		fixedHeader: true,
+		pageLength : -1,
+		scrollY: "65vh",
+		scrollCollapse: true,
+		ajax : {
+			url : 'io/purchaseOrderList',
+			type : 'GET',
 			data : {
-				'startDate' : function() { return moment($('#startDate').val()).format('YYYYMMDD'); },
-				'endDate' : function() { return moment($('#endDate').val()).format('YYYYMMDD'); },
-				'searchTarget' : function(){ return $('#searchTarget').val(); },
+				'startDate' 		: function(){ return mrpDateFromCal.replace(/-/g,''); },
+				'endDate' 			: function(){ return mrpDateToCal.replace(/-/g,''); },
+				'poStatusOption' 	: function(){ return poStatusOption; },
+				'itemCus' 			: function(){ return itemCus; },
+				'mainGubun' 		: function(){ return '001'; },
 			},
 		},
-        rowId: '',
-        columns : [
-            {
-            	className : 'text-center align-middle',
-            	render : function(data, type, row, meta) {
-            		return '<div style="display: flex;align-items: center;white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><input type="checkbox" name="btnCheck" style="width:20px; height:20px;"></div>';
-				}		
-            },
-        	{ data: 'bizOrdDtlNo', className : 'text-center align-middle'},
-        	{ data: 'bizDealCorpNm', className : 'text-center align-middle',		
+		rowId : 'mrpNo',
+		columns : [
+			{//체크박스
 				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return "-";
-					}
-				}		
-			},	//고객사
-			{ data: 'itemCd', className : 'text-center align-middle',
-				render: function(data, type, row, meta) {
-					if(data != null && data != ''){
-						let jsonData = JSON.parse(row['workMethodJson']);
-						let isLess = false;
-						if(jsonData!=null){
-							for(var i=0; i<jsonData.length;i++){
-								let calOrdQty = parseInt(jsonData[i].calOrdQty);
-								let fairQty = parseInt(jsonData[i].fairQty);
-								if(fairQty>0 && fairQty < calOrdQty){
-									isLess = true;
-									break;
-								}
-							}
-							if( isLess ){
-								return '<div> <big class="fw-bolder" style="color: #ff0000;">! </big>'+data+'</div>';
-							} else {
-								return data;
-							} 
-						} else {
-							return data;
-						}
-						//return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-						
-					} else {
-						return '';
-					}
-					
-				}
-			},//품목
-			{ data: 'bizStatusCd', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null && data !=''){
-						return _.filter(ordStatusList,v=>v.commonCd == data)[0].commonNm;
-					} else {
-						return "";
+					if(row['unOrderQty']<=0){
+						return '<input type="checkbox" name="check" disabled/>';
+					}else{
+						return '<input type="checkbox" name="check" />';
 					}
 				}
 			},
-			{ data: 'workMethodJson', className : 'text-center align-middle', //진행상태
+			{//공급사
+				data : 'dealCorpNm',
 				render : function(data, type, row, meta) {
-					let outQty = isEmptyCheck(row['outQty']) ? 0 : parseInt(row['outQty']);
-					let ordQty = row['ordQty'];
-					if(ordQty <= outQty){
-						return '출고완료';
+					if (data != null) {
+						return data;
 					} else {
-						if(data != '' && data != null) {
-							let parseData = JSON.parse(data);
-							//진행,완료된 공정의 리스트
-							let filterList = parseData.filter(v=>v.progressStatus == 'WI' || v.progressStatus == 'WC');
-							let finshPrcssCount = filterList.length;
-							//진행 , 완료된 공정이 없다면 -> 첫 공정 작업대기 
-							if(finshPrcssCount == 0){
-	 							return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + parseData[0].prcssNm + '(작업대기)</div>';
-							} else if( finshPrcssCount > 0){
-								// 진행 마지막 실적의 공정명, 모든 공정이 완료된(parseData길이 ==finshPrcssCount길이)경우 작업완료 
-								let progressNm = '-';
-								filterList = parseData.filter(v=>v.progressStatus == 'WC');
-								finshPrcssCount = filterList.length;
-								if( finshPrcssCount == parseData.length){
-									progressNm = '생산완료';
-								} else {
-									// 작업중, 작업대기
-									//pi,wc리스트
-									let workFilterList = parseData.filter(v=>v.progressStatus == 'PI' || v.progressStatus == 'WI');
-									if(workFilterList[0].progressStatus == 'PI'){
-										progressNm = workFilterList[0].prcssNm + '(작업대기)';
-									} else if(workFilterList[0].progressStatus == 'WI'){
-										progressNm = workFilterList[0].prcssNm + '(작업중)';
-									}
-								}
-	 							return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + progressNm + '</div>';
-							} else{
-								return '-';
-							}
-						} else {
-							return '-';
-						}
+						return '-';
 					}
-				}
+				},
 			},
-        	{ data: 'qualityJudgmentNm', className : 'text-center align-middle',		
+			{//차종
+				data : 'itemModel'
+			},
+			{//품번
+				data : 'itemCd'
+			},
+			{//품명
+				data : 'itemNm'
+			},
+			{//발주예정수량
+				data : 'preOrderQty',
 				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
+					if (data != null) {
+						return rmDecimal(data);
 					} else {
-						return "미판정";
+						return '0';
 					}
-				}		
-			},	//제품검사
-			{ data: 'ordQty', className : 'text-end align-middle',
+				},
+				'className' : 'text-right'
+			},
+			{//확정수량
+				data : 'orderQty',
 				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return addCommas(parseInt(data));
+					if (data != null) {
+						return rmDecimal(data);
 					} else {
-						return '';
+						return '0';
 					}
-				}
-			}, //수주수량
-			{ data: 'outQty', className : 'text-end align-middle',
+				},
+				'className' : 'text-right'
+			},
+			{//미확정수량
+				data : 'unOrderQty',
 				render : function(data, type, row, meta) {
-					return addCommas(parseInt(data));
-				}
-			}, //기출고수량
-			{ data : 'outQty', className : 'text-end align-middle', name: 'outQty', //출고량
-				render : function(data, type, row, meta) {
-					if(row['fairQty']!=null) {
-						let html = '';
-						html += '<input type="text" class="form-control text-end inputGroup" name="outQty" onkeyup="numberFormat(this, \'int\')" value="'+addCommas(parseInt(row['fairQty'])-parseInt(data))+'" disabled>';
-						return html;
-					} else {
-						let html = '';
-						html += '<input type="text" class="form-control text-end inputGroup" name="outQty" onkeyup="numberFormat(this, \'int\')" value="'+0+'" disabled>';
-						return html;
-					}
-				}
-			}, //출고수량
-			{ className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					let html = '';
-					html += '<input type="text" class="form-control text-end inputGroup" name="tagDesc" style="min-width:200px;" >';
-					return html;
-				}
-			}, //꼬리표비고
-			/* { data: 'stockReUseQty', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return addCommas(parseInt(data));
-					} else {
-						return '';
-					}
-				}
-			}, //재고활용수량 */
-			{ data: 'spQty', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						//현재고가 -인이면서 공정실적여부가 미등록일 경우 0으로 표시해달라함
-						if(row['etc9'] == 'N' && parseInt(data) < 0){
+					if (data != null) {
+						if(data<0){
 							return '0';
-						} else {
-							return addCommas(parseInt(data));
+						}else{
+							return rmDecimal(data);
 						}
 					} else {
 						return '0';
 					}
-				}
-			}, //현재고
-			{ data: 'fairQty', className : 'text-end align-middle',//생산량
-				render : function(data, type, row, meta) {
-					if(data!=null) {
-						return addCommas(parseInt(data));
-					} else {
-						return data;
-					}
+				},
+				'className' : 'text-right'
+			},
+			{//상세
+				render : function(data,type,row,meta){
+					var mrpNo = row['mrpNo'];
+					var itemSeq = row['itemSeq'];
 					
-				}
-			}, //생산량
-			{ data: 'workEndReqDate', className : 'text-center align-middle',//목표요구일
-				render: function(data) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data : 'outReqDate', className : 'text-center align-middle', name: 'outReqDate',
-				render: function(data) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},//납품요구일
-			{ data : 'outDate', className : 'text-center align-middle',
-				render: function(data) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '-';
-					}
-				}
-			},//출고일
-			{ data: 'workOutDesc', className : 'text-center align-middle',//출고비고
-				render : function(data, type, row, meta) {
-					if(data!=null) {
-						return data;
-					} else {
-						return '';
-					}
-					
-				}
-			},
-			{ data : 'ordIssue', className : 'text-start align-middle', name : 'ordIssue',
-				render: function(data) {
-					if(data != null && data != ''){
-						return '<div style="white-space:pre-line;width:170px; ">'+data+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},//건별주의사항
-			
-			{ data: 'packUnit', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return "";
-					}
-				}
-			}, //포장단위
-			{ data: 'packMethodNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return "";
-					}
-				}
-			}, //포장박스
-			{ className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					let packUnit = (row['packUnit']=='' ||  parseInt(row['packUnit'])==0) ? 1 : isNaN(row['packUnit']) ? 1 : parseInt(row['packUnit']);
-					return addCommas(Math.ceil(row['ordQty']/packUnit));
-				}
-			}, //박스수량
-			{ data: 'dealCorpJson', className : 'text-center align-middle', name: 'outProdEtc1',
-				render: function(data, type, row, meta) {
-					if(data != null){
-						let jsonData = JSON.parse(data);
-						let html='';
-						html += '<div style="display: flex; flex-wrap: nowrap;" class="input-group">';
-						html += '<input type="text" class="form-control inputNm" id="dealCorpNm'+meta.row+'" name="dealCorpNm" style="min-width: 100px;" disabled="disabled" value="'+jsonData[0].dealCorpNm+'">';
-						html += '<button type="button" class="nameDel customerNm inputGroup" onclick="dealCorpDelete(\''+meta.row+'\')" name="btnDealCorpDel" style="background-color: transparent;border-color: transparent;position: absolute;top: 0;right:0;margin: 1px 23px;margin-left: 0px;border: none;" disabled><i class="fa-solid fa-xmark"></i></button>';
-						html += '<input type="hidden" class="inputIdx" id="dealCorpIdx'+meta.row+'" name="dealCorpIdx" value ="'+jsonData[0].idx+'">';
-						html += '<button disabled type="button" onclick="dealCorpSel()" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary input-sub-search inputGroup" name="btnDealCorpSel">';
-						html += '<i class="fa-solid fa-magnifying-glass"></i>';
-						html += '</button>';
-						html += '</div>';
-						return html;
-					} else {
-						let html='';
-						html += '<div style="display: flex; flex-wrap: nowrap;" class="input-group">';
-						html += '<input type="text" class="form-control inputNm" id="dealCorpNm'+meta.row+'" name="dealCorpNm" style="min-width: 100px;" disabled="disabled" value="">';
-						html += '<button type="button" class="nameDel customerNm inputGroup" onclick="dealCorpDelete(\''+meta.row+'\')" name="btnDealCorpDel" style="background-color: transparent;border-color: transparent;position: absolute;top: 0;right:0;margin: 1px 23px;margin-left: 0px;border: none;" disabled><i class="fa-solid fa-xmark"></i></button>';
-						html += '<input type="hidden" class="inputIdx" id="dealCorpIdx'+meta.row+'" name="dealCorpIdx" value ="">';
-						html += '<button disabled type="button" onclick="dealCorpSel()" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary input-sub-search inputGroup" name="btnDealCorpSel">';
-						html += '<i class="fa-solid fa-magnifying-glass"></i>';
-						html += '</button>';
-						html += '</div>';
-						return html;
-					}
-				}
-			},
-			{ data: 'dealCorpJson', className : 'text-end align-middle', name: 'outProdEtc2',
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						let jsonData = JSON.parse(data);
-						let html ='';
-						html += '<input type="text" value="'+jsonData[0].dealCorpAddress+'" style="min-width: 200px;" name="outProdEtc2" class="form-control text-start inputGroup" disabled>';
-						return html;
-					} else {
-						let html ='';
-						html += '<input type="text" style="min-width: 200px;" name="outProdEtc2" class="form-control text-start inputGroup" disabled>';
-						return html;
-					}
-				}
-			},
-
-			/* { data: 'workplaceIdx', className : 'text-end align-middle', name: 'outProdEtc3',
-				render : function(data, type, row, meta) {
-					let html='';
-					html += '<select disabled class="form-select inputGroup" style="min-width: 100px;" name="outProdEtc3">';
-					for( let i = 0; i< workplaceList.length; i++){
-						if(workplaceList[i].id == data){
-							html += '<option value="' + workplaceList[i].id + '" selected>' + workplaceList[i].text + '</option>'
-						} else {
-							html += '<option value="' + workplaceList[i].id + '">' + workplaceList[i].text + '</option>'
-						}
-					}
-					html += '</select>';
-					return html;
-				}
-			}, */
-			{ className : 'text-center align-middle',name: 'carAssignment',
-				render: function(data, type, row, meta) {
-					let html = '';
-					html += '<select name="carAssignmentSelect" class="form-select inputGroup" style="min-width: 100px;" disabled>';
-					html +='	<option value="">선택</option>';
-					carAssignmentList.forEach(function(item) {
-						html +='	<option value="'+item.commonCd+'">'+item.commonNm+'</option>';
-					});							
-					html += '</select>';
-					return html;
-				}
-			},
-			{ data: 'whsIdx', className : 'text-end align-middle', name: 'whsIdx',
-				render : function(data, type, row, meta) {
-					let html = '';
-					html += '<select name="whsIdx" class="form-select inputGroup" style="min-width: 100px;" disabled>';
-					//html +='	<option value="">선택</option>';
-					locationList.forEach(function(item) {
-						html +='	<option value="'+item.id+'">'+item.text+'</option>';
-					});							
-					html += '</select>';
-					return html;
+					return '<button type="button" class="btn btn-secondary" id="btnDtlRead" onclick="btnDtlRead(\''+mrpNo+'\',\''+itemSeq+'\');">보기</button>';
 				}
 			},
 		],
-		columnDefs : [
-			{ "targets": [0], "orderable": false },
-			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			}
+		columnDefs: [
 		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvisGroup',	className: 'd-none',	hide: '.colvisHide'},
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#bizOrderDtlTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#bizOrderDtlTable_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 79)+'px');
-			
-			$('#bizOrderDtlTable_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAll').off('keyup',function() {});
-			$('#searchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-			
-			$('.bootstrapToggle').bootstrapToggle();
-
-			for(var i=0;i<api.data().count();i++) {
-				let data = api.row(i).data();
-				let node = api.row(i).node();
-				
-				if(data.fairQty != null && data.fairQty>0 && parseInt(removeCommas(data.ordQty)) > parseInt(removeCommas(data.fairQty))){ //수량부족
-					$(node).addClass('fw-bolder');
-					$(node).css('background-color','#ffb4b4');
-				}  
-			}
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#bizOrderDtlTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-				if(colIdx > 0){
-					$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-					$(cell).css('padding','2px');
-				} else {
-					$(cell).html('');
-					$(cell).css('padding','2px');
-				}
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#bizOrderDtlTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-			api.button(3).trigger();
-			bizOrderDtlTable.draw(false);
-		},
+	    order: [
+	        [ 0, 'asc' ]
+	    ],
+	    buttons: [
+	    	'copy', 'excel', 'print'                                
+	    ],
 	});
-	// dataTable colReorder event
-	bizOrderDtlTable.on('column-reorder', function( e, settings, details ) {
-		let api = bizOrderDtlTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#bizOrderDtlTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-
-	/* let bizOrdDtlSelectRowObj = '';
-	bizOrderDtlTable.on('select', function(e, dt, type, index){
-		bizOrdDtlSelectRowObj = dt.row(index).node();
-	}); */
+    
+	var html1 = '<div class="card-body p-0">';
+	html1 += '<div class="row float-left">&nbsp;';
+ 	html1 += '<label class="input-label-sm">보기</label>';
+	html1 += '<div class="form-group input-sub m-0"><select class="custom-select" id="poStatusOption">';
+	html1 += '<option value="">전체</option>';
+	html1 += '<option value="001" selected>미발주항목</option>';
+	html1 += '<option value="002">발주완료항목</option>';
+    html1 += '</select></div>&nbsp;&nbsp;&nbsp;';
 	
-	// 작업중 경고 모달 예 버튼 click
-	$('#btnWorkingWarningModalY').on('click', function() {
-		if(WMlastIdx == 'new' || WMlastIdx == 'edit') { // 등록중이거나 수정중이였을 경우
-			$('#btnSave').trigger('click');
-			return false;
-		}
-	});
+	html1 += '<label class="input-label-sm">공급사</label>';
+	html1 += '<div class="form-group input-sub m-0">';
+	html1 += '<input type="hidden" class="form-control" id="itemRealCus" name="itemRealCus">';
+	html1 += '<input type="text" class="form-control" id="itemCus" name="itemCus" disabled>';
+	html1 += '<button type="button" class="btn btn-primary input-sub-search" id="itemCusBtn" onClick="itemCusSelectInCorpCd();">';
+	html1 += '<span class="oi oi-magnifying-glass"></span>';
+	html1 += '</button>';
+	html1 += '</div>';
+	
+	html1 += '&nbsp;<button type="button" class="btn btn-primary" id="itemCusDel" onclick="itemCusDelClick();">초기화</button>';
+	
+	html1 += '</div>';
+	html1 += '</div>';
+	
+	$('#bizOrderMrpTable_length').html(html1);
 
-	// 작업중 경고 모달 아니요 버튼 click
-	$('#btnWorkingWarningModalN').on('click', function() {
-		if(WMlastIdx == 'new' || WMlastIdx == 'edit') { // 등록중이거나 수정중이였을 경우
-			if(getWM(WMlastIdx, 'idx') != '' && getWM(WMlastIdx, 'idx') != undefined) {
-				let idx = getWM(WMlastIdx, 'idx');
-				WM_action_OFF(WMlastIdx);
-				setWM(WMlastIdx, 'idx', '');
-				bizOrderDealCorpTable.row('#'+idx).select();
-				$(bizOrderDealCorpTable.row('#'+idx).node()).trigger('click'); // 선택했던 항목 선택처리
-			} else {
-				WM_action_OFF(WMlastIdx);
-				if(window.location != window.parent.location) { // tab일 경우
-					// 부모 탭 닫기버튼 click
-					$('#tab-list', parent.document).find('.active').find('span').eq(1).find('i').trigger('click');
-			    }
-				
-				$('.inputGroup').attr('disabled', true); // 입력항목
-				
-				$('#btnSave').attr('disabled', true); // 저장 버튼
-				$('#btnEdit').attr('disabled', true); // 수정 버튼
-				$('#btnCancel').attr('disabled', true); // 취소 버튼
-			}
-			return false;
-		}
-	});
+	var html2 = '<button type="button" class="btn btn-md btn-success float-right mr-3" id="btnMove">발주추가&nbsp;&nbsp;<span class="oi oi-arrow-right"></span></button>';
+	$('#bizOrderMrpTable_filter').append(html2);
 
-	// 취소 버튼 click
-	$('#btnCancel').on('click', function() {
-		$('#cancelModal').modal('show');
-	});
 
-	// 취소 경고창 취소 버튼 click
-	$('#btnCancelModalY').on('click', function() {
-		toastr.success('취소되었습니다.');
-
-		WM_action_OFF('new');
-
-		$('.inputGroup').attr('disabled', true); // 입력항목
+	function itemCusDelClick(){
+		$('#itemRealCus').val(''); 
+		$('#itemCus').val('');
 		
-		$('#btnSave').attr('disabled', true); // 저장 버튼
-		$('#btnEdit').attr('disabled', false); // 수정 버튼
-		$('#btnDel').attr('disabled', true); // 삭제 버튼
-		$('#btnCancel').attr('disabled', true); // 취소 버튼
-		bizOrderDtlTable.ajax.reload(function() {});
-	});
-
-	//수정
-	$('#btnEdit').on('click',function(){
-		_promise_().then(()=>{
-			WM_action_ON('new', 'workingWarningModal');
-			$('#btnCancel').attr('disabled',false);
-			$('#btnSave').attr('disabled',false);
-			$('#btnEdit').attr('disabled',true);
-			$('input[name=btnCheck]').attr('disabled',false);
-			/*
-			
-			$('input[name=outQty]').attr('disabled',false);
-			$('input[name=outDesc]').attr('disabled',false);
-			$('select[name=whsIdx]').attr('disabled',false);
-			$('button[name=btnDealCorpDel]').attr('disabled',false);
-			$('button[name=btnDealCorpSel]').attr('disabled',false);
-			$('input[name=outProdEtc2]').attr('disabled',false);
-			$('select[name=outProdEtc3]').attr('disabled',false);
-			*/
-			$('.inputGroup').attr('disabled',false);
-		}).then(()=>{
-			bizOrderDtlTable.draw(false);
+		itemCus = '';
+		$('#bizOrderMrpTable').DataTable().ajax.reload( function () {});
+	}
+	//공급사 팝업 시작
+	var popUpCheck = null;
+	var dealCorpPopUpTable4;
+	function itemCusSelectInCorpCd() {
+		if ($('#btnSave').attr('class') == 'btn btn-primary float-right') {
+			$('#saveBtnModal').modal('show');
+			console.log("등록중입니다.");
+			return false;
+		}
+		if (dealCorpPopUpTable4 != null && dealCorpPopUpTable4 != 'undefined') {
+			dealCorpPopUpTable4.destroy();
+		}
+		var dealArr = ['002','003'];
+		dealCorpPopUpTable4 = $('#dealCorpPopUpTable4')
+				.DataTable(
+						{	dom : "<'row'<'col-sm-12 col-md-6'><'col-sm-12 col-md-6'f>>"
+									+ "<'row'<'col-sm-12'tr>>"
+									+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+							language : lang_kor,
+							paging : true,
+							info : true,
+							ordering : true,
+							processing : true,
+							autoWidth : false,
+							scrollX : false,
+							lengthChange : true,
+							async : false,
+							pageLength : 10,
+							ajax : {
+								url : '<c:url value="/bm/dealCorpDataList"/>',
+								type : 'GET',
+								data : {
+									'dealArr' :  function(){return dealArr;},
+								},
+							},
+							rowId : 'dealCorpSeq',
+							columns : [ 
+							{
+								data : 'dealCorpNm'
+							}, 
+							{
+								data : 'dealCorpCd'
+							}, 
+							{
+								data : 'presidentNm'
+							}, 
+							{
+								data : 'repreItem'
+							}, 
+							{
+								data : 'corpNo'
+							} 
+							],
+							columnDefs : [ {
+								"defaultContent" : "-",
+								"targets" : "_all",
+								"className" : "text-center"
+							} ],
+							order : [ [ 0, 'asc' ] ],
+							buttons : [],
 		});
+		
+		$('#dealCorpPopUpTable4 tbody').on('click', 'tr', function() {
+			var data = dealCorpPopUpTable4.row(this).data();
+			$('#itemRealCus').val(data.dealCorpCd);
+			$('#itemCus').val(data.dealCorpNm);
+			$('#dealCorpPopUpModal4').modal('hide');
 			
-	});
-
-	function dealCorpSel() {
-		$('#dealCorpModal').modal('show');
-		setTimeout(function() {
-			dealCorpModalTable.ajax.reload(function() {});
-			setTimeout(function() {
-				$('#dealCorpModalTable').DataTable().$('tr.selected').removeClass('selected');
-			}, 500);
-		}, 200);
+			itemCus = data.dealCorpCd;
+			$('#bizOrderMrpTable').DataTable().ajax.reload( function () {});
+		});
+		$('#dealCorpPopUpModal4').modal('show');
 	}
 
 	
-	// 거래처정보 목록조회
-	$('#dealCorpModalTable thead tr').clone(true).addClass('filters').appendTo('#dealCorpModalTable thead'); // filter 생성
-	let dealCorpModalTable = $('#dealCorpModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
+    // 발주관리(사출) 목록선택
+	$('#bizOrderMrpTable tbody').on('click','tr',function(){
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			$(this).find('input[name=check]').prop('checked',false);
+		} else {
+			//$('#bizOrderMrpTable').DataTable().$('tr.selected').removeClass('selected');
+
+			//미발주수량이 있는 내역확인
+			if($(this).find('input[name=check]').is(":disabled")){
+				toastr.warning("미확정수량이 없는 발주내역입니다.");
+				
+			}else{
+				$(this).addClass('selected');
+				$(this).find('input[name=check]').prop('checked',true);
+			}
+		}
 		
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        
-        ajax : {
-			url : '<c:url value="/bm/dealCorpAdmList"/>',
-			type : 'POST',
-			data : {
-				dealGubun : function(){ return $('#modalDealGubun').val();},
-				dealCorpStatus: function() { return $('#modalDealCorpStatus').val(); }
-			},
+		poNo = bizOrderMrpTable.row(this).data().poNo;
+		mrpNoVal = bizOrderMrpTable.row(this).data().mrpNo;
+		mrpSeqVal = bizOrderMrpTable.row(this).data().mrpSeq;
+		itemSeqVal = bizOrderMrpTable.row(this).data().itemSeq;
+		
+		$('#btnDtlSave').addClass('d-none');
+	});
+
+
+	// 발주조건 변경
+	$('#poStatusOption').on('change', function() {
+		poStatusOption =  $('#poStatusOption :selected').val();
+		$('#bizOrderMrpTable').DataTable().ajax.reload( function () {});
+    });	
+    
+
+	// 모든 체크박스 선택
+	$('#btnAllCheck').on('click',function(){
+		if($('#btnAllCheck').prop("checked")){
+			$('#bizOrderMrpTable tbody tr').each(function(index, item) {	
+				if(!$(this).find('input[name=check]').is(':disabled')){
+					$(this).find('input:checkbox[name=check]').prop("checked",true);
+				}
+			});
+		}else{
+			$('#bizOrderMrpTable tbody tr').each(function(index, item) {	
+				if(!$(this).find('input[name=check]').is(':disabled')){
+					$(this).find('input:checkbox[name=check]').prop("checked",false);
+				}
+			});
+		}
+	})
+	
+	
+	// 발주추가버튼 클릭
+	$('#btnMove').on('click', function() {
+		/* if (!$('#itemRealCus').val()) {
+			toastr.warning('발주할 공급사를 선택해 주세요.');
+			$('#itemCusBtn').focus();
+			return false;
+		} */
+		
+		if($('input:checkbox[name=check]').is(":checked")==false){
+			toastr.warning("발주등록할 항목을 선택해주세요.");
+			return false;
+		}
+		
+		//화면처리
+		uiProc(false);
+ 		
+		if(purchaseOrderDtlTable.data().count()==0){
+			$('#form').each(function(){
+	        	this.reset();
+	    	});
+
+			$('#poNo').val("자동생성");
+			$('#poDate').val(dlvDateCal);
+			$('#mainChargr').val(mainChargr);
+			$('#mainChargrNm').val(mainChargrNm);
+			$('#btnSave').removeClass('d-none');	
+			$('#btnCancle').attr('disabled',false);
+			$('#purchaseOrderDtl').DataTable().clear().draw();
+		}
+		
+		var tempDealCorpCd;
+		var tempDealCorpNm;
+		
+ 		$('#bizOrderMrpTable tbody tr').each(function(index, item) {	
+			var data = bizOrderMrpTable.row(this).data();
+			if ($(this).find('td input[name=check]').is(":checked") == true) {
+
+				mrpNoVal = data.mrpNo;
+				itemSeqVal = data.itemSeq;
+				tempDealCorpCd = data.dealCorpCd;
+				tempDealCorpNm = data.dealCorpNm;
+				
+				$('#purchaseOrderDtlTable').DataTable().row.add(
+				{
+					"itemCd" : data.itemCd,
+					"itemModel" : data.itemModel,
+					"itemNm" : data.itemNm,
+					"unOrdQty" : data.unOrderQty,	
+					"ordQty" : data.unOrderQty,
+					"itemUnit" : data.itemUnitNm,
+					"ordUnitCost" : Math.floor(data.ordUnitCost),		
+					"dlvDate" : data.dlvDate,
+				}).draw(true);				
+			}
+ 		});  
+
+		$('#dealCorpCd').val(tempDealCorpCd);
+		$('#dealCorpNm').val(tempDealCorpNm);
+ 		$('#btnAllCheck').prop("checked",false);
+ 		//$('input[name=check]').prop("checked",false); 
+ 		
+	}); 
+	
+	//발주 목록조회
+	let purchaseOrderDtlTable = $('#purchaseOrderDtlTable').DataTable({
+		dom : "<'row'<'col-sm-12 col-md-7'l><'col-sm-12 col-md-5'f>>"
+			+ "<'row'<'col-sm-12'tr>>"
+			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>B",
+		language : lang_kor,		
+		paging : false,
+		searching : false,
+		info : true,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		pageLength : -1,
+		fixedHeader: true,
+		scrollY: "45vh",
+		scrollCollapse: true,
+		ajax : {
+			url : '<c:url value="io/purchaseOrderRead"/>',
+			type : 'GET',
+			data : {				
+				'mrpNo' 	: function(){ return mrpNoVal; },
+				'itemCd' 	: function(){ return itemCdVal; },
+			}	
 		},
-        rowId: 'idx',
 		columns : [
-			{ data: 'dealGubunNm', className : 'text-center'},
-			{ data: 'dealCorpCd', className : 'text-center'},
-			{ data: 'initial', className : 'text-center'},
-			{ data: 'dealCorpNm', className : 'text-center'},
-			{ data: 'representative', className : 'text-center'},
-			{ data: 'companyNumber', className : 'text-center'},
+			{//체크박스
+				render : function(data, type, row, meta) {
+					return '<input type="checkbox" name="check2" />';
+				}
+			},
+			{//품번
+				data : 'itemCd',
+				render : function(data,type, row, meta){
+					if(data!=null){
+						var html = '<input type="text" class="form-control p-0" style="max-width:100%; text-align:center; border:none;" name="itemCd" value="'+data+'" disabled>';
+						html += '<input type="hidden" name="mrpNo" value="'+mrpNoVal+'" disabled>';
+						html += '<input type="hidden" name="itemSeq" value="'+itemSeqVal+'" disabled>';
+						return html;
+					} else{
+						return '<input type="text" class="form-control" name="itemCd" value="" disabled>';
+					}		
+				}
+			}, 
+			{//차종
+				data : 'itemModel',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return '<input type="text" class="form-control p-0" style="text-align:center; border:none;"" name="itemModel" value="'+data+'" disabled>';		
+					} else{
+						return '<input type="text" class="form-control p-0" style="text-align:center;" name="itemModel" value="" disabled>';
+					}	
+				}
+			},
+			{//품명
+				data : 'itemNm',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return '<input type="text" class="form-control" name="itemNm" value="'+data+'" style="text-align:center; border:none;" disabled>';		
+					} else{
+						return '<input type="text" class="form-control" name="itemNm" value="" style="text-align:center;" disabled>';
+					}	
+				}
+			},
+			{//미발주량
+				data : 'unOrdQty',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return '<input type="text" class="form-control number-float0" name="unOrdQty" value="'+rmDecimal(data)+'" style="text-align:right;" disabled>';		
+					} else{
+						return '<input type="text" class="form-control number-float0" name="unOrdQty" value="0" style="text-align:right;" disabled>';
+					}	
+				}
+			},
+			{//확정수량
+				data : 'ordQty',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return '<input type="text" class="form-control number-float0" name="ordQty" value="'+rmDecimal(data)+'" style="text-align:right;" onkeyup="numberFormat(this, \'int\')">';		
+					} else{
+						return '<input type="text" class="form-control number-float0" name="ordQty" value="0" style="text-align:right;" onkeyup="numberFormat(this, \'int\')">';
+					}	
+				}
+			},
+			{//단위
+				data : 'itemUnit',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return '<input type="text" class="form-control p-0" name="itemUnit" value="'+data+'" style="text-align:center; border:none;"" disabled>';		
+					} else{
+						return '<input type="text" class="form-control p-0" name="itemUnit" value="" style="text-align:center;" disabled>';
+					}	
+				}
+			},
+			{//단가
+				data : 'ordUnitCost',
+				render : function(data, type, row, meta){
+					if(data!=null){
+						return '<input type="text" class="form-control number-float0" name="ordUnitCost" value="'+rmDecimal(data)+'" style="text-align:right;" onkeyup="numberFormat(this, \'int\')">';		
+					} else{
+						return '<input type="text" class="form-control number-float0" name="ordUnitCost" value="" style="text-align:right;" onkeyup="numberFormat(this, \'int\')">';
+					}	
+				}
+			},
+			{//납기일자
+				data : 'dlvDate',
+				render : function(data, type, row, meta){
+					return value = '<input class="form-control" type="date" style="text-align:center"  value="'+dlvDateCal+'" name="dlvDate">';
+				}
+			},
 		],
-		columnDefs : [
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#dealCorpModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 223)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAll').off('keyup',function() {});
-			$('#searchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#dealCorpModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#dealCorpModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
+		columnDefs: [
+			//{ "targets": [9,10] , render: $.fn.dataTable.render.number( ',' ) , "className" : "text-right" },
+        ],
+	    order: [],
+	    buttons: [],
 	});
-	// dataTable colReorder event
-	dealCorpModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = dealCorpModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#dealCorpModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
+	
+
+
+	//모든 체크박스 선택
+	$('#btnAllCheck2').on('click',function(){
+		if($('#btnAllCheck2').prop("checked")){
+			$('input:checkbox[name=check2]').prop("checked",true);
+		}else{
+			$('input:checkbox[name=check2]').prop("checked",false);
+		}
+	})
+	
+	
+	// 발주취소버튼 클릭
+	$('#btnCancle').on('click', function() {
+		var array=[];
+		var i=0;
+		$('#purchaseOrderDtlTable tbody tr').each(function(index,item){
+ 			if($(this).find('td input[name=check2]').is(':checked')){
+ 				array[i]=index;
+ 				i++;
+ 	 		}
 		});
-	});
-	
-	// 거래처모달 조회 버튼 click
-	$('#btnDealCorpModalSearch').on('click', function() {
-		dealCorpModalTable.ajax.reload(function(){});
-	});
-	
-	// 거래처목록 적용 버튼 click
-	$('#btnDealCorpModalPaste').on('click', function(){
 
-		if( !$('#dealCorpModalTable tbody tr').hasClass('selected') ){
-			toastr.warning('적용할 행을 선택해주세요.');
+		$('#purchaseOrderDtlTable').DataTable().rows(array).remove().draw();
+		$('#btnAllCheck2').prop('checked',false);
+	});
+	
+	//발주등록 버튼 클릭시
+	$('#btnSave').on('click', function(){
+		let check = true;
+		let dataArray = new Array();
+		
+		if (!$.trim($('#dealCorpNm').val())) {
+			$('#btnDealCorp').focus();
+			toastr.warning('공급사를 선택해 주세요.');
+			check=false;
+			return false;
+		}
+		if (!$.trim($('#mainChargrNm').val())) {
+			$('#btnMainChargr').focus();
+			toastr.warning('발주자를 선택해 주세요.');
+			check=false;
+			return false;
+		}
+		if (!$.trim($('#receiptGubun').val())) {
+			$('#receiptGubun').focus();
+			toastr.warning('발주구분을 선택해 주세요.');
+			check=false;
+			return false;
+		}
+		if(!$.trim($('#poDate').val())){
+			$('#poDate').focus();
+			toastr.warning('발주일자를 선택해 주세요.');
+			check=false;
 			return false;
 		}
 		
-		let data = dealCorpModalTable.row('.selected').data();
-		$('#bizOrderDtlTable').DataTable().$('tr.selected').find('input[name=dealCorpIdx]').val(data.idx);
-		$('#bizOrderDtlTable').DataTable().$('tr.selected').find('input[name=dealCorpNm]').val(data.dealCorpNm);
-		$('#bizOrderDtlTable').DataTable().$('tr.selected').find('input[name=outProdEtc2]').val(data.dealCorpAddress);
-		$('#dealCorpModal').modal('hide');
-	});
-
-	$('#dealCorpModalTable tbody').on('dblclick','tr',function(){
-		let data = dealCorpModalTable.row(this).data();
-		$('#bizOrderDtlTable').DataTable().$('tr.selected').find('input[name=dealCorpIdx]').val(data.idx);
-		$('#bizOrderDtlTable').DataTable().$('tr.selected').find('input[name=dealCorpNm]').val(data.dealCorpNm);
-		$('#bizOrderDtlTable').DataTable().$('tr.selected').find('input[name=outProdEtc2]').val(data.dealCorpAddress);
-		$('#dealCorpModal').modal('hide');
-	});
-	
-	function dealCorpDelete(value) {
-		$('#dealCorpIdx'+value).val('');
-		$('#dealCorpNm'+value).val('');
-	}
-
-	// 저장버튼 click
-	$('#btnSave').on('click', function() {
-		$('#my-spinner').show();
-		setTimeout(function(){
-			overProdOutYn = getCommonCode('시스템', '027')[0].commonCd; //과출고여부
-
-			let equalsData;
-			if(overProdOutYn != 'Y'){
-				$.ajax({
-					url : '<c:url value="/stock/bizOrderDtlList"/>',
-					type : 'POST',
-					async : false,
-					data : {
-						'startDate' : function() { return moment($('#startDate').val()).format('YYYYMMDD'); },
-						'endDate' : function() { return moment($('#endDate').val()).format('YYYYMMDD'); },
-						'dealCorpIdx'  : function(){ return dealCorpIdxVal; },
-					},
-		            beforeSend: function() {
-		            	$('#my-spinner').show();
-		            },
-					success : function(res) {
-						if (res.result == "ok") { //응답결과
-							equalsData = res.data;
-						} else if(res.result == 'fail') {
-							toastr.warning(res.message);
-						} else {
-							toastr.error(res.message);
-						}
-						$('#my-spinner').hide();
-					}
-				});
-			}
-			
-			let array = [];
-			let qtyCheckArray = [];			
-			let state = true;
-			let checkRows = $('#bizOrderDtlTable tbody').find('tr').find('input[name=btnCheck]:checked').parent().parent().parent();
-			let checkRowData = bizOrderDtlTable.rows(checkRows).data().toArray();
-			// 모든 열(Column) 다시 보이게 하기
-			bizOrderDtlTable.columns().visible(true);
-			$('#bizOrderDtlTable tbody').find('tr').find('input[name=btnCheck]:checked').each(function(index, item){				
-				let tr = $(item).parent().parent().parent(); 	//행 tr
-				let td = $(item).parent().parent();				//해당 체크박스 td
-				let rowTdList = $(tr).find('td');				//행(tr)의 td 리스트
-				let data = bizOrderDtlTable.row(tr).data();		//행 데이터
-				
-				let outQty = $(rowTdList).eq(bizOrderDtlTable.column('outQty:name').index()).find('input').val().replaceAll(/,/g,'');
-				//let outDesc = $(rowTdList).eq(bizOrderDtlTable.column('outDesc:name').index()).find('input').val();
-				let outDesc = '';
-				let whsIdx = $(rowTdList).eq(bizOrderDtlTable.column('whsIdx:name').index()).find('select').val();
-				let outProdEtc1 = $(rowTdList).eq(bizOrderDtlTable.column('outProdEtc1:name').index()).find('input[type=hidden]').val();
-				let outProdEtc2 = $(rowTdList).eq(bizOrderDtlTable.column('outProdEtc2:name').index()).find('input').val();
-				//let outProdEtc3 = $(rowTdList).eq(bizOrderDtlTable.column('outProdEtc3:name').index()).find('select').val();
-				let carAssignment = $(rowTdList).eq(bizOrderDtlTable.column('carAssignment:name').index()).find('select').val();
-
-				/* if(carAssignment == '') {
-					toastr.warning('차량을 배정해주세요.');
-					$(rowTdList).eq(bizOrderDtlTable.column('carAssignment:name').index()).find('select').focus();
-					state = false;
+		
+		$('#purchaseOrderDtlTable tbody tr').each(function(index,item){
+			if ( $(this).find('td input[name=ordCnt]').val() != 0 ) {
+				if ( $(this).find('td input[name=ordQty]').val().replace(/,/g,'')*1 <= 0 ) {
+					toastr.warning('확정수량을 입력해 주세요.');
+					$(this).find('td input[name=ordQty]').focus();
+					check = false;
 					return false;
-				} */
-				
-				if(outQty == '0') {
-					toastr.warning('출고수량을 입력해주세요.');
-					$(rowTdList).eq(bizOrderDtlTable.column('outQty:name').index()).find('input').focus();
-					state = false;
+				}
+				if ( $(this).find('td input[name=ordUnitCost]').val().replace(/,/g,'')*1 <= 0 ) {
+					toastr.warning('단가를 입력해 주세요.');
+					$(this).find('td input[name=ordUnitCost]').focus();
+					check = false;
+					return false;
+				}
+				if($(this).find('td input[name=dlvDate]').val()==''){
+					toastr.warning('납기일을 입력해주세요.');
+					$(this).find('td input[name=dlvDate]').focus();
+					check = false;
 					return false;
 				}
 				
-				if(whsIdx == '') {
-					toastr.warning('창고를 선택해주세요.');
-					$(rowTdList).eq(bizOrderDtlTable.column('whsIdx:name').index()).find('select').focus();
-					state = false;
-					return false;
-				}
+				var rowData = new Object();
+				//발주 기본정보
+				rowData.dealCorpCd = $('#dealCorpCd').val();
+				rowData.mainChargr = $('#mainChargr').val();
+				rowData.poDate = $('#poDate').val().replace(/-/g,'');
+				rowData.receiptGubun = $('#receiptGubun option:selected').val();
+				rowData.poDesc = $('#poDesc').val();
 
-				if(outProdEtc1 == '') {
-					toastr.warning('납품처를 선택해주세요.');
-					$(rowTdList).eq(bizOrderDtlTable.column('outProdEtc1:name').index()).find('button').eq(1).focus();
-					state = false;
-					return false;
-				}
-				
-				if(outProdEtc2 == '') {
-					toastr.warning('납품장소를 입력해주세요.');
-					$(rowTdList).eq(bizOrderDtlTable.column('outProdEtc2:name').index()).find('input').focus();
-					state = false;
-					return false;
-				}
-				
-				let obj = new Object();
-				obj.outQty = outQty.replaceAll(/,/g,'');
-				obj.outDesc = outDesc;
-				obj.whsIdx = whsIdx;				
-				obj.outProdEtc1 = outProdEtc1;
-				obj.outProdEtc2 = outProdEtc2;
-				obj.outProdEtc3 = isEmptyCheck(data.workplaceIdx) ? '' : data.workplaceIdx;
-				obj.bizOrdDtlNo = data.bizOrdDtlNo;
-				obj.itemIdx = data.itemIdx;
-				obj.itemVersionIdx = data.itemVersionIdx;
-				obj.itemCd = data.itemCd;
-				obj.outDate = moment().format('YYYYMMDD');
-				obj.outCorpIdx = '';//출고처의 idx가 기타1,2,3 <- 여기 항목으로 정보 이관됨
-				obj.carAssignment = carAssignment;
-			    array.push(obj);
-
-			    let obj2 = new Object();
-			    obj2.outQty = outQty.replaceAll(/,/g,'');
-			    obj2.itemIdx = data.itemIdx;
-			    obj2.etc9 = data.etc9;
-			    qtyCheckArray.push(obj2);
-			    
-			});
-			// 창고 다시 안보이도록
-			bizOrderDtlTable.columns(bizOrderDtlTable.column('whsIdx:name').index()).visible(false);
-			
-			
-			if(overProdOutYn != 'Y'){
-				let qtyCheckResultArray = qtyCheckArray.reduce((acc, cur) => {
-																  let itemIdx = cur.itemIdx;
-																  let etc9 = cur.etc9;
-																  let outQty = Number(cur.outQty.replaceAll(/,/g, ''));
-																  let index = acc.findIndex((obj) => obj.itemIdx === itemIdx);
-																  if (index === -1) {
-																    acc.push({ itemIdx, outQty, etc9 });
-																  } else {
-																    acc[index].outQty += outQty;
-																  }
-																  return acc;
-																}, []);
-	
-				qtyCheckResultArray.forEach(function(index, item){
-					let rows = $('#bizOrderDtlTable tbody').find('tr').find('input[name=btnCheck]:checked').parent().parent().parent();
-					let rowData = bizOrderDtlTable.rows(rows).data().toArray();
-					let spQty = parseInt(_.filter(rowData, v=>v.itemIdx == index['itemIdx'])[0].spQty);
-
-					//체크할때 공정실적미등록제품은 예외임
-					if( spQty < index['outQty'] && index['etc9'] != 'N'){
-						toastr.warning('현재고가 부족하여 출고를<br>등록할 수 없습니다');
-						state = false;
-						return false;
-					}
-				});
+				//발주 상세내역
+				rowData.mrpNo = $(this).find('td input[name=mrpNo]').val();
+				rowData.itemSeq = $(this).find('td input[name=itemSeq]').val();
+			    rowData.ordQty = $(this).find('td input[name=ordQty]').val().replace(/,/g,'');
+			    //rowData.ordUnitCost = $(this).find('td input[name=ordUnitCost]').val().replace(/,/g,"");
+			    rowData.dlvDate = $(this).find('td input[name=dlvDate]').val().replace(/-/g,"");
+		        dataArray.push(rowData);
+		        console.log(rowData);
 			}
-			
-			if(array.length == 0 && state) {
-				toastr.warning('등록할 데이터를 선택해주세요.');
-				state = false;
-			}
+		});
 
-			if(!state) {
-				$('#my-spinner').hide();
-				return false;
-			}
+		if (check) {
 			$.ajax({
-				url: '<c:url value="/stock/outProdWhsAdmIns"/>',
-	            type: 'POST',
-	            data: {
-	                'jsonArray'	:	JSON.stringify(array)
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
+				url :'<c:url value="io/purchaseOrderAdmCreate"/>',
+				type : 'POST',
+				datatype: 'json',
+				data: JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
+				beforeSend  : function(){
+					//처리중..
+					$('#my-spinner').show();
+				},
 				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('저장되었습니다.');
-						console.log('1')
-						WM_action_OFF('new');
-						console.log('2')
-						bizOrderDtlTable.ajax.reload(function() {});
-	        
-						bizOrderDtlTable.colReorder.enable();
-	        
-						$('#btnSave').attr('disabled', true); // 저장 버튼
-						$('#btnEdit').attr('disabled', false); // 수정 버튼
-						$('#btnCancel').attr('disabled', true); // 취소 버튼
-					} else if(res.result == 'fail') {
+					let data = res.data;
+					if (res.result == 'ok') {
+				    	itemCus = null;
+				    	$('#itemCus').val('');
+						uiProc(true);
+						$('#form').each(function(){
+				        	this.reset();
+				        	$('input[type=hidden]').val('');
+				    	});
+						$('#bizOrderMrpTable').DataTable().ajax.reload(function(){});
+						$('#purchaseOrderDtlTable').DataTable().clear().draw();
+						
+						$('#btnSave').addClass('d-none');
+						$('#btnCancle').attr('disabled', true);
+						$('#btnAllCheck').prop("checked", false);
+						$('input[name=check]').prop("checked", false);
+						$('#btnAllCheck2').prop("checked", false);
+						
+						toastr.success('등록되었습니다.');
+					} else if (res.result == "fail") {
 						toastr.warning(res.message);
 					} else {
 						toastr.error(res.message);
 					}
+				},
+				complete : function() {
+					//처리완료..
 					$('#my-spinner').hide();
 				}
 			});
-				
-		},100);
+		} 
+		
 		
 	});
 
-	//차량배정
-	$('#btnCopy').on('click',function(){
-		/* if(!$('#bizOrderDealCorpTable tbody tr').hasClass('selected')){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
-			return false;
-		} */
-		if( $('#carAssignment').val() == '' ){
-			toastr.warning('차량배정을 선택해주세요.');
-			$('#carAssignment').focus();
+	//납기일 전체 적용 버튼 클릭
+	$('#applyDate').on('click', function() {
+		if($('#selectDay').val()==''||$('#selectDay').val()==null){
+			toastr.warning("날짜를 선택해주세요.");
 			return false;
 		}
-
-		$('select[name=carAssignmentSelect]').val($('#carAssignment').val());
-		$('#btnEdit').trigger('click');
-	});
-
-	$('#btnDtlSearch').on('click',function(){
-		bizOrderDtlTable.ajax.reload();
-		$('#btnSave').attr('disabled', true); // 저장 버튼
-		$('#btnEdit').attr('disabled', false); // 수정 버튼
-		$('#btnCancel').attr('disabled', true); // 취소 버튼
-	});
-
-	/********************* po완료 *********************/
-	$('#btnBizDtlPoEnd').on('click',function(){
-		if($('#bizOrderDtlTable').find('input[name=btnCheck]:checked').length == 0) {
-			toastr.warning('PO완료할 항목을 체크해주세요.');
-			return false;
-		}		
-		
-		$('#bizDtlPoEndModal').modal('show');
-	});
-
-	$('#btnBizDtlPoEndY').on('click',function(){
-		let updIdx = '';
-		$('#bizOrderDtlTable').find('input[name=btnCheck]:checked').each(function(index, item){
-			let tr = $(item).parent().parent().parent();
-			let node = bizOrderDtlTable.row(tr).node();
-			let data = bizOrderDtlTable.row(tr).data();
-			updIdx += data.bizOrdDtlIdx +', ';
+		$('#purchaseOrderDtlTable tbody tr').each(function(index, item){
+ 			if($(this).find('td input[name=check2]').is(':checked')){
+ 				$(this).find('td input[name=dlvDate]').val($('#selectDay').val());
+ 	 		}
 		});
-		updIdx = updIdx.slice(0,-2);
-		
-		$.ajax({
-			url: '<c:url value="/bs/bizOrderDtlPoEndByBizOrdDtlIdxString"/>',
-            type: 'POST',
-            data: {
-                'bizOrdDtlIdxString'	:	function(){ return updIdx; },
-            },
-            beforeSend: function() {
-            	$('#my-spinner').show();
-            },
-			success : function(res) {
-				if (res.result == "ok") { //응답결과
-					toastr.success('PO 완료 되었습니다.');
-					bizOrderDtlTable.row('.selected').deselect();
-					bizOrderDtlTable.ajax.reload(function(){},false);
-				} else if(res.result == 'fail') {
-					toastr.warning(res.message);
-					bizOrderDtlTable.row('.selected').deselect();
-					bizOrderDtlTable.ajax.reload(function(){},false);
-				} else {
-					toastr.error(res.message);
-				}
-				$('#my-spinner').hide();
-			}
-		});
-	});
 
-	// 모든 체크박스 체크/해제 되도록
-	$(document).on('change','input:checkbox[name=btnCheck]', function(){
-		if( $('input:checkbox[name=btnCheck]').length == $('input:checkbox[name=btnCheck]:checked').length ){ //전체 체크박스 수와 체크된 박스의 수가 같을 때 -> 전체체크박스 체크 , 아닐 경우 해제
-			$('#btnAllCheck').prop('checked',true);
-		} else{
-			$('#btnAllCheck').prop('checked',false);
-		}
- 	});
-
-	//모든 체크박스 선택
-	$('#btnAllCheck').on('click',function(){
-		if($('#btnAllCheck').prop("checked")){
-			$('input:checkbox[name=btnCheck]').prop('checked',true);
-		}else{
-			$('input:checkbox[name=btnCheck]').prop('checked',false);
-		}
+		toastr.success("적용되었습니다.");
 	});
 	
-</script>
-<!-- 인쇄용지설정 -->
-<style type="text/css" media="print" id="printPaperTypeStyle">
-@media print {
-	@page { size: 108mm 190mm landscape; margin: 5mm 4mm; } /*landscape 가로  portrait 세로 */
-}
-</style>
-<!-- 꼬리표 출력 기능 -->
-<script>
-	//초기 셋팅
-	$(document).ready(function() {
-		$('#trTtailTableAppendTarget').after(makeEmptyTr());
-		commonCssChange('tailTable');
-		$('#tailTable').removeClass('d-none');
-
-		$('#trBundlingLabelAppendTarget').after(makeEmptyTrByBundlingLabel());
-		commonCssChange('bundlingLabelTable');
-		$('#bundlingLabelTable').removeClass('d-none');
 	
-		$('input').attr('autocomplete','one-time-code');
-	});
 
-	$('#btnlabelPrint').on('click',function(){
-
-		let paperTypeVal = $('#printPaperType').val();
-		
-		if( isEmptyCheck(paperTypeVal) ){
-			toastr.warning('출력할 라벨 종류를 선택해주세요.');
-			$('#printPaperType').focus();
-			return false;
-		}
-
-		let checkCnt = $('#bizOrderDtlTable tbody').find('tr').find('input[name=btnCheck]:checked').length;
-		if( checkCnt == 0 ){
-			toastr.warning('출력할 항목을 체크해주세요.');
-			return false;
-		}
-		$('#my-spinner').show();
-		if( paperTypeVal == '01' ){
-			//꼬리표
-			//해당 스타일시트날리고
-			$('#printPaperTypeStyle').remove();
-			//스타일시트 생성
-			$('<style>')
-				.prop('type', 'text/css').prop('id','printPaperTypeStyle').prop('media','print')
-				.html('@media print { @page { size: 108mm 190mm landscape; margin: 5mm 4mm; } }')
-				.appendTo('body'); 
-
-			//꼬리표 생성
-			$('#tailTable').find('tr').remove();
-
-			$('#bizOrderDtlTable tbody').find('tr').find('input[name=btnCheck]:checked').each(function(index, item){
-				$('#trTtailTableAppendTarget').after(makeEmptyTr());
-
-				let tr = $(item).parent().parent().parent();
-				let node = bizOrderDtlTable.row(tr).node();
-				let data = bizOrderDtlTable.row(tr).data();
-
-				let dealCorpNm = $(node).find('input[name=dealCorpNm]').val();
-				let outQty = removeCommas($(node).find('input[name=outQty]').val()); 
-				let tagDesc = $(node).find('input[name=tagDesc]').val();
-				
-				$('#tailTable [name=outDealCorpNm]:eq(0)').text(dealCorpNm);
-				
-				if(data.itemNm.length > 35 ){
-					$('#tailTable [name=itemNm]:eq(0)').addClass('fs-15').removeClass('fs-21');
-				} else {
-					$('#tailTable [name=itemNm]:eq(0)').removeClass('fs-15').addClass('fs-21');
-				}
-				$('#tailTable [name=itemNm]:eq(0)').text(data.itemNm);
-				$('#tailTable [name=customerItemCd]:eq(0)').text(data.customerItemCd);
-				$('#tailTable [name=itemVersion]:eq(0)').text(data.itemVersion);
-				$('#tailTable [name=bizOrdDtlNo]:eq(0)').text(data.bizOrdDtlNo);
-				$('#tailTable [name=outDate]:eq(0)').text(moment(data.outReqDate).format('YYYY-MM-DD'));
-				$('#tailTable [name=outQty]:eq(0)').text(addCommas(outQty));
-				$('#tailTable [name=workPlaceNm]:eq(0)').text(data.workPlaceNm);
-				$('#tailTable [name=tagDesc]:eq(0)').text(tagDesc);
-				
-				let ordQty = parseInt(data.ordQty);
-				let beforOutQty = parseInt(data.outQty);
-				let calQty = ordQty - beforOutQty;
-				let packUnit = (data.packUnit=='' ||  parseInt(data.packUnit)==0) ? 1 : isNaN(data.packUnit) ? 1 : parseInt(data.packUnit);
-				let packCnt = Math.ceil(ordQty/packUnit);
-				//띠 인쇄 기준을 충족하는 지 체크
-				//수주수량 - 기출고수량한 수량에서 박스수량을 참고해서 이번 박스가 마지막 박스인지 
-				if( calQty <= packCnt){
-					$('#tailTable [name=lastBox]:eq(0)').addClass('bg-blue');
-				} else {
-					
-					$('#tailTable [name=lastBox]:eq(0)').removeClass('bg-blue');
-				}
-			});
-			
-			commonCssChange('tailTable');
-
-			$('#my-spinner').hide();
-
-			$('input[name=tagDesc]').val('');
-			$('#tailTable').print({
-				globalStyles: true,
-				mediaPrint: true
-			});
-			
-		} else if( paperTypeVal == '02' ){
-			//번들링
-			
-			//해당 스타일시트날리고
-			$('#printPaperTypeStyle').remove();
-			//스타일시트 생성
-			$('<style>')
-				.prop('type', 'text/css').prop('id','printPaperTypeStyle').prop('media','print')
-				.html('@media print { @page { size: A4 portrait; margin: 5mm; }, html, body { width: 210mm; height: 297mm; } }')
-				.appendTo('body');
-
-			//번들링 생성
-			$('#bundlingLabelTable').find('tr').remove();
-
-			$('#bizOrderDtlTable tbody').find('tr').find('input[name=btnCheck]:checked').each(function(index, item){
-				$('#trBundlingLabelAppendTarget').after(makeEmptyTrByBundlingLabel());
-				
-				let tr = $(item).parent().parent().parent();
-				let node = bizOrderDtlTable.row(tr).node();
-				let data = bizOrderDtlTable.row(tr).data();
-
-				let dealCorpNm = $(node).find('input[name=dealCorpNm]').val();
-				let outQty = removeCommas($(node).find('input[name=outQty]').val()); 
-				let packUnit = data.packUnit;
-				let tagDesc = $(node).find('input[name=tagDesc]').val();
-				
-				$('#bundlingLabelTable [name=outDealCorpNm]:lt(2)').text(dealCorpNm);
-				if(data.itemNm.length > 35 ){
-					$('#bundlingLabelTable [name=itemNm]:lt(2)').addClass('fs-15').removeClass('fs-21');
-				} else {
-					$('#bundlingLabelTable [name=itemNm]:lt(2)').removeClass('fs-15').addClass('fs-21');
-				}
-				$('#bundlingLabelTable [name=itemNm]:lt(2)').text(data.itemNm);
-				$('#bundlingLabelTable [name=customerItemCd]:lt(2)').text(data.customerItemCd);
-				$('#bundlingLabelTable [name=itemVersion]:lt(2)').text(data.customerItemCd + '-' + data.itemVersion);
-				$('#bundlingLabelTable [name=bizOrdDtlNo]:lt(2)').text(data.bizOrdDtlNo);
-				$('#bundlingLabelTable [name=outDate]:lt(2)').text(moment(data.outReqDate).format('YYYY-MM-DD'));
-				$('#bundlingLabelTable [name=outQty]:lt(2)').text(packUnit);
-				$('#bundlingLabelTable [name=workPlaceNm]:lt(2)').text(data.workPlaceNm);
-				$('#bundlingLabelTable [name=tagDesc]:lt(2)').text(tagDesc);
-				
-				let bundlingJson = JSON.parse(data.bundlingJson);
-				if( !isEmptyCheck(bundlingJson) ){
-					for(var i = 0; i < bundlingJson.length; i++){
-						if( i < 6 ){
-							let bundlingData = bundlingJson[i];
-
-							// 13 -> 10
-							if(bundlingData.ITEM_NM.length > 35 ){
-								$('#bundlingLabelTable [name=bundlingItemNm]:eq('+i+')').addClass('fs-10').removeClass('fs-13');
-								$('#bundlingLabelTable [name=bundlingItemNm]:eq('+(i+5)+')').addClass('fs-10').removeClass('fs-13');
-							} else {
-								$('#bundlingLabelTable [name=bundlingItemNm]:eq('+i+')').removeClass('fs-10').addClass('fs-13');
-								$('#bundlingLabelTable [name=bundlingItemNm]:eq('+(i+5)+')').removeClass('fs-10').addClass('fs-13');
-							}
-
-							
-							$('#bundlingLabelTable [name=bundlingItemNm]:eq('+i+')').text(bundlingData.ITEM_NM);
-							$('#bundlingLabelTable [name=bundlingBizOrdNo]:eq('+i+')').text(bundlingData.BIZ_ORD_DTL_NO);
-							$('#bundlingLabelTable [name=bundlingCustomerItemCd]:eq('+i+')').text(bundlingData.CUSTOMER_ITEM_CD);
-							$('#bundlingLabelTable [name=bundlingItemVersion]:eq('+i+')').text(bundlingData.ITEM_VERSION);
+	//발주상세 팝업 시작
+	var purchaseOrderDtlPopupTable;
+	var mrpNoVal=null; 
+	var itemCdVal=null;
 	
-							$('#bundlingLabelTable [name=bundlingItemNm]:eq('+(i+5)+')').text(bundlingData.ITEM_NM);
-							$('#bundlingLabelTable [name=bundlingBizOrdNo]:eq('+(i+5)+')').text(bundlingData.BIZ_ORD_DTL_NO);
-							$('#bundlingLabelTable [name=bundlingCustomerItemCd]:eq('+(i+5)+')').text(bundlingData.CUSTOMER_ITEM_CD);
-							$('#bundlingLabelTable [name=bundlingItemVersion]:eq('+(i+5)+')').text(bundlingData.ITEM_VERSION);
+	function btnDtlRead(mrpNo,itemSeq) {
+		mrpNoVal = mrpNo;
+		itemSeqVal = itemSeq;
+		if (purchaseOrderDtlPopupTable == null || purchaseOrderDtlPopupTable == undefined) {
+			purchaseOrderDtlPopupTable = $('#purchaseOrderDtlPopupTable').DataTable({
+				dom : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>"
+						+ "<'row'<'col-sm-12'tr>>"
+						+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+				language : lang_kor,
+				paging : true,
+				info : true,
+				ordering : true,
+				processing : true,
+				autoWidth : false,
+				lengthChange : false,
+				pageLength : 15,
+				ajax : {
+					url : '<c:url value="/io/purchaseOrderRead"/>',
+					type : 'GET',
+					data : {
+						'mrpNo'  : function() {return mrpNoVal;},
+						'itemSeq' : function() {return itemSeqVal;},
+					},
+				},
+				rowId : 'matrlUser',
+				columns : [ 
+					{data : 'poNo',},
+					{data : 'dealCorpNm'},
+					{data : 'itemCd'},
+					{data : 'itemModel'},
+					{data : 'itemNm'},
+					{
+						data : 'ordQty',
+						'className' : 'text-right'
+					},
+					{data : 'itemUnit'},
+					{
+						data : 'ordUnitCost',
+						'className' : 'text-right'
+					},
+					{
+						data : 'dlvDate',
+						render : function(data, type, row, meta) {
+							return moment(data).format('YYYY-MM-DD'); 
 						}
-					}
-				}
-			});
-
-			commonCssChange('bundlingLabelTable');
-			$('#my-spinner').hide();
-			$('input[name=tagDesc]').val('');
-			$('#bundlingLabelTable').print({
-				globalStyles: true,
-				mediaPrint: true
+					},
+					{
+						data : 'dlvChangeDate',
+						render : function(data, type, row, meta) {
+							if(data!=null){
+								return moment(data).format('YYYY-MM-DD');
+							}else{
+								return '-';
+							}
+						}
+					},
+				],
+				columnDefs : [ 
+					{"defaultContent" : "-","targets" : "_all","className" : "text-center"},
+					{ targets: [5,7], render: $.fn.dataTable.render.number( ',' ) },
+				],
+				order : [ [ 0, 'asc' ] ],
+				buttons : [],
 			});
 		}
+		$('#purchaseOrderDtlPopupTable').DataTable().ajax.reload(function(){});
+		$('#purchaseOrderDtlPopupModal').modal('show');
+ 	}
+   
+
+	//거래처 팝업 시작
+   	var dealCorpPopUpTable;
+   	var dealArr = ['002','003'];
+   	function selectDealCorp()
+   	{	   	
+		if(dealCorpPopUpTable == null || dealCorpPopUpTable == undefined)	{
+			dealCorpPopUpTable = $('#dealCorpPopUpTable').DataTable({
+				dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+				"<'row'<'col-sm-12'tr>>" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+				language : lang_kor,
+				paging : true,
+				info : true,
+				ordering : true,
+				processing : true,
+				autoWidth : false,
+				lengthChange: true,
+				serverSide : false,
+		        pageLength: 15,
+				ajax : {
+					url : '<c:url value="bm/dealCorpDataList"/>',
+					type : 'GET',
+					data : {
+						'dealArr' :  function(){return dealArr;},
+						'dealGubun' : function(){return dealGubun;}
+					},
+				},
+				rowId : 'dealCorpCd',
+				columns : [ {
+					data : 'dealCorpNm'
+				}, {
+					data : 'dealCorpCd'
+				}, {
+					data : 'presidentNm'
+				}, {
+					data : 'repreItem'
+				}, {
+					data : 'corpNo'
+				} ],
+				columnDefs : [ {
+					"defaultContent": "-", "targets": "_all",	"className": "text-center"
+				}],
+				order : [ [ 0, 'asc' ] ],
+				buttons : [],
+		    });
+
+			var html1 = '<div class="row">';
+			html1 += '<label class="input-label-sm">거래구분</label>'; 
+			html1 += '<select class="custom-select" id="dealGubun">';
+			html1 += '<option value="" selected>전체</option>';
+			html1 += '<option value="002">공급사</option>';
+			html1 += '<option value="003">외주사</option>';
+			html1 += '</select>';
+			html1 += '</div>';
 			
-		
-	});
+			$('#dealCorpPopUpTable_length').html(html1);
 
-	function makeEmptyTr(){
-		
-		let html = '';
-		html += '<tr style="page-break-before: always!important;">';
-		html += '	<td colspan="20" class="bd-n fc-white">납품처</td>';
-		html += '	<td colspan="75" name="outDealCorpNm" class="bd-n fs-21 fw900 text-center align-middle"></td>';
-		html += '	<td colspan="4" name="lastBox" class="bd-n"></td>';
-		html += '	<td colspan="1" class="bd-n"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="bd-n fc-white">자재명</td>';
-		html += '	<td colspan="80" name="itemNm" class="bd-n fs-21 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="bd-n fc-white">자재코드</td>';
-		html += '	<td colspan="80" name="customerItemCd" class="bd-n fs-21 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="bd-n fc-white">개정번호</td>';
-		html += '	<td colspan="80" name="itemVersion" class="bd-n fs-21 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="bd-n fc-white">제조번호</td>';
-		html += '	<td colspan="80" name="bizOrdDtlNo" class="bd-n fs-21 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="bd-n fc-white">입고일자</td>';
-		html += '	<td colspan="80" name="outDate" class="bd-n fs-21 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="bd-n fc-white">수량</td>';
-		html += '	<td colspan="80" name="outQty" class="bd-n fs-21 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="bd-n fc-white">납품자</td>';
-		html += '	<td colspan="80" name="workPlaceNm" class="bd-n fs-21 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="bd-n fc-white">비고</td>';
-		html += '	<td colspan="80" name="tagDesc" class="bd-n fs-21 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		return html;
-	}
+			//거래구분 변경시
+			$('#dealGubun').on('change', function() {
+				dealGubun = $("#dealGubun").val();	//발주구분
+				$('#dealCorpPopUpTable').DataTable().ajax.reload( function () {});
+		    });	
+		    
 
-	function makeEmptyTrByBundlingLabel(){
-		let bundlingHtml = '';
-		bundlingHtml += '<table style="height:100%;width:100%;">';
-		bundlingHtml += '<tr>';
-		bundlingHtml += '	<td class="h-30 fs-15 text-center align-middle">자재명</td>';
-		bundlingHtml += '	<td class="h-30 fs-15 text-center align-middle">제조번호</td>';
-		bundlingHtml += '	<td class="h-30 fs-15 text-center align-middle">자재코드</td>';
-		bundlingHtml += '	<td class="h-30 fs-15 text-center align-middle">개정번호</td>';
-		bundlingHtml += '</tr>';
-		for(var i = 0 ; i < 5; i++){
-			bundlingHtml += '<tr>';
-			bundlingHtml += '	<td class="h-30 fs-13" name="bundlingItemNm"></td>';
-			bundlingHtml += '	<td class="h-30 fs-13" name="bundlingBizOrdNo"></td>';
-			bundlingHtml += '	<td class="h-30 fs-13" name="bundlingCustomerItemCd"></td>';
-			bundlingHtml += '	<td class="h-30 fs-13" name="bundlingItemVersion"></td>';
-			bundlingHtml += '</tr>';
+		    $('#dealCorpPopUpTable tbody').on('click', 'tr', function () {
+		    	var data = dealCorpPopUpTable.row( this ).data();
+			    $('#dealCorpCd').val(data.dealCorpCd);
+			    $('#dealCorpNm').val(data.dealCorpNm);
+			    $('#telNo').val(data.telNo);
+			    $('#mainChargr').val(data.bizCharger);
+			    
+				$('#dealCorpPopUpModal').modal('hide');		
+		    });
+		}else{
+			$('#dealCorpPopUpTable').DataTable().ajax.reload(function() {});
 		}
-		bundlingHtml += '</table>';
-		
-		let html = '';
-		html += '<tr style="page-break-before: always!important;">';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">납품처</td>';
-		html += '	<td colspan="80" name="outDealCorpNm" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">자재명</td>';
-		html += '	<td colspan="80" name="itemNm" class="fs-21 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">Bundling<br>내 역</td>';
-		html += '	<td colspan="80" name="bundlingHist" class="fs-25 fw900 text-center align-middle padding-10px" style="">'+bundlingHtml+'</td>';
-		html += '</tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">제조번호</td>';
-		html += '	<td colspan="80" name="bizOrdDtlNo" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">입고일자</td>';
-		html += '	<td colspan="80" name="outDate" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">수량</td>';
-		html += '	<td colspan="80" name="outQty" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">납품자</td>';
-		html += '	<td colspan="80" name="workPlaceNm" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">비고</td>';
-		html += '	<td colspan="80" name="tagDesc" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
+		$('#dealCorpPopUpModal').modal('show');		
+   	} 
 
-		html += '<tr>';
-		html += '	<td colspan="100" class="bd-n h-28"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="100" class="bt-n bl-n br-n bd_dashed bd2px h-10"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="100" class="bd-n h-32"></td>';
-		html += '</tr>';
 
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">납품처</td>';
-		html += '	<td colspan="80" name="outDealCorpNm" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">자재명</td>';
-		html += '	<td colspan="80" name="itemNm" class="fs-21 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">Bundling<br>내 역</td>';
-		html += '	<td colspan="80" name="bundlingHist" class="fs-25 fw900 text-center align-middle padding-10px" style="">'+bundlingHtml+'</td>';
-		html += '</tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">제조번호</td>';
-		html += '	<td colspan="80" name="bizOrdDtlNo" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">입고일자</td>';
-		html += '	<td colspan="80" name="outDate" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">수량</td>';
-		html += '	<td colspan="80" name="outQty" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">납품자</td>';
-		html += '	<td colspan="80" name="workPlaceNm" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		html += '<tr>';
-		html += '	<td colspan="20" class="fs-25 fw900 text-center align-middle">비고</td>';
-		html += '	<td colspan="80" name="tagDesc" class="fs-25 fw900 text-center align-middle"></td>';
-		html += '</tr>';
-		return html;
-	}
-	
-	function commonCssChange(tableId){
-		//$('#'+tableId).find('td').css('font-weight', '900');
-		$('#'+tableId).find('td').css('border', '1px solid black');
-		if(tableId == 'tailTable'){
-			$('#'+tableId).find('td').css('padding', '1mm');
-			$('#'+tableId).find('td').css('min-height', '41px').css('max-height','41px').css('height','41px');
+    //담당자 팝업 시작
+	var userPopUpTable;
+	function selectMainChargr() {
+		if (userPopUpTable == null || userPopUpTable == undefined) {
+			userPopUpTable = $('#userPopUpTable').DataTable({
+				language : lang_kor,
+				lengthChange : false,
+				paging : true,
+				info : true,
+				ordering : true,
+				processing : true,
+				autoWidth : false,
+				pageLength : 20,
+				ajax : {
+					url : '/sm/matrlUserDataList',
+					type : 'GET',
+					data : {
+					}
+				},
+				rowId : 'userNumber',
+				columns : [ {
+					data : 'userNm'
+				}, {
+					data : 'departmentNm'
+				}, {
+					data : 'postNm'
+				}, {
+					data : 'chargeDutyNm'
+				}, {
+					data : 'userDesc'
+				}, ],
+				columnDefs : [ {
+					"targets" : '_all',"className" : "text-center"
+				} ],
+				order : [ [ 0, 'asc' ] ],
+			});
+			$('#userPopUpTable tbody').on('click', 'tr', function() {
+				var data = userPopUpTable.row(this).data();
+				$('#mainChargr').val(data.userNumber);
+				$('#mainChargrNm').val(data.userNm);
+				
+				$('#userPopUpModal').modal('hide');
+			});
 		} else {
-			$('#'+tableId).find('td').css('padding', '0.1rem');
+			$('#userPopUpTable').DataTable().ajax.reload(function() {});
 		}
-		$('#'+tableId).find('td').css('color', '#000000');
-		
 
-		$('#'+tableId).find('.padding-10px').css('padding', '10px');
-		$('#'+tableId).find('.fc-white').css('color', '#FFFFFF');
-		$('#'+tableId).find('.fw900').css('font-weight', '900');
-		$('#'+tableId).find('.fw-bold').css('font-weight', 'bold');
-		$('#'+tableId).find('.bd2px').css('border', '2px solid black');
-		
-		$('#'+tableId).find('.bg-gray').css('background-color', '#C9C9C9');
-		$('#'+tableId).find('.bg-blue').css('background-color', '#0000FF');
-
-
-		$('#'+tableId).find('.4mmHeight').css('min-height', '4mm').css('max-height','4mm').css('height','4mm');
-		
-		$('#'+tableId).find('.theadFirstCol').css('border-top', '0px');
-		//$('#'+tableId).find('.theadFirstCol').css('border-left', '2px');
-		$('#'+tableId).find('.theadNotFisrtCol').css('border-top', '0px');
-		$('#'+tableId).find('.theadNotFisrtCol').css('border-left', '0px');
-		
-		$('#'+tableId).find('.tbodyFirstCol').css('border-top', '0px');
-		//$('#'+tableId).find('.tbodyFirstCol').css('border-left', '2px');
-		$('#'+tableId).find('.tbodyNotFirstCol').css('border-top', '0px');
-		$('#'+tableId).find('.tbodyNotFirstCol').css('border-left', '0px');
-
-		//$('#'+tableId).find('.bd-doblue').css('border', '5px double');
-		
-		$('#'+tableId).find('.fc-red').css('color', '#ff0000');
-		$('#'+tableId).find('.fc-blue').css('color', '#0070C0');
-		$('#'+tableId).find('.fs-8').css('font-size', '8px');
-		$('#'+tableId).find('.fs-10').css('font-size', '10px');
-		$('#'+tableId).find('.fs-11').css('font-size', '11px');
-		$('#'+tableId).find('.fs-12').css('font-size', '12px');
-		$('#'+tableId).find('.fs-13').css('font-size', '13px');
-		$('#'+tableId).find('.fs-15').css('font-size', '15px');
-		$('#'+tableId).find('.fs-20').css('font-size', '20px');
-		$('#'+tableId).find('.fs-21').css('font-size', '21.5px');
-		$('#'+tableId).find('.fs-25').css('font-size', '25px');
-		$('#'+tableId).find('.fs-30').css('font-size', '30px');
-		$('#'+tableId).find('.fs-50').css('font-size', '50px');
-		$('#'+tableId).find('.fc-red').css('color', '#ff0000');
-		$('#'+tableId).find('.bt-2').css('border-top', '2px solid black');
-		$('#'+tableId).find('.bd-n').css('border', '0px solid #ffffff');
-		$('#'+tableId).find('.bt-n').css('border-top', '0px solid #ffffff');
-		$('#'+tableId).find('.br-n').css('border-right', '0px solid #ffffff');
-		$('#'+tableId).find('.bb-n').css('border-bottom', '0px solid #ffffff');
-		$('#'+tableId).find('.bl-n').css('border-left', '0px solid #ffffff');
-		$('#'+tableId).find('.h-5').css('height', '5px');
-		$('#'+tableId).find('.h-10').css('height', '10px');
-		$('#'+tableId).find('.h-15').css('height', '15px');
-		$('#'+tableId).find('.h-20').css('height', '20px');
-		$('#'+tableId).find('.h-25').css('height', '25px');
-		$('#'+tableId).find('.h-28').css('height', '28px');
-		$('#'+tableId).find('.h-30').css('height', '30px');
-		$('#'+tableId).find('.h-32').css('height', '32px');
-		$('#'+tableId).find('.h-35').css('height', '35px');
-		$('#'+tableId).find('.h-40').css('height', '40px');
-		$('#'+tableId).find('.h-55').css('height', '55px');
-		$('#'+tableId).find('.h-70').css('height', '70px');
-		$('#'+tableId).find('.h-75').css('height', '75px');
-		$('#'+tableId).find('.h-90').css('height', '90px');
-		$('#'+tableId).find('.h-100').css('height', '100px');
-		$('#'+tableId).find('.maxh-5').css('max-height', '5px');
-		$('#'+tableId).find('.maxh-10').css('max-height', '10px');
-		$('#'+tableId).find('.maxh-20').css('max-height', '20px');
-		$('#'+tableId).find('.maxh-25').css('max-height', '25px');
-		$('#'+tableId).find('.maxh-30').css('max-height', '30px');
-		$('#'+tableId).find('.maxh-40').css('max-height', '40px');
-		$('#'+tableId).find('.maxh-55').css('max-height', '55px');
-		$('#'+tableId).find('.maxh-70').css('max-height', '70px');
-		$('#'+tableId).find('.maxh-75').css('max-height', '75px');
-		$('#'+tableId).find('.maxh-100').css('max-height', '100px');
-
-		$('#'+tableId).find('.bd_dashed').css('border-style','dotted');
-
-		// 인쇄할 때 css 적용하려면 important 붙여줘야함.
-		for(var i=0;i<$('#'+tableId).find('td').length;i++) {
-			let tdStyle = $('#'+tableId).find('td').eq(i).attr('style') == undefined?'':$('#'+tableId).find('td').eq(i).attr('style');
-			$('#'+tableId).find('td').eq(i).attr('style',tdStyle.replaceAll(';',' !important;'));
-		}
+		$('#userPopUpModal').modal('show');
 	}
 
-	//출고량과 포장수량 비교해서 그만큼 for문 돌기(주석 삭제 x)
-	//console.log("packUnit : "+ parseInt(bizOrderDtlTable.row(index).data().packUnit));
-	//console.log("outQty : "+ parseInt(removeCommas($('input[name=outQty]').eq(0).val())));
-	//let printPackUnit = parseInt(bizOrderDtlTable.row(index).data().packUnit);
-	//let printOutQty = parseInt(removeCommas($('input[name=outQty]').eq(index).val()));
-	//let printCnt = Math.ceil(printOutQty/printPackUnit);
-	//console.log('printCnt:'+printCnt)
-	//let remainQty = printOutQty;
 	
-	
-	
-</script>
+	//셀렉트박스생성
+	function selectBoxHtml2(obj, id, sVal, row, meta) {
 
+		var shtml;
+		if(sideView == "edit"){
+			shtml = '<select class="custom-select" name="'+ id +'" data-col="' + meta.col + '" disabled>';
+		}else {
+			shtml = '<select class="custom-select" name="'+ id +'" data-col="' + meta.col + '">';
+		}
+		
+		var option;
+		for (key in obj) {
+			var tmp;
+			if (obj[key].baseCd == sVal) {
+				tmp = "<option value="+ obj[key].baseCd+ " selected>"
+						+ obj[key].baseNm + "</option>";
+			} else {
+				tmp = "<option value="+obj[key].baseCd+">" + obj[key].baseNm
+						+ "</option>";
+			}
+			option += tmp;
+		}
+		var ehtml = '</select>';
+		return shtml + option + ehtml;
+	}
+	
+	function uiProc(flag) {
+		$("#poDesc").attr("disabled", flag);
+		$('#btnDealCorp').attr('disabled',flag);
+		$('#btnMainChargr').attr('disabled',flag);
+		$('#poDate').attr('disabled',flag);
+		$('#receiptGubun').attr('disabled',flag);
+		$('#selectDay').attr('disabled',flag);
+		$('#applyDate').attr('disabled',flag);
+	}
 
+</script>   	
 </body>
 </html>

@@ -1,500 +1,847 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
-<%@include file="../layout/top.jsp"%>
-<%@include file="../layout/modal.jsp"%>
-<%@include file="../layout/script.jsp"%>
-<div id="page" onmouseup="EndDrag(this)" onmousemove="OnDrag(event)" style="grid-template-areas: 'leftcol';
-																		  grid-template-rows: 1fr;
-																		  grid-template-columns: 1fr;">
-	<div id="leftcol">
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="leftHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">수리시작일</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="startDate">
-					<label class="form-label d-flex align-items-center m-0 me-1 h-100">~</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="endDate">
-					<select class="form-select w-auto h-100 me-1 monthAdjust" id="monthAdjust">
-					</select>
-					<div class="btn-group me-3" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="3">
-							3개월
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="6">
-							6개월
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="12">
-							12개월
-						</button>
+<%@include file="../layout/body-top.jsp" %>
+
+<div class="page-wrapper" id="page-wrapper">
+	<!--header ============================================================== -->
+	<header class="page-title-bar row">
+		<nav aria-label="breadcrumb" class="breadcrumb-padding">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">설비관리</a></li>
+				<li class="breadcrumb-item active">설비일상점검상세</li>
+			</ol>
+		</nav>
+	</header>
+	<!-- #main============================================================== -->
+	<div class="container-fluid" id="main">
+		<div class="row table-wrap-hid">
+			<!--======================== .left-list ========================-->
+			<div class="left-list left-60" id="left-60" style="width: 25%;">
+				<div class="card">
+					<!-- .table-responsive -->
+					<div class="table-responsive">
+						<table id="equipCodeAdmTable" class="table table-bordered">
+							<thead class="thead-light">
+								<tr>
+									<th style="min-width: 50px">설비코드</th>
+									<th style="min-width: 50px">설비명</th>
+								</tr>
+							</thead>
+						</table>
 					</div>
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">설비코드</label>
-					<select class="form-select h-100 me-3 w-auto" id="searchEquipCd" style="width: 220px;"></select>
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">사용여부</label>
-					<select class="form-select w-auto h-100 me-3" id="searchUseYnCd" style="min-width: 70px;">
-						<option value="" selected="">전체</option>
-						<option value="Y">사용</option>
-						<option value="N">미사용</option>
-					</select>
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAll" placeholder="통합검색" >
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnSearch"><i class="fa-regular fa-clipboard"></i></button>
-					</div>
+					<!-- /.table-responsive -->
 				</div>
 			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="equipRepairHistAdmViewTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle">설비코드</th>
-							<th class="text-center align-middle">설비명</th>
-							<th class="text-center align-middle">제조사</th>
-							<th class="text-center align-middle">구입일자</th>
-							<th class="text-center align-middle">사용여부</th>
-							<th class="text-center align-middle">설치위치</th>
-							<th class="text-center align-middle">수리코드</th>
-							<th class="text-center align-middle">시작일</th>
-							<th class="text-center align-middle">종료일</th>
-							<th class="text-center align-middle">수리내용</th>
-							<th class="text-center align-middle">수리업체</th>
-							<th class="text-center align-middle">수리비</th>
-							<th class="text-center align-middle">부품비</th>
-							<th class="text-center align-middle">인건비</th>
-							<th class="text-center align-middle">비고</th>
-						</tr>
-					</thead>
-				</table>
+			<!-- /.left-list -->
+			<div class="right-list left-60" id="left-60" style="width: 34%;">
+				<div class="card">
+					<div class="mt-2">
+						<div class="row">
+							&nbsp;<label class="input-label-sm">등록년월</label>
+							<div class="form-group input-sub m-0 row">
+								<input class="form-control mtz-monthpicker-widgetcontainer"
+									type="text" id="demo-2">
+							</div>
+						</div>
+					</div>
+					<!-- .table-responsive -->
+					<br>
+					<div class="table-responsive">
+						<table id="calTable" class="table table-bordered">
+							<thead class="thead-light">
+								<tr>
+									<th style="min-width: 30px;">NO</th>
+									<th>①</th>
+									<th>②</th>
+									<th>③</th>
+									<th>④</th>
+									<th>⑤</th>
+									<th>⑥</th>
+									<th>⑦</th>
+									<th>⑧</th>
+								</tr>
+
+							</thead>
+						</table>
+					</div>
+
+					<!-- /.table-responsive -->
+				</div>
+			</div>
+			<!-- /.left-list -->
+			<!--======================== .right-sidebar 등록,수정 ========================-->
+			<div class="right-list left-60" id="left-60" style="width: 40%;">
+				<div class="card" id="formBox">
+					<!-- ----- 공정불량 상세정보 시작-----  -->
+					<div class="card-body col-sm-12">
+
+						<button type="button" class="btn btn-primary float-right mr-1"
+							id="btnEdit">수정</button>
+						<button class="btn btn-warning d-none" id="btnEditConfirmLoading"
+							type="button" disabled>
+							<span class="spinner-border spinner-border-sm" role="status"
+								aria-hidden="true"></span> 처리중
+						</button>
+						<button type="button" class="btn btn-primary float-right mr-1"
+							id="btnAdd">등록</button>
+						<button class="btn btn-primary d-none" id="btnAddConfirmLoading"
+							type="button" disabled>
+							<span class="spinner-border spinner-border-sm" role="status"
+								aria-hidden="true"></span> 처리중
+						</button>
+
+					</div>
+
+					<div class="table-responsive">
+						<form id="form">
+
+							<table class="table table-bordered" id="inspctTable"
+								style="text-align: center;">
+
+								<thead class="thead-light">
+									<tr>
+										<th style="width: 10px;">순번</th>
+										<th>점검항목</th>
+										<th>점검기준</th>
+										<th>결과</th>
+									</tr>
+								</thead>
+							</table>
+						</form>
+					</div>
+					<button type="button" class="btn btn-primary float-right mr-3"
+						id="btnSave" disabled>저장</button>
+
+					<!-- ----- 공정불량 상세정보 끝 ----- -->
+				</div>
+			</div>
+			<!-- .right-sidebar -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- / #main  -->
+</div>
+<!-- /.page-wrapper -->
+<!-- 저장 여부 모달 -->
+<div class="modal fade" id="saveBtnModal" tabindex="-1" role="dialog"
+	aria-labelledby="saveBtnModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="saveBtnModalLabel">주의</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<h6>정말 저장 하시겠습니까?</h6>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="saveBtnModalY"
+					data-dismiss="modal">예</button>
+				<button type="button" class="btn btn-danger" id="saveBtnModalN"
+					data-dismiss="modal">아니요</button>
 			</div>
 		</div>
 	</div>
 </div>
 
-<!-- 화면설정 script -->
-<script>
-	let isDragging = false;
-	
-	function SetCursor(cursor) {
-		let page = document.getElementById("page");
-		page.style.cursor = cursor;
-	}
-	
-	function StartDrag() {
-		isDragging = true;
-		SetCursor("ew-resize");
-	}
-	
-	function EndDrag(e) {
-		if(isDragging) {
-			dataTableDrawAll(); // dataTable 전체 reload
-			isDragging = false;
-			SetCursor("auto");
-		}
-	}
-	
-	function OnDrag(event) {
-		if (isDragging) {
-			let page = document.getElementById("page");
-			let leftcol = document.getElementById("leftcol");
-			let rightcol = document.getElementById("rightcol");
-			let dragbarWidth = 4;
-			let leftcolMinWidth = 20; // leftcol 최소사이즈
-			$('#leftHeader').children().each(function(index, item) {
-				leftcolMinWidth += $(item).width();
-			});
-			let rightcolMinWidth = 500; // rightcol 최소사이즈
-	
-			let rightColWidth = isDragging ? page.clientWidth - parseInt(Math.max(leftcolMinWidth + 20, event.clientX)) : rightcol.clientWidth;
-
-			console.log(Math.max(rightColWidth, rightcolMinWidth));
-			let cols = [
-				parseInt(Math.max(leftcolMinWidth, page.clientWidth - dragbarWidth - parseInt(Math.max(rightColWidth, rightcolMinWidth)))),
-				dragbarWidth,
-				parseInt(Math.max(rightColWidth, rightcolMinWidth))
-			];
-	
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-	
-			page.style.gridTemplateColumns = newColDefn;
-	
-			event.preventDefault()
-		}
-	}
-</script>
+<%@include file="../layout/bottom.jsp" %>
 
 <script>
+	let menuAuth = 'emsc0030';
+	let currentHref = 'emsc0030';
+	let currentPage = $('.' + currentHref).attr('id');
+	$('#' + currentPage).closest('.has-child', 'li').addClass(
+			'has-open has-active');
+	$('#' + currentPage).closest('.menu-item').addClass('has-active');
+	$(document).attr("title", "설비일상점검상세");
 
-	let selectPeriod = parseInt(getCommonCode('시스템', '040')[0].commonCd); //기본조회기간 일
-	$('#startDate').val(moment().subtract('d',selectPeriod).format('YYYY-MM-DD'));
-	$('#endDate').val(moment().format('YYYY-MM-DD'));
-	
-	let monthAdjustList = getCommonCode('시스템', '026'); //날짜조정
-	monthAdjustList = _.sortBy(monthAdjustList, v=>parseInt(v.commonCd));
-	selectBoxAppend(monthAdjustList, 'monthAdjust', '', '2'); //날짜조정
+	var today = "${serverDate}";
+	var lastDay = "${lastDay}";
+	var equipCd = null;
+	var day = 0;
+	var equipGroup = "";
+	let sideView = 'add';
+	var editAdd = 'add';
+	var inspctRegDate = "${serverDate}".replace(/-/g, '');
+	var inspctMonth = "";
+	var demoDate = null;
 
-	// 공통코드 조회
-	let repairCdList  = getCommonCode('일반', '029'); //수리코드
-	
-	let equipCdList = new Array();	//설비 코드 리스트
+	//공통코드 처리 시작
+	var inspctResultCode = new Array(); // 정기검사결과 그룹
+	<c:forEach items="${inspctResult}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseNm = "${info.baseNm}";
+	inspctResultCode.push(json);
+	</c:forEach>
+	/*     
+	 var equipGroupCode = new Array(); // 설비분류
+	 <c:forEach items="${equipGroup}" var="info">
+	 var json=new Object();
+	 json.baseCd="${info.baseCd}";
+	 json.baseNm="${info.baseNm}";
+	 equipGroupCode.push(json);
+	 </c:forEach> */
+	//공통코드 처리 종료  
+	$("#demo-2").val(today.substring(0, 7));
+	inspctMonth = $('#demo-2').val().replace(/-/g, '');
+	selectBoxReset();
+	uiProc(true);
 
-	//설비 코드 담기
-	$.ajax({
-		url: '<c:url value="/em/equipInfoListAll"/>',
-        type: 'GET',
-        async: false,
-        data: {},
-		success : function(res) {
-			let data = res.data;
-			data.forEach((item) => {
-				var equipData = new Object();
-				equipData.id = item.equipCd;
-				equipData.text = item.equipNm;
-				equipCdList.push(equipData);
-			});
+	// 목록
+	let equipCodeAdmTable = $('#equipCodeAdmTable')
+			.DataTable(
+					{
+						dom : "<'row'<''l>>"
+								+ "<'row'<'col-sm-12'tr>>"
+								+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+						language : lang_kor,
+						paging : true,
+						info : false,
+						ordering : true,
+						processing : true,
+						autoWidth : false,
+						lengthChange : true,
+						searching : false,
+						pageLength : 20,
+						ajax : {
+							url : '<c:url value="bm/equipCodeAdmList"/>',
+							type : 'GET',
+							data : {
+								'menuAuth' : menuAuth,
+							//'equipGroup' : function() { return equipGroup; }
+							},
+						},
+						rowId : 'equipCd',
+						columns : [ {
+							data : 'equipCd'
+						}, {
+							data : 'equipNm'
+						}, ],
+						order : [ [ 1, 'asc' ], ],
+					//drawCallback: function( settings ) {
+					//	$('#equipCodeAdmTable tbody tr td').css('height','40px');
+					//}
+					});
 
-			$('#searchEquipCd').select2({
-				data: equipCdList,
-				multiple : true,
-				placeholder: "설비 선택",
-			});
-			$('#searchEquipCd').find('span').eq(0).css('width','100%');
-			$('#searchEquipCd').find('.select2-search__field').css('width','100%');
-			$('.select2-container').addClass('me-1');
-		}
-	});
-
-	$('#searchEquipCd').on('change',function(e) {
-		let searchEquipCdDataList = $('#searchEquipCd').val();
-		width = 220;
-		
-		if(searchEquipCdDataList.length<=2) {
-			document.getElementById('searchEquipCd').style.width=width+'px';
-		} else {
-			console.log(searchEquipCdDataList)
-			for(let i = 2; i<searchEquipCdDataList.length;i++) {
-				let equipCd = searchEquipCdDataList[i];
-				equipCdList.forEach((item) => {
-					let equipTextLength = 0;
-					if(item.id==equipCd) {
-						equipTextLength = (item.text).length;
-						if(equipTextLength<=4) {
-							width = width+(equipTextLength*20);
-						} else {
-							width = width+(equipTextLength*16);
-						}
-						
-						return false;
-					}
-				});
-			}
-			console.log(width)
-			document.getElementById('searchEquipCd').style.width=width+'px';
-		}
-		
-		$('#searchEquipCd').select2({
-			data: equipCdList,
-			multiple : true,
-			placeholder: "설비 선택",
-		});
-		$('#searchEquipCd').find('span').eq(0).css('width','100%');
-		$('#searchEquipCd').find('.select2-search__field').css('width','100%');
-		$('.select2-container').addClass('me-1');
-	})
-
-	// 수주관리 전체 목록조회
-	$('#equipRepairHistAdmViewTable thead tr').clone(true).addClass('filters').appendTo('#equipRepairHistAdmViewTable thead'); // filter 생성
-	let equipRepairHistAdmViewTable = $('#equipRepairHistAdmViewTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: false,
-		processing: false,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: false,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/em/equipRepairHistAdmStatusLst"/>',
-			type : 'POST',
+	let calTable = $('#calTable').DataTable({
+		language : lang_kor,
+		destroy : true,
+		paging : false,
+		info : false,
+		ordering : false,
+		processing : true,
+		autoWidth : false,
+		lengthChange : false,
+		scrollX : true,
+		searching : false,
+		ajax : {
+			url : '<c:url value="em/equipPrdcInspctDataList"/>',
+			type : 'GET',
 			data : {
-				startDate	: function() { return moment($('#startDate').val(),'YYYY-MM-DD').format('YYYYMMDD'); },
-				endDate		: function() { return moment($('#endDate').val(),'YYYY-MM-DD').format('YYYYMMDD'); },
-				useYn		: function() { return $('#searchUseYnCd').val();},
-				repairCd	: function() {
-					if($('#searchEquipCd').val().length == 0) {
-						return '';
-					} else {
-						return $('#searchEquipCd').val().join(',');
-					}
+				'menuAuth' : menuAuth,
+				'equipCd' : function() {
+					return equipCd;
+				},
+				'inspectMonth' : function() {
+					return inspctMonth;
 				}
 			},
 		},
-        rowId: 'rowNumber',
-		columns : [
-			{ data: 'equipCd', className : 'text-center align-middle', name: 'rowspan' },
-			{ data: 'equipNm', className : 'text-center align-middle', name: 'rowspan' },
-			{ data: 'makerNm', className : 'text-center align-middle', name: 'rowspan' },
-			{ data: 'buyDate', className : 'text-center align-middle', name: 'rowspan',
-				render : function(data, type, row, meta) {
-					if(data != '' && data != null) {
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data,'YYYYMMDD').format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'useYn', className : 'text-center align-middle', name: 'rowspan' },
-			{ data: 'setupLocation', className : 'text-center align-middle', name: 'rowspan' },
-			{ data: 'repairNm', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != '' && data != null) {
-						return data;
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'repairStartDate', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != '' && data != null) {
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data,'YYYYMMDD').format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'repairEndDate', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != '' && data != null) {
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data,'YYYYMMDD').format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'repairContent', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != '' && data != null) {
-						return data.replaceAll(/\n/g,'<br>');
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'repairCompany', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != '' && data != null) {
-						return data;
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'repairCost', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					if(data != '' && data != null) {
-						return data;
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'partCost', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					if(data != '' && data != null) {
-						return data;
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'laborCost', className : 'text-end align-middle',
-				render : function(data, type, row, meta) {
-					if(data != '' && data != null) {
-						return data;
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'repairDesc', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != '' && data != null) {
-						return data;
-					} else {
-						return '';
-					}
-				}
-			},
-		],
-		rowsGroup: [
-			'rowspan:name'
-	 	],
-		columnDefs : [
-			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
+		columns : [ {
+			data : 'inspectDay',
+			render : function(data, type, row, meta) {
+				return data + '일';
 			}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#equipRepairHistAdmViewTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 79)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAll').off('keyup',function() {});
-			$('#searchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-
-			// 집계표 생성
-			let data = api.data().toArray();
-
-			if(data.length != 0) {
-				let equipUniq = _.uniqBy(data, 'equipCd'); // 설비별로 uniq한 리스트
-				console.log(equipUniq)
-				for(var i=0;i<equipUniq.length;i++) {
-					//같은 설비끼리 묶기
-					let equipCd = equipUniq[i].equipCd;
-					let equipCdList = _.filter(data, (v => v.equipCd == equipCd));
-
-					let repairCode001Count = 0;
-					let repairCode002Count = 0;
-					let repairCode003Count = 0;
-					for(var j=0;j<equipCdList.length;j++) {
-						if(equipCdList[j].repairCd=='01') {
-							repairCode001Count++;
-						} else if(equipCdList[j].repairCd=='02') {
-							repairCode002Count++;
-						} else if(equipCdList[j].repairCd=='03') {
-							repairCode003Count++;
-						}
-					};
-					
-					
-					let equipLastIdx = _.maxBy(equipCdList, (v => v.rowNumber)).rowNumber;
-					let equipLastCd = _.maxBy(equipCdList, (v => v.rowNumber)).equipCd;
-					//let dealSum = _.sumBy(dealCorpList, (v => parseInt(v.ordQty)));
-					let equipHtml = '';
-						equipHtml += '<tr class="bg-success bg-gradient bg-opacity-10">';
-						equipHtml += '	<td colspan ="6" class="text-start">합계</td>';
-						equipHtml += '	<td colspan="9" class="text-start">';
-					if(repairCode001Count>0) {
-						equipHtml += '수리 : ' + repairCode001Count + '회';
-					} 
-					if(repairCode002Count>0) {
-						if(repairCode001Count>0) {
-							equipHtml += '/';
-						}
-						equipHtml += '교체 : ' + repairCode002Count + '회';
+		}, {
+			data : 'inspectResult1',
+			render : function(data, type, row, meta) {
+				var result = "";
+				if (data != null) {
+					switch (data) {
+					case '001':
+						result = "V";
+						break;
+					case '002':
+						result = "X";
+						break;
+					case '003':
+						result = "O";
+						break;
 					}
-					if(repairCode003Count>0) {
-						if(repairCode001Count>0 || repairCode002Count>0) {
-							equipHtml += '/';
-						}
-						equipHtml += '점검 : ' + repairCode003Count + '회';
-					}
-						equipHtml += '</td>';
-						//equipHtml += '	<td class="text-end align-middle">'+addCommas(parseInt(dealSum))+'</td>';
-						equipHtml += '</tr>';
-					let equipNode = api.row('#'+equipLastIdx).node();
-					$(equipNode).after(equipHtml);
 				}
+				return result;
+
 			}
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#equipRepairHistAdmViewTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
+		}, {
+			data : 'inspectResult2',
+			render : function(data, type, row, meta) {
+				var result = "";
+				if (data != null) {
+					switch (data) {
+					case '001':
+						result = "V";
+						break;
+					case '002':
+						result = "X";
+						break;
+					case '003':
+						result = "O";
+						break;
+					}
+				}
+				return result;
 
-				let title = $(cell).text();
+			}
+		}, {
+			data : 'inspectResult3',
+			render : function(data, type, row, meta) {
+				var result = "";
+				if (data != null) {
+					switch (data) {
+					case '001':
+						result = "V";
+						break;
+					case '002':
+						result = "X";
+						break;
+					case '003':
+						result = "O";
+						break;
+					}
+				}
+				return result;
 
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
+			}
+		}, {
+			data : 'inspectResult4',
+			render : function(data, type, row, meta) {
+				var result = "";
+				if (data != null) {
+					switch (data) {
+					case '001':
+						result = "V";
+						break;
+					case '002':
+						result = "X";
+						break;
+					case '003':
+						result = "O";
+						break;
+					}
+				}
+				return result;
 
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#equipRepairHistAdmViewTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-			//$("#equipRepairHistAdmViewTable").wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");
-			equipRepairHistAdmViewTable.draw();
-		},
+			}
+		}, {
+			data : 'inspectResult5',
+			render : function(data, type, row, meta) {
+				var result = "";
+				if (data != null) {
+					switch (data) {
+					case '001':
+						result = "V";
+						break;
+					case '002':
+						result = "X";
+						break;
+					case '003':
+						result = "O";
+						break;
+					}
+				}
+				return result;
+
+			}
+		}, {
+			data : 'inspectResult6',
+			render : function(data, type, row, meta) {
+				var result = "";
+				if (data != null) {
+					switch (data) {
+					case '001':
+						result = "V";
+						break;
+					case '002':
+						result = "X";
+						break;
+					case '003':
+						result = "O";
+						break;
+					}
+				}
+				return result;
+
+			}
+		}, {
+			data : 'inspectResult7',
+			render : function(data, type, row, meta) {
+				var result = "";
+				if (data != null) {
+					switch (data) {
+					case '001':
+						result = "V";
+						break;
+					case '002':
+						result = "X";
+						break;
+					case '003':
+						result = "O";
+						break;
+					}
+				}
+				return result;
+
+			}
+		}, {
+			data : 'inspectResult8',
+			render : function(data, type, row, meta) {
+				var result = "";
+				if (data != null) {
+					switch (data) {
+					case '001':
+						result = "V";
+						break;
+					case '002':
+						result = "X";
+						break;
+					case '003':
+						result = "O";
+						break;
+					}
+				}
+				return result;
+
+			}
+		} ],
+		order : [ [ 0, 'asc' ], ],
+		columnDefs : [ {
+			targets : "_all",
+			className : 'text-center'
+		} ]
 	});
-	// dataTable colReorder event
-	equipRepairHistAdmViewTable.on('column-reorder', function( e, settings, details ) {
-		let api = equipRepairHistAdmViewTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#equipRepairHistAdmViewTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
+
+	//var html1 =  ' <div class="row">&nbsp;<label class="input-label-sm">설비그룹</label><select class="custom-select" id="equipGroupCd" ></select></div>'; 	
+	// $('#equipCodeAdmTable_length').html(html1);
+	//selectBoxAppend(equipGroupCode, "equipGroupCd", "", "1");
+
+	/*     $("#equipGroupCd").change(function() {
+	 equipGroup =  $('#equipGroupCd option:selected').val();
+	 $('#equipCodeAdmTable').DataTable().ajax.reload( function () {});		
+	 equipCd = null;	 	
+	 $('#calTable').DataTable().ajax.reload();
+	
+	 }); */
+
+	// 목록
+	let inspctTable = $('#inspctTable')
+			.DataTable(
+					{
+						dom : "<'row'<''l>>"
+								+ "<'row'<'col-sm-12'tr>>"
+								+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+						language : lang_kor,
+						paging : false,
+						info : false,
+						ordering : true,
+						processing : true,
+						autoWidth : false,
+						lengthChange : true,
+						searching : false,
+						pageLength : 20,
+						ajax : {
+							url : '<c:url value="em/equipPrdcInspctDataListDtl"/>',
+							type : 'GET',
+							data : {
+								'menuAuth' : menuAuth,
+								'equipCd' : function() {
+									return equipCd;
+								},
+								'inspectRegDate' : function() {
+									return demoDate;
+								},
+								'inspectDay' : function() {
+									return parseInt(day);
+								},
+							},
+						},
+						rowId : 'equipCd',
+						columns : [
+								{
+									render : function(data, type, row, meta) {
+										return meta.row
+												+ meta.settings._iDisplayStart
+												+ 1;
+									}
+								},
+								{
+									data : 'inspcetItem',
+									render : function(data, type, row, meta) {
+										var result = (data == null) ? "" : data;
+										return '<input type="text" class="form-control" value="'
+												+ result
+												+ '" name="inspcetItem" maxlength="56" style="max-width:100%" disabled>';
+									}
+								},
+								{
+									data : 'inspcetBase',
+									render : function(data, type, row, meta) {
+										var result = (data == null) ? "" : data;
+										return '<input type="text" class="form-control" value="'
+												+ result
+												+ '" name="inspcetBase" maxlength="56" style="max-width:100%" disabled>';
+									}
+								},
+								{
+									data : 'inspectResult',
+									render : function(data, type, row, meta) {
+										var html;
+										var result = (data == null) ? "001"
+												: data;
+										html = selectBoxHtml2(inspctResultCode,
+												'inspectResult', result, row,
+												meta);
+										return html;
+									}
+								}, ],
+						order : [ [ 1, 'asc' ], ],
+						drawCallback : function(settings) {
+							$('#inspctTable select').attr('disabled', true);
+						}
+					});
+
+	$("#demo-2").change(function() {
+		if (equipCd == null) {
+			toastr.warning('설비명을 선택해주세요.');
+			$("#demo-2").val(today.substring(0, 7));
+			return false;
+		}
+		inspctMonth = $('#demo-2').val().replace(/-/g, '');
+		$('#btnSave').attr('disabled', true);
+		$('#calTable').DataTable().ajax.reload(function() {
 		});
+
 	});
 
-	// 조회 버튼 click
-	$('#btnSearch').on('click', function() {
-		$('#my-spinner').show();
-		equipRepairHistAdmViewTable.ajax.reload(function() {});
+	$('#btnAdd').on('click', function() {
+		if ($('#calTable tbody tr').hasClass('selected') == false) {
+			toastr.warning("일자를 선택해 주세요.");
+			return false;
+		}
+		$('#btnSave').attr('disabled', false);
+		editAdd = 'add';
+		uiProc(false);
+		$('#inspctTable select').attr('disabled', false);
 
-		setTimeout(function() {
-			$('#my-spinner').hide();
-		}, 100)
 	});
+
+	$('#btnEdit').on('click', function() {
+		if ($('#calTable tbody tr').hasClass('selected') == false) {
+			toastr.warning("일자를 선택해 주세요.");
+			return false;
+		}
+		$('#btnSave').attr('disabled', false);
+		editAdd = 'edit';
+		uiProc(false);
+		$('#inspctTable select').attr('disabled', false);
+	});
+
+	$('#equipCodeAdmTable tbody').on(
+			'click',
+			'tr',
+			function() {
+				if ($(this).hasClass('selected')) {
+				} else {
+					$('#equipCodeAdmTable').DataTable().$('tr.selected')
+							.removeClass('selected');
+					$(this).addClass('selected');
+					equipCd = equipCodeAdmTable.row(this).data().equipCd;
+					inspctMonth = $('#demo-2').val().replace(/-/g, '');
+					$('#btnSave').attr('disabled', true);
+					$('#btnAdd').attr('disabled', true);
+					$('#btnEdit').attr('disabled', true);
+
+					$('#calTable').DataTable().ajax.reload(function() {
+					});
+					uiProc(true);
+					selectBoxReset();
+					sideView = 'add';
+				}
+			});
+
+	$('#calTable tbody')
+			.on(
+					'click',
+					'tr',
+					function() {
+						if (equipCd == null) {
+							toastr.warning('설비명을 선택해주세요.');
+							return false;
+						} else {
+							if ($(this).hasClass('tableSelected')) {
+
+							} else {
+								$('#calTable').DataTable().$('tr.selected')
+										.removeClass('selected');
+								$(this).addClass('selected');
+								$('#btnSave').attr('disabled', true);
+								uiProc(true);
+								day = $('#calTable').DataTable().row(this)
+										.index() + 1;
+								demoDate = $('#demo-2').val().replace(/-/g, '');
+
+								$('#inspctTable').DataTable().ajax
+										.reload(function() {
+										});
+
+								if ($('#calTable').DataTable().row(this).data().inspectBase1 == null) {
+									$('#btnEdit').attr('disabled', true);
+									$('#btnAdd').attr('disabled', false);
+								} else {
+									$('#btnEdit').attr('disabled', false);
+									$('#btnAdd').attr('disabled', true);
+								}
+
+								/*
+								$.ajax({
+									url: '<c:url value="em/equipPrdcInspctAdmDataList"/>',
+								       type: 'GET',
+								       data: {
+								       	'menuAuth'	 : menuAuth,
+								       	'equipCd'			:	function() { return equipCd; },
+								       	'inspctRegDate'		:	$('#demo-2').val().replace(/-/g, ''),
+								       	'inspctDay'			:   function() { return parseInt(day); },			   	        	
+								       },
+								       success: function (res) {
+								       	var data = res.data;		   	        	
+								       	sideView = 'edit';
+								       	if(data != null){		   	     
+								       		$('#btnEdit').attr('disabled',false);
+								       		$('#btnAdd').attr('disabled',true);
+								       		$("#inspctItem1Dtl1").val(data.inspctItem1Dtl1);
+								       		$("#inspctItem1Dtl2").val(data.inspctItem1Dtl2);
+								       		$("#inspctItem2Dtl1").val(data.inspctItem2Dtl1);
+								       		$("#inspctItem2Dtl2").val(data.inspctItem2Dtl2);
+								       		$("#inspctItem3Dtl1").val(data.inspctItem3Dtl1);
+								       		$("#inspctItem3Dtl2").val(data.inspctItem3Dtl2);
+								       		$("#inspctItem4Dtl1").val(data.inspctItem4Dtl1);
+								       		$("#inspctItem4Dtl2").val(data.inspctItem4Dtl2);
+								       		$("#inspctItem5Dtl1").val(data.inspctItem5Dtl1);
+								       		$("#inspctItem5Dtl2").val(data.inspctItem5Dtl2);
+								       		$("#inspctItem5Dtl3").val(data.inspctItem5Dtl3);
+								       		$("#inspctItem6Dtl1").val(data.inspctItem6Dtl1);
+								       		$("#inspctItem7Dtl1").val(data.inspctItem7Dtl1);
+								       		$("#inspctItem7Dtl2").val(data.inspctItem7Dtl2);
+								       		$("#inspctItem8Dtl1").val(data.inspctItem8Dtl1);
+								       		$("#inspctItem8Dtl2").val(data.inspctItem8Dtl2);
+								       		$("#inspctItem8Dtl3").val(data.inspctItem8Dtl3);
+								       		$("#inspctItem8Dtl4").val(data.inspctItem8Dtl4);		   	        		
+								       	}else{
+								       		$('#btnEdit').attr('disabled',true);
+								       		$('#btnAdd').attr('disabled',false);		   	        		
+								       		selectBoxReset();
+								       	}
+								       }
+								});*/
+							}
+						}
+					});
+
+	$('#btnSave').on(
+			'click',
+			function() {
+
+				var url;
+				if (editAdd == 'add') {
+					url = '<c:url value="em/equipPrdcInspctAdmCreate"/>';
+				} else {
+					url = '<c:url value="em/equipPrdcInspctAdmUpdate"/>';
+				}
+
+				$
+						.ajax({
+							url : url,
+							type : 'POST',
+							data : {
+								'menuAuth' : menuAuth,
+								'equipCd' : function() {
+									return equipCd;
+								},
+								'inspectRegDate' : $('#demo-2').val().replace(
+										/-/g, ''),
+								'inspectDay' : function() {
+									return parseInt(day);
+								},
+								'inspectMonth' : $('#demo-2').val().replace(
+										/-/g, ''),
+								'inspectItem1' : $("#inspctTable tbody tr").eq(
+										0).find('td input').eq(0).val(),
+								'inspectBase1' : $("#inspctTable tbody tr").eq(
+										0).find('td input').eq(1).val(),
+								'inspectResult1' : $("#inspctTable tbody tr")
+										.eq(0).find('td select').val(),
+								'inspectItem2' : $("#inspctTable tbody tr").eq(
+										1).find('td input').eq(0).val(),
+								'inspectBase2' : $("#inspctTable tbody tr").eq(
+										1).find('td input').eq(1).val(),
+								'inspectResult2' : $("#inspctTable tbody tr")
+										.eq(1).find('td select').val(),
+								'inspectItem3' : $("#inspctTable tbody tr").eq(
+										2).find('td input').eq(0).val(),
+								'inspectBase3' : $("#inspctTable tbody tr").eq(
+										2).find('td input').eq(1).val(),
+								'inspectResult3' : $("#inspctTable tbody tr")
+										.eq(2).find('td select').val(),
+								'inspectItem4' : $("#inspctTable tbody tr").eq(
+										3).find('td input').eq(0).val(),
+								'inspectBase4' : $("#inspctTable tbody tr").eq(
+										3).find('td input').eq(1).val(),
+								'inspectResult4' : $("#inspctTable tbody tr")
+										.eq(3).find('td select').val(),
+								'inspectItem5' : $("#inspctTable tbody tr").eq(
+										4).find('td input').eq(0).val(),
+								'inspectBase5' : $("#inspctTable tbody tr").eq(
+										4).find('td input').eq(1).val(),
+								'inspectResult5' : $("#inspctTable tbody tr")
+										.eq(4).find('td select').val(),
+								'inspectItem6' : $("#inspctTable tbody tr").eq(
+										5).find('td input').eq(0).val(),
+								'inspectBase6' : $("#inspctTable tbody tr").eq(
+										5).find('td input').eq(1).val(),
+								'inspectResult6' : $("#inspctTable tbody tr")
+										.eq(5).find('td select').val(),
+								'inspectItem7' : $("#inspctTable tbody tr").eq(
+										6).find('td input').eq(0).val(),
+								'inspectBase7' : $("#inspctTable tbody tr").eq(
+										6).find('td input').eq(1).val(),
+								'inspectResult7' : $("#inspctTable tbody tr")
+										.eq(6).find('td select').val(),
+								'inspectItem8' : $("#inspctTable tbody tr").eq(
+										7).find('td input').eq(0).val(),
+								'inspectBase8' : $("#inspctTable tbody tr").eq(
+										7).find('td input').eq(1).val(),
+								'inspectResult8' : $("#inspctTable tbody tr")
+										.eq(7).find('td select').val(),
+
+							},
+							success : function(res) {
+								var data = res.data;
+								if (res.result == "ok") {
+									toastr.success("저장되었습니다.");
+
+									$('#calTable').DataTable().ajax
+											.reload(function() {
+											});
+									uiProc(true);
+									$('#btnSave').attr('disabled', true);
+									$('#btnAdd').attr('disabled', true);
+									$('#btnEdit').attr('disabled', true);
+									$('#inspctTable select').attr('disabled',
+											true);
+								} else {
+									toastr.warning("저장에 실패했습니다.");
+									uiProc(true);
+									$('#btnSave').attr('disabled', true);
+									$('#btnAdd').attr('disabled', true);
+									$('#btnEdit').attr('disabled', true);
+								}
+							}
+						});
+			});
+
+	$('#demo-2').monthpicker({
+		pattern : 'yyyy-mm',
+		selectedYear : 2021,
+		startYear : 1900,
+		finalYear : 2212
+	});
+
+	function uiProc(flag) {
+		$('#inspctItem1Dtl1').attr('disabled', flag);
+		$('#inspctItem1Dtl2').attr('disabled', flag);
+		$('#inspctItem2Dtl1').attr('disabled', flag);
+		$('#inspctItem2Dtl2').attr('disabled', flag);
+		$('#inspctItem3Dtl1').attr('disabled', flag);
+		$('#inspctItem3Dtl2').attr('disabled', flag);
+		$('#inspctItem4Dtl1').attr('disabled', flag);
+		$('#inspctItem4Dtl2').attr('disabled', flag);
+		$('#inspctItem5Dtl1').attr('disabled', flag);
+		$('#inspctItem5Dtl2').attr('disabled', flag);
+		$('#inspctItem5Dtl3').attr('disabled', flag);
+		$('#inspctItem6Dtl1').attr('disabled', flag);
+		$('#inspctItem7Dtl1').attr('disabled', flag);
+		$('#inspctItem7Dtl2').attr('disabled', flag);
+		$('#inspctItem8Dtl1').attr('disabled', flag);
+		$('#inspctItem8Dtl2').attr('disabled', flag);
+		$('#inspctItem8Dtl3').attr('disabled', flag);
+		$('#inspctItem8Dtl4').attr('disabled', flag);
+	}
+
+	function selectBoxReset() {
+		selectBoxAppend(inspctResultCode, "inspctItem1Dtl1", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem1Dtl2", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem2Dtl1", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem2Dtl2", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem3Dtl1", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem3Dtl2", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem4Dtl1", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem4Dtl2", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem5Dtl1", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem5Dtl2", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem5Dtl3", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem6Dtl1", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem7Dtl1", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem7Dtl2", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem8Dtl1", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem8Dtl2", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem8Dtl3", "001", "");
+		selectBoxAppend(inspctResultCode, "inspctItem8Dtl4", "001", "");
+	}
+
+	//콤마 제거
+	function commaDelete(data) {
+		var result = data;
+		if (data != null) {
+			//console.log(data.slice(0, -1));
+			for (var i = 1; i < data.length + 1; i++) {
+				if (data.substring(data.length - i, data.length - i + 1) == ',') {
+					result = data.slice(0, -i);
+				} else {
+					break;
+				}
+			}
+		}
+		return result;
+	}
+
+	function selectBoxHtml2(obj, id, sVal, row, meta) {
+		//$('#'+ id).empty();
+		//var shtml = '<select id="'+ id +'" class="mySelect" data-col="' + meta.col + '" onChange="locateChange()"><option value="">선택</option>';
+		var shtml = '<select class="custom-select" name="'+ id +'" data-col="' + meta.col + '"><option value="">선택</option>';
+		//var shtml = '<select class="mySelect" data-col="' + meta.col + '" ><option value="">선택</option>';
+
+		var option;
+		for (key in obj) {
+			var tmp;
+			if (obj[key].baseCd == sVal) {
+				tmp = "<option value="+ obj[key].baseCd+ " selected>"
+						+ obj[key].baseNm + "</option>";
+			} else {
+				tmp = "<option value="+obj[key].baseCd+">" + obj[key].baseNm
+						+ "</option>";
+			}
+			option += tmp;
+		}
+		var ehtml = '</select>';
+		return shtml + option + ehtml;
+	}
 </script>
-
 </body>
 </html>

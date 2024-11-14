@@ -456,10 +456,16 @@
 	            <env>real</env>
 	        </properties>
 	    </profile>
-	     <profile>
+	    <profile>
 	        <id>rdev</id>
 	        <properties>
 	            <env>rdev</env>
+	        </properties>
+	    </profile>
+	    <profile>
+	        <id>prod</id>
+	        <properties>
+	            <env>prod</env>
 	        </properties>
 	    </profile>
 	</profiles>	

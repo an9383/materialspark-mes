@@ -1,1901 +1,768 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
-<%@include file="../layout/top.jsp"%>
-<%@include file="../layout/modal.jsp"%>
-<%@include file="../layout/script.jsp"%>
-<div id="page" onmouseup="EndDrag(this)" onmousemove="OnDrag(event)" style="grid-template-areas: 'leftcolT dragbarH rightcol'
-																									'dragbarV dragbarH rightcol'
-																									'leftcolB dragbarH rightcol';
-																		  grid-template-rows: 1fr 4px 1fr;
-																		  grid-template-columns: 1.6fr 4px 1fr;">
-																	
-	<div id="leftcolT">
-		<div class="container-fluid" style="padding: 5px;">
-			<div class="row" id="leftTopHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">품목</label>
-					<div class="input-group w-auto h-100 me-3">
-						<input type="text" class="form-control" id="searchItemNm" disabled>
-
-						<button type="button" id="btnSearchItemDel" class="" style="background-color: transparent; border-color: transparent; position: absolute; top: 0; right: 0; margin: 5px 23px; margin-left: 0px; border: none;">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						<input type="hidden" id="searchItemIdx">
-
-						<button type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary" id="btnSearchItem">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</div>
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">창고</label>
-					<div class="input-group w-auto h-100 me-3">
-						<input type="text" class="form-control" id="searchLcNm" style="min-width:100px;max-width:100px;" disabled>
-						<input type="hidden" id="searchLcIdx">
-						<button type="button" id="btnSearchLcDel"
-							style="background-color: transparent; border-color: transparent; position: absolute; top: 0; right: 0; margin: 5px 23px; margin-left: 0px; border: none;">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						<button type="button" style="padding: 1px 4px; margin-left: 0px;"
-							class="btn btn-primary" id="btnSearchLc">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</div>
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">거래처</label>
-					<div class="input-group w-auto h-100 me-3">
-						<input type="text" class="form-control" id="searchDealCorpNm" disabled> 
-						<input type="hidden" id="searchDealCorpIdx">
-						<button type="button" id="btnSearchDealCorpDel"	style="background-color: transparent; border-color: transparent; position: absolute; top: 0; right: 0; margin: 5px 23px; margin-left: 0px; border: none;">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						<button type="button" style="padding: 1px 4px; margin-left: 0px;" class="btn btn-primary" id="btnSearchDealCorp">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</div>
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">품목구분</label>
-					<select class="form-select w-auto h-100 me-3" id="searchItemGubun">
-						<option value="" selected>전체</option>
-						<option value="item">제품</option>
-						<option value="matrl">자재</option>
-					</select> 
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAllSpa" placeholder="통합검색" >
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end" >
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnSearch">
-							<i class="fa-regular fa-clipboard"></i>
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnCopy">
-							<i class="fa-regular fa-copy"></i>
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnCancel">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnOpen">
-							<i class="fa-solid fa-caret-left"></i>
+<%@include file="../layout/top.jsp" %>
+<style>
+ body{
+  overflow:hidden;
+ }
+</style>
+<!-- .app -->
+<div class="app pda_mo_wrap" style="display: flex;flex-direction: column;height: 100%;">
+	<header class="pda_mo_hd">
+		<a href="<c:url value="tmsc0200"/>" class="float-left"><img class="p-2" src="/resources/assets/images/mo_home_wh.png"></a> <a href="/tmsc0060"><p class="mo_main_title">자재입고</p></a>
+	</header>
+	<!--====-sortbox-->
+	<div class="mo_sortbox">
+				<div class="col-12 row p-1">
+					<div class="col-3 mo_sort_title">입고일</div>
+					<div class="form-group input-sub col-9 m-0 p-0">
+						<input class="form-control-md" type="text" id="inWhsDate" disabled />
+						<button onclick="fnPopUpCalendar(inWhsDate,inWhsDate,'yyyy-mm-dd');" class="btn btn-secondary input-sub-search-md" type="button" id="btnCalendar">
+							<span class="oi oi-calendar" style="font-size: 13px;"></span>
 						</button>
 					</div>
 				</div>
-			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="stockPaymentAdmTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle"><input class="form-check-input" type="checkbox" id="stockAllCheckBox" style="margin: 0px; width: 25px; height: 25px;"></th>
-							<th class="text-center">구분</th>
-							<th class="text-center">명칭</th>
-							<th class="text-center">출고창고</th>
-							<th class="text-center">현재고</th>
-							<th class="text-center">®</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		</div>
-	</div>
-	<div id="dragbarV" onmousedown="StartDrag('V')" ondblclick="minimum(this)"></div>
-	<div id="leftcolB">
-		<div class="container-fluid" style="padding: 5px;">
-			<div class="row" id="rightBottomHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAllSpm" placeholder="통합검색" >
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end" >
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnMoveSave" disabled>
-							<i class="fa-regular fa-floppy-disk"></i>
-						</button>
-						<button type="button" class="btn btn-outline-danger w-auto" style="font-size: 17px !important;" id="btnMoveDel" disabled>
-							<i class="fa-solid fa-trash-can"></i>
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 20px !important;" id="btnMoveCancel" disabled>
-							<i class="fa-solid fa-xmark"></i>
-						</button>
+				<div class="col-12 row p-1">
+					<div class="col-3 mo_sort_title">Location No</div>
+					<div class="form-group input-sub col-9 m-0 p-0">
+						<input type="text" class="form-control-md" id="locationNo" style="min-width:100%;"  placeholder="스캐너만 입력">
 					</div>
 				</div>
-			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="stockPaymentMoveTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle"><input class="form-check-input" type="checkbox" id="itemPurchaseInAllCheckBox" style="margin: 0px; width: 25px; height: 25px;"></th>
-							<th class="text-center">구분</th>
-							<th class="text-center">명칭</th>
-							<th class="text-center">출고창고</th>
-							<th class="text-center">입고창고</th>
-							<th class="text-center">이동일자</th>
-							<th class="text-center">이동량</th>
-							<th class="text-center">®</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		</div>
-	</div>
-	
-	<div id="dragbarH" onmousedown="StartDrag('H')"></div>
-
-	<div id="rightcol">	
-		<div class="container-fluid h-100" style="padding: 5px;">
-			<div class="row" id="leftHeader" style="padding-bottom: 5px;">
-				<div class="d-flex align-items-center d-flex">
-					<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">이동일자</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="startDate">
-					<label class="form-label d-flex align-items-center m-0 me-1 h-100">~</label>
-					<input type="date" max="9999-12-31" class="form-control w-auto h-100 me-1" id="endDate">
-					<select class="form-select w-auto h-100 me-1 monthAdjust" id="monthAdjust">
-					</select>
-					<div class="btn-group me-3" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="3">
-							3개월
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="6">
-							6개월
-						</button>
-						<button type="button" class="btn btn-outline-light w-auto monthAdjustBtn" data-val="12">
-							12개월
-						</button>
-					</div>
-					
-					<input type="text" class="form-control w-auto h-100 me-1" id="searchAllMht" placeholder="통합검색">
-				</div>
-				<div class="me-lg-auto"></div>
-				<div class="d-flex align-items-center justify-content-end">
-					<div class="btn-group" role="group" aria-label="Small button group">
-						<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnMoveSearch"><i class="fa-regular fa-clipboard"></i></button>
-						<button type="button" class="btn btn-outline-light w-auto" style="font-size: 18px !important;" id="btnClose">
-							<i class="fa-solid fa-caret-right"></i>
-						</button>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<table class="table table-bordered p-0 m-0" id="moveHistoryTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle">구분</th>
-							<th class="text-center align-middle">명칭</th>
-							<th class="text-center align-middle">이동일자</th>
-							<th class="text-center align-middle">출고창고</th>
-							<th class="text-center align-middle">입고창고</th>
-							<th class="text-center align-middle">이동량</th>
-							<th class="text-center align-middle">®</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- 품명조회 모달 -->
-<div class="modal fade" id="itemNmModal" tabindex="-1"	aria-hidden="true">
-	<div class="modal-dialog" style="max-width: 55vw;">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">품목 조회</h5>
-				<div class="btn-group" role="group" aria-label="Small button group">
-					<button type="button" class="btn btn-outline-light w-auto"
-						style="font-size: 20px !important;" id="btnItemNmModalPaste">
-						<i class="fa-regular fa-paste"></i>
-					</button>
-					<button type="button" class="btn btn-outline-light w-auto"
-						style="font-size: 20px !important;" data-bs-dismiss="modal"
-						aria-label="Close">
-						<i class="fa-solid fa-xmark"></i>
-					</button>
-				</div>
-			</div>
-			<div class="modal-body">
-				<!-- <div class="row" style="padding-bottom: 5px;">
-					<div class="d-flex align-items-center d-flex">
-						<label class="form-label d-flex align-items-center header-label m-0 me-1 h-100">품목구분</label>
-						<select class="form-select w-auto h-100 me-3" id="itemNmGubun">
-							<option value="" selected>전체</option>
-							<option value="item">제품</option>
-							<option value="matrl">자재</option>
-						</select>
-					</div>
-					<div class="me-lg-auto"></div>
-					<div class="d-flex align-items-center justify-content-end">
-						<div class="btn-group" role="group" aria-label="Small button group">
-							<button type="button" class="btn btn-outline-light w-auto " style="font-size: 18px !important;" id="btnItemNmSearch">
-								<i class="fa-regular fa-clipboard"></i>
-							</button>
+				<div class="row">
+					<div class="col-12 row p-1">
+						<div class="col-3 mo_sort_title">구역</div>
+						<div class="form-group input-sub col-4 m-0 p-0">
+							<input type="hidden" class="form-control" id="locationCd" style="min-width:100%;">
+							<input type="hidden" class="form-control" id="areaCd" style="min-width:100%;">
+							<input type="text" class="form-control-md" id="areaNm" readonly>
+						</div>
+						<div class="col-1 mo_sort_title" style="text-align:center;">위치</div>
+						<div class="form-group input-sub col-4 m-0 p-0">
+							<input type="hidden" class="form-control" id="floorCd" style="min-width:100%;">
+							<input type="text" class="form-control-md" id="floorNm" readonly>
 						</div>
 					</div>
-				</div> -->
-
-				<table class="table table-bordered p-0 m-0" id="itemNmModalTable">
-					<thead class="table-light">
-						<tr>
-							<th class="text-center align-middle">구분</th>
-							<th class="text-center align-middle">품명</th>
-						</tr>
-					</thead>
-				</table>
+					<div class="col-12 row p-1">
+						<div class="col-3 mo_sort_title">Barcode NO</div>
+						<div class="form-group input-sub col-9 m-0 p-0">
+							<input type="text" class="form-control-md" id="barcodeNo" inputmode="none" placeholder="스캐너만 입력">
+						</div>
+					</div>
+				</div>
+	</div>
+	<!--==버튼영역-->
+	<div class="mo_btnbox pl-2 pr-2">
+				<div class="float-left">
+					<button type="button" class="btn btn-danger float-right" id="btnLineClear" disabled>라인삭제</button>
+					<button type="button" class="btn btn-danger float-right mr-2" id="btnAllClear" disabled>전체삭제</button>
+				</div>
+				<div class="float-right">
+					<button type="button" class="btn btn-secondary float-right" id="btnCancel">취소</button>
+					<button type="button" class="btn btn-secondary float-right d-none" id="btnNew">새로 등록</button>
+					<button type="button" class="btn btn-primary float-right mr-2" id="btnSave" disabled>저장</button>
+				</div>
+			</div>
+			<br>
+			<!--==end==버튼영역-->
+	<!--==end==-sortbox-->
+	<main style="height: calc(100vh - 50px);overflow:auto;">
+		<div class="container-fluid bg_wh" id="main" style="height: 100%;display: flex;flex-direction: column;">
+			<!--table-->
+			<!-- .table-responsive -->
+			<div class="card" style="OVERFLOW-Y:auto; width:100%;">
+				<div class="table-responsive">
+					<table id="barcodeDtlTable" class="table table-bordered table-td-center">
+						<thead class="thead-light">
+							<tr>
+								<th style="min-width: 20px">순번</th>
+								<th style="min-width: 90px">Barcode NO</th>
+								<th style="min-width: 80px">CODE</th>
+								<th style="min-width: 40px">REV</th>
+								<th style="min-width: 100px">ITEM</th>
+								<th style="min-width: 220px">SPEC</th>
+								<th style="min-width: 40px">단위</th>
+								<th style="min-width: 40px">입고량</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<!-- /.table-responsive -->
+			</div>
+			<!--==end==card-->
+			<!--==end==table-->
+		</div>
+		<!-- 창고정보 모달 시작-->
+		<div class="modal fade" id="locationPopupModal" tabindex="-1" role="dialog" aria-labelledby="locationPopupLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="locationPopupLabel">창고정보조회</h5>	
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="table-responsive" style="height:490px">
+							<table class="table table-sm table-bordered">
+								<colgroup>
+									<col width="20%">
+									<col width="30%">
+									<col width="20%">
+									<col width="30%">
+								</colgroup>
+								<tr>
+									<th>창고</th>
+									<td>
+										<select class="custom-select" id="selectLocationCd" style="max-width:100%;" onchange="changeAreaCd()"></select>
+									</td>
+									<th>구역</th>
+									<td>
+										<select class="custom-select" id="selectAreaCd" style="max-width:100%;" onchange="changeFloorCd()">
+											<option value="">창고를 선택해주세요.</option>
+										</select>
+									</td>
+								</tr>
+							</table>
+							<table id="locationPopupTable" class="table table-sm table-bordered">
+								<colgroup>
+									<col width="20%">
+									<col width="20%">
+									<col width="20%">
+									<col width="20%">
+									<col width="20%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>창고명</th>
+										<th>구역명</th>
+										<th>위치명</th>
+										<th>비고</th>
+										<th>사용여부</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary"data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
+		<!-- 창고정보 모달 종료-->
+	</main>
+	<footer class="p-2" style="margin-top: auto;">
+			<div class="mo_sumbox">
+				<button type="button" class="btn btn-warning float-left" id="btnKeyboard">자판 Off</button>
+				<div class="row float-right">
+					<div class="mo_roll mr-4">
+						<!-- <label>합계</label><span class="mo_sum_font_lg" id="rowCount">0</span> <label>Roll</label> -->
+					</div>
+					<div class="mo_kg">
+						<span class="mo_sum_font_lg" id="count">0</span> <label>개수</label>
+					</div>
+				</div>
+			</div>	
+	</footer>
 </div>
+<!-- /.app -->
+<script type="text/javascript" src="/resources/assets/javascript/pages/calendar.js"></script>
 
-<!-- 화면설정 script -->
+<%@include file="../layout/script.jsp" %>
+
 <script>
-	let isDragging = false;
-	let isDraggingV = false; // 세로 드래그 여부
-	let isDraggingH = false; // 가로 드레그 여부
+
+	$(document).attr("title","자재입고");
+	let menuAuth = 'tmsc0060';
+	var serverDate = "${serverDate}"
+	var barcodeNo = null;
+	var partCd = null;
+	var partRev = null;
+	var partNm = null;
+	var partSpec = null;
+	var inWhsQty = null;
+	var baseInfoCd = null;
+	var etc3 = null;
+	var areaCd = null;
+	var count = 0;
 	
-	function SetCursor(cursor) {
-		let page = document.getElementById("page");
-		page.style.cursor = cursor;
-	}
+	$('#inWhsDate').val(serverDate);
+	$('#btnSelEquipCode').focus();
+
+	//공통코드 처리 시작	
+ 	var locationCdCode = new Array(); 
+	<c:forEach items="${locationCd}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.locationCd}";
+	json.baseNm = "${info.locationNm}";
+	locationCdCode.push(json);
+	</c:forEach> 
+	//공통코드 처리 끝
+
+	selectBoxAppend(locationCdCode , "selectLocationCd",'', "2");
 	
-	function StartDrag(type) {
-		//if(type == 'VT') { isDraggingVT = true; SetCursor("n-resize");}
-		//if(type == 'VB') { isDraggingVB = true; SetCursor("n-resize");}
-		if(type == 'V') { isDraggingV = true; SetCursor("n-resize");}
-		if(type == 'H') { isDraggingH = true; SetCursor("ew-resize");}
-	}
-	
-	function EndDrag(e) {
-		if(isDraggingV || isDraggingH) {
-			dataTableDrawAll(); // dataTable 전체 reload
-			//isDraggingVT = false;
-			//isDraggingVB = false;
-			isDraggingV = false;
-			isDraggingH = false;
-			SetCursor("auto");
+	$.fn.dataTable.ext.errMode = 'none';
+	let barcodeDtlTable = $('#barcodeDtlTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+		if(techNote == 7) {
+			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+			location.href = "/";
 		}
-	}
-	
-	function OnDrag(event) {
-		if (isDraggingH) { // 좌우 스크롤
-			let page = document.getElementById("page");
-			let leftcol = document.getElementById("rightcol"); // 우측
-			let leftcolT = document.getElementById("leftcolT"); // 좌측 상단
-			//let rightcolM = document.getElementById("rightcolM"); // 좌측 중단
-			let leftcolB = document.getElementById("leftcolB"); // 좌측 하단
-			let dragbarWidth = 4;
-			let leftcolMinWidth = 700; // leftcol 최소사이즈
-			$('#leftHeader').children().each(function(index, item) {
-				leftcolMinWidth += $(item).width();
-			});
-			let rightcolMinWidth = 500; // rightcol 최소사이즈
-	
-			let rightColWidth = page.clientWidth - parseInt(Math.max(rightcolMinWidth + 20, event.clientX));
+	}).DataTable({
+	    language: lang_kor,
+	    paging: false,
+	    info: false,
+	    ordering: false,
+	    processing: true,
+	    autoWidth: false,
+	    scrollX : false,
+	    lengthChange: false,
+	    searching: false,
+	    pageLength: 20,            
+		ajax : {
+			url : '<c:url value="io/inOutWhsAdmRead"/>',
+			type : 'GET',
+			data : {
+				'menuAuth'	: menuAuth,
+				'barcodeNo' : function(){ return barcodeNo; },
+			},
+		},
+	    rowId: '',
+	    columns: [
+	    	{
+	    		render: function(data, type, row, meta) {
+	    			var rowNo = meta.row + meta.settings._iDisplayStart + 1;
+	    			if(rowNo == 1) {
+	    				$('#btnSave').attr('disabled', false);
+			    	}
+					return meta.row + meta.settings._iDisplayStart + 1 ;
+				}
+	    	},
+	    	{data : 'barcodeNo',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+	    				return '<input type="text" class="form-control" name="barcodeNo" value="'+data+'" style="max-width:100%;text-align:center;" disabled>';	
+					} else{
+						return '<input type="text" class="form-control" name="barcodeNo" value="'+barcodeNo+'" style="max-width:100%;text-align:center;" disabled>' ;	
+					}		    			
+	    		}
+			}, {data : 'partCd',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+						return '<input type="text" class="form-control" name="partCd" value="'+data+'" style="max-width:100%;text-align:center;" disabled>';		
+					} else{
+						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partCd" value="'+partCd+'" disabled>';	
+					}		    			
+	    		}
+			}, {data : 'partRev',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partRev" value="'+data+'" disabled>';		
+					} else{
+						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partRev" value="'+partRev+'" disabled>';	
+					}		
+    			}
+			}, {data : 'partNm',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partNm" value="'+data+'" disabled>';			
+					} else{
+						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partNm" value="'+partNm+'" disabled>';	
+					}			    			
+	    		}
+			}, {data : 'partSpec',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partSpec" value="'+data+'" disabled>';			
+					} else{
+						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partSpec" value="'+partSpec+'" disabled>';	
+					}		
+				},
+			}, {data : 'partUnit',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partUnit" value="'+data+'" disabled>';			
+					} else{
+						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partUnit" value="'+partUnit+'" disabled>';	
+					}		
+				},
+			}, {data : 'inWhsQty',
+				render: function(data, type, row, meta) {	
+					if(data!=null){
+						return '<input type="text" class="form-control" style="max-width:100%; text-align:right;" name="inWhsQty" value="'+addCommas(data)+'" disabled>';			
+					} else{
+						return '<input type="text" class="form-control" style="max-width:100%; text-align:right;" name="inWhsQty" value="'+addCommas(inWhsQty)+'" disabled>';	
+					}				
+	    		}
+			}, 
+	    ],
+	    columnDefs: [
+	    	{"className": "text-center", "targets": "_all"}
+	    ],
+	    order: [
+	        [ 0, 'desc' ]
+	    ],
+	    buttons: [
+	    ],
+		drawCallback: function () {
+			 //$('.mo_card tbody').css('font-size','10px');
+		},
+	});
+
+	var lineCheck = false;
+    $('#barcodeDtlTable tbody').on('click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+            lineCheck = false;
+        }	
+        else {
+        	$('#barcodeDtlTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            lineCheck = true;
+        }
+    });
+
+ 	// 창고바코드입력
+	$('#locationNo').keypress(function(e){
+		var check2=true;  	
+		if(e.keyCode == 13){
+			if(!$.trim($('#locationNo').val())){
+				toastr.warning('창고 바코드를 스캔해주세요.');
+				$('#locationNo').focus();
+				check2 = false;
+				return false;
+			}
+
+// 			if($('#locationNo').val().length != 12) {
+// 				toastr.warning('잘못된 창고 바코드 입니다. 확인해주세요.');
+// 				$('#locationNo').focus();
+// 				$('#locationNo').select();
+// 				check=false;
+// 				return false;
+// 			}
 			
-			let cols = [
-				parseInt(Math.max(rightcolMinWidth, page.clientWidth - dragbarWidth - parseInt(Math.max(rightColWidth, rightcolMinWidth)))),
-				dragbarWidth,
-				parseInt(Math.max(rightColWidth, rightcolMinWidth))
-			];
-	
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-			//console.log(newColDefn);
-	
-			page.style.gridTemplateColumns = newColDefn;
-	
-			event.preventDefault();
-		} else if (isDraggingV) { // leftcolT와 leftcolB 사이
-			let dragbarWidth = 4;
+			if(check2 == true){
+			 	$.ajax({
+	            	url: '/io/getLocInfo',
+	                type: 'GET',
+	                data: {
+	                	'locationNo'  :  $('#locationNo').val(),
+	                	'status' 		: 'part'             
+	                },
+	                success: function (res) {
+	                    let data = res.data;
+	                    
+	                    if (res.result == 'ok') {
+		                    
+		                   $('#locationCd').val(data.locationCd);
+		                   $('#locationNm').val(data.locationNm);
+		                   $('#areaCd').val(data.areaCd);
+		                   $('#areaNm').val(data.areaNm);
+		                   $('#floorNm').val(data.floorNm);
 
-			let page_height = parseInt($('#page').height()); 			// 전체 높이
-			let leftcolT_height = parseInt($('#leftcolT').height());	// 우측 상단
-			let leftcolB_height = parseInt($('#leftcolB').height());	// 우측 하단
-
-			let leftcolT_min_height = 100;	// 우측 상단 최소높이
-			let leftcolB_min_height = 34;	// 우측 하단 최소높이
-
-			let cursorY = event.clientY;	// 현재 cursor y좌표(위에서부터 얼마나 떨어졌는지)
-			//console.log(cursorY);
-			//console.log(page_height - leftcolB_height - dragbarWidth);
-			
-			let cols = [
-				Math.min(Math.max(leftcolT_min_height, cursorY), page_height - leftcolB_min_height - dragbarWidth),
-				dragbarWidth,
-				page_height - dragbarWidth - Math.min(Math.max(leftcolT_min_height, cursorY), page_height - leftcolB_min_height - dragbarWidth),
-			];
-			
-			//console.log(cols);
-	
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-
-			$('#page').css('grid-template-rows',newColDefn);
-	
-			event.preventDefault();
+		                   $('#barcodeNo').focus();
+		                   toastr.success("창고정보 추가되었습니다.");
+		                   
+	                    }else if(res.result == 'empty') {	
+	                    	toastr.warning("등록되지 않은 창고 바코드입니다. 확인해주세요.");
+	                    	$('#locationNo').select();
+	                    }else if(res.result == 'notPartLocCd') {
+	                    	toastr.warning("원자재 창고 바코드가 아닙니다. 확인해주세요.");
+	                    }else if(res.result == 'error') {
+	                    	toastr.error(res.message, '', {timeOut: 5000});
+	                    }    
+		             },
+		             complete:function(){
+		                    //$('#btnAddConfirm').removeClass('d-none');
+		                    //$('#btnAddConfirmLoading').addClass('d-none');
+		             }
+		        });
+			}
 		}
-	}
+	});
 
-	function minimum(node) {
-		let id = $(node).attr('id');
+	
+	//바코드 스캔시
+	$("#barcodeNo").keypress(function (e) {
+		
+	    if (e.which == 13){
+	    	
+	    	if(!$.trim($('#barcodeNo').val())){
+				toastr.warning('바코드를 스캔해주세요.');
+				$('#barcodeNo').focus();
+				check2 = false;
+				return false;
+			}
 
-		if(id == 'dragbarV') {
-			let dragbarWidth = 4;
-
-			let page_height = parseInt($('#page').height()); 			// 전체 높이
-			let leftcolT_height = parseInt($('#leftcolT').height());	// 우측 상단
-			let leftcolB_height = parseInt($('#leftcolB').height());	// 우측 하단
-
-			let leftcolT_min_height = 100;	// 우측 상단 최소높이
-			let leftcolB_min_height = 34;	// 우측 하단 최소높이
-
-			let dragbarV_height = 4;
-
-			let cols = [];
-
-			//최소화기능만 적용
-			cols = [
-				page_height - leftcolB_min_height - dragbarWidth,
-				dragbarWidth,
-				leftcolB_min_height
-			];
-			
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-			
-			$('#page').css('grid-template-rows',newColDefn);
-		} else if(id == 'dragbarVB') {
-			let dragbarWidth = 4;
-
-			let page_height = parseInt($('#page').height()); 			// 전체 높이
-			let leftcolT_height = parseInt($('#leftcolT').height());	// 우측 상단
-			let rightcolM_height = parseInt($('#rightcolM').height());	// 우측 중단
-			let leftcolB_height = parseInt($('#leftcolB').height());	// 우측 하단
-
-			let leftcolT_min_height = 100;	// 우측 상단 최소높이
-			let rightcolM_min_height = 34;	// 우측 중단 최소높이
-			let leftcolB_min_height = 34;	// 우측 하단 최소높이
-
-			let dragbarV_height = 4;
-
-			let cols = [];
-
-			cols = [
-				leftcolT_height,
-				dragbarWidth,
-				page_height - leftcolT_height - leftcolB_min_height - dragbarWidth*2,
-				dragbarWidth,
-				leftcolB_min_height
-			];
-			
-			/* if(leftcolB_height == leftcolB_min_height) { // 원위치
-				cols = [
-					leftcolT_height,
-					dragbarWidth,
-					rightcolM_min_height,
-					dragbarWidth,
-					page_height - leftcolT_height - rightcolM_min_height - dragbarWidth*2
-				];
-			} else { // 최소화
-				cols = [
-					leftcolT_height,
-					dragbarWidth,
-					page_height - leftcolT_height - leftcolB_min_height - dragbarWidth*2,
-					dragbarWidth,
-					leftcolB_min_height
-				];
+			/* if($('#barcodeNo').val().length != 21) {
+				toastr.warning('잘못된 바코드 입니다. 확인해주세요.');
+				$('#barcodeNo').focus()
+				$('#barcodeNo').select();
+				check=false;
+				return false;
 			} */
 			
-			
-			let newColDefn = cols.map(c => c.toString() + "px").join(" ");
-			
-			$('#page').css('grid-template-rows',newColDefn);
-		}
-		
-		dataTableDrawAll(); // dataTable 전체 reload */
-	}
-	
-	$('#btnOpen').on('click',function() { // right-box 열기버튼 클릭
-		if($('#rightcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '1.6fr 4px 1fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '0fr 4px 1fr');
-			$('#leftcol').addClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		}
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-	$('#btnClose').on('click',function() { // right-box 닫기버튼 클릭
-		if($('#leftcol').hasClass('d-none')){
-			$('#page').css('grid-template-columns', '1.6fr 4px 1fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').removeClass('d-none');
-		} else {
-			$('#page').css('grid-template-columns', '1.6fr 4px 0fr');
-			$('#leftcol').removeClass('d-none');
-			$('#rightcol').addClass('d-none');
-		}
-		dataTableDrawAll(); // dataTable 전체 reload
-	});
-</script>
+			$('#barcodeDtlTable tbody tr').each(function(index, item) {
+				if($(this).find('td input[name=barcodeNo]').val()==$('#barcodeNo').val()){
+					toastr.warning("이미 추가된 바코드입니다. 확인해주세요.");
+					$('#barcodeNo').focus();
+					$('#barcodeNo').select();
+					check2 = false;
+					return false;
+				}
 
-<script>
-	WM_init('MOVE');
-
-	let monthAdjustList = getCommonCode('시스템', '026'); //날짜조정
-	monthAdjustList = _.sortBy(monthAdjustList, v=>parseInt(v.commonCd));
-	selectBoxAppend(monthAdjustList, 'monthAdjust', '', '2'); //날짜조정
-	
-	// 공통코드 조회
-	let dealGubunList = getCommonCode('시스템', '011'); // 거래구분
-	let dealStatusList = getCommonCode('시스템', '015'); // 거래상태
-	let locationModalItemGubunList = getCommonCode('일반', '022'); // 품목구분
-	selectBoxAppend(dealGubunList, 'modalDealGubun', '', '1'); //거래구분
-	selectBoxAppend(dealStatusList, 'modalDealCorpStatus', '', '1'); //거래상태
-	selectBoxAppend(locationModalItemGubunList, 'locationModalItemGubun', '', '1');
-	
-	let selectPeriod = parseInt(getCommonCode('시스템', '040')[0].commonCd); //기본조회기간 일
-	$('#startDate').val(moment().subtract('d',selectPeriod).format('YYYY-MM-DD'));
-	$('#endDate').val(moment().format('YYYY-MM-DD'));
-	
-	//변수모음
-	let sessionUserNm = "${userNm}";//세션에서 가져온 유저이름
-	let sessionUserIdx = "${userIdx}";//세션에서 가져온 유저식별자
-
-	$(document).ready(function(){
-		stockPaymentMoveTable.columns.adjust();
-	});
-	
-	let locationList = new Array();	//창고 리스트
-
-	//창고리스트 생성
-	$.ajax({
-		url: '<c:url value="/bm/possibleInLocationList"/>',
-        type: 'POST',
-        async: false,
-        data: {},
-		success : function(res) {
-			let data = res.data;
-			data.forEach((item) => {
-				var locationData = new Object();
-				locationData.id = item.idx;
-				locationData.text = item.lcNm;
-				locationData.gubun = item.itemGubun;
-				locationList.push(locationData);
 			});
-		}
+
+	    	var check2 = true;  	
+			$('#barcodeDtlTable tbody tr').each(function(index, item) {
+				if($(this).find('td input[name=barcodeNo]').val()==$('#barcodeNo').val()){
+					$('#barcodeNo').focus();
+					$('#barcodeNo').select();
+					toastr.warning("이미 추가된 바코드입니다. 확인해주세요.");
+					check2 = false;
+					return false;
+				}
+			});
+			
+	        if(check2 == true){
+			 	$.ajax({
+	            	url: '/io/inOutWhsAdmRead',
+	                type: 'GET',
+	                data: {
+	                	'menuAuth'	 	: 	menuAuth,
+	                	'barcodeNo'  	:  	$('#barcodeNo').val(),
+	                },
+	                success: function (res) {
+	                    let data = res.data;
+	                    if (res.result == 'ok') {
+		                    barcodeNo = data.barcodeNo;
+		                    partCd = data.partCd;
+		                    partNm = data.partNm;
+		                    partRev = data.partRev;
+		                    partSpec = data.partSpec;
+		                    partUnit = data.partUnit;
+		                    inWhsQty = data.inspectYn=='001'?Math.floor(data.pairCnt):Math.floor(data.preInWhsQty);
+		                    areaCd = data.areaCd==null?"-":data.areaCd;
+	                    	$('#barcodeDtlTable').DataTable().row.add({}).draw(false);
+	                    	$('#btnLocationCd').attr('disabled', true);
+							$('#btnCalendar').attr('disabled', true);
+							$('#btnAllClear').attr('disabled', false);
+							$('#btnLineClear').attr('disabled', false);
+							$('#btnSave').attr('disabled', false);
+							$('#barcodeNo').select();
+							$('#btnSave').removeClass('d-none');
+							count += 1;
+							$('#count').text(count);
+	                        toastr.success("추가되었습니다.");
+	                    } else{
+	                    	if(res.result == 'empty') {
+		                    	toastr.warning("등록되지 않은 바코드입니다. 확인해주세요.");
+		                    } else if(res.result == 'notApproval') {
+		                    	toastr.warning("승인된 바코드가 아닙니다. 확인해주세요.");
+		                    } else if(res.result == 'notInspect') {
+		                    	toastr.warning("수입검사된 바코드가 아닙니다. 확인해주세요.");
+		                    } else if(res.result == 'notRemain') {
+		                    	toastr.warning("남은수량이 없습니다. 확인해주세요.");
+		                    } else if(res.result == 'error') {
+		                    	toastr.warning(res.message, '', {timeOut: 5000});
+		                    }    
+
+	                    	$('#barcodeNo').select();
+		                }
+	                    
+		             },
+		             complete:function(){
+		                    //$('#btnAddConfirmLoading').addClass('d-none');
+		             }
+		        });
+	        }
+	    }
 	});
 
-	//모든 체크박스 선택
-	$(document).on('change','#stockAllCheckBox', function(){
-		if($('#stockAllCheckBox').prop("checked")){
-			$('input:checkbox[name=stockApplyCheck]').prop("checked",true);
-		}else{
-			$('input:checkbox[name=stockApplyCheck]').prop("checked",false);
-		}
-	});
-	// 모든 체크박스 체크/해제 되도록
-	$(document).on('change','input:checkbox[name=stockApplyCheck]', function(){
-		if( $('input:checkbox[name=stockApplyCheck]').length == $('input:checkbox[name=stockApplyCheck]:checked').length ){ //전체 체크박스 수와 체크된 박스의 수가 같을 때 -> 전체체크박스 체크 , 아닐 경우 해제
-			$('#stockAllCheckBox').prop("checked",true);
-		} else{
-			$('#stockAllCheckBox').prop("checked",false);
-		}
- 	});
 
-	//모든 체크박스 선택
-	$(document).on('change','#itemPurchaseInAllCheckBox', function(){
-		if($('#itemPurchaseInAllCheckBox').prop("checked")){
-			$('input:checkbox[name=stockMoveApplyCheck]').prop("checked",true);
-		}else{
-			$('input:checkbox[name=stockMoveApplyCheck]').prop("checked",false);
-		}
-	});
-	// 모든 체크박스 체크/해제 되도록
-	$(document).on('change','input:checkbox[name=stockMoveApplyCheck]', function(){
-		if( $('input:checkbox[name=stockMoveApplyCheck]').length == $('input:checkbox[name=stockMoveApplyCheck]:checked').length ){ //전체 체크박스 수와 체크된 박스의 수가 같을 때 -> 전체체크박스 체크 , 아닐 경우 해제
-			$('#itemPurchaseInAllCheckBox').prop("checked",true);
-		} else{
-			$('#itemPurchaseInAllCheckBox').prop("checked",false);
-		}
- 	});
+	// 저장 처리
+	$('#btnSave').on('click',function() {
+		var dataArray = new Array();
+		var check=true;
 
-	$('#btnCancel').on('click',function(){
-		$('input:checkbox[name=stockApplyCheck]').prop("checked",false);
-		$('#stockAllCheckBox').prop("checked",false);
-	});
-
-	$('#btnMoveCancel').on('click',function(){
-		$('input:checkbox[name=stockMoveApplyCheck]').prop("checked",false);
-		$('#itemPurchaseInAllCheckBox').prop("checked",false);
-	});
-
-	$('#btnMoveDel').on('click',function(){
-		if( $('input:checkbox[name=stockMoveApplyCheck]:checked').length == 0){
-			toastr.warning('삭제할 항목을 체크해주세요.');
+		if(!$.trim($('#locationNo').val())){
+			toastr.warning('창고 바코드를 스캔해주세요.');
+			$('#locationNo').focus();
 			return false;
 		}
-		stockPaymentMoveTable.rows($('input:checkbox[name=stockMoveApplyCheck]:checked').parent().parent()).remove().draw(false);
-		if( $('input:checkbox[name=stockMoveApplyCheck]').length == $('input:checkbox[name=stockMoveApplyCheck]:checked').length ){ //전체 체크박스 수와 체크된 박스의 수가 같을 때 -> 전체체크박스 체크 , 아닐 경우 해제
-			$('#itemPurchaseInAllCheckBox').prop("checked",true);
-		} else{
-			$('#itemPurchaseInAllCheckBox').prop("checked",false);
-		}
-		if(stockPaymentMoveTable.data().length == 0){
-			$('#btnMoveSave').attr('disabled',true);
-			$('#btnMoveDel').attr('disabled',true);
-			$('#btnMoveCancel').attr('disabled',true);
-			$('#itemPurchaseInAllCheckBox').prop("checked",false);
-		}
-	});
-	
-	// 입고 목록조회
-	$('#stockPaymentAdmTable thead tr').clone(true).addClass('filters').appendTo('#stockPaymentAdmTable thead'); // filter 생성
-	let stockPaymentAdmTable = $('#stockPaymentAdmTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>",
-				//+ "<'row pt-1'<'d-flex align-items-center d-flex'><'me-lg-auto'><'d-flex align-items-center justify-content-end'>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-        	url : '<c:url value="/stock/stockPaymentAdmStatusLst"/>',
-			type : 'POST',
-			data : {
-				startDate		: function() { return '19000101'; },
-				endDate			: function() { return '99991231'; },
-				lcIdx			: function() { return $('#searchLcIdx').val(); },
-				itemIdx			: function() { return $('#searchItemIdx').val(); },
-				itemGubun		: function() { return $('#searchItemGubun').val(); },
-				dealCorpIdx		: function() { return $('#searchDealCorpIdx').val(); },
-				searchTarget	: function() { return 'Y'; },
-				notStockSearch	: function() { return 'Y'; },
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ className : 'text-center align-middle', //체크박스
-				render : function(data, type, row, meta) {
-					let html = '';
-					html += '<input type="checkbox" name="stockApplyCheck" style="width: 25px; height: 25px;">';
-					return html; 
-				}
-			},
-			{ data: 'spGubun', className : 'text-center align-middle', //구분
-				render : function(data, type, row, meta) {
-					if(data == '001'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">제품</div>';
-					} else if(data == '002'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">자재</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'spCd', className : 'text-center align-middle', //명칭
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'lcNm', className : 'text-center align-middle', //출고창고
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'spGubun', className : 'text-end align-middle',//현재고
-				render : function(data, type, row, meta) {
-					let prev = parseInt(row['prev']==null?'0':row['prev']);
-					let input = parseInt(row['input']==null?'0':row['input']);
-					let output = parseInt(row['output']==null?'0':row['output']);
-					let inputM = parseInt(row['inputM']==null?'0':row['inputM']);
-					let outputM = parseInt(row['outputM']==null?'0':row['outputM']);
-
-					let result = prev + input + inputM - output - outputM;
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(result))+'</div>';
-				}
-			},
-			{ data: 'spGubun', className : 'text-end align-middle',//현재고 R
-				render : function(data, type, row, meta) {
-					let prev = parseInt(row['prev']==null?'0':row['prev']);
-					let input = parseInt(row['input']==null?'0':row['input']);
-					let output = parseInt(row['output']==null?'0':row['output']);
-					let inputM = parseInt(row['inputM']==null?'0':row['inputM']);
-					let outputM = parseInt(row['outputM']==null?'0':row['outputM']);
-
-					let result = prev + input + inputM - output - outputM;
-					result = parseInt(result/500) + 'R' + parseInt(result%500);
-					if(row['spGubun'] == '001'){
-						result = '-';
-					} 
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+result+'</div>';
-				}
-			},
-		],
-		columnDefs : [
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-			{ "targets": [0], "orderable": false },
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			try{
-				stockPaymentAdmTable.columns.adjust();
-			}
-			catch{
-			
-			}
-			let htmlHeight = parseFloat($('#leftcolT').css('height'));
-			let headHeight = parseFloat($('#leftTopHeader').css('height'));
-			let theadHeight = parseFloat($('#stockPaymentAdmTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - headHeight - 77)+'px');
-			 
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllSpa').off('keyup',function() {});
-			$('#searchAllSpa').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-
-			
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#stockPaymentAdmTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				if(colIdx > 0){
-					$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-					$(cell).css('padding','2px');
-				} else {
-					$(cell).html('');
-					$(cell).css('padding','2px');
-				}
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#stockPaymentAdmTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-			stockPaymentAdmTable.columns.adjust();
-		},
-	});
-	// dataTable colReorder event
-	stockPaymentAdmTable.on('column-reorder', function( e, settings, details ) {
-		let api = stockPaymentAdmTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#stockPaymentAdmTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-
-	//이동테이블
-	$('#stockPaymentMoveTable thead tr').clone(true).addClass('filters').appendTo('#stockPaymentMoveTable thead'); // filter 생성
-	let stockPaymentMoveTable = $('#stockPaymentMoveTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>",
-				//+ "<'row pt-1'<'d-flex align-items-center d-flex'><'me-lg-auto'><'d-flex align-items-center justify-content-end'>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        /* ajax : {
-        	url : '<c:url value="/stock/stockPaymentAdmStatusLst"/>',
-			type : 'POST',
-			data : {
-				startDate		: function() { return '19000101'; },
-				endDate			: function() { return '99991231'; },
-				lcIdx			: function() { return $('#searchLcIdx').val(); },
-				itemIdx			: function() { return $('#searchItemIdx').val(); },
-				itemGubun		: function() { return $('#searchItemGubun').val(); },
-				dealCorpIdx		: function() { return $('#searchDealCorpIdx').val(); },
-				searchTarget	: function() { return 'Y'; },
-				notStockSearch	: function() { return 'Y'; },
-			},
-		}, */
-        rowId: 'idx',
-		columns : [
-			{ className : 'text-center align-middle', //체크박스
-				render : function(data, type, row, meta) {
-					let html = '';
-					html += '<input type="checkbox" name="stockMoveApplyCheck" style="width: 25px; height: 25px;">';
-					return html; 
-				}
-			},
-			{ data: 'spGubun', className : 'text-center align-middle', //구분
-				render : function(data, type, row, meta) {
-					if(data == '001'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">제품</div>';
-					} else if(data == '003'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">자재</div>';
-					} else {
-						return '-';
-					}
-				}
-			},
-			{ data: 'spCd', className : 'text-center align-middle', //명칭
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'lcNm', className : 'text-center align-middle', //출고창고
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'spWhsIdx', className : 'text-center align-middle',name:'spWhsIdx', //입고창고
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						let filterList;
-						filterList = _.filter(locationList, v=> v.gubun == row['spGubun']);
-						let html = '';
-						if(filterList != undefined){
-							html += '<select class="form-select" name="inLocation">';
-							filterList.forEach(function(item) {
-								if(item.id == data){
-									html += '<option value="'+item.id+'" selected>'+item.text+'</option>';
-								} else {
-									html += '<option value="'+item.id+'">'+item.text+'</option>';
-								}
-							});
-							html += '</select>';
-						}
-						return html;
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'moveDate', className : 'text-end align-middle',name:'moveDate',//이동일자
-				render : function(data, type, row, meta) {
-					return '<input type="date" class="form-control" name="moveDate" value="'+moment(data).format('YYYY-MM-DD')+'">';
-				}
-			},
-			{ data: 'spGubun', className : 'text-end align-middle',name:'moveQty',//이동량
-				render : function(data, type, row, meta) {
-					return '<input type="text" class="form-control text-end" name="moveQty" value="0" onkeyup="numberFormat(this,\'int\')">';
-				}
-			},
-			{ data: 'spGubun', className : 'text-end align-middle',name:'moveQtyR',//이동량 R
-				render : function(data, type, row, meta) {
-					let result = '0R0';
-					if(row['spGubun'] == '001'){
-						result = '-';
-					} 
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+result+'</div>';
-				}
-			},
-		],
-		columnDefs : [
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-			{ "targets": [0], "orderable": false },
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('#leftcolB').css('height'));
-			let headHeight = parseFloat($('#rightBottomHeader').css('height'));
-			let theadHeight = parseFloat($('#stockPaymentMoveTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - headHeight - 78)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllSpm').off('keyup',function() {});
-			$('#searchAllSpm').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-
-		
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#stockPaymentMoveTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				if(colIdx > 0){
-					$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-					$(cell).css('padding','2px');
-				} else {
-					$(cell).html('');
-					$(cell).css('padding','2px');
-				}
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#stockPaymentMoveTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	stockPaymentMoveTable.on('column-reorder', function( e, settings, details ) {
-		let api = stockPaymentMoveTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#stockPaymentMoveTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-
-	// 이동 내역 목록
-	$('#moveHistoryTable thead tr').clone(true).addClass('filters').appendTo('#moveHistoryTable thead'); // filter 생성
-	let moveHistoryTable = $('#moveHistoryTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>",
-				//+ "<'row pt-1'<'d-flex align-items-center d-flex'><'me-lg-auto'><'d-flex align-items-center justify-content-end'>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-        	url : '<c:url value="/stock/stockPaymentMoveLst"/>',
-			type : 'POST',
-			data : {
-				startDate		: function() { return $('#startDate').val().replaceAll('-',''); },
-				endDate			: function() { return $('#endDate').val().replaceAll('-',''); },
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'spGubun', className : 'text-center align-middle', //구분
-				render : function(data, type, row, meta) {
-					if(data == '001'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">제품</div>';
-					} else if(data == '002'){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">자재</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'spCd', className : 'text-center align-middle', //명칭
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'spDate', className : 'text-center align-middle', //이동일자
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+moment(data).format('YYYY-MM-DD')+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'outLcNm', className : 'text-center align-middle', //출고창고
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'inLcNm', className : 'text-center align-middle', //입고창고
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'spQty', className : 'text-end align-middle',//이동량
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+addCommas(parseInt(data))+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-			{ data: 'spQty', className : 'text-end align-middle',//이동량 R
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						let result;
-						result = parseInt(data/500) + 'R' + parseInt(data%500);
-						if(row['spGubun'] == '001'){
-							result = '-';
-						} 
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+result+'</div>';
-					} else {
-						return '';
-					}
-				}
-			},
-		],
-		columnDefs : [
-			//{
-			//	targets: [0],
-			//	render: function(data) {
-			//		return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-			//	}
-			//}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('#rightcol').css('height'));
-			let headHeight = parseFloat($('#leftHeader').css('height'));
-			let theadHeight = parseFloat($('#moveHistoryTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - headHeight - theadHeight - 10)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllMht').off('keyup',function() {});
-			$('#searchAllMht').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-
-		
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#moveHistoryTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-				
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#moveHistoryTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-			moveHistoryTable.columns.adjust();
-		},
-	});
-	// dataTable colReorder event
-	moveHistoryTable.on('column-reorder', function( e, settings, details ) {
-		let api = moveHistoryTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#moveHistoryTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-
-	$('#btnMoveSearch').on('click',function(){
-		moveHistoryTable.ajax.reload();
-	});
-	
-	$('#btnSearch').on('click',function(){
-		stockPaymentMoveTable.clear().draw();
-		$('#itemPurchaseInAllCheckBox').prop("checked",false);
-		stockPaymentAdmTable.ajax.reload();
-		$('#stockAllCheckBox').prop("checked",false);
-		moveHistoryTable.ajax.reload();
-		$('#btnMoveSave').attr('disabled',true);
-		$('#btnMoveDel').attr('disabled',true);
-		$('#btnMoveCancel').attr('disabled',true);
-	});
-
-	//해당 품목 적용
-	$('#btnCopy').on('click',function(){
-		if( $('input:checkbox[name=stockApplyCheck]:checked').length == 0){
-			toastr.warning('적용할 항목을 체크해주세요.');
-			return false;
-		}
-		let array = [];
-		$('input:checkbox[name=stockApplyCheck]:checked').each(function(index, item){
-			let td = $(item).parent().parent().find('td');
-			let node = stockPaymentAdmTable.row($(item).parent().parent()).node();
-			let data = stockPaymentAdmTable.row($(item).parent().parent()).data();
-
-			let obj = new Object();
-			if(data.spGubun == '002'){//자재인경우
-				obj.spGubun = '003'; //품목구분의 자재코드값
-			} else {
-				obj.spGubun = data.spGubun;
-			}
-			obj.spIdx = data.spIdx;
-			obj.versionIdx = data.versionIdx;
-			obj.spCd = data.spCd;
-			obj.outSpWhsIdx = data.spWhsIdx;
-			obj.spWhsIdx = data.spWhsIdx;
-			obj.lcNm = data.lcNm;
-			obj.moveDate = moment().format('YYYY-MM-DD');
-			array.push(obj);
-		 });
-		//stockPaymentMoveTable.clear().draw();
-
-		let status = true;
-		let possibleLocationList = _.unionBy(locationList.map(v=>v.gubun)).filter( x => _.unionBy(array.map(v=>v.spGubun)).includes(x));
-		//해당 품목의 입고가능 창고가 있는지 체크
-		if( possibleLocationList.length == 0 ){
-				status = false;
-		}
-		
-		if(status){
-			stockPaymentMoveTable.rows.add(array).draw(false).columns.adjust();
-			toastr.success('추가되었습니다.');
-			$('#itemPurchaseInAllCheckBox').prop("checked",false);
-			WM_action_ON('MOVE', 'workingWarningModal');
-			$('#btnMoveSave').attr('disabled',false);
-			$('#btnMoveDel').attr('disabled',false);
-			$('#btnMoveCancel').attr('disabled',false);
-		} else {
-			toastr.warning('입고 창고가 존재하지 않습니다.<br>확인 후 시도해주세요.');
-		}
-	});
-
-	//저장처리
-	$('#btnMoveSave').on('click',function(){
-		let array = [];
-		let state = true;
+		//처리중..
 		$('#my-spinner').show();
-		$('#stockPaymentMoveTable tbody').find('tr').each(function(index, item) {
-			let td = $(item).find('td');
-			let data = stockPaymentMoveTable.row($(item)).data();
-			let node = stockPaymentMoveTable.row($(item)).node();
-
-			//입고창고
-			let spWhsIdxCol = stockPaymentMoveTable.column('spWhsIdx:name').index();
-			let spWhsIdx = $(td).eq(spWhsIdxCol).find('select[name=inLocation]').val();
-
-			//이동일자
-			let moveDateCol = stockPaymentMoveTable.column('moveDate:name').index();
-			let moveDate = $(td).eq(moveDateCol).find('input[name=moveDate]').val();
+		
+		$('#barcodeDtlTable tbody tr').each(function(index, item){
+			var rowData = new Object();
+			rowData.inWhsDate= $('#inWhsDate').val().replace(/-/g,'');
 			
-			//이동량
-			let moveQtyCol = stockPaymentMoveTable.column('moveQty:name').index();
-			let moveQty = removeCommas($(td).eq(moveQtyCol).find('input[name=moveQty]').val());
-
+			rowData.barcodeNo= $(this).find('td input[name=barcodeNo]').val();	
+			rowData.inWhsQty= $(this).find('td input[name=inWhsQty]').val().replace(/,/g,'');	
 			
-			if(spWhsIdx == '' || spWhsIdx == null){
-				$(td).eq(spWhsIdxCol).find('select[name=inLocation]').focus();
-				toastr.warning('입고창고를 선택해주세요.');
-				state = false;
-				return false;
-			}
-
-			if(moveDate == '' || moveDate == null){
-				$(td).eq(moveDateCol).find('input[name=moveDate]').focus();
-				toastr.warning('이동일자를 선택해주세요.');
-				state = false;
-				return false;
-			}
-
-			if(moveQty == '0' || moveQty == ''){
-				$(td).eq(moveQtyCol).find('input[name=moveQty]').focus();
-				toastr.warning('이동량을 입력해주세요.');
-				state = false;
-				return false;
-			}
+			rowData.partCd= $(this).find('td input[name=partCd]').val();	
+			rowData.partRev= $(this).find('td input[name=partRev]').val();	
 			
-			let obj = new Object();
-			obj.SP_IDX = data.spIdx;
-			obj.VERSION_IDX = data.versionIdx;
-			if(data.spGubun == '003'){//자재인경우
-				obj.SP_GUBUN = '002'; //수불의 자재값
-			} else {
-				obj.SP_GUBUN = data.spGubun;
-			}	
-			obj.OUT_SP_WHS_IDX = data.outSpWhsIdx;
-			obj.IN_SP_WHS_IDX = spWhsIdx;
-			obj.SP_QTY = moveQty;
-			obj.SP_DATE = moveDate.replaceAll('-','');
-			array.push(obj);
+			rowData.locationNo = $('#locationNo').val();
+			rowData.locationCd = $('#locationCd').val();
+			rowData.areaCd = $('#areaCd').val();
+			rowData.floorNm = $('#floorNm').val();
+			//rowData.floorCd = $('#floorCd option:selected').val();
+	        dataArray.push(rowData);
 		});
-
-		if(state){
+		
+		if(check == true){
 			$.ajax({
-				url: '<c:url value="/stock/stockMoveIns"/>',
-	            type: 'POST',
-	            data: {
-	            	'insertJson'	:	JSON.stringify(array)
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						toastr.success('등록되었습니다.');
+				url : '<c:url value="io/inOutWhsAdmCreate"/>',
+				type : 'POST',
+				datatype: 'json',
+				data: JSON.stringify(dataArray),
+				contentType : "application/json; charset=UTF-8",
+				beforeSend : function() {
+					// $('#btnAddConfirm').addClass('d-none');
+				},
+				success : function(res) {				
+					if (res.result == 'ok') {
+						$('#btnAllClear').attr('disabled', true);
+	                	$('#btnLineClear').attr('disabled', true);
+	                	$('#btnSave').attr('disabled', true);                    
+	                    $('#barcodeNo').attr('disabled', true);
+						$('#btnCancel').addClass('d-none');
+						$('#btnNew').removeClass('d-none');
 						
-						WM_action_OFF('MOVE');
-						moveHistoryTable.ajax.reload();
-						stockPaymentMoveTable.clear().draw();
-						$('#itemPurchaseInAllCheckBox').prop("checked",false);
-						stockPaymentAdmTable.ajax.reload();
-						$('#stockAllCheckBox').prop("checked",false);
-
-						$('#btnMoveSave').attr('disabled',true);
-						$('#btnMoveDel').attr('disabled',true);
-						$('#btnMoveCancel').attr('disabled',true);
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
+						/* $('#locationCd').val("");
+						$('#locationNm').val("");
+						$('#areaCd').val("");
+						$('#areaNm').val("");
+						$('#floorCd').val("");
+						$('#floorNm').val("");
+						$('#locationNo').val(""); */
+						//$('#barcodeNo').val("");
+						//$('#barcodeNo').focus();
+						
+						//$('#barcodeDtlTable').DataTable().clear().draw();
+						
+						toastr.success('자재입고 저장되었습니다.');
+					}else {
 						toastr.error(res.message);
 					}
+				},
+				complete : function() {
+					//처리완료..
 					$('#my-spinner').hide();
 				}
 			});
-		} else {
-			$('#my-spinner').hide();
 		}
-		
+	});
+
+	var barcodeNoList;
+	function createBarcodeNo() {
+		barcodeNoList = new Array();
+		var idx = 0;
+		$('#barcodeDtlTable tbody tr').each(function(){
+		 	var barcodeNo= $(this).find('td').eq(1).html();
+		 	var equipCd = $("#equipCd").val();
+			var goodsCd = $("#goodsCd").val();
+		 	var inWhsDate = $("#inWhsDate").val().replace(/-/g, '');
+		 	var rowData = new Object();
+		 	rowData.menuAuth = menuAuth;
+			rowData.barcodeNo = barcodeNo;
+			rowData.preOutGoodsCd = goodsCd;
+			rowData.preOutEquipCd = equipCd;
+			rowData.preOutWhsDate = inWhsDate;
+			rowData.preOutQty = preOutQty;
+			barcodeNoList.push(rowData);
+		});
+		console.log(barcodeNoList);
+		return idx;
+	}
+	
+	//전체 삭제
+	$('#btnAllClear').on('click', function() {
+		$('#barcodeDtlTable').DataTable().clear().draw();
+		$('#btnAllClear').attr('disabled', true);
+		$('#btnLineClear').attr('disabled', true);
+		$('#btnSave').attr('disabled', true);
+		$('#barcodeNo').val('');
+		$('#barcodeNo').focus();
+		count = 0;
+		$('#count').text(count);
+	});
+
+	//라인 삭제
+	$('#btnLineClear').on('click', function() {
+		if ( lineCheck == true) {
+	    	$('#barcodeDtlTable').DataTable().rows('.selected').remove().draw();
+	    	$("#barcodeNo").val("");
+	    	$("#barcodeNo").focus();
+	    	var rowCnt = $('#barcodeDtlTable').DataTable().data().count(); 
+	    	if(rowCnt == 0) {
+	    		$('#btnSave').attr('disabled', true);
+	    		$('#btnAllClear').attr('disabled', true);
+	    		$('#btnLineClear').attr('disabled', true);
+	    	}
+    		count -= 1;
+    		$('#count').text(count);
+		} else {
+	    	toastr.warning('삭제할 라인을 선택하세요.');
+		}
 	});
 	
-	/********************************** 이밑으로는 모달들임 **********************************/
-
-	// ---------------------------------------------------------------- 창고목록조회 -------------------------------------------------------------
-	// 창고조회버튼 click
-	$('#btnSearchLc').on('click', function() {
-		$('#locationModal').data('type','Search');
-		$('#locationModal').modal('show');
+	//취소 버튼
+	$('#btnCancel').on('click', function() {
+		$('#btnCalendar').attr('disabled', false);
+		$('#btnLocationCd').attr('disabled', false);
+		$('#btnSave').attr('disabled', true);
+		$('#btnAllClear').attr('disabled', true);
+		$('#btnLineClear').attr('disabled', true);
+		$('#barcodeDtlTable').DataTable().clear().draw();
+		$('#locationNo').val('');
+		$('#locationCd').val('');
+		$('#locationNm').val('');
+		$('#areaCd').val('');
+		$('#areaNm').val('');
+		$('#floorNm').val('');
+		$('#floorCd').val('');
+		$('#barcodeNo').val('');
+		$('#btnSelEquipCode').focus();
+		$('#inWhsDate').val(serverDate);
+		count = 0;
+		$('#count').text(count);
 	});
-	$('#locationModal').on('shown.bs.modal', function() {
-		locationModalTable.ajax.reload(function() {});
-	});
 
-	// 창고조회 x 버튼 click
-	$('#btnSearchLcDel').on('click', function() {
-		$('#searchLcNm').val('');
-		$('#searchLcIdx').val('');
-	});
+	//저장 완료 후 새로등록
+	$('#btnNew').on('click', function() {
+		$('#btnCalendar').attr('disabled', false);
+		$('#barcodeNo').attr('disabled', false);
+		$('#btnLocationCd').attr('disabled', false);
+		$('#barcodeDtlTable').DataTable().clear().draw();
+		$('#inWhsDate').val(serverDate);
+		$('#btnNew').addClass('d-none');
+		$('#btnCancel').removeClass('d-none');
 
-	// 창고관리 목록조회
-	$('#locationModalTable thead tr').clone(true).addClass('filters').appendTo('#locationModalTable thead'); // filter 생성
-	let locationModalTable = $('#locationModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: false,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/locationAdmList"/>',
+		$('#locationCd').val("");
+		$('#locationNm').val("");
+		$('#areaCd').val("");
+		$('#areaNm').val("");
+		$('#floorCd').val("");
+		$('#floorNm').val("");
+		$('#locationNo').val("");
+		$('#barcodeNo').val("");
+		$('#barcodeNo').focus();
+		
+		count = 0;
+		$('#count').text(count);
+	});
+	
+	//창고정보조회 팝업 시작
+	var locationPopupTable;
+	function selectLocationCd() {
+		if (locationPopupTable == null || locationPopupTable == undefined) {
+			locationPopupTable = $('#locationPopupTable').DataTable({
+				language : lang_kor,
+				lengthChange : false,
+				paging : true,
+				searching:false,
+				info : true,
+				ordering : true,
+				processing : true,
+				autoWidth : false,
+				pageLength : 13,
+				ajax : {
+					url : 'bm/baseInfoWhList',
+					type : 'GET',
+					data : {
+						'baseInfoCd' : function(){return baseInfoCd;},
+						'etc3' : function(){return etc3;}
+					}
+				},
+				columns : [ {
+					data : 'baseInfoNm'
+				}, {
+					data : 'areaNm'
+				}, {
+					data : 'etc2'
+				}, {
+					data : 'baseInfoDesc'
+				}, {
+					data : 'useYnNm'
+				},  ],
+				columnDefs : [ {
+					"targets" : '_all',"className" : "text-center"
+				} ],
+				order : [ [ 0, 'asc' ] ],
+			});
+			$('#locationPopupTable tbody').on('click', 'tr', function() {
+				var data = locationPopupTable.row(this).data();
+
+				//창고정보
+				$('#locationNm').val(data.baseInfoNm);
+				$('#locationCd').val(data.baseInfoCd);
+				//구역정보
+				$('#areaNm').val(data.areaNm);
+				$('#areaCd').val(data.areaCd);
+				//위치정보
+				$('#floorCd').val(data.etc2);
+				$('#barcodeNo').focus();
+				$('#locationPopupModal').modal('hide');
+			});
+		} else {
+			$('#locationPopupTable').DataTable().ajax.reload(function() {});
+		}
+
+		$('#locationPopupModal').modal('show');
+		selectBoxAppend(locationCdCode , "locationCd",'', "2");
+	}
+
+	// 구역목록
+	function changeAreaCd(){
+		$.ajax({
+			url : '<c:url value="io/getAreaCd" />',
 			type : 'GET',
 			data : {
-				itemGubun	:	function() { return $('#locationModalItemGubun').val();}
+				'locationCd' : $('#selectLocationCd option:selected').val()
 			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'lcCd', className : 'text-center align-middle'},
-			{ data: 'lcNm', className : 'text-center align-middle'},
-			{ data: 'lcTypeOutput', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data == 'Y') {
-						return '<i class="fa-solid fa-check mt-1 text-success"></i>';
-					} else {
-						return '<i class="fa-solid fa-x mt-1 text-danger"></i>';
-					}
+			success : function(res){
+				if(res.result == "ok"){
+				 	var areaCdCode = new Array(); 
+				 	for(var i=0; i<res.data.length; i++){
+				 		var json = new Object();
+						json.baseCd = res.data[i].areaCd;
+						json.baseNm = res.data[i].areaNm;
+						areaCdCode.push(json);
+					 }
 				}
-			},
-			{ data: 'lcTypeInput', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data == 'Y') {
-						return '<i class="fa-solid fa-check mt-1 text-success"></i>';
-					} else {
-						return '<i class="fa-solid fa-x mt-1 text-danger"></i>';
-					}
-				}
-			},
-			{ data: 'lcTypeReturn', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data == 'Y') {
-						return '<i class="fa-solid fa-check mt-1 text-success"></i>';
-					} else {
-						return '<i class="fa-solid fa-x mt-1 text-danger"></i>';
-					}
-				}
-			},
-			{ data: 'lcTypeQc', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data == 'Y') {
-						return '<i class="fa-solid fa-check mt-1 text-success"></i>';
-					} else {
-						return '<i class="fa-solid fa-x mt-1 text-danger"></i>';
-					}
-				}
-			},
-			{ data: 'lcTypeOutsourcing', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data == 'Y') {
-						return '<i class="fa-solid fa-check mt-1 text-success"></i>';
-					} else {
-						return '<i class="fa-solid fa-x mt-1 text-danger"></i>';
-					}
-				}
-			},
-			{ data: 'itemGubunNm', className : 'text-center align-middle'},
-		],
-		columnDefs : [
-			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
+				selectBoxAppend(areaCdCode , 'selectAreaCd','', '2');
+				baseInfoCd = $('#selectLocationCd option:selected').val();
+				$('#locationPopupTable').DataTable().ajax.reload( function () {});
 			}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			//let middlecolT_height = parseFloat($('#middlecolT').css('height'));
-			let theadHeight = parseFloat($('#locationModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#locationModalTable_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 230)+'px');
-			
-			$('#locationModalTable_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllAdm').off('keyup',function() {});
-			$('#searchAllAdm').on('keyup',function() {
-				$('#locationModalTable_filter').find('input').val($(this).val());
-				$('#locationModalTable_filter').find('input').trigger('keyup');
-			});
-		},
-		initComplete: function () {
-			let api = this.api();
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#locationModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
+		})
+	}
 
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title.replaceAll('*','') + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#locationModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	locationModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = locationModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#locationModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-
-	// 창고 모달 조회 버튼 click
-	$('#btnLocationSearch').on('click', function() {
-		$('#my-spinner').show();
-		locationModalTable.ajax.reload(function() {});
-		
-		setTimeout(function() {
-			$('#my-spinner').hide();
-		}, 100)
-	});
-
-	// 창고 모달 붙여넣기 버튼 click
-	$('#btnLocationModalPaste').on('click', function() {
-		if(!$('#locationModalTable tbody tr').hasClass('selected')){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
-			return false;
-		}
-		let data = locationModalTable.row('.selected').data();
-		let type = $('#locationModal').data('type');
-		if(type == 'Search'){
-			$('#searchLcNm').val(data.lcNm);
-			$('#searchLcIdx').val(data.idx);
-		}	
-		
-		$('#locationModal').modal('hide');
-	});
-
-	$('#locationModalTable tbody').on('dblclick','tr',function(){
-		let data = locationModalTable.row(this).data();
-		let type = $('#locationModal').data('type');
-		if(type == 'Search'){
-			$('#searchLcNm').val(data.lcNm);
-			$('#searchLcIdx').val(data.idx);
-		}	
-		
-		$('#locationModal').modal('hide');
-	});
+	// 위치목록
+	function changeFloorCd(){
+		etc3 = $('#selectAreaCd option:selected').val()
+		$('#locationPopupTable').DataTable().ajax.reload( function () {});
+	}
 	
-	// ---------------------------------------------------------------- 품목목록조회 -------------------------------------------------------------
-	// 품목추가 버튼 click
-	$('#btnSearchItem').on('click', function() {
-		$('#itemNmModal').data('type','Search');
-		$('#itemNmModal').modal('show');
-	});
-	$('#itemNmModal').on('shown.bs.modal', function() {
-		itemNmModalTable.ajax.reload(function() {itemNmModalTable.draw(false);});
-	});
-	
-	$('#btnItemNmSearch').on('click',function(){
-		itemNmModalTable.ajax.reload(function() {itemNmModalTable.draw(false);});
-	});
-
-	$('#btnItemNmModalPaste').on('click',function(){
-		if(!$('#itemNmModalTable tbody tr').hasClass('selected')){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
-			return false;
+  	//모바일 자판 On/Off
+	$('#btnKeyboard').on('click', function() {
+		var inputmode = $('#barcodeNo').attr('inputmode');
+		if ( inputmode == 'none') {
+			$('#btnKeyboard').text("자판 On");
+			$('#barcodeNo').attr('inputmode', 'text');
+		} else if ( inputmode == 'text' ) {
+			$('#btnKeyboard').text("자판 Off");
+			$('#barcodeNo').attr('inputmode', 'none');
 		}
-		let type = $('#itemNmModal').data('type');
-		let data = itemNmModalTable.row('.selected').data();
-		if(type == 'Search'){
-			$('#searchItemNm').val(data.itemNm);
-			$('#searchItemIdx').val(data.idx);
-			$('#searchItemGubun').val(data.itemMatrlGubun);
-		}
-		$('#itemNmModal').modal('hide');
-		
-	});
-
-	$('#btnSearchItemDel').on('click',function(){
-		$('#searchItemNm').val('');
-		$('#searchItemIdx').val('');
-		$('#searchItemGubun').val('');
-	});
-
-	$('#searchItemGubun').on('change',function(){
-		$('#searchItemNm').val('');
-		$('#searchItemIdx').val('');
-	});
-	
-	//제품정보 목록(모달)조회
-	$('#itemNmModalTable thead tr').clone(true).addClass('filters').appendTo('#itemNmModalTable thead'); // filter 생성
-	let itemNmModalTable = $('#itemNmModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: true,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/itemInfoAndMatrlListAll"/>',
-			type : 'POST',
-			data : {
-				itemMatrlGubun : function(){return $('#searchItemGubun').val();},
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'itemMatrlGubun', className : 'text-center align-middle',
-				render : function(data, type, row, meta) {
-					if(data != null && data != ''){
-						let text = '';
-						if(data == 'item'){
-							text = '제품';
-						} else {
-							text = '자재';
-						}
-						return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+text+'</div>';
-					} else {
-						return "-";
-					}
-				}	
-			},	//구분
-			{ data: 'itemNm', className : 'text-center align-middle'}, 		//제품명
-		],
-		columnDefs : [
-			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			let theadHeight = parseFloat($('#itemNmModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#'+table_id+'_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 250)+'px');
-			
-			$('#'+table_id+'_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAll').off('keyup',function() {});
-			$('#searchAll').on('keyup',function() {
-				$('#'+table_id+'_filter').find('input').val($(this).val());
-				$('#'+table_id+'_filter').find('input').trigger('keyup');
-			});
-			
-		},
-		initComplete: function () {
-			let api = this.api();
-			let table_id = $(api.table().node()).attr('id'); // dataTable ID
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#itemNmModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#itemNmModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	itemNmModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = itemNmModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#itemNmModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-
-	$('#itemNmModalTable tbody').on('dblclick','tr',function(){
-		let type = $('#itemNmModal').data('type');
-		let data = itemNmModalTable.row(this).data();
-		if(type == 'Search'){
-			$('#searchItemNm').val(data.itemNm);
-			$('#searchItemIdx').val(data.idx);
-			$('#searchItemGubun').val(data.itemMatrlGubun);
-		}
-		$('#itemNmModal').modal('hide');
-	});
-
-	// ---------------------------------------------------------------- 거래처목록조회 -------------------------------------------------------------
-	// 거래처조회 버튼 click
-	$('#btnSearchDealCorp').on('click', function() {
-		$('#dealCorpModal').data('type','Search');
-		$('#dealCorpModal').modal('show');
-	});
-	$('#dealCorpModal').on('shown.bs.modal', function() {
-		dealCorpModalTable.ajax.reload(function() {});
-	});
-
-	// 거래처조회 x 버튼 click
-	$('#btnSearchDealCorpDel').on('click', function() {
-		$('#searchDealCorpNm').val('');
-		$('#searchDealCorpIdx').val('');
-	});
-
-	// 거래처 목록조회
-	$('#dealCorpModalTable thead tr').clone(true).addClass('filters').appendTo('#dealCorpModalTable thead'); // filter 생성
-	let dealCorpModalTable = $('#dealCorpModalTable').DataTable({
-		dom : "<'row'<'col-md-12 col-md-6'l><'col-md-12 col-md-6'f>>"
-				+ "<'row'<'col-md-12'tr>>"
-				+ "<'row pt-1'<'d-flex align-items-center d-flex'Bp><'me-lg-auto'><'d-flex align-items-center justify-content-end'i>>",
-		language: lang_kor,
-		info: true,
-		ordering: true,
-		processing: false,
-		paging: false,
-		lengthChange: false,
-		searching: true,
-		autoWidth: false,
-		orderCellsTop: true,
-        fixedHeader: false,
-        scrollY: '100vh',
-        scrollX: true,
-		pageLength: 100000000,
-		colReorder: true,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'row',
-            info: false
-        },
-        ajax : {
-			url : '<c:url value="/bm/dealCorpAdmList"/>',
-			type : 'POST',
-			data : {
-				dealGubun : function(){ return $('#modalDealGubun').val();},
-				dealCorpStatus: function() { return $('#modalDealCorpStatus').val(); }
-			},
-		},
-        rowId: 'idx',
-		columns : [
-			{ data: 'dealGubunNm', className : 'text-center'},
-			{ data: 'dealCorpCd', className : 'text-center'},
-			{ data: 'initial', className : 'text-center'},
-			{ data: 'dealCorpNm', className : 'text-center'},
-			{ data: 'representative', className : 'text-center'},
-			{ data: 'companyNumber', className : 'text-center'},
-		],
-		columnDefs : [
-			{
-				targets: '_all',
-				render: function(data) {
-					return '<div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">'+data+'</div>';
-				}
-			}
-		],
-		buttons : [
-			{ extend: 'excel',	text: 'Excel',	charset: 'UTF-8', bom: true ,
-				exportOptions: {
-	                modifier: {
-	                   selected:null
-	                },	                
-	            },
-	        },
-			{ extend: 'pdf',	text: 'PDF',	},
-			{ extend: 'print',	text: 'Print',		charset: 'UTF-8', bom: true },
-			{ extend: 'colvis',	text: 'Select Col',	},
-		],
-		order : [],
-		drawCallback: function() {
-			let api = this.api();
-			
-			let htmlHeight = parseFloat($('html').css('height'));
-			//let middlecolT_height = parseFloat($('#middlecolT').css('height'));
-			let theadHeight = parseFloat($('#dealCorpModalTable_wrapper').find('.dataTables_scrollHead').css('height'));
-			$('#dealCorpModalTable_wrapper').find('.dataTables_scrollBody').css('height',(htmlHeight - theadHeight - 230)+'px');
-			
-			$('#dealCorpModalTable_filter').addClass('d-none');
-			// 통합검색
-			$('#searchAllAdm').off('keyup',function() {});
-			$('#searchAllAdm').on('keyup',function() {
-				$('#dealCorpModalTable_filter').find('input').val($(this).val());
-				$('#dealCorpModalTable_filter').find('input').trigger('keyup');
-			});
-		},
-		initComplete: function () {
-			let api = this.api();
-			
-			// For each column
-			api.columns().eq(0).each(function (colIdx) {
-				// Set the header cell to contain the input element
-				let cell = $('#dealCorpModalTable_wrapper').find('.filters th').eq(
-					$(api.column(colIdx).header()).index()
-				);
-
-				let title = $(cell).text();
-
-				$(cell).html('<input type="text" class="form-control" placeholder="' + title.replaceAll('*','') + '" />');
-				$(cell).css('padding','2px');
-
-				let cursorPosition = '';
-				
-				// On every keypress in this input
-				$('#dealCorpModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-					api.column(colIdx).search(this.value, false, false, true).draw();
-				}).on('keyup', function (e) {
-					e.stopPropagation();
-					$(this).trigger('keyupTrigger');
-				});
-			});
-		},
-	});
-	// dataTable colReorder event
-	dealCorpModalTable.on('column-reorder', function( e, settings, details ) {
-		let api = dealCorpModalTable;
-		api.columns().eq(0).each(function (colIdx) {
-			$('#dealCorpModalTable_wrapper').find('.filters th').eq($(api.column(colIdx).header()).index()).find('input').off('keyup keyupTrigger').on('keyupTrigger', function (e) {
-				api.column(colIdx).search(this.value, false, false, true).draw();
-			}).on('keyup', function (e) {
-				e.stopPropagation();
-				$(this).trigger('keyupTrigger');
-			});
-		});
-	});
-
-	// 거래처 모달 조회 버튼 click
-	$('#btnDealCorpModalSearch').on('click', function() {
-		$('#my-spinner').show();
-		dealCorpModalTable.ajax.reload(function() {});
-		
-		setTimeout(function() {
-			$('#my-spinner').hide();
-		}, 100)
-	});
-
-	// 거래처 모달 붙여넣기 버튼 click
-	$('#btnDealCorpModalPaste').on('click', function() {
-		if(!$('#dealCorpModalTable tbody tr').hasClass('selected')){
-			toastr.warning('붙여넣을 행을 선택해주세요.');
-			return false;
-		}
-		let type = $('#dealCorpModal').data('type');
-		let data = dealCorpModalTable.row('.selected').data();
-		if(type == 'Search'){
-			$('#searchDealCorpNm').val(data.dealCorpNm);
-			$('#searchDealCorpIdx').val(data.idx);
-		}
-		$('#dealCorpModal').modal('hide');
-	});
-
-	$('#dealCorpModalTable tbody').on('dblclick','tr',function(){
-		let type = $('#dealCorpModal').data('type');
-		let data = dealCorpModalTable.row(this).data();
-		if(type == 'Search'){
-			$('#searchDealCorpNm').val(data.dealCorpNm);
-			$('#searchDealCorpIdx').val(data.idx);
-		}
-		$('#dealCorpModal').modal('hide');
-	});
-	
-	// 수량 계산
-	$(document).on('keyup','input[name=moveQty]', function(e) {
-		let tr = $(e.target).parent().parent();
-		let td = $(tr).find('td');
-		let data = stockPaymentMoveTable.row(tr).data();
-		let node = stockPaymentMoveTable.row(tr).node();
-		//이동량
-		let moveQtyCol = stockPaymentMoveTable.column('moveQty:name').index();
-		let moveQty = removeCommas($(td).eq(moveQtyCol).find('input[name=moveQty]').val());
-		let moveQtyR = '0R0';
-		if(moveQty > 0){
-			moveQtyR = parseInt(moveQty/500) + 'R' + parseInt(moveQty%500);
-		} else {
-			moveQtyR = parseInt((-1*moveQty)/500) + 'R' + parseInt((-1*moveQty)%500);
-		}
-		
-		let moveQtyRCol = stockPaymentMoveTable.column('moveQtyR:name').index();
-		if(data.spGubun =='003'){
-			$(td).eq(moveQtyRCol).find('div').text(moveQtyR);
-		}
-		
 	});
 	
 </script>
+
 </body>
-</html>
+<
+
+/html>

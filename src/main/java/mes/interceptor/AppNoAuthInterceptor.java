@@ -10,7 +10,6 @@ public class AppNoAuthInterceptor extends HandlerInterceptorAdapter {
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		System.out.println("======================== AppNoAuthInterceptor");
 		if ( "4197fd88af01d0c8bba9ef933473fbe0".equals(request.getHeader("Authorization")) ) {
 	        return true;
 		} else {

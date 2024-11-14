@@ -68,7 +68,7 @@ public class DateUtil {
     * <p>현재 날짜와 시각을  yyyyMMddhhmmss 형태로 변환 후 return.
     *
   * @param null
- * @return yyyy-MM-dd HH:mm:ss
+ * @return yyyyMMddhhmmss
  * @see java.util.Date
     * @see java.util.Locale
     * <p><pre>
@@ -79,7 +79,7 @@ public class DateUtil {
     public static String getCurrentDateTime() {
         Date today = new Date();
         Locale currentLocale = new Locale("KOREAN", "KOREA");
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = "yyyyMMddHHmmss";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
     }

@@ -8,48 +8,72 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import mes.domain.sm.MenuAuthVo;
+import mes.domain.sm.UserMenuAuthVo;
 
 @Repository
 public class MenuAuthDAOImpl implements MenuAuthDAO {
-
+	
 	@Inject
 	private SqlSession session;
 	
-	private static String namespace = "mes.mappers.sm.menuAuthMapper";
-	
-	// 메뉴권한관리 사용자별 목록조회
+	private static final String namespace = "mes.mappers.sm.menuAuthMapper";
+	//권한 목록조회
 	@Override
-	public List<MenuAuthVo> menuAuthLstByUserIdx(MenuAuthVo menuAuthVo) throws Exception {
-		return session.selectList(namespace+".menuAuthLstByUserIdx", menuAuthVo);
+	public List<MenuAuthVo> listAll(MenuAuthVo menuAuthVo) throws Exception{
+		return session.selectList(namespace + ".listAll");
+	}
+	//권한 상세조회
+	@Override
+	public MenuAuthVo read(MenuAuthVo menuAuthVo) throws Exception{
+		return session.selectOne(namespace + ".read", menuAuthVo);
+	}
+	//특정 부서 전체 조회
+	public List<MenuAuthVo> readAll(MenuAuthVo menuAuthVo) throws Exception{
+		return session.selectList(namespace + ".read",menuAuthVo);
 	}
 	
-	// 메뉴권한관리 메뉴목록조회 리스트
+	//권한 등록
 	@Override
-	public List<MenuAuthVo> menuAuthLstForMenuList(MenuAuthVo menuAuthVo) throws Exception {
-		return session.selectList(namespace+".menuAuthLstForMenuList", menuAuthVo);
+	public void create(List<MenuAuthVo> menuAuthVo) throws Exception{
+		session.insert(namespace + ".create", menuAuthVo);
 	}
 	
-	// 메뉴권한관리 등록
+	//권한 수정
 	@Override
-	public void menuAuthIns(MenuAuthVo menuAuthVo) throws Exception {
-		session.insert(namespace+".menuAuthIns", menuAuthVo);
+	public void update(MenuAuthVo menuAuthVo) throws Exception{
+		session.update(namespace + ".update", menuAuthVo);
 	}
 	
-	// 메뉴권한관리 수정
+	//권한 삭제
 	@Override
-	public void menuAuthUpd(MenuAuthVo menuAuthVo) throws Exception {
-		session.update(namespace+".menuAuthUpd", menuAuthVo);
+	public void delete(MenuAuthVo menuAuthVo) throws Exception{
+		session.delete(namespace + ".delete", menuAuthVo);
 	}
 	
-	// 메뉴권한관리 삭제
+	//중복 체크
 	@Override
-	public void menuAuthDel(MenuAuthVo menuAuthVo) throws Exception {
-		session.delete(namespace+".menuAuthDel", menuAuthVo);
+	public MenuAuthVo check(MenuAuthVo menuAuthVo) throws Exception{
+		return session.selectOne(namespace + ".check", menuAuthVo);
 	}
+
 	
-	// 메뉴권한관리 복사
+	//메뉴 권한 패스 조회
 	@Override
-	public void menuAuthCopyNPaste(MenuAuthVo menuAuthVo) throws Exception {
-		session.insert(namespace+".menuAuthCopyNPaste", menuAuthVo);
+	public String menuAuthPath(MenuAuthVo menuAuthVo) throws Exception{
+		return session.selectOne(namespace + ".menuAuthPath", menuAuthVo);
+	}		
+	
+	//user권한 검색
+	@Override
+	public MenuAuthVo readCheck(MenuAuthVo menuAuthVo) throws Exception{
+		return session.selectOne(namespace + ".readCheck", menuAuthVo);
 	}
+
+	//메뉴 권한 패스 조회
+	@Override
+	public String menuAuthPathAdmin(MenuAuthVo menuAuthVo) throws Exception{
+		return session.selectOne(namespace + ".menuAuthPathAdmin", menuAuthVo);
+	}		
+		
+
 }

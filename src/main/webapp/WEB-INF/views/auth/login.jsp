@@ -5,103 +5,121 @@
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
 <%@include file="../layout/top.jsp" %>
-<body class="d-none" style="height: 100vh;
-							background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url(<c:url value='/resources/assets/images/login_background.png?ver=2'/>);
-							background-size: auto;
-							background-position: 50%;
-							background-repeat: no-repeat;">
-	<div id="my-spinner">
-		<div>
-			<span> <img src="<c:url value='/resources/assets/images/spinner.gif'/>">
-			</span>
-		</div>
-	</div>
-	<div class="text-center" style="align-items: center;
-									display: flex;
-									height: 100%;
-									width: 400px;
-									margin: auto;">
-		<div class="container-fluid">
-			<div class="row mb-2">
-				<div class="col-md-12 p-0">
-					<img src="<c:url value='/resources/assets/images/hygino_logo_slim.png?ver=2'/>" style="width: 50%;">
-				</div>
-			</div>
-			<div class="row">
-				<div style="padding-left: 25%; padding-right: 1%; flex: 0 0 auto; width: 58%">
-					<input type="text" id="userId" class="form-control" placeholder="ID" style="max-width:100%;
-																									background-color: transparent;
-																									border: 2px solid #eeeeee;
-																									font-size: 0.9em;
-																									margin-bottom: 3%;">
-					<input type="password" id="userPw" class="form-control" placeholder="PW" style="max-width:100%;
-																											background-color: transparent;
-																											border: 2px solid #eeeeee;
-																											font-size: 0.9em;">
-				</div>
-				<div class="p-0" style="flex: 0 0 auto; width: 42%">
-					<button type="button" class="btn btn-light"  id="btnLogin" style="height: 100%;
-																						width: 40%;
-																						text-align: left;
-																						display: block;
-																						box-shadow: 3px 3px 5px 0px #555555;">Login</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	
+<body>
+<%-- 
+    <!-- .auth -->
+    <main class="auth">
+        <header id="auth-header" class="auth-header" style="background-image: url(<c:url value='/resources/assets/images/illustration/img-1.png'/>);">
+            <h1>MES</h1>
+        </header>
+
+        <form class="auth-form" id="loginForm">
+            <div id="messageBox" class="alert alert-danger has-icon d-none" role="alert">
+                <div class="alert-icon">
+                    <span class="fa fa-info"></span>
+                </div>
+                <h5>오류</h5>
+                <span id="message"></span>
+            </div>
+            <div class="form-group">
+                <div class="form-label-group">
+                    <input type="text" name="userId" id="userId" class="form-control" placeholder="아이디" autofocus required>
+                    <label for="userId">아이디</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-label-group">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="비밀번호" required>
+                    <label for="password">비밀번호</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block btn-login" type="submit">로그인</button>
+                <button class="btn btn-lg btn-primary btn-block d-none btn-loading" type="button" disabled=""><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...</button>
+            </div>
+        </form>
+    </main> --%>
+    
+<!-- .app -->
+<div class="app">
+  <div id="messageBox" class="alert alert-danger has-icon d-none" role="alert">
+      <div class="alert-icon">
+          <span class="fa fa-info"></span>
+      </div>
+      <h5>오류</h5>
+      <span id="message"></span>
+  </div>   
+    <div class="container-fluid" id="main">
+     <div class="row login_card">
+        <div class="col-md-6 login_left pl-0" style="background-image: url(../resources/assets/images/daerim_login.png);">
+        </div>
+          <div class="col-md-6">
+            <h4 class="login-header">로그인</h4>
+            <form class="login-form"  id="loginForm">
+              <!-- .form-group -->
+              <div class="form-mb">
+                  <input style="max-width:100%" type="text" id="inputUser" class="form-control-lg" placeholder="아이디" autofocus=""> 
+              </div><!-- /.form-group -->
+              <!-- .form-group -->
+               <div class="form-mb form-password">
+                  <input style="max-width:100%" type="password" id="inputPassword" class="form-control-lg" placeholder="비밀번호">
+                  <i class="fa fa-eye-slash fa-lg"></i>
+              </div><!-- /.form-group -->
+              <!-- .form-group -->
+              <div class="form-mb">
+                <button class="login_btn btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+              </div><!-- /.form-group -->
+              <!-- .form-group -->
+              <!-- <div class="form-mb text-center">
+                <div class="custom-control custom-control-inline custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="remember-me"> <label class="custom-control-label" for="remember-me">자동 로그인</label>
+                </div>
+              </div> --><!-- /.form-group -->
+              <!--recoverylinks-->
+              <!--  <div class="text-center pt-3">
+                <a href="#" class="link">아이디 찾기</a> <span class="mx-2">·</span> <a href="#" class="link">비밀번호 찾기</a>
+               </div> --><!-- /recovery links -->
+            </form><!-- /.auth-form -->
+          </div>
+    </div>
+  </div>
+</div><!-- /.app -->
     <%@include file="../layout/script.jsp" %>
     <script>
-    	console.log(window.location != window.parent.location);
-	    if(window.location != window.parent.location) { // tab일 경우엔 error 페이지 전송
-	    	$(location).attr('href', '<c:url value="/error/tabError"/>');
-	    } else {
-		    $('body').removeClass('d-none');
-		}
-	    
-    	// 아이디, 비밀번호 엔터
-    	$('#userId, #userPw').on('keypress',function(e) {
-        	if(e.which == 13) {
-            	$('#btnLogin').trigger('click');
-            }
-        });
-		// 로그인 버튼 click
-		$('#btnLogin').on('click',function() {
-			const userId = $('#userId').val();
-			const userPw = $('#userPw').val();
+        currentPage = "login";
 
-			if(userId == "") {
-				toastr.warning('아이디를 입력해주세요.');
-				$('#userId').focus();
-				return false;
-			}
-			if(userPw == "") {
-				toastr.warning('비밀번호를 입력해주세요.');
-				$('#userPw').focus();
-				return false;
-			}
-			$.ajax({
-				url: '<c:url value="/auth/login"/>',
-	            type: 'POST',
-	            data: {
-	            	'userId'	:	userId,
-	            	'userPw'	:	userPw,
-	            },
-	            beforeSend: function() {
-	            	$('#my-spinner').show();
-	            },
-				success : function(res) {
-					if (res.result == "ok") { //응답결과
-						$(location).attr('href', '<c:url value="/dashboard/main"/>');
-					} else if(res.result == 'fail') {
-						toastr.warning(res.message);
-					} else {
-						toastr.error(res.message);
-					}
-					$('#my-spinner').hide();
-				}
-			});
-		})
+        $('#loginForm').parsley();
+
+        $("#loginForm").submit(function(e){
+            e.preventDefault(e);
+			//alert("login_ajax")
+            $.ajax({
+                type: 'POST',
+                url: '<c:url value="/auth/login_ajax"/>',
+                dataType: 'json',
+                data: {
+                    userId: $('#inputUser').val(),
+                    userPw: $('#inputPassword').val(),
+                },
+                beforeSend: function() {
+                    $('.btn-login').addClass('d-none');
+                    $('.btn-loading').removeClass('d-none');
+                },
+                success: function (res) {
+                    if (res.result === 'ok') {
+                        $(location).attr('href', '<c:url value="/main"/>');
+                    } else {
+                        $('#password').val('');
+                        $('#message').text(res.message);
+                        $('#messageBox').removeClass('d-none');
+                    }
+                },
+                complete:function(){
+                    $('.btn-login').removeClass('d-none');
+                    $('.btn-loading').addClass('d-none');
+                }
+            });
+        });
     </script>
 </body>
 </html>

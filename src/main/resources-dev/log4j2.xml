@@ -11,19 +11,19 @@
 		</Console>
 
 		<!-- INFO print -->
-		<RollingFile name="rollingFile" fileName="/data/tomcat/tomcat_changyoung-dev/logs/all.log" filePattern="/data/tomcat/tomcat_changyoung-dev/logs/web_%d{yyyyMMdd}.log">
+		<RollingFile name="rollingFile" fileName="/data/tomcat/tomcat16/logs/all.log" filePattern="/data/tomcat/tomcat16/logs/web_%d{yyyyMMdd}.log">
 			<PatternLayout pattern="${layoutPattern}" />
 			<Policies>
-				<SizeBasedTriggeringPolicy size="100MB" />
+				<SizeBasedTriggeringPolicy size="2000MB" />
 			</Policies>
 			<DefaultRolloverStrategy max="50" fileIndex="min" />
 		</RollingFile>
 
 		<!-- ERROR print -->
-		<RollingFile name="errorFile" fileName="/data/tomcat/tomcat_changyoung-dev/logs/error.log" filePattern="/data/tomcat/tomcat_changyoung-dev/logs/error_%d{yyyyMMdd}.log">
+		<RollingFile name="errorFile" fileName="/data/tomcat/tomcat16/logs/error.log" filePattern="/data/tomcat/tomcat16/logs/error_%d{yyyyMMdd}.log">
 			<PatternLayout pattern="${layoutPattern}" />
 			<Policies>
-				<SizeBasedTriggeringPolicy size="100MB" />
+				<SizeBasedTriggeringPolicy size="2000MB" />
 			</Policies>
 			<ThresholdFilter level="ERROR"/>
 			<!--
@@ -61,7 +61,7 @@
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		<Logger name="org.springframework.web" level="DEBUG" additivity="false">
+		<Logger name="org.springframework.web" level="ERROR" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
@@ -72,12 +72,12 @@
 			<AppenderRef ref="errorFile"/>
 		</Logger>
 
-		<Logger name="org.apache.ibatis" level="DEBUG" additivity="false">
+		<Logger name="org.apache.ibatis" level="WARN" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		<Logger name="org.mybatis" level="ERROR" additivity="false">
+		<Logger name="org.mybatis" level="WARN" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
