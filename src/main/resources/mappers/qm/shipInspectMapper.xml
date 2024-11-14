@@ -1,0 +1,4708 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.qm.shipInspectMapper">
+
+	<resultMap id="WorkOrderVo" type="mes.domain.po.WorkOrderVo">
+		<result property="menuAuth"					column="MENU_AUTH"				/>
+		<result property="workOrdNo"				column="WORK_ORD_NO"			/>
+		<result property="ordLotNo"					column="ORD_LOT_NO"				/>
+		<result property="lotNo"					column="LOT_NO"					/>
+		<result property="equipCondSeq"				column="EQUIP_COND_SEQ"			/>
+		<result property="equipCd"					column="EQUIP_CD"				/>
+		<result property="equipNm"					column="EQUIP_NM"				/>		
+		<result property="goodsCd"					column="GOODS_CD"				/>
+		<result property="goodsNm"					column="GOODS_NM"				/>		
+		<result property="ordGubun"					column="ORD_GUBUN"				/>
+		<result property="ordGubunNm"				column="ORD_GUBUN_NM"			/>		
+		<result property="ordDate"					column="ORD_DATE"				/>
+		<result property="workStatusCd"				column="WORK_STATUS_CD"			/>
+		<result property="workStatusNm"				column="WORK_STATUS_NM"			/>		
+		<result property="workTeamCd"				column="WORK_TEAM_CD"			/>
+		<result property="workTeamNm"				column="WORK_TEAM_NM"			/>		
+		<result property="mainWorkChargr"			column="MAIN_WORK_CHARGR"		/>
+		<result property="mainWorkChargrNm"			column="MAIN_WORK_CHARGR_NM"	/>
+		<result property="subWorkChargr"			column="SUB_WORK_CHARGR"		/>
+		<result property="subWorkChargrNm"			column="SUB_WORK_CHARGR_NM"		/>		
+		<result property="targetWeight"				column="TARGET_WEIGHT"			/>
+		<result property="outputWeight1"			column="OUTPUT_WEIGHT1"			/>
+		<result property="outputWeight2"			column="OUTPUT_WEIGHT2"			/>
+		<result property="targetCnt"				column="TARGET_CNT"				/>
+		<result property="outputCnt"				column="OUTPUT_CNT"				/>
+		<result property="userOutputCnt"			column="USER_OUTPUT_CNT"		/>
+		<result property="sumOutputCnt"				column="SUM_OUTPUT_CNT"			/>
+		<result property="dealCorpCd"				column="DEAL_CORP_CD"			/>
+		<result property="dealCorpNm"				column="DEAL_CORP_NM"			/>		
+		<result property="edgeSampleCnt"			column="EDGE_SAMPLE_CNT"		/>
+		<result property="edgeFaultyCnt"			column="EDGE_FAULTY_CNT"		/>
+		
+		<result property="workOrdSeq"				column="WORK_ORD_SEQ"			/>
+		<result property="outputWeight"				column="OUTPUT_WEIGHT"			/>		
+		<result property="gubun"					column="GUBUN"					/>
+		<result property="workOrdDate"				column="WORK_ORD_DATE"			/>
+		
+		<!-- 엣지검사 시 각 불량 치수 추가 -->
+		<result property="edgeRollFaultySize"		column="EDGE_ROLL_FAULTY_SIZE"	/>		
+		<result property="edgeSymbolFaultySize"		column="EDGE_SYMBOL_FAULTY_SIZE"/>
+		<result property="edgeBurFaultySize"		column="EDGE_BUR_FAULTY_SIZE"	/>
+		
+		<result property="edgeInspctCharger"		column="EDGE_INSPCT_CHARGER"	/>
+		<result property="edgeInspctChargerNm"		column="EDGE_INSPCT_CHARGER_NM"	/>
+		<result property="edgeOutputCnt"			column="EDGE_OUTPUT_CNT"		/>
+		<result property="edgeInspctDate"			column="EDGE_INSPCT_DATE"		/>
+		<result property="appearAbrfCnt"			column="APPEAR_ABRF_CNT"		/>
+		<result property="appearAbrsCnt"			column="APPEAR_ABRS_CNT"		/>
+		<result property="appearDmsCnt"				column="APPEAR_DMS_CNT"			/>
+		<result property="appearFaultyCnt"			column="APPEAR_FAULTY_CNT"		/>
+		<result property="appearOutputCnt"			column="APPEAR_OUTPUT_CNT"		/>
+		<result property="appearInspctCharger"		column="APPEAR_INSPCT_CHARGER"	/>
+		<result property="appearInspctChargerNm"	column="APPEAR_INSPCT_CHARGER_NM"/>
+		<result property="appearInspctDate"			column="APPEAR_INSPCT_DATE"		/>
+		<result property="packYn"					column="PACK_YN"				/>
+		<result property="userOutputCnt"			column="USER_OUTPUT_CMT"		/>
+		<result property="sealing1"					column="SEALING1"				/>
+		<result property="sealing2"					column="SEALING2"				/>
+		<result property="filmFaultyCheck"			column="FILM_FAULTY_CHECK"		/>
+		<result property="sealingDate"				column="SEALING_DATE"			/>
+		<result property="regId"					column="REG_ID"					/>
+		<result property="regDate"					column="REG_DATE"				/>
+		<result property="updId"					column="UPD_ID"					/>
+		<result property="updDate"					column="UPD_DATE"				/>
+
+		<!-- join시 사용 -->
+		<result property="model"					column="MODEL"					/><!-- 제품 규격 -->
+		<result property="qutyCd"					column="QUTY_CD"				/><!-- 재질 코드 -->
+		<result property="qutyNm"					column="QUTY_NM"				/><!-- 재질 명 -->
+		<result property="userNm"					column="USER_NM"				/><!-- 사원명 -->
+		<result property="userNumber"				column="USER_NUMBER"			/><!-- 사원코드 -->
+		<result property="faultyPercent"			column="FAULTY_PERCENT"			/><!-- 불량율% -->
+		<result property="achievePercent"			column="ACHIEVE_PERCENT"		/><!-- 달성율% -->
+		<result property="filmNm"					column="FILM_NM"				/><!-- Film명 -->
+		<result property="chamferYnNm"				column="CHAMFER_YN_NM"			/><!-- 면취(압연) -->
+		<result property="gubunNm"					column="GUBUN_NM"				/><!-- 구분(연질,경질)  -->
+		<result property="equipGroup"				column="EQUIP_GROUP"			/>
+		<result property="equipGroupNm"				column="EQUIP_GROUP_NM"			/>
+		
+		<!-- 생산현황 조회 -->
+		<result property="targetAsum"				column="TARGET_ASUM"			/>
+		<result property="targetBsum"				column="TARGET_BSUM"			/>
+		<result property="targetCsum"				column="TARGET_CSUM"			/>
+		<result property="outputAsum"				column="OUTPUT_ASUM"			/>
+		<result property="outputBsum"				column="OUTPUT_BSUM"			/>
+		<result property="outputCsum"				column="OUTPUT_CSUM"			/>
+		<result property="percentA"					column="PERCENT_A"				/>
+		<result property="percentB"					column="PERCENT_B"				/>
+		<result property="percentC"					column="PERCENT_C"				/>
+		<result property="totalTarget"				column="TOTAL_TARGET"			/>
+		<result property="totalOutput"				column="TOTAL_OUTPUT"			/>
+		<result property="totalPercent"				column="TOTAL_PERCENT"			/>
+		<result property="chooseDate1"				column="CHOOSE_DATE1"			/><!-- 선택날짜1 -->
+		<result property="chooseDate2"				column="CHOOSE_DATE2"			/><!-- 선택날짜 2 -->
+		
+		<result property="totalFaultyCnt"			column="TOTAL_FAULTY_CNT"		/><!-- 불량 수량 합계 -->		
+
+	</resultMap>
+	
+	<resultMap id="ShipInspectVo" type="mes.domain.qm.ShipInspectVo">
+		<result property="workOrdNo"    	          column="WORK_ORD_NO"				/>
+		<result property="ordLotNo"     	          column="ORD_LOT_NO"				/>
+		<result property="lotNo"	     	          column="LOT_NO"					/>
+		<result property="gubun"	     	          column="GUBUN"					/>
+		<result property="equipCd"     	              column="EQUIP_CD"					/>
+		<result property="goodsCd"       	          column="GOODS_CD"					/>
+		<result property="goodsNm"       	          column="GOODS_NM"					/>
+		<result property="qutyNm"       	          column="QUTY_NM"					/>
+		<result property="ordGubun"                   column="ORD_GUBUN"				/>
+		<result property="ordDate"       	          column="ORD_DATE"					/>		
+		<result property="idx"                        column="IDX"						/>
+		<result property="trayNo"                     column="TRAY_NO"					/>
+		<result property="trayNo1"                    column="TRAY_NO1"					/>
+		<result property="trayNo2"                    column="TRAY_NO2"					/>
+		<result property="matrlLotNo"                 column="MATRL_LOT_NO"				/>
+		<result property="filmLotNo"                  column="FILM_LOT_NO"				/>
+		<result property="inspStatus"                 column="INSP_STATUS"				/>
+		<result property="inspStatusNm"               column="INSP_STATUS_NM"			/>
+		<result property="reInspStatus"               column="RE_INSP_STATUS"			/>
+		<result property="reInspStatusNm"             column="RE_INSP_STATUS_NM"		/>
+		<result property="disStatus"                  column="DIS_STATUS"				/>
+		<result property="disStatusNm"                column="DIS_STATUS_NM"			/>
+		<result property="inspDate"                   column="INSP_DATE"				/>
+		<result property="faultyCnt"                  column="FAULTY_CNT"				/>
+		<result property="faultyTrayNo"               column="FAULTY_TRAY_NO"			/>
+		<result property="dayNightCd"                 column="DAY_NIGHT_CD"				/>
+		<result property="dayNightNm"                 column="DAY_NIGHT_NM"				/>
+		<result property="majorCd"                    column="MAJOR_CD"					/>
+		<result property="majorNm"                    column="MAJOR_NM"					/>
+		<result property="minorCd"                    column="MINOR_CD"					/>
+		<result property="minorNm"                    column="MINOR_NM"					/>
+		<result property="faultyGubun"                column="FAULTY_GUBUN"				/>
+		<result property="faultyGubunNm"              column="FAULTY_GUBUN_NM"			/>
+		<result property="regId"                	  column="REG_ID"					/>
+		<result property="regDate"                	  column="REG_DATE"					/>
+		<result property="updId"                	  column="UPD_ID"					/>
+		<result property="updDate"               	  column="UPD_DATE"					/>
+		<result property="chooseDateFrom"             column="CHOOSE_DATE_FROM"			/>
+		<result property="chooseDateTo"               column="CHOOSE_DATE_TO"			/>
+		<result property="reInspRange"            	  column="RE_INSP_RANGE"			/>
+		<result property="reInspSystem"               column="RE_INSP_SYSTEM"			/>
+
+	
+		<result property="lastWorkOrdNo"			   column="LAST_WORK_ORD_NO"			/>
+		<result property="productDate"			       column="PRODUCT_DATE"				/>
+		<result property="changeTrayNo"			       column="CHANGE_TRAY_NO"				/>
+		<result property="workOrdSeq"	               column="WORK_ORD_SEQ"				/>
+		<result property="matrlCd"				       column="MATRL_CD"					/>
+		<result property="lastMatrlLotNo"		       column="LAST_MATRL_LOT_NO"			/>
+		<result property="labelLotNo"			       column="LABEL_LOT_NO"				/>
+		<result property="labelLotNoSeq"		       column="LABEL_LOT_NO_SEQ"			/>
+		<result property="productStatus"		       column="PRODUCT_STATUS"				/>
+		<result property="productQty"				   column="PRODUCT_QTY"					/>
+		<result property="productAllQty"			   column="PRODUCT_ALL_QTY"				/>
+		<result property="productPartQty"			   column="PRODUCT_PART_QTY"			/>
+		<result property="incorporationGubun"	       column="INCORPORATION_GUBUN"			/>
+		<result property="incorporationVisonGubun"     column="INCORPORATION_VISION_GUBUN"	/>
+		<result property="trayWorkerId"		           column="TRAY_WORKER_ID"				/>
+		<result property="trayWorkerIdNm"		       column="TRAY_WORKER_ID_NM"				/>
+		<result property="turnNumber"				   column="TURN_NUMBER"					/>
+		<result property="factoryCode"                 column="FACTORY_CODE"				/>
+		<result property="arrayData"                   column="ARRAY_DATA"					/>
+		<result property="mixGubun"                    column="MIX_GUBUN"					/>
+		<result property="deleteCheck"                 column="DELETE_CHECK"				/>
+		<result property="deleteGubun"                 column="DELETE_GUBUN"				/>
+		<result property="matrlGubunNm"                column="MATRL_GUBUN_NM"				/>
+		<result property="gijongCd"                    column="GIJONG_CD"					/>
+		<result property="gijongNm"                    column="GIJONG_NM"					/>
+		<result property="deleteGoodsProsuctCheck"	   column="DELETE_GOODS_PROSUCT_CHECK"	/>
+		<result property="trayNo3"                     column="TRAY_NO3"					/>
+		<result property="trayNo4"                     column="TRAY_NO4"					/>
+		<result property="trayNo5"                     column="TRAY_NO5"					/>
+		<result property="trayNo6"                     column="TRAY_NO6"					/>
+		<result property="inspChargr"                  column="INSP_CHARGR"					/>
+		<result property="inspChargrNm"                column="INSP_CHARGR_NM"				/>
+		<result property="shipInspIdx"                 column="SHIP_INSP_IDX"				/>
+		<result property="nextGubun"               	   column="NEXT_GUBUN"					/>
+		<result property="seq"               	 	   column="SEQ"							/>
+		<result property="inspDesc"               	   column="INSP_DESC"					/>
+		<result property="sampleCnt"               	   column="SAMPLE_CNT"					/>
+		<result property="inspGubun"               	   column="INSP_GUBUN"					/>
+		
+		<result property="qutyCd"               	   column="QUTY_CD"						/>
+		<result property="dealCorpCd"                  column="DEAL_CORP_CD"				/>
+		<result property="dealCorpNm"                  column="DEAL_CORP_NM"				/>
+		<result property="alnicuMatrlCd"               column="ALNICU_MATRL_CD"				/>
+		<result property="surfaceTrtmtCd"              column="SURFACE_TRTMT_CD"			/>
+		<result property="surfaceTrtmtNm"              column="SURFACE_TRTMT_NM"			/>
+		<result property="equipNm"             		   column="EQUIP_NM"					/>
+		<result property="departmentCd"                column="DEPARTMENT_CD"					/>
+		
+		<result property="checkTrayNo"      	       column="CHECK_TRAY_NO"				/>
+		<result property="goodTrayNo"   	           column="GOOD_TRAY_NO"				/>
+		<result property="badTrayNo"	        	   column="BAD_TRAY_NO"					/>
+		<result property="trayCnt"	   	           	   column="TRAY_CNT"					/>
+		<result property="lastFaultyGubun"	   	       column="LAST_FAULTY_GUBUN"			/>
+		<result property="faultyStatus"		   	       column="FAULTY_STATUS"				/>
+		<result property="faultyStatusNm"	   	       column="FAULTY_STATUS_NM"			/>
+		
+		<result property="workOrdLotNo"					column="WORK_ORD_LOT_NO"			/>
+		<result property="threeTrayWeight"				column="THREE_TRAY_WEIGHT"			/>
+		<result property="trayWeightDate"				column="TRAY_WEIGHT_DATE"			/>
+		<result property="threeTrayWeightCheck"			column="THREE_TRAY_WEIGHT_CHECK"	/>
+		<result property="resultValue"					column="RESULT_VALUE"				/>
+		
+		<result property="productDateYyyy"				column="PRODUCT_DATE_YYYY"				/>
+		<result property="productDateMm"				column="PRODUCT_DATE_MM"				/>
+		<result property="productDateWw"				column="PRODUCT_DATE_WW"				/>
+	</resultMap>
+	
+	<resultMap id="ShipInspectTempListVo" type="mes.domain.qm.ShipInspectTempListVo">
+		<result property="chooseDateFrom"     column="CHOOSE_DATE_FROM" />
+		<result property="chooseDateTo"       column="CHOOSE_DATE_TO" />
+		<result property="dateCheck"          column="DATE_CHECK" />
+		<result property="equipCd"            column="EQUIP_CD" />
+		<result property="inspStatus"         column="INSP_STATUS" />
+		<result property="matrlLotNo"         column="MATRL_LOT_NO" />
+		<result property="filmLotNo"          column="FILM_LOT_NO" />
+		<result property="labelLotNoSeq"      column="LABEL_LOT_NO_SEQ" />
+		<result property="faultyStatus"       column="FAULTY_STATUS" />
+		<result property="productDate"        column="PRODUCT_DATE" />
+		<result property="trayWorkerIdNm"     column="TRAY_WORKER_ID_NM" />
+		<result property="inspChargrNm"       column="INSP_CHARGR_NM" />
+		<result property="equipNm"            column="EQUIP_NM" />
+		<result property="trayNo"             column="TRAY_NO" />
+		<result property="goodsNm"           column="GOODS_NM" />
+		<result property="qutyNm"             column="QUTY_NM" />
+		<result property="reInspStatus"       column="REINSP_STATUS" />
+		<result property="faultyStatusNm"     column="FAULTY_STATUS_NM" />
+		<result property="workOrdNo"          column="WORK_ORD_NO" />
+		<result property="workOrdLotNo"       column="WORK_ORD_LOT_NO" />
+		<result property="factoryCode"        column="FACTORY_CODE" />
+		<result property="updDate"            column="UPD_DATE" />
+	</resultMap>
+
+	 <!-- 출하검사 트레이 리스트  -->
+	<select id="shipInspSelectList" resultMap="ShipInspectVo">
+
+		<!-- 	
+			WITH LABEL_TABLE AS (
+				SELECT DISTINCT
+					 LABEL_LOT_NO 
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1 
+					AND EQUIP_CD = #{equipCd}
+			  		AND WORK_ORD_NO = #{workOrdNo} 
+			  		AND PRODUCT_STATUS = '003' )
+			
+			SELECT 
+				  A.LABEL_LOT_NO
+			      ,A.EQUIP_CD		     
+			      ,A.MATRL_CD
+			       ,STUFF((         
+					  SELECT  DISTINCT ',' + FILM_LOT_NO
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+					    AS FILM_LOT_NO
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + MATRL_LOT_NO
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS MATRL_LOT_NO  
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS
+				  ,B.IDX
+				  ,B.NEXT_GUBUN			
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				  
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+			  LEFT OUTER JOIN TB_SHIP_INSPECT_ADM B
+			  ON 1=1 
+			  AND A.LABEL_LOT_NO = B.TRAY_NO
+			   AND RE_INSP_STATUS = '001'
+			  
+			  , LABEL_TABLE LT
+			  			  
+			  WHERE A.PRODUCT_STATUS = '003'
+			  AND A.EQUIP_CD = #{equipCd}
+			  AND LT.LABEL_LOT_NO = A.LABEL_LOT_NO
+			 
+			  
+			   GROUP BY A.LABEL_LOT_NO, A.EQUIP_CD, A.MATRL_CD, A.PRODUCT_STATUS, A.GOODS_CD,B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, B.IDX,B.NEXT_GUBUN -->
+
+		
+				
+		
+	<!-- 			SELECT 
+				  A.LABEL_LOT_NO
+			      ,A.EQUIP_CD		     
+			      ,A.MATRL_CD
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS
+				  ,B.IDX
+				  ,B.NEXT_GUBUN			
+				  ,B.WORK_ORD_NO
+				  ,B.DIS_STATUS				
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				 ,B.SEQ
+				  
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+				,TB_SHIP_INSPECT_ADM B			  		  
+			  WHERE A.PRODUCT_STATUS = '003'
+			  ]]>
+			 <if test="searchGubun !=null and !searchGubun.equals('002')">
+				AND B.TRAY_NO = #{trayNo}
+			 </if>
+			  
+			 
+			  	  AND A.LABEL_LOT_NO = B.TRAY_NO
+			   AND RE_INSP_STATUS = '001'
+			
+			   
+			   GROUP BY A.LABEL_LOT_NO, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD,B.FAULTY_TRAY_NO,
+			    B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, B.IDX,B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO
+			     ,B.DIS_STATUS -->
+			  
+			   <![CDATA[
+			  SELECT 
+				  A.LABEL_LOT_NO
+			      ,A.EQUIP_CD		     
+		
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO
+			      ,A.PRODUCT_STATUS
+				,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM WHERE MATRL_CD = X.MATRL_CD)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'') AS MATRL_NM
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = X.GOODS_CD)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'') AS GOODS_NM
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS
+				  ,B.IDX
+				  ,B.NEXT_GUBUN			
+				  ,B.WORK_ORD_NO
+				  ,B.DIS_STATUS				
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				 ,B.SEQ
+				  
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+				,TB_SHIP_INSPECT_ADM B			  		  
+			  WHERE A.PRODUCT_STATUS = '003'			  
+			 ]]>
+			 
+			<if test="searchGubun !=null and !searchGubun.equals('002')">
+				AND B.TRAY_NO = #{trayNo}
+			 </if>
+			 <if test="searchGubun !=null and !searchGubun.equals('001')">
+			 	<if test="chooseDateFrom !=null and chooseDateFrom != ''">
+					AND B.PRODUCT_DATE = #{chooseDateFrom}
+				</if>
+				<if test="equipCd !=null and equipCd != ''">
+					AND A.EQUIP_CD = #{equipCd}
+				</if>
+			 </if>
+			  <![CDATA[
+				  AND RE_INSP_STATUS = '001'
+			  	  AND A.LABEL_LOT_NO = B.TRAY_NO
+			  
+		
+			
+			   
+			   GROUP BY A.LABEL_LOT_NO, A.EQUIP_CD ,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS
+			   ,B.FAULTY_TRAY_NO,
+			    B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, B.IDX,B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO
+			     ,B.DIS_STATUS
+			     ]]>
+	</select>
+	
+	<!-- 재검등록 트레이 리스트  -->
+	<select id="reShipInspSelectList" resultMap="ShipInspectVo">
+		
+			
+<!-- 			WITH LABEL_TABLE AS (
+				SELECT DISTINCT
+					 LABEL_LOT_NO_SEQ 
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1 
+					AND EQUIP_CD = #{equipCd}			 
+			  		AND PRODUCT_STATUS = '003' )
+			
+			SELECT 
+					A.LABEL_LOT_NO_SEQ,
+				  A.LABEL_LOT_NO
+			      ,A.EQUIP_CD		     
+			      ,A.MATRL_CD
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO  
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS
+				  ,B.IDX
+				  ,B.NEXT_GUBUN				
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				  
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+			  LEFT OUTER JOIN TB_SHIP_INSPECT_ADM B
+			  ON 1=1 
+			  AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO			  
+			  , LABEL_TABLE LT
+			  			  
+			  WHERE A.PRODUCT_STATUS = '003'
+			  AND A.EQUIP_CD = #{equipCd}
+			  AND LT.LABEL_LOT_NO_SEQ = A.LABEL_LOT_NO_SEQ
+			  AND RE_INSP_STATUS = '002'
+			  AND B.WORK_ORD_NO =  #{workOrdNo}
+			  
+			   GROUP BY A.LABEL_LOT_NO,A.LABEL_LOT_NO_SEQ, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD,B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, B.IDX,B.NEXT_GUBUN -->
+			<![CDATA[   
+			   SELECT 
+				  A.LABEL_LOT_NO
+				  ,A.LABEL_LOT_NO_SEQ
+			      ,A.EQUIP_CD		     
+			      ,A.MATRL_CD
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS
+				  ,B.IDX
+				  ,B.NEXT_GUBUN		
+				   ,B.WORK_ORD_NO	
+				    ,B.DIS_STATUS
+				    ,B.INSP_GUBUN			
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				 ,B.SEQ
+				  
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+				,TB_SHIP_INSPECT_ADM B			  		  
+			  WHERE A.PRODUCT_STATUS = '003'			  
+			 ]]>
+			 <if test="searchGubun !=null and !searchGubun.equals('002')">
+				AND B.TRAY_NO = #{trayNo}
+			 </if>
+			   <if test="searchGubun !=null and !searchGubun.equals('001')">
+			 	<if test="chooseDateFrom !=null and chooseDateFrom != ''">
+					AND B.PRODUCT_DATE = #{chooseDateFrom}
+				</if>
+				<if test="equipCd !=null and equipCd != ''">
+					AND A.EQUIP_CD = #{equipCd}
+				</if>
+			 </if>
+			  <![CDATA[
+			  AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO
+			  AND RE_INSP_STATUS = '002'
+			
+			   
+			   GROUP BY A.LABEL_LOT_NO,A.LABEL_LOT_NO_SEQ, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO,
+			    A.PRODUCT_STATUS, A.GOODS_CD,B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,
+			    FAULTY_CNT, B.IDX,B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO ,B.DIS_STATUS,B.INSP_GUBUN			
+
+		]]>
+	</select>
+	
+	<!-- 출하재검 트레이 리스트  -->
+	<select id="reShipInspSelectList2" resultMap="ShipInspectVo">
+		
+			
+		<!-- 	WITH LABEL_TABLE AS (
+				SELECT DISTINCT
+					 LABEL_LOT_NO_SEQ 
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1 
+					AND EQUIP_CD = #{equipCd}
+			  		
+			  		AND PRODUCT_STATUS = '003' )
+			
+			SELECT 
+					A.LABEL_LOT_NO_SEQ,
+				  A.LABEL_LOT_NO
+			      ,A.EQUIP_CD		     
+			      ,A.MATRL_CD
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO 
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS		
+				  ,B.IDX
+				  ,B.NEXT_GUBUN		
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				  
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+			  LEFT OUTER JOIN TB_SHIP_INSPECT_ADM B
+			  ON 1=1 
+			  AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO			  
+			  , LABEL_TABLE LT
+			  			  
+			  WHERE A.PRODUCT_STATUS = '003'
+			  AND A.EQUIP_CD = #{equipCd}
+			  AND LT.LABEL_LOT_NO_SEQ = A.LABEL_LOT_NO_SEQ
+			  AND RE_INSP_STATUS = '003'
+			   AND B.WORK_ORD_NO =  #{workOrdNo}
+			  
+			   GROUP BY A.LABEL_LOT_NO,A.LABEL_LOT_NO_SEQ, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO ,A.PRODUCT_STATUS, A.GOODS_CD,B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, B.IDX,B.NEXT_GUBUN -->
+			<![CDATA[
+			   SELECT 
+				  A.LABEL_LOT_NO
+				  ,A.LABEL_LOT_NO_SEQ
+			      ,A.EQUIP_CD		     
+			      ,A.MATRL_CD
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS
+				  ,B.IDX
+				  ,B.NEXT_GUBUN		
+				  ,B.WORK_ORD_NO	
+				  ,B.DIS_STATUS			
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				 ,B.SEQ
+				  
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+				,TB_SHIP_INSPECT_ADM B			  		  
+			  WHERE A.PRODUCT_STATUS = '003'			  
+			  ]]>
+			 <if test="searchGubun !=null and !searchGubun.equals('002')">
+				AND B.TRAY_NO = #{trayNo}
+			 </if>
+			   <if test="searchGubun !=null and !searchGubun.equals('001')">
+			 	<if test="chooseDateFrom !=null and chooseDateFrom != ''">
+					AND B.PRODUCT_DATE = #{chooseDateFrom}
+				</if>
+				<if test="equipCd !=null and equipCd != ''">
+					AND A.EQUIP_CD = #{equipCd}
+				</if>
+			 </if>
+			  <![CDATA[
+			  AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO
+			  AND RE_INSP_STATUS = '003'
+			
+			   
+			   GROUP BY A.LABEL_LOT_NO,A.LABEL_LOT_NO_SEQ, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD,
+			   B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, 
+			   B.IDX,B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO ,B.DIS_STATUS			
+
+
+		]]>
+	</select>
+	
+	<!-- 출하검사 메인 상세조회  -->
+	<select id="shipInspAdmRead" resultMap="ShipInspectVo">
+		<![CDATA[			
+			SELECT
+				IDX
+				,TRAY_NO
+				,TRAY_NO1
+				,TRAY_NO2
+				,SEQ			  
+				,WORK_ORD_NO
+				,MATRL_LOT_NO
+				,FILM_LOT_NO
+				,INSP_STATUS
+				,RE_INSP_STATUS
+				,DIS_STATUS
+				,INSP_DATE
+				,PRODUCT_DATE
+				,FAULTY_CNT
+				,FAULTY_TRAY_NO
+				,INSP_CHARGR
+				,DAY_NIGHT_CD
+				,FAULTY_GUBUN
+				,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = INSP_CHARGR) INSP_CHARGR_NM
+				,NEXT_GUBUN
+				,INSP_DESC
+				,SAMPLE_CNT
+				,INSP_GUBUN
+			      ]]>
+			      <if test="factoryCode !=null and factoryCode.equals('003')">
+			      	 ,RE_INSP_SYSTEM
+				 </if>
+				 <![CDATA[	
+				,REG_ID
+				,REG_DATE
+				,UPD_ID
+				,UPD_DATE
+				,STUFF((         
+					SELECT  DISTINCT ', ' + (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE X.MINOR_CD = BASE_CD AND BASE_GROUP_CD = '068') 
+					+ ':' + CONVERT(VARCHAR,FAULTY_CNT)
+					FROM    TB_SHIP_INSPECT_DTL X
+					WHERE   X.SHIP_INSP_IDX = A.IDX
+					FOR XML PATH('') ),1,1,''
+				) LAST_FAULTY_GUBUN
+				,ISNULL(THREE_TRAY_WEIGHT, 0.000) AS THREE_TRAY_WEIGHT
+				,TRAY_WEIGHT_DATE
+				FROM TB_SHIP_INSPECT_ADM A
+		]]>
+			  WHERE 1=1
+			  <if test="trayNo !=null and !trayNo.equals('')">
+					AND TRAY_NO = #{trayNo}
+				</if>
+			 	<if test="trayNo1 !=null and !trayNo1.equals('')">
+					AND TRAY_NO1 = #{trayNo1}
+				</if>
+				<if test="trayNo2 !=null and !trayNo2.equals('')">
+					AND TRAY_NO2 = #{trayNo2}
+				</if>
+				<if test="workOrdNo !=null and !workOrdNo.equals('')">
+					AND WORK_ORD_NO = #{workOrdNo}
+				</if>
+				
+				<if test="reInspStatus !=null and !reInspStatus.equals('') and !reInspStatus.equals('002')">
+					AND RE_INSP_STATUS = #{reInspStatus}
+				</if>
+				
+				<if test="reInspStatus !=null and !reInspStatus.equals('') and reInspStatus.equals('002')">
+					AND RE_INSP_STATUS IN ('002', '004')
+				</if>
+				
+				<if test="seq !=null and !seq.equals('')">
+					AND SEQ = #{seq}
+				</if>
+		
+	</select>
+	
+	<!-- 출하검사 상세 상세조회  -->
+	<select id="shipInspDtlRead" resultMap="ShipInspectVo">
+		<![CDATA[
+			SELECT SHIP_INSP_IDX
+			      ,FAULTY_CNT
+			      ,MAJOR_CD
+			      ,MINOR_CD
+			      ,REG_ID
+			      ,REG_DATE
+			      ,UPD_ID
+			      ,UPD_DATE
+			  FROM TB_SHIP_INSPECT_DTL
+			  WHERE 1=1
+			  AND SHIP_INSP_IDX = #{idx}
+		]]>
+	</select>
+	
+		<!-- 출하검사 현황 조회  -->
+	<select id="shipInspStatusList" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		
+<!-- 						SELECT * FROM
+			(
+					SELECT 
+				  A.LABEL_LOT_NO
+				  ,A.LABEL_LOT_NO_SEQ
+			      ,A.EQUIP_CD		    
+				  ,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+			      ,A.MATRL_CD
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+				  ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = A.GOODS_CD) GOODS_NM
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS				 
+				  ,B.NEXT_GUBUN		
+				  ,B.WORK_ORD_NO	
+				  ,B.DIS_STATUS
+				   ,STUFF((         
+					  SELECT  DISTINCT ',' + X.TRAY_NO
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO_SEQ = A.LABEL_LOT_NO_SEQ
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_NO
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				 ,B.SEQ
+				, C.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) AS DEAL_CORP_NM
+				, D.MATRL_CD ALNICU_MATRL_CD				
+				, D.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, D.SURFACE_TRTMT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='021' AND B.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+				, B.PRODUCT_DATE
+				  
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+				,TB_SHIP_INSPECT_ADM B			  		  
+				, TB_GOODS_CODE_ADM C
+				, TB_MATRL_CODE_ADM D
+			  WHERE A.PRODUCT_STATUS = '003'
+			  AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO1
+			  AND RE_INSP_STATUS = '001'		
+			  AND C.GOODS_CD = A.GOODS_CD
+			  AND C.ALNICU_MATRL_CD = D.MATRL_CD
+			   
+			   GROUP BY A.LABEL_LOT_NO,A.LABEL_LOT_NO_SEQ, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD,
+			   B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, 
+			   B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO ,B.DIS_STATUS	, C.DEAL_CORP_CD, D.MATRL_CD , D.QUTY_CD, D.SURFACE_TRTMT_CD,B.PRODUCT_DATE
+
+			   UNION ALL
+
+			   	SELECT 
+				  A.LABEL_LOT_NO
+				  ,A.LABEL_LOT_NO_SEQ
+			      ,A.EQUIP_CD		     
+				  ,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+			      ,A.MATRL_CD
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+				  ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = A.GOODS_CD) GOODS_NM
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS				 
+				  ,B.NEXT_GUBUN		
+				  ,B.WORK_ORD_NO	
+				  ,B.DIS_STATUS			
+				   ,STUFF((         
+					  SELECT  DISTINCT ',' + X.TRAY_NO
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO_SEQ = A.LABEL_LOT_NO_SEQ
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_NO
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				 ,B.SEQ
+				, C.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) AS DEAL_CORP_NM
+				, D.MATRL_CD ALNICU_MATRL_CD				
+				, D.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, D.SURFACE_TRTMT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='021' AND B.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+				, B.PRODUCT_DATE
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+				,TB_SHIP_INSPECT_ADM B			  		  
+				, TB_GOODS_CODE_ADM C
+				, TB_MATRL_CODE_ADM D
+			  WHERE A.PRODUCT_STATUS = '003'
+			  AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO2
+			  AND RE_INSP_STATUS = '001'		
+			  AND C.GOODS_CD = A.GOODS_CD
+			  AND C.ALNICU_MATRL_CD = D.MATRL_CD
+			   
+			   GROUP BY A.LABEL_LOT_NO,A.LABEL_LOT_NO_SEQ, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD,
+			   B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, 
+			   B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO ,B.DIS_STATUS	, C.DEAL_CORP_CD, D.MATRL_CD , D.QUTY_CD, D.SURFACE_TRTMT_CD,B.PRODUCT_DATE
+			   
+			   UNION ALL
+				
+							SELECT 
+				  A.LABEL_LOT_NO
+				  ,A.LABEL_LOT_NO_SEQ
+			      ,A.EQUIP_CD
+				  ,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+			      ,A.MATRL_CD
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+				  ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = A.GOODS_CD) GOODS_NM
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS
+			
+				  ,B.NEXT_GUBUN		
+				  ,B.WORK_ORD_NO	
+				  ,B.DIS_STATUS			
+				   ,STUFF((         
+					  SELECT  DISTINCT ',' + X.TRAY_NO
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO_SEQ = A.LABEL_LOT_NO_SEQ
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_NO
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				 ,B.SEQ
+				, C.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) AS DEAL_CORP_NM
+				, D.MATRL_CD ALNICU_MATRL_CD				
+				, D.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, D.SURFACE_TRTMT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='021' AND B.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+				, B.PRODUCT_DATE
+				  
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+				,TB_SHIP_INSPECT_ADM B			  		  
+				, TB_GOODS_CODE_ADM C
+				, TB_MATRL_CODE_ADM D
+				, (SELECT TRAY_NO , MAX(SEQ) SEQ FROM TB_SHIP_INSPECT_ADM E GROUP BY TRAY_NO) F	
+			  WHERE A.PRODUCT_STATUS = '003'
+			  AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO
+			  AND RE_INSP_STATUS = '003'		
+			  AND C.GOODS_CD = A.GOODS_CD
+			  AND C.ALNICU_MATRL_CD = D.MATRL_CD
+			   AND F.SEQ = B.SEQ
+			   AND F.TRAY_NO = A.LABEL_LOT_NO_SEQ
+			   GROUP BY A.LABEL_LOT_NO,A.LABEL_LOT_NO_SEQ, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD,
+			   B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, 
+			   B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO ,B.DIS_STATUS	, C.DEAL_CORP_CD, D.MATRL_CD , D.QUTY_CD, D.SURFACE_TRTMT_CD,B.PRODUCT_DATE
+				
+			) AA
+			WHERE 1=1  -->
+			<![CDATA[
+			SELECT * FROM
+			(
+				SELECT DISTINCT
+				  A.LABEL_LOT_NO LABEL_LOT_NO_SEQ
+				  ,B.IDX
+			      ,A.EQUIP_CD		    
+				  ,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+			      ,A.MATRL_CD
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+				  ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = A.GOODS_CD) GOODS_NM
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS				 
+				  ,B.NEXT_GUBUN		
+				  ,B.WORK_ORD_NO	
+				  ,B.DIS_STATUS
+				  ,B.DAY_NIGHT_CD
+				  ,B.SAMPLE_CNT
+				  ,B.FAULTY_GUBUN
+				  ,(ISNULL(FAULTY_CNT,0) + SUM(A.PRODUCT_QTY)) INSP_PRODUCT_QTY
+				 ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID_NM
+				 ,STUFF((         
+					  SELECT  DISTINCT ',' + X.TRAY_WORKER_ID
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				 ,B.SEQ
+				, C.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) AS DEAL_CORP_NM
+				, D.MATRL_CD ALNICU_MATRL_CD				
+				, D.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, D.SURFACE_TRTMT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='021' AND B.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+				, B.PRODUCT_DATE
+				, ISNULL(B.THREE_TRAY_WEIGHT, 0.000) AS THREE_TRAY_WEIGHT
+			 
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+				,TB_SHIP_INSPECT_ADM B			  		  
+				, TB_GOODS_CODE_ADM C
+				, TB_MATRL_CODE_ADM D
+			  WHERE A.PRODUCT_STATUS = '003'
+			  AND (A.LABEL_LOT_NO_SEQ = B.TRAY_NO1
+			  OR A.LABEL_LOT_NO_SEQ = B.TRAY_NO2)
+			  AND RE_INSP_STATUS = '001'		
+			  AND C.GOODS_CD = A.GOODS_CD
+			  AND C.ALNICU_MATRL_CD = D.MATRL_CD
+			   
+			   GROUP BY A.LABEL_LOT_NO, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD,
+			   B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, 
+			   B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO ,B.DIS_STATUS	, C.DEAL_CORP_CD, D.MATRL_CD , D.QUTY_CD, D.SURFACE_TRTMT_CD,B.PRODUCT_DATE,B.DAY_NIGHT_CD,B.IDX,B.SAMPLE_CNT,B.FAULTY_GUBUN
+			   , B.THREE_TRAY_WEIGHT
+			
+			   UNION ALL
+
+			   			
+				SELECT 
+				  
+				  A.LABEL_LOT_NO_SEQ 
+				  ,B.IDX
+			      ,A.EQUIP_CD
+				  ,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+			      ,A.MATRL_CD
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+				  ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = A.GOODS_CD) GOODS_NM
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS			
+				  ,B.NEXT_GUBUN		
+				  ,B.WORK_ORD_NO	
+				  ,B.DIS_STATUS			
+				 ,B.DAY_NIGHT_CD
+				 ,B.SAMPLE_CNT
+				 ,B.FAULTY_GUBUN
+				  ,(ISNULL(FAULTY_CNT,0) + SUM(A.PRODUCT_QTY)) INSP_PRODUCT_QTY
+				 ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID_NM
+				 ,STUFF((         
+					  SELECT  DISTINCT ',' + X.TRAY_WORKER_ID
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				 ,B.SEQ
+				, C.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) AS DEAL_CORP_NM
+				, D.MATRL_CD ALNICU_MATRL_CD				
+				, D.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, D.SURFACE_TRTMT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='021' AND B.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+				, B.PRODUCT_DATE
+				, ISNULL(B.THREE_TRAY_WEIGHT, 0.000) AS THREE_TRAY_WEIGHT
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+				,TB_SHIP_INSPECT_ADM B			  		  
+				, TB_GOODS_CODE_ADM C
+				, TB_MATRL_CODE_ADM D
+				, (SELECT TRAY_NO , MAX(SEQ) SEQ FROM TB_SHIP_INSPECT_ADM E GROUP BY TRAY_NO) F	
+			  WHERE A.PRODUCT_STATUS = '003'
+			  AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO
+			  AND RE_INSP_STATUS = '003'		
+			  AND C.GOODS_CD = A.GOODS_CD
+			  AND C.ALNICU_MATRL_CD = D.MATRL_CD
+			   AND F.SEQ = B.SEQ
+			   AND F.TRAY_NO = A.LABEL_LOT_NO_SEQ
+			   GROUP BY A.LABEL_LOT_NO,A.LABEL_LOT_NO_SEQ, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD,
+			   B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, 
+			   B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO ,B.DIS_STATUS	, C.DEAL_CORP_CD, D.MATRL_CD , D.QUTY_CD, D.SURFACE_TRTMT_CD,B.PRODUCT_DATE,B.DAY_NIGHT_CD,B.IDX,B.SAMPLE_CNT,B.FAULTY_GUBUN
+			   , B.THREE_TRAY_WEIGHT
+							
+			) AA
+			
+			LEFT OUTER JOIN
+			
+			(SELECT *
+				FROM (
+					SELECT 
+						B.SHIP_INSP_IDX
+						 ,MINOR_CD
+						, SUM(FAULTY_CNT) FAULTY_CNT						
+					FROM TB_SHIP_INSPECT_DTL B
+					WHERE 1=1						
+					GROUP BY SHIP_INSP_IDX, MINOR_CD
+					) as t
+				PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (${codeList})) as PVT
+			) D
+			ON AA.IDX = D.SHIP_INSP_IDX
+			WHERE 1=1 
+			
+			]]>
+			<if test="equipCd != null and !equipCd.equals('')">
+				AND EQUIP_CD = #{equipCd}
+			</if>
+			<if test="dateCheck != null and dateCheck.equals('001')">
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				AND INSP_DATE IS NOT NULL
+			</if>
+			<if test="dateCheck != null and dateCheck.equals('002')">
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			</if>
+			<if test="inspStatus != null and !inspStatus.equals('')">
+				AND INSP_STATUS = #{inspStatus}
+			</if>
+			<if test="matrlLotNo != null and !matrlLotNo.equals('')">
+				AND MATRL_LOT_NO LIKE '%' + #{matrlLotNo} +'%'
+			</if>
+		
+		
+	</select>
+	
+	<!-- 출하검사 현황 조회 솔브레인 -->
+	<select id="shipInspStatusList_fa3" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		SELECT
+			*
+			, (
+				CASE
+				WHEN ISNULL(E.REFERENCE_VALUE, '') = ''
+				THEN '코드 없음'
+				WHEN ISNULL(AA.THREE_TRAY_WEIGHT, 0.000) = '0.000'
+				THEN ''
+				<![CDATA[
+					WHEN E.PLUS < ISNULL(AA.THREE_TRAY_WEIGHT, 0.000) AND E.MINUS < ISNULL(AA.THREE_TRAY_WEIGHT, 0.000)
+				]]>
+				THEN '초과'
+				WHEN E.PLUS > ISNULL(AA.THREE_TRAY_WEIGHT, 0.000) AND E.MINUS > ISNULL(AA.THREE_TRAY_WEIGHT, 0.000)
+				THEN '미달'
+				ELSE '정상'
+				END
+			) AS THREE_TRAY_WEIGHT_CHECK
+		FROM
+		(
+			SELECT DISTINCT
+				A.LABEL_LOT_NO LABEL_LOT_NO_SEQ
+				, B.IDX
+				, A.EQUIP_CD		    
+				, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+				, A.MATRL_CD
+				, B.FILM_LOT_NO
+				, B.MATRL_LOT_NO
+				, A.PRODUCT_STATUS
+				, A.GOODS_CD
+				, (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = A.GOODS_CD) GOODS_NM
+				, SUM(A.PRODUCT_QTY) PRODUCT_QTY
+				, B.FAULTY_TRAY_NO
+				, B.INSP_DATE
+				, B.INSP_STATUS
+				, B.RE_INSP_STATUS				 
+				, B.NEXT_GUBUN		
+				, B.WORK_ORD_NO	
+				, B.DIS_STATUS
+				, B.DAY_NIGHT_CD
+				, B.SAMPLE_CNT
+				, B.FAULTY_GUBUN
+				, (ISNULL(FAULTY_CNT,0) + SUM(A.PRODUCT_QTY)) INSP_PRODUCT_QTY
+				, dbo.FC_BM_USERNM(STRING_AGG( E.USER_NM, ', ' )) AS TRAY_WORKER_ID_NM
+				, dbo.FC_BM_USERNM(STRING_AGG( A.TRAY_WORKER_ID, ', ' )) AS TRAY_WORKER_ID
+				, dbo.FC_BM_USERNM(STRING_AGG( E.DEPARTMENT_CD, ', ' )) AS DEPARTMENT_CD
+				, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				, B.INSP_CHARGR				  
+				, ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				, B.SEQ
+				, C.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) AS DEAL_CORP_NM
+				, D.MATRL_CD ALNICU_MATRL_CD				
+				, D.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, D.SURFACE_TRTMT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='021' AND B.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+				, B.PRODUCT_DATE
+				, DATEPART(YYYY, B.PRODUCT_DATE ) AS PRODUCT_DATE_YYYY
+				, CONCAT( DATEPART(MM, B.PRODUCT_DATE ), '월' ) AS PRODUCT_DATE_MM
+				, CONCAT( DATEPART(WW, B.PRODUCT_DATE ), '주차' ) AS PRODUCT_DATE_WW
+				, B.INSP_GUBUN
+				, B.RE_INSP_SYSTEM
+			
+				,STUFF(
+					(
+						SELECT
+					  		DISTINCT ', ' + (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE X.MINOR_CD = BASE_CD AND BASE_GROUP_CD = '068')
+					  		+ ':' + CONVERT(VARCHAR,FAULTY_CNT)
+						FROM TB_SHIP_INSPECT_DTL X
+						WHERE X.SHIP_INSP_IDX = B.IDX
+						FOR XML PATH('')
+					),1,1,''
+				) AS INSP_DESC
+				, ISNULL(B.THREE_TRAY_WEIGHT, 0.000) AS THREE_TRAY_WEIGHT
+				, B.UPD_DATE
+				, B.TRAY_WEIGHT_DATE
+				
+			FROM TB_PRODUCTION_PERF_TRAY A
+			INNER JOIN TB_SHIP_INSPECT_ADM B
+			ON A.LABEL_LOT_NO = B.TRAY_NO
+			INNER JOIN TB_GOODS_CODE_ADM C
+			ON A.GOODS_CD = C.GOODS_CD
+			INNER JOIN TB_MATRL_CODE_ADM D
+			ON C.ALNICU_MATRL_CD = D.MATRL_CD
+			INNER JOIN TB_USER E
+			ON A.TRAY_WORKER_ID = E.USER_NUMBER
+		
+			WHERE A.PRODUCT_STATUS = '003'
+			AND RE_INSP_STATUS IN ( '001', '003' )
+			  
+			GROUP BY A.LABEL_LOT_NO, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD,
+			B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, 
+			B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO ,B.DIS_STATUS	, C.DEAL_CORP_CD, D.MATRL_CD , D.QUTY_CD, D.SURFACE_TRTMT_CD,B.PRODUCT_DATE,
+			B.DAY_NIGHT_CD,B.IDX,B.SAMPLE_CNT,B.FAULTY_GUBUN, B.INSP_GUBUN, B.RE_INSP_SYSTEM, B.THREE_TRAY_WEIGHT, B.UPD_DATE, B.TRAY_WEIGHT_DATE
+		) AA
+		
+		LEFT OUTER JOIN
+		(
+			SELECT
+				A.GOODS_CD
+				, TRAY_WEIGHT_DATE
+				, B.REFERENCE_VALUE
+				, B.MINUS
+				, B.PLUS
+			FROM TB_GOODS_CODE_ADM A
+			LEFT OUTER JOIN
+			(
+				SELECT
+					GIJONG_CD
+					, TRAY_WEIGHT_DATE
+					, REFERENCE_VALUE
+					, QUTY_CD
+					, CONVERT(NUMERIC(10,3), REFERENCE_VALUE) + CONVERT(NUMERIC(10,3), REFERENCE_PLUS) AS PLUS
+					, CONVERT(NUMERIC(10,3), REFERENCE_VALUE) - CONVERT(NUMERIC(10,3), REFERENCE_MINUS) AS MINUS
+				FROM TB_THREE_TRAY_MANAGE
+				WHERE USE_YN_CD = '001'
+			) AS B
+			ON LEFT(A.GOODS_CD, 1) = B.QUTY_CD
+			AND A.GIJONG_CD = B.GIJONG_CD
+		) E
+		ON AA.GOODS_CD = E.GOODS_CD
+		AND AA.TRAY_WEIGHT_DATE = E.TRAY_WEIGHT_DATE
+		
+		LEFT OUTER JOIN
+		(
+			SELECT
+				*
+			FROM
+			(
+				SELECT 
+					B.SHIP_INSP_IDX
+					, MINOR_CD
+					, SUM(FAULTY_CNT) AS FAULTY_CNT						
+				FROM TB_SHIP_INSPECT_DTL B
+				WHERE 1=1						
+				GROUP BY SHIP_INSP_IDX, MINOR_CD
+			) AS t
+			PIVOT(SUM(FAULTY_CNT) FOR MINOR_CD IN (${codeList})) AS PVT
+		) D
+		ON AA.IDX = D.SHIP_INSP_IDX
+		
+		WHERE 1=1
+		<if test="matrlLotNo == null or matrlLotNo.equals('')">
+			<if test="equipCd != null and !equipCd.equals('')">
+				AND EQUIP_CD = #{equipCd}
+			</if>
+			<if test="dateCheck != null and dateCheck.equals('001')">
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				AND INSP_DATE IS NOT NULL
+			</if>
+			<if test="dateCheck != null and dateCheck.equals('002')">
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			</if>
+			
+			<!-- 월별 -->
+			<if test="dateCheck != null and dateCheck.equals('003')">
+				AND DATEPART(YYYY, AA.PRODUCT_DATE ) = #{chooseDateFrom}
+				AND DATEPART(MM, AA.PRODUCT_DATE ) = #{chooseDateTo}
+				AND INSP_DATE IS NOT NULL
+			</if>
+			<!-- 주차별 -->
+			<if test="dateCheck != null and dateCheck.equals('004')">
+				AND DATEPART(YYYY, AA.PRODUCT_DATE ) = #{chooseDateFrom}
+				AND DATEPART(WW, AA.PRODUCT_DATE ) = #{chooseDateTo}
+				AND INSP_DATE IS NOT NULL
+			</if>
+			
+			<if test="inspStatus != null and !inspStatus.equals('')">
+				AND INSP_STATUS = #{inspStatus}
+			</if>
+		</if>
+		<if test="matrlLotNo != null and !matrlLotNo.equals('')">
+			AND MATRL_LOT_NO LIKE '%' + #{matrlLotNo} +'%'
+			AND INSP_DATE IS NOT NULL	
+		</if>
+	</select>
+	
+	
+	
+	
+	
+	
+	<!-- 출하검사 현황(상세) 조회  -->
+	<select id="shipInspStatusDetailList" resultMap="ShipInspectTempListVo">
+		<!-- <![CDATA[ -->
+			SELECT
+				*
+			FROM
+			(
+				SELECT
+					DISTINCT A.LABEL_LOT_NO AS LABEL_LOT_NO_SEQ
+					, A.TRAY_NO
+					, A.EQUIP_CD		    
+					, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+					, A.MATRL_CD
+					, A.FILM_LOT_NO
+					--, A.MATRL_LOT_NO
+					--, A.MATRL_LOT_NO + ISNULL((SELECT ',' + LAST_MATRL_LOT_NO FROM TB_PRODUCTION_PERF_TRAY X WHERE X.TRAY_NO = A.TRAY_NO AND X.INCORPORATION_GUBUN = 'Y'),'') MATRL_LOT_NO
+					, A.MATRL_LOT_NO + ISNULL(' 혼입(' +( SELECT LAST_MATRL_LOT_NO FROM TB_PRODUCTION_PERF_TRAY X WHERE X.TRAY_NO = A.TRAY_NO AND X.INCORPORATION_GUBUN = 'Y' ) +')' ,'') MATRL_LOT_NO
+					, A.PRODUCT_STATUS
+					, A.GOODS_CD
+					, (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = A.GOODS_CD) GOODS_NM
+					, SUM(A.PRODUCT_QTY) PRODUCT_QTY
+					, B.FAULTY_TRAY_NO
+					, B.INSP_DATE
+					, B.INSP_STATUS
+					, B.RE_INSP_STATUS				 
+					, B.NEXT_GUBUN		
+					, A.WORK_ORD_NO	
+					, B.DIS_STATUS
+					, B.DAY_NIGHT_CD
+					, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = A.TRAY_WORKER_ID) AS TRAY_WORKER_ID_NM
+					, (SELECT DEPARTMENT_CD FROM TB_USER WHERE USER_NUMBER = A.TRAY_WORKER_ID) AS DEPARTMENT_CD
+					, A.TRAY_WORKER_ID
+					, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+					, B.INSP_CHARGR				  
+					, ISNULL(FAULTY_CNT,0) FAULTY_CNT
+					, B.SEQ
+					, C.DEAL_CORP_CD
+					, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) AS DEAL_CORP_NM
+					, D.MATRL_CD ALNICU_MATRL_CD				
+					, D.QUTY_CD
+					, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+					, D.SURFACE_TRTMT_CD
+					, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='021' AND B.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+					, B.PRODUCT_DATE
+				 	, A.WORK_ORD_SEQ
+					, A.TURN_NUMBER
+					, B.FAULTY_GUBUN
+					, ( SELECT FAULTY_STATUS FROM TB_WORK_ORDER_DTL X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO AND X.LOT_NO = A.MATRL_LOT_NO) AS FAULTY_STATUS
+					, ( SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '083' AND X.BASE_CD =  (SELECT FAULTY_STATUS FROM TB_WORK_ORDER_DTL X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO AND X.LOT_NO = A.MATRL_LOT_NO) ) AS FAULTY_STATUS_NM
+					, CONVERT(VARCHAR, A.UPD_DATE, 120) AS UPD_DATE
+					
+					, ( CASE
+						WHEN
+							( SELECT COUNT(*) FROM TB_WORK_ORDER_OUTPUT_SUB WHERE WORK_ORD_NO = A.WORK_ORD_NO AND GUBUN = A.DAY_NIGHT_CD ) != 0
+						THEN
+							( SELECT dbo.FC_BM_USERNM(STRING_AGG(WORK_ORD_LOT_NO, ', ')) FROM TB_WORK_ORDER_OUTPUT_SUB WHERE WORK_ORD_NO = A.WORK_ORD_NO AND GUBUN = A.DAY_NIGHT_CD )
+						ELSE
+							( SELECT dbo.FC_BM_USERNM(STRING_AGG(WORK_ORD_LOT_NO, ', ')) FROM TB_WORK_ORDER_OUTPUT_SUB WHERE WORK_ORD_NO = A.LAST_WORK_ORD_NO AND GUBUN = A.DAY_NIGHT_CD )
+						END
+					) AS WORK_ORD_LOT_NO
+					
+				FROM TB_PRODUCTION_PERF_TRAY A 
+					, TB_SHIP_INSPECT_ADM B			  		  
+					, TB_GOODS_CODE_ADM C
+					, TB_MATRL_CODE_ADM D
+				WHERE A.PRODUCT_STATUS = '003'
+				<!-- AND (A.LABEL_LOT_NO_SEQ = B.TRAY_NO1 OR A.LABEL_LOT_NO_SEQ = B.TRAY_NO2) -->
+				AND A.LABEL_LOT_NO_SEQ IN
+				( 
+					SELECT TRAY_NO1 FROM TB_SHIP_INSPECT_ADM X  WHERE X.IDX = B.IDX
+					UNION
+					SELECT TRAY_NO2 FROM TB_SHIP_INSPECT_ADM X  WHERE X.IDX = B.IDX						
+				)
+				
+				
+				AND RE_INSP_STATUS = '001'		
+				AND C.GOODS_CD = A.GOODS_CD
+				AND C.ALNICU_MATRL_CD = D.MATRL_CD
+			   
+				GROUP BY
+					A.LABEL_LOT_NO, A.EQUIP_CD, A.MATRL_CD,A.FILM_LOT_NO,A.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD, A.TRAY_NO
+					, B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT,B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO
+					, B.DIS_STATUS	, C.DEAL_CORP_CD, D.MATRL_CD , D.QUTY_CD, D.SURFACE_TRTMT_CD,B.PRODUCT_DATE,B.DAY_NIGHT_CD,A.TRAY_WORKER_ID, A.WORK_ORD_SEQ
+					, A.TURN_NUMBER, B.FAULTY_GUBUN, A.WORK_ORD_NO, A.UPD_DATE, A.LAST_WORK_ORD_NO, A.DAY_NIGHT_CD
+
+				UNION ALL
+			   			
+				SELECT 
+				
+					<if test="factoryCode == '001' or factoryCode == '002'">
+						A.LABEL_LOT_NO_SEQ AS LABEL_LOT_NO_SEQ
+					</if>
+					<if test="factoryCode == '003'">
+						A.LABEL_LOT_NO AS LABEL_LOT_NO_SEQ
+					</if>
+					
+					, A.TRAY_NO 
+				    , A.EQUIP_CD
+				  	, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+				    , A.MATRL_CD
+				    , A.FILM_LOT_NO
+					--, A.MATRL_LOT_NO
+				  	--, A.MATRL_LOT_NO + ISNULL((SELECT ',' + LAST_MATRL_LOT_NO FROM TB_PRODUCTION_PERF_TRAY X WHERE X.TRAY_NO = A.TRAY_NO AND X.INCORPORATION_GUBUN = 'Y'),'') MATRL_LOT_NO
+				  	, A.MATRL_LOT_NO + ISNULL(' 혼입(' +( SELECT LAST_MATRL_LOT_NO FROM TB_PRODUCTION_PERF_TRAY X WHERE X.TRAY_NO = A.TRAY_NO AND X.INCORPORATION_GUBUN = 'Y' ) +')' ,'') MATRL_LOT_NO
+				    , A.PRODUCT_STATUS
+				    , A.GOODS_CD
+					, (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = A.GOODS_CD) GOODS_NM
+					, SUM(A.PRODUCT_QTY) PRODUCT_QTY
+					, B.FAULTY_TRAY_NO
+					, B.INSP_DATE
+					, B.INSP_STATUS
+					, B.RE_INSP_STATUS			
+					, B.NEXT_GUBUN		
+					, A.WORK_ORD_NO	
+					, B.DIS_STATUS			
+					, B.DAY_NIGHT_CD
+					, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = A.TRAY_WORKER_ID) AS TRAY_WORKER_ID_NM
+					, (SELECT DEPARTMENT_CD FROM TB_USER WHERE USER_NUMBER = A.TRAY_WORKER_ID) AS DEPARTMENT_CD
+					, A.TRAY_WORKER_ID
+					, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+					, B.INSP_CHARGR				  
+					, ISNULL(FAULTY_CNT,0) FAULTY_CNT
+					, B.SEQ
+					, C.DEAL_CORP_CD
+					, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) AS DEAL_CORP_NM
+					, D.MATRL_CD ALNICU_MATRL_CD				
+					, D.QUTY_CD
+					, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+					, D.SURFACE_TRTMT_CD
+					, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='021' AND B.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+					, B.PRODUCT_DATE
+					, A.WORK_ORD_SEQ
+					, A.TURN_NUMBER
+					, B.FAULTY_GUBUN
+					, ( SELECT FAULTY_STATUS FROM TB_WORK_ORDER_DTL X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO AND X.LOT_NO = A.MATRL_LOT_NO) AS FAULTY_STATUS
+					, ( SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '083' AND X.BASE_CD =  (SELECT FAULTY_STATUS FROM TB_WORK_ORDER_DTL X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO AND X.LOT_NO = A.MATRL_LOT_NO) ) AS FAULTY_STATUS_NM
+					, CONVERT(VARCHAR, A.UPD_DATE, 120) AS UPD_DATE
+					
+					, ( CASE
+						WHEN
+							( SELECT COUNT(*) FROM TB_WORK_ORDER_OUTPUT_SUB WHERE WORK_ORD_NO = A.WORK_ORD_NO AND GUBUN = A.DAY_NIGHT_CD ) != 0
+						THEN
+							( SELECT dbo.FC_BM_USERNM(STRING_AGG(WORK_ORD_LOT_NO, ', ')) FROM TB_WORK_ORDER_OUTPUT_SUB WHERE WORK_ORD_NO = A.WORK_ORD_NO AND GUBUN = A.DAY_NIGHT_CD )
+						ELSE
+							( SELECT dbo.FC_BM_USERNM(STRING_AGG(WORK_ORD_LOT_NO, ', ')) FROM TB_WORK_ORDER_OUTPUT_SUB WHERE WORK_ORD_NO = A.LAST_WORK_ORD_NO AND GUBUN = A.DAY_NIGHT_CD )
+						END
+					) AS WORK_ORD_LOT_NO
+					
+				FROM TB_PRODUCTION_PERF_TRAY A 
+					,TB_SHIP_INSPECT_ADM B			  		  
+					, TB_GOODS_CODE_ADM C
+					, TB_MATRL_CODE_ADM D
+					--, (SELECT TRAY_NO , MAX(SEQ) SEQ FROM TB_SHIP_INSPECT_ADM E GROUP BY TRAY_NO) F	
+				WHERE A.PRODUCT_STATUS = '003'
+				
+				<if test="factoryCode == '001' or factoryCode == '002'">
+					AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO
+				</if>
+				<if test="factoryCode == '003'">
+					AND A.LABEL_LOT_NO = B.TRAY_NO
+				</if>
+				
+				AND RE_INSP_STATUS = '003'		
+				AND C.GOODS_CD = A.GOODS_CD
+				AND C.ALNICU_MATRL_CD = D.MATRL_CD
+				--AND F.SEQ = B.SEQ
+				--AND F.TRAY_NO = A.LABEL_LOT_NO_SEQ
+				GROUP BY A.LABEL_LOT_NO,A.LABEL_LOT_NO_SEQ, A.EQUIP_CD, A.MATRL_CD,A.FILM_LOT_NO,A.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD, A.TRAY_NO
+					, B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT,B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO
+					, B.DIS_STATUS, C.DEAL_CORP_CD, D.MATRL_CD , D.QUTY_CD, D.SURFACE_TRTMT_CD,B.PRODUCT_DATE,B.DAY_NIGHT_CD,A.TRAY_WORKER_ID, A.WORK_ORD_SEQ
+					, A.TURN_NUMBER, B.FAULTY_GUBUN, A.WORK_ORD_NO, A.UPD_DATE, A.LAST_WORK_ORD_NO, A.DAY_NIGHT_CD
+			) AA
+		WHERE 1=1 
+<!-- 		]]> -->
+		<if test="equipCd != null and !equipCd.equals('')">
+			AND EQUIP_CD = #{equipCd}
+		</if>
+		<if test="dateCheck != null and dateCheck.equals('001')">
+			AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		</if>
+		<if test="dateCheck != null and dateCheck.equals('002')">
+			AND INSP_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		</if>
+		<if test="inspStatus != null and !inspStatus.equals('')">
+			AND INSP_STATUS = #{inspStatus}
+		</if>
+		<if test="matrlLotNo != null and !matrlLotNo.equals('')">
+			AND MATRL_LOT_NO LIKE '%' + #{matrlLotNo} +'%'
+		</if>
+		<if test="filmLotNo != null and filmLotNo != ''">          
+	    	AND AA.FILM_LOT_NO LIKE '%'+ #{filmLotNo} +'%'
+	    </if>
+    	<if test="labelLotNoSeq != null and labelLotNoSeq != ''">          
+	    	AND AA.LABEL_LOT_NO_SEQ LIKE '%'+ #{labelLotNoSeq} +'%'
+	    </if>
+	    <if test="faultyStatus != null and faultyStatus != ''">          
+	    	AND AA.FAULTY_STATUS = #{faultyStatus}
+	    </if>
+		
+		ORDER BY AA.WORK_ORD_SEQ, TURN_NUMBER ASC
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 출하검사 메인 등록  -->
+	<insert id="shipAdmCreate">
+		INSERT INTO TB_SHIP_INSPECT_ADM (
+			TRAY_NO
+		    ,TRAY_NO1
+		    ,TRAY_NO2
+		    ,SEQ
+		    ,WORK_ORD_NO
+		    ,MATRL_LOT_NO
+		    ,FILM_LOT_NO
+		    ,INSP_STATUS
+		    ,RE_INSP_STATUS
+		    ,DIS_STATUS
+		    ,INSP_DATE
+		    ,PRODUCT_DATE
+		    ,FAULTY_CNT
+		    ,FAULTY_TRAY_NO
+		    ,INSP_CHARGR
+		    ,DAY_NIGHT_CD
+		    ,FAULTY_GUBUN
+		    ,NEXT_GUBUN
+		    ,INSP_DESC		
+		    ,SAMPLE_CNT
+		    ,INSP_GUBUN
+		    ,REG_ID
+		    ,REG_DATE
+		)
+		VALUES (
+			#{trayNo}
+			, #{trayNo1}
+			, #{trayNo2}
+			, #{seq}
+			, #{workOrdNo}
+			, #{matrlLotNo}
+			, #{filmLotNo}
+			, #{inspStatus}
+			, #{reInspStatus}
+			, #{disStatus}
+			, #{inspDate}
+			, #{productDate}
+			, #{faultyCnt}
+			, #{faultyTrayNo}
+			, #{inspChargr}
+			, #{dayNightCd}
+			, #{faultyGubun}
+			, #{nextGubun}		
+			, #{inspDesc}
+			, #{sampleCnt}
+			, #{inspGubun}
+			, #{regId}
+			, getDate()
+		)
+	
+	</insert>
+	
+	<!-- 출하검사 상세 등록  -->
+	<insert id="shipDtlCreate">
+		INSERT INTO TB_SHIP_INSPECT_DTL (
+			SHIP_INSP_IDX
+		      ,FAULTY_CNT
+		      ,MAJOR_CD
+		      ,MINOR_CD		   
+		      ,REG_ID
+		      ,REG_DATE
+		)
+		VALUES (
+			#{shipInspIdx}
+			, #{faultyCnt}
+			, #{majorCd}
+			, #{minorCd}			
+			, #{regId}
+			, getDate()
+		)
+	
+	</insert>
+
+	<!-- 출하검사 메인 삭제  -->
+	<delete id="shipAdmDelete">
+		DELETE TB_SHIP_INSPECT_ADM
+		WHERE IDX = #{idx}
+	</delete>
+		
+	<!-- 출하검사 세부 삭제  -->
+	<delete id="shipDtlDelete">
+		DELETE TB_SHIP_INSPECT_DTL
+		WHERE SHIP_INSP_IDX = #{idx}
+	</delete>
+
+	<!-- 출하검사 메인 수정  -->
+	<update id="shipAdmUpdate">
+		UPDATE TB_SHIP_INSPECT_ADM
+		SET
+		   MATRL_LOT_NO   		= #{matrlLotNo}
+	      ,FILM_LOT_NO   	 	= #{filmLotNo}
+	      ,INSP_STATUS   	 	= #{inspStatus}
+	      ,RE_INSP_STATUS 		= #{reInspStatus}
+	      ,DIS_STATUS     		= #{disStatus}
+	      ,INSP_DATE     		= #{inspDate}
+	      ,PRODUCT_DATE  		= #{productDate}
+	      ,FAULTY_CNT    	 	= #{faultyCnt}
+	      ,FAULTY_TRAY_NO 		= #{faultyTrayNo}
+	      ,INSP_CHARGR    		= #{inspChargr}
+	      ,DAY_NIGHT_CD   		= #{dayNightCd}
+	      ,FAULTY_GUBUN			= #{faultyGubun}	
+	      ,NEXT_GUBUN			= #{nextGubun}
+	      ,INSP_DESC			= #{inspDesc}
+	      ,SAMPLE_CNT			= #{sampleCnt}
+	      ,THREE_TRAY_WEIGHT	= #{threeTrayWeight}
+	      ,TRAY_WEIGHT_DATE		= #{trayWeightDate}
+	      ,INSP_GUBUN = #{inspGubun}
+	      <if test="factoryCode !=null and factoryCode.equals('003')">	     	
+	     	, RE_INSP_SYSTEM = #{reInspSystem}
+	     </if>
+	      ,UPD_ID = #{updId}
+	      ,UPD_DATE = getDate()
+	     WHERE 1=1
+	     <if test="reInspStatus !=null and !reInspStatus.equals('')">
+	     	AND RE_INSP_STATUS = #{reInspStatus}
+	     </if>
+	     <if test="trayNo !=null and !trayNo.equals('')">
+	     	AND TRAY_NO = #{trayNo}
+	     </if>
+	     <if test="seq !=null and !seq.equals('')">
+	     	AND SEQ = #{seq}
+	     </if>
+	</update>
+	
+	<!-- 출하검사 재검상태 수정  -->
+	<update id="shipAdmReInspStatUpdate">
+		UPDATE TB_SHIP_INSPECT_ADM
+		SET
+	      NEXT_GUBUN = #{nextGubun}
+	      <if test="reInspStatus !=null and !reInspStatus.equals('')">
+	      	, RE_INSP_STATUS =  #{reInspStatus}
+	      </if>
+	      ,UPD_ID = #{updId}
+	      ,UPD_DATE = getDate()
+	     WHERE IDX = #{idx}
+	</update>
+	
+	<!-- 출하검사 메탈, 필름 로트 추가  -->
+	<update id="shipAdmLotNoUpdate">
+		UPDATE TB_SHIP_INSPECT_ADM
+		SET
+		   MATRL_LOT_NO   =  MATRL_LOT_NO + ',' + #{matrlLotNo}
+		    <if test="filmLotNo !=null and !filmLotNo.equals('')">
+	     	  ,FILM_LOT_NO    =  FILM_LOT_NO + ',' + #{filmLotNo}
+	   		  </if>
+	    
+	      ,UPD_ID = #{updId}
+	      ,UPD_DATE = getDate()
+	    WHERE TRAY_NO = #{trayNo}
+	    AND RE_INSP_STATUS = #{reInspStatus}
+	    AND SEQ = #{seq}
+	</update>
+	
+	<!-- 출하검사 현 설비에서 가장 가까운 시일의 metal,film lot가져오기  -->
+	<select id="getAddLotNo" resultMap="ShipInspectVo">
+		SELECT TOP(1) 
+			LEAD(LOT_NO) OVER (ORDER BY MATRL_CD) AS FILM_LOT_NO 
+			, LOT_NO AS MATRL_LOT_NO 
+			FROM TB_WORK_ORDER_DTL 
+			WHERE WORK_ORD_NO = (SELECT TOP(1) 
+										A.WORK_ORD_NO 
+									FROM TB_WORK_ORDER A, TB_WORK_ORDER_DTL B
+									WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+										AND A.EQUIP_CD = #{equipCd}
+									ORDER BY WORK_ORD_NO DESC)
+	</select>
+	
+		<!-- 출하검사 현 설비에서 가장 가까운 시일의 metal,film lot가져오기  -->
+	<select id="getAddLotNoList" resultMap="ShipInspectVo">
+		SELECT AA.WORK_ORD_NO
+		, AA.MATRL_LOT_NO AS FILM_LOT_NO
+		, BB.MATRL_LOT_NO 
+		FROM (
+				SELECT 			
+				 LOT_NO AS MATRL_LOT_NO 
+				, WORK_ORD_NO
+				FROM TB_WORK_ORDER_DTL 
+				WHERE WORK_ORD_NO IN (SELECT DISTINCT TOP(3)
+											A.WORK_ORD_NO 
+										FROM TB_WORK_ORDER A, TB_WORK_ORDER_DTL B
+										WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+											AND A.EQUIP_CD = #{equipCd}
+										ORDER BY WORK_ORD_NO DESC)
+				AND LEFT(MATRL_CD,1) != 'F'
+				) BB , 
+				(
+				SELECT 			
+				 LOT_NO AS MATRL_LOT_NO 
+				, WORK_ORD_NO
+				FROM TB_WORK_ORDER_DTL 
+				WHERE WORK_ORD_NO IN (SELECT DISTINCT TOP(3)
+											A.WORK_ORD_NO 
+										FROM TB_WORK_ORDER A, TB_WORK_ORDER_DTL B
+										WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+											AND A.EQUIP_CD = #{equipCd}
+										ORDER BY WORK_ORD_NO DESC)
+				AND LEFT(MATRL_CD,1) = 'F') AA
+			
+		WHERE AA.WORK_ORD_NO = BB.WORK_ORD_NO
+		ORDER BY WORK_ORD_NO DESC
+	</select>
+	
+	<!-- 솔브레인 재검사 Lot_No 불러오기 -->
+	<select id="getReTestAddLotNoReadt_F3" resultMap="ShipInspectVo">
+		SELECT
+			WORK_ORD_NO
+			, LAST_WORK_ORD_NO
+			, LAST_MATRL_LOT_NO AS MATRL_LOT_NO
+			, WORK_ORD_SEQ
+			, MAX(TURN_NUMBER) AS TURN_NUMBER
+		FROM
+		(
+			SELECT
+				WORK_ORD_NO
+				, LAST_WORK_ORD_NO
+				, LAST_MATRL_LOT_NO
+				, WORK_ORD_SEQ
+				, TURN_NUMBER
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND LABEL_LOT_NO = #{labelLotNo}
+			AND WORK_ORD_SEQ = ( SELECT MAX(WORK_ORD_SEQ) FROM TB_PRODUCTION_PERF_TRAY X WHERE X.LABEL_LOT_NO = #{labelLotNo})
+		) AS AA
+		GROUP BY
+			WORK_ORD_NO
+			, LAST_WORK_ORD_NO
+			, LAST_MATRL_LOT_NO
+			, WORK_ORD_SEQ
+	</select>
+	
+	
+	
+	<select id="shipInspectAdmSelByGoodsIn" resultMap="ShipInspectVo">
+		SELECT
+			TOP 1 IDX
+			, TRAY_NO
+			, TRAY_NO1
+			, TRAY_NO2
+			, SEQ
+			, WORK_ORD_NO
+			, MATRL_LOT_NO
+			, FILM_LOT_NO
+			, INSP_STATUS
+			, RE_INSP_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD = '110' AND B.BASE_CD = RE_INSP_STATUS) RE_INSP_STATUS_NM
+			, DIS_STATUS
+			, INSP_DATE
+			, PRODUCT_DATE
+			, FAULTY_CNT
+			, FAULTY_TRAY_NO
+			, INSP_CHARGR
+			, DAY_NIGHT_CD
+			, FAULTY_GUBUN
+			, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = INSP_CHARGR) INSP_CHARGR_NM
+			, NEXT_GUBUN
+			, INSP_DESC
+			, SAMPLE_CNT 
+			, INSP_GUBUN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_SHIP_INSPECT_ADM
+		WHERE TRAY_NO = #{trayNo}
+		ORDER BY IDX DESC
+	</select>
+	
+	<!-- 시퀀스 가져오기 -->
+	<select id="selectTraySeq" resultType="String">
+		SELECT
+			ISNULL(MAX(SEQ),0) + 1 SEQ 	
+		FROM TB_SHIP_INSPECT_ADM
+		WHERE TRAY_NO = #{trayNo}
+		AND RE_INSP_STATUS = #{reInspStatus}
+
+	</select>
+	
+	<!-- 출하검사 폐기상태 수정  -->
+	<update id="shipAdmDisStatusUpdate">
+		UPDATE TB_SHIP_INSPECT_ADM
+		SET
+	      DIS_STATUS = #{disStatus}
+	      ,UPD_ID = #{updId}
+	      ,UPD_DATE = getDate()
+	     WHERE 1=1
+	     <if test="gubun == null or gubun.equals('')">
+			AND IDX = #{idx}
+		</if>
+		<if test="gubun != null and !gubun.equals('')">
+			AND TRAY_NO = #{trayNo}
+		</if>
+	    
+	</update>
+	
+	<!-- 재검현황 조회  -->
+	<select id="shipInspStatusListReInsp" resultMap="ShipInspectVo">
+
+			<![CDATA[
+			SELECT * FROM
+			(		   			
+				SELECT 
+				  
+				  A.LABEL_LOT_NO_SEQ 
+			      ,A.EQUIP_CD
+				  ,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+			      ,A.MATRL_CD
+			      ,B.FILM_LOT_NO
+			      ,B.MATRL_LOT_NO
+			      ,A.PRODUCT_STATUS
+			      ,A.GOODS_CD
+				  ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = A.GOODS_CD) GOODS_NM
+			      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			      ,B.FAULTY_TRAY_NO
+				  ,B.INSP_DATE
+				  ,B.INSP_STATUS
+				  ,B.RE_INSP_STATUS			
+				  ,B.NEXT_GUBUN		
+				  ,B.WORK_ORD_NO	
+				  ,B.DIS_STATUS			
+				 ,B.DAY_NIGHT_CD
+				  ,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+					  FROM    TB_PRODUCTION_PERF_TRAY X
+					  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS TRAY_WORKER_ID
+				  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+				  ,B.INSP_CHARGR				  
+				 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				 ,B.SEQ
+				, C.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) AS DEAL_CORP_NM
+				, D.MATRL_CD ALNICU_MATRL_CD				
+				, D.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, D.SURFACE_TRTMT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='021' AND B.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+				, B.PRODUCT_DATE
+				  
+			  FROM TB_PRODUCTION_PERF_TRAY A 
+				,TB_SHIP_INSPECT_ADM B			  		  
+				, TB_GOODS_CODE_ADM C
+				, TB_MATRL_CODE_ADM D
+				, (SELECT TRAY_NO , MAX(SEQ) SEQ FROM TB_SHIP_INSPECT_ADM E GROUP BY TRAY_NO) F	
+			  WHERE A.PRODUCT_STATUS = '003'
+			  AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO
+			  AND RE_INSP_STATUS = '002'		
+			  AND C.GOODS_CD = A.GOODS_CD
+			  AND C.ALNICU_MATRL_CD = D.MATRL_CD
+			   AND F.SEQ = B.SEQ
+			   AND F.TRAY_NO = A.LABEL_LOT_NO_SEQ
+			   GROUP BY A.LABEL_LOT_NO,A.LABEL_LOT_NO_SEQ, A.EQUIP_CD, A.MATRL_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS, A.GOODS_CD,
+			   B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, 
+			   B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO ,B.DIS_STATUS	, C.DEAL_CORP_CD, D.MATRL_CD , D.QUTY_CD, D.SURFACE_TRTMT_CD,B.PRODUCT_DATE,B.DAY_NIGHT_CD
+			
+			) AA
+			WHERE 1=1 
+			]]>
+			<if test="equipCd != null and !equipCd.equals('')">
+				AND EQUIP_CD = #{equipCd}
+			</if>
+			<if test="dateCheck != null and dateCheck.equals('001')">
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			</if>
+			<if test="dateCheck != null and dateCheck.equals('002')">
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			</if>
+			<if test="inspStatus != null and !inspStatus.equals('')">
+				AND INSP_STATUS = #{inspStatus}
+			</if>
+			<if test="matrlLotNo != null and !matrlLotNo.equals('')">
+				AND MATRL_LOT_NO LIKE '%' + #{matrlLotNo} +'%'
+			</if>
+		
+		
+	</select>
+	
+	<!-- 출하검사 이력 조회  -->
+	<select id="shipListRecord" resultMap="ShipInspectVo">
+		SELECT 
+			A.LABEL_LOT_NO_SEQ
+			, A.EQUIP_CD		     
+			, B.FILM_LOT_NO
+			, B.MATRL_LOT_NO
+			, A.PRODUCT_STATUS
+			<!--
+			, STUFF((
+				SELECT  DISTINCT ',' + (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM WHERE MATRL_CD = X.MATRL_CD)
+				FROM    TB_PRODUCTION_PERF_TRAY X
+				WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				FOR XML PATH('') ),1,1,'') AS MATRL_NM
+			, STUFF((
+				SELECT  DISTINCT ',' + (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = X.GOODS_CD)
+				FROM    TB_PRODUCTION_PERF_TRAY X
+				WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				FOR XML PATH('') ),1,1,'') AS GOODS_NM
+			, STUFF((
+				SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+				FROM    TB_PRODUCTION_PERF_TRAY X
+				WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				FOR XML PATH('') ),1,1,'') AS TRAY_WORKER_ID
+			 -->	
+			, dbo.FC_BM_USERNM(STRING_AGG( C.USER_NM, ', ' )) AS TRAY_WORKER_ID
+			, dbo.FC_BM_USERNM(STRING_AGG( D.GOODS_NM, ', ' )) AS GOODS_NM
+			, dbo.FC_BM_USERNM(STRING_AGG( E.MATRL_CD, ', ' )) AS MATRL_CD
+			, STUFF((
+				SELECT  DISTINCT ', ' + (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE X.MINOR_CD = BASE_CD AND BASE_GROUP_CD = '068') 
+				+ ':' + CONVERT(VARCHAR,FAULTY_CNT)
+				FROM    TB_SHIP_INSPECT_DTL X
+				WHERE   X.SHIP_INSP_IDX = B.IDX
+				FOR XML PATH('') ),1,1,'') INSP_DESC
+			  
+			, SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			, B.FAULTY_TRAY_NO
+			, B.INSP_DATE
+			, B.INSP_STATUS
+			, B.RE_INSP_STATUS
+			, B.IDX
+			, B.NEXT_GUBUN		
+			, B.WORK_ORD_NO	
+			, B.DIS_STATUS
+			, B.INSP_GUBUN			
+			,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+			,B.INSP_CHARGR				  
+			,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+			,B.SEQ
+			--,B.INSP_DESC
+			, B.UPD_DATE
+		FROM TB_PRODUCTION_PERF_TRAY A
+		<!-- ,TB_SHIP_INSPECT_ADM B -->
+		INNER JOIN TB_SHIP_INSPECT_ADM B
+		ON A.LABEL_LOT_NO_SEQ = B.TRAY_NO
+		INNER JOIN TB_USER C
+		ON A.TRAY_WORKER_ID = C.USER_NUMBER
+		INNER JOIN TB_GOODS_CODE_ADM D
+		ON A.GOODS_CD = D.GOODS_CD
+		INNER JOIN TB_MATRL_CODE_ADM E
+		ON A.MATRL_CD = E.MATRL_CD
+		
+		WHERE A.PRODUCT_STATUS = '003'			  
+		<!-- AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO -->
+		AND LEFT(B.TRAY_NO,13) = #{trayNo}
+		
+		GROUP BY
+		   	A.LABEL_LOT_NO, A.LABEL_LOT_NO_SEQ,  A.EQUIP_CD, B.FILM_LOT_NO, B.MATRL_LOT_NO
+		    ,  A.PRODUCT_STATUS, B.FAULTY_TRAY_NO,  B.INSP_DATE, B.INSP_STATUS, B.RE_INSP_STATUS, INSP_CHARGR
+		    ,  FAULTY_CNT,  B.IDX, B.NEXT_GUBUN, B.SEQ, B.WORK_ORD_NO , B.DIS_STATUS, B.INSP_GUBUN, B.INSP_DESC,  B.UPD_DATE			
+
+		UNION ALL
+
+		SELECT
+			A.LABEL_LOT_NO  LABEL_LOT_NO_SEQ
+			, A.EQUIP_CD		     
+			, B.FILM_LOT_NO
+			, B.MATRL_LOT_NO
+			, A.PRODUCT_STATUS
+			
+			<!--
+			,STUFF((         
+				SELECT  DISTINCT ',' + (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM WHERE MATRL_CD = X.MATRL_CD)
+				FROM    TB_PRODUCTION_PERF_TRAY X
+				WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				FOR XML PATH('') ),1,1,'') AS MATRL_NM
+			,STUFF((         
+				SELECT  DISTINCT ',' + (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = X.GOODS_CD)
+				FROM    TB_PRODUCTION_PERF_TRAY X
+				WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				FOR XML PATH('') ),1,1,'') AS GOODS_NM
+			,STUFF((         
+				SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+				FROM    TB_PRODUCTION_PERF_TRAY X
+				WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				FOR XML PATH('') ),1,1,'') AS TRAY_WORKER_ID
+			-->
+			, dbo.FC_BM_USERNM(STRING_AGG( C.USER_NM, ', ' )) AS TRAY_WORKER_ID
+			, dbo.FC_BM_USERNM(STRING_AGG( D.GOODS_NM, ', ' )) AS GOODS_NM
+			, dbo.FC_BM_USERNM(STRING_AGG( E.MATRL_CD, ', ' )) AS MATRL_CD
+			,STUFF((
+				SELECT  DISTINCT ', ' + (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE X.MINOR_CD = BASE_CD AND BASE_GROUP_CD = '068') 
+				+ ':' + CONVERT(VARCHAR,FAULTY_CNT)
+				FROM    TB_SHIP_INSPECT_DTL X
+				WHERE   X.SHIP_INSP_IDX = B.IDX
+				FOR XML PATH('') ),1,1,'') INSP_DESC
+	
+			, SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			, B.FAULTY_TRAY_NO
+			, B.INSP_DATE
+			, B.INSP_STATUS
+			, B.RE_INSP_STATUS
+			, B.IDX
+			, B.NEXT_GUBUN		
+			, B.WORK_ORD_NO	
+			, B.DIS_STATUS
+			, B.INSP_GUBUN			
+			, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+			, B.INSP_CHARGR				  
+			, ISNULL(FAULTY_CNT,0) FAULTY_CNT
+			, B.SEQ
+			--, B.INSP_DESC
+			, B.UPD_DATE
+		FROM TB_PRODUCTION_PERF_TRAY A 
+		<!-- ,TB_SHIP_INSPECT_ADM B -->			  		  
+		INNER JOIN TB_SHIP_INSPECT_ADM B
+		ON A.LABEL_LOT_NO = B.TRAY_NO
+		INNER JOIN TB_USER C
+		ON A.TRAY_WORKER_ID = C.USER_NUMBER
+		INNER JOIN TB_GOODS_CODE_ADM D
+		ON A.GOODS_CD = D.GOODS_CD
+		INNER JOIN TB_MATRL_CODE_ADM E
+		ON A.MATRL_CD = E.MATRL_CD
+		
+		WHERE A.PRODUCT_STATUS = '003'			  
+		AND B.TRAY_NO = #{trayNo}
+	  	<!-- AND A.LABEL_LOT_NO = B.TRAY_NO -->
+
+		GROUP BY
+			A.LABEL_LOT_NO,  A.EQUIP_CD , B.FILM_LOT_NO, B.MATRL_LOT_NO,  A.PRODUCT_STATUS
+			, B.FAULTY_TRAY_NO,  B.INSP_DATE, B.INSP_STATUS, B.RE_INSP_STATUS, INSP_CHARGR, FAULTY_CNT
+			, B.IDX, B.NEXT_GUBUN, B.SEQ, B.WORK_ORD_NO, B.INSP_GUBUN, B.DIS_STATUS, B.INSP_DESC, B.UPD_DATE
+	</select>
+	
+	<!-- 출하검사 이력 조회 3개트레이 -->
+	<select id="shipListRecordDtl" resultMap="ShipInspectVo">
+		 SELECT 				 
+			  A.LABEL_LOT_NO_SEQ
+		      ,A.EQUIP_CD		     
+		  
+		      ,B.FILM_LOT_NO
+		      ,B.MATRL_LOT_NO
+		      ,A.PRODUCT_STATUS
+			   ,STUFF((         
+				  SELECT  DISTINCT ',' + (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM WHERE MATRL_CD = X.MATRL_CD)
+				  FROM    TB_PRODUCTION_PERF_TRAY X
+				  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				  FOR XML PATH('') ),1,1,'') AS MATRL_NM
+			  ,STUFF((         
+				  SELECT  DISTINCT ',' + (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = X.GOODS_CD)
+				  FROM    TB_PRODUCTION_PERF_TRAY X
+				  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				  FOR XML PATH('') ),1,1,'') AS GOODS_NM
+		
+		      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+		      ,B.FAULTY_TRAY_NO
+			  ,B.INSP_DATE
+			  ,B.INSP_STATUS
+			  ,B.RE_INSP_STATUS
+			  ,B.IDX
+			  ,B.NEXT_GUBUN		
+			   ,B.WORK_ORD_NO	
+			    ,B.DIS_STATUS
+			    ,B.INSP_GUBUN			
+			  ,STUFF((         
+				  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+				  FROM    TB_PRODUCTION_PERF_TRAY X
+				  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				  FOR XML PATH('') ),1,1,'')
+			  AS TRAY_WORKER_ID
+			  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+			  ,B.INSP_CHARGR				  
+			 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+			 ,B.SEQ
+			  --,B.INSP_DESC
+			 ,STUFF((         
+				  SELECT  DISTINCT ', ' + (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE X.MINOR_CD = BASE_CD AND BASE_GROUP_CD = '068') 
+				  + ':' + CONVERT(VARCHAR,FAULTY_CNT)
+				  FROM    TB_SHIP_INSPECT_DTL X
+				  WHERE   X.SHIP_INSP_IDX = B.IDX
+				  FOR XML PATH('') ),1,1,'') INSP_DESC
+			  
+		  FROM TB_PRODUCTION_PERF_TRAY A 
+			,TB_SHIP_INSPECT_ADM B			  		  
+		  WHERE A.PRODUCT_STATUS = '003'			  
+		    AND A.LABEL_LOT_NO_SEQ = B.TRAY_NO		
+			AND B.TRAY_NO = #{trayNo}
+		   
+		   GROUP BY A.LABEL_LOT_NO,A.LABEL_LOT_NO_SEQ, A.EQUIP_CD,B.FILM_LOT_NO,B.MATRL_LOT_NO,
+		    A.PRODUCT_STATUS,B.FAULTY_TRAY_NO, B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,
+		    FAULTY_CNT, B.IDX,B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO ,B.DIS_STATUS,B.INSP_GUBUN,B.INSP_DESC			
+
+
+			UNION ALL
+
+			SELECT 
+			  
+			  A.LABEL_LOT_NO  LABEL_LOT_NO_SEQ
+		      ,A.EQUIP_CD		     
+		  
+		      ,B.FILM_LOT_NO
+		      ,B.MATRL_LOT_NO
+		      ,A.PRODUCT_STATUS
+			   ,STUFF((         
+				  SELECT  DISTINCT ',' + (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM WHERE MATRL_CD = X.MATRL_CD)
+				  FROM    TB_PRODUCTION_PERF_TRAY X
+				  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				  FOR XML PATH('') ),1,1,'') AS MATRL_NM
+			  ,STUFF((         
+				  SELECT  DISTINCT ',' + (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = X.GOODS_CD)
+				  FROM    TB_PRODUCTION_PERF_TRAY X
+				  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				  FOR XML PATH('') ),1,1,'') AS GOODS_NM
+		
+		      ,SUM(A.PRODUCT_QTY) PRODUCT_QTY
+		      ,B.FAULTY_TRAY_NO
+			  ,B.INSP_DATE
+			  ,B.INSP_STATUS
+			  ,B.RE_INSP_STATUS
+			  ,B.IDX
+			  ,B.NEXT_GUBUN		
+			   ,B.WORK_ORD_NO	
+			    ,B.DIS_STATUS
+			    ,B.INSP_GUBUN			
+			  ,STUFF((         
+				  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+				  FROM    TB_PRODUCTION_PERF_TRAY X
+				  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				  FOR XML PATH('') ),1,1,'')
+			  AS TRAY_WORKER_ID
+			  ,(SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+			  ,B.INSP_CHARGR				  
+			 ,ISNULL(FAULTY_CNT,0) FAULTY_CNT
+			 ,B.SEQ
+			  --,B.INSP_DESC
+			 ,STUFF((         
+				  SELECT  DISTINCT ', ' + (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE X.MINOR_CD = BASE_CD AND BASE_GROUP_CD = '068') 
+				  + ':' + CONVERT(VARCHAR,FAULTY_CNT)
+				  FROM    TB_SHIP_INSPECT_DTL X
+				  WHERE   X.SHIP_INSP_IDX = B.IDX
+				  FOR XML PATH('') ),1,1,'') INSP_DESC
+			  
+		  FROM TB_PRODUCTION_PERF_TRAY A 
+			,TB_SHIP_INSPECT_ADM B			  		  
+		  WHERE A.PRODUCT_STATUS = '003'			  
+		 
+			AND B.TRAY_NO = LEFT(#{trayNo},13)
+		  	AND A.LABEL_LOT_NO = B.TRAY_NO
+
+		   GROUP BY A.LABEL_LOT_NO, A.EQUIP_CD ,B.FILM_LOT_NO,B.MATRL_LOT_NO, A.PRODUCT_STATUS
+		   ,B.FAULTY_TRAY_NO,
+		    B.INSP_DATE,B.INSP_STATUS,B.RE_INSP_STATUS,INSP_CHARGR,FAULTY_CNT, B.IDX,B.NEXT_GUBUN,B.SEQ,B.WORK_ORD_NO
+		     ,B.INSP_GUBUN,B.DIS_STATUS,B.INSP_DESC
+
+		
+	</select>
+	
+	
+	 <!-- 3공장 트레이 스캔  출하검사/재검/출하재검 -->
+	<select id="shipInspSelectListFn3" resultMap="ShipInspectVo">
+		SELECT
+			A.LABEL_LOT_NO
+			, A.EQUIP_CD
+			, A.LABEL_LOT_NO LABEL_LOT_NO_SEQ
+			, B.FILM_LOT_NO
+			, B.MATRL_LOT_NO
+			, A.PRODUCT_STATUS
+			
+			<!--
+			, STUFF((         
+				  SELECT  DISTINCT ',' + (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM WHERE MATRL_CD = X.MATRL_CD)
+				  FROM    TB_PRODUCTION_PERF_TRAY X
+				  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				  FOR XML PATH('') ),1,1,'') AS MATRL_NM
+			,STUFF((         
+				  SELECT  DISTINCT ',' + (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = X.GOODS_CD)
+				  FROM    TB_PRODUCTION_PERF_TRAY X
+				  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				  FOR XML PATH('') ),1,1,'') AS GOODS_NM
+			,STUFF((         
+				  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.TRAY_WORKER_ID)
+				  FROM    TB_PRODUCTION_PERF_TRAY X
+				  WHERE   X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				  FOR XML PATH('') ),1,1,'') AS TRAY_WORKER_ID
+			 -->
+				  
+			, dbo.FC_BM_USERNM(STRING_AGG( C.USER_NM, ', ' )) AS TRAY_WORKER_ID
+			, dbo.FC_BM_USERNM(STRING_AGG( D.GOODS_NM, ', ' )) AS GOODS_NM
+			, dbo.FC_BM_USERNM(STRING_AGG( E.MATRL_CD, ', ' )) AS MATRL_CD
+			 
+			, SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			, B.FAULTY_TRAY_NO
+			, B.INSP_DATE
+			, B.INSP_STATUS
+			, B.RE_INSP_STATUS
+			, B.IDX
+			, B.NEXT_GUBUN			
+			, B.WORK_ORD_NO
+			, B.DIS_STATUS				
+			, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = B.INSP_CHARGR) INSP_CHARGR_NM
+			, B.INSP_CHARGR				  
+			, ISNULL(FAULTY_CNT,0) FAULTY_CNT
+			, B.SEQ
+			, A.GOODS_CD
+		FROM TB_PRODUCTION_PERF_TRAY A
+		<!-- ,TB_SHIP_INSPECT_ADM B -->
+		INNER JOIN TB_SHIP_INSPECT_ADM B
+		ON A.LABEL_LOT_NO = B.TRAY_NO
+		INNER JOIN TB_USER C
+		ON A.TRAY_WORKER_ID = C.USER_NUMBER
+		INNER JOIN TB_GOODS_CODE_ADM D
+		ON A.GOODS_CD = D.GOODS_CD
+		INNER JOIN TB_MATRL_CODE_ADM E
+		ON A.MATRL_CD = E.MATRL_CD
+	
+		WHERE A.PRODUCT_STATUS = '003'			  
+			 
+		<if test="searchGubun !=null and !searchGubun.equals('002')">
+			AND B.TRAY_NO = #{trayNo}
+		</if>
+		<if test="reInspStatus !=null and !reInspStatus.equals('002')">  
+			AND RE_INSP_STATUS = #{reInspStatus}
+		</if>
+		<if test="reInspStatus !=null and reInspStatus.equals('002')">
+			AND RE_INSP_STATUS IN ('002', '004')
+		</if>
+		<!-- AND A.LABEL_LOT_NO = B.TRAY_NO -->
+		   
+		GROUP BY
+			A.LABEL_LOT_NO, A.EQUIP_CD, B.FILM_LOT_NO, B.MATRL_LOT_NO
+			, A.PRODUCT_STATUS, B.FAULTY_TRAY_NO, B.INSP_DATE, B.INSP_STATUS
+			, B.RE_INSP_STATUS, INSP_CHARGR, FAULTY_CNT, B.IDX, B.NEXT_GUBUN, B.SEQ, B.WORK_ORD_NO, B.DIS_STATUS, A.GOODS_CD
+	</select>
+	
+	 <!-- 출하검사 트레이 리스트  -->
+	<select id="shipInspTotalList" resultMap="ShipInspectVo">
+		<![CDATA[
+		SELECT
+			*
+		FROM
+		(
+		SELECT
+			CC.EQUIP_CD
+			, CC.EQUIP_NM
+			, SUM(CC.checkTrayNo) checkTrayNo
+			, SUM(CC.checkTrayCnt * CC.checkTrayNo) checkTrayCnt
+			, SUM(CC.testCnt) testCnt
+			, SUM(badTrayNo) AS badTrayNo
+			, ISNULL(SUM(badTrayCnt), 0) AS badTrayCnt
+		FROM
+		(
+			SELECT
+				BB.EQUIP_CD
+				, ( SELECT  EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = BB.EQUIP_CD ) AS EQUIP_NM
+				, BB.PRODUCT_QTY AS checkTrayCnt
+				, COUNT(BB.TRAY_NO) AS checkTrayNo
+				, ( CASE WHEN BB.CHECK_TRAY_CNT = '3' THEN COUNT(BB.TRAY_NO) * 65 ELSE COUNT(BB.TRAY_NO) * 125 END ) AS testCnt
+				, SUM(badTrayNo) AS badTrayNo
+				, BC.PRODUCT_QTY AS badTrayCnt
+			FROM
+			(
+				SELECT 
+					(
+						CASE 
+						WHEN RIGHT(AA.TRAY_NO, 2) = '-1' THEN 3
+						WHEN RIGHT(AA.TRAY_NO, 2) = '-2' THEN 3 ELSE 6
+						END
+					) AS CHECK_TRAY_CNT
+					, TRAY_NO
+					, SUM(AA.PRODUCT_QTY) AS PRODUCT_QTY
+					, SUM(badTrayNo) AS badTrayNo
+					, EQUIP_CD
+				FROM
+				(
+					SELECT
+						A.TRAY_NO
+						, B.EQUIP_CD
+						, SUM(PRODUCT_QTY) AS PRODUCT_QTY
+						, (SELECT COUNT(*) FROM TB_SHIP_INSPECT_ADM X WHERE 1=1 AND X.TRAY_NO = A.TRAY_NO AND X.INSP_DATE = A.INSP_DATE AND INSP_STATUS = '002' ) AS badTrayNo
+					FROM TB_SHIP_INSPECT_ADM A
+					LEFT OUTER JOIN
+					(
+						SELECT
+							LABEL_LOT_NO
+							, SUM(PRODUCT_QTY) AS PRODUCT_QTY
+							, EQUIP_CD
+						FROM TB_PRODUCTION_PERF_TRAY
+						WHERE LABEL_LOT_NO IS NOT NULL
+		
+						GROUP BY
+							LABEL_LOT_NO
+							, EQUIP_CD
+					) AS B
+					ON 1=1
+					AND  A.TRAY_NO = B.LABEL_LOT_NO
+					WHERE B.LABEL_LOT_NO IS NOT NULL
+					AND A.INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+					GROUP BY A.TRAY_NO, B.EQUIP_CD, INSP_DATE
+
+					UNION ALL
+
+					SELECT
+						A.TRAY_NO
+						, B.EQUIP_CD
+						, SUM(PRODUCT_QTY) PRODUCT_QTY
+						, (SELECT COUNT(*) FROM TB_SHIP_INSPECT_ADM X WHERE 1=1 AND X.TRAY_NO = A.TRAY_NO AND X.INSP_DATE = A.INSP_DATE AND INSP_STATUS = '002' ) AS badTrayNo
+					FROM TB_SHIP_INSPECT_ADM A
+					LEFT OUTER JOIN
+					(
+						SELECT
+							LABEL_LOT_NO_SEQ
+							, SUM(PRODUCT_QTY) AS PRODUCT_QTY
+							, EQUIP_CD
+						FROM TB_PRODUCTION_PERF_TRAY
+						WHERE LABEL_LOT_NO IS NOT NULL
+		
+						GROUP BY
+							LABEL_LOT_NO_SEQ
+							, EQUIP_CD
+					) AS B
+					ON 1=1
+					AND  A.TRAY_NO = B.LABEL_LOT_NO_SEQ 
+					WHERE B.LABEL_LOT_NO_SEQ IS NOT NULL
+					AND A.INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+					GROUP BY A.TRAY_NO, B.EQUIP_CD, INSP_DATE
+
+				) AA
+				WHERE 1=1
+				AND AA.EQUIP_CD IS NOT NULL
+				GROUP BY AA.TRAY_NO, AA.EQUIP_CD
+			) BB LEFT OUTER JOIN
+			(
+				SELECT 
+					(
+						CASE 
+						WHEN RIGHT(AA.TRAY_NO, 2) = '-1' THEN 3
+						WHEN RIGHT(AA.TRAY_NO, 2) = '-2' THEN 3 ELSE 6
+						END
+					) AS CHECK_TRAY_CNT
+					, TRAY_NO
+					, SUM(AA.PRODUCT_QTY) AS PRODUCT_QTY
+					, EQUIP_CD
+				FROM
+				(
+
+					SELECT
+						A.TRAY_NO
+						, B.EQUIP_CD
+						, SUM(PRODUCT_QTY) AS PRODUCT_QTY
+					FROM TB_SHIP_INSPECT_ADM A
+					LEFT OUTER JOIN
+					(
+						SELECT
+							LABEL_LOT_NO
+							, SUM(PRODUCT_QTY) AS PRODUCT_QTY
+							, EQUIP_CD
+						FROM TB_PRODUCTION_PERF_TRAY
+						WHERE LABEL_LOT_NO IS NOT NULL
+		
+						GROUP BY
+							LABEL_LOT_NO
+							, EQUIP_CD
+					) AS B
+					ON 1=1
+					AND  A.TRAY_NO = B.LABEL_LOT_NO
+					WHERE B.LABEL_LOT_NO IS NOT NULL
+					AND A.INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+					AND A.INSP_STATUS = '002'
+					GROUP BY A.TRAY_NO, B.EQUIP_CD
+
+					UNION ALL
+
+					SELECT
+						A.TRAY_NO
+						, B.EQUIP_CD
+						, SUM(PRODUCT_QTY) PRODUCT_QTY
+					FROM TB_SHIP_INSPECT_ADM A
+					LEFT OUTER JOIN
+					(
+						SELECT
+							LABEL_LOT_NO_SEQ
+							, SUM(PRODUCT_QTY) AS PRODUCT_QTY
+							, EQUIP_CD
+						FROM TB_PRODUCTION_PERF_TRAY
+						WHERE LABEL_LOT_NO IS NOT NULL
+		
+						GROUP BY
+							LABEL_LOT_NO_SEQ
+							, EQUIP_CD
+					) AS B
+					ON 1=1
+					AND  A.TRAY_NO = B.LABEL_LOT_NO_SEQ 
+					WHERE B.LABEL_LOT_NO_SEQ IS NOT NULL
+					AND A.INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+					AND A.INSP_STATUS = '002'
+					GROUP BY A.TRAY_NO, B.EQUIP_CD
+
+				) AA
+				WHERE 1=1
+				AND AA.EQUIP_CD IS NOT NULL
+				GROUP BY AA.TRAY_NO, AA.EQUIP_CD
+			) BC
+			ON BB.EQUIP_CD = BC.EQUIP_CD
+			AND BB.TRAY_NO = BC.TRAY_NO
+			GROUP BY BB.EQUIP_CD, BB.PRODUCT_QTY, BB.CHECK_TRAY_CNT, BC.EQUIP_CD, BC.PRODUCT_QTY, BC.CHECK_TRAY_CNT
+		) CC
+		GROUP BY 
+			CC.EQUIP_CD
+			, CC.EQUIP_NM
+		) DD LEFT OUTER JOIN (
+			SELECT
+				B.EQUIP_CD
+				, ( SELECT  EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = B.EQUIP_CD ) AS EQUIP_NM
+				${codeList2}
+			FROM TB_SHIP_INSPECT_ADM A
+				LEFT OUTER JOIN 
+				(
+					SELECT
+						EQUIP_CD
+						, WORK_ORD_NO
+					FROM TB_WORK_ORDER
+				) B
+				ON 1=1
+				AND B.WORK_ORD_NO = A.WORK_ORD_NO
+		
+				LEFT OUTER JOIN (
+					SELECT
+						*
+					FROM   
+					(
+						SELECT
+							B.SHIP_INSP_IDX ,
+							MINOR_CD ,
+							SUM(FAULTY_CNT) FAULTY_CNT
+						FROM  TB_SHIP_INSPECT_DTL B
+						WHERE 1=1
+						GROUP BY
+							SHIP_INSP_IDX,
+							MINOR_CD 
+					) AS T
+					PIVOT(SUM(FAULTY_CNT) FOR MINOR_CD IN (
+						${codeList}
+					)) AS PVT 
+				) C
+				ON A.IDX = C.SHIP_INSP_IDX
+			WHERE 1=1
+			AND A.INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+			GROUP BY B.EQUIP_CD
+		) EE
+		ON 1=1
+		AND EE.EQUIP_CD = DD.EQUIP_CD
+		ORDER BY DD.EQUIP_CD
+		]]>
+
+	</select>
+	
+	<!-- 출하집계표 일자별 리스트  -->
+	<select id="shipInspTotalDateList" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+			SELECT AA.INSP_DATE
+				, AA.DAY_NIGHT_CD
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, FAULTY_CNT
+				, FAULTY_CNT / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			(
+				SELECT 
+					INSP_DATE,
+					A.DAY_NIGHT_CD,
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE,
+				A.DAY_NIGHT_CD
+			) AA
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 
+					INSP_DATE,
+					A.DAY_NIGHT_CD,
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE,
+				A.DAY_NIGHT_CD
+			) BB
+			ON 1=1
+			AND AA.INSP_DATE = BB.INSP_DATE
+			AND AA.DAY_NIGHT_CD = BB.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,
+					A.DAY_NIGHT_CD,
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 65 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO_SEQ, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO_SEQ
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE,
+				A.DAY_NIGHT_CD
+			) CC
+			ON 1=1
+			AND AA.INSP_DATE = CC.INSP_DATE
+			AND AA.DAY_NIGHT_CD = CC.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,
+					A.DAY_NIGHT_CD,
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 65 AS SIRYU
+				
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO_SEQ, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO_SEQ
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE,
+				A.DAY_NIGHT_CD
+			) DD
+			ON 1=1
+			AND AA.INSP_DATE = DD.INSP_DATE
+			AND AA.DAY_NIGHT_CD = DD.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,
+					A.DAY_NIGHT_CD,	
+					SUM(FAULTY_CNT) FAULTY_CNT
+				FROM TB_SHIP_INSPECT_ADM A 
+				WHERE (RE_INSP_STATUS = '003' OR RE_INSP_STATUS = '001')
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE,
+				A.DAY_NIGHT_CD
+			) EE
+			ON 1=1
+			AND AA.INSP_DATE = EE.INSP_DATE
+			AND AA.DAY_NIGHT_CD = EE.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			
+			(			
+				SELECT *
+					FROM (
+						SELECT 
+							A.INSP_DATE
+							,A.DAY_NIGHT_CD
+								,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B
+						WHERE 1=1						
+						AND A.IDX = B.SHIP_INSP_IDX
+						AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+						AND A.RE_INSP_STATUS != '002'
+					
+						GROUP BY A.INSP_DATE
+							,A.DAY_NIGHT_CD
+							, MINOR_CD
+						) as t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+						${codeList}
+					)) as PVT
+			) FF
+			ON 1=1
+			AND AA.INSP_DATE = FF.INSP_DATE
+			AND AA.DAY_NIGHT_CD = FF.DAY_NIGHT_CD			
+			
+			
+			ORDER BY INSP_DATE,DAY_NIGHT_CD
+
+			
+		]]>
+
+	</select>
+	
+	<!-- 출하집계표 일자별 리스트 SLD  -->
+	<select id="shipInspTotalDateList_fa3_insp" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+			SELECT AA.INSP_DATE
+				, AA.DAY_NIGHT_CD
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, FAULTY_CNT
+				, FAULTY_CNT / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			(
+				SELECT 
+					INSP_DATE,
+					A.DAY_NIGHT_CD,
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE,
+				A.DAY_NIGHT_CD
+			) AA
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 
+					INSP_DATE,
+					A.DAY_NIGHT_CD,
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE,
+				A.DAY_NIGHT_CD
+			) BB
+			ON 1=1
+			AND AA.INSP_DATE = BB.INSP_DATE
+			AND AA.DAY_NIGHT_CD = BB.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,
+					A.DAY_NIGHT_CD,
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE,
+				A.DAY_NIGHT_CD
+			) CC
+			ON 1=1
+			AND AA.INSP_DATE = CC.INSP_DATE
+			AND AA.DAY_NIGHT_CD = CC.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,
+					A.DAY_NIGHT_CD,
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+				
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE,
+				A.DAY_NIGHT_CD
+			) DD
+			ON 1=1
+			AND AA.INSP_DATE = DD.INSP_DATE
+			AND AA.DAY_NIGHT_CD = DD.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,
+					A.DAY_NIGHT_CD,	
+					SUM(FAULTY_CNT) FAULTY_CNT
+					
+				
+				FROM TB_SHIP_INSPECT_ADM A 
+				WHERE (RE_INSP_STATUS = '003' OR RE_INSP_STATUS = '001')
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE,
+				A.DAY_NIGHT_CD
+			) EE
+			ON 1=1
+			AND AA.INSP_DATE = EE.INSP_DATE
+			AND AA.DAY_NIGHT_CD = EE.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			
+			(			
+				SELECT *
+					FROM (
+						SELECT 
+							A.INSP_DATE
+							,A.DAY_NIGHT_CD
+								,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B
+						WHERE 1=1						
+						AND A.IDX = B.SHIP_INSP_IDX
+						AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+						AND A.RE_INSP_STATUS != '002'
+					
+						GROUP BY A.INSP_DATE
+							,A.DAY_NIGHT_CD
+							, MINOR_CD
+						) as t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+						${codeList}
+					)) as PVT
+			) FF
+			ON 1=1
+			AND AA.INSP_DATE = FF.INSP_DATE
+			AND AA.DAY_NIGHT_CD = FF.DAY_NIGHT_CD			
+			
+			
+			ORDER BY INSP_DATE,DAY_NIGHT_CD
+
+			
+		]]>
+
+	</select>
+	
+		<!-- 출하집계표 일자별 리스트 SLD  -->
+	<select id="shipInspTotalDateList_fa3_prod" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+			SELECT AA.PRODUCT_DATE AS INSP_DATE
+				, AA.DAY_NIGHT_CD
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, FAULTY_CNT
+				, FAULTY_CNT / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			(
+				SELECT 
+					PRODUCT_DATE,
+					A.DAY_NIGHT_CD,
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.PRODUCT_DATE,
+				A.DAY_NIGHT_CD
+			) AA
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 
+					PRODUCT_DATE,
+					A.DAY_NIGHT_CD,
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.PRODUCT_DATE,
+				A.DAY_NIGHT_CD
+			) BB
+			ON 1=1
+			AND AA.PRODUCT_DATE = BB.PRODUCT_DATE
+			AND AA.DAY_NIGHT_CD = BB.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					PRODUCT_DATE,
+					A.DAY_NIGHT_CD,
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.PRODUCT_DATE,
+				A.DAY_NIGHT_CD
+			) CC
+			ON 1=1
+			AND AA.PRODUCT_DATE = CC.PRODUCT_DATE
+			AND AA.DAY_NIGHT_CD = CC.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					PRODUCT_DATE,
+					A.DAY_NIGHT_CD,
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+				
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.PRODUCT_DATE,
+				A.DAY_NIGHT_CD
+			) DD
+			ON 1=1
+			AND AA.PRODUCT_DATE = DD.PRODUCT_DATE
+			AND AA.DAY_NIGHT_CD = DD.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					PRODUCT_DATE,
+					A.DAY_NIGHT_CD,	
+					SUM(FAULTY_CNT) FAULTY_CNT
+					
+				
+				FROM TB_SHIP_INSPECT_ADM A 
+				WHERE (RE_INSP_STATUS = '003' OR RE_INSP_STATUS = '001')
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.PRODUCT_DATE,
+				A.DAY_NIGHT_CD
+			) EE
+			ON 1=1
+			AND AA.PRODUCT_DATE = EE.PRODUCT_DATE
+			AND AA.DAY_NIGHT_CD = EE.DAY_NIGHT_CD
+			
+			LEFT OUTER JOIN
+			
+			(			
+				SELECT *
+					FROM (
+						SELECT 
+							A.PRODUCT_DATE
+							,A.DAY_NIGHT_CD
+								,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B
+						WHERE 1=1						
+						AND A.IDX = B.SHIP_INSP_IDX
+						AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+						AND A.RE_INSP_STATUS != '002'
+					
+						GROUP BY A.PRODUCT_DATE
+							,A.DAY_NIGHT_CD
+							, MINOR_CD
+						) as t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+						${codeList}
+					)) as PVT
+			) FF
+			ON 1=1
+			AND AA.PRODUCT_DATE = FF.PRODUCT_DATE
+			AND AA.DAY_NIGHT_CD = FF.DAY_NIGHT_CD			
+			
+			
+			ORDER BY AA.PRODUCT_DATE,DAY_NIGHT_CD
+		]]>
+
+	</select>
+	<!-- 출하집계표 기간별 리스트  -->
+	<select id="shipInspTotalDayList" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+			SELECT AA.INSP_DATE
+								
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, FAULTY_CNT
+				, FAULTY_CNT / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			(
+				SELECT 
+					INSP_DATE,					
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE			
+			) AA
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 
+					INSP_DATE,					
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE
+			
+			) BB
+			ON 1=1
+			AND AA.INSP_DATE = BB.INSP_DATE
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,
+					
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 65 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO_SEQ, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO_SEQ
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE
+			
+			) CC
+			ON 1=1
+			AND AA.INSP_DATE = CC.INSP_DATE
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,
+				
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 65 AS SIRYU
+				
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO_SEQ, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO_SEQ
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE
+				
+			) DD
+			ON 1=1
+			AND AA.INSP_DATE = DD.INSP_DATE
+			
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,					
+					SUM(FAULTY_CNT) FAULTY_CNT
+					
+				
+				FROM TB_SHIP_INSPECT_ADM A 
+				WHERE (RE_INSP_STATUS = '003' OR RE_INSP_STATUS = '001')
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE
+			
+			) EE
+			ON 1=1
+			AND AA.INSP_DATE = EE.INSP_DATE			
+			
+			LEFT OUTER JOIN
+			
+			(			
+				SELECT *
+					FROM (
+						SELECT 
+							A.INSP_DATE							
+								,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B
+						WHERE 1=1						
+						AND A.IDX = B.SHIP_INSP_IDX
+						AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+						AND A.RE_INSP_STATUS != '002'
+					
+						GROUP BY A.INSP_DATE							
+							, MINOR_CD
+						) as t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+					 ${codeList}
+					)) as PVT
+			) FF
+			ON 1=1
+			AND AA.INSP_DATE = FF.INSP_DATE
+		
+			
+			
+			ORDER BY INSP_DATE
+			
+		]]>
+
+	</select>
+	
+	<!-- 출하집계표 기간별 리스트  -->
+	<select id="shipInspTotalDayList_fa3_prod" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+		SELECT AA.PRODUCT_DATE AS INSP_DATE
+								
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, FAULTY_CNT
+				, FAULTY_CNT / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			(
+				SELECT 
+					PRODUCT_DATE,					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.PRODUCT_DATE			
+			) AA
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 
+					PRODUCT_DATE,					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.PRODUCT_DATE
+			
+			) BB
+			ON 1=1
+			AND AA.PRODUCT_DATE = BB.PRODUCT_DATE
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					PRODUCT_DATE,
+					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.PRODUCT_DATE
+			
+			) CC
+			ON 1=1
+			AND AA.PRODUCT_DATE = CC.PRODUCT_DATE
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					PRODUCT_DATE,
+				
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+				
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.PRODUCT_DATE
+				
+			) DD
+			ON 1=1
+			AND AA.PRODUCT_DATE = DD.PRODUCT_DATE
+			
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					PRODUCT_DATE,					
+					SUM(FAULTY_CNT) FAULTY_CNT
+					
+				
+				FROM TB_SHIP_INSPECT_ADM A 
+				WHERE (RE_INSP_STATUS = '003' OR RE_INSP_STATUS = '001')
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.PRODUCT_DATE
+			
+			) EE
+			ON 1=1
+			AND AA.PRODUCT_DATE = EE.PRODUCT_DATE			
+			
+			LEFT OUTER JOIN
+			
+			(			
+				SELECT *
+					FROM (
+						SELECT 
+							A.PRODUCT_DATE							
+								,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B
+						WHERE 1=1						
+						AND A.IDX = B.SHIP_INSP_IDX
+						AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+						AND A.RE_INSP_STATUS != '002'
+					
+						GROUP BY A.PRODUCT_DATE							
+							, MINOR_CD
+						) as t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+					 ${codeList}
+					)) as PVT
+			) FF
+			ON 1=1
+			AND AA.PRODUCT_DATE = FF.PRODUCT_DATE
+		
+			
+			
+			ORDER BY AA.PRODUCT_DATE
+			
+			
+		]]>
+
+	</select>
+	
+		<!-- 출하집계표 기간별 리스트  -->
+	<select id="shipInspTotalDayList_fa3_insp" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+		SELECT AA.INSP_DATE
+								
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, FAULTY_CNT
+				, FAULTY_CNT / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			(
+				SELECT 
+					INSP_DATE,					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE			
+			) AA
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 
+					INSP_DATE,					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '001' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE
+			
+			) BB
+			ON 1=1
+			AND AA.INSP_DATE = BB.INSP_DATE
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,
+					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '001'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE
+			
+			) CC
+			ON 1=1
+			AND AA.INSP_DATE = CC.INSP_DATE
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,
+				
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+				
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO) B
+				WHERE RE_INSP_STATUS = '003' 
+				AND INSP_STATUS = '002'
+				AND A.TRAY_NO = B.LABEL_LOT_NO
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE
+				
+			) DD
+			ON 1=1
+			AND AA.INSP_DATE = DD.INSP_DATE
+			
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					INSP_DATE,					
+					SUM(FAULTY_CNT) FAULTY_CNT
+					
+				
+				FROM TB_SHIP_INSPECT_ADM A 
+				WHERE (RE_INSP_STATUS = '003' OR RE_INSP_STATUS = '001')
+				AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+				A.INSP_DATE
+			
+			) EE
+			ON 1=1
+			AND AA.INSP_DATE = EE.INSP_DATE			
+			
+			LEFT OUTER JOIN
+			
+			(			
+				SELECT *
+					FROM (
+						SELECT 
+							A.INSP_DATE							
+								,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B
+						WHERE 1=1						
+						AND A.IDX = B.SHIP_INSP_IDX
+						AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+						AND A.RE_INSP_STATUS != '002'
+					
+						GROUP BY A.INSP_DATE							
+							, MINOR_CD
+						) as t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+					 ${codeList}
+					)) as PVT
+			) FF
+			ON 1=1
+			AND AA.INSP_DATE = FF.INSP_DATE
+		
+			
+			
+			ORDER BY AA.INSP_DATE
+			
+			
+		]]>
+
+	</select>
+	
+	
+	<!-- 출하집계표 제품별 리스트  -->
+	<select id="shipInspTotalGoodsList" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+			SELECT AA.GOODS_CD
+				, (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = AA.GOODS_CD) GOODS_NM
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0)  FAULTY_CNT
+				, (ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0))  / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			(
+				SELECT 	
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU,
+					GOODS_CD
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			
+			) AA
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 			
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU,
+					GOODS_CD
+									   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) BB
+			ON 1=1
+			AND AA.GOODS_CD = BB.GOODS_CD
+			
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 65 AS SIRYU,
+					GOODS_CD
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO_SEQ,GOODS_CD, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO_SEQ
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) CC
+			ON 1=1
+			AND AA.GOODS_CD = CC.GOODS_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 				
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 65 AS SIRYU,
+					GOODS_CD
+				
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO_SEQ, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO_SEQ
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) DD
+			ON 1=1
+			AND AA.GOODS_CD = DD.GOODS_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					GOODS_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT			
+				
+				FROM TB_SHIP_INSPECT_ADM A,  (SELECT LABEL_LOT_NO_SEQ, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '003' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO_SEQ
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) EE
+			ON 1=1
+			AND AA.GOODS_CD = EE.GOODS_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					GOODS_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT
+				
+				
+				FROM TB_SHIP_INSPECT_ADM A,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '001' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) GG
+			ON 1=1
+			AND AA.GOODS_CD = GG.GOODS_CD
+			
+			LEFT OUTER JOIN
+			
+			(
+			
+				SELECT *
+					FROM (
+							SELECT 
+								GOODS_CD
+								,MINOR_CD
+								, SUM(B.FAULTY_CNT) FAULTY_CNT						
+							FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) C
+							WHERE 1=1						
+								AND A.IDX = B.SHIP_INSP_IDX
+								AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+								AND A.RE_INSP_STATUS = '001'
+								AND C.LABEL_LOT_NO = A.TRAY_NO
+							GROUP BY MINOR_CD, GOODS_CD
+					
+							UNION ALL
+					
+							SELECT 
+								GOODS_CD
+								,MINOR_CD
+								, SUM(B.FAULTY_CNT) FAULTY_CNT						
+							FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B,  (SELECT LABEL_LOT_NO_SEQ, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ,GOODS_CD) C
+							WHERE 1=1						
+								AND A.IDX = B.SHIP_INSP_IDX
+								AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+								AND A.RE_INSP_STATUS = '003'
+								AND C.LABEL_LOT_NO_SEQ = A.TRAY_NO
+							GROUP BY MINOR_CD, GOODS_CD
+						) as t
+				PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+				 ${codeList}
+				)) as PVT
+			) FF
+			ON 1=1
+			AND AA.GOODS_CD = FF.GOODS_CD
+			
+			
+			
+			ORDER BY GOODS_CD
+
+
+		]]>
+
+	</select>
+	
+		<!-- 출하집계표 제품별 리스트  -->
+	<select id="shipInspTotalGoodsList_fa3_insp" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+			SELECT AA.GOODS_CD
+				, (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = AA.GOODS_CD) GOODS_NM
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0)  FAULTY_CNT
+				, (ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0))  / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			(
+				SELECT 	
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU,
+					GOODS_CD
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			
+			) AA
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 			
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU,
+					GOODS_CD
+									   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) BB
+			ON 1=1
+			AND AA.GOODS_CD = BB.GOODS_CD
+			
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU,
+					GOODS_CD
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO,GOODS_CD, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) CC
+			ON 1=1
+			AND AA.GOODS_CD = CC.GOODS_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 				
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU,
+					GOODS_CD
+				
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) DD
+			ON 1=1
+			AND AA.GOODS_CD = DD.GOODS_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					GOODS_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT			
+				
+				FROM TB_SHIP_INSPECT_ADM A,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '003' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) EE
+			ON 1=1
+			AND AA.GOODS_CD = EE.GOODS_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					GOODS_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT
+				
+				
+				FROM TB_SHIP_INSPECT_ADM A,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '001' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) GG
+			ON 1=1
+			AND AA.GOODS_CD = GG.GOODS_CD
+			
+			LEFT OUTER JOIN
+			
+			(
+			
+				SELECT *
+					FROM (
+							SELECT 
+								GOODS_CD
+								,MINOR_CD
+								, SUM(B.FAULTY_CNT) FAULTY_CNT						
+							FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) C
+							WHERE 1=1						
+								AND A.IDX = B.SHIP_INSP_IDX
+								AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+								AND A.RE_INSP_STATUS = '001'
+								AND C.LABEL_LOT_NO = A.TRAY_NO
+							GROUP BY MINOR_CD, GOODS_CD
+					
+							UNION ALL
+					
+							SELECT 
+								GOODS_CD
+								,MINOR_CD
+								, SUM(B.FAULTY_CNT) FAULTY_CNT						
+							FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) C
+							WHERE 1=1						
+								AND A.IDX = B.SHIP_INSP_IDX
+								AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+								AND A.RE_INSP_STATUS = '003'
+								AND C.LABEL_LOT_NO = A.TRAY_NO
+							GROUP BY MINOR_CD, GOODS_CD
+						) as t
+				PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+				 ${codeList}
+				)) as PVT
+			) FF
+			ON 1=1
+			AND AA.GOODS_CD = FF.GOODS_CD
+			
+			
+			
+			ORDER BY GOODS_CD
+
+
+		]]>
+
+	</select>
+	
+	
+			<!-- 출하집계표 제품별 리스트  -->
+	<select id="shipInspTotalGoodsList_fa3_prod" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+				SELECT AA.GOODS_CD
+				, (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = AA.GOODS_CD) GOODS_NM
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0)  FAULTY_CNT
+				, (ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0))  / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			(
+				SELECT 	
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU,
+					GOODS_CD
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			
+			) AA
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 			
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU,
+					GOODS_CD
+									   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) BB
+			ON 1=1
+			AND AA.GOODS_CD = BB.GOODS_CD
+			
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU,
+					GOODS_CD
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO,GOODS_CD, SUM(PRODUCT_QTY) PRODUCT_QTY FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) CC
+			ON 1=1
+			AND AA.GOODS_CD = CC.GOODS_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 				
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU,
+					GOODS_CD
+				
+				FROM TB_SHIP_INSPECT_ADM A ,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) DD
+			ON 1=1
+			AND AA.GOODS_CD = DD.GOODS_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					GOODS_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT			
+				
+				FROM TB_SHIP_INSPECT_ADM A,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '003' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) EE
+			ON 1=1
+			AND AA.GOODS_CD = EE.GOODS_CD
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					GOODS_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT
+				
+				
+				FROM TB_SHIP_INSPECT_ADM A,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) B
+				WHERE RE_INSP_STATUS = '001' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					GOODS_CD
+			) GG
+			ON 1=1
+			AND AA.GOODS_CD = GG.GOODS_CD
+			
+			LEFT OUTER JOIN
+			
+			(
+			
+				SELECT *
+					FROM (
+							SELECT 
+								GOODS_CD
+								,MINOR_CD
+								, SUM(B.FAULTY_CNT) FAULTY_CNT						
+							FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) C
+							WHERE 1=1						
+								AND A.IDX = B.SHIP_INSP_IDX
+								AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+								AND A.RE_INSP_STATUS = '001'
+								AND C.LABEL_LOT_NO = A.TRAY_NO
+							GROUP BY MINOR_CD, GOODS_CD
+					
+							UNION ALL
+					
+							SELECT 
+								GOODS_CD
+								,MINOR_CD
+								, SUM(B.FAULTY_CNT) FAULTY_CNT						
+							FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B,  (SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,GOODS_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,GOODS_CD) C
+							WHERE 1=1						
+								AND A.IDX = B.SHIP_INSP_IDX
+								AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+								AND A.RE_INSP_STATUS = '003'
+								AND C.LABEL_LOT_NO = A.TRAY_NO
+							GROUP BY MINOR_CD, GOODS_CD
+						) as t
+				PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+				 ${codeList}
+				)) as PVT
+			) FF
+			ON 1=1
+			AND AA.GOODS_CD = FF.GOODS_CD
+			
+			
+			
+			ORDER BY GOODS_CD
+
+
+
+		]]>
+
+	</select>
+		<!-- 출하집계표 설비별 리스트  -->
+	<select id="shipInspTotalEquipList" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+			SET ANSI_WARNINGS OFF
+			SET ARITHIGNORE ON		
+			SET ARITHABORT OFF
+
+
+			 SELECT XX.EQUIP_CD		
+			 	, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM WHERE EQUIP_CD = XX.EQUIP_CD) EQUIP_NM		
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0)  FAULTY_CNT
+				, (ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0))  / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			TB_EQUIP_CODE_ADM XX 
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,					
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				
+				GROUP BY
+					C.EQUIP_CD			
+			) AA
+			ON 1=1
+			AND AA.EQUIP_CD = XX.EQUIP_CD
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 
+					C.EQUIP_CD		,					
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU					   	  
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD		
+			
+			) BB
+			ON 1=1
+			AND XX.EQUIP_CD = BB.EQUIP_CD
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD		,
+					
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 65 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO_SEQ, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ,EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO_SEQ
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD	
+			
+			) CC
+			ON 1=1
+			AND XX.EQUIP_CD = CC.EQUIP_CD
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,
+				
+					--COUNT(A.TRAY_NO) CHECK_LOT,
+					(
+						CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) = 0 THEN  A.TRAY_NO END ) * 1.0) AS NUMERIC(18, 1))
+						+ CAST( (COUNT ( CASE WHEN CHARINDEX( '-', SUBSTRING(A.TRAY_NO, CHARINDEX('-', A.TRAY_NO)+1, LEN(A.TRAY_NO)) ) != 0 THEN  A.TRAY_NO END ) * 1.0) / 2 AS NUMERIC(18, 1))
+					) AS CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 65 AS SIRYU
+				
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO_SEQ, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ,EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO_SEQ
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD
+				
+			) DD
+			ON 1=1
+			AND XX.EQUIP_CD = DD.EQUIP_CD
+			
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT
+	
+	
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO_SEQ, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ,EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '003' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO_SEQ
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD
+			) EE
+			ON 1=1
+			AND XX.EQUIP_CD = EE.EQUIP_CD
+
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT
+	
+	
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) B
+				ON 1=1
+						AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '001' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD
+			) GG
+			ON 1=1
+			AND XX.EQUIP_CD = GG.EQUIP_CD
+			
+			LEFT OUTER JOIN
+			
+			(			
+				SELECT *
+					FROM (
+						SELECT 
+							C.EQUIP_CD
+							,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B, TB_EQUIP_CODE_ADM C
+						LEFT OUTER JOIN
+						(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) D
+						ON 1=1
+							AND C.EQUIP_CD = D.EQUIP_CD
+						WHERE 1=1						
+							AND A.IDX = B.SHIP_INSP_IDX
+							AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+							AND A.RE_INSP_STATUS = '001'
+							AND D.LABEL_LOT_NO = A.TRAY_NO
+						GROUP BY MINOR_CD, C.EQUIP_CD
+
+						UNION ALL
+
+						SELECT 
+							C.EQUIP_CD
+							,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B, TB_EQUIP_CODE_ADM C
+						LEFT OUTER JOIN
+						(SELECT LABEL_LOT_NO_SEQ, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO_SEQ IS NOT NULL GROUP BY LABEL_LOT_NO_SEQ,EQUIP_CD) D
+						ON 1=1
+							AND C.EQUIP_CD = D.EQUIP_CD
+						WHERE 1=1						
+							AND A.IDX = B.SHIP_INSP_IDX
+							AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+							AND A.RE_INSP_STATUS = '003'
+							AND D.LABEL_LOT_NO_SEQ = A.TRAY_NO
+						GROUP BY MINOR_CD, C.EQUIP_CD
+						) as t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+					 ${codeList}
+					)) as PVT
+			) FF
+			ON 1=1
+			AND XX.EQUIP_CD = FF.EQUIP_CD
+		
+
+			ORDER BY XX.EQUIP_CD
+			
+		]]>
+
+	</select>
+	
+			<!-- 출하집계표 설비별 리스트  -->
+	<select id="shipInspTotalEquipList_fa3_insp" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+			SET ANSI_WARNINGS OFF
+			SET ARITHIGNORE ON		
+			SET ARITHABORT OFF
+
+
+			 SELECT XX.EQUIP_CD		
+			 	, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM WHERE EQUIP_CD = XX.EQUIP_CD) EQUIP_NM		
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0)  FAULTY_CNT
+				, (ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0))  / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			TB_EQUIP_CODE_ADM XX 
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				
+				GROUP BY
+					C.EQUIP_CD			
+			) AA
+			ON 1=1
+			AND AA.EQUIP_CD = XX.EQUIP_CD
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 
+					C.EQUIP_CD		,					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU					   	  
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD		
+			
+			) BB
+			ON 1=1
+			AND XX.EQUIP_CD = BB.EQUIP_CD
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD		,
+					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD	
+			
+			) CC
+			ON 1=1
+			AND XX.EQUIP_CD = CC.EQUIP_CD
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,
+				
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+				
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD
+				
+			) DD
+			ON 1=1
+			AND XX.EQUIP_CD = DD.EQUIP_CD
+			
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT
+	
+	
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '003' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD
+			) EE
+			ON 1=1
+			AND XX.EQUIP_CD = EE.EQUIP_CD
+
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT
+	
+	
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) B
+				ON 1=1
+						AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '001' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD
+			) GG
+			ON 1=1
+			AND XX.EQUIP_CD = GG.EQUIP_CD
+			
+			LEFT OUTER JOIN
+			
+			(			
+				SELECT *
+					FROM (
+						SELECT 
+							C.EQUIP_CD
+							,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B, TB_EQUIP_CODE_ADM C
+						LEFT OUTER JOIN
+						(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) D
+						ON 1=1
+							AND C.EQUIP_CD = D.EQUIP_CD
+						WHERE 1=1						
+							AND A.IDX = B.SHIP_INSP_IDX
+							AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+							AND A.RE_INSP_STATUS = '001'
+							AND D.LABEL_LOT_NO = A.TRAY_NO
+						GROUP BY MINOR_CD, C.EQUIP_CD
+
+						UNION ALL
+
+						SELECT 
+							C.EQUIP_CD
+							,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B, TB_EQUIP_CODE_ADM C
+						LEFT OUTER JOIN
+						(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,EQUIP_CD) D
+						ON 1=1
+							AND C.EQUIP_CD = D.EQUIP_CD
+						WHERE 1=1						
+							AND A.IDX = B.SHIP_INSP_IDX
+							AND INSP_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+							AND A.RE_INSP_STATUS = '003'
+							AND D.LABEL_LOT_NO = A.TRAY_NO
+						GROUP BY MINOR_CD, C.EQUIP_CD
+						) as t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+					 ${codeList}
+					)) as PVT
+			) FF
+			ON 1=1
+			AND XX.EQUIP_CD = FF.EQUIP_CD
+		
+
+			ORDER BY XX.EQUIP_CD
+			
+		]]>
+
+	</select>
+	
+				<!-- 출하집계표 설비별 리스트  -->
+	<select id="shipInspTotalEquipList_fa3_prod" resultType="HashMap" parameterType="mes.domain.qm.ShipInspectVo">
+		<![CDATA[
+		SET ANSI_WARNINGS OFF
+			SET ARITHIGNORE ON		
+			SET ARITHABORT OFF
+			
+				 SELECT XX.EQUIP_CD		
+			 	, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM WHERE EQUIP_CD = XX.EQUIP_CD) EQUIP_NM		
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) CHECK_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(BB.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) CHECK_QTY
+				
+				, ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) SUCCESS_LOT
+				, ISNULL(AA.PRODUCT_QTY,0) + ISNULL(CC.PRODUCT_QTY,0) SUCCESS_QTY
+				
+				, CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) )) /  CONVERT(FLOAT,(ISNULL(AA.CHECK_LOT,0) + ISNULL(BB.CHECK_LOT,0) + ISNULL(CC.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0))) * 100  SUCCESS_PERCENT
+				
+				, ISNULL(BB.CHECK_LOT,0) + ISNULL(DD.CHECK_LOT,0) FAULTY_LOT
+				, ISNULL(BB.PRODUCT_QTY,0) + ISNULL(DD.PRODUCT_QTY,0) FAULTY_QTY
+				
+				, ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0) SYRYO
+				
+				, ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0)  FAULTY_CNT
+				, (ISNULL(EE.FAULTY_CNT,0) + ISNULL(GG.FAULTY_CNT,0))  / (ISNULL(AA.SIRYU,0) + ISNULL(BB.SIRYU,0) + ISNULL(CC.SIRYU,0) + ISNULL(DD.SIRYU,0)) * 100 SYRYO_FAULTY_PERCENT
+				
+				,${codeList}
+			FROM
+			TB_EQUIP_CODE_ADM XX 
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				
+				GROUP BY
+					C.EQUIP_CD			
+			) AA
+			ON 1=1
+			AND AA.EQUIP_CD = XX.EQUIP_CD
+			
+			LEFT OUTER JOIN 
+			
+			(
+				SELECT 
+					C.EQUIP_CD		,					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU					   	  
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '001' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD		
+			
+			) BB
+			ON 1=1
+			AND XX.EQUIP_CD = BB.EQUIP_CD
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD		,
+					
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+					   	  
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '001'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD	
+			
+			) CC
+			ON 1=1
+			AND XX.EQUIP_CD = CC.EQUIP_CD
+		
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,
+				
+					COUNT(A.TRAY_NO) CHECK_LOT,
+					SUM(B.PRODUCT_QTY) PRODUCT_QTY,
+					COUNT(A.TRAY_NO) * 125 AS SIRYU
+				
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '003' 
+					AND INSP_STATUS = '002'
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD
+				
+			) DD
+			ON 1=1
+			AND XX.EQUIP_CD = DD.EQUIP_CD
+			
+			
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT
+	
+	
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,EQUIP_CD) B
+				ON 1=1
+					AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '003' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD
+			) EE
+			ON 1=1
+			AND XX.EQUIP_CD = EE.EQUIP_CD
+
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					C.EQUIP_CD,
+					SUM(FAULTY_CNT) FAULTY_CNT
+	
+	
+				FROM TB_SHIP_INSPECT_ADM A , TB_EQUIP_CODE_ADM C
+				LEFT OUTER JOIN
+				(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) B
+				ON 1=1
+						AND C.EQUIP_CD = B.EQUIP_CD
+				WHERE RE_INSP_STATUS = '001' 
+					AND A.TRAY_NO = B.LABEL_LOT_NO
+					AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+				GROUP BY
+					C.EQUIP_CD
+			) GG
+			ON 1=1
+			AND XX.EQUIP_CD = GG.EQUIP_CD
+			
+			LEFT OUTER JOIN
+			
+			(			
+				SELECT *
+					FROM (
+						SELECT 
+							C.EQUIP_CD
+							,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B, TB_EQUIP_CODE_ADM C
+						LEFT OUTER JOIN
+						(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY, EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO, EQUIP_CD) D
+						ON 1=1
+							AND C.EQUIP_CD = D.EQUIP_CD
+						WHERE 1=1						
+							AND A.IDX = B.SHIP_INSP_IDX
+							AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+							AND A.RE_INSP_STATUS = '001'
+							AND D.LABEL_LOT_NO = A.TRAY_NO
+						GROUP BY MINOR_CD, C.EQUIP_CD
+
+						UNION ALL
+
+						SELECT 
+							C.EQUIP_CD
+							,MINOR_CD
+							, SUM(B.FAULTY_CNT) FAULTY_CNT						
+						FROM TB_SHIP_INSPECT_ADM A ,TB_SHIP_INSPECT_DTL B, TB_EQUIP_CODE_ADM C
+						LEFT OUTER JOIN
+						(SELECT LABEL_LOT_NO, SUM(PRODUCT_QTY) PRODUCT_QTY,EQUIP_CD FROM tb_production_perf_tray B WHERE LABEL_LOT_NO IS NOT NULL GROUP BY LABEL_LOT_NO,EQUIP_CD) D
+						ON 1=1
+							AND C.EQUIP_CD = D.EQUIP_CD
+						WHERE 1=1						
+							AND A.IDX = B.SHIP_INSP_IDX
+							AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND  #{chooseDateTo}
+							AND A.RE_INSP_STATUS = '003'
+							AND D.LABEL_LOT_NO = A.TRAY_NO
+						GROUP BY MINOR_CD, C.EQUIP_CD
+						) as t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+					 ${codeList}
+					)) as PVT
+			) FF
+			ON 1=1
+			AND XX.EQUIP_CD = FF.EQUIP_CD
+		
+
+			ORDER BY XX.EQUIP_CD
+			
+		]]>
+
+	</select>
+	
+	<!-- 재검 등록 안되어 있으면 재검 요청 취소 -->
+	<select id="reInspectRequestCancel" resultMap="ShipInspectVo">
+		DECLARE
+			@TRAY_NO varchar(30)
+			, @RE_INSPECT_CHECK INT;
+				
+			SET @TRAY_NO = #{trayNo}
+		
+			SELECT
+				@RE_INSPECT_CHECK = COUNT(*)
+			FROM TB_SHIP_INSPECT_DTL
+			WHERE SHIP_INSP_IDX = ( SELECT IDX FROM TB_SHIP_INSPECT_ADM WHERE TRAY_NO = @TRAY_NO AND RE_INSP_STATUS = '002' )
+		
+			IF @RE_INSPECT_CHECK = 0
+				BEGIN
+					DELETE FROM TB_SHIP_INSPECT_ADM
+					WHERE TRAY_NO = @TRAY_NO
+					AND RE_INSP_STATUS = '002'
+			
+					UPDATE TB_SHIP_INSPECT_ADM
+					SET NEXT_GUBUN = '001'
+					WHERE TRAY_NO = @TRAY_NO
+					AND RE_INSP_STATUS = '001'
+					
+					SELECT 'Y' AS RESULT_VALUE
+				END
+			ELSE
+				BEGIN
+					SELECT 'N' AS RESULT_VALUE
+				END
+	</select>
+	
+	
+	<!-- 재검 등록 안되어 있으면 재검 요청 취소 -->
+	<select id="shipInspectMaxIdxRead" resultMap="ShipInspectVo">
+		SELECT
+			MAX(IDX) AS IDX
+		FROM TB_SHIP_INSPECT_ADM
+		WHERE TRAY_NO = #{trayNo}
+	</select>
+	
+</mapper>

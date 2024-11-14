@@ -5,37 +5,37 @@
 	</Properties>
 
 	<Appenders>
-		<!-- console print -->
+		<!-- 콘솔 출력 -->
 		<Console name="console" target="SYSTEM_OUT">
 			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5p] %C.%M(%F:%L) %m%n" />
 		</Console>
 
-		<!-- INFO print -->
-		<RollingFile name="rollingFile" fileName="C:\LOG\daelim\web.log" filePattern="D:\logs\daelim\web_%d{yyyyMMdd}.log">
+		<!-- INFO 출력 -->
+		<RollingFile name="rollingFile" fileName="D:/LOG/mtp/all.log" filePattern="D:/LOG/mtp/all_%d{yyyyMMdd}.log">
 			<PatternLayout pattern="${layoutPattern}" />
 			<Policies>
-				<SizeBasedTriggeringPolicy size="100MB" /> 
+				<SizeBasedTriggeringPolicy size="100MB" /> <!-- 10MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
 			</Policies>
-			<DefaultRolloverStrategy max="50" fileIndex="min" />
+			<DefaultRolloverStrategy max="50" fileIndex="min" /><!-- 롤링 파일 500개 까지 생성 -->
 		</RollingFile>
 
-		<!-- ERROR print -->
-		<RollingFile name="errorFile" fileName="C:\LOG\daelim\error.log" filePattern="C:\LOG\daelim\error_%d{yyyyMMdd}.log">
+		<!-- ERROR 출력 -->
+		<RollingFile name="errorFile" fileName="D:/LOG/mtp/error.log" filePattern="D:/LOG/mtp/error_%d{yyyyMMdd}.log">
 			<PatternLayout pattern="${layoutPattern}" />
 			<Policies>
-				<SizeBasedTriggeringPolicy size="100MB" /> 
+				<SizeBasedTriggeringPolicy size="100MB" /> <!-- 10MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
 			</Policies>
 			<ThresholdFilter level="ERROR"/>
 			<!--
 			<LevelRangeFilter minLevel="DEBUG" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
 			-->
-			<DefaultRolloverStrategy max="50" fileIndex="min" />
+			<DefaultRolloverStrategy max="50" fileIndex="min" /><!-- 롤링 파일 500개 까지 생성 -->
 		</RollingFile>
 	</Appenders>
 
 	<Loggers>
-		<!-- spring core START-->
-		<Logger name="org.springframework.jdbc.datasource" level="WARN" additivity="false">
+		<!-- 스프링 코어 START-->
+		<Logger name="org.springframework.jdbc.datasource" level="INFO" additivity="false">D
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
@@ -61,18 +61,18 @@
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		<Logger name="org.springframework.web" level="DEBUG" additivity="false">
+		<Logger name="org.springframework.web" level="OFF" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		<Logger name="org.springframework" level="DEBUG" additivity="false">
+		<Logger name="org.springframework" level="INFO" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
 
-		<Logger name="org.apache.ibatis" level="WARN" additivity="false">
+		<Logger name="org.apache.ibatis" level="INFO" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
@@ -82,11 +82,11 @@
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		<!-- spring core END-->
+		<!-- 스프링 코어 END-->
 
 
 		<!-- JDBC START-->
-		<Logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
+		<Logger name="jdbc.sqltiming" level="OFF" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
@@ -96,7 +96,7 @@
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		<Logger name="jdbc.sqlonly" level="ERROR" additivity="false">
+		<Logger name="jdbc.sqlonly" level="INFO" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
@@ -106,12 +106,12 @@
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		<Logger name="jdbc.audit" level="ERROR" additivity="false">
+		<Logger name="jdbc.audit" level="OFF" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
 		</Logger>
-		<Logger name="jdbc.connection" level="ERROR" additivity="false">
+		<Logger name="jdbc.connection" level="OFF" additivity="false">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>
@@ -119,7 +119,7 @@
 		<!-- JDBC END-->
 
 
-		<Root level="DEBUG">
+		<Root level="INFO">
 			<AppenderRef ref="console"/>
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="errorFile"/>

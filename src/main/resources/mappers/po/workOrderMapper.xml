@@ -1,0 +1,3529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.po.workOrderMapper">
+
+	<resultMap id="WorkOrderVo" type="mes.domain.po.WorkOrderVo">
+		<result property="workOrdNo"				column="WORK_ORD_NO"					/>
+		<result property="ordLotNo"					column="ORD_LOT_NO"						/>
+		<result property="equipCd"					column="EQUIP_CD"						/>
+		<result property="equipNm"					column="EQUIP_NM"						/>
+		<result property="capa"						column="CAPA"							/>
+		<result property="goodsCd"					column="GOODS_CD"						/>
+		<result property="goodsNm"					column="GOODS_NM"						/>		
+		<result property="ordGubun"					column="ORD_GUBUN"						/>
+		<result property="ordGubunNm"				column="ORD_GUBUN_NM"					/>		
+		<result property="ordDate"					column="ORD_DATE"						/>
+		<result property="equipCondSeq"				column="EQUIP_COND_SEQ"					/>		
+		<result property="workStatusCd"				column="WORK_STATUS_CD"					/>
+		<result property="workStatusNm"				column="WORK_STATUS_NM"					/>
+		<result property="workInspectionStatusCd"	column="WORK_INSPECTION_STATUS_CD"		/>
+		<result property="workInspectionStatusNm"	column="WORK_INSPECTION_STATUS_NM"		/>
+		
+		<result property="subWorkStatusCd"			column="SUB_WORK_STATUS_CD"		/>
+		<result property="subWorkStatusNm"			column="SUB_WORK_STATUS_NM"		/>
+		<result property="workTeamCd"				column="WORK_TEAM_CD"			/>
+		<result property="workTeamNm"				column="WORK_TEAM_NM"			/>		
+		<result property="mainWorkChargr"			column="MAIN_WORK_CHARGR"		/>
+		<result property="mainWorkChargrNm"			column="MAIN_WORK_CHARGR_NM"	/>		
+		<result property="subWorkChargr"			column="SUB_WORK_CHARGR"		/>
+		<result property="subWorkChargrNm"			column="SUB_WORK_CHARGR_NM"		/>		
+		<result property="targetWeight"				column="TARGET_WEIGHT"			/>
+		<result property="outputWeight1"			column="OUTPUT_WEIGHT1"			/>
+		<result property="outputWeight2"			column="OUTPUT_WEIGHT2"			/>
+		<result property="outputWeight3"			column="OUTPUT_WEIGHT3"			/>
+		<result property="outputWeight4"			column="OUTPUT_WEIGHT4"			/>
+		
+		<result property="outputCount1"				column="OUTPUT_COUNT1"		/>
+		<result property="outputCount2"				column="OUTPUT_COUNT2"		/>
+		<result property="outputCount3"				column="OUTPUT_COUNT3"		/>
+		<result property="outputCount4"				column="OUTPUT_COUNT4"		/>
+				
+		<result property="workOrdSeq"				column="WORK_ORD_SEQ"		/>
+		<result property="outputWeight"				column="OUTPUT_WEIGHT"		/>		
+		<result property="gubun"					column="GUBUN"				/>
+		<result property="gubunCd"					column="GUBUN_CD"			/>
+		<result property="workOrdDate"				column="WORK_ORD_DATE"		/>
+		
+		<result property="sealingDate"				column="SEALING_DATE"		/>		
+		<result property="sealing1"					column="SEALING1"			/>
+		<result property="sealing2"					column="SEALING2"			/>
+		<result property="filmFaultyCheck"			column="FILM_FAULTY_CHECK"	/>
+		
+		<result property="targetCnt"				column="TARGET_CNT"			/>
+		<result property="outputCnt"				column="OUTPUT_CNT"			/>
+		<result property="dealCorpCd"				column="DEAL_CORP_CD"		/>
+		<result property="customDealCorpCd"			column="CUSTOM_DEAL_CORP_CD"/>
+		<result property="customDealCorpNm"			column="CUSTOM_DEAL_CORP_NM"/>
+		<result property="dealCorpNm"				column="DEAL_CORP_NM"		/>		
+		<result property="edgeSampleCnt"			column="EDGE_SAMPLE_CNT"	/>
+		<result property="edgeFaultyCnt"			column="EDGE_FAULTY_CNT"	/>
+		<result property="edgeInspctCharger"		column="EDGE_INSPCT_CHARGER"/>
+		<result property="edgeInspctChargerNm"		column="EDGE_INSPCT_CHARGER_NM"/>		
+		<result property="edgeInspctDate"			column="EDGE_INSPCT_DATE"	/>
+		<result property="appearOutputCnt"			column="APPEAR_OUTPUT_CNT"	/>		
+		<result property="appearAbrfCnt"			column="APPEAR_ABRF_CNT"	/>
+		<result property="appearAbrsCnt"			column="APPEAR_ABRS_CNT"	/>
+		<result property="appearDmsCnt"				column="APPEAR_DMS_CNT"		/>
+		<result property="appearFaultyCnt"			column="APPEAR_FAULTY_CNT"	/>
+		<result property="appearInspctCharger"		column="APPEAR_INSPCT_CHARGER"/>
+		<result property="appearInspctChargerNm"	column="APPEAR_INSPCT_CHARGER_NM"/>		
+		<result property="appearInspctDate"			column="APPEAR_INSPCT_DATE"	/>
+		<result property="workStartTime"			column="WORK_START_TIME"	/>
+		<result property="workEndTime"				column="WORK_END_TIME"		/>
+		<result property="workTime"					column="WORK_TIME"			/>						
+		<result property="statusCd"					column="STATUS_CD"			/>		
+		<result property="regId"					column="REG_ID"				/>
+		<result property="regDate"					column="REG_DATE"			/>
+		<result property="updId"					column="UPD_ID"				/>
+		<result property="updDate"					column="UPD_DATE"			/>
+		<result property="surfaceTrtmtCd"			column="SURFACE_TRTMT_CD"	/>
+		<result property="surfaceTrtmtNm"			column="SURFACE_TRTMT_NM"	/>	
+		<result property="alnicuMatrlCd"			column="ALNICU_MATRL_CD"	/>
+		<result property="filmMatrlCd"				column="FILM_MATRL_CD"		/>
+		<result property="filmMatrlNm"				column="FILM_MATRL_NM"		/>
+		<result property="gravity"					column="GRAVITY"			/>			
+		<result property="lotNo"					column="LOT_NO"				/>	
+		<result property="barcodeNo"				column="BARCODE_NO"			/>							
+		<result property="matrlCd"					column="MATRL_CD"			/><!-- 자재 코드 -->
+		<result property="matrlNm"					column="MATRL_NM"			/><!-- 자재 명 -->
+		<result property="approvalCd"				column="APPROVAL_CD"		/>
+		<result property="approvalNm"				column="APPROVAL_NM"		/>
+		<result property="model"					column="MODEL"				/><!-- 제품 규격 -->
+		<result property="qutyCd"					column="QUTY_CD"			/><!-- 재질 코드 -->
+		<result property="qutyNm"					column="QUTY_NM"			/><!-- 재질 명 -->
+		<result property="qutyEtcNm"				column="QUTY_ETC_NM"			/><!-- 재질 명 -->
+		<result property="userNm"					column="USER_NM"			/><!-- 사원명 -->
+		<result property="userNumber"				column="USER_NUMBER"		/><!-- 사원코드 -->
+		<result property="userId"					column="USER_ID"			/><!-- 사원ID -->
+		<result property="faultyPercent"			column="FAULTY_PERCENT"		/><!-- 불량률% -->
+		<result property="inWhsQty"					column="IN_WHS_QTY"			/>
+		<result property="inspectQty"				column="INSPECT_QTY"		/>
+		<result property="fairQty"					column="FAIR_QTY"			/>
+		<result property="faultyQty"				column="FAULTY_QTY"			/>
+		<result property="workNo"					column="WORK_NO"			/>
+		<result property="packUnitCd"				column="PACK_UNIT_CD"		/>
+		<result property="packUnitNm"				column="PACK_UNIT_NM"		/>
+		<result property="packCnt"					column="PACK_CNT"			/>
+		<result property="packYn"					column="PACK_YN"			/>
+		<result property="gubunNm"					column="GUBUN_NM"			/>
+		<result property="chamferYnNm"				column="CHAMFER_YN_NM"		/>
+		<result property="remakeYn"					column="REMAKE_YN"			/>
+		<result property="matrlInital"				column="MATRL_INITIAL"		/><!-- 주자재이니셜 -->
+		<result property="gravity"					column="GRAVITY"			/>
+		
+		<result property="totalInspectCnt"			column="TOTAL_INSPECT_CNT"	/><!-- 엣지 불량수량 + 외관불량수량 + 외관양품수량 -->
+		<result property="totalFaultyCnt"			column="TOTAL_FAULTY_CNT"	/><!-- 엣지불량수량 + 외관불량수량 -->
+		<result property="userOutputCnt"			column="USER_OUTPUT_CNT"	/><!-- 사용자 양품수량 입력 -->
+		<result property="dealCorpInfo"				column="DEAL_CORP_INFO"		/>
+		
+		<!-- 외관 불량수량 Join시 사용 -->
+		<result property="metalMmb"					column="METAL_MMB"			/>
+		<result property="metalMms"					column="METAL_MMS"			/>
+		<result property="metalPms"					column="METAL_PMS"			/>
+		<result property="metalFstab"				column="METAL_FSTAB"		/>
+		<result property="metalPstab"				column="METAL_PSTAB"		/>
+		<result property="metalAliensbst"			column="METAL_ALIENSBST"	/>
+		<result property="metalBreak"				column="METAL_BREAK"		/>
+		<result property="metalPolutn"				column="METAL_POLUTN"		/>
+		<result property="metalBrowning"			column="METAL_BROWNING"		/>
+		<result property="metalPpolutn"				column="METAL_PPOLUTN"		/>
+		<result property="metalGilt"				column="METAL_GILT"			/>
+		<result property="metalThickness"			column="METAL_THICKNESS"	/>
+		<result property="metalEtc"					column="METAL_ETC"			/>
+		<result property="filmPfs"					column="FILM_PFS"			/>
+		<result property="filmBreak"				column="FILM_BREAK"			/>
+		<result property="filmTornout"				column="FILM_TORNOUT"		/>
+		<result property="filmSurfceBb"				column="FILM_SURFCE_BB"		/>
+		<result property="filmEdgeBb"				column="FILM_EDGE_BB"		/>
+		<result property="filmTeflon"				column="FILM_TEFLON"		/>
+		<result property="filmAliensbst"			column="FILM_ALIENSBST"		/>
+		<result property="filmPolutn"				column="FILM_POLUTN"		/>
+		<result property="filmAgglomt"				column="FILM_AGGLOMT"		/>
+		<result property="filmOverlap"				column="FILM_OVERLAP"		/>
+		<result property="filmUnjinjeop"			column="FILM_UNJINJEOP"		/>
+		<result property="filmUnattch"				column="FILM_UNATTCH"		/>
+		<result property="filmMf"					column="FILM_MF"			/>
+		<result property="filmWing"					column="FILM_WING"			/>
+		<result property="filmEtc"					column="FILM_ETC"			/>
+		<result property="etcSize"					column="ETC_SIZE"			/>
+		<result property="etcCutting"				column="ETC_CUTTING"		/>
+		<result property="etcFilmPress"				column="ETC_FILM_PRESS"		/>
+		<result property="etcFilmDepth"				column="ETC_FILM_DEPTH"		/>
+		<result property="etcLayer"					column="ETC_LAYER"			/>
+		<result property="etcEtc"					column="ETC_ETC"			/>
+		<result property="etcWashboard"				column="ETC_WASHBOARD"		/>
+		<result property="etcWhitetape"				column="ETC_WHITETAPE"		/>
+		<result property="etcPattem"				column="ETC_PATTEM"			/>
+		<result property="etcStabbed"				column="ETC_STABBED"		/>
+		<result property="etcHaze"					column="ETC_HAZE"			/>
+		<result property="etcSurface"				column="ETC_SURFACE"		/>
+		<result property="etcSwelling"				column="ETC_SWELLING"		/>
+		<result property="etcFeeding"				column="ETC_FEEDING"		/>
+		<result property="etcFilm"					column="ETC_FILM"			/>
+		<result property="etcSlash"					column="ETC_SLASH"			/>
+		<result property="etcJinjeop"				column="ETC_JINJEOP"		/>
+		<result property="etcCrack"					column="ETC_CRACK"			/>
+		<result property="etcCrease"				column="ETC_CREASE"			/>
+		
+		<result property="changeLocation"			column="CHANGE_LOCATION"	/>
+		<result property="connectCd"				column="CONNECT_CD"			/>
+		<result property="connectNm"				column="CONNECT_NM"			/>
+		<result property="mainMatrlList"			column="MAIN_MATRL_LIST"	/>
+		<result property="subMatrlList"				column="SUB_MATRL_LIST"		/>
+		<result property="mainMatrl1"				column="MAIN_MATRL1"		/>
+		<result property="mainMatrl2"				column="MAIN_MATRL2"		/>
+		<result property="mainMatrl3"				column="MAIN_MATRL3"		/>
+		<result property="subMatrl1"				column="SUB_MATRL1"			/>
+		<result property="subMatrl2"				column="SUB_MATRL2"			/>
+		<result property="subMatrl3"				column="SUB_MATRL3"			/>
+		
+		<result property="achievePercent"			column="ACHIEVE_PERCENT"		/><!-- 달성율% -->
+		<result property="filmNm"					column="FILM_NM"				/><!-- Film명 -->
+		<result property="chamferYnNm"				column="CHAMFER_YN_NM"			/><!-- 면취(압연) -->
+		<result property="gubunNm"					column="GUBUN_NM"				/><!-- 구분(연질,경질)  -->
+		<result property="baseCdAbbr"				column="BASE_CD_ABBR"			/><!-- 구분(연질,경질)  -->
+		<result property="baseNm"					column="BASE_NM"				/><!-- 코드 명  -->
+		
+		<result property="majorCd"       		column="MAJOR_CD"			/>
+		<result property="minorCd"       		column="MINOR_CD"			/>		
+		<result property="faultyCnt"     		column="FAULTY_CNT"			/>
+		<result property="seq"           		column="SEQ"				/>
+		<result property="inspctChargr"  		column="INSPCT_CHARGR"		/>
+		<result property="inspctChargrNm"		column="INSPCT_CHARGR_NM"	/>
+		<result property="dayNightCd"    		column="DAY_NIGHT_CD"		/>
+		<result property="dayNightNm"    		column="DAY_NIGHT_NM"		/>
+		<result property="faultyStatus"    		column="FAULTY_STATUS"		/>
+		<result property="faultyStatusNm"    	column="FAULTY_STATUS_NM"	/>
+		
+		<result property="workerId"    			column="WORKER_ID"				/> <!-- 작업자 아이디 -->
+		<result property="workerIdNm"   	 	column="WORKER_ID_NM"			/> <!-- 작업자 아이디_NM-->
+		<result property="factoryCode"  	  	column="FACTORY_CODE"			/>
+		<result property="updateGubun"  	  	column="UPDATE_GUBUN"			/>
+		<result property="remainQty"    		column="REMAIN_QTY"				/>
+		<result property="lastMatrlLotNo"    	column="LAST_MATRL_LOT_NO"			/>
+		<result property="matrlLotNo"   	 	column="MATRL_LOT_NO"				/>
+		<result property="lastWorkOrdNo"    	column="LAST_WORK_ORD_NO"			/>
+		<result property="countWorkingWorkOrd"	column="COUNT_WORKING_WORK_ORD"		/>
+		<result property="inWhsTime"	    	column="IN_WHS_TIME"				/>
+		<result property="floorGubun"	    	column="FLOOR_GUBUN"				/>
+	</resultMap>
+	
+	<!-- 작업자 변경 내역 -->
+	<resultMap id="WorkerChangeVo" type="mes.domain.po.WorkerChangeVo">
+		<result property="equipCd"    		column="EQUIP_CD"			/> <!-- 설비코드 -->
+		<result property="workOrdNo"    	column="WORK_ORD_NO"		/> <!-- 작업지시번호 -->
+		<result property="ordDate"    		column="ORD_DATE"			/> <!-- 직지일 -->
+		<result property="workChangSeq"    	column="WORK_CHANG_SEQ"		/> <!-- 작업자 변경 시퀀스 -->
+		<result property="dayNightCd"    	column="DAY_NIGHT_CD"		/> <!-- 주야간구분 -->
+		<result property="dayNightCd"    	column="DAY_NIGHT_NM"		/> <!-- 주야간구분_NM -->
+		<result property="workTeamCd"    	column="WORK_TEAM_CD"		/> <!-- 작업조 -->
+		<result property="workTeamNm"    	column="WORK_TEAM_NM"		/> <!-- 작업조_NM -->
+		<result property="workerId"    		column="WORKER_ID"			/> <!-- 작업자 아이디 -->
+		<result property="workerIdNm"    	column="WORKER_ID_NM"		/> <!-- 작업자 아이디_NM-->
+		<result property="workStatusCd"		column="WORK_STATUS_CD"		/> <!-- 작업 상태 -->
+		<result property="workStatusNm"    	column="WORK_STATUS_NM"		/> <!-- 작업 상태_NM-->
+		<result property="workerStatusCd"	column="WORKER_STATUS_CD"	/> <!-- 작업자 상태 -->
+		<result property="workerStatusNm"	column="WORKER_STATUS_NM"	/> <!-- 작업자 상태_NM -->
+		<result property="regId"    		column="REG_ID"				/> <!-- 등록자 -->
+		<result property="regDate"    		column="REG_DATE"			/> <!-- 등록일 -->
+		<result property="updId"    		column="UPD_ID"				/> <!-- 수정자 -->
+		<result property="updDate"    		column="UPD_DATE"			/> <!-- 수정일 -->
+		<!-- 추가항목 -->
+		<result property="readCheckCode1"   column="readCheckCode1"		/> <!-- 작업자 조회 시 필요한 코드 -->
+		
+		<!-- 주자재 변경 관련 사항 -->
+		<result property="beforeLotNo"   	column="BEFORE_LOT_NO"		/> <!-- 변경 전 lotNo -->
+		<result property="afterLotNo"   	column="AFTER_LOT_NO"		/> <!-- 변경 후 lotNo -->
+	</resultMap>
+	
+	<!-- 작업지시서 계획 목록조회(MTP-1공장) -->
+	<select id="workOrderPlanDataList" resultMap="WorkOrderVo">
+		SELECT     
+			--COUNT(E.WORK_ORD_NO) AS firstStepCheck
+			--, CASE WHEN COUNT(E.WORK_ORD_NO) = 0 THEN '미등록' ELSE '등록' END AS firstStepCheckNm
+			
+			
+			CASE WHEN ( SELECT COUNT(X.WORK_ORD_NO) FROM TB_AGT_SIZE_STEP X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO AND X.STEP_CD = '001' ) = 0 THEN '미등록' ELSE '등록' END AS firstStepCheckNm
+			, CASE WHEN ( SELECT COUNT(X.WORK_ORD_NO) FROM TB_AGT_SIZE_STEP X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO AND X.STEP_CD = '002' ) = 0 THEN '미등록' ELSE '등록' END AS secondStepCheckNm
+			, CASE WHEN ( SELECT COUNT(X.WORK_ORD_NO) FROM TB_AGT_SIZE_STEP X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO AND X.STEP_CD = '003' ) = 0 THEN '미등록' ELSE '등록' END AS thirdStepCheckNm
+			
+			    
+			, A.WORK_ORD_NO
+			, A.ORD_GUBUN
+			, A.ORD_LOT_NO
+			, A.EQUIP_CD
+			, B.EQUIP_NM
+			, B.CAPA
+			, A.GOODS_CD
+			, C.GOODS_NM
+			, C.GRAVITY
+			, C.DEAL_CORP_CD AS CUSTOM_DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) AS CUSTOM_DEAL_CORP_NM
+			, A.EQUIP_COND_SEQ
+			, A.WORK_STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='034' AND B.BASE_CD = A.WORK_STATUS_CD) WORK_STATUS_NM
+			, A.WORK_TEAM_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+			, A.DEAL_CORP_CD
+			, ( SELECT DEAL_CORP_INFO FROM TB_DEAL_CORP_ADM X WHERE X.DEAL_CORP_CD = C.DEAL_CORP_CD ) AS DEAL_CORP_INFO
+			, A.TARGET_WEIGHT
+			, A.TARGET_CNT
+			, A.OUTPUT_WEIGHT1
+			, A.OUTPUT_WEIGHT2
+			, A.OUTPUT_WEIGHT3
+			, A.OUTPUT_WEIGHT4
+			, A.OUTPUT_CNT
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			, A.MAIN_WORK_CHARGR
+			, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			, A.SUB_WORK_CHARGR
+			, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.SUB_WORK_CHARGR) SUB_WORK_CHARGR_NM
+			, D.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+			, C.MODEL
+			, D.SURFACE_TRTMT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='021' AND X.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+			, C.ALNICU_MATRL_CD
+			, C.FILM_MATRL_CD
+			, ROW_NUMBER() OVER(ORDER BY A.WORK_ORD_NO DESC) WORK_NO
+			, A.WORK_START_TIME
+			, A.WORK_END_TIME
+			, A.WORK_INSPECTION_STATUS_CD
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='092' AND X.BASE_CD=A.WORK_INSPECTION_STATUS_CD) WORK_INSPECTION_STATUS_NM
+			, (SELECT BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '080' AND BASE_CD = C.GIJONG_CD ) BASE_CD_ABBR
+			
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '080' AND BASE_CD = C.GIJONG_CD ) BASE_NM
+			
+			, (SELECT ETC1 FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '007' AND BASE_CD = D.QUTY_CD ) QUTY_ETC_NM
+		FROM TB_WORK_ORDER A
+		--LEFT OUTER JOIN TB_AGT_SIZE_STEP E
+		--	ON 1=1
+		--	AND E.STEP_CD = '001'
+		--	AND E.WORK_ORD_NO = A.WORK_ORD_NO
+			, TB_EQUIP_CODE_ADM B
+			, TB_GOODS_CODE_ADM C
+			, TB_MATRL_CODE_ADM D
+		WHERE A.EQUIP_CD = B.EQUIP_CD
+		AND A.GOODS_CD = C.GOODS_CD
+		AND C.ALNICU_MATRL_CD = D.MATRL_CD
+		AND A.EQUIP_CD = #{equipCd}
+		AND A.ORD_DATE = #{ordDate}
+	<if test="ordGubun != null and ordGubun != ''"> 
+		AND A.ORD_GUBUN = #{ordGubun}
+	</if>
+	
+		GROUP BY A.WORK_ORD_NO
+			, A.ORD_GUBUN
+			, A.ORD_LOT_NO
+			, A.EQUIP_CD
+			, B.EQUIP_NM
+			, B.CAPA
+			, A.GOODS_CD
+			, C.GOODS_NM
+			, C.GRAVITY
+			, C.DEAL_CORP_CD
+			, A.EQUIP_COND_SEQ
+			, A.WORK_STATUS_CD
+			, A.WORK_TEAM_CD
+			, A.DEAL_CORP_CD
+			, A.TARGET_WEIGHT
+			, A.TARGET_CNT
+			, A.OUTPUT_WEIGHT1
+			, A.OUTPUT_WEIGHT2
+			, A.OUTPUT_WEIGHT3
+			, A.OUTPUT_WEIGHT4
+			, A.OUTPUT_CNT
+			, A.MAIN_WORK_CHARGR
+			, A.SUB_WORK_CHARGR
+			, D.QUTY_CD
+			, C.MODEL
+			, D.SURFACE_TRTMT_CD
+			, C.ALNICU_MATRL_CD
+			, C.FILM_MATRL_CD
+			, A.WORK_START_TIME
+			, A.WORK_END_TIME
+			, A.WORK_INSPECTION_STATUS_CD
+			, C.GIJONG_CD
+			
+			ORDER BY A.WORK_ORD_NO DESC
+	
+		<!-- <if test="factoryCode.equals('001') or factoryCode.equals('002')">
+			ORDER BY A.WORK_ORD_NO
+		</if>		
+		<if test="factoryCode.equals('003')">
+			ORDER BY A.WORK_ORD_NO DESC
+		</if> -->
+		
+	</select>
+
+	<!-- 작업지시서 계획 목록조회(SLD-3공장) --> <!-- 23.11.16 기존에 사용중인 쿼리가 있었지만, 실제 JSP에서 안불러오고, Controller에서 사용 중이지 않음. → 솔브레인 6층 작업지시 계획으로 사용함 -->
+	<select id="workOrderPlanDataList_F3" resultMap="WorkOrderVo">
+		SELECT     
+			CASE WHEN ( SELECT COUNT(X.WORK_ORD_NO) FROM TB_AGT_SIZE_STEP_SIX_FLOOR_TABLE X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO AND X.STEP_CD = '001' ) = 0 THEN '미등록' ELSE '등록' END AS firstStepCheckNm
+			, CASE WHEN ( SELECT COUNT(X.WORK_ORD_NO) FROM TB_AGT_SIZE_STEP_SIX_FLOOR_TABLE X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO AND X.STEP_CD = '002' ) = 0 THEN '미등록' ELSE '등록' END AS secondStepCheckNm
+			, CASE WHEN ( SELECT COUNT(X.WORK_ORD_NO) FROM TB_AGT_SIZE_STEP_SIX_FLOOR_TABLE X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO AND X.STEP_CD = '003' ) = 0 THEN '미등록' ELSE '등록' END AS thirdStepCheckNm
+			, A.WORK_ORD_NO
+			, A.ORD_GUBUN
+			, A.ORD_LOT_NO
+			, A.EQUIP_CD
+			, B.EQUIP_NM
+			, B.CAPA
+			, A.GOODS_CD
+			, C.GOODS_NM
+			, C.GRAVITY
+			, C.DEAL_CORP_CD AS CUSTOM_DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) AS CUSTOM_DEAL_CORP_NM
+			, A.EQUIP_COND_SEQ
+			, A.WORK_STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='034' AND B.BASE_CD = A.WORK_STATUS_CD) WORK_STATUS_NM
+			, A.WORK_TEAM_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+			, A.DEAL_CORP_CD
+			, ( SELECT DEAL_CORP_INFO FROM TB_DEAL_CORP_ADM X WHERE X.DEAL_CORP_CD = C.DEAL_CORP_CD ) AS DEAL_CORP_INFO
+			, A.TARGET_WEIGHT
+			, A.TARGET_CNT
+			, A.OUTPUT_WEIGHT1
+			, A.OUTPUT_WEIGHT2
+			, A.OUTPUT_WEIGHT3
+			, A.OUTPUT_WEIGHT4
+			, A.OUTPUT_CNT
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			, A.MAIN_WORK_CHARGR
+			, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			, A.SUB_WORK_CHARGR
+			, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.SUB_WORK_CHARGR) SUB_WORK_CHARGR_NM
+			, D.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+			, C.MODEL
+			, D.SURFACE_TRTMT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='021' AND X.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+			, C.ALNICU_MATRL_CD
+			, C.FILM_MATRL_CD
+			, ROW_NUMBER() OVER(ORDER BY A.WORK_ORD_NO DESC) WORK_NO
+			, A.WORK_START_TIME
+			, A.WORK_END_TIME
+			, A.WORK_INSPECTION_STATUS_CD
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='092' AND X.BASE_CD=A.WORK_INSPECTION_STATUS_CD) WORK_INSPECTION_STATUS_NM
+			, (SELECT BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '080' AND BASE_CD = C.GIJONG_CD ) BASE_CD_ABBR
+			
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '080' AND BASE_CD = C.GIJONG_CD ) BASE_NM
+			
+			, (SELECT ETC1 FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '007' AND BASE_CD = D.QUTY_CD ) QUTY_ETC_NM
+		FROM TB_WORK_ORDER A
+			, TB_EQUIP_CODE_ADM B
+			, TB_GOODS_CODE_ADM C
+			, TB_MATRL_CODE_ADM D
+		WHERE A.EQUIP_CD = B.EQUIP_CD
+		AND A.GOODS_CD = C.GOODS_CD
+		AND C.ALNICU_MATRL_CD = D.MATRL_CD
+		AND A.EQUIP_CD = #{equipCd}
+		AND A.ORD_DATE = #{ordDate}
+		<if test="ordGubun != null and ordGubun != ''"> 
+			AND A.ORD_GUBUN = #{ordGubun}
+		</if>
+	
+		GROUP BY
+			A.WORK_ORD_NO
+			, A.ORD_GUBUN
+			, A.ORD_LOT_NO
+			, A.EQUIP_CD
+			, B.EQUIP_NM
+			, B.CAPA
+			, A.GOODS_CD
+			, C.GOODS_NM
+			, C.GRAVITY
+			, C.DEAL_CORP_CD
+			, A.EQUIP_COND_SEQ
+			, A.WORK_STATUS_CD
+			, A.WORK_TEAM_CD
+			, A.DEAL_CORP_CD
+			, A.TARGET_WEIGHT
+			, A.TARGET_CNT
+			, A.OUTPUT_WEIGHT1
+			, A.OUTPUT_WEIGHT2
+			, A.OUTPUT_WEIGHT3
+			, A.OUTPUT_WEIGHT4
+			, A.OUTPUT_CNT
+			, A.MAIN_WORK_CHARGR
+			, A.SUB_WORK_CHARGR
+			, D.QUTY_CD
+			, C.MODEL
+			, D.SURFACE_TRTMT_CD
+			, C.ALNICU_MATRL_CD
+			, C.FILM_MATRL_CD
+			, A.WORK_START_TIME
+			, A.WORK_END_TIME
+			, A.WORK_INSPECTION_STATUS_CD
+			, C.GIJONG_CD
+			
+		ORDER BY A.WORK_ORD_NO DESC
+	</select>
+	
+	<!-- 솔브레인SLD - 엣지검사, 외관검사 시 작지목록 조회 -->
+	<select id="qualityWorkOrderList_F3" resultMap="WorkOrderVo">
+		SELECT
+			B.EQUIP_CD
+			, D.EQUIP_NM
+			, D.CAPA
+			, A.WORK_ORD_NO
+			, B.EQUIP_COND_SEQ
+			, B.ORD_GUBUN
+			, B.WORK_STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='034' AND X.BASE_CD = B.WORK_STATUS_CD) WORK_STATUS_NM
+			, B.GOODS_CD
+			, E.GOODS_NM
+			, E.MODEL
+			, A.LOT_NO
+			, A.BARCODE_NO
+			, A.MATRL_CD
+			, A.FAULTY_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='083' AND X.BASE_CD = A.FAULTY_STATUS) FAULTY_STATUS_NM
+			, C.MATRL_CD
+			, C.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='007' AND X.BASE_CD = C.QUTY_CD) QUTY_NM
+			, (SELECT TOP 1 X.WORKER_ID FROM TB_WORKER_CHANGE X WHERE 1=1 AND X.EQUIP_CD = B.EQUIP_CD AND X.WORK_ORD_NO = B.WORK_ORD_NO ORDER BY REG_DATE DESC) AS WORKER_ID
+			, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = (SELECT TOP 1 X.WORKER_ID FROM TB_WORKER_CHANGE X WHERE 1=1 AND X.EQUIP_CD = B.EQUIP_CD AND X.WORK_ORD_NO = B.WORK_ORD_NO ORDER BY REG_DATE DESC)) AS WORKER_ID_NM
+			, (	SELECT
+					TOP 1 (SELECT X.TEAM_CD FROM TB_USER X WHERE X.USER_NUMBER = WORKER_ID) AS WORK_TEAM_CD
+					FROM TB_WORKER_CHANGE X
+					WHERE X.EQUIP_CD = B.EQUIP_CD
+					AND X.WORK_ORD_NO = B.WORK_ORD_NO
+					ORDER BY REG_DATE DESC
+			  ) AS WORK_TEAM_CD
+
+			, (	SELECT
+				TOP 1
+				ISNULL(
+					(SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '016' AND X.BASE_CD = (SELECT X.TEAM_CD FROM TB_USER X WHERE X.USER_NUMBER = WORKER_ID) )
+					, '-' 
+				) AS WORK_TEAM_NM
+				FROM TB_WORKER_CHANGE X
+				WHERE X.EQUIP_CD = B.EQUIP_CD
+				AND X.WORK_ORD_NO = B.WORK_ORD_NO
+				ORDER BY REG_DATE DESC
+			  ) AS WORK_TEAM_NM
+				
+			, E.ALNICU_MATRL_CD
+			, E.FILM_MATRL_CD
+			, C.SURFACE_TRTMT_CD
+			, ISNULL((SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='021' AND X.BASE_CD = C.SURFACE_TRTMT_CD),'') SURFACE_TRTMT_NM
+			, E.DEAL_CORP_CD
+			, (SELECT X.DEAL_CORP_NM FROM TB_DEAL_CORP_ADM X WHERE X.DEAL_CORP_CD = E.DEAL_CORP_CD) DEAL_CORP_NM
+			, B.MAIN_WORK_CHARGR
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = B.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			, B.SUB_WORK_CHARGR
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = B.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM		
+			, B.WORK_INSPECTION_STATUS_CD
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='092' AND X.BASE_CD=B.WORK_INSPECTION_STATUS_CD) WORK_INSPECTION_STATUS_NM
+			
+		FROM TB_WORK_ORDER_DTL A
+			, TB_WORK_ORDER B
+			, TB_MATRL_CODE_ADM C
+			, TB_EQUIP_CODE_ADM D
+			, TB_GOODS_CODE_ADM E
+		WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND A.MATRL_CD = C.MATRL_CD
+		AND B.EQUIP_CD = D.EQUIP_CD
+		AND B.GOODS_CD = E.GOODS_CD
+		AND (B.WORK_STATUS_CD = 'S' OR B.WORK_STATUS_CD = 'C')
+		AND (LEFT(A.MATRL_CD, 1) = 'A' OR LEFT(A.MATRL_CD, 1) = 'N')
+	<if test="equipCd != null and equipCd != ''"> 
+		AND B.EQUIP_CD = #{equipCd}
+	</if>
+	<if test="workOrdNo != null and workOrdNo != ''"> 
+		AND B.WORK_ORD_NO = #{workOrdNo}
+	</if>
+		AND B.ORD_DATE = #{ordDate}
+		ORDER BY B.WORK_ORD_NO
+	</select>
+	
+	<!-- 작업지시서 목록조회 -->
+	<select id="workOrderDataList" resultMap="WorkOrderVo">
+	    SELECT
+			A.WORK_ORD_NO
+		    ,A.ORD_LOT_NO
+		    ,A.EQUIP_CD
+		    ,B.EQUIP_NM
+		    ,A.GOODS_CD
+		    ,C.GOODS_NM
+		    ,A.ORD_GUBUN
+		    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='028' AND B.BASE_CD = A.ORD_GUBUN) ORD_GUBUN_NM
+		    ,C.GOODS_NM
+		    ,A.EQUIP_COND_SEQ
+		    ,A.WORK_STATUS_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='034' AND B.BASE_CD = A.WORK_STATUS_CD) WORK_STATUS_NM
+		    ,A.WORK_TEAM_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+		    ,A.DEAL_CORP_CD
+			,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+		    ,A.MAIN_WORK_CHARGR
+			,(SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+		    ,A.SUB_WORK_CHARGR
+			,(SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.SUB_WORK_CHARGR) SUB_WORK_CHARGR_NM
+			,D.QUTY_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+			,C.MODEL
+			,C.GRAVITY
+			,D.SURFACE_TRTMT_CD
+			, ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='021' AND D.BASE_CD = SURFACE_TRTMT_CD),'') SURFACE_TRTMT_NM
+			,A.TARGET_WEIGHT
+			,A.OUTPUT_WEIGHT1
+			,A.OUTPUT_WEIGHT2
+			,A.TARGET_CNT
+			,A.OUTPUT_CNT
+			,A.WORK_START_TIME
+			,A.WORK_END_TIME
+			,DATEDIFF(minute, WORK_START_TIME, WORK_END_TIME) WORK_TIME
+	    FROM TB_WORK_ORDER A,
+			TB_EQUIP_CODE_ADM B,
+			TB_GOODS_CODE_ADM C,
+			TB_MATRL_CODE_ADM D
+			WHERE A.EQUIP_CD = #{equipCd}
+	        AND A.ORD_DATE = #{ordDate} 
+			AND A.EQUIP_CD = B.EQUIP_CD
+			AND A.GOODS_CD = C.GOODS_CD
+			AND C.ALNICU_MATRL_CD = D.MATRL_CD
+			<if test="ordGubun != null and ordGubun != ''"> 
+				AND A.ORD_GUBUN = #{ordGubun}
+			</if>
+	</select>
+	
+	<!-- 작지 연결대상 목록조회 -->
+	<select id="workOrderConnectList" resultMap="WorkOrderVo">
+		<![CDATA[
+			SELECT
+				TOP 4
+				A.WORK_ORD_NO
+				, A.ORD_DATE
+				, A.ORD_LOT_NO
+				, A.EQUIP_CD
+				, B.EQUIP_NM
+				, A.GOODS_CD
+				, C.GOODS_NM
+				, A.ORD_GUBUN
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='028' AND B.BASE_CD = A.ORD_GUBUN) ORD_GUBUN_NM
+				, C.GOODS_NM
+				, A.EQUIP_COND_SEQ
+				, A.WORK_STATUS_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='034' AND B.BASE_CD = A.WORK_STATUS_CD) WORK_STATUS_NM
+				, A.WORK_TEAM_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+				, A.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+				, A.MAIN_WORK_CHARGR
+				, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+				, A.SUB_WORK_CHARGR
+				, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.SUB_WORK_CHARGR) SUB_WORK_CHARGR_NM
+				, D.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, C.MODEL
+				, C.GRAVITY
+				, D.SURFACE_TRTMT_CD
+				, ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='021' AND D.BASE_CD = SURFACE_TRTMT_CD),'') SURFACE_TRTMT_NM
+				, A.TARGET_WEIGHT
+				, A.OUTPUT_WEIGHT1
+				, A.OUTPUT_WEIGHT2
+				, A.TARGET_CNT
+				, A.OUTPUT_CNT
+				, A.WORK_START_TIME
+				, A.WORK_END_TIME
+				, DATEDIFF(minute, WORK_START_TIME, WORK_END_TIME) WORK_TIME
+			FROM TB_WORK_ORDER A,
+				TB_EQUIP_CODE_ADM B,
+				TB_GOODS_CODE_ADM C,
+				TB_MATRL_CODE_ADM D
+			WHERE 1=1
+			AND A.EQUIP_CD = #{equipCd}
+			AND A.WORK_STATUS_CD = 'C'
+			AND A.EQUIP_CD = B.EQUIP_CD
+			AND A.GOODS_CD = C.GOODS_CD
+			AND C.ALNICU_MATRL_CD = D.MATRL_CD
+			AND DATEDIFF(SECOND, WORK_END_TIME, getDate()) < 43200
+			ORDER BY WORK_END_TIME DESC
+		]]>
+	</select>
+	
+	
+	<!-- 검사대기 작지 검색 -->
+	<select id="standByInspectionWorkOrdList" resultMap="WorkOrderVo">
+		<![CDATA[
+			SELECT
+				D.WORK_ORD_NO
+				, D.ORD_LOT_NO
+				, D.LOT_NO
+				, D.WORK_ORD_DATE
+				, D.GUBUN
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='028' AND X.BASE_CD = D.GUBUN) ORD_GUBUN_NM
+				, D.OUTPUT_CNT + D.VISION_EDGE_CNT AS OUTPUT_CNT
+				, A.EQUIP_CD
+				, G.EQUIP_NM
+				, A.GOODS_CD
+				, D.SUB_WORK_STATUS_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='034' AND X.BASE_CD = D.SUB_WORK_STATUS_CD) SUB_WORK_STATUS_NM
+				, D.MAIN_WORK_CHARGR
+				, E.USER_NM
+				, A.TARGET_WEIGHT
+				, A.TARGET_CNT
+				, A.DEAL_CORP_CD
+				, F.DEAL_CORP_NM
+				, D.EDGE_SAMPLE_CNT
+				, D.EDGE_FAULTY_CNT
+				, D.EDGE_OUTPUT_CNT
+				, D.EDGE_INSPCT_CHARGER
+				, D.EDGE_INSPCT_DATE
+				, D.APPEAR_ABRF_CNT
+				, D.APPEAR_ABRS_CNT
+				, D.APPEAR_DMS_CNT
+				, D.APPEAR_FAULTY_CNT
+				, D.APPEAR_OUTPUT_CNT
+				, D.APPEAR_INSPCT_CHARGER
+				, D.APPEAR_INSPCT_DATE
+				, B.GOODS_NM
+				, B.MODEL
+				, C.QUTY_CD	
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = C.QUTY_CD) QUTY_NM
+				, CASE A.TARGET_CNT
+					WHEN 0 THEN 100
+					ELSE CONVERT(FLOAT, ISNULL(LEFT(100. * (D.OUTPUT_CNT + D.VISION_EDGE_CNT) / A.TARGET_CNT,5), '0') ) END ACHIEVE_PERCENT
+				, C.MATRL_CD
+				, B.FILM_MATRL_CD
+				, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM H WHERE B.FILM_MATRL_CD = H.MATRL_CD) FILM_NM
+				, C.CHAMFER_YN_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='020' AND D.BASE_CD = C.CHAMFER_YN_CD) CHAMFER_YN_NM
+				, C.GUBUN_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='019' AND D.BASE_CD = C.GUBUN_CD) GUBUN_NM
+			FROM
+				TB_WORK_ORDER A
+				, TB_WORK_ORDER_OUTPUT_SUB D
+				, TB_GOODS_CODE_ADM B
+				, TB_MATRL_CODE_ADM C
+				, TB_USER E
+				, TB_DEAL_CORP_ADM F
+				, TB_EQUIP_CODE_ADM G
+			WHERE 1=1
+				AND A.WORK_ORD_NO = D.WORK_ORD_NO
+				AND A.GOODS_CD = B.GOODS_CD
+				AND B.ALNICU_MATRL_CD = C.MATRL_CD
+				AND A.DEAL_CORP_CD = F.DEAL_CORP_CD
+				AND A.EQUIP_CD = G.EQUIP_CD
+				AND D.MAIN_WORK_CHARGR = E.USER_NUMBER
+				AND D.SUB_WORK_STATUS_CD = 'C'
+				AND D.WORK_ORD_DATE >= #{chooseDateFrom}
+				AND D.WORK_ORD_DATE <= #{chooseDateTo}
+			ORDER BY ORD_DATE
+		]]>
+	</select>
+	
+	
+	<!-- 작업지시서 목록조회(오늘이전 작지정보) --> <!-- qmsc0041 -->
+	<select id="workOrderRead" resultMap="WorkOrderVo">
+		<![CDATA[
+	    SELECT
+			A.WORK_ORD_NO
+		    ,A.ORD_LOT_NO
+		    ,E.LOT_NO
+		    ,A.EQUIP_CD
+		    ,B.EQUIP_NM
+		    ,A.GOODS_CD
+		    ,C.GOODS_NM
+		    ,A.EQUIP_COND_SEQ
+		    ,A.WORK_STATUS_CD
+		    ,A.ORD_DATE			
+		    ,A.WORK_TEAM_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_STATUS_NM
+		    ,A.WORK_TEAM_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM			
+		    ,A.DEAL_CORP_CD
+			,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+		    --,A.MAIN_WORK_CHARGR
+			--,(SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+		    ,A.SUB_WORK_CHARGR
+			,(SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.SUB_WORK_CHARGR) SUB_WORK_CHARGR_NM
+			,D.QUTY_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+			,C.MODEL			
+			,D.SURFACE_TRTMT_CD
+			, ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='021' AND D.BASE_CD = SURFACE_TRTMT_CD),'') SURFACE_TRTMT_NM
+			,'P' STATUS
+			--,A.OUTPUT_CNT
+			,C.PACK_UNIT_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='031' AND B.BASE_CD = C.PACK_UNIT_CD) PACK_UNIT_NM	
+			,STUFF((         
+					  SELECT  DISTINCT ',' + (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = X.WORKER_ID)
+					  FROM    TB_WORKER_CHANGE X
+					  WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+					  FOR XML PATH('') ),1,1,'')
+				  AS MAIN_WORK_CHARGR_NM
+			,(SELECT SUM(OUTPUT_CNT) OUTPUT_CNT FROM TB_WORK_ORDER_OUTPUT_SUB X
+			WHERE X.WORK_ORD_NO = A.WORK_ORD_NO
+			GROUP BY WORK_ORD_NO) OUTPUT_CNT		
+	    FROM TB_WORK_ORDER A,
+			TB_EQUIP_CODE_ADM B,
+			TB_GOODS_CODE_ADM C,
+			TB_MATRL_CODE_ADM D,
+			TB_WORK_ORDER_DTL E
+			
+			WHERE A.ORD_DATE = #{ordDate} 
+			AND A.EQUIP_CD = B.EQUIP_CD
+			AND A.GOODS_CD = C.GOODS_CD
+			AND C.ALNICU_MATRL_CD = D.MATRL_CD		
+			AND E.WORK_ORD_NO = A.WORK_ORD_NO
+			AND LEFT(E.MATRL_CD,1) != 'F'
+		]]>
+		<if test="floorGubun != null and floorGubun != ''">	  
+			AND LEFT(B.EQUIP_NM, 1 ) = #{floorGubun} 
+		</if>
+	</select>
+	
+	<!-- 작업지시서 자주검사관리 목록 -->
+	<select id="workOrderRead2" resultMap="WorkOrderVo">
+		<![CDATA[	
+			SELECT
+				AAA.WORK_ORD_NO
+				, AAA.EQUIP_COND_SEQ
+				, BBB.EQUIP_CD
+				, BBB.EQUIP_NM
+				, BBB.WORK_START_TIME
+				, BBB.WORK_END_TIME
+				, BBB.GOODS_CD
+				, BBB.GOODS_NM
+				, BBB.QUTY_CD
+				, BBB.QUTY_NM
+				, BBB.MODEL
+				, AAA.ORD_LOT_NO
+				, AAA.WORK_TEAM_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = AAA.WORK_TEAM_CD) WORK_TEAM_NM
+				, AAA.MAIN_WORK_CHARGR
+				, CCC.USER_NM
+			FROM TB_WORK_ORDER AAA, TB_USER CCC,
+			(SELECT
+			   BB.EQUIP_CD
+			   , D.EQUIP_NM
+			   , MIN(A.WORK_START_TIME) AS WORK_START_TIME
+			   , '' AS WORK_END_TIME
+			   , A.GOODS_CD
+			   , B.GOODS_NM
+			   , C.QUTY_CD
+			   , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = C.QUTY_CD) QUTY_NM
+			   , B.MODEL
+			FROM TB_WORK_ORDER A, TB_GOODS_CODE_ADM B, TB_MATRL_CODE_ADM C, TB_EQUIP_CODE_ADM D,
+			   (SELECT
+			      EQUIP_CD
+			   FROM TB_WORK_ORDER
+			   WHERE   ORD_DATE = #{ordDate}
+			   GROUP BY EQUIP_CD) BB
+			WHERE A.EQUIP_CD = BB.EQUIP_CD
+			AND A.GOODS_CD = B.GOODS_CD
+			AND B.ALNICU_MATRL_CD = C.MATRL_CD
+			AND A.EQUIP_CD = D.EQUIP_CD
+			AND A.WORK_STATUS_CD != 'P'
+			AND ORD_DATE = #{ordDate}
+			GROUP BY BB.EQUIP_CD, A.GOODS_CD, D.EQUIP_NM, B.GOODS_NM, C.QUTY_CD, B.MODEL
+			
+			UNION ALL
+			
+			SELECT
+			   BB.EQUIP_CD
+			   , D.EQUIP_NM
+			   , '' AS WORK_START_TIME
+			   , ISNULL(MAX(A.WORK_END_TIME), '') AS WORK_END_TIME
+			   , A.GOODS_CD
+			   , B.GOODS_NM
+			   , C.QUTY_CD
+			   , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = C.QUTY_CD) QUTY_NM
+			   , B.MODEL
+			FROM TB_WORK_ORDER A, TB_GOODS_CODE_ADM B, TB_MATRL_CODE_ADM C, TB_EQUIP_CODE_ADM D,
+			   (SELECT
+			      EQUIP_CD
+			   FROM TB_WORK_ORDER
+			   WHERE   ORD_DATE = #{ordDate}
+			   GROUP BY EQUIP_CD) BB
+			WHERE A.EQUIP_CD = BB.EQUIP_CD
+			AND A.GOODS_CD = B.GOODS_CD
+			AND B.ALNICU_MATRL_CD = C.MATRL_CD
+			AND A.EQUIP_CD = D.EQUIP_CD
+			AND A.WORK_STATUS_CD != 'P'
+			AND ORD_DATE = #{ordDate}
+			GROUP BY BB.EQUIP_CD, A.GOODS_CD, D.EQUIP_NM, B.GOODS_NM, C.QUTY_CD, B.MODEL
+			) BBB
+			
+			WHERE AAA.EQUIP_CD = BBB.EQUIP_CD
+			AND (AAA.WORK_START_TIME = BBB.WORK_START_TIME	OR	(AAA.WORK_END_TIME = BBB.WORK_END_TIME OR AAA.WORK_END_TIME IS NULL))
+			AND AAA.MAIN_WORK_CHARGR = CCC.USER_NUMBER
+			ORDER BY EQUIP_CD, EQUIP_NM, WORK_START_TIME DESC
+		]]>
+	</select>
+
+	<!-- 작업지시번호 채번 -->
+	<select id="workOrdNoSeq" resultType="String">
+		SELECT REPLACE(EQUIP_NM, '-', '') + RIGHT(#{ordDate}, 6) + '-' + SEQ AS WORK_ORD_NO FROM
+			(SELECT
+				EQUIP_NM
+			FROM TB_EQUIP_CODE_ADM
+			WHERE EQUIP_CD = #{equipCd}) A
+			, (SELECT
+				ISNULL(REPLACE(STR(CONVERT(INT, MAX(RIGHT(WORK_ORD_NO, 3))) + 1, 3), ' ', '0'), '001') SEQ
+			FROM TB_WORK_ORDER
+			WHERE EQUIP_CD = #{equipCd}
+			AND ORD_DATE = #{ordDate}) B
+	</select>
+	
+	<!-- 작업지시서 등록 -->
+	<insert id="createWorkOrder" parameterType="mes.domain.po.WorkOrderVo">
+		INSERT INTO TB_WORK_ORDER (
+			WORK_ORD_NO
+			, ORD_LOT_NO
+			, EQUIP_CD
+			, GOODS_CD
+			, DEAL_CORP_CD
+			, ORD_GUBUN
+			, ORD_DATE
+			, EQUIP_COND_SEQ
+			, WORK_STATUS_CD
+			, WORK_TEAM_CD
+			, MAIN_WORK_CHARGR
+			, SUB_WORK_CHARGR
+			<!-- , TARGET_WEIGHT -->
+			, REG_ID
+			, REG_DATE
+		) 
+		VALUES (
+			#{workOrdNo}
+			, #{ordLotNo}
+			, #{equipCd}
+			, #{goodsCd}
+			, #{dealCorpCd}
+			, #{ordGubun}
+			, #{ordDate}
+			, #{equipCondSeq}
+			, #{workStatusCd}
+			, #{workTeamCd}
+			, ''
+			, ''
+			<!-- , #{targetWeight} -->
+			, #{regId}
+            , getDate()
+		)
+	</insert>
+	
+	<!-- 작업지시서 수정 -->
+	<update id="updateWorkOrder" parameterType="mes.domain.po.WorkOrderVo">
+		UPDATE	TB_WORK_ORDER
+		SET
+			UPD_DATE = getDate()
+			<if test="goodsCd != null and goodsCd != ''">
+			, GOODS_CD = #{goodsCd}
+			</if>
+			<if test="equipCondSeq != null and equipCondSeq != ''">
+			, EQUIP_COND_SEQ = #{equipCondSeq}
+			</if>
+			<if test="workStatusCd != null and workStatusCd != ''">
+			, WORK_STATUS_CD = #{workStatusCd}
+			</if>
+			<if test="workTeamCd != null and workTeamCd != ''">
+			, WORK_TEAM_CD = #{workTeamCd}
+			</if>
+			<!-- 
+			, MAIN_WORK_CHARGR = #{mainWorkChargr}
+			, SUB_WORK_CHARGR = #{subWorkChargr}
+			-->
+			<if test="targetWeight != null and targetWeight != ''">
+			, TARGET_WEIGHT = #{targetWeight}
+			</if>
+			<if test="dealCorpCd != null and dealCorpCd != ''">
+			, DEAL_CORP_CD = #{dealCorpCd}
+			</if>
+			, UPD_ID = #{updId}
+		WHERE	WORK_ORD_NO = #{workOrdNo}
+	</update>
+	
+	<!-- 작업지시서 검사상태 수정 -->
+	<update id="workOrderStatusUpdate" parameterType="mes.domain.po.WorkOrderVo">
+		UPDATE	TB_WORK_ORDER
+		SET
+			WORK_INSPECTION_STATUS_CD = #{workInspectionStatusCd}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE 1=1
+		AND WORK_ORD_NO = #{workOrdNo}
+	</update>
+	
+	<!-- 작업지시서 상태수정 -->
+	<update id="updateWorkOrderStatus" parameterType="mes.domain.po.WorkOrderVo">
+		UPDATE	TB_WORK_ORDER 
+		SET	
+			WORK_STATUS_CD = #{workStatusCd}
+		<if test='workStatusCd == "S" and updateGubun != "U"'>
+			,WORK_START_TIME = getDate()
+		</if>
+		<if test='workStatusCd == "S" and updateGubun == "U"'>
+			,WORK_END_TIME = NULL
+		</if>
+		
+		<if test='workStatusCd == "C"'>
+			,WORK_END_TIME = getDate()
+		</if>
+		<if test='workStatusCd == "P"'>
+			,WORK_START_TIME = NULL
+			,TARGET_WEIGHT = 0
+			,OUTPUT_WEIGHT1 = NULL
+			,OUTPUT_WEIGHT2 = NULL
+			,OUTPUT_WEIGHT3 = NULL
+			,OUTPUT_WEIGHT4 = NULL
+			,TARGET_CNT = NULL
+			,OUTPUT_CNT = NULL
+		</if>
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		WHERE	WORK_ORD_NO = #{workOrdNo}
+	</update>
+
+	<!-- 작업지시서 담당1,2 수정 -->
+	<update id="updateWorkOrderChargr" parameterType="mes.domain.po.WorkOrderVo">
+		UPDATE	TB_WORK_ORDER 
+		SET	
+			MAIN_WORK_CHARGR = #{mainWorkChargr}
+			, SUB_WORK_CHARGR = #{subWorkChargr}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE	WORK_ORD_NO = #{workOrdNo}
+	</update>
+	
+	
+	<!-- 작업지시서 생산실적수정 -->
+	<update id="updateWorkOrderResult" parameterType="mes.domain.po.WorkOrderVo">
+		UPDATE	TB_WORK_ORDER 
+		SET	
+			OUTPUT_WEIGHT1 = #{outputWeight1}
+			,OUTPUT_WEIGHT2 = #{outputWeight2}
+			,OUTPUT_WEIGHT3 = #{outputWeight3}
+			,OUTPUT_WEIGHT4 = #{outputWeight4}
+			,TARGET_CNT = #{targetCnt}
+			,OUTPUT_CNT = #{outputCnt}
+			<!-- ,WORK_STATUS_CD = 'E' -->
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		WHERE	WORK_ORD_NO = #{workOrdNo}
+	</update>			
+		
+	<!-- 작업지시 제품별 자재등록정보 바코드조회 --> 
+	<select id="workOrderMatrlData" resultMap="WorkOrderVo">
+		SELECT
+			A.LOT_NO
+			, A.BARCODE_NO
+			, A.INSPECT_QTY
+			, A.MATRL_CD
+			, A.STATUS_CD
+			, C.MATRL_NM
+			, C.QUTY_CD   
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = C.QUTY_CD) QUTY_NM
+			, (SELECT BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = C.QUTY_CD) BASE_CD_ABBR
+			, C.SURFACE_TRTMT_CD
+			, ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='021' AND D.BASE_CD = C.SURFACE_TRTMT_CD), '') SURFACE_TRTMT_NM
+			, A.APPROVAL_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='026' AND D.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+			, A.REMAIN_QTY
+			, A.IN_WHS_TIME
+			, A.FLOOR_GUBUN
+		FROM (
+			SELECT 
+				A.LOT_NO
+				, A.BARCODE_NO
+				, A.INSPECT_QTY
+				, A.MATRL_CD
+				, A.STATUS_CD
+				, A.APPROVAL_CD
+				, A.REMAIN_QTY
+				, A.IN_WHS_TIME
+				, A.FLOOR_GUBUN
+			FROM TB_IN_OUT_WHS_ADM A
+				, TB_GOODS_CODE_ADM B
+			WHERE  A.BARCODE_NO = #{barcodeNo}
+				AND B.GOODS_CD = #{goodsCd}
+				AND (A.MATRL_CD = B.ALNICU_MATRL_CD OR  A.MATRL_CD = B.FILM_MATRL_CD
+				OR EXISTS (SELECT MATRL_CD FROM TB_GOODS_MATRL_DTL D WHERE D.GOODS_CD = #{goodsCd} AND D.MATRL_CD = A.MATRL_CD))
+			) A,
+		TB_MATRL_CODE_ADM C
+		WHERE A.MATRL_CD = C.MATRL_CD
+	</select>
+	
+	<!-- 작업지시 마지막 LOT 확인 --> 
+	<select id="checkLastMatrlLotNo" resultMap="WorkOrderVo">
+		SELECT * 
+		FROM TB_WORK_ORDER_DTL
+		WHERE 
+			WORK_ORD_NO = (SELECT TOP(1) 
+								A.WORK_ORD_NO 
+							FROM TB_WORK_ORDER A, TB_WORK_ORDER_DTL B
+							WHERE B.BARCODE_NO = #{barcodeNo}
+							AND A.WORK_ORD_NO = B.WORK_ORD_NO
+							ORDER BY WORK_ORD_NO DESC)
+			AND LEFT(LOT_NO,1) != 'F'
+	</select>
+	
+		
+	<!-- 작업지시 직전 LOT 확인 --> 
+	<select id="checkBefoerMatrlLotNo" resultMap="WorkOrderVo">
+		SELECT TOP(1) * FROM TB_WORK_ORDER A, TB_WORK_ORDER_DTL B
+		WHERE A.EQUIP_CD = #{equipCd}
+		AND A.WORK_ORD_NO != #{workOrdNo}		
+		AND A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND LEFT(B.LOT_NO,1) != 'F'
+		ORDER BY A.WORK_ORD_NO DESC
+	</select>
+		
+	<!-- 작업지시자재상세 목록조회 --> 
+	<select id="workOrderMatrlDataList" resultMap="WorkOrderVo">
+		<![CDATA[
+			SELECT	
+				A.WORK_ORD_NO
+				, A.LOT_NO
+				, A.BARCODE_NO
+			    , A.INSPECT_QTY
+			    , ISNULL(A.FAIR_QTY,A.INSPECT_QTY) FAIR_QTY			    
+			    , ISNULL(A.FAULTY_QTY,0) FAULTY_QTY
+			    , A.REMAKE_YN
+			    , A.MATRL_CD
+			    , C.MATRL_NM
+			    , C.QUTY_CD
+			    , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = C.QUTY_CD) QUTY_NM
+				, (SELECT BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD = '007' AND D.BASE_CD = C.QUTY_CD ) BASE_CD_ABBR
+			    , C.SURFACE_TRTMT_CD
+			    , ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='021' AND D.BASE_CD = C.SURFACE_TRTMT_CD),'') SURFACE_TRTMT_NM
+			    , A.CHANGE_LOCATION
+			    , A.CONNECT_CD
+			    , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='059' AND D.BASE_CD = A.CONNECT_CD) CONNECT_NM
+			    , A.FAULTY_STATUS
+			    , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='083' AND D.BASE_CD = A.FAULTY_STATUS) FAULTY_STATUS_NM
+				, A.REG_ID
+				, CONVERT(CHAR(19), A.REG_DATE, 20) REG_DATE
+				, A.UPD_ID
+				, A.UPD_DATE
+			FROM
+				TB_WORK_ORDER_DTL A, TB_MATRL_CODE_ADM C
+			WHERE A.WORK_ORD_NO = #{workOrdNo}
+				AND A.MATRL_CD = C.MATRL_CD
+			ORDER BY CASE WHEN (SELECT BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD = '007' AND D.BASE_CD = C.QUTY_CD) = 'F' THEN 1 ELSE 0 END, REG_DATE ASC
+		]]>
+		<!-- ORDER BY BASE_CD_ABBR, REG_DATE ASC -->
+	</select>
+
+	<!-- 작업지시자재상세 목록조회 -->
+	<select id="reamkeWorkOrderDtlList" resultMap="WorkOrderVo">
+		<![CDATA[
+			SELECT
+				WORK_ORD_NO
+				, LOT_NO
+				, BARCODE_NO
+				, MATRL_CD
+				, INSPECT_QTY
+				, FAIR_QTY
+				, FAULTY_QTY
+				, REMAKE_YN
+				, CHANGE_LOCATION
+				, CONNECT_CD
+				, FAULTY_STATUS
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM TB_WORK_ORDER_DTL
+			WHERE LOT_NO = #{lotNo}
+			AND REMAKE_YN = 'Y'
+		]]>
+	</select>
+	
+	<!-- 작업지시 자재상세 삭제전 자재가출고 상태로 변경  -->
+	<update id="updatePreOutWhsStatus" parameterType="mes.domain.po.WorkOrderVo">
+		UPDATE TB_IN_OUT_WHS_ADM 
+		SET 
+			STATUS_CD = 'O'
+			, OUT_WHS_DATE = NULL
+			, OUT_EQUIP_CD = NULL
+			, OUT_GOODS_CD = NULL
+			, OUT_QTY = NULL
+			, OUT_WORK_CHARGER = NULL
+		WHERE LOT_NO IN (SELECT LOT_NO FROM TB_WORK_ORDER_DTL WHERE WORK_ORD_NO = #{workOrdNo} AND REMAKE_YN != 'Y')
+			<!-- AND STATUS_CD = 'P' -->
+	</update>	
+		
+	<!-- 작업지시자재상세 삭제(자재상태변경 후 삭제처리) -->
+	<delete id="deleteWorkOrderDtl" parameterType="mes.domain.po.WorkOrderVo">
+		DELETE	TB_WORK_ORDER_DTL WHERE WORK_ORD_NO = #{workOrdNo} 
+	</delete>	
+	<!-- 작업지시자재상세 재투입 개수 확인 --> 
+	<select id="workOrderDtlCount" resultType="int">
+		<![CDATA[
+			SELECT
+				COUNT(*)			
+			FROM	
+				TB_WORK_ORDER_DTL A				
+			WHERE 1=1
+			AND A.LOT_NO = #{lotNo}
+			AND A.REMAKE_YN = 'Y'
+		]]>
+	</select>
+	
+	<!-- 스캔한 자재가 해당작지에 이미 투입되었는지 확인 -->
+	<select id="workOrderDtlCheck" resultType="int">
+		<![CDATA[
+			SELECT
+				COUNT(*)
+			FROM	
+				TB_WORK_ORDER_DTL A				
+			WHERE 1=1
+			AND LEFT(A.MATRL_CD, 1) != 'F'
+			AND A.WORK_ORD_NO = #{workOrdNo} 
+			AND A.BARCODE_NO = #{barcodeNo}
+		]]>
+	</select>
+	
+	<!-- 가장최근에 투입한 롯트 상태값 가져오기 -->
+	<select id="workOrderFaultyStatusCheck" resultMap="WorkOrderVo">
+		<![CDATA[
+			SELECT TOP 1
+				FAULTY_STATUS
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='083' AND D.BASE_CD = A.FAULTY_STATUS) FAULTY_STATUS_NM
+				, B.APPROVAL_CD
+			FROM	
+				TB_WORK_ORDER_DTL A, TB_IN_OUT_WHS_ADM B				
+			WHERE 1=1
+			AND A.LOT_NO = B.LOT_NO				
+			AND A.LOT_NO = #{lotNo} 
+			AND A.WORK_ORD_NO = #{workOrdNo}
+			ORDER BY A.REG_DATE DESC		
+		]]>
+	</select>
+	
+	<!-- 작업지시 자재상세등록 -->
+	<insert id="createWorkOrderDtl" parameterType="mes.domain.po.WorkOrderVo">
+		INSERT INTO TB_WORK_ORDER_DTL (
+			WORK_ORD_NO
+			,LOT_NO
+			,BARCODE_NO
+			,MATRL_CD
+			,INSPECT_QTY
+			,FAIR_QTY
+			,FAULTY_QTY
+			,REMAKE_YN
+			,CHANGE_LOCATION
+			,CONNECT_CD
+			,FAULTY_STATUS
+			,REG_ID
+			,REG_DATE
+		) 
+		VALUES (
+			#{workOrdNo}
+			,#{lotNo}
+			,#{barcodeNo}
+			,#{matrlCd}
+			,#{inspectQty}
+			,#{fairQty}
+			,#{faultyQty}					
+			,#{remakeYn}
+			,#{changeLocation}
+			,#{connectCd}
+			,#{faultyStatus}
+			,#{regId}
+			,#{regDate}
+		)
+	</insert>
+	
+	<!-- 작업지시 연결시 자재등록 -->
+	<insert id="createConnectWorkOrderDtl" parameterType="mes.domain.po.WorkOrderVo">
+		INSERT INTO TB_WORK_ORDER_DTL (
+			WORK_ORD_NO
+			, LOT_NO
+			, BARCODE_NO
+			, MATRL_CD
+			, INSPECT_QTY
+			, FAIR_QTY
+			, FAULTY_QTY
+			, REMAKE_YN
+			, CHANGE_LOCATION
+			, CONNECT_CD
+			, REG_ID
+			, REG_DATE
+		)
+		SELECT
+			#{workOrdNo}
+			, LOT_NO
+			, BARCODE_NO
+			, MATRL_CD
+			, INSPECT_QTY
+			, FAIR_QTY
+			, FAULTY_QTY
+			, REMAKE_YN
+			, CHANGE_LOCATION
+			, #{connectCd}
+			, #{regId}
+			, getDate()
+		FROM TB_WORK_ORDER_DTL
+		WHERE WORK_ORD_NO = #{connectWorkOrdNo}
+		AND BARCODE_NO = #{connectMatrlBarcode}
+	</insert>
+	
+	
+	<!-- 작업지시 자재상세 등록 후 자재출고 상태로 변경  -->
+	<update id="updateOutWhsStatus" parameterType="mes.domain.po.WorkOrderVo">
+		UPDATE TB_IN_OUT_WHS_ADM 
+		SET 
+			STATUS_CD = 'P'
+			,OUT_WHS_DATE = #{ordDate}
+			,OUT_EQUIP_CD = #{equipCd}
+			,OUT_GOODS_CD = #{goodsCd}
+			,OUT_QTY = PRE_OUT_QTY
+			,OUT_WORK_CHARGER = #{mainWorkChargr}
+		WHERE LOT_NO IN (SELECT LOT_NO FROM TB_WORK_ORDER_DTL WHERE WORK_ORD_NO = #{workOrdNo} AND REMAKE_YN != 'Y')
+			<!-- AND STATUS_CD = 'O' -->
+	</update>	
+	
+	<!-- 작업지시 자재상세 자재 불량 상태로 변경  -->
+	<update id="updateWorkOrdFaultyStatus" parameterType="mes.domain.po.WorkOrderVo">
+		UPDATE TB_WORK_ORDER_DTL 
+		SET 
+			FAULTY_STATUS = #{faultyStatus}			
+		WHERE LOT_NO = #{lotNo}
+		AND WORK_ORD_NO = #{workOrdNo}			
+	</update>		
+	
+	<select id="read" resultMap="WorkOrderVo">
+	   SELECT
+	   		A.WORK_ORD_NO
+			,A.ORD_LOT_NO
+			,A.EQUIP_CD
+			,A.GOODS_CD
+			,C.GOODS_NM
+			,A.ORD_GUBUN
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='028' AND B.BASE_CD = A.ORD_GUBUN) ORD_GUBUN_NM
+			,A.ORD_DATE
+			,A.EQUIP_COND_SEQ 
+			,A.WORK_STATUS_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='034' AND B.BASE_CD = A.WORK_STATUS_CD) WORK_STATUS_NM			
+			,A.WORK_TEAM_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+			,A.MAIN_WORK_CHARGR
+			,A.SUB_WORK_CHARGR
+			,A.TARGET_WEIGHT
+			,A.OUTPUT_WEIGHT1
+			,A.OUTPUT_WEIGHT2
+			,A.OUTPUT_WEIGHT3
+			,A.OUTPUT_WEIGHT4
+			,A.TARGET_CNT
+			,A.OUTPUT_CNT
+			,A.DEAL_CORP_CD
+			,A.EDGE_SAMPLE_CNT
+			,A.EDGE_FAULTY_CNT
+			,A.EDGE_OUTPUT_CNT
+			,A.EDGE_INSPCT_CHARGER
+			,A.EDGE_INSPCT_DATE
+			,A.APPEAR_ABRF_CNT 
+			,A.APPEAR_ABRS_CNT 
+			,A.APPEAR_DMS_CNT
+			,A.APPEAR_FAULTY_CNT 
+			,A.APPEAR_OUTPUT_CNT 
+			,A.APPEAR_INSPCT_CHARGER
+			,A.APPEAR_INSPCT_DATE
+			,A.WORK_START_TIME
+			,A.WORK_END_TIME
+			,A.WORK_TIME
+			,C.PACK_UNIT_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='031' AND B.BASE_CD = C.PACK_UNIT_CD) PACK_UNIT_NM
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='031' AND B.BASE_CD = C.PACK_UNIT_CD) PACK_CNT
+			,A.PACK_YN			
+			,A.REG_ID
+			,A.REG_DATE
+			,A.UPD_ID
+			,A.UPD_DATE
+			,C.ALNICU_MATRL_CD
+			,D.MATRL_INITIAL
+			,C.GRAVITY
+			,A.APPEAR_OUTPUT_CNT + A.EDGE_FAULTY_CNT + A.APPEAR_FAULTY_CNT AS TOTAL_INSPECT_CNT
+			,A.EDGE_FAULTY_CNT + A.APPEAR_FAULTY_CNT AS TOTAL_FAULTY_CNT
+			,A.USER_OUTPUT_CNT
+			, A.WORK_INSPECTION_STATUS_CD
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='092' AND X.BASE_CD=A.WORK_INSPECTION_STATUS_CD) WORK_INSPECTION_STATUS_NM
+			, (SELECT TOP(1) WORKER_ID FROM TB_WORKER_CHANGE X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO) WORKER_ID
+	    FROM TB_WORK_ORDER A,
+	   	 	TB_GOODS_CODE_ADM C,
+			TB_MATRL_CODE_ADM D
+	    WHERE A.WORK_ORD_NO = #{workOrdNo}
+	    	AND A.GOODS_CD = C.GOODS_CD
+			AND C.ALNICU_MATRL_CD = D.MATRL_CD
+	</select>	
+	
+	<select id="operationList" resultMap="WorkOrderVo">
+		SELECT
+			B.WORK_ORD_NO
+			, B.ORD_LOT_NO
+			, A.EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+			, A.GOODS_CD
+			, C.GOODS_NM
+			, B.GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='028' AND X.BASE_CD = B.GUBUN) ORD_GUBUN_NM
+			, B.WORK_ORD_DATE
+			, A.EQUIP_COND_SEQ
+			, B.SUB_WORK_STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='034' AND X.BASE_CD = B.SUB_WORK_STATUS_CD) SUB_WORK_STATUS_NM
+			, B.MAIN_WORK_CHARGR
+			, (SELECT USER_NM FROM TB_USER X WHERE X.USER_NUMBER = B.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			, A.TARGET_WEIGHT
+			, A.TARGET_CNT
+			, (B.OUTPUT_CNT + B.VISION_EDGE_CNT) OUTPUT_CNT
+			, A.DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM X WHERE X.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			, A.WORK_START_TIME
+			, A.WORK_END_TIME
+			, A.WORK_TIME
+			, C.MODEL
+			, C.ALNICU_MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.ALNICU_MATRL_CD = B.MATRL_CD) ALNICU_MATRL_NM
+			, C.FILM_MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.FILM_MATRL_CD = B.MATRL_CD) FILM_MATRL_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '007' AND  B.BASE_CD = D.QUTY_CD) QUTY_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '019' AND  B.BASE_CD = D.GUBUN_CD) GUBUN_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '020' AND  B.BASE_CD = D.CHAMFER_YN_CD) CHAMFER_YN_NM
+			, B.LOT_NO
+		FROM TB_WORK_ORDER A
+			, TB_WORK_ORDER_OUTPUT_SUB B
+			, TB_GOODS_CODE_ADM C
+			, TB_MATRL_CODE_ADM D
+		WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND A.GOODS_CD = C.GOODS_CD
+		AND D.MATRL_CD = C.ALNICU_MATRL_CD
+		<![CDATA[
+		AND B.WORK_ORD_DATE >= #{ordDate1}
+		AND B.WORK_ORD_DATE <= #{ordDate2}
+		]]>
+		
+		ORDER BY B.WORK_ORD_DATE, C.GOODS_NM, B.WORK_ORD_NO, B.ORD_LOT_NO, B.GUBUN
+	</select>
+	
+	<select id="sealingWorkOrdList" resultMap="WorkOrderVo">
+		<![CDATA[
+			SELECT
+		   		A.WORK_ORD_NO
+				, A.ORD_LOT_NO
+				, A.EQUIP_CD
+				, A.GOODS_CD
+				, C.GOODS_NM
+				, A.ORD_GUBUN
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='028' AND B.BASE_CD = A.ORD_GUBUN) ORD_GUBUN_NM
+				, A.ORD_DATE
+				, A.EQUIP_COND_SEQ
+				, A.WORK_STATUS_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='034' AND B.BASE_CD = A.WORK_STATUS_CD) WORK_STATUS_NM
+				, A.WORK_TEAM_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+				, A.MAIN_WORK_CHARGR
+				, A.SUB_WORK_CHARGR
+				, A.TARGET_WEIGHT
+				, A.OUTPUT_WEIGHT1
+				, A.OUTPUT_WEIGHT2
+				, A.OUTPUT_WEIGHT3
+				, A.OUTPUT_WEIGHT4
+				, A.TARGET_CNT
+				, A.OUTPUT_CNT
+				, A.DEAL_CORP_CD
+				, A.EDGE_SAMPLE_CNT
+				, A.EDGE_FAULTY_CNT
+				, A.EDGE_OUTPUT_CNT
+				, A.EDGE_INSPCT_CHARGER
+				, A.EDGE_INSPCT_DATE
+				, A.APPEAR_ABRF_CNT 
+				, A.APPEAR_ABRS_CNT 
+				, A.APPEAR_DMS_CNT
+				, A.APPEAR_FAULTY_CNT 
+				, A.APPEAR_OUTPUT_CNT 
+				, A.APPEAR_INSPCT_CHARGER
+				, A.APPEAR_INSPCT_DATE
+				, A.WORK_START_TIME
+				, A.WORK_END_TIME
+				, A.WORK_TIME
+				, C.PACK_UNIT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='031' AND B.BASE_CD = C.PACK_UNIT_CD) PACK_UNIT_NM
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='031' AND B.BASE_CD = C.PACK_UNIT_CD) PACK_CNT
+				, A.PACK_YN			
+				, A.REG_ID
+				, A.REG_DATE
+				, A.UPD_ID
+				, A.UPD_DATE
+				, C.ALNICU_MATRL_CD
+				, C.GRAVITY
+				, A.USER_OUTPUT_CNT
+				
+				,A.SEALING_DATE
+				,A.SEALING1
+				,A.SEALING2
+				,A.FILM_FAULTY_CHECK
+				
+				
+		    FROM TB_WORK_ORDER A,
+		   	 	TB_GOODS_CODE_ADM C
+			WHERE 1=1
+			AND A.GOODS_CD = C.GOODS_CD
+			AND A.SEALING_DATE >= #{chooseDateFrom}
+			AND A.SEALING_DATE <= #{chooseDateTo}
+		]]>
+	</select>
+	
+	<update id="updateSealingWorkOrd" parameterType="mes.domain.po.WorkOrderVo">
+		UPDATE TB_WORK_ORDER
+		SET SEALING1 = #{sealing1}
+			, SEALING2 = #{sealing2}
+			, FILM_FAULTY_CHECK = #{filmFaultyCheck}
+		    , SEALING_DATE = CONVERT(CHAR(8), getDate(), 112)
+		WHERE WORK_ORD_NO = #{workOrdNo}
+	</update>
+	
+	<select id="faultyDayTotalList" resultType="HashMap" parameterType="mes.domain.po.WorkOrderVo">
+		<!-- SELECT
+			DISTINCT B.WORK_ORD_NO
+			, B.WORK_ORD_LOT_NO
+			, B.ORD_LOT_NO
+			, B.LOT_NO
+			, ISNULL(F.SUB_FILM1, '-') SUB_FILM1
+			, ISNULL(F.SUB_FILM2, '-') SUB_FILM2
+			, ISNULL(F.SUB_FILM3, '-') SUB_FILM3
+			, ISNULL(F.SUB_FILM4, '-') SUB_FILM4
+			, A.EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+			, A.GOODS_CD
+			, C.GOODS_NM
+			, B.GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE A WHERE A.BASE_GROUP_CD='028' AND A.BASE_CD = B.GUBUN) ORD_GUBUN_NM
+			, B.WORK_ORD_DATE
+			, A.EQUIP_COND_SEQ
+			, B.SUB_WORK_STATUS_CD
+			, A.WORK_TEAM_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+			, B.MAIN_WORK_CHARGR
+			, (SELECT USER_NM FROM TB_USER A WHERE  A.USER_NUMBER = B.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			, A.TARGET_WEIGHT
+			, A.TARGET_CNT
+		
+			, ((SELECT SUM(OUTPUT_CNT) FROM TB_WORK_ORDER_OUTPUT_SUB X 
+					WHERE X.WORK_ORD_NO = B.WORK_ORD_NO GROUP BY WORK_ORD_NO) + ISNULL(B.APPEAR_FAULTY_CNT,0)) AS OUTPUT_CNT		
+			, (SELECT SUM(OUTPUT_CNT) FROM TB_WORK_ORDER_OUTPUT_SUB X 
+			WHERE X.WORK_ORD_NO = B.WORK_ORD_NO GROUP BY WORK_ORD_NO) AS APPEAR_OUTPUT_CNT
+			, B.APPEAR_FAULTY_CNT		
+			, B.EDGE_FAULTY_CNT
+			, ISNULL(B.APPEAR_INSPCT_DATE, 0) AS APPEAR_INSPCT_DATE
+			, B.APPEAR_INSPCT_CHARGER
+			, (SELECT USER_NM FROM TB_USER A WHERE A.USER_NUMBER = B.APPEAR_INSPCT_CHARGER) APPEAR_INSPCT_CHARGER_NM
+			, A.DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			, A.WORK_START_TIME
+			, A.WORK_END_TIME
+			, C.MODEL
+			, C.ALNICU_MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.ALNICU_MATRL_CD = B.MATRL_CD) ALNICU_MATRL_NM
+			, C.FILM_MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.FILM_MATRL_CD = B.MATRL_CD) FILM_MATRL_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '007' AND  B.BASE_CD = D.QUTY_CD) QUTY_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '019' AND  B.BASE_CD = D.GUBUN_CD) GUBUN_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '020' AND  B.BASE_CD = D.CHAMFER_YN_CD) CHAMFER_YN_NM
+			, E.*
+		FROM TB_WORK_ORDER A, TB_WORK_ORDER_OUTPUT_SUB B, TB_GOODS_CODE_ADM C, TB_MATRL_CODE_ADM D,
+			(
+			SELECT
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, FAULTY_REG_DATE
+				, DAY_NIGHT_CD
+				, ${codeList2}
+			FROM (
+				SELECT
+					WORK_ORD_NO
+					, ORD_LOT_NO
+					, FAULTY_REG_DATE
+					, DAY_NIGHT_CD
+					, MINOR_CD
+					, ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				FROM TB_GOODS_FAULTY_ADM_CODE E
+				WHERE 1=1
+				<if test="chooseDateFrom != null and chooseDateFrom != '' and chooseDateTo != null and chooseDateTo != ''">
+			    AND FAULTY_REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			    </if>
+                <if test="productionFrom != null and productionFrom != '' and productionTo != null and productionTo != ''">
+			    AND LEFT(FORMAT(REG_DATE, 'yyyy'), 2) + RIGHT(LEFT(WORK_ORD_NO, CHARINDEX('-', WORK_ORD_NO)-1), 6) BETWEEN #{productionFrom} AND #{productionTo}
+			    </if>
+				) AS t
+			PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (${codeList})) as PVT
+			) E
+			, (
+				SELECT
+					FILM_PIVOT.WORK_ORD_NO
+					, FILM_PIVOT.[1] AS SUB_FILM1
+					, FILM_PIVOT.[2] AS SUB_FILM2
+					, FILM_PIVOT.[3] AS SUB_FILM3
+					, FILM_PIVOT.[4] AS SUB_FILM4
+				FROM
+				(
+					SELECT
+						A.WORK_ORD_NO
+						, A.LOT_NO
+						, ROW_NUMBER() OVER(PARTITION BY A.WORK_ORD_NO ORDER BY A.REG_DATE) ROW_NUMBER
+					FROM TB_WORK_ORDER_DTL A LEFT OUTER JOIN TB_WORK_ORDER_OUTPUT_SUB D ON A.WORK_ORD_NO = D.WORK_ORD_NO,
+						TB_MATRL_CODE_ADM B, (SELECT BASE_CD, BASE_CD_NM, BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007') C,
+						(SELECT
+							DISTINCT WORK_ORD_NO
+						FROM TB_GOODS_FAULTY_ADM_CODE Z
+						WHERE 1=1
+						<if test="chooseDateFrom != null and chooseDateFrom != '' and chooseDateTo != null and chooseDateTo != ''">
+					    AND FAULTY_REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+					    </if>
+		                <if test="productionFrom != null and productionFrom != '' and productionTo != null and productionTo != ''">
+					    AND LEFT(FORMAT(REG_DATE, 'yyyy'), 2) + RIGHT(LEFT(WORK_ORD_NO, CHARINDEX('-', WORK_ORD_NO)-1), 6) BETWEEN #{productionFrom} AND #{productionTo}
+					    </if>
+						GROUP BY WORK_ORD_NO) F
+					WHERE   A.MATRL_CD = B.MATRL_CD
+					AND D.WORK_ORD_NO = F.WORK_ORD_NO
+					AND      B.QUTY_CD = C.BASE_CD
+					AND      (C.BASE_CD_ABBR = 'F')
+					<if test="chooseDateFrom != null and chooseDateFrom != '' and chooseDateTo != null and chooseDateTo != ''">
+				    AND D.APPEAR_INSPCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				    </if>
+	                <if test="productionFrom != null and productionFrom != '' and productionTo != null and productionTo != ''">
+				    AND LEFT(FORMAT(D.REG_DATE, 'yyyy'), 2) + RIGHT(LEFT(D.WORK_ORD_NO, CHARINDEX('-', D.WORK_ORD_NO)-1), 6) BETWEEN #{productionFrom} AND #{productionTo}
+				    </if>
+				) AS A PIVOT (MIN(LOT_NO) FOR ROW_NUMBER IN ([1], [2], [3], [4])) FILM_PIVOT ) F
+		WHERE 1=1
+		AND A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND B.WORK_ORD_NO = F.WORK_ORD_NO
+		AND B.ORD_LOT_NO = E.ORD_LOT_NO
+		AND A.GOODS_CD = C.GOODS_CD
+		AND D.MATRL_CD = C.ALNICU_MATRL_CD -->
+		SELECT
+			DISTINCT B.WORK_ORD_NO
+			,B.ORD_LOT_NO
+			, B.LOT_NO
+			, B.WORK_ORD_LOT_NO
+			, B.GUBUN
+			, B.WORK_ORD_DATE
+			, B.SUB_WORK_STATUS_CD
+			, B.MAIN_WORK_CHARGR
+			, ISNULL(B.APPEAR_INSPCT_DATE,'') APPEAR_INSPCT_DATE
+			, ISNULL(B.APPEAR_INSPCT_CHARGER,'') APPEAR_INSPCT_CHARGER
+		
+			, B.EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM  WHERE B.EQUIP_CD = EQUIP_CD) EQUIP_NM
+			, B.GOODS_CD
+			, C.GOODS_NM			
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE A WHERE A.BASE_GROUP_CD='028' AND A.BASE_CD = B.GUBUN) ORD_GUBUN_NM			
+			, B.EQUIP_COND_SEQ			
+			, B.WORK_TEAM_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE  WHERE BASE_GROUP_CD='016' AND BASE_CD = B.WORK_TEAM_CD) WORK_TEAM_NM			
+			, ( SELECT ISNULL(USER_NM, '') FROM TB_USER A WHERE  A.USER_NUMBER = B.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			, B.TARGET_WEIGHT
+			, B.WORK_START_TIME
+			, B.WORK_END_TIME
+			, B.TARGET_CNT
+		
+		
+			, B.DEAL_CORP_CD
+
+			, ISNULL(APPEAR_OUTPUT_CNT,0) OUTPUT_CNT
+			, ISNULL(OUTPUT_CNT,0)  APPEAR_OUTPUT_CNT
+			, ISNULL(F.SUB_FILM1, '-') SUB_FILM1
+			, ISNULL(F.SUB_FILM2, '-') SUB_FILM2
+			, ISNULL(F.SUB_FILM3, '-') SUB_FILM3
+			, ISNULL(F.SUB_FILM4, '-') SUB_FILM4
+			
+			, ISNULL( (SELECT ISNULL(USER_NM, '') FROM TB_USER A WHERE A.USER_NUMBER = B.APPEAR_INSPCT_CHARGER), '' ) AS APPEAR_INSPCT_CHARGER_NM
+
+			
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM  WHERE DEAL_CORP_CD = B.DEAL_CORP_CD) DEAL_CORP_NM
+			
+
+			, ISNULL(EE.FAULTY_CNT,0) APPEAR_FAULTY_CNT
+			, C.MODEL
+			, C.ALNICU_MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM X WHERE C.ALNICU_MATRL_CD = X.MATRL_CD) ALNICU_MATRL_NM
+			, C.FILM_MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM X WHERE C.FILM_MATRL_CD = X.MATRL_CD) FILM_MATRL_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE BASE_GROUP_CD = '007' AND  X.BASE_CD = D.QUTY_CD) QUTY_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE BASE_GROUP_CD = '019' AND  X.BASE_CD = D.GUBUN_CD) GUBUN_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE BASE_GROUP_CD = '020' AND  X.BASE_CD = D.CHAMFER_YN_CD) CHAMFER_YN_NM
+			, E.*
+		FROM 	(SELECT 
+					A.WORK_ORD_NO					
+					, (ISNULL(SUM(A.OUTPUT_CNT),0) + ISNULL(Sum(A.APPEAR_FAULTY_CNT),0)) AS APPEAR_OUTPUT_CNT
+					, ISNULL(SUM(A.OUTPUT_CNT),0)  AS OUTPUT_CNT
+					
+					, STUFF((         
+						SELECT  DISTINCT ',' + WORK_ORD_LOT_NO
+						FROM    TB_WORK_ORDER_OUTPUT_SUB X
+						WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+						FOR XML PATH('') ),1,1,'')
+					    			AS WORK_ORD_LOT_NO
+					, STUFF((         
+						SELECT  DISTINCT ',' + LOT_NO
+						FROM    TB_WORK_ORDER_OUTPUT_SUB X
+						WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+						FOR XML PATH('') ),1,1,'')
+					    			AS LOT_NO
+						, STUFF((         
+						SELECT  DISTINCT ',' + ORD_LOT_NO
+						FROM    TB_WORK_ORDER_OUTPUT_SUB X
+						WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+						FOR XML PATH('') ),1,1,'')
+						AS ORD_LOT_NO		
+					,STUFF((  
+					  SELECT  DISTINCT ',' + APPEAR_INSPCT_DATE
+					  FROM    TB_WORK_ORDER_OUTPUT_SUB X
+					  WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+					  FOR XML PATH('') ),1,1,'')
+					    AS APPEAR_INSPCT_DATE				
+
+					, SUM(ISNULL(B.TARGET_CNT,0)) AS TARGET_CNT
+					, MAX(A.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR
+					, MAX(A.APPEAR_INSPCT_CHARGER) APPEAR_INSPCT_CHARGER
+					
+					, MAX(B.ORD_DATE) ORD_DATE
+					, MAX(B.EQUIP_CD) EQUIP_CD    
+					, MAX(B.GOODS_CD) GOODS_CD
+					, MAX(B.EQUIP_COND_SEQ) EQUIP_COND_SEQ
+					, MAX(B.WORK_TEAM_CD) WORK_TEAM_CD
+					, MAX(B.DEAL_CORP_CD) DEAL_CORP_CD
+					, MAX(A.GUBUN) GUBUN
+					, MAX(A.WORK_ORD_DATE) WORK_ORD_DATE
+					, MAX(A.SUB_WORK_STATUS_CD) SUB_WORK_STATUS_CD
+					, MAX(B.TARGET_WEIGHT) TARGET_WEIGHT
+					, MAX(B.WORK_START_TIME) WORK_START_TIME
+					, MAX(B.WORK_END_TIME) WORK_END_TIME
+				FROM TB_WORK_ORDER_OUTPUT_SUB A, TB_WORK_ORDER B
+				WHERE 1=1
+				AND A.WORK_ORD_NO = B.WORK_ORD_NO	
+				AND A.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}				
+
+				GROUP BY
+					A.WORK_ORD_NO					
+				) B		
+				LEFT OUTER JOIN 
+			(SELECT *
+			FROM (
+				SELECT
+					X.WORK_ORD_NO
+					
+					, MINOR_CD
+					, ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				FROM TB_GOODS_FAULTY_ADM_CODE E, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+				WHERE 1=1
+				AND X.WORK_ORD_NO = E.WORK_ORD_NO
+				) AS t
+			PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+				${codeList}
+			)) as PVT) E
+			ON 1=1
+			AND B.WORK_ORD_NO = E.WORK_ORD_NO
+
+			LEFT OUTER JOIN
+			 (SELECT
+					X.WORK_ORD_NO									
+									
+					, ISNULL(SUM(FAULTY_CNT),0) FAULTY_CNT
+				FROM TB_GOODS_FAULTY_ADM_CODE E, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+				WHERE 1=1
+				AND X.WORK_ORD_NO = E.WORK_ORD_NO
+				GROUP BY X.WORK_ORD_NO								
+					
+				
+				) EE
+				ON 1=1
+				AND EE.WORK_ORD_NO = B.WORK_ORD_NO
+
+				, TB_GOODS_CODE_ADM C, TB_MATRL_CODE_ADM D
+				, (
+				SELECT
+					FILM_PIVOT.WORK_ORD_NO
+					, FILM_PIVOT.[1] AS SUB_FILM1
+					, FILM_PIVOT.[2] AS SUB_FILM2
+					, FILM_PIVOT.[3] AS SUB_FILM3
+					, FILM_PIVOT.[4] AS SUB_FILM4
+				FROM
+				(
+					SELECT
+						A.WORK_ORD_NO
+						, A.LOT_NO
+						, ROW_NUMBER() OVER(PARTITION BY A.WORK_ORD_NO ORDER BY A.REG_DATE) ROW_NUMBER
+					FROM TB_WORK_ORDER_DTL A LEFT OUTER JOIN TB_WORK_ORDER_OUTPUT_SUB D ON A.WORK_ORD_NO = D.WORK_ORD_NO,
+						TB_MATRL_CODE_ADM B, (SELECT BASE_CD, BASE_CD_NM, BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007') C,
+						(SELECT
+							DISTINCT WORK_ORD_NO
+						FROM TB_GOODS_FAULTY_ADM_CODE Z
+						WHERE 1=1
+					
+						GROUP BY WORK_ORD_NO) F
+					WHERE   A.MATRL_CD = B.MATRL_CD
+					AND D.WORK_ORD_NO = F.WORK_ORD_NO
+					AND      B.QUTY_CD = C.BASE_CD
+					AND      (C.BASE_CD_ABBR = 'F')
+					AND D.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				
+				) AS A PIVOT (MIN(LOT_NO) FOR ROW_NUMBER IN ([1], [2], [3], [4])) FILM_PIVOT ) F
+		WHERE 1=1
+       	AND B.GOODS_CD				= C.GOODS_CD
+       	AND D.MATRL_CD				= C.ALNICU_MATRL_CD		
+		AND B.WORK_ORD_NO			= F.WORK_ORD_NO
+		AND B.SUB_WORK_STATUS_CD = 'A'
+				
+		<if test="userNumber != null and userNumber != ''"> 
+			AND B.APPEAR_INSPCT_CHARGER = #{userNumber}
+		</if>
+		<if test="qutyCd != null and qutyCd != ''">
+			AND D.QUTY_CD = #{qutyCd}
+		</if>		
+		AND B.APPEAR_OUTPUT_CNT IS NOT NULL
+	</select>
+	
+	<!-- 품질관리/최종검사현황 - 생산비전불량(작업지시) -->
+	<select id="visionWorkOrdTotalList_nF2" resultType="HashMap" parameterType="mes.domain.po.WorkOrderVo">
+		SELECT
+			B.GOODS_CD
+			, B.GOODS_NM
+			, TB_VISION_FAULTY_ADM.WORK_ORD_NO
+			, TB_VISION_FAULTY_ADM.LOT_NO
+			, TB_VISION_FAULTY_ADM.FAULTY_CNT_SUM
+			, PIVOT_RESULT.*
+		FROM
+			(
+				SELECT
+					A.WORK_ORD_NO
+					, A.MINOR_CD
+					, FAULTY_CNT
+				FROM TB_VISION_FAULTY_ADM_CODE A
+				WHERE 1=1
+				<if test="chooseDateFrom != null and chooseDateFrom != '' and chooseDateTo != null and chooseDateTo != ''">
+			    AND FAULTY_REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			    </if>
+	            <if test="productionFrom != null and productionFrom != '' and productionTo != null and productionTo != ''">
+			    AND LEFT(FORMAT(REG_DATE, 'yyyy'), 2) + RIGHT(LEFT(WORK_ORD_NO, CHARINDEX('-', WORK_ORD_NO)-1), 6) BETWEEN #{productionFrom} AND #{productionTo}
+			    </if>
+			) AS RESULT PIVOT ( SUM(FAULTY_CNT) FOR MINOR_CD IN (${codeList}) ) AS PIVOT_RESULT
+			, (
+				SELECT
+					WORK_ORD_NO
+					, LOT_NO
+					, SUM(FAULTY_CNT_SUM) FAULTY_CNT_SUM
+				FROM TB_VISION_FAULTY_ADM
+				WHERE 1=1
+				<if test="chooseDateFrom != null and chooseDateFrom != '' and chooseDateTo != null and chooseDateTo != ''">
+			    AND FAULTY_REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			    </if>
+	            <if test="productionFrom != null and productionFrom != '' and productionTo != null and productionTo != ''">
+			    AND LEFT(FORMAT(REG_DATE, 'yyyy'), 2) + RIGHT(LEFT(WORK_ORD_NO, CHARINDEX('-', WORK_ORD_NO)-1), 6) BETWEEN #{productionFrom} AND #{productionTo}
+			    </if>
+				GROUP BY WORK_ORD_NO, LOT_NO
+			) TB_VISION_FAULTY_ADM
+			, TB_WORK_ORDER A
+			, TB_GOODS_CODE_ADM B
+		WHERE PIVOT_RESULT.WORK_ORD_NO = TB_VISION_FAULTY_ADM.WORK_ORD_NO
+		AND TB_VISION_FAULTY_ADM.WORK_ORD_NO = A.WORK_ORD_NO
+		AND A.GOODS_CD = B.GOODS_CD
+		ORDER BY PIVOT_RESULT.WORK_ORD_NO
+	</select>
+	
+	<!-- 품질관리/최종검사현황 - 생산비전불량(작업자) -->
+	<select id="visionChargerTotalList_nF2" resultType="HashMap" parameterType="mes.domain.po.WorkOrderVo">
+		SELECT
+			D.GOODS_CD
+			, D.GOODS_NM
+			, TB_VISION_FAULTY_ADM.INSPCT_CHARGER
+			, C.USER_NM
+			, C.USER_ID
+			, TB_VISION_FAULTY_ADM.FAULTY_CNT_SUM
+			, PIVOT_RESULT.*
+		FROM
+			(SELECT
+				B.GOODS_CD
+				, A.INSPCT_CHARGER
+				, A.MINOR_CD
+				, SUM(FAULTY_CNT) FAULTY_CNT
+			FROM TB_VISION_FAULTY_ADM_CODE A, TB_WORK_ORDER B
+			WHERE 1=1
+			<if test="chooseDateFrom != null and chooseDateFrom != '' and chooseDateTo != null and chooseDateTo != ''">
+		    AND FAULTY_REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		    </if>
+            <if test="productionFrom != null and productionFrom != '' and productionTo != null and productionTo != ''">
+		    AND LEFT(FORMAT(A.REG_DATE, 'yyyy'), 2) + RIGHT(LEFT(A.WORK_ORD_NO, CHARINDEX('-', A.WORK_ORD_NO)-1), 6) BETWEEN #{productionFrom} AND #{productionTo}
+		    </if>
+			AND A.WORK_ORD_NO = B.WORK_ORD_NO
+			GROUP BY B.GOODS_CD, A.INSPCT_CHARGER, A.MINOR_CD
+			) AS RESULT PIVOT (SUM(FAULTY_CNT) FOR MINOR_CD IN (${codeList})) AS PIVOT_RESULT
+			, (SELECT
+				B.GOODS_CD
+				, A.INSPCT_CHARGER
+				, SUM(A.FAULTY_CNT_SUM) FAULTY_CNT_SUM
+			FROM TB_VISION_FAULTY_ADM A, TB_WORK_ORDER B
+			WHERE 1=1
+			<if test="chooseDateFrom != null and chooseDateFrom != '' and chooseDateTo != null and chooseDateTo != ''">
+		    AND FAULTY_REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		    </if>
+            <if test="productionFrom != null and productionFrom != '' and productionTo != null and productionTo != ''">
+		    AND LEFT(FORMAT(A.REG_DATE, 'yyyy'), 2) + RIGHT(LEFT(A.WORK_ORD_NO, CHARINDEX('-', A.WORK_ORD_NO)-1), 6) BETWEEN #{productionFrom} AND #{productionTo}
+		    </if>
+			AND A.WORK_ORD_NO = B.WORK_ORD_NO
+			GROUP BY B.GOODS_CD, A.INSPCT_CHARGER) TB_VISION_FAULTY_ADM
+			, TB_USER C
+			, TB_GOODS_CODE_ADM D
+		WHERE PIVOT_RESULT.INSPCT_CHARGER = TB_VISION_FAULTY_ADM.INSPCT_CHARGER
+		AND PIVOT_RESULT.INSPCT_CHARGER = C.USER_NUMBER
+		AND PIVOT_RESULT.GOODS_CD = TB_VISION_FAULTY_ADM.GOODS_CD
+		AND TB_VISION_FAULTY_ADM.GOODS_CD = D.GOODS_CD
+	<if test="userNumber != null and userNumber != ''"> 
+		AND C.USER_NUMBER = #{userNumber}
+	</if>
+		ORDER BY C.USER_NM, D.GOODS_NM
+	</select>
+	
+	<!--작업지시일별 조회 - 최종검사현황  -->
+	<select id="workOrderTotalDataList" resultType="HashMap" parameterType="mes.domain.po.WorkOrderVo">
+		<![CDATA[
+			SELECT
+				DISTINCT A.ORD_DATE AS WORK_ORD_DATE
+				, ISNULL(F.SUB_FILM1, '-') SUB_FILM1
+				, ISNULL(F.SUB_FILM2, '-') SUB_FILM2
+				, ISNULL(F.SUB_FILM3, '-') SUB_FILM3
+				, ISNULL(F.SUB_FILM4, '-') SUB_FILM4
+				, A.EQUIP_CD
+				, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+				, A.GOODS_CD
+				, C.GOODS_NM
+				, A.EQUIP_COND_SEQ
+				, A.WORK_TEAM_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+				, A.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+				, C.MODEL
+				, C.ALNICU_MATRL_CD
+				, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.ALNICU_MATRL_CD = B.MATRL_CD) ALNICU_MATRL_NM
+				, C.FILM_MATRL_CD
+				, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.FILM_MATRL_CD = B.MATRL_CD) FILM_MATRL_NM
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '007' AND  B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '019' AND  B.BASE_CD = D.GUBUN_CD) GUBUN_NM
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '020' AND  B.BASE_CD = D.CHAMFER_YN_CD) CHAMFER_YN_NM
+				, G.VISION_FAULTY_SUM
+				, A.*
+				, dbo.FC_BM_USERNM(H.MAIN_WORK_CHARGR_NM) MAIN_WORK_CHARGR_NM
+				, dbo.FC_BM_USERNM(H.APPEAR_INSPCT_CHARGER_NM) APPEAR_INSPCT_CHARGER_NM
+				, dbo.FC_BM_USERNM(H.EDGE_INSPCT_CHARGER_NM) EDGE_INSPCT_CHARGER_NM
+				, ${codeList}
+			FROM
+			(
+				SELECT 
+					A.WORK_ORD_NO
+					--, (ISNULL(SUM(A.APPEAR_OUTPUT_CNT),0)+ISNULL(Sum(A.APPEAR_FAULTY_CNT),0)) AS OUTPUT_CNT
+					--, ISNULL(SUM(A.APPEAR_OUTPUT_CNT),0) AS APPEAR_OUTPUT_CNT
+					--, ISNULL(SUM(A.APPEAR_FAULTY_CNT),0) AS APPEAR_FAULTY_CNT
+					
+					, ( ISNULL(SUM(A.OUTPUT_CNT),0) + ISNULL(Sum(A.APPEAR_FAULTY_CNT),0)) AS OUTPUT_CNT					
+					, ISNULL(SUM(A.APPEAR_FAULTY_CNT),0) AS APPEAR_FAULTY_CNT					
+					, ISNULL(SUM(A.OUTPUT_CNT),0) AS APPEAR_OUTPUT_CNT
+					, ISNULL(SUM(A.EDGE_FAULTY_CNT),0) AS EDGE_FAULTY_CNT
+					, STUFF((         
+					  SELECT  DISTINCT ',' + WORK_ORD_LOT_NO
+					  FROM    TB_WORK_ORDER_OUTPUT_SUB X
+					  WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+					  FOR XML PATH('') ),1,1,'')
+					    AS WORK_ORD_LOT_NO
+					, STUFF((         
+					  SELECT  DISTINCT ',' + LOT_NO
+					  FROM    TB_WORK_ORDER_OUTPUT_SUB X
+					  WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+					  FOR XML PATH('') ),1,1,'')
+					    AS LOT_NO
+					 , STUFF((         
+					  SELECT  DISTINCT ',' + APPEAR_INSPCT_DATE
+					  FROM    TB_WORK_ORDER_OUTPUT_SUB X
+					  WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+					  FOR XML PATH('') ),1,1,'')
+					    AS APPEAR_INSPCT_DATE
+					--, MAX(A.WORK_ORD_LOT_NO) WORK_ORD_LOT_NO
+					--, MAX(A.LOT_NO) LOT_NO
+					--, MAX(A.APPEAR_INSPCT_DATE)	APPEAR_INSPCT_DATE		
+
+					, ISNULL(Sum(B.TARGET_CNT),0) TARGET_CNT
+					, MAX(B.ORD_DATE) ORD_DATE
+					, MAX(B.EQUIP_CD) EQUIP_CD
+					, MAX(B.GOODS_CD) GOODS_CD
+					, MAX(B.EQUIP_COND_SEQ) EQUIP_COND_SEQ
+					, MAX(B.WORK_TEAM_CD) WORK_TEAM_CD
+					, MAX(B.DEAL_CORP_CD) DEAL_CORP_CD
+					, MAX(A.GUBUN) GUBUN
+				FROM TB_WORK_ORDER_OUTPUT_SUB A, TB_WORK_ORDER B
+				WHERE 1=1
+				AND A.WORK_ORD_NO = B.WORK_ORD_NO
+				--AND ( A.SUB_WORK_STATUS_CD = 'A' OR A.SUB_WORK_STATUS_CD = 'E')
+			]]>
+				
+				AND A.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				
+			<![CDATA[
+				GROUP BY
+					A.WORK_ORD_NO
+					
+				) A
+				
+				LEFT OUTER JOIN
+				
+				(
+					SELECT
+						*
+					FROM (
+						SELECT
+							X.WORK_ORD_NO							
+							, MINOR_CD							
+							, SUM(ISNULL(FAULTY_CNT,0)) FAULTY_CNT					
+							
+						FROM TB_GOODS_FAULTY_ADM_CODE Z
+						]]>
+						,  (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X 
+						WHERE 1=1 						
+						AND X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+					
+						) X
+						WHERE 1=1 
+						AND X.WORK_ORD_NO = Z.WORK_ORD_NO
+					
+						
+						
+						
+						<![CDATA[
+						GROUP BY X.WORK_ORD_NO, MINOR_CD
+			
+						UNION ALL
+			
+						SELECT
+							X.WORK_ORD_NO							
+							, '200' AS MINOR_CD  							
+							, SUM(ISNULL(FAULTY_CNT,0)) FAULTY_CNT							
+							
+						]]>
+						FROM TB_EDGE_GOODS_FAULTY_ADM_CODE Z 
+						, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X 
+							WHERE 1=1 
+						
+							AND X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+						
+						<![CDATA[
+						 ) X
+						WHERE MINOR_CD < '009'						
+						AND X.WORK_ORD_NO = Z.WORK_ORD_NO
+						]]>
+											
+						<![CDATA[
+						GROUP BY X.WORK_ORD_NO
+					) AS t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (${codeList})) as PVT
+				) E
+				ON 1=1
+				AND A.WORK_ORD_NO = E.WORK_ORD_NO					
+				
+				LEFT OUTER JOIN
+				 (
+					SELECT
+						FILM_PIVOT.WORK_ORD_NO
+						, FILM_PIVOT.[1] AS SUB_FILM1
+						, FILM_PIVOT.[2] AS SUB_FILM2
+						, FILM_PIVOT.[3] AS SUB_FILM3
+						, FILM_PIVOT.[4] AS SUB_FILM4
+		            FROM
+					(
+		            	SELECT
+		                	A.WORK_ORD_NO
+		                    , A.LOT_NO
+		                    , ROW_NUMBER() OVER(PARTITION BY A.WORK_ORD_NO ORDER BY A.REG_DATE) ROW_NUMBER
+		                 FROM TB_WORK_ORDER_DTL A
+		                 , TB_MATRL_CODE_ADM B
+		                 , (SELECT BASE_CD, BASE_CD_NM, BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007') C
+		                 , (   SELECT
+		                          DISTINCT F.WORK_ORD_NO
+		                       FROM TB_GOODS_FAULTY_ADM_CODE Z RIGHT OUTER JOIN TB_WORK_ORDER_OUTPUT_SUB F
+		                       ON  1=1
+		                       AND F.WORK_ORD_NO = Z.WORK_ORD_NO
+		                       WHERE 1=1		                      
+		                       ]]>
+		                      
+							    AND F.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+							 
+		                       <![CDATA[
+		                       GROUP BY F.WORK_ORD_NO
+		        
+		                       UNION
+		        
+		                       SELECT
+		                          DISTINCT F.WORK_ORD_NO
+		                       FROM TB_EDGE_GOODS_FAULTY_ADM_CODE Z RIGHT OUTER JOIN TB_WORK_ORDER_OUTPUT_SUB F
+		                       ON  1=1
+		                       AND F.WORK_ORD_NO = Z.WORK_ORD_NO
+		                       WHERE 1=1
+		                       
+		                       ]]>
+		                      
+							    AND F.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+							   
+		                       <![CDATA[
+		                       GROUP BY F.WORK_ORD_NO
+		                       ) E
+		                    WHERE   A.MATRL_CD = B.MATRL_CD
+		                    AND      B.QUTY_CD = C.BASE_CD
+		                    AND      (C.BASE_CD_ABBR = 'F')
+		                    AND A.WORK_ORD_NO = E.WORK_ORD_NO
+		              ) AS A
+		             PIVOT
+	                 (
+	                    MIN(LOT_NO)
+	                    FOR ROW_NUMBER IN ( [1], [2], [3], [4] )
+	                 ) FILM_PIVOT
+				
+				) AS F
+				ON 1=1
+				AND A.WORK_ORD_NO = F.WORK_ORD_NO 
+				
+				
+				LEFT OUTER JOIN 
+				(
+					SELECT
+						F.WORK_ORD_NO
+						, SUM(FAULTY_CNT) VISION_FAULTY_SUM
+					FROM TB_VISION_FAULTY_ADM_CODE Z , TB_WORK_ORDER_OUTPUT_SUB F
+					WHERE 1=1
+					AND F.WORK_ORD_NO = Z.WORK_ORD_NO
+					]]>             
+				   AND F.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				  
+                    <![CDATA[
+					AND MINOR_CD NOT IN ('001', '002')
+					GROUP BY F.WORK_ORD_NO
+				) AS G
+				ON A.WORK_ORD_NO = G.WORK_ORD_NO
+				
+				, (
+					SELECT
+						WORK_ORD_NO
+						, STRING_AGG(MAIN_WORK_CHARGR_NM, ', ')  MAIN_WORK_CHARGR_NM
+						, STRING_AGG(APPEAR_INSPCT_CHARGER_NM, ', ') APPEAR_INSPCT_CHARGER_NM
+						, STRING_AGG(EDGE_INSPCT_CHARGER_NM, ', ') EDGE_INSPCT_CHARGER_NM
+					FROM
+					(
+						SELECT
+							DISTINCT A.WORK_ORD_NO
+							, A.MAIN_WORK_CHARGR
+							, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = MAIN_WORK_CHARGR )  AS MAIN_WORK_CHARGR_NM
+							, A.APPEAR_INSPCT_CHARGER
+							, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = APPEAR_INSPCT_CHARGER )  AS APPEAR_INSPCT_CHARGER_NM	
+							, A.EDGE_INSPCT_CHARGER
+							, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = EDGE_INSPCT_CHARGER )  AS EDGE_INSPCT_CHARGER_NM
+						FROM TB_WORK_ORDER_OUTPUT_SUB A
+						WHERE 1=1
+						]]>
+	                   
+					    AND A.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+					   
+	                    <![CDATA[
+					) C
+					GROUP BY
+						WORK_ORD_NO
+				) H
+				, ( SELECT FILM_MATRL_CD, ALNICU_MATRL_CD, MODEL, GOODS_CD, GOODS_NM FROM TB_GOODS_CODE_ADM ) C
+				, ( SELECT MATRL_CD, CHAMFER_YN_CD, GUBUN_CD, QUTY_CD FROM TB_MATRL_CODE_ADM ) D
+				
+			WHERE 1=1		
+			AND A.WORK_ORD_NO = H.WORK_ORD_NO
+			AND A.GOODS_CD = C.GOODS_CD
+			AND D.MATRL_CD = C.ALNICU_MATRL_CD
+			
+		]]>
+		<!-- '200' AS MINOR_CD - 엣지검사 수량을 더해주기위해 배열의 200(인덱스)을 사용   -->
+		<if test="userNumber != null and userNumber != ''"> 
+			AND ( A.APPEAR_INSPCT_CHARGER = #{userNumber} OR A.EDGE_INSPCT_CHARGER = #{userNumber} )
+		</if>
+		<if test="qutyCd != null and qutyCd != ''">
+			AND D.QUTY_CD = #{qutyCd}
+		</if>
+		
+		order by WORK_ORD_DATE, A.EQUIP_CD, WORK_ORD_NO
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--작업지시일별 조회 - 최종검사현황  -->
+	<select id="workOrderTotalDataList_F3" resultType="HashMap" parameterType="mes.domain.po.WorkOrderVo">
+		<![CDATA[
+			SELECT
+				DISTINCT A.ORD_DATE AS WORK_ORD_DATE
+				
+				, ( SELECT
+						STRING_AGG(USER_NM, ', ')
+					FROM ( 
+						SELECT
+							DISTINCT USER_NM
+						FROM TB_WORK_ORDER_OUTPUT_SUB X, TB_USER Z
+						WHERE 1=1
+						AND X.WORK_ORD_NO = A.WORK_ORD_NO
+						AND X.MAIN_WORK_CHARGR = Z.USER_NUMBER
+						AND  ( X.EDGE_INSPCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo} OR X.APPEAR_INSPCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo} )
+					) A
+				) AS MAIN_WORK_CHARGR_NM
+
+				, ( SELECT
+							STRING_AGG(USER_NM, ', ')
+					FROM ( 
+						SELECT
+							DISTINCT USER_NM
+						FROM TB_WORK_ORDER_OUTPUT_SUB X, TB_USER Z
+						WHERE 1=1
+						AND X.WORK_ORD_NO = A.WORK_ORD_NO
+						AND X.APPEAR_INSPCT_CHARGER = Z.USER_NUMBER
+						AND X.APPEAR_INSPCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+					) A
+				) AS APPEAR_INSPCT_CHARGER_NM
+
+				, ( SELECT
+					   STRING_AGG(USER_NM, ', ')
+				   FROM ( 
+						SELECT
+							DISTINCT USER_NM
+						FROM TB_WORK_ORDER_OUTPUT_SUB X, TB_USER Z
+						WHERE 1=1
+						AND X.WORK_ORD_NO = A.WORK_ORD_NO
+						AND X.EDGE_INSPCT_CHARGER = Z.USER_NUMBER
+						AND X.EDGE_INSPCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+					) A
+				) AS EDGE_INSPCT_CHARGER_NM
+				
+				, B.WORK_ORD_NO
+				, B.WORK_ORD_LOT_NO
+				, B.LOT_NO
+				, ISNULL(F.SUB_FILM1, '-') SUB_FILM1
+				, ISNULL(F.SUB_FILM2, '-') SUB_FILM2
+				, ISNULL(F.SUB_FILM3, '-') SUB_FILM3
+				, ISNULL(F.SUB_FILM4, '-') SUB_FILM4
+				, A.EQUIP_CD
+				, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+				, A.GOODS_CD
+				, C.GOODS_NM
+				, A.EQUIP_COND_SEQ
+				, A.WORK_TEAM_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+				, (SELECT ISNULL(SUM(TARGET_CNT),0) FROM TB_WORK_ORDER Y WHERE Y.WORK_ORD_NO = A.WORK_ORD_NO) TARGET_CNT
+				, (SELECT ISNULL(SUM(APPEAR_FAULTY_CNT) + SUM(APPEAR_OUTPUT_CNT), 0) FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO AND X.APPEAR_INSPCT_DATE=B.APPEAR_INSPCT_DATE) AS OUTPUT_CNT
+				, (SELECT ISNULL(SUM(APPEAR_OUTPUT_CNT),0) FROM TB_WORK_ORDER_OUTPUT_SUB Y WHERE Y.WORK_ORD_NO = A.WORK_ORD_NO AND Y.APPEAR_INSPCT_DATE=B.APPEAR_INSPCT_DATE) APPEAR_OUTPUT_CNT
+				, (SELECT ISNULL(SUM(APPEAR_FAULTY_CNT),0) FROM TB_WORK_ORDER_OUTPUT_SUB Y WHERE Y.WORK_ORD_NO = A.WORK_ORD_NO AND Y.APPEAR_INSPCT_DATE=B.APPEAR_INSPCT_DATE) APPEAR_FAULTY_CNT
+				, (SELECT ISNULL(SUM(EDGE_FAULTY_CNT),0) FROM TB_WORK_ORDER_OUTPUT_SUB Y WHERE Y.WORK_ORD_NO = A.WORK_ORD_NO AND Y.EDGE_INSPCT_DATE=B.EDGE_INSPCT_DATE) EDGE_FAULTY_CNT
+				, A.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+				, C.MODEL
+				, C.ALNICU_MATRL_CD
+				, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.ALNICU_MATRL_CD = B.MATRL_CD) ALNICU_MATRL_NM
+				, C.FILM_MATRL_CD
+				, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.FILM_MATRL_CD = B.MATRL_CD) FILM_MATRL_NM
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '007' AND  B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '019' AND  B.BASE_CD = D.GUBUN_CD) GUBUN_NM
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '020' AND  B.BASE_CD = D.CHAMFER_YN_CD) CHAMFER_YN_NM
+				, E.*
+				, G.VISION_FAULTY_SUM
+				, B.APPEAR_INSPCT_DATE
+				
+			FROM TB_WORK_ORDER A, TB_WORK_ORDER_OUTPUT_SUB B, TB_GOODS_CODE_ADM C, TB_MATRL_CODE_ADM D
+				, (SELECT *
+					FROM (
+						SELECT
+							WORK_ORD_NO
+							, MINOR_CD
+							, SUM(ISNULL(FAULTY_CNT,0)) FAULTY_CNT
+							, FAULTY_REG_DATE
+						FROM TB_GOODS_FAULTY_ADM_CODE Z
+						WHERE FAULTY_REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+						GROUP BY WORK_ORD_NO, MINOR_CD, FAULTY_REG_DATE
+			
+						UNION ALL
+			
+						SELECT
+							WORK_ORD_NO
+							, '200' AS MINOR_CD  
+							, SUM(ISNULL(FAULTY_CNT,0)) FAULTY_CNT
+							, FAULTY_REG_DATE
+						FROM TB_EDGE_GOODS_FAULTY_ADM_CODE 
+						WHERE MINOR_CD < '009'
+						AND FAULTY_REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+						GROUP BY WORK_ORD_NO, FAULTY_REG_DATE
+						) AS t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (${codeList})) as PVT
+				) E
+				, (
+					SELECT
+						FILM_PIVOT.WORK_ORD_NO
+						, FILM_PIVOT.[1] AS SUB_FILM1
+						, FILM_PIVOT.[2] AS SUB_FILM2
+						, FILM_PIVOT.[3] AS SUB_FILM3
+						, FILM_PIVOT.[4] AS SUB_FILM4
+					FROM
+					(
+						SELECT
+							A.WORK_ORD_NO
+							, A.LOT_NO
+							, ROW_NUMBER() OVER(PARTITION BY A.WORK_ORD_NO ORDER BY A.REG_DATE) ROW_NUMBER
+						FROM TB_WORK_ORDER_DTL A LEFT OUTER JOIN TB_WORK_ORDER D ON A.WORK_ORD_NO = D.WORK_ORD_NO,
+							TB_MATRL_CODE_ADM B, (SELECT BASE_CD, BASE_CD_NM, BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007') C
+							, ( SELECT
+									DISTINCT WORK_ORD_NO
+								FROM TB_GOODS_FAULTY_ADM_CODE Z
+								WHERE FAULTY_REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+								GROUP BY WORK_ORD_NO
+			
+								UNION
+			
+								SELECT
+									DISTINCT WORK_ORD_NO
+								FROM TB_EDGE_GOODS_FAULTY_ADM_CODE Z
+								WHERE FAULTY_REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+								GROUP BY WORK_ORD_NO
+								) E
+							WHERE   A.MATRL_CD = B.MATRL_CD
+							AND      B.QUTY_CD = C.BASE_CD
+							AND      (C.BASE_CD_ABBR = 'F')
+							AND A.WORK_ORD_NO = E.WORK_ORD_NO
+					) AS A PIVOT (MIN(LOT_NO) FOR ROW_NUMBER IN ([1], [2], [3], [4])) FILM_PIVOT
+				) AS F LEFT OUTER JOIN 
+				(SELECT
+					WORK_ORD_NO
+					, SUM(FAULTY_CNT) VISION_FAULTY_SUM
+				FROM TB_VISION_FAULTY_ADM_CODE
+				WHERE FAULTY_REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				AND MINOR_CD NOT IN ('001', '002')
+				GROUP BY WORK_ORD_NO) G ON F.WORK_ORD_NO = G.WORK_ORD_NO
+			WHERE 1=1
+			AND A.WORK_ORD_NO = B.WORK_ORD_NO
+			AND A.WORK_ORD_NO = F.WORK_ORD_NO
+			AND A.GOODS_CD = C.GOODS_CD
+			AND D.MATRL_CD = C.ALNICU_MATRL_CD
+			AND (B.SUB_WORK_STATUS_CD = 'A' OR B.SUB_WORK_STATUS_CD = 'E')
+			AND A.WORK_ORD_NO = E.WORK_ORD_NO
+	   		AND B.APPEAR_INSPCT_DATE = E.FAULTY_REG_DATE 
+		]]>
+		<!-- '200' AS MINOR_CD - 엣지검사 수량을 더해주기위해 배열의 200(인덱스)을 사용   -->
+		<if test="userNumber != null and userNumber != ''"> 
+			AND ( B.APPEAR_INSPCT_CHARGER = #{userNumber} OR B.EDGE_INSPCT_CHARGER = #{userNumber} )
+		</if>
+		<if test="qutyCd != null and qutyCd != ''">
+			AND D.QUTY_CD = #{qutyCd}
+		</if>
+		<if test="productionFrom != null and productionFrom != '' and productionTo != null and productionTo != ''">
+			AND A.ORD_DATE BETWEEN #{productionFrom} AND #{productionTo}
+		</if>
+		
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--종합수량 조회 - 최종검사현황  -->
+	<select id="comprehensiveQtyList_F1F2" resultType="HashMap" parameterType="mes.domain.po.WorkOrderVo">
+		<![CDATA[
+			SELECT
+				DISTINCT A.ORD_DATE AS WORK_ORD_DATE
+				, A.WORK_ORD_NO
+				, A.WORK_ORD_LOT_NO
+				, A.LOT_NO
+				, ISNULL(F.SUB_FILM1, '-') SUB_FILM1
+				, ISNULL(F.SUB_FILM2, '-') SUB_FILM2
+				, ISNULL(F.SUB_FILM3, '-') SUB_FILM3
+				, ISNULL(F.SUB_FILM4, '-') SUB_FILM4
+				, A.EQUIP_CD
+				, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+				, A.GOODS_CD
+				, C.GOODS_NM
+				, A.EQUIP_COND_SEQ
+				, A.WORK_TEAM_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+				, A.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+				, C.MODEL
+				, C.ALNICU_MATRL_CD
+				, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.ALNICU_MATRL_CD = B.MATRL_CD) ALNICU_MATRL_NM
+				, C.FILM_MATRL_CD
+				, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.FILM_MATRL_CD = B.MATRL_CD) FILM_MATRL_NM
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '007' AND  B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '019' AND  B.BASE_CD = D.GUBUN_CD) GUBUN_NM
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '020' AND  B.BASE_CD = D.CHAMFER_YN_CD) CHAMFER_YN_NM
+				--, E.*
+				, ${codeList}
+				, G.VISION_FAULTY_SUM
+				, H.SYSTEM_Y_FAULTY_CNT
+				, A.*
+				, dbo.FC_BM_USERNM(I.MAIN_WORK_CHARGR_NM) MAIN_WORK_CHARGR_NM
+				, dbo.FC_BM_USERNM(I.APPEAR_INSPCT_CHARGER_NM) APPEAR_INSPCT_CHARGER_NM
+				, dbo.FC_BM_USERNM(I.EDGE_INSPCT_CHARGER_NM) EDGE_INSPCT_CHARGER_NM
+				, ROUND (
+					CONVERT(FLOAT, H.SYSTEM_Y_FAULTY_CNT) / CONVERT(FLOAT, ISNULL(A.APPEAR_FAULTY_CNT + A.APPEAR_OUTPUT_CNT, 0 ) ) *100
+					, 2
+				) AS QTY_SU
+				
+			FROM
+			(SELECT
+				DISTINCT
+				A.WORK_ORD_NO					
+					, (ISNULL(SUM(A.OUTPUT_CNT),0) + ISNULL(Sum(A.APPEAR_FAULTY_CNT),0)) AS OUTPUT_CNT					
+					, ISNULL(SUM(A.APPEAR_FAULTY_CNT),0) AS APPEAR_FAULTY_CNT					
+					, ISNULL(SUM(A.OUTPUT_CNT),0)  AS APPEAR_OUTPUT_CNT
+					, SUM(ISNULL(A.EDGE_FAULTY_CNT,0)) AS EDGE_FAULTY_CNT
+					, STUFF((         
+					  SELECT  DISTINCT ',' + WORK_ORD_LOT_NO
+					  FROM    TB_WORK_ORDER_OUTPUT_SUB X
+					  WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+					  FOR XML PATH('') ),1,1,'')
+					    AS WORK_ORD_LOT_NO
+					, STUFF((         
+					  SELECT  DISTINCT ',' + LOT_NO
+					  FROM    TB_WORK_ORDER_OUTPUT_SUB X
+					  WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+					  FOR XML PATH('') ),1,1,'')
+					    AS LOT_NO
+					 , STUFF((         
+					  SELECT  DISTINCT ',' + APPEAR_INSPCT_DATE
+					  FROM    TB_WORK_ORDER_OUTPUT_SUB X
+					  WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+					  FOR XML PATH('') ),1,1,'')
+					    AS APPEAR_INSPCT_DATE				
+					, SUM(ISNULL(B.TARGET_CNT,0)) AS TARGET_CNT
+					, MAX(B.ORD_DATE) ORD_DATE
+					, MAX(B.EQUIP_CD) EQUIP_CD    
+					, MAX(B.GOODS_CD) GOODS_CD
+					, MAX(B.EQUIP_COND_SEQ) EQUIP_COND_SEQ
+					, MAX(B.WORK_TEAM_CD) WORK_TEAM_CD
+					, MAX(B.DEAL_CORP_CD) DEAL_CORP_CD
+					, MAX(A.GUBUN) GUBUN
+				FROM TB_WORK_ORDER_OUTPUT_SUB A, TB_WORK_ORDER B
+				WHERE 1=1
+				AND A.WORK_ORD_NO = B.WORK_ORD_NO
+				--AND ( A.SUB_WORK_STATUS_CD = 'A' OR A.SUB_WORK_STATUS_CD = 'E')
+			]]>
+				
+				AND A.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		
+			<![CDATA[
+				GROUP BY
+					A.WORK_ORD_NO
+				
+				) A
+				
+				LEFT OUTER JOIN
+				
+				(
+					SELECT
+						*
+					FROM
+					(
+						SELECT 
+							E.WORK_ORD_NO							
+							, MIN(E.CHANGE_MINOR_CD) AS MINOR_CD
+							, SUM(E.FAULTY_CNT) AS FAULTY_CNT
+						FROM
+						(
+							SELECT
+								F.WORK_ORD_NO								
+								, ( SELECT MIN(Z.BASE_CD) FROM TB_SYSTEM_COMMON_CODE Z WHERE Z.BASE_GROUP_CD = '068' AND Z.BASE_CD_NM = F.MINOR_NM AND Z.ETC1 = F.MAJOR_CD )  AS MINOR_CD
+								, F.CHANGE_MINOR_CD
+								, F.MINOR_NM
+								, F.CHANGE_MAJOR_CD
+								, SUM(ISNULL(Z.FAULTY_CNT, 0)) AS FAULTY_CNT
+							FROM   TB_GOODS_FAULTY_ADM_CODE Z
+							, (
+								SELECT 
+									AA.WORK_ORD_NO									
+									, (SELECT MIN(BASE_CD) FROM TB_SYSTEM_COMMON_CODE X WHERE  X.BASE_GROUP_CD = '068' AND X.BASE_CD_NM =  MINOR_NM AND X.ETC1 = AA.CHANGE_MAJOR_CD) AS CHANGE_MINOR_CD
+									, AA.MINOR_NM
+									, AA.CHANGE_MAJOR_CD
+									, AA.MINOR_CD
+									,AA.MAJOR_CD
+								FROM
+								(
+									SELECT
+										X.WORK_ORD_NO										
+										, MINOR_CD
+										, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE  X.BASE_GROUP_CD = '068' AND X.BASE_CD = MINOR_CD) AS MINOR_NM
+										, MAJOR_CD
+										, ( CASE
+											WHEN MAJOR_CD = '001' THEN '001'
+											WHEN MAJOR_CD = '002' THEN '002'
+											WHEN MAJOR_CD = '004' THEN '001'
+											WHEN MAJOR_CD = '005' THEN '002'
+											END
+										) AS CHANGE_MAJOR_CD
+										, SUM(FAULTY_CNT) AS FAULTY_CNT
+								FROM TB_GOODS_FAULTY_ADM_CODE Z,  
+								(SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X
+								 WHERE 1=1 								 
+								 ]]>
+								
+							    AND X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+							  
+							     ) X
+							     
+								WHERE 1=1								
+							    AND X.WORK_ORD_NO = Z.WORK_ORD_NO	
+								
+			                   
+							    
+			                    
+			                    <![CDATA[
+								GROUP BY
+									X.WORK_ORD_NO									
+									, MINOR_CD
+									, MAJOR_CD
+								) AA
+							) F
+							WHERE  1 = 1
+							AND Z.WORK_ORD_NO = F.WORK_ORD_NO							
+							AND Z.MAJOR_CD = F.MAJOR_CD
+							AND Z.MINOR_CD = F.MINOR_CD
+							]]>
+		                    
+		                    
+		                    <![CDATA[
+							GROUP BY 
+								F.WORK_ORD_NO							
+								, F.CHANGE_MAJOR_CD
+								, F.MAJOR_CD
+								, F.CHANGE_MINOR_CD
+								, F.MINOR_NM
+						) E
+						GROUP BY
+							E.WORK_ORD_NO
+							,E.CHANGE_MINOR_CD
+										
+						UNION ALL
+			
+						SELECT
+							X.WORK_ORD_NO							
+							, '200' AS MINOR_CD  							
+							, SUM(ISNULL(FAULTY_CNT,0)) FAULTY_CNT
+						FROM TB_EDGE_GOODS_FAULTY_ADM_CODE Z 
+						, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X
+						 WHERE 1=1
+						 ]]>
+						 
+					    AND X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+					    
+						  ) X		
+						WHERE  '009' > MINOR_CD
+						AND X.WORK_ORD_NO = Z.WORK_ORD_NO		
+	                   
+	                    
+	                    <![CDATA[
+						GROUP BY X.WORK_ORD_NO
+						
+					) AS t
+					PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (${codeList})) as PVT
+				) E
+				
+				ON 1=1
+				AND A.WORK_ORD_NO = E.WORK_ORD_NO				
+				
+				
+				LEFT OUTER JOIN
+				 (
+					 SELECT
+		                 FILM_PIVOT.WORK_ORD_NO
+		                 , FILM_PIVOT.[1] AS SUB_FILM1
+		                 , FILM_PIVOT.[2] AS SUB_FILM2
+		                 , FILM_PIVOT.[3] AS SUB_FILM3
+		                 , FILM_PIVOT.[4] AS SUB_FILM4
+		              FROM
+		              (
+		                 SELECT
+		                    A.WORK_ORD_NO
+		                    , A.LOT_NO
+		                    , ROW_NUMBER() OVER(PARTITION BY A.WORK_ORD_NO ORDER BY A.REG_DATE) ROW_NUMBER
+		                 FROM TB_WORK_ORDER_DTL A
+		                 , TB_MATRL_CODE_ADM B
+		                 , (SELECT BASE_CD, BASE_CD_NM, BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007') C
+		                 , ( SELECT
+		                          DISTINCT F.WORK_ORD_NO
+		                       FROM TB_WORK_ORDER_OUTPUT_SUB F LEFT OUTER JOIN TB_GOODS_FAULTY_ADM_CODE Z 
+							   ON 1=1
+							   AND F.WORK_ORD_NO = Z.WORK_ORD_NO
+		                       WHERE 1=1
+		                       ]]>
+			                 
+							   AND F.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+							 
+			                   <![CDATA[
+		                       GROUP BY F.WORK_ORD_NO
+		        
+		                       UNION
+		        
+		                       SELECT
+		                          DISTINCT F.WORK_ORD_NO
+		                       FROM TB_EDGE_GOODS_FAULTY_ADM_CODE Z RIGHT OUTER JOIN TB_WORK_ORDER_OUTPUT_SUB F
+		                       ON 1=1
+							   AND F.WORK_ORD_NO = Z.WORK_ORD_NO
+		                       WHERE 1=1
+		                       ]]>
+			                  
+							   AND F.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+							 
+			                   <![CDATA[
+		                       GROUP BY F.WORK_ORD_NO
+		                       ) E
+		                    WHERE   A.MATRL_CD = B.MATRL_CD
+		                    AND      B.QUTY_CD = C.BASE_CD
+		                    AND      (C.BASE_CD_ABBR = 'F')
+		                    AND A.WORK_ORD_NO = E.WORK_ORD_NO
+		              ) AS A
+					PIVOT
+					(
+					   MIN(LOT_NO)
+					   FOR ROW_NUMBER IN ( [1], [2], [3], [4] )
+					) FILM_PIVOT
+					
+				) AS F
+				ON 1=1
+				AND A.WORK_ORD_NO = F.WORK_ORD_NO 
+				
+				LEFT OUTER JOIN 
+				(SELECT
+					F.WORK_ORD_NO
+					, SUM(FAULTY_CNT) VISION_FAULTY_SUM
+					FROM TB_VISION_FAULTY_ADM_CODE Z , TB_WORK_ORDER_OUTPUT_SUB F
+				WHERE 1=1
+				AND F.WORK_ORD_NO = Z.WORK_ORD_NO
+				]]>
+                
+			    AND  F.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			   
+                <![CDATA[
+				AND MINOR_CD NOT IN ('001', '002')
+				GROUP BY F.WORK_ORD_NO
+				) G 
+				ON A.WORK_ORD_NO = G.WORK_ORD_NO
+				
+				LEFT OUTER JOIN ( 
+					SELECT
+						F.WORK_ORD_NO
+						, SUM(FAULTY_CNT) AS SYSTEM_Y_FAULTY_CNT
+					FROM TB_GOODS_FAULTY_ADM_CODE Z  , TB_WORK_ORDER_OUTPUT_SUB F
+					WHERE 1=1
+					]]>
+	                
+				    AND F.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				   
+	                <![CDATA[
+	                AND F.WORK_ORD_NO = Z.WORK_ORD_NO
+					AND MINOR_CD IN ( SELECT BASE_CD FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '068' AND ETC3 = 'Y' )
+					GROUP BY F.WORK_ORD_NO
+				) H
+		        ON H.WORK_ORD_NO = A.WORK_ORD_NO
+		        
+		        , (
+					SELECT
+						WORK_ORD_NO
+						, STRING_AGG(MAIN_WORK_CHARGR_NM, ', ')   MAIN_WORK_CHARGR_NM
+						, STRING_AGG(APPEAR_INSPCT_CHARGER_NM, ', ')   APPEAR_INSPCT_CHARGER_NM
+						, STRING_AGG(EDGE_INSPCT_CHARGER_NM, ', ')   EDGE_INSPCT_CHARGER_NM
+					FROM
+					(
+						SELECT
+							DISTINCT A.WORK_ORD_NO
+							, A.MAIN_WORK_CHARGR
+							, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = MAIN_WORK_CHARGR )  AS MAIN_WORK_CHARGR_NM
+							, A.APPEAR_INSPCT_CHARGER
+							, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = APPEAR_INSPCT_CHARGER )  AS APPEAR_INSPCT_CHARGER_NM	
+							, A.EDGE_INSPCT_CHARGER
+							, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = EDGE_INSPCT_CHARGER )  AS EDGE_INSPCT_CHARGER_NM
+						FROM TB_WORK_ORDER_OUTPUT_SUB A
+						WHERE 1=1
+						]]>
+		              
+					    AND A.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+					    
+		                <![CDATA[
+					) C
+					GROUP BY
+						WORK_ORD_NO
+				) I
+		        , ( SELECT FILM_MATRL_CD, ALNICU_MATRL_CD, MODEL, GOODS_CD, GOODS_NM FROM TB_GOODS_CODE_ADM ) C
+				, ( SELECT MATRL_CD, CHAMFER_YN_CD, GUBUN_CD, QUTY_CD FROM TB_MATRL_CODE_ADM ) D
+				
+			WHERE 1=1
+			AND A.WORK_ORD_NO = I.WORK_ORD_NO
+			AND A.GOODS_CD = C.GOODS_CD
+			AND D.MATRL_CD = C.ALNICU_MATRL_CD
+		]]>
+		<!-- '200' AS MINOR_CD - 엣지검사 수량을 더해주기위해 배열의 200(인덱스)을 사용   -->
+		<if test="userNumber != null and userNumber != ''"> 
+			AND ( A.APPEAR_INSPCT_CHARGER = #{userNumber} OR A.EDGE_INSPCT_CHARGER = #{userNumber} )
+		</if>
+		<if test="exceptFaultyQty != null and exceptFaultyQty != ''">
+			<![CDATA[
+				AND ROUND (
+					CONVERT(FLOAT, H.SYSTEM_Y_FAULTY_CNT) / CONVERT(FLOAT, ISNULL(A.APPEAR_FAULTY_CNT + A.APPEAR_OUTPUT_CNT, 0 ) ) *100
+				, 2) <= #{exceptFaultyQty}
+			]]>
+		</if>
+		<if test="qutyCd != null and qutyCd != ''">
+			AND D.QUTY_CD = #{qutyCd}
+		</if>
+		order by WORK_ORD_DATE, A.EQUIP_CD, A.WORK_ORD_NO
+	</select>
+	
+	<!-- 엣지검사 -->
+	<select id="edgeFaultyDayTotalList" resultType="HashMap" parameterType="mes.domain.po.WorkOrderVo">
+	<!-- 	SELECT
+			DISTINCT B.WORK_ORD_NO
+			, B.WORK_ORD_LOT_NO
+			, B.ORD_LOT_NO
+			, B.LOT_NO
+			, A.EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+			, A.GOODS_CD
+			, C.GOODS_NM
+			, B.GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE A WHERE A.BASE_GROUP_CD='028' AND A.BASE_CD = B.GUBUN) ORD_GUBUN_NM
+			, B.WORK_ORD_DATE
+			, A.EQUIP_COND_SEQ
+			, B.SUB_WORK_STATUS_CD
+			, A.WORK_TEAM_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+			, B.MAIN_WORK_CHARGR
+			, ( SELECT ISNULL(USER_NM, '') FROM TB_USER A WHERE  A.USER_NUMBER = B.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			, A.TARGET_WEIGHT
+			, A.TARGET_CNT		
+			
+			, B.EDGE_FAULTY_CNT
+			
+			, ((SELECT SUM(OUTPUT_CNT) FROM TB_WORK_ORDER_OUTPUT_SUB X 
+					WHERE X.WORK_ORD_NO = B.WORK_ORD_NO GROUP BY WORK_ORD_NO) + ISNULL(B.EDGE_FAULTY_CNT,0)) AS OUTPUT_CNT		
+			, (SELECT SUM(OUTPUT_CNT) FROM TB_WORK_ORDER_OUTPUT_SUB X 
+			WHERE X.WORK_ORD_NO = B.WORK_ORD_NO GROUP BY WORK_ORD_NO) AS EDGE_OUTPUT_CNT
+			
+			
+			
+			
+			
+			, B.EDGE_INSPCT_DATE
+			, B.EDGE_INSPCT_CHARGER
+			, ISNULL( (SELECT ISNULL(USER_NM, '') FROM TB_USER A WHERE A.USER_NUMBER = B.EDGE_INSPCT_CHARGER), '' ) AS EDGE_INSPCT_CHARGER_NM
+			, A.DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			, A.WORK_START_TIME
+			, A.WORK_END_TIME
+			, C.MODEL
+			, C.ALNICU_MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.ALNICU_MATRL_CD = B.MATRL_CD) ALNICU_MATRL_NM
+			, C.FILM_MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE C.FILM_MATRL_CD = B.MATRL_CD) FILM_MATRL_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '007' AND  B.BASE_CD = D.QUTY_CD) QUTY_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '019' AND  B.BASE_CD = D.GUBUN_CD) GUBUN_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE BASE_GROUP_CD = '020' AND  B.BASE_CD = D.CHAMFER_YN_CD) CHAMFER_YN_NM
+			, E.*
+		FROM TB_WORK_ORDER A, TB_WORK_ORDER_OUTPUT_SUB B, TB_GOODS_CODE_ADM C, TB_MATRL_CODE_ADM D,
+			(SELECT *
+			FROM (
+				SELECT
+					X.WORK_ORD_NO
+					, ORD_LOT_NO
+					, FAULTY_REG_DATE
+					, DAY_NIGHT_CD
+					, MINOR_CD
+					, ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				FROM TB_EDGE_GOODS_FAULTY_ADM_CODE E, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+				WHERE 1=1
+				AND X.WORK_ORD_NO = E.WORK_ORD_NO
+				
+				) AS t
+			PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (${codeList})) as PVT) E
+		WHERE 1=1
+		AND A.WORK_ORD_NO			= B.WORK_ORD_NO
+       	AND B.ORD_LOT_NO			= E.ORD_LOT_NO
+       	AND A.GOODS_CD				= C.GOODS_CD
+       	AND D.MATRL_CD				= C.ALNICU_MATRL_CD
+		AND A.WORK_ORD_NO 			= E.WORK_ORD_NO
+		AND ( B.GUBUN = E.DAY_NIGHT_CD OR E.DAY_NIGHT_CD IS NULL )
+		<if test="factoryCode.equals('002') or factoryCode.equals('003')">
+		AND B.SUB_WORK_STATUS_CD	= 'E'
+		AND B.SUB_WORK_STATUS_CD IN ('E', 'A')
+		</if>
+		<if test="factoryCode.equals('001')">
+		AND (B.SUB_WORK_STATUS_CD	= 'E' OR B.SUB_WORK_STATUS_CD	= 'A') 
+		</if>
+		<if test="chooseDateFrom != null and chooseDateFrom != '' and chooseDateTo != null and chooseDateTo != ''">
+	    AND B.EDGE_INSPCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+	    </if>
+        <if test="productionFrom != null and productionFrom != '' and productionTo != null and productionTo != ''">
+	    AND LEFT(FORMAT(B.REG_DATE, 'yyyy'), 2) + RIGHT(LEFT(B.WORK_ORD_NO, CHARINDEX('-', B.WORK_ORD_NO)-1), 6) BETWEEN #{productionFrom} AND #{productionTo}
+	    </if>
+		<if test="userNumber != null and userNumber != ''"> 
+			AND B.APPEAR_INSPCT_CHARGER = #{userNumber}
+		</if>
+		<if test="qutyCd != null and qutyCd != ''">
+			AND D.QUTY_CD = #{qutyCd}
+		</if>
+		<if test="productionFrom != null and productionFrom != '' and productionTo != null and productionTo != ''">
+			AND B.WORK_ORD_DATE BETWEEN #{productionFrom} AND #{productionTo}
+		</if> -->
+		SELECT
+			DISTINCT B.WORK_ORD_NO
+			,B.ORD_LOT_NO
+			, B.LOT_NO
+			, B.WORK_ORD_LOT_NO
+			, B.GUBUN
+			, B.WORK_ORD_DATE
+			, B.SUB_WORK_STATUS_CD
+			, B.MAIN_WORK_CHARGR
+			, ISNULL(B.EDGE_INSPCT_DATE, '') EDGE_INSPCT_DATE
+			, ISNULL(B.EDGE_INSPCT_CHARGER,'') EDGE_INSPCT_CHARGER
+		
+			, B.EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM  WHERE B.EQUIP_CD = EQUIP_CD) EQUIP_NM
+			, B.GOODS_CD
+			, C.GOODS_NM			
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE A WHERE A.BASE_GROUP_CD='028' AND A.BASE_CD = B.GUBUN) ORD_GUBUN_NM			
+			, B.EQUIP_COND_SEQ			
+			, B.WORK_TEAM_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE  WHERE BASE_GROUP_CD='016' AND BASE_CD = B.WORK_TEAM_CD) WORK_TEAM_NM			
+			, ( SELECT ISNULL(USER_NM, '') FROM TB_USER A WHERE  A.USER_NUMBER = B.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			, B.TARGET_WEIGHT
+			, B.WORK_START_TIME
+			, B.WORK_END_TIME
+			, B.TARGET_CNT
+		
+		
+			, B.DEAL_CORP_CD
+
+			, ISNULL(EDGE_OUTPUT_CNT,0)  OUTPUT_CNT
+			, ISNULL(OUTPUT_CNT,0) EDGE_OUTPUT_CNT
+			
+			
+			, ISNULL( (SELECT ISNULL(USER_NM, '') FROM TB_USER A WHERE A.USER_NUMBER = B.EDGE_INSPCT_CHARGER), '' ) AS EDGE_INSPCT_CHARGER_NM
+
+			
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM  WHERE DEAL_CORP_CD = B.DEAL_CORP_CD) DEAL_CORP_NM
+			
+
+			,  ISNULL(EE.FAULTY_CNT,0) EDGE_FAULTY_CNT
+			, C.MODEL
+			, C.ALNICU_MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM X WHERE C.ALNICU_MATRL_CD = X.MATRL_CD) ALNICU_MATRL_NM
+			, C.FILM_MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM X WHERE C.FILM_MATRL_CD = X.MATRL_CD) FILM_MATRL_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE BASE_GROUP_CD = '007' AND  X.BASE_CD = D.QUTY_CD) QUTY_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE BASE_GROUP_CD = '019' AND  X.BASE_CD = D.GUBUN_CD) GUBUN_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE BASE_GROUP_CD = '020' AND  X.BASE_CD = D.CHAMFER_YN_CD) CHAMFER_YN_NM
+			, E.*
+		FROM 	(SELECT 
+					A.WORK_ORD_NO					
+					, (ISNULL(SUM(A.OUTPUT_CNT),0) + ISNULL(Sum(A.EDGE_FAULTY_CNT),0)) AS EDGE_OUTPUT_CNT
+					, ISNULL(SUM(A.OUTPUT_CNT),0)  AS OUTPUT_CNT
+					
+					, STUFF((         
+						SELECT  DISTINCT ',' + WORK_ORD_LOT_NO
+						FROM    TB_WORK_ORDER_OUTPUT_SUB X
+						WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+						FOR XML PATH('') ),1,1,'')
+					    			AS WORK_ORD_LOT_NO
+					, STUFF((         
+						SELECT  DISTINCT ',' + LOT_NO
+						FROM    TB_WORK_ORDER_OUTPUT_SUB X
+						WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+						FOR XML PATH('') ),1,1,'')
+					    			AS LOT_NO
+						, STUFF((         
+						SELECT  DISTINCT ',' + ORD_LOT_NO
+						FROM    TB_WORK_ORDER_OUTPUT_SUB X
+						WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+						FOR XML PATH('') ),1,1,'')
+						AS ORD_LOT_NO		
+					,STUFF((  
+					  SELECT  DISTINCT ',' + EDGE_INSPCT_DATE
+					  FROM    TB_WORK_ORDER_OUTPUT_SUB X
+					  WHERE   X.WORK_ORD_NO = A.WORK_ORD_NO
+					  FOR XML PATH('') ),1,1,'')
+					    AS EDGE_INSPCT_DATE				
+
+					, SUM(ISNULL(B.TARGET_CNT,0)) AS TARGET_CNT
+					, MAX(A.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR
+					, MAX(A.EDGE_INSPCT_CHARGER) EDGE_INSPCT_CHARGER
+					
+					, MAX(B.ORD_DATE) ORD_DATE
+					, MAX(B.EQUIP_CD) EQUIP_CD    
+					, MAX(B.GOODS_CD) GOODS_CD
+					, MAX(B.EQUIP_COND_SEQ) EQUIP_COND_SEQ
+					, MAX(B.WORK_TEAM_CD) WORK_TEAM_CD
+					, MAX(B.DEAL_CORP_CD) DEAL_CORP_CD
+					, MAX(A.GUBUN) GUBUN
+					, MAX(A.WORK_ORD_DATE) WORK_ORD_DATE
+					, MAX(A.SUB_WORK_STATUS_CD) SUB_WORK_STATUS_CD
+					, MAX(B.TARGET_WEIGHT) TARGET_WEIGHT
+					, MAX(B.WORK_START_TIME) WORK_START_TIME
+					, MAX(B.WORK_END_TIME) WORK_END_TIME
+				FROM TB_WORK_ORDER_OUTPUT_SUB A, TB_WORK_ORDER B
+				WHERE 1=1
+				AND A.WORK_ORD_NO = B.WORK_ORD_NO	
+				AND A.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				
+				GROUP BY
+					A.WORK_ORD_NO					
+				) B		
+				LEFT OUTER JOIN 
+			(SELECT *
+			FROM (
+				SELECT
+					X.WORK_ORD_NO WORK_ORD_NO_EDGE
+					, DAY_NIGHT_CD
+					, MINOR_CD
+					, ISNULL(FAULTY_CNT,0) FAULTY_CNT
+				FROM TB_EDGE_GOODS_FAULTY_ADM_CODE E, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+				WHERE 1=1
+				AND X.WORK_ORD_NO = E.WORK_ORD_NO
+				) AS t
+			PIVOT(SUM(FAULTY_CNT) for MINOR_CD IN (
+			${codeList}
+			)) as PVT) E
+			ON 1=1
+			AND B.WORK_ORD_NO = E.WORK_ORD_NO_EDGE
+
+			,
+			 (SELECT
+					X.WORK_ORD_NO									
+					, DAY_NIGHT_CD					
+					, ISNULL(SUM(FAULTY_CNT),0) FAULTY_CNT
+				FROM TB_EDGE_GOODS_FAULTY_ADM_CODE E, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+				WHERE 1=1
+				AND X.WORK_ORD_NO = E.WORK_ORD_NO
+				GROUP BY X.WORK_ORD_NO									
+					, DAY_NIGHT_CD
+				
+				) EE
+			
+				
+
+				, TB_GOODS_CODE_ADM C, TB_MATRL_CODE_ADM D
+		WHERE 1=1
+       	AND B.GOODS_CD				= C.GOODS_CD
+       	AND D.MATRL_CD				= C.ALNICU_MATRL_CD		
+       	AND EE.WORK_ORD_NO = B.WORK_ORD_NO
+	
+		<if test="factoryCode.equals('002') or factoryCode.equals('003')">
+		
+		AND B.SUB_WORK_STATUS_CD IN ('E', 'A')
+		</if>
+		<if test="factoryCode.equals('001')">
+		AND (B.SUB_WORK_STATUS_CD	= 'E' OR B.SUB_WORK_STATUS_CD	= 'A') 
+		</if>		
+		<if test="userNumber != null and userNumber != ''"> 
+			AND B.EDGE_INSPCT_CHARGER = #{userNumber}
+		</if>
+		<if test="qutyCd != null and qutyCd != ''">
+			AND D.QUTY_CD = #{qutyCd}
+		</if>
+		
+	</select>
+	
+	<!-- 작업지시 투입 주자재 리스트(최대4개만)-->
+	<select id="workOrderMainMatrlTop4" resultMap="WorkOrderVo">
+			SELECT 
+				TOP 4
+				A.WORK_ORD_NO
+				, A.LOT_NO
+				, A.BARCODE_NO
+				, A.MATRL_CD
+				, A.INSPECT_QTY
+				, A.FAIR_QTY
+				, A.FAULTY_QTY
+				, A.REMAKE_YN
+				, A.CHANGE_LOCATION
+				, A.REG_ID
+				, SUBSTRING(CONVERT(CHAR(8), A.REG_DATE,8), 0, 6) AS REG_DATE
+				, A.UPD_ID
+				, A.UPD_DATE
+			FROM TB_WORK_ORDER_DTL A
+			WHERE 1=1
+			AND WORK_ORD_NO = #{workOrdNo}
+		<if test="workOrdSubLotNo != null and workOrdSubLotNo != ''">
+			AND LOT_NO = #{workOrdSubLotNo}
+		</if>
+			AND LEFT(MATRL_CD,1) != 'F'
+			ORDER BY A.REG_DATE ASC
+	</select>
+	
+	
+	<!-- 작업지시 투입 부자재 리스트(최대4개만)-->
+	<select id="workOrderSubMatrlTop4" resultMap="WorkOrderVo">
+		<![CDATA[
+			SELECT	TOP 4
+				A.WORK_ORD_NO
+				, A.LOT_NO
+				, A.BARCODE_NO
+				, A.MATRL_CD
+				, A.INSPECT_QTY
+				, A.FAIR_QTY
+				, A.FAULTY_QTY
+				, A.REMAKE_YN
+				, A.CHANGE_LOCATION
+				, A.REG_ID
+				, SUBSTRING(CONVERT(CHAR(8), A.REG_DATE,8), 0, 6) AS REG_DATE
+				, A.UPD_ID
+				, A.UPD_DATE
+			FROM TB_WORK_ORDER_DTL A
+			WHERE WORK_ORD_NO = #{workOrdNo}
+			AND LEFT(MATRL_CD,1) = 'F'
+			ORDER BY A.REG_DATE ASC
+		]]>
+	</select>
+	
+		
+	<!-- 작업지시 투입 부자재 리스트(최대4개만)-->
+	<select id="checkConnectLotNo" resultMap="WorkOrderVo">
+		<![CDATA[
+			SELECT
+				A.LOT_NO
+			FROM 
+				(SELECT
+					DISTINCT LOT_NO
+				FROM TB_WORK_ORDER_OUTPUT_SUB
+				WHERE WORK_ORD_NO = #{workOrdNo}
+				
+				AND WORK_ORD_LOT_NO = #{workOrdLotNo}) A,
+				(SELECT
+					LOT_NO
+				FROM
+					TB_WORK_ORDER_DTL A
+					, (SELECT
+							TOP 1 WORK_ORD_NO
+						FROM TB_WORK_ORDER A
+							, (SELECT WORK_START_TIME FROM TB_WORK_ORDER
+								WHERE WORK_ORD_NO = #{workOrdNo}) B
+						WHERE A.EQUIP_CD = #{equipCd}
+						AND (A.WORK_STATUS_CD = 'C' OR A.WORK_STATUS_CD = 'E' OR A.WORK_STATUS_CD = 'A')
+						AND A.WORK_START_TIME < B.WORK_START_TIME
+						ORDER BY A.WORK_START_TIME DESC) B
+				WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+				AND LEFT(A.BARCODE_NO, 1) != 'F') B
+			WHERE A.LOT_NO = B.LOT_NO
+		]]>
+	</select>
+	
+	<!-- 모니터링 대상 설비의 가장 최근 시작된 진행작지 정보-->
+	<select id="monitoringWorkOrdRead" resultMap="WorkOrderVo">
+		<![CDATA[
+			SELECT TOP 1
+				A.WORK_ORD_NO
+			    , A.ORD_LOT_NO
+			    , A.ORD_GUBUN
+			    , A.EQUIP_CD
+			    , B.EQUIP_NM
+			    , A.GOODS_CD
+			    , C.GOODS_NM
+			    , A.EQUIP_COND_SEQ
+				, A.WORK_START_TIME
+			    , A.WORK_STATUS_CD
+			    , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='034' AND B.BASE_CD = A.WORK_STATUS_CD) WORK_STATUS_NM
+			    , A.ORD_DATE
+			    , A.WORK_TEAM_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+			    , A.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			    , A.MAIN_WORK_CHARGR
+				, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			    , A.SUB_WORK_CHARGR
+				, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.SUB_WORK_CHARGR) SUB_WORK_CHARGR_NM
+				, D.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+				, C.MODEL
+				, D.SURFACE_TRTMT_CD
+				,  ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='021' AND D.BASE_CD = SURFACE_TRTMT_CD),'') SURFACE_TRTMT_NM
+				, 'P' STATUS
+				, A.OUTPUT_CNT
+				, C.PACK_UNIT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='031' AND B.BASE_CD = C.PACK_UNIT_CD) PACK_UNIT_NM
+		    FROM TB_WORK_ORDER A,
+				TB_EQUIP_CODE_ADM B,
+				TB_GOODS_CODE_ADM C,
+				TB_MATRL_CODE_ADM D
+			WHERE 1=1
+			AND A.EQUIP_CD = B.EQUIP_CD
+			AND A.GOODS_CD = C.GOODS_CD
+			AND C.ALNICU_MATRL_CD = D.MATRL_CD
+			AND A.WORK_STATUS_CD = 'S'
+			AND DATEDIFF(SECOND, A.WORK_START_TIME, getDate()) < 43200
+			AND B.EQUIP_NM = #{equipNm}
+			ORDER BY A.WORK_START_TIME DESC
+		]]>
+	</select>
+	
+	<!-- 해당설비의 12시간 이내의 진행중인 작지가 있는지 확인 --> 
+	<select id="checkWorkingWorkOrd" resultMap="WorkOrderVo">
+		<![CDATA[
+			SELECT
+				TOP 1
+				A.WORK_ORD_NO
+				, ( SELECT COUNT(*) FROM TB_WORK_ORDER X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO ) AS COUNT_WORKING_WORK_ORD
+			FROM TB_WORK_ORDER A
+			WHERE EQUIP_CD = #{equipCd}
+			AND WORK_STATUS_CD = 'S'
+		]]>
+		<!-- AND DATEDIFF(SECOND, WORK_START_TIME, getDate()) < 86400 전체 조회로 변경-->
+	</select>
+	
+	<!-- 해당설비의 12시간 이내의 진행중인 작지가 있는지 확인 --> 
+	<select id="deleteWorkOrdNo" parameterType="mes.domain.po.WorkOrderVo">
+		<![CDATA[
+			DELETE TB_WORK_ORDER
+			WHERE WORK_ORD_NO = #{workOrdNo}
+			AND EQUIP_CD = #{equipCd}
+			AND ORD_DATE = #{ordDate}
+			AND ORD_GUBUN = #{ordGubun}
+		]]>
+	</select>
+	
+	<!-- 작업자 변경 관련 사항 -->
+	
+	<!-- 자업자 변경 목록 조회 -->
+	<select id="workerChangeList" resultMap="WorkerChangeVo"> 
+		SELECT
+			A.EQUIP_CD
+			, A.WORK_ORD_NO
+			, A.WORK_CHANG_SEQ
+			, A.ORD_DATE
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '028' AND X.BASE_CD = A.DAY_NIGHT_CD) AS DAY_NIGHT_NM
+			, (SELECT X.TEAM_CD FROM TB_USER X WHERE X.USER_NUMBER = A.WORKER_ID) AS WORK_TEAM_CD
+			, ISNULL(
+				(SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '016' AND X.BASE_CD = (SELECT X.TEAM_CD FROM TB_USER X WHERE X.USER_NUMBER = A.WORKER_ID) )
+				, '-' 
+			  ) AS WORK_TEAM_NM
+			, A.WORKER_ID
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.WORKER_ID) AS WORKER_ID_NM
+			, A.WORK_STATUS_CD
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '034' AND X.BASE_CD = A.WORK_STATUS_CD) AS WORK_STATUS_NM
+			, WORKER_STATUS_CD
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '091' AND X.BASE_CD = A.WORKER_STATUS_CD) AS WORKER_STATUS_NM
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM TB_WORKER_CHANGE A
+		WHERE 1=1
+		<if test="equipCd!=null and !equipCd.equals('')">
+			AND EQUIP_CD = #{equipCd}
+		</if>
+		<if test="workOrdNo!=null and !workOrdNo.equals('')">
+			AND WORK_ORD_NO = #{workOrdNo}
+		</if>
+		<if test="ordDate!=null and !ordDate.equals('')">
+			AND ORD_DATE = #{ordDate}
+		</if>
+		ORDER BY REG_DATE DESC
+	</select>
+	
+	<!-- 자업자 변경 상세조회 -->
+	<select id="workerChangeRead" resultMap="WorkerChangeVo">
+		SELECT
+			A.EQUIP_CD
+			, A.WORK_ORD_NO
+			, A.WORK_CHANG_SEQ
+			, A.ORD_DATE
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '028' AND X.BASE_CD = A.DAY_NIGHT_CD) AS DAY_NIGHT_NM
+			, (SELECT X.TEAM_CD FROM TB_USER X WHERE X.USER_NUMBER = A.WORKER_ID) AS WORK_TEAM_CD
+			, ISNULL(
+				(SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '016' AND X.BASE_CD = (SELECT X.TEAM_CD FROM TB_USER X WHERE X.USER_NUMBER = A.WORKER_ID) )
+				, '-' 
+			  ) AS WORK_TEAM_NM
+			, A.WORKER_ID
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.WORKER_ID) AS WORKER_ID_NM
+			, A.WORK_STATUS_CD
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '034' AND X.BASE_CD = A.WORK_STATUS_CD) AS WORK_STATUS_NM
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM TB_WORKER_CHANGE A
+		WHERE 1=1
+		<if test="equipCd!=null and !equipCd.equals('')">
+			AND EQUIP_CD = #{equipCd}
+		</if>
+		<if test="workOrdNo!=null and !workOrdNo.equals('')">
+			AND WORK_ORD_NO = #{workOrdNo}
+		</if>
+		<if test="workChangSeq!=null and !workChangSeq.equals('')">
+			AND WORK_CHANG_SEQ = #{workChangSeq}
+		</if>
+		<if test="ordDate!=null and !ordDate.equals('')">
+			AND ORD_DATE = #{ordDate}
+		</if>
+		<if test="readCheckCode1 == 'workerSearch' ">
+			AND REPLACE(WORK_CHANG_SEQ, '-', '')
+			= (	SELECT
+					MAX( REPLACE(WORK_CHANG_SEQ, '-', '') )
+				FROM TB_WORKER_CHANGE
+				WHERE EQUIP_CD = #{equipCd}
+				AND WORK_ORD_NO = #{workOrdNo}
+		)
+		</if>
+	</select>
+	
+	<!-- 자업자 변경 등록 -->
+	<insert id="workerChangeCreate">
+			INSERT INTO TB_WORKER_CHANGE (
+				EQUIP_CD
+				, WORK_ORD_NO
+				, WORK_CHANG_SEQ
+				, ORD_DATE
+				, DAY_NIGHT_CD
+<!-- 				, WORK_TEAM_CD -->
+				, WORKER_ID
+				, WORK_STATUS_CD
+				, WORKER_STATUS_CD
+				, REG_ID
+				, REG_DATE
+			) 
+			VALUES(
+				#{equipCd}
+				, #{workOrdNo}
+				, #{workChangSeq}
+				, #{ordDate}
+				, #{dayNightCd}
+<!-- 				, #{workTeamCd} -->
+				, #{workerId}
+				, #{workStatusCd}
+				, #{workerStatusCd}
+				, #{regId}
+				, getdate()
+			)
+	</insert>
+	
+	<!-- 자업자 변경 수정 -->
+	<update id="workerChangeUpdate">
+		UPDATE	TB_WORKER_CHANGE		 
+			SET	
+				, EQUIP_CD = #{equipCd}
+				, WORK_ORD_NO = #{workOrdNo}
+				, WORK_CHANG_SEQ = #{workChangSeq}
+				, ORD_DATE = #{ordDate}
+				, DAY_NIGHT_CD = #{dayNightCd}
+<!-- 				, WORK_TEAM_CD = #{workTeamCd} -->
+				, WORKER_ID = #{workerId}
+				, WORK_STATUS_CD = #{workStatusCd}
+				, WORKER_STATUS_CD = #{workerStatusCd}
+				, REG_ID = #{regId}
+				, REG_DATE = #{regDate}
+				, UPD_ID = #{updId}
+				, UPD_DATE = getdate()
+		WHERE 1=1
+		<if test="equipCd!=null and !equipCd.equals('')">
+			AND EQUIP_CD = #{equipCd}
+		</if>
+		<if test="workOrdNo!=null and !workOrdNo.equals('')">
+			AND WORK_ORD_NO = #{workOrdNo}
+		</if>
+		<if test="workChangSeq!=null and !workChangSeq.equals('')">
+			AND WORK_CHANG_SEQ = #{workChangSeq}
+		</if>
+	</update>
+	
+	<!-- 자업자 변경 삭제 -->
+	<select id="workerChangeDelete">
+			DELETE FROM TB_WORKER_CHANGE		
+			WHERE EQUIP_CD = #{equipCd}
+			AND WORK_ORD_NO = #{workOrdNo}
+			<if test="ordDate and !ordDate.equals('')">
+				AND ORD_DATE = #{ordDate}
+			</if>
+			<if test="workChangSeq!=null and !workChangSeq.equals('')">
+				AND WORK_CHANG_SEQ = #{workChangSeq}
+			</if>
+	</select>
+	
+	<!-- 자업자 변경 Seq -->
+	<select id="workerChangeSeq" resultType="String">
+		SELECT
+			ISNULL(RIGHT('000' + CAST(MAX(RIGHT(WORK_CHANG_SEQ,3))+1 AS NVARCHAR),3), '001')
+		FROM TB_WORKER_CHANGE
+		WHERE SUBSTRING(WORK_CHANG_SEQ, 0, CHARINDEX('-', WORK_CHANG_SEQ)) = #{workOrdNumber}
+	</select>
+	
+	<!-- 작업자 변경 관련 사항 끝 -->
+	
+	
+	<!-- 주자재 변경 관련 사항 시작-->
+	
+	<!-- 주자재 불량 등록 상세조회  -->
+	<select id="workOrderDtlRead" resultMap="WorkOrderVo">
+		SELECT
+			WORK_ORD_NO
+			, LOT_NO
+			, BARCODE_NO
+			, MATRL_CD
+			, INSPECT_QTY
+			, FAIR_QTY
+			, FAULTY_QTY
+			, REMAKE_YN
+			, CHANGE_LOCATION
+			, CONNECT_CD
+			, FAULTY_STATUS
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_WORK_ORDER_DTL
+		WHERE 1=1
+		AND WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{lotNo}
+	</select>
+	<!-- 주자재 변경 관련 사항 끝-->
+	
+	<!-- 작지 주자재 변경 -->
+	<update id="workOrderMetalChangeAllUpdate">
+	
+		<!-- 입출고 관리 -->
+		<if test="metalChangeRemakeYn!=null and !metalChangeRemakeYn.equals('')">
+			UPDATE TB_IN_OUT_WHS_ADM
+			SET
+			   STATUS_CD = #{statusCd}
+			   , OUT_WHS_DATE = #{outWhsDate}
+			   , OUT_EQUIP_CD = #{outEquipCd}
+			   , OUT_GOODS_CD = #{outGoodsCd}
+			   , OUT_QTY = #{outQty}
+			WHERE LOT_NO = #{beforeLotNo}
+		</if>
+		
+		<!-- 작업지시 상세 -->
+		UPDATE TB_WORK_ORDER_DTL
+		SET LOT_NO = #{afterLotNo}
+		   , BARCODE_NO = #{afterLotNo}
+		   , REMAKE_YN =#{remakeYn}
+		   , FAULTY_STATUS =#{faultyStatus}
+		   , UPD_ID = #{updId}
+		   , UPD_DATE = getDate()
+		WHERE WORK_ORD_NO =  #{workOrdNo}
+		AND LOT_NO = #{beforeLotNo}
+		
+		<!-- 작업지시 생산수량 서브 -->
+		UPDATE TB_WORK_ORDER_OUTPUT_SUB
+		   SET LOT_NO = #{afterLotNo}
+			   , UPD_ID = #{updId}
+			   , UPD_DATE = getDate()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		
+		UPDATE TB_ALL_FAULTY_ADM
+		   SET LOT_NO = #{afterLotNo}
+		    	, UPD_ID = #{updId}
+			   , UPD_DATE = getDate()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		
+		<!-- 설비압력조건관리 -->
+		UPDATE TB_AGT_PRESSURE_STEP
+		SET LOT_NO = #{afterLotNo}
+		 	, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{beforeLotNo}
+		
+		<!-- 설비치수초중물관리 -->
+		UPDATE TB_AGT_SIZE_STEP
+		SET LOT_NO = #{afterLotNo}
+		 	, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{beforeLotNo}
+		
+		<!-- BOM온도조건관리_기록 -->
+		UPDATE TB_AGT_TEMPATUR_STEP
+		SET LOT_NO = #{afterLotNo}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{beforeLotNo}
+		
+		<!-- BOM시간조건관리 -->
+		UPDATE TB_AGT_TIME_STEP
+		SET LOT_NO = #{afterLotNo}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{beforeLotNo}
+		
+		<!-- 생산팀 비전불량수량 목록 -->
+		UPDATE TB_VISION_FAULTY_ADM
+		SET LOT_NO = #{afterLotNo}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{beforeLotNo}
+		
+		<!--1동일 때만 Update TB_EQUIP_SIZE_COND_STEP  -->
+		<!-- 설비치수초중물관리 -->
+		UPDATE TB_EQUIP_SIZE_COND_STEP
+		SET LOT_NO = #{afterLotNo}
+		   , UPD_ID = #{updId}
+		   , UPD_DATE = getDate()
+		WHERE WORK_ORD_NO =  #{workOrdNo}
+		AND LOT_NO = #{beforeLotNo}
+		
+		<!-- 생산실적(Tray)수정 -->
+		UPDATE TB_PRODUCTION_PERF_TRAY
+		SET	MATRL_LOT_NO = #{afterLotNo}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE EQUIP_CD =#{equipCd}
+		AND WORK_ORD_NO =  #{workOrdNo}
+	</update>
+	
+	<!-- 작업지시 주재료 변경 내역 등록 -->
+	<insert id="workOrderMetalChangeHistCreate">
+		INSERT INTO TB_WORK_ORDER_METAL_CHANGE_HIST (
+			EQUIP_CD
+			, WORK_ORD_NO
+			, BEFORE_LOT_NO
+			, AFTER_LOT_NO
+			, REG_ID
+			, REG_DATE
+		) 
+		VALUES(
+			#{equipCd}
+			, #{workOrdNo}
+			, #{beforeLotNo}
+			, #{afterLotNo}
+			, #{regId}
+			, getdate()
+		)
+	</insert>
+	
+	<!-- 설비별 투입 중량 조회 -->
+	<select id="inputWeightList" resultMap="WorkOrderVo">
+		SELECT
+		   C.EQUIP_NM
+		   , D.GOODS_NM
+		   , A.ORD_DATE
+		   , B.WORK_ORD_NO
+		   , B.LOT_NO
+		   , B.MATRL_CD
+		   , E.MATRL_NM
+		   , B.INSPECT_QTY
+		   , B.FAIR_QTY
+		   , B.FAULTY_QTY
+		   , B.REMAKE_YN
+		   , CASE WHEN B.REMAKE_YN = 'N' THEN '신규' ELSE '재투입' END REMAKE_YN_NM
+		   , B.CHANGE_LOCATION
+		   , B.FAULTY_STATUS
+		   , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='083' AND D.BASE_CD = B.FAULTY_STATUS) FAULTY_STATUS_NM
+		FROM TB_WORK_ORDER A, TB_WORK_ORDER_DTL B, TB_EQUIP_CODE_ADM C, TB_GOODS_CODE_ADM D, TB_MATRL_CODE_ADM E
+		WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND A.EQUIP_CD = C.EQUIP_CD
+		AND A.GOODS_CD = D.GOODS_CD
+		AND B.MATRL_CD = E.MATRL_CD
+		AND A.ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		<if test="excludingFilm != null and !excludingFilm.equals('')">
+			AND LEFT(B.MATRL_CD, 1) != 'F'
+		</if>
+		ORDER BY EQUIP_NM, ORD_DATE, WORK_ORD_NO
+	</select>	
+	
+		<!-- 생산실적트레이 생산수량 조회 조회 --> 
+	<select id="outputSubCntList" resultMap="WorkOrderVo">
+		
+		
+		SELECT DISTINCT 
+			A.WORK_ORD_NO
+			,(ISNULL(SUM(A.OUTPUT_CNT),0) + ISNULL(B.FAULTY_CNT,0) + ISNULL(C.FAULTY_CNT,0) ) TOTAL_INSPECT_CNT
+			,SUM(A.OUTPUT_CNT) OUTPUT_CNT
+			, B.FAULTY_CNT APPEAR_FAULTY_CNT
+			, C.FAULTY_CNT EDGE_FAULTY_CNT
+			, ( ISNULL(B.FAULTY_CNT, 0) + ISNULL(C.FAULTY_CNT, 0) ) AS TOTAL_FAULTY_CNT
+			, XX.EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM WHERE XX.EQUIP_CD = EQUIP_CD ) EQUIP_NM
+			, XX.GOODS_CD
+			, (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE XX.GOODS_CD = GOODS_CD ) GOODS_NM
+			, ZZ.PRODUCT_QTY USER_OUTPUT_CNT
+
+		FROM TB_WORK_ORDER_OUTPUT_SUB A  
+
+			LEFT OUTER JOIN
+			(	SELECT
+				X.WORK_ORD_NO	
+				, SUM(ISNULL(FAULTY_CNT,0)) FAULTY_CNT						
+				
+			FROM TB_GOODS_FAULTY_ADM_CODE Z
+			
+			<if test="dateCheck == '001'">
+				, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+			</if>
+			
+			<if test="dateCheck == '002'">
+				,  (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE CONCAT(LEFT(YEAR(GETDATE()), 2), RIGHT( SUBSTRING(X.WORK_ORD_NO, 0, LEN(X.WORK_ORD_NO)-3), 6) ) BETWEEN #{chooseDateFrom} AND #{chooseDateTo} ) X
+			</if>
+			
+			WHERE 1=1 
+			AND X.WORK_ORD_NO = Z.WORK_ORD_NO	
+		
+			
+			GROUP BY X.WORK_ORD_NO) B
+			ON 1=1
+			AND B.WORK_ORD_NO = A.WORK_ORD_NO
+
+			LEFT OUTER JOIN
+			(SELECT
+					X.WORK_ORD_NO			
+					, SUM(ISNULL(FAULTY_CNT,0)) FAULTY_CNT							
+					
+				FROM TB_EDGE_GOODS_FAULTY_ADM_CODE Z
+				
+				<if test="dateCheck == '001'">
+					,  (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo} ) X				
+				</if>
+				<if test="dateCheck == '002'">
+					,  (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE CONCAT(LEFT(YEAR(GETDATE()), 2), RIGHT( SUBSTRING(X.WORK_ORD_NO, 0, LEN(X.WORK_ORD_NO)-3), 6) ) BETWEEN #{chooseDateFrom} AND #{chooseDateTo} ) X
+				</if>
+				 
+				WHERE   '009'	>	MINOR_CD			
+				AND X.WORK_ORD_NO = Z.WORK_ORD_NO
+	
+				GROUP BY X.WORK_ORD_NO) C
+			ON 1=1
+			AND C.WORK_ORD_NO = A.WORK_ORD_NO
+			LEFT OUTER JOIN
+			TB_WORK_ORDER XX
+			ON 1=1
+			AND XX.WORK_ORD_NO =A.WORK_ORD_NO
+
+			LEFT OUTER JOIN
+			(SELECT WORK_ORD_NO, SUM(PRODUCT_QTY) PRODUCT_QTY FROM TB_PRODUCTION_PERF_TRAY WHERE PRODUCT_STATUS != '001' GROUP BY WORK_ORD_NO) ZZ
+			ON 1=1			
+			AND ZZ.WORK_ORD_NO = A.WORK_ORD_NO
+
+			WHERE 1=1
+			
+			<if test="dateCheck == '001'">
+				AND WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			</if>
+			<if test="dateCheck == '002'">
+				AND CONCAT(LEFT(YEAR(GETDATE()), 2), RIGHT( SUBSTRING(A.WORK_ORD_NO, 0, LEN(A.WORK_ORD_NO)-3), 6) ) BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			</if>
+			
+			GROUP BY A.WORK_ORD_NO,B.FAULTY_CNT,C.FAULTY_CNT, XX.EQUIP_CD, XX.GOODS_CD, ZZ.PRODUCT_QTY
+			
+			ORDER BY EQUIP_NM,WORK_ORD_NO,GOODS_NM
+	</select>
+
+
+
+
+</mapper>

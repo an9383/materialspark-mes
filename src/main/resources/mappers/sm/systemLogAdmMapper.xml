@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.sm.systemLogAdmMapper">
+
+<resultMap id="systemLogAdmVo" type="mes.domain.sm.SystemLogAdmVo">
+	
+	<result property="loginNo"			column="LOGIN_NO"		/>
+	<result property="userId"			column="USER_ID"		/>
+	<result property="logDate"			column="LOG_DATE"		/>
+	<result property="gubun"			column="GUBUN"			/>
+	<result property="ipAddress"		column="IP_ADDRESS"		/>
+	<result property="etc"				column="ETC"			/>
+	<result property="userNm"			column="USER_NM"		/>
+
+	<result property="seq"				column="SEQ"			/>
+	<result property="userNumber"		column="USER_NUMBER"	/>
+	<result property="departmentCd"		column="DEPARTMENT_CD"	/>
+	<result property="menuId"			column="MENU_ID"		/>
+	<result property="menuNm"			column="MENU_NM"		/>
+	<result property="menuPath"			column="MENU_PATH"		/>
+	<result property="accessDate"		column="ACCESS_DATE"	/>
+	<result property="regId"			column="REG_ID"			/>
+	<result property="regDate"			column="REG_DATE"		/>
+	<result property="departmentCdNm"	column="DEPARTMENT_CD_NM"	/>
+	<result property="menuPathNm"		column="MENU_PATH_NM"		/>
+			
+</resultMap>
+
+	<!-- 시스템로그관리 - 로그인기록관리 목록조회 -->
+	<select id="systemLogAdmList" resultMap="systemLogAdmVo">
+  		SELECT
+  			A.LOGIN_NO
+			, A.USER_ID
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_ID = A.USER_ID) USER_NM
+			, A.LOG_DATE
+			, A.GUBUN
+			, A.IP_ADDRESS
+			, A.ETC
+		FROM TB_LOGIN_HIST A
+		WHERE 1=1
+		AND FORMAT(A.LOG_DATE, 'yyyyMMdd') BETWEEN #{chooseDate1} AND #{chooseDate2}
+	</select>
+	
+	<!-- 시스템로그관리 - 로그인기록관리 목록조회 -->
+	<select id="pageLogAdmList" resultMap="systemLogAdmVo">
+  		SELECT
+  			SEQ
+			, A.USER_NUMBER
+			, A.USER_ID
+			, A.USER_NM
+			, A.DEPARTMENT_CD
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '013' AND A.DEPARTMENT_CD = X.BASE_CD) DEPARTMENT_CD_NM
+			, A.MENU_ID
+			, A.MENU_NM
+			, A.MENU_PATH
+			, (SELECT TOP(1) X.MENU_NM FROM TB_MENU_INFO_ADM X WHERE A.MENU_PATH = X.MENU_PATH) MENU_PATH_NM
+			, A.ACCESS_DATE
+			, A.REG_ID
+			, A.REG_DATE
+		FROM TB_SYSTEM_ACCESS_LOG A
+		WHERE 1=1
+		AND FORMAT(A.ACCESS_DATE, 'yyyyMMdd') = #{chooseDate2}
+<!-- 		AND FORMAT(A.ACCESS_DATE, 'yyyyMMdd') BETWEEN #{chooseDate1} AND #{chooseDate2} -->
+	</select>
+	
+</mapper>

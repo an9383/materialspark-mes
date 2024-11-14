@@ -27,8 +27,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	private MatrlUserService matrlUserService;
 	@Inject
 	private SystemAccessLogService systemAccessLogService;
-	@Inject
-	private LoginController loginController;
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
@@ -41,17 +39,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			HttpSession session = request.getSession(true);
 			boolean check=false;
 
-			MatrlUserVo userVo = (MatrlUserVo)session.getAttribute(Constants.USER_SESSION_VO);	
+			MatrlUserVo userVo = (MatrlUserVo)session.getAttribute(Constants.USER_SESSION_VO);
 			
 			//세션 X
-			if(userVo == null || userVo.getUserId() == null || "".equals(userVo.getUserId())) {
-				if(ajaxCall != null && "true".equals(ajaxCall)) {
+			if (userVo == null || userVo.getUserId() == null || "".equals(userVo.getUserId())) {
+				if (ajaxCall != null && "true".equals(ajaxCall)) {
 					response.sendError(503);
 					return false;
 				} else {
+
 					boolean checkMobile = false;
 					String userAgent = request.getHeader("user-agent");
-//					logger.info("userAgent = "+userAgent);
+					//logger.info("userAgent = "+userAgent);
 					String[] browser = {"iPhone", "iPod","Android"};
 					for (int i = 0; i < browser.length; i++) {
 					    if(userAgent.matches(".*"+browser[i]+".*")){
@@ -60,38 +59,42 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 					    	break;
 					    }
 					}
-					if ( requestURI.indexOf("tmsc0370") >= 0 && checkMobile == true ) {
-						response.sendRedirect(request.getContextPath() + "/auth/tmsc0370");
-					} else if ( checkMobile == true ) {
-						response.sendRedirect(request.getContextPath() + "/auth/tmsc0110");
+					if (requestURI.indexOf("pdsc0080") >= 0 || checkMobile == true) {
+						response.sendRedirect(request.getContextPath() + "/auth/pdsc0080");
 					} else {
 						response.sendRedirect(request.getContextPath() + "/auth/login");
 					}
 					
 					return false;
+
 				}
 				
 			//세션 O
 			} else {
 				String menuPath = session.getAttribute(Constants.MENU_PATH).toString();
-//				logger.info("menuPath = " + menuPath);
+				//logger.info("menuPath = " + menuPath);
 				
 				String menuUrl = "";
 				String menuUrl4 = "";
 				
+				if ("true".equals(ajaxCall)) {
+					return true;
+				}
+				
 				if(requestURI.length() >= 8) {
 					menuUrl = requestURI.substring(requestURI.length()-8, requestURI.length());
 					menuUrl4 = menuUrl.substring(menuUrl.length()-4, menuUrl.length());
-					if(menuUrl4.matches("-?\\d+(\\.\\d+)?")) {
-//						logger.info("MES Get menuPath = " + menuUrl + " ," + menuUrl4);
+
+ 					if(menuUrl4.matches("-?\\d+(\\.\\d+)?")) {
+						//logger.info("MES Get menuPath = " + menuUrl + " ," + menuUrl4);
 						//메인메뉴 메뉴권한 체크
 						if(menuPath.indexOf(menuUrl) < 0) { // 권한
-//							logger.info("MES 메뉴권한 없음 =========> " + menuUrl);
+							//logger.info("MES 메뉴권한 없음 =========> " + menuUrl);
 							
-							//PC가 권한없으면 Main으로, 모바일이 권한없으면 mainPDA으로 이동
+							
 							boolean checkMobile = false;
 							String userAgent = request.getHeader("user-agent");
-//							logger.info("userAgent = "+userAgent);
+							//logger.info("userAgent = "+userAgent);
 							String[] browser = {"iPhone", "iPod","Android"};
 							for (int i = 0; i < browser.length; i++) {
 							    if(userAgent.matches(".*"+browser[i]+".*")){
@@ -100,49 +103,53 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 							    	break;
 							    }
 							}
-							if (checkMobile == true) {
+							if (requestURI.indexOf("pdsc0080") >= 0 || checkMobile == true) {
 								response.sendRedirect(request.getContextPath() + "/mainPDA");
 							} else {
 								response.sendRedirect(request.getContextPath() + "/main");
 							}
 							return false;
-							
 						} else {
+							//페이지 접속 로그
 							SystemAccessLogVo systemAccessLogVo = new SystemAccessLogVo();
 							systemAccessLogVo.setUserNumber(userVo.getUserNumber().toString());
 							systemAccessLogVo.setUserId(userVo.getUserId().toString()); 
 							systemAccessLogVo.setUserNm(userVo.getUserNm().toString()); 
 							systemAccessLogVo.setDepartmentCd(userVo.getDepartmentCd().toString());
-							systemAccessLogVo.setRegId(Utils.getUserId());			
+							
+							systemAccessLogVo.setMenuId("");
+							systemAccessLogVo.setMenuNm("");
+							
 							systemAccessLogVo.setMenuPath(menuUrl);
-							systemAccessLogVo.setIpAddr(loginController.getClientIP(request));					
+							systemAccessLogVo.setRegId(Utils.getUserId());			
 							
-//							logger.info("저는 시스템 브이오에오 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + systemAccessLogVo);
 							
-							systemAccessLogService.create(systemAccessLogVo);							
+							logger.info("접속 로그 등록 >>>>>>>" + systemAccessLogVo);
+							
+							systemAccessLogService.systemAccessLogCreate_F1F2F3(systemAccessLogVo);
 						}
 					} else {
 						String ajaxMenuAuth = request.getParameter("menuAuth");
 						
-//						logger.info("MES Ajax ajaxHeader&menuAuth = " + ajaxCall + "," + ajaxMenuAuth);
+						//logger.info("MES Ajax ajaxHeader&menuAuth = " + ajaxCall + "," + ajaxMenuAuth);
 						if(ajaxCall != null && "true".contentEquals(ajaxCall)) {
 							if(ajaxMenuAuth != null && ajaxMenuAuth.length() > 0 && menuPath.indexOf(ajaxMenuAuth) < 0) { // 권한
-//								logger.info("MES Ajax 메뉴권한 없음 =========> " + ajaxMenuAuth);
+								//logger.info("MES Ajax 메뉴권한 없음 =========> " + ajaxMenuAuth);
 								response.sendRedirect(request.getContextPath() + "/main");
 								return false;
-							} else {								
-//								logger.info("MES Ajax 메뉴권한 PASS =========> " + ajaxMenuAuth);
+							} else {
+								//logger.info("MES Ajax 메뉴권한 PASS =========> " + ajaxMenuAuth);
 							}
 							
 						} else {
-//							logger.info("MES No Ajax 메뉴권한 PASS =========> " + ajaxMenuAuth);
+							//logger.info("MES No Ajax 메뉴권한 PASS =========> " + ajaxMenuAuth);
 						}
 					}
 				} else {
-//					logger.info("No menuPath8 = " + menuPath);
+					//logger.info("No menuPath8 = " + menuPath);
 				}
 				
-//				logger.info("menuPath2 = " + menuPath); 
+				//logger.info("menuPath2 = " + menuPath); 
 				//logger.info("login User info = " + userVo);
 //				String menuAuth =  (String)session.getAttribute("menuAuth");
 //				logger.info("menuAuth(메뉴권한) : " + menuAuth);

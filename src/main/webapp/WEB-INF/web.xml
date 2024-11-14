@@ -5,7 +5,7 @@
 	
 	<!-- 세션 유지 시간(단위: 분) -->
 	<session-config>
-		<session-timeout>720</session-timeout>
+		<session-timeout>-1</session-timeout>
 	</session-config>
 	<!--// 세션 유지 시간(단위: 분) -->
 	
@@ -14,7 +14,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
-
+	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -28,7 +28,7 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
 				/WEB-INF/spring/servlet-context.xml
-			    /WEB-INF/spring/security-context.xml
+				/WEB-INF/spring/security-context.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
@@ -61,5 +61,22 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/auth/page404</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/auth/page500</location>
+	</error-page>
+	
+	<error-page>
+		<location>/auth/pageError</location>
+	</error-page>
+	
+	
 
 </web-app>

@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.sm.matrlUserMapper">
+
+<resultMap id="MatrlUserVo" type="mes.domain.sm.MatrlUserVo">
+	<result property="userNumber"		column="USER_NUMBER"	/>
+	<result property="userId"			column="USER_ID"		/>
+	<result property="userNm"			column="USER_NM"		/>
+	<result property="userPw"			column="USER_PW"		/>
+	<result property="postCd"			column="POST_CD"		/>
+	<result property="postNm"			column="POST_NM"		/>
+	<result property="menuPopupYn"		column="MENU_POPUP_YN"	/>
+	<result property="menuPopupYnNm"	column="MENU_POPUP_YN_NM"/>
+	<result property="positionCd"		column="POSITION_CD"	/>
+	<result property="positionNm"		column="POSITION_NM"	/>
+	<result property="departmentCd"		column="DEPARTMENT_CD"	/>
+	<result property="departmentNm"		column="DEPARTMENT_NM"	/>
+	<result property="gradeCd"			column="GRADE_CD"		/>
+	<result property="gradeNm"			column="GRADE_NM"		/>
+	<result property="officeYnCd"		column="OFFICE_YN_CD"	/>
+	<result property="officeYnNm"		column="OFFICE_YN_NM"	/>
+	<result property="chargrDuty"		column="CHARGR_DUTY"	/>
+	<result property="chargrDutyNm"		column="CHARGR_DUTY_NM"	/>
+	<result property="teamCd"			column="TEAM_CD"		/>
+	<result property="teamNm"			column="TEAM_Nm"		/>
+	<result property="joinDate"			column="JOIN_DATE"		/>
+	<result property="resignDate"		column="RESIGN_DATE"	/>	
+	<result property="empYnCd"			column="EMP_YN_CD"		/>	
+	<result property="empYnNm"			column="EMP_YN_NM"		/>
+	<result property="userDesc"			column="USER_DESC"		/>	
+	<result property="useYnCd"			column="USE_YN_CD"		/>
+	<result property="useYnNm"			column="USE_YN_NM"		/>
+	<result property="regId"			column="REG_ID"			/>
+	<result property="regDate"			column="REG_DATE"		/>
+	<result property="updId"			column="UPD_ID"			/>
+	<result property="updDate"			column="UPD_DATE"		/>	
+	<result property="workplaceCd"		column="WORKPLACE_CD"	/>	
+	<result property="workplaceNm"		column="WORKPLACE_NM"	/>
+	<result property="equipGroupCd"		column="EQUIP_GROUP_CD"	/>		
+	<result property="gubun"		column="GUBUN"	/>	
+	<result property="factoryCode"		column="FACTORY_CODE"	/>	
+	<result property="teamPageMoveYn"		column="TEAM_PAGE_MOVE_YN"	/>	
+</resultMap>
+
+
+	<select id="listAll" resultMap="MatrlUserVo">
+  		SELECT
+  			USER_NUMBER
+  			, USER_ID
+			, USER_NM
+			, USER_PW
+			, POST_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='015' AND B.BASE_CD = A.POST_CD) POST_NM
+			, POSITION_CD
+			, MENU_POPUP_YN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='039' AND B.BASE_CD = A.MENU_POPUP_YN) MENU_POPUP_YN_NM
+			, DEPARTMENT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='013' AND B.BASE_CD = A.DEPARTMENT_CD) DEPARTMENT_NM
+			, GRADE_CD
+			, OFFICE_YN_CD
+			, CHARGR_DUTY	
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='014' AND B.BASE_CD = A.CHARGR_DUTY) CHARGR_DUTY_NM		
+			, TEAM_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.TEAM_CD) TEAM_NM
+			, JOIN_DATE
+			, RESIGN_DATE
+			, EMP_YN_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='025' AND B.BASE_CD = A.EMP_YN_CD) EMP_YN_NM
+			, USER_DESC
+			, USE_YN_CD
+			, REG_ID 
+			, REG_DATE 
+			, UPD_ID
+			, UPD_DATE
+			, WORKPLACE_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='029' AND B.BASE_CD = A.WORKPLACE_CD) WORKPLACE_NM
+			, EQUIP_GROUP_CD
+		FROM	TB_USER A
+		WHERE 1=1
+		<choose>
+			<when test="empYnCd == null or empYnCd == ''">
+				AND EMP_YN_CD != '002'
+			</when>
+			<when test="empYnCd.equals('all')">
+				AND 1=1
+			</when>
+			
+			<otherwise>
+				AND EMP_YN_CD = #{empYnCd}
+			</otherwise>
+		</choose>
+		
+		<if test="departmentCd != null and departmentCd != ''">
+			AND DEPARTMENT_CD = #{departmentCd}
+		</if>
+		
+	</select>
+	
+	<select id="listAll2" resultMap="MatrlUserVo">
+  		SELECT	USER_NUMBER
+			,USER_ID
+			,USER_NM
+			,USER_PW
+			,POST_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='015' AND B.BASE_CD = A.POST_CD) POST_NM
+			,POSITION_CD
+			,DEPARTMENT_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='013' AND B.BASE_CD = A.DEPARTMENT_CD) DEPARTMENT_NM
+			,GRADE_CD
+			,OFFICE_YN_CD
+			,CHARGR_DUTY	
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='014' AND B.BASE_CD = A.CHARGR_DUTY) CHARGR_DUTY_NM		
+			,TEAM_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.TEAM_CD) TEAM_NM
+			,JOIN_DATE
+			,RESIGN_DATE
+			,EMP_YN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='025' AND B.BASE_CD = A.EMP_YN_CD) EMP_YN_NM
+			,USER_DESC
+			,USE_YN_CD
+			,REG_ID 
+			,REG_DATE 
+			,UPD_ID
+			,UPD_DATE
+			,WORKPLACE_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='029' AND B.BASE_CD = A.WORKPLACE_CD) WORKPLACE_NM
+		FROM	TB_USER  A
+		WHERE 1=1
+		<if test="departmentCd != null and !departmentCd.equals('')">
+		AND DEPARTMENT_CD = #{departmentCd}
+		</if>
+		<if test="chargrDuty != null and chargrDuty.equals('')">
+		AND CHARGR_DUTY = #{chargrDuty}
+		</if>
+		AND EMP_YN_CD != '002'
+		
+	</select>
+	
+	<select id="userAuthDeleteListAll_F1F2F3" resultMap="MatrlUserVo">
+  		SELECT
+  			A.USER_NUMBER
+  			, USER_ID
+			, USER_NM
+			, USER_PW
+			, POST_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='015' AND B.BASE_CD = A.POST_CD) POST_NM
+			, POSITION_CD
+			, MENU_POPUP_YN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='039' AND B.BASE_CD = A.MENU_POPUP_YN) MENU_POPUP_YN_NM
+			, DEPARTMENT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='013' AND B.BASE_CD = A.DEPARTMENT_CD) DEPARTMENT_NM
+			, GRADE_CD
+			, OFFICE_YN_CD
+			, CHARGR_DUTY	
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='014' AND B.BASE_CD = A.CHARGR_DUTY) CHARGR_DUTY_NM		
+			, TEAM_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.TEAM_CD) TEAM_NM
+			, JOIN_DATE
+			, RESIGN_DATE
+			, EMP_YN_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='025' AND B.BASE_CD = A.EMP_YN_CD) EMP_YN_NM
+			, USER_DESC
+			, USE_YN_CD
+			, A.REG_ID 
+			, A.REG_DATE 
+			, A.UPD_ID
+			, A.UPD_DATE
+			, WORKPLACE_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='029' AND B.BASE_CD = A.WORKPLACE_CD) WORKPLACE_NM
+			, EQUIP_GROUP_CD
+		FROM	TB_USER A, TB_USER_AUTH B
+		WHERE  A.USER_NUMBER = B.USER_NUMBER
+		<if test="gubun != '' and gubun != null"> 		
+		AND B.USER_AUTH_CODE= #{gubun}
+		</if>
+	</select>
+	
+	<select id="userAuthDeleteCheck_F1F2F3" resultMap="MatrlUserVo">
+		SELECT	A.USER_NUMBER
+			,USER_ID
+			,USER_NM
+			,USER_PW
+			,POST_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='015' AND B.BASE_CD = A.POST_CD) POST_NM
+			,POSITION_CD
+			,MENU_POPUP_YN
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='039' AND B.BASE_CD = A.MENU_POPUP_YN) MENU_POPUP_YN_NM
+			,DEPARTMENT_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='013' AND B.BASE_CD = A.DEPARTMENT_CD) DEPARTMENT_NM
+			,GRADE_CD
+			,OFFICE_YN_CD
+			,CHARGR_DUTY	
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='014' AND B.BASE_CD = A.CHARGR_DUTY) CHARGR_DUTY_NM		
+			,TEAM_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.TEAM_CD) TEAM_NM
+			,JOIN_DATE
+			,RESIGN_DATE
+			,EMP_YN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='025' AND B.BASE_CD = A.EMP_YN_CD) EMP_YN_NM
+			,USER_DESC
+			,USE_YN_CD
+			,A.REG_ID 
+			,A.REG_DATE 
+			,A.UPD_ID
+			,A.UPD_DATE
+			,WORKPLACE_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='029' AND B.BASE_CD = A.WORKPLACE_CD) WORKPLACE_NM
+			,EQUIP_GROUP_CD
+		FROM	TB_USER  A, TB_USER_AUTH B
+		WHERE A.USER_NUMBER = B.USER_NUMBER
+		AND A.USER_ID= #{userId}
+		AND B.USER_AUTH_CODE = #{gubun}
+		
+	</select>
+	
+	<select id="read" resultMap="MatrlUserVo">
+  		SELECT	USER_NUMBER
+			,USER_ID
+			,USER_NM
+			,USER_PW
+			,POST_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='015' AND B.BASE_CD = A.POST_CD) POST_NM
+			,POSITION_CD
+			,MENU_POPUP_YN
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='039' AND B.BASE_CD = A.MENU_POPUP_YN) MENU_POPUP_YN_NM
+			,DEPARTMENT_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='013' AND B.BASE_CD = A.DEPARTMENT_CD) DEPARTMENT_NM
+			,GRADE_CD
+			,OFFICE_YN_CD
+			,CHARGR_DUTY	
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='014' AND B.BASE_CD = A.CHARGR_DUTY) CHARGR_DUTY_NM		
+			,TEAM_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.TEAM_CD) TEAM_NM
+			,JOIN_DATE
+			,RESIGN_DATE
+			,EMP_YN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='025' AND B.BASE_CD = A.EMP_YN_CD) EMP_YN_NM
+			,USER_DESC
+			,USE_YN_CD
+			,REG_ID 
+			,REG_DATE 
+			,UPD_ID
+			,UPD_DATE
+			,WORKPLACE_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='029' AND B.BASE_CD = A.WORKPLACE_CD) WORKPLACE_NM
+			,EQUIP_GROUP_CD
+			<if test="factoryCode.equals('003')">
+			,TEAM_PAGE_MOVE_YN
+			</if>
+		FROM	TB_USER  A
+		WHERE A.USER_NUMBER= #{userNumber} OR A.USER_ID=#{userId}
+			
+	</select>
+	
+	<insert id="create">
+		INSERT INTO TB_USER(
+			USER_NUMBER
+			,USER_ID
+			,USER_NM
+			,USER_PW
+			,MENU_POPUP_YN
+			,POST_CD
+			,POSITION_CD
+			,DEPARTMENT_CD
+			,GRADE_CD
+			,OFFICE_YN_CD
+			,CHARGR_DUTY
+			,TEAM_CD
+			,JOIN_DATE
+			,RESIGN_DATE
+			,EMP_YN_CD
+			,USER_DESC
+			,USE_YN_CD
+			,REG_ID 
+			,REG_DATE	
+			,WORKPLACE_CD
+			,EQUIP_GROUP_CD			
+			<if test="factoryCode.equals('003')">
+			, TEAM_PAGE_MOVE_YN
+			</if>
+		) VALUES (
+			#{userNumber}
+			,#{userId}
+			,#{userNm}
+			,#{userPw}
+			,'002'
+			,#{postCd}
+			,#{positionCd}
+			,#{departmentCd}
+			,#{gradeCd}
+			,#{officeYnCd}
+			,#{chargrDuty}
+			,#{teamCd}
+			,#{joinDate}
+			,#{resignDate}
+			,#{empYnCd}
+			,#{userDesc}
+			,#{useYnCd}
+			,#{regId}		
+			,getDate()
+			,#{workplaceCd}
+			,#{equipGroupCd}
+			<if test="factoryCode.equals('003')">
+			,#{teamPageMoveYn}
+			</if>
+		)		
+		
+	</insert>
+	
+		
+	<select id="update">
+		UPDATE	TB_USER 
+		SET	USER_NUMBER = #{userNumber}
+			,USER_ID = #{userId}
+			,USER_NM = #{userNm}
+			<if test="userPw != '' and userPw != null"> 
+					,USER_PW = #{userPw}		
+			</if>						
+			,MENU_POPUP_YN = #{menuPopupYn}
+			,POST_CD = #{postCd}
+			,POSITION_CD = #{positionCd}
+			,DEPARTMENT_CD = #{departmentCd}
+			,GRADE_CD = #{gradeCd}
+			,OFFICE_YN_CD = #{officeYnCd}
+			,CHARGR_DUTY = #{chargrDuty}
+			,TEAM_CD = #{teamCd}
+			,JOIN_DATE = #{joinDate}
+			,RESIGN_DATE = #{resignDate}
+			,EMP_YN_CD = #{empYnCd}
+			,USER_DESC = #{userDesc}
+			,USE_YN_CD = #{useYnCd}
+			,UPD_ID = #{updId}
+			,UPD_DATE = GETDATE()
+			,WORKPLACE_CD = #{workplaceCd}
+			,EQUIP_GROUP_CD = #{equipGroupCd}
+			<if test="factoryCode.equals('003')">
+			, TEAM_PAGE_MOVE_YN = #{teamPageMoveYn}
+			</if>
+		WHERE USER_NUMBER = #{userNumber}
+	</select>
+	
+	<select id="selectUserNumberSeq" resultType="String">
+		SELECT ISNULL(RIGHT('000' + CAST(MAX(USER_NUMBER)+1 AS NVARCHAR),4), '0001') FROM TB_USER
+	</select>
+	
+	
+	<!-- 최종검사현황(작업자목록조회 ) -->
+	<select id="finalInspectionWorkerList" resultMap="MatrlUserVo">
+		SELECT 
+			AA.USER_NUMBER
+			, BB.USER_NM
+			, BB.DEPARTMENT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '013' AND X.BASE_CD = BB.DEPARTMENT_CD) AS DEPARTMENT_NM
+			, BB.POST_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '015' AND X.BASE_CD = BB.POST_CD) AS POST_NM
+			, CHARGR_DUTY
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '014' AND X.BASE_CD = BB.CHARGR_DUTY) AS CHARGR_DUTY_NM
+			, TEAM_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '016' AND X.BASE_CD = BB.TEAM_CD) AS TEAM_NM
+			, WORKPLACE_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '029' AND X.BASE_CD = BB.WORKPLACE_CD) AS WORKPLACE_NM
+		FROM (
+		
+		SELECT 
+			APPEAR_INSPCT_CHARGER AS USER_NUMBER
+		FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE 1=1
+		AND APPEAR_INSPCT_DATE  BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		
+		UNION
+		
+		SELECT 
+			EDGE_INSPCT_CHARGER AS USER_NUMBER
+		FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE 1=1
+		AND EDGE_INSPCT_DATE  BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		) AS AA
+		, TB_USER AS BB
+		WHERE 1=1
+		AND AA.USER_NUMBER = BB.USER_NUMBER
+	</select>
+	
+</mapper>

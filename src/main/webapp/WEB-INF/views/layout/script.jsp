@@ -13,54 +13,120 @@
 <script src="<c:url value='/resources/assets/vendor/parsleyjs/parsley.min.js'/>"></script>
 <script src="<c:url value='/resources/assets/vendor/parsleyjs/i18n/ko.js'/>"></script>
 <script src="<c:url value='/resources/assets/vendor/moment/moment-with-locales.min.js'/>"></script>
-<script src="<c:url value='/resources/assets/vendor/popover/js/jquery-popup.js?ver=0.1'/>"></script>
-<script src="<c:url value='/resources/assets/vendor/jsBarcode/JsBarcode.all.min.js?ver=0.2'/>"></script>
-<script src="<c:url value='/resources/assets/vendor/jQuery.print-master/jQuery.print.js'/>"></script> <!-- jqueryPrint -->
-<script src="<c:url value='/resources/assets/vendor/jquery-ui-1.13.0.custom/jquery-ui.js?ver=1'/>"></script> <!-- Jquery UI -->
+<script src="<c:url value='/resources/assets/vendor/jQuery.print-master/jQuery.print.js'/>"></script> <!-- print 모듈 -->
+<script src="<c:url value='/resources/assets/vendor/JsBarcode/JsBarcode.all.min.js'/>"></script> <!-- JsBarcode 모듈 -->
 <script src="<c:url value='/resources/assets/vendor/lodash/lodash.js?ver=1.0'/>"></script> <!-- lodash -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 
-<%-- <script src="<c:url value='/resources/assets/stylesheets/js/alertify.min.js?version=1.13.1'/>"></script>
-<script src="<c:url value='/resources/assets/stylesheets/js/buttons.html5.min.js?version=1.5.1'/>"></script>
-<script src="<c:url value='/resources/assets/stylesheets/js/buttons.print.min.js?version=1.5.1'/>"></script>
-<script src="<c:url value='/resources/assets/stylesheets/js/dataTables.buttons.min.js?version=1.5.1'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/assets/stylesheets/js/datatables.min.js?version=1.10.20'/>"></script>
-<script src="<c:url value='/resources/assets/stylesheets/js/jstree.min.js?version=3.2.1'/>"></script>
-<script src="<c:url value='/resources/assets/stylesheets/js/jszip.min.js?version=3.1.3'/>"></script>
-<script src="<c:url value='/resources/assets/stylesheets/js/pdfmake.min.js?version=0.1.32'/>"></script>
-<script src="<c:url value='/resources/assets/stylesheets/js/sum().js?version=1.10.19'/>"></script>
-<script src="<c:url value='/resources/assets/stylesheets/js/toastr.min.js?version=2.1.4'/>"></script>
-<script src="<c:url value='/resources/assets/stylesheets/js/vfs_fonts.js?version=0.1.32'/>"></script>
-<script src="<c:url value='/resources/assets/javascript/theme.min.js'/>"></script>
-<script src="<c:url value='/resources/assets/javascript/pages/calendar.js'/>"></script><!--소정추가--> --%>
-
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/af-2.3.4/b-1.6.1/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sp-1.0.1/sl-1.3.1/datatables.min.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-<script src="<c:url value='/resources/assets/javascript/theme.min.js'/>"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script> 
-<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script> 
-<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
 <script src="<c:url value='/resources/assets/javascript/pages/calendar.js'/>"></script><!--소정추가-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-<script src="<c:url value='/resources/assets/javascript/pages/jquery.mtz.monthpicker.js'/>"></script>
-<script src="//cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>
-<link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">	<!-- 패스워드 보기 -->
+<script src="<c:url value='/resources/assets/javascript/theme.min.js'/>"></script>
 
-<script type="text/javascript" src="https://cdn3.devexpress.com/jslib/21.2.7/js/dx.all.js"></script>
-<script src="/node_modules/devextreme-aspnet-data/js/dx.aspnet.data.js"></script>
-<!-- SheetJS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
-<!--FileSaver [savaAs 함수 이용] -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+<script src="<c:url value='/resources/assets/stylesheets/js/datatables.min.js?version=1.10.20'/>"></script>
+<script src="<c:url value='/resources/assets/stylesheets/js/sum().js?version=1.10.19'/>"></script>
+<!-- <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script> -->
+<script src="<c:url value='/resources/assets/stylesheets/js/alertify.min.js?version=1.13.1'/>"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script> -->
+<script src="<c:url value='/resources/assets/stylesheets/js/toastr.min.js?version=2.1.4'/>"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script> -->
+<script src="<c:url value='/resources/assets/stylesheets/js/dataTables.buttons.min.js?version=1.5.1'/>"></script>
+<!-- <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>  -->
+<script src="<c:url value='/resources/assets/stylesheets/js/jszip.min.js?version=3.1.3'/>"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> -->
+<script src="<c:url value='/resources/assets/stylesheets/js/pdfmake.min.js?version=0.1.32'/>"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script> -->
+<script src="<c:url value='/resources/assets/stylesheets/js/vfs_fonts.js?version=0.1.32'/>"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script> -->
+<script src="<c:url value='/resources/assets/stylesheets/js/buttons.html5.min.js?version=1.5.1'/>"></script>
+<!-- <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script> -->
+<script src="<c:url value='/resources/assets/stylesheets/js/buttons.print.min.js?version=1.5.1'/>"></script>
+<!-- <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script> -->
+<script src="<c:url value='/resources/assets/stylesheets/js/jstree.min.js?version=3.2.1'/>"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
+<script src="<c:url value='/resources/assets/javascript/pages/jquery.mtz.monthpicker.js'/>"></script>
+<!-- <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script> -->
+
+
+<script src="<c:url value='/resources/assets/vendor/datatables/extensions/rowgroup/dataTables.rowGroup.js'/>"></script><!-- datataTables rowGroup 기능 -->
+
+
+
+   <style>
+        .calender{
+            width: 80%;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        .calender ul{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font: 16px 'Noto Sans KR', sans-serif;
+            color: #333;
+        }
+        .calender ul li{
+            background: #fff;
+            border: 1px solid #0077FF;
+            border-radius: 20px;
+            height: 37px;
+            line-height: 37px;
+            text-align: center;
+            width: 80px;
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0,0,0,16%);
+            list-style: none;
+        }
+        .calender ul li.clicked{
+            background: #0077FF;
+            color: #fff;
+        }
+        .calender ul.bottom li{
+            width: 52px;
+        }
+        .calender ul.top li.year{
+            border-radius: 10px;
+            background: #e9e9e9;
+        }
+        .calender ul.top li.year select{
+            border: 0;
+            background: none;
+        }
+        
+        .btn-wrap{
+            width: 80%;
+            margin: 2rem auto 0;
+            display: flex;
+            justify-content: center;
+        }
+        .btn-wrap button{
+            border: 0;
+            background: none;
+            border-radius: 10px;
+            border: 1px solid #0077FF;
+            width: 100%;
+            max-width: 175px;
+            height: 37px;
+            line-height: 37px;
+            text-align: center;
+            font-weight: 500;
+            font-family: 'Noto Sans KR';
+            cursor: pointer;
+        }
+        .btn-wrap button:first-child{
+            margin-right: 50px;
+        }
+        .toast-title {			
+				font-size: 150%;
+			}
+
+			.toast-message {			
+				font-size: 150%;
+			}    		
+    </style>
+
 <script>
     // 토스트 메시지가 2초후 사라짐
     toastr.options.timeOut = 2000;
+
+    toastr.options.font = 1;
  
     // moment 언어 설정
     moment.locale('ko');
@@ -90,17 +156,14 @@
             "sortDescending" : " :  내림차순 정렬"
         }
     };
-
- 	// 휠 스크롤 확대축소할 때 datatable draw해서 깨지는 현상 복구 처리
-    $(window).on('mousewheel', function(event){
-        if(event.originalEvent.ctrlKey) {
-        	$('.dataTables_wrapper').each(function(index, node) {
-    			let datatableId = $(node).attr('id').split('_')[0];
-    			$('#'+datatableId).DataTable().draw();
-    		});
-        	toastr.warning('scroll');
-        }
-    });
+    
+    var menuPopupYnCodeModal = new Array(); // 메뉴팝업
+	<c:forEach items="${menuPopupYnCdModal}" var="info">
+	var jsonMenuPopup = new Object();
+	jsonMenuPopup.baseCd = "${info.baseCd}";
+	jsonMenuPopup.baseCdNm = "${info.baseCdNm}";
+	menuPopupYnCodeModal.push(jsonMenuPopup);
+	</c:forEach>
 
 	function selectBoxAppend(obj, id, sVal, flag)
 	{
@@ -115,9 +178,9 @@
 		for(key in obj) {
 			var option;
 			if(obj[key].baseCd == sVal ) {
-				option = $("<option value="+ obj[key].baseCd+ " selected>"+obj[key].baseNm+"</option>");
-				} else {
-				option = $("<option value="+obj[key].baseCd+">"+obj[key].baseNm+"</option>");
+				option = $("<option value="+ obj[key].baseCd+ " selected>"+obj[key].baseCdNm+"</option>");
+			} else {
+				option = $("<option value="+obj[key].baseCd+">"+obj[key].baseCdNm+"</option>");
 			}	
 			$('#'+ id).append(option);
 		}
@@ -128,16 +191,16 @@
 	{
 		//$('#'+ id).empty();
 		//var shtml = '<select id="'+ id +'" class="mySelect" data-col="' + meta.col + '" onChange="locateChange()"><option value="">선택</option>';
-		var shtml = '<select class="custom-select custom-select-sm" id="'+ id +'" data-col="' + meta.col + '"><option value="">선택</option>';
+		var shtml = '<select class="custom-select custom-select-sm" id="'+ id +'" data-col="' + meta.col + '" style="width:100px;"><option value="">선택</option>';
 		//var shtml = '<select class="mySelect" data-col="' + meta.col + '" ><option value="">선택</option>';
 		
 		var option;
 		for(key in obj) {
 			var tmp; 
 			if(obj[key].baseCd == sVal ) {
-				tmp = "<option value="+ obj[key].baseCd+ " selected>"+obj[key].baseNm+"</option>";
+				tmp = "<option value="+ obj[key].baseCd+ " selected>"+obj[key].baseCdNm+"</option>";
 			} else {
-				tmp = "<option value="+obj[key].baseCd+">"+obj[key].baseNm+"</option>";
+				tmp = "<option value="+obj[key].baseCd+">"+obj[key].baseCdNm+"</option>";
 			}	
 			option += tmp;
 		}
@@ -145,7 +208,68 @@
 		return shtml + option + ehtml;
 	}	
 
+	//수완 추가
+	function selectBoxAppend_NameAdd(obj, id, sVal, flag, name){
+		$('#'+ id).empty();
 
+		if(flag == '1') {
+			$('#'+ id).append($("<option value=''>"+ ""+name+"(전체)" +"</option>"));
+	   	} else if(flag == '2') {
+	   		$('#'+ id).append($("<option value=''>"+ ""+name+"(선택)" +"</option>"));
+	   	}
+	   		
+		for(key in obj) {
+			var option;
+			if(obj[key].baseCd == sVal ) {
+				option = $("<option value="+ obj[key].baseCd+ " selected>"+obj[key].baseCdNm+"</option>");
+			} else {
+				option = $("<option value="+obj[key].baseCd+">"+obj[key].baseCdNm+"</option>");
+			}	
+			$('#'+ id).append(option);
+		}
+	}
+	//종현 추가
+	function selectBoxAppend_NameAdd2(obj, id, sVal, flag, name){
+		$('#'+ id).empty();
+
+		if(flag == '1') {
+			$('#'+ id).append($("<option value=''>"+ ""+name+"전체" +"</option>"));
+	   	} else if(flag == '2') {
+	   		$('#'+ id).append($("<option value=''>"+ ""+name+"(선택)" +"</option>"));
+	   	}
+	   		
+		for(key in obj) {
+			var option;
+			if(obj[key].baseCd == sVal ) {
+				option = $("<option value="+ obj[key].baseCd+ " selected>"+obj[key].baseCdNm+"</option>");
+			} else {
+				option = $("<option value="+obj[key].baseCd+">"+obj[key].baseCdNm+"</option>");
+			}	
+			$('#'+ id).append(option);
+		}
+	}
+	//영민 추가 - 자재코드(mastrlCd) selectBox
+	function selectMatrlBoxAppend(obj, id, sVal, flag)
+	{
+		$('#'+ id).empty();
+
+		if(flag == '1') {
+			$('#'+ id).append($("<option value=''>" + "전체" + "</option>"));
+	   	} else if(flag == '2') {
+	   		$('#'+ id).append($("<option value=''>" + "선택" + "</option>"));
+	   	}
+	   		
+		for(key in obj) {
+			var option;
+			if(obj[key].baseCd == sVal ) {
+				option = $("<option value=" + obj[key].matrlCd + " selected>"+obj[key].matrlNm + "</option>");
+			} else {
+				option = $("<option value=" + obj[key].matrlCd + ">"+obj[key].matrlNm + "</option>");
+			}	
+			$('#'+ id).append(option);
+		}
+	}
+	
 	function myFunction(x) {
 		x.classList.toggle("change");
 	}
@@ -180,10 +304,10 @@
 			{
 				$("#left-list").animate({
 					width : "71%"
-				}, 200);
+				}, 0);
 				$("#arrow-left").animate({
 					display : "none"
-				}, 200);
+				}, 0);
 			}
 
 			state = !state;
@@ -193,10 +317,10 @@
 			{
 				$("#left-list").animate({
 					width : "71%"
-				}, 200);
+				}, 0);
 				$("#arrow-left").animate({
 					display : "none"
-				}, 200);
+				}, 0);
 			}
 
 			state = !state;
@@ -208,7 +332,7 @@
 			{
 				$("#left-list").animate({
 					width : "100%"
-				}, 200);
+				}, 0);
 			}
 			state = !state;
 		});
@@ -217,174 +341,86 @@
 			{
 				$("#left-list").animate({
 					width : "100%"
-				}, 200);
+				}, 0);
 			}
 			state = !state;
 		});
 
 	});
-	
-	function isNull(obj) {
 
-		return (typeof obj != "undefined" && obj != null && obj != "") ? false : true;
-
-	}
-	
-	// 시스템 공통코드 Modal
-	// @param = 시스템그룹코드
-	// @param = selectBox cdID
-	// @param = selectBox nmID
-	var commonCdPopUpTable
-	function commonCdModal(baseGroupCd, cdId, nmId) {
-		commonCdPopUpTable = $('#commonCdPopUpTable').DataTable({
-	        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-			"<'row'<'col-sm-12'tr>>" +
-			"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-			destroy: true,
-	        language: lang_kor,
-	        paging: true,
-	        info: true,
-	        ordering: true,
-	        processing: true,
-	        autoWidth: false,
-	        //scrollX : true,
-	        pageLength: 20,	
-			ajax: {
-					url: '<c:url value="systemCommonCodeDataList"/>',
-					type: 'GET',
-					data: {
-						'baseGroupCd': baseGroupCd
-				},
-			},
-			columns: [
-				{ data: 'useYnNm' },
-	  			{ data: 'baseCd' },
-	  			{ data: 'baseNm' },
-	  			{ data: 'baseAbbr' },
-	  			{ data: 'etc1' },
-	  			{ data: 'etc2' },
-	  			{ data: 'etc3' },
-	  			{ data: 'etc4' },
-	  			{ data: 'etc5' },
-	  			{ data: 'baseDesc' }
-	  		],
-	  		columnDefs: [
-	        ],
-	  		order: [
-	  			[ 1, 'asc' ],
-	  		],
-	  		buttons: [
-	        ],	  		
-		});
-		
-		$('#commonCdPopUpTable tbody').on('click', 'tr', function () {
-	    	var data = commonCdPopUpTable.row( this ).data();
-	    	$('#'+cdId).val(data.baseCd);
-	    	$('#'+nmId).val(data.baseNm);
-	    	$('#commonCdPopUpModal').modal('hide');
-	    });
-		 
-		 $('#commonCdPopUpModal').modal('show');
-	}
-
-	// 보기
-	$('#info').on('click', function() {
-		$.ajax({
-			url : '<c:url value="/sm/info"/>',
-			type : 'GET',
-			data : {
-				
-			},
-			success : function(res) {
-				let data = res.data;
-
-				if(res.result == "ok"){		
-					
-					// 보기
-					$('#userNmModal').val(data.userNm);
-					$('#userNumberModal').val(data.userNumber);
-					$('#userIdModal').val(data.userId);
-					$('#postCdModal').val(data.postNm);
-					$('#departmentCdModal').val(data.departmentNm);
-					$('#chargrDutyModal').val(data.chargeDutyNm);		
-				
-					$('#infoPopUpModal').modal('show');	
-				} else {
-					toastr.error(res.message);
-				}
-			}
-		});
+	$.ajaxSetup({
+        beforeSend: function(xhr) {
+        	xhr.setRequestHeader("AJAX", true);
+     	},
+        error: function(xhr, status, err) {
+            if (xhr.status == 503) {
+            	toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+	           	location.href = "/";
+            } else if (xhr.status == 0) {
+            	toastr.error("인터넷에 연결할수 없습니다.", '', {timeOut: 5000});
+            	location.reload();
+       		} else if (xhr.status == 400) {
+	            toastr.error("입력 정보를 확인하여주세요", '', {timeOut: 5000});
+	       	} else if (xhr.status == 401) {
+	            toastr.error("권한이 없는 엑세스 입니다.", '', {timeOut: 5000});
+	       	} else if (xhr.status == 403) {
+	            toastr.error("권한이 없는 액세스 입니다.", '', {timeOut: 5000});
+	       	} else if (xhr.status == 404) {
+	          	toastr.error("페이지를 찾을수 없습니다.", '', {timeOut: 5000});
+	       	} else if (xhr.status == 500) {
+	            toastr.error("실패하였습니다.", '', {timeOut: 5000});
+	       	} else if (err == 'parsererror') {
+	            toastr.error("실패하였습니다.", '', {timeOut: 5000});
+	       	} else if (err == 'timeout') {
+	            toastr.error("요청시간이 초과하였습니다.", '', {timeOut: 5000});
+	       	} else if (err == 'abort') {
+	            toastr.error("실패하였습니다.", '', {timeOut: 5000});
+	       	} else {
+	       		location.reload();		       	
+	           //alert('Uncaught Error.n' + jqXHR.responseText);
+	       	}
+	           
+//             } else {
+//                 alert("예외가 발생했습니다. 관리자에게 문의하세요.["+xhr.status+"]");
+//                 location.href = "/";
+//             }
+        },    	
+//        	error: function(jqXHR, exception) {
+//            	if (jqXHR.status === 0) {
+//                 toastr.error("인터넷에 연결할수 없습니다.");
+//            	} 
+//            	else if (jqXHR.status == 400) {
+//                 toastr.error("입력 정보를 확인하여주세요");
+//            	} 
+//            	else if (jqXHR.status == 401) {
+//                 toastr.error("권한이 없는 엑세스 입니다.");
+//            	} 
+//            	else if (jqXHR.status == 403) {
+//                 toastr.error("권한이 없는 액세스 입니다.");
+//            	} 
+//            	else if (jqXHR.status == 404) {
+//                 toastr.error("페이지를 찾을수 없습니다.");
+//            	} 
+//            	else if (jqXHR.status == 500) {
+//                 toastr.error("실패하였습니다.");
+//            	} 
+//            	else if (jqXHR.status == 503) {
+//                 toastr.error("허용하지 않는 서비스 입니다.");
+//            	} 
+//            	else if (exception === 'parsererror') {
+//                 toastr.error("실패하였습니다.");
+//            	} 
+//            	else if (exception === 'timeout') {
+//                 toastr.error("요청시간이 초과하였습니다.");
+//            	} 
+//            	else if (exception == 'abort') {
+//                 toastr.error("실패하였습니다.");
+//            	} 
+//            	else {
+//                alert('Uncaught Error.n' + jqXHR.responseText);
+//            	}
+//     	 }
 	});
-
-
-
-	//숫자만 입력, 길이, 소수점 세자리까지 제한
-	$('.number-float3').keyup(function (event) {
- 		if ( !(	(event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) || (event.which >= 37 && event.which <= 40) || event.which == 8 || event.which == 9 || event.which == 13 || event.which == 16 || event.which == 46 || event.which == 109|| event.which == 110 || event.which == 189 || event.which == 190)	) {
-			$('.number-float3').on("blur keyup", function() {
-				$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ) );
-			});
-			toastr.warning('양수(+)만 입력해주세요.');
-			event.preventDefault();
-			$(this).val("0");
- 			$(this).select();
-			return false;
-		}
- 		if ($(this).val() == "00") {
-			$(this).val("0");
-			$(this).select();
-			return false;
-		}
- 		if ($(this).attr("maxlength") < $(this).val().length) {
-			toastr.warning('최대 입력 글자를 초과하였습니다.');
-			$(this).val("0");
- 			$(this).select();
-			return false;
-		}
- 		if ( parseFloat($(this).attr("max")) < parseFloat($(this).val())) {
-			toastr.warning('최대 크기를 초과하였습니다.');
-			$(this).val("0");
- 			$(this).select();
-			return false;
-		}
- 		if ( parseFloat($(this).attr("min")) > parseFloat($(this).val())) {
-			toastr.warning('최소 크기를 초과하였습니다.');
-			$(this).val("0");
- 			$(this).select();
-			return false;
-		}
-
- 		var _pattern3 = /^\d*[.]\d{3}$/;	//누르고있는 키는 예외처리 안됨
-        if (_pattern3.test( $(this).val())) {
-        	toastr.warning("소수점 둘째 자리까지 입력 가능합니다.");
-        	$(this).val("0");
- 			$(this).select();
-            return false;
-		}
-	});
-
-	
-	
-	//콤마(,) 생성
-	function addCommas(x) {
-		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	} 
-
-	//콤마(,) 삭제
-	function uncomma(x) {
-	    x = String(x);
-	    return x.replace(/[^\d]+/g, '');
-	}
-
-	//입력값에 '/'확인하여 '%2f'로 모두 변환
-	function replaceSlash(data) {
-		return data.replace(/\//gi, "%2f");
-	}
-
-	//입력값에 '%2f'확인하여 '/'로 모두 변환
-	function replaceAll(data) {
-		return data.split("%2f").join("/");
-	}
 	
 	/*
 	$.ajax({
@@ -467,74 +503,39 @@
 	let showAddAfterViewDetail = false;	// 상세보기가 선택된 상태에서 등록을 누른경우, 취소하면 다시 상세보기항목을 보여주기 위해서 사용
 	 */
 
-	 /* Get the documentElement (<html>) to display the page in fullscreen */
-	 var elem = document.documentElement;
+	
+	// 보기
+	$('#info').on('click', function() {
+		$.ajax({
+			url : '<c:url value="/sm/info"/>',
+			type : 'GET',
+			data : {
+				
+			},
+			success : function(res) {
+				let data = res.data;
 
-	 /* View in fullscreen */
-	 function openFullscreen() {
-	   if (elem.requestFullscreen) {
-	     elem.requestFullscreen();
-	   } else if (elem.webkitRequestFullscreen) { /* Safari */
-	     elem.webkitRequestFullscreen();
-	   } else if (elem.msRequestFullscreen) { /* IE11 */
-	     elem.msRequestFullscreen();
-	   }
-	 }
-
-	 /* Close fullscreen */
-	 function closeFullscreen() {
-	   if (document.exitFullscreen) {
-	     document.exitFullscreen();
-	   } else if (document.webkitExitFullscreen) { /* Safari */
-	     document.webkitExitFullscreen();
-	   } else if (document.msExitFullscreen) { /* IE11 */
-	     document.msExitFullscreen();
-	   }
-	 }
-
-	// 숫자 천단위 표기 
-	function numberFormat(node, returnType) {
-		node.value = node.value.replace(/[^0-9\.]/g,'');
-		
-		if(node.value.split('.').length > 2) { // .이 두개 이상 있을 경우
-			node.value = $(node).data('temp');
-		} else {
-			if(node.value.length != 1) { // 첫번째 입력이 아닐 경우
-				if(node.value.split('.')[0].length != 1) { // 0.몇이 아닐 경우
-					if(node.value.split('.')[0].slice(0,1) == '0') {
-						node.value = node.value.substring(1)
-					}
+				if(res.result == "ok"){							
+					
+					// 보기
+					$('#userNumberModal').val(data.userNumber);
+					$('#userNmModal').val(data.userNm);		
+					$('#userIdModal').val(data.userId);
+					$('#departmentCdModal').val(data.departmentNm);
+					$('#chargrDutyModal').val(data.chargrDutyNm);
+					$('#postCdModal').val(data.postNm);
+					$('#teamCdModal').val(data.teamNm);
+					$('#workplaceCdModal').val(data.workplaceNm);		
+					console.log(data.menuPopupYn);
+					selectBoxAppend(menuPopupYnCodeModal, "menuPopUpYnModal", data.menuPopupYn, "");	// 보기
+					$('#infoPopUpModal').modal('show');	
+				} else {
+					toastr.error(res.message, '', {timeOut: 5000});
 				}
 			}
-		}
-		if(node.value.slice(0, 1) == '.')  { // 제일 앞 자리가 .일경우
-			node.value = "0"+node.value;
-		}
-
-		if(node.value.split('.').length == 2) { // float타입일 경우
-			if ( node.value.split('.')[0]*1 == 0 && node.value.split('.')[0].length != 1 ) { // 소수점 앞 0 정리 ('0000.2' -> '0.2')
-				node.value = "0" + '.' + node.value.split('.')[1];
-			}
-		
-			node.value = node.value.split('.')[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '.' + node.value.split('.')[1];
-		} else {
-			if ( node.value*1 == 0 && node.value.length != 1 ) { // 0 정리 ('0000' -> '0')
-				node.value = "0";
-			}
-			
-			node.value = node.value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
-
-		if(returnType == 'int') { // int타입으로 리턴할 경우
-			node.value = node.value.split('.')[0];
-		} else if(returnType == 'float') { // float타입으로 리턴할 경우
-			node.value = node.value;
-		}
-		
-		
-		$(node).data('temp',node.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-	}
-
+		});
+	});
+	
 	// 비밀번호 변경
 	$('#passChange').on('click', function() {
 		$('#nowPassword').val("");
@@ -584,136 +585,1511 @@
 			}
 		});
 	});
-
-
-
-
-	//소숫점 이하 0제거
-	var number = "0";
-	function rmDecimal(number){
-		let tmp = number + "";
-		//소숫점이 있을 경우
-		if(tmp.indexOf(".")>0){
-			number = tmp.replace(/(0+$)/, "");
-			
-			let numberArr = number.split('.');
-			if(numberArr[1]==""){
-				number = number.replace('\.','');
-			}
-		}
-		return addCommas(number);
-	}
-
-	//출력 천단위(,)표시, 소수점 이하 숫자 표시
-	function ouputNumberAutoComma(number){
-		if(isNaN(number)) {
-			number = 0;
-		}
-		var number = number;
-		var integer = number;
-		var point = number.indexOf(".");
-		var decimal = "";
-
-		//소숫점 존재
-		if(point>0){
-			integer = number.substr(0,point);
-			decimal = number.substr((point+1),number.length);
-		}
-
-		integer = addCommas(uncomma(integer.replace(/,/g,'')));
-		decimal = decimal.replace(/(0+$)/, "");
+	
+	// 메뉴팝업 여부 변경
+	$('#menuPopupYnPopUpSave').on('click', function() {
 		
-		if(point>0){
-			return integer+"."+decimal;
-		}else{
-			return integer;
-		}
-	}
-
-	//입력 천단위(,)표시, 소수점 이하 숫자 표시
-	function inputNumberAutoComma(number){
-		console.log('number:'+number)
-		if(isNaN(number)) {
-			number = 0;
-		}
-		var number = number;
-		var integer = number;
-		var point = number.indexOf(".");
-		var decimal = "";
-
-		//첫번째 수부터 소숫점 기호(.) 사용 방지
-		if(number.charAt(0)=="."){
-			toastr.warning("첫번째 수부터 소숫점 기호(.)를 사용할 수 없습니다.");
-			return "";
-		}
-
-		//소숫점 존재
-		if(point>0){
-			integer = number.substr(0,point);
-			decimal = number.substr((point+1),number.length);
-			if(isFinite(decimal)==false){
-				toastr.warning("문자를 입력하실 수 없습니다.");
-				return "";
-			} 
-		}
-
-		integer = integer.replace(/,/g,'');
-		if(isFinite(integer)==false){
-			toastr.warning("문자를 입력하실 수 없습니다.");
-			$(this).val("");
-			return "";
-		}
-
-		integer = addCommas(uncomma(integer));
-		if(point>0){
-			return integer+"."+decimal;
-		}else{
-			return integer;
-		}
-	}
-
-	$(document).ready(function(){
-	    $('.form-password i').on('click',function(){
-	        $('input').toggleClass('active');
-	        if($('input').hasClass('active')){
-	            $(this).attr('class',"fa fa-eye fa-lg").prev('input').attr('type',"text");
-	        }else{
-	            $(this).attr('class',"fa fa-eye-slash fa-lg").prev('input').attr('type','password');
-	        }
-	    });
-
-	    $('.form-password2 i').on('click',function(){
-	        $('input').toggleClass('active');
-	        if($('input').hasClass('active')){
-	            $(this).attr('class',"fa fa-eye fa-lg").prev('input').attr('type',"text");
-	        }else{
-	            $(this).attr('class',"fa fa-eye-slash fa-lg").prev('input').attr('type','password');
-	        }
-	    });
+		$.ajax({
+			url : '<c:url value="/sm/menuPopupChange"/>',
+			type : 'POST',
+			data : {
+				'menuPopupYn' : $('#menuPopUpYnModal option:selected').val(),				
+			},
+			success : function(res) {
+				let data = res.data;				
+				if(res.result == "ok"){	
+					toastr.success("메뉴팝업여부가 변경되었습니다.");
+					$('#infoPopUpModal').modal('hide');				
+					
+				} else {
+					toastr.error(res.message, '', {timeOut: 5000});
+					$('#infoPopUpModal').modal('hide');				
+				}
+			}
+		});
 	});
+	 
+	// 패스워드 정규식
+	function PasswordString(elm)
+	{			
+	    var pattern =  /^(?=.*[a-z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{4,20}$/;
+		var match = pattern.exec(elm);
+		var matchStatus = Boolean(match);
+	    if(!matchStatus) {
+	        elm='';
+	    }
+	    
+	    return !matchStatus;
+	}
 
-	//셀 병합
-	function _createNode( doc, nodeName, opts ) {
-        let tempNode = doc.createElement( nodeName );
-
-        if ( opts ) {
-            if ( opts.attr ) {
-                $(tempNode).attr( opts.attr );
-            }
-
-            if ( opts.children ) {
-                $.each( opts.children, function ( key, value ) {
-                    tempNode.appendChild( value );
-                } );
-            }
-
-            if ( opts.text !== null && opts.text !== undefined ) {
-                tempNode.appendChild( doc.createTextNode( opts.text ) );
-            }
-        }
-
-        return tempNode;
+	//콤마(,) 삭제
+	function uncomma(x) {
+	    x = String(x);
+	    return x.replace(/[^\d]+/g, '');
+	}
+	 
+	//콤마(,) 생성
+	function addCommas(x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-	Chart.register(ChartDataLabels); // chart js datalabel;
+	function removeCommas(x) {
+		return x.toString().replace(/,/g, '');
+    }
+
+	//숫자만 입력, 길이, 정수만 입력
+	$('.number-float0').keyup(function (event) {
+ 		if ( !(	(event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) || (event.which >= 37 && event.which <= 40) || event.which == 8 || event.which == 9 || event.which == 13 || event.which == 16 || event.which == 46 || event.which == 109)	) {
+			//$('.number-float0').on("blur keyup", function() {
+			//	$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ) );
+			//});
+			
+			toastr.warning('양수(+)만 입력해주세요.');
+			$(this).val("");
+			$(this).val("0");
+ 			$(this).select();
+			event.preventDefault();
+			return false;
+		}
+ 		if ($(this).val() == "00" || $(this).val() == "") {
+			$(this).val("0");
+			$(this).select();
+			return false;
+		}
+
+ 		var temp = $(this).val();
+ 		temp = removeCommas(temp);
+		
+ 		if ($(this).attr("maxlength") < temp.length) {
+			toastr.warning('최대 입력 글자를 초과하였습니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("max")) < parseFloat(temp)) {
+ 			toastr.warning('최대 크기를 초과하였습니다.');
+ 			$(this).val("0");
+ 			$(this).select();
+ 			return false;
+		}
+ 		if ( parseFloat($(this).attr("min")) > parseFloat(temp)) {
+ 			toastr.warning('최소 크기를 초과하였습니다.');
+ 			$(this).val("0");
+ 			$(this).select();
+ 			return false;
+		}
+		if ( event.which == 110 || event.which == 190 ) {
+			toastr.warning('정수만 입력 가능합니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+		// .개수 세기
+		if ( $(this).val().split('.').length > 1  ) {
+			toastr.warning('소수점은 한번만 입력해주세요.');
+			$(this).val("0");
+			$(this).select();
+			return false;
+		}
+		var _pattern2 = /^\d*[.]\d{1}$/;
+        if (_pattern2.test( temp)) {
+        	toastr.warning("정수만 입력 가능합니다.");
+        	$(this).val("0");
+ 			$(this).select();
+            return false;
+		}
+
+        //$(this).val() = addCommas(temp);
+	});
+	
+	//숫자만 입력, 길이, 소수점 한자리까지 제한
+	$('.number-float1').keyup(function (event) {
+ 		if ( !(	(event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) || (event.which >= 37 && event.which <= 40) || event.which == 8 || event.which == 9 || event.which == 13 || event.which == 16 || event.which == 46 || event.which == 109 || event.which == 110 || event.which == 190)	) {
+			//$('.number-float1').on("blur keyup", function() {
+			//	$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ) );
+			//});
+			toastr.warning('양수(+)만 입력해주세요.');
+			event.preventDefault();
+			$(this).val("0");
+	 		$(this).select();
+			return false;
+		}
+ 		if ($(this).val() == "00" || $(this).val() == "") {
+			$(this).val("0");
+			$(this).select();
+			return false;
+		}
+ 		if ($(this).attr("maxlength") < $(this).val().length) {
+			toastr.warning('최대 입력 글자를 초과하였습니다.');
+			$(this).val("0");
+			$(this).select();
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("max")) < parseFloat($(this).val())) {
+			toastr.warning('최대 크기를 초과하였습니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("min")) > parseFloat($(this).val())) {
+			toastr.warning('최소 크기를 초과하였습니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+
+		// .개수 세기
+		if ( $(this).val().split('.').length > 2  ) {
+			toastr.warning('소수점은 한번만 입력해주세요.');
+			$(this).val("0");
+			$(this).select();
+			return false;
+		}
+ 		var _pattern1 = /^\d*[.]\d{2}$/;
+        if (_pattern1.test( $(this).val())) {
+        	toastr.warning("소수점 첫째 자리까지 입력 가능합니다.");
+        	$(this).val("0");
+ 			$(this).select();
+ 			return false;
+        }       
+	});
+
+	//숫자만 입력, 길이, 소수점 두자리까지 제한
+	$('.number-float2').keyup(function (event) {
+ 		if ( !(	(event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) || (event.which >= 37 && event.which <= 40) || event.which == 8 || event.which == 9 || event.which == 13 || event.which == 16 || event.which == 46 || event.which == 109|| event.which == 110 || event.which == 190)	) {
+			//$('.number-float2').on("blur keyup", function() {
+			//	$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ) );
+			//});
+			toastr.warning('양수(+)만 입력해주세요.');
+			event.preventDefault();
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ($(this).val() == "00" || $(this).val() == "") {
+			$(this).val("0");
+			$(this).select();
+			return false;
+		}
+ 		if ($(this).attr("maxlength") < $(this).val().length) {
+			toastr.warning('최대 입력 글자를 초과하였습니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("max")) < parseFloat($(this).val())) {
+ 			$(this).val("0");
+ 			$(this).select();
+			toastr.warning('최대 크기를 초과하였습니다.');
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("min")) > parseFloat($(this).val())) {
+ 			$(this).val("0");
+ 			$(this).select();
+			toastr.warning('최소 크기를 초과하였습니다.');
+			return false;
+		}
+
+		// .개수 세기
+		if ( $(this).val().split('.').length > 2  ) {
+			toastr.warning('소수점은 한번만 입력해주세요.');
+			$(this).val("0");
+			$(this).select();
+			return false;
+		}
+		
+ 		var _pattern2 = /^\d*[.]\d{3}$/;
+        if (_pattern2.test( $(this).val())) {
+        	toastr.warning("소수점 둘째 자리까지 입력 가능합니다.");
+        	$(this).val("0");
+ 			$(this).select();
+            return false;
+        }
+	});
+	
+	//숫자만 입력, 길이, 소수점 세자리까지 제한
+	$('.number-float3').keyup(function (event) {
+ 		if ( !(	(event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) || (event.which >= 37 && event.which <= 40) || event.which == 8 || event.which == 9 || event.which == 13 || event.which == 16 || event.which == 46 || event.which == 109 || event.which == 110 || event.which == 190)	) {
+			//$('.number-float3').on("blur keyup", function() {
+			//	$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ) );
+			//});
+			toastr.warning('양수(+)만 입력해주세요.');
+			event.preventDefault();
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ($(this).val() == "00" || $(this).val() == "") {
+			$(this).val("0");
+			$(this).select();
+			return false;
+		}
+ 		if ($(this).attr("maxlength") < $(this).val().length) {
+			toastr.warning('최대 입력 글자를 초과하였습니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("max")) < parseFloat($(this).val())) {
+			toastr.warning('최대 크기를 초과하였습니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("min")) > parseFloat($(this).val())) {
+			toastr.warning('최소 크기를 초과하였습니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+
+		// .개수 세기
+		if ( $(this).val().split('.').length > 2  ) {
+			toastr.warning('소수점은 한번만 입력해주세요.');
+			$(this).val("0");
+			$(this).select();
+			return false;
+		}
+		
+ 		var _pattern3 = /^\d*[.]\d{4}$/;	//누르고있는 키는 예외처리 안됨
+        if (_pattern3.test( $(this).val())) {
+        	toastr.warning("소수점 셋째 자리까지 입력 가능합니다.");
+        	$(this).val("0");
+ 			$(this).select();
+            return false;
+		}
+	});
+
+	//숫자입력 글자 수, min, max 제한
+	$('.number').keyup(function (event) {
+ 		if ($(this).val() == "00" || $(this).val() == "") {
+			$(this).val("0");
+			$(this).select();
+			return false;
+		}
+ 		if ($(this).attr("maxlength") < $(this).val().length) {
+			toastr.warning('최대 입력 글자를 초과하였습니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("max")) < parseFloat($(this).val())) {
+			toastr.warning('최대 수치를 초과하였습니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("min")) > parseFloat($(this).val())) {
+			toastr.warning('최소 크기를 초과하였습니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+		
+		//. 존재 여부 확인
+		if($(this).val().indexOf(".") !== -1) {
+			//.앞에 숫자 미입력 제한
+			if($(this).val().length == 1 ){
+				toastr.warning('숫자 입력후 . 을 입력해 주세요.');
+				$(this).val("0");
+	 			$(this).select();
+				return false;
+			}
+			//.입력 개수 제한
+			if($(this).val().split(".").length > 2 ){
+				toastr.warning('. 은 한번만 입력해 주세요.');
+				$(this).val("0");
+	 			$(this).select();
+				return false;
+			}
+			//소수점 자리수 제한
+			if ($(this).val().split('.')[1].length > 3) {
+				toastr.warning('소수점 세자리까지 입력 가능합니다.');
+				$(this).val("0");
+	 			$(this).select();
+				return false;
+			}
+		}
+	});
+	
+	//입력창 클릭시 자동 모두선택
+	$('.form-control').on('click', function() {
+   		$(this).select();
+   	});
+
+
+
+	var ENG_KEY = "rRseEfaqQtTdwWczxvgkoiOjpuPhynbml"; //소문자로 변경 시 사용
+	var KOR_KEY = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎㅏㅐㅑㅒㅓㅔㅕㅖㅗㅛㅜㅠㅡㅣ";
+	var CHO_DATA = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
+	var JUNG_DATA = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
+	var JONG_DATA = "ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
+	
+   	//영타 -> 한타타로 변환
+   	function engTypeToKor(src) {
+		var res = "";
+		if (src.length == 0)
+			return res;
+	
+		var nCho = -1, nJung = -1, nJong = -1;		// 초성, 중성, 종성
+	
+		for (var i = 0; i < src.length; i++) {
+			var ch = src.charAt(i);
+			var p = ENG_KEY.indexOf(ch);
+			if (p == -1) {				// 영자판이 아님
+				// 남아있는 한글이 있으면 처리
+				if (nCho != -1) {
+					if (nJung != -1)				// 초성+중성+(종성)
+						res += makeHangul(nCho, nJung, nJong);
+					else							// 초성만
+						res += CHO_DATA.charAt(nCho);
+				} else {
+					if (nJung != -1)				// 중성만
+						res += JUNG_DATA.charAt(nJung);
+					else if (nJong != -1)			// 복자음
+						res += JONG_DATA.charAt(nJong);
+				}
+				nCho = -1;
+				nJung = -1;
+				nJong = -1;
+				res += ch;
+			} else if (p < 19) {			// 자음
+				if (nJung != -1) {
+					if (nCho == -1) {					// 중성만 입력됨, 초성으로
+						res += JUNG_DATA.charAt(nJung);
+						nJung = -1;
+						nCho = CHO_DATA.indexOf(KOR_KEY.charAt(p));
+					} else {							// 종성이다
+						if (nJong == -1) {				// 종성 입력 중
+							nJong = JONG_DATA.indexOf(KOR_KEY.charAt(p));
+							if (nJong == -1) {			// 종성이 아니라 초성이다
+								res += makeHangul(nCho, nJung, nJong);
+								nCho = CHO_DATA.indexOf(KOR_KEY.charAt(p));
+								nJung = -1;
+							}
+						} else if (nJong == 0 && p == 9) {			// ㄳ
+							nJong = 2;
+						} else if (nJong == 3 && p == 12) {			// ㄵ
+							nJong = 4;
+						} else if (nJong == 3 && p == 18) {			// ㄶ
+							nJong = 5;
+						} else if (nJong == 7 && p == 0) {			// ㄺ
+							nJong = 8;
+						} else if (nJong == 7 && p == 6) {			// ㄻ
+							nJong = 9;
+						} else if (nJong == 7 && p == 7) {			// ㄼ
+							nJong = 10;
+						} else if (nJong == 7 && p == 9) {			// ㄽ
+							nJong = 11;
+						} else if (nJong == 7 && p == 16) {			// ㄾ
+							nJong = 12;
+						} else if (nJong == 7 && p == 17) {			// ㄿ
+							nJong = 13;
+						} else if (nJong == 7 && p == 18) {			// ㅀ
+							nJong = 14;
+						} else if (nJong == 16 && p == 9) {			// ㅄ
+							nJong = 17;
+						} else {						// 종성 입력 끝, 초성으로
+							res += makeHangul(nCho, nJung, nJong);
+							nCho = CHO_DATA.indexOf(KOR_KEY.charAt(p));
+							nJung = -1;
+							nJong = -1;
+						}
+					}
+				} else {								// 초성 또는 (단/복)자음이다
+					if (nCho == -1) {					// 초성 입력 시작
+						if (nJong != -1) {				// 복자음 후 초성
+							res += JONG_DATA.charAt(nJong);
+							nJong = -1;
+						}
+						nCho = CHO_DATA.indexOf(KOR_KEY.charAt(p));
+					} else if (nCho == 0 && p == 9) {			// ㄳ
+						nCho = -1;
+						nJong = 2;
+					} else if (nCho == 2 && p == 12) {			// ㄵ
+						nCho = -1;
+						nJong = 4;
+					} else if (nCho == 2 && p == 18) {			// ㄶ
+						nCho = -1;
+						nJong = 5;
+					} else if (nCho == 5 && p == 0) {			// ㄺ
+						nCho = -1;
+						nJong = 8;
+					} else if (nCho == 5 && p == 6) {			// ㄻ
+						nCho = -1;
+						nJong = 9;
+					} else if (nCho == 5 && p == 7) {			// ㄼ
+						nCho = -1;
+						nJong = 10;
+					} else if (nCho == 5 && p == 9) {			// ㄽ
+						nCho = -1;
+						nJong = 11;
+					} else if (nCho == 5 && p == 16) {			// ㄾ
+						nCho = -1;
+						nJong = 12;
+					} else if (nCho == 5 && p == 17) {			// ㄿ
+						nCho = -1;
+						nJong = 13;
+					} else if (nCho == 5 && p == 18) {			// ㅀ
+						nCho = -1;
+						nJong = 14;
+					} else if (nCho == 7 && p == 9) {			// ㅄ
+						nCho = -1;
+						nJong = 17;
+					} else {							// 단자음을 연타
+						res += CHO_DATA.charAt(nCho);
+						nCho = CHO_DATA.indexOf(KOR_KEY.charAt(p));
+					}
+				}
+			} else {									// 모음
+				if (nJong != -1) {						// (앞글자 종성), 초성+중성
+					// 복자음 다시 분해
+					var newCho;			// (임시용) 초성
+					if (nJong == 2) {					// ㄱ, ㅅ
+						nJong = 0;
+						newCho = 9;
+					} else if (nJong == 4) {			// ㄴ, ㅈ
+						nJong = 3;
+						newCho = 12;
+					} else if (nJong == 5) {			// ㄴ, ㅎ
+						nJong = 3;
+						newCho = 18;
+					} else if (nJong == 8) {			// ㄹ, ㄱ
+						nJong = 7;
+						newCho = 0;
+					} else if (nJong == 9) {			// ㄹ, ㅁ
+						nJong = 7;
+						newCho = 6;
+					} else if (nJong == 10) {			// ㄹ, ㅂ
+						nJong = 7;
+						newCho = 7;
+					} else if (nJong == 11) {			// ㄹ, ㅅ
+						nJong = 7;
+						newCho = 9;
+					} else if (nJong == 12) {			// ㄹ, ㅌ
+						nJong = 7;
+						newCho = 16;
+					} else if (nJong == 13) {			// ㄹ, ㅍ
+						nJong = 7;
+						newCho = 17;
+					} else if (nJong == 14) {			// ㄹ, ㅎ
+						nJong = 7;
+						newCho = 18;
+					} else if (nJong == 17) {			// ㅂ, ㅅ
+						nJong = 16;
+						newCho = 9;
+					} else {							// 복자음 아님
+						newCho = CHO_DATA.indexOf(JONG_DATA.charAt(nJong));
+						nJong = -1;
+					}
+					if (nCho != -1)			// 앞글자가 초성+중성+(종성)
+						res += makeHangul(nCho, nJung, nJong);
+					else                    // 복자음만 있음
+						res += JONG_DATA.charAt(nJong);
+	
+					nCho = newCho;
+					nJung = -1;
+					nJong = -1;
+				}
+				if (nJung == -1) {						// 중성 입력 중
+					nJung = JUNG_DATA.indexOf(KOR_KEY.charAt(p));
+				} else if (nJung == 8 && p == 19) {            // ㅘ
+					nJung = 9;
+				} else if (nJung == 8 && p == 20) {            // ㅙ
+					nJung = 10;
+				} else if (nJung == 8 && p == 32) {            // ㅚ
+					nJung = 11;
+				} else if (nJung == 13 && p == 23) {           // ㅝ
+					nJung = 14;
+				} else if (nJung == 13 && p == 24) {           // ㅞ
+					nJung = 15;
+				} else if (nJung == 13 && p == 32) {           // ㅟ
+					nJung = 16;
+				} else if (nJung == 18 && p == 32) {           // ㅢ
+					nJung = 19;
+				} else {			// 조합 안되는 모음 입력
+					if (nCho != -1) {			// 초성+중성 후 중성
+						res += makeHangul(nCho, nJung, nJong);
+						nCho = -1;
+					} else						// 중성 후 중성
+						res += JUNG_DATA.charAt(nJung);
+					nJung = -1;
+					res += KOR_KEY.charAt(p);
+				}
+			}
+		}
+	
+		// 마지막 한글이 있으면 처리
+		if (nCho != -1) {
+			if (nJung != -1)			// 초성+중성+(종성)
+				res += makeHangul(nCho, nJung, nJong);
+			else                		// 초성만
+				res += CHO_DATA.charAt(nCho);
+		} else {
+			if (nJung != -1)			// 중성만
+				res += JUNG_DATA.charAt(nJung);
+			else {						// 복자음
+				if (nJong != -1)
+					res += JONG_DATA.charAt(nJong);
+			}
+		}
+	
+		return res;
+	}
+
+	function makeHangul(nCho, nJung, nJong) {
+		return String.fromCharCode(0xac00 + nCho * 21 * 28 + nJung * 28 + nJong + 1);
+	}
+
+	//한타 -> 영타로 변환
+	function korTypeToEng(src) {
+		var res = "";
+		if (src.length == 0)
+			return res;
+	
+		for (var i = 0; i < src.length; i++) {
+			var ch = src.charAt(i);
+			var nCode = ch.charCodeAt(0);
+			var nCho = CHO_DATA.indexOf(ch), nJung = JUNG_DATA.indexOf(ch), nJong = JONG_DATA.indexOf(ch);
+			var arrKeyIndex = [-1, -1, -1, -1, -1];
+	
+			if (0xac00 <= nCode && nCode <= 0xd7a3) {
+				nCode -= 0xac00;
+				arrKeyIndex[0] = Math.floor(nCode / (21 * 28));			// 초성
+				arrKeyIndex[1] = Math.floor(nCode / 28) % 21;			// 중성
+				arrKeyIndex[3] = nCode % 28 - 1;						// 종성
+			} else if (nCho != -1)			// 초성 자음
+				arrKeyIndex[0] = nCho;
+			else if (nJung != -1)			// 중성
+				arrKeyIndex[1] = nJung;
+			else if (nJong != -1)			// 종성 자음
+				arrKeyIndex[3] = nJong;
+			else							// 한글이 아님
+				res += ch;
+	
+			// 실제 Key Index로 변경. 초성은 순서 동일
+			if (arrKeyIndex[1] != -1) {
+				if (arrKeyIndex[1] == 9) {					// ㅘ
+					arrKeyIndex[1] = 27;
+					arrKeyIndex[2] = 19;
+				} else if (arrKeyIndex[1] == 10) {			// ㅙ
+					arrKeyIndex[1] = 27;
+					arrKeyIndex[2] = 20;
+				} else if (arrKeyIndex[1] == 11) {			// ㅚ
+					arrKeyIndex[1] = 27;
+					arrKeyIndex[2] = 32;
+				} else if (arrKeyIndex[1] == 14) {			// ㅝ
+					arrKeyIndex[1] = 29;
+					arrKeyIndex[2] = 23;
+				} else if (arrKeyIndex[1] == 15) {			// ㅞ
+					arrKeyIndex[1] = 29;
+					arrKeyIndex[2] = 24;
+				} else if (arrKeyIndex[1] == 16) {			// ㅟ
+					arrKeyIndex[1] = 29;
+					arrKeyIndex[2] = 32;
+				} else if (arrKeyIndex[1] == 19) {			// ㅢ
+					arrKeyIndex[1] = 31;
+					arrKeyIndex[2] = 32;
+				} else {
+					arrKeyIndex[1] = KOR_KEY.indexOf(JUNG_DATA.charAt(arrKeyIndex[1]));
+					arrKeyIndex[2] = -1;
+				}
+			}
+			if (arrKeyIndex[3] != -1) {
+				if (arrKeyIndex[3] == 2) {					// ㄳ
+					arrKeyIndex[3] = 0
+					arrKeyIndex[4] = 9;
+				} else if (arrKeyIndex[3] == 4) {			// ㄵ
+					arrKeyIndex[3] = 2;
+					arrKeyIndex[4] = 12;
+				} else if (arrKeyIndex[3] == 5) {			// ㄶ
+					arrKeyIndex[3] = 2;
+					arrKeyIndex[4] = 18;
+				} else if (arrKeyIndex[3] == 8) {			// ㄺ
+					arrKeyIndex[3] = 5;
+					arrKeyIndex[4] = 0;
+				} else if (arrKeyIndex[3] == 9) {			// ㄻ
+					arrKeyIndex[3] = 5;
+					arrKeyIndex[4] = 6;
+				} else if (arrKeyIndex[3] == 10) {			// ㄼ
+					arrKeyIndex[3] = 5;
+					arrKeyIndex[4] = 7;
+				} else if (arrKeyIndex[3] == 11) {			// ㄽ
+					arrKeyIndex[3] = 5;
+					arrKeyIndex[4] = 9;
+				} else if (arrKeyIndex[3] == 12) {			// ㄾ
+					arrKeyIndex[3] = 5;
+					arrKeyIndex[4] = 16;
+				} else if (arrKeyIndex[3] == 13) {			// ㄿ
+					arrKeyIndex[3] = 5;
+					arrKeyIndex[4] = 17;
+				} else if (arrKeyIndex[3] == 14) {			// ㅀ
+					arrKeyIndex[3] = 5;
+					arrKeyIndex[4] = 18;
+				} else if (arrKeyIndex[3] == 17) {			// ㅄ
+					arrKeyIndex[3] = 7;
+					arrKeyIndex[4] = 9;
+				} else {
+					arrKeyIndex[3] = KOR_KEY.indexOf(JONG_DATA.charAt(arrKeyIndex[3]));
+					arrKeyIndex[4] = -1;
+				}
+			}
+	
+			for (var j = 0; j < 5; j++) {
+				if (arrKeyIndex[j] != -1)
+					res += ENG_KEY.charAt(arrKeyIndex[j]);
+			}
+		}
+	
+		return res;
+	}
+
+
+	var docV = document.documentElement;
+	// 전체화면 설정
+	function openFullScreenMode() {
+	    if (docV.requestFullscreen)
+	        docV.requestFullscreen();
+	    else if (docV.webkitRequestFullscreen) // Chrome, Safari (webkit)
+	        docV.webkitRequestFullscreen();
+	    else if (docV.mozRequestFullScreen) // Firefox
+	        docV.mozRequestFullScreen();
+	    else if (docV.msRequestFullscreen) // IE or Edge
+	        docV.msRequestFullscreen();
+	}
+	
+	// 전체화면 해제
+	function closeFullScreenMode() {
+	    if (document.exitFullscreen)
+	        document.exitFullscreen();
+	    else if (document.webkitExitFullscreen) // Chrome, Safari (webkit)
+	        document.webkitExitFullscreen();
+	    else if (document.mozCancelFullScreen) // Firefox
+	        document.mozCancelFullScreen();
+	    else if (document.msExitFullscreen) // IE or Edge
+	        document.msExitFullscreen();
+	}
+
+	$(document).on('click','.form-control, .form-control-md', function(event) {
+   		$(this).select();
+   	});
+
+	function left(s,c){
+	  return s.substr(0,c);
+	}//left("abcd",2)
+	function right(s,c){
+	  return s.substr(-c);
+	}//right("abcd",2)
+	function mid(s,c,l){
+	  return s.substring(c,l);
+	}//mid("abcd",1,2)
+	function copy(s,c,l){
+	  return s.substr(c,l);
+	}//copy("abcd",1,2)
+	
+		//같은 값이 있는 열을 병합함
+	//사용법 : $('#테이블 ID').rowspan(0);
+	$.fn.rowspan = function(colIdx, isStats) {
+        return this.each(function(){      
+            var that;
+            $('tr', this).each(function(row) {
+                $('td:eq('+colIdx+')', this).filter(':visible').each(function(col) {
+                    
+                    if ($(this).html() == $(that).html()
+                        && (!isStats
+                                || isStats && $(this).prev().html() == $(that).prev().html()
+                                )
+                        ) {
+                        rowspan = $(that).attr("rowspan") || 1;
+                        rowspan = Number(rowspan)+1;
+     
+                        $(that).attr("rowspan",rowspan);
+                        
+                        // do your action for the colspan cell here            
+                        $(this).hide();
+                        
+                        //$(this).remove(); 
+                        // do your action for the old cell here
+                        
+                    } else {            
+                        that = this;         
+                    }          
+                    
+                    // set the that if not already set
+                    that = (that == null) ? this : that;      
+                });     
+            });    
+        });  
+    };
+
+	$.fn.rowspan2 = function(colIdx, isStats) {
+        return this.each(function(){                 
+            var that;
+            $('tr', this).each(function(row) {
+                
+                $('td:eq('+colIdx+')', this).filter(':visible').each(function(col) {
+
+                    if($(this).html() != ''){
+	                    if ($(this).html() == $(that).html()
+	                        && (!isStats
+	                                || isStats && $(this).prev().html() == $(that).prev().html()
+	                                )
+	                        ) {
+	                        rowspan = $(that).attr("rowspan") || 1;
+	                        rowspan = Number(rowspan)+1;
+	     
+	                        $(that).attr("rowspan",rowspan);
+	                                  
+	                        $(this).hide();
+	                       
+	                    } else {            
+	                        that = this;         
+	                    }        
+                    }  
+                    
+                    // set the that if not already set
+                    that = (that == null) ? this : that;      
+                });     
+            });    
+        });  
+    };
+     
+     
+     
+	//같은 값이 있는 행을 병합함
+    //사용법 : $('#테이블 ID').colspan (0);
+    $.fn.colspan = function(rowIdx) {
+        return this.each(function(){
+            
+            var that;
+            $('tr', this).filter(":eq("+rowIdx+")").each(function(row) {
+                $(this).find('th').filter(':visible').each(function(col) {
+                    if ($(this).html() == $(that).html()) {
+                        colspan = $(that).attr("colSpan") || 1;
+                        colspan = Number(colspan)+1;
+                        
+                        $(that).attr("colSpan",colspan);
+                        $(this).hide(); // .remove();
+                    } else {
+                        that = this;
+                    }
+                    
+                    // set the that if not already set
+                    that = (that == null) ? this : that;
+                    
+                });
+            });
+        });
+    }
+
+  //오늘버튼
+	function datePick(value, from, to, year){
+
+		if(value == 'today'){
+			
+			todayPick(from, to);
+			
+		} else if(value == 'yesterday'){
+			
+			yesterdayPick(from, to);
+			
+		} else if(value == 'thisWeek'){
+			
+			thisWeekPick(from, to);
+			
+		} else if(value == 'lastWeek'){
+			
+			lastWeekPick(from, to);
+			
+		} else if(value == 'thisMonth'){
+			
+			thisMonthPick(from, to);
+			
+		} else if(value == 'lastMonth'){
+			
+			lastMonthPick(from, to);
+			
+		} else if(value == 'untilToday'){
+			
+			untilTodayPick(from, to);
+			
+		} else if(value == 'thisYear'){
+			
+			thisYearPick(from, to);
+			
+		} else if(value == 'quarter1'){
+			
+			quarter1Pick(from, to, year);
+			
+		} else if(value == 'quarter2'){
+			
+			quarter2Pick(from, to, year);
+			
+		} else if(value == 'quarter3'){
+			
+			quarter3Pick(from, to, year);
+			
+		} else if(value == 'quarter4'){
+			
+			quarter4Pick(from, to, year);
+			
+		} else if(value == 'firstHalf'){
+			
+			firstHalfPick(from, to, year);
+			
+		} else if(value == 'secondHalf'){
+			
+			secondHalfPick(from, to, year);
+						
+		} else if(value == 'lastYear'){
+
+			lastYearPick(from, to, year);
+			
+		} else if(value == 'lastYear2'){
+
+			lastYear2Pick(from, to, year);
+			
+		} else if(value == 'jan'){
+
+			janPick(from, to, year);
+			
+		} else if(value == 'feb'){
+
+			febPick(from, to, year);
+			
+		} else if(value == 'mar'){
+			
+			marPick(from, to, year);
+			
+		} else if(value == 'apr'){
+
+			aprPick(from, to, year);
+			
+		} else if(value == 'may'){
+
+			mayPick(from, to, year);
+			
+		} else if(value == 'jun'){
+
+			junPick(from, to, year);
+			
+		} else if(value == 'jul'){
+
+			julPick(from, to, year);
+			
+		} else if(value == 'aug'){
+
+			augPick(from, to, year);
+			
+		} else if(value == 'sep'){
+
+			sepPick(from, to, year);
+			
+		} else if(value == 'oct'){
+
+			octPick(from, to, year);
+			
+		} else if(value == 'nov'){
+
+			novPick(from, to, year);
+			
+		} else if(value == 'dec'){
+
+			decPick(from, to, year);
+			
+		} else{
+
+			defaultYearPick(from, to, year);
+		} 
+		
+		
+	}
+
+	//년도만 선택
+	function defaultYearPick(from, to, year){
+		var today = new Date();
+		var startDay = new Date($('#' + from).val());
+		var endDay =  new Date($('#' + to).val());
+		
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);	
+		}
+		
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}	
+
+	
+	//오늘
+	function todayPick(from, to){
+		var today = new Date();
+		$('#' + from).val(moment(today).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(today).format("YYYY-MM-DD"));
+	}	
+	
+	//전일
+	function yesterdayPick(from, to){
+		var today = new Date();
+		today.setDate(today.getDate() - 1);
+		$('#' + from).val(moment(today).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(today).format("YYYY-MM-DD"));
+	}
+	
+	 
+	//이번 주
+	function thisWeekPick(from, to){
+		var startDay = new Date();
+		
+		var endDay = new Date();
+		
+		startDay = new Date(startDay);
+	
+		
+		var day = startDay.getDay()
+		, diff = startDay.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+		
+		new Date(startDay.setDate(diff));
+		
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+
+	//지난 주
+	function lastWeekPick(from, to){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay = new Date(startDay);
+		var day = startDay.getDay(),
+		diff = startDay.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+		diff = diff - 7;
+		new Date(startDay.setDate(diff));
+		new Date(endDay.setDate(diff+6));
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//이번달
+	function thisMonthPick(from, to){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//저번달
+	function lastMonthPick(from, to){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(startDay.getMonth() - 1);
+		
+		endDay.setDate(0);
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//오늘까지
+	function untilTodayPick(from, to){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setMonth(0);
+		startDay.setDate(1);
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//올해
+	function thisYearPick(from, to){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setMonth(0);
+		startDay.setDate(1);
+		endDay.setMonth(12);
+		endDay.setDate(0);
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//1/4분기
+	function quarter1Pick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);			
+		startDay.setMonth(0);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(3);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//2/4분기
+	function quarter2Pick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(3);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(6);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//3/4분기
+	function quarter3Pick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(6);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(9);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	
+	//4/4분기
+	function quarter4Pick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(9);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(12);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	
+	//상반기
+	function firstHalfPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(0);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(6);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	
+	//하반기
+	function secondHalfPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(6);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(12);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	
+	//전년도
+	function lastYearPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setFullYear(startDay.getFullYear() - 1);
+		startDay.setMonth(0);
+		startDay.setDate(1);
+		endDay.setFullYear(endDay.getFullYear() - 1);
+		endDay.setMonth(12);
+		endDay.setDate(0);
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	
+	
+	//전전년도
+	function lastYear2Pick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setFullYear(startDay.getFullYear() - 2);
+		startDay.setMonth(0);
+		startDay.setDate(1);
+		endDay.setFullYear(endDay.getFullYear() - 2);
+		endDay.setMonth(12);
+		endDay.setDate(0);
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	
+	
+	//1월
+	function janPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(0);
+		endDay.setDate(1);				
+		endDay.setMonth(1);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//2월
+	function febPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(1);		
+				
+		endDay.setDate(1);	
+		endDay.setMonth(2);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//3월
+	function marPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(2);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(3);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//4월
+	function aprPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(3);		
+		
+		endDay.setDate(1);	
+		endDay.setMonth(4);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//5월
+	function mayPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(4);
+	
+		endDay.setDate(1);	
+		endDay.setMonth(5);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//6월
+	function junPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(5);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(6);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//7월
+	function julPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(6);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(7);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//8월
+	function augPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(7);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(8);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//9월
+	function sepPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(8);		
+		
+		endDay.setDate(1);	
+		endDay.setMonth(9);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//10월
+	function octPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(9);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(10);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//11월
+	function novPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(10);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(11);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+	
+	//12월
+	function decPick(from, to, year){
+		var startDay = new Date();
+		var endDay = new Date();
+		startDay.setDate(1);
+		startDay.setMonth(11);
+		
+		endDay.setDate(1);	
+		endDay.setMonth(12);
+		endDay.setDate(0);
+		if(year != "" && year != null){
+			startDay.setFullYear(year);
+			endDay.setFullYear(year);
+		}
+		$('#' + from).val(moment(startDay).format("YYYY-MM-DD"));
+		$('#' + to).val(moment(endDay).format("YYYY-MM-DD"));
+	}
+
+	function datePickFun(){
+
+		var dt = new Date();
+        var year = "";
+        var com_year = dt.getFullYear();
+        $('#select-year option').remove();        
+		for(var y = (com_year-3); y <= (com_year+3); y++){
+			$('#select-year').append("<option value='" + y + "'>" + y + "년" + "</option>");
+		}
+		$.each($('.calender ul li'), function(){
+			if( $(this).hasClass('clicked') ){
+				$(this).removeClass('clicked');
+			}
+		});
+		 $('#select-year').val(com_year);
+		
+		$('#dateSelectModal').modal('show');
+
+	}
+
+
+	$('.calender ul li').on('click',function() {
+		console.log($(this).attr("id"));
+		if($(this).attr('id') != 'selectDiv'){			
+			$.each($('.calender ul li'), function(){			
+				
+				if( $(this).hasClass('clicked') ){
+					$(this).removeClass('clicked');
+				}
+				
+			});
+		}
+		if($(this).attr('id') != 'selectDiv'){	
+			if(!$(this).hasClass('clicked')){
+				$(this).addClass('clicked');
+			}		
+		}
+
+	});
+
+  	//keypress
+  	function keypress(id, keycode){
+  		var press = jQuery.Event("keypress");
+  		press.ctrlKey = false;
+  		press.which = keycode;
+  		$("#"+id).trigger(press);
+  	}
+
+  	$('#M00312').on('click',function(e){
+	     e.preventDefault()
+	     location.href = '<c:url value="bssc0020?id=M00312"/>'
+	});
+  	$('#M00315').on('click',function(e){
+  	     e.preventDefault()
+  	     location.href = '<c:url value="bssc0060?id=M00315"/>'
+  	});
+  	$('#M00316').on('click',function(e){
+ 	     e.preventDefault()
+ 	     location.href = '<c:url value="bssc0070?id=M00316"/>'
+ 	});
+  	$('#M00333').on('click',function(e){
+ 	     e.preventDefault()
+ 	     <%
+ 	    String factoryCode4 = session.getAttribute("factoryCode").toString();
+			if(factoryCode4.equals("003")) {
+		%>
+		location.href = '<c:url value="wmsc3070?id=M00333"/>'
+		<%	
+			} else if(factoryCode4.equals("001") || factoryCode4.equals("002")) {
+		%>
+		location.href = '<c:url value="wmsc0070?id=M00333"/>'
+		<%
+			} 
+		%>
+ 	});
+  	$('#M00338').on('click',function(e){
+ 	     e.preventDefault()
+ 	     location.href = '<c:url value="wmsc0100?id=M00338"/>'
+ 	});
+  	$('#M00354').on('click',function(e){
+ 	     e.preventDefault()
+ 	     location.href = '<c:url value="qmsc0130?id=M00354"/>'
+ 	});
+  	$('#M00352').on('click',function(e){
+ 	     e.preventDefault()
+ 	    	<%
+				if(factoryCode4.equals("003")) {
+			%>
+ 	     	location.href = '<c:url value="qmsc0090?id=M00352"/>'
+ 	    	<%	
+				} else if(factoryCode4.equals("001") || factoryCode4.equals("002")) {
+			%>
+			location.href = '<c:url value="qmsc2090?id=M00352"/>'
+			<%
+				} 
+			%>
+ 	});
+  	$('#M00350').on('click',function(e){
+ 	     e.preventDefault()
+ 	     	<%
+ 	     		if(factoryCode4.equals("003")){
+ 	     	%>
+ 	     	location.href = '<c:url value="qmsc3100?id=M00350"/>'
+ 	 	    <%
+ 	     		} else if(factoryCode4.equals("001") || factoryCode4.equals("002")){
+ 	     	%>
+ 	     	location.href = '<c:url value="qmsc0100?id=M00350"/>'
+ 	 	    <%
+ 	     		}
+ 	     	%>
+ 	});
+ 	$('#M00324').on('click',function(e){
+	     e.preventDefault()
+	     location.href = '<c:url value="brsc0020?id=M00324"/>'
+	});
+ 	$('#M00392').on('click',function(e){
+	     e.preventDefault()
+	     location.href = '<c:url value="brsc0030?id=M00392"/>'
+	});
 </script>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.bm.goodsCodeAdmMapper">
+
+	<resultMap id="GoodsCodeAdmVo" type="mes.domain.bm.GoodsCodeAdmVo">
+		<result property="goodsSeq"			column="GOODS_SEQ"			/>	
+		<result property="goodsCd"			column="GOODS_CD"			/>
+		<result property="goodsNm"			column="GOODS_NM"			/>
+		<result property="model"			column="MODEL"				/>
+		<result property="modelNo"			column="MODEL_NO"			/>
+		<result property="alnicuMatrlCd"	column="ALNICU_MATRL_CD"	/>
+		<result property="filmMatrlCd"		column="FILM_MATRL_CD"		/>
+		<result property="alnicuMatrlNm"	column="ALNICU_MATRL_NM"	/>
+		<result property="filmMatrlNm"		column="FILM_MATRL_NM"		/>
+		<result property="qutyCd"			column="QUTY_CD"			/>			
+		<result property="qutyNm"			column="QUTY_NM"			/>		
+		<result property="gubunNm"			column="GUBUN_NM"			/>
+		<result property="chamferYnNm"		column="CHAMFER_YN_NM"		/>				
+		<result property="gravity"			column="GRAVITY"			/>
+		<result property="dealCorpCd"		column="DEAL_CORP_CD"		/>
+		<result property="dealCorpNm"		column="DEAL_CORP_Nm"		/>		
+		<result property="tmUnitCd"			column="TM_UNIT_CD"			/>
+		<result property="tmUnitNm"			column="TM_UNIT_NM"			/>		
+		<result property="packUnitCd"		column="PACK_UNIT_CD"		/>
+		<result property="packUnitNm"		column="PACK_UNIT_NM"		/>		
+		<result property="etc1"				column="ETC1"				/>	
+		<result property="productQty"		column="PRODUCT_QTY"		/>	
+		<result property="goodsDesc"		column="GOODS_DESC"			/>
+		<result property="useYnCd"			column="USE_YN_CD"			/>
+		<result property="useYnNm"			column="USE_YN_NM"			/>					
+		<result property="regId"			column="REG_ID"				/>
+		<result property="regDate"			column="REG_DATE"			/>
+		<result property="updId"			column="UPD_ID"				/>
+		<result property="updDate"			column="UPD_DATE"			/>
+		<result property="gijongCd"			column="GIJONG_CD"			/>
+		<result property="gijongNm"			column="GIJONG_NM"			/>
+		<result property="gubunNm"			column="GUBUN_NM"			/>
+		<result property="tecTime"			column="TEC_TIME"			/>
+		<result property="goodsPitch"		column="GOODS_PITCH"		/>
+		<result property="filmWeight"		column="FILM_WEIGHT"		/>
+		<result property="lgesCode"			column="LGES_CODE"			/>
+		<result property="goodsSampleYn"	column="GOODS_SAMPLE_YN"	/>
+		<result property="vendorCode"		column="VENDOR_CODE"		/>
+	</resultMap>
+	
+	<!-- 시스템공통그룹 전체조회 -->
+	<select id="listAll" resultMap="GoodsCodeAdmVo">
+			SELECT
+				GOODS_SEQ
+				, GOODS_CD
+				, GOODS_NM
+				, MODEL
+				, MODEL_NO
+				, ALNICU_MATRL_CD
+				, FILM_MATRL_CD
+				, GIJONG_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE C WHERE C.BASE_GROUP_CD = '080' AND A.GIJONG_CD = C.BASE_CD) GIJONG_NM							
+				, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.ALNICU_MATRL_CD) ALNICU_MATRL_NM
+				, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.FILM_MATRL_CD) FILM_MATRL_NM
+				, (SELECT QUTY_CD FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.ALNICU_MATRL_CD) QUTY_CD	
+				, (SELECT BASE_CD_NM FROM TB_MATRL_CODE_ADM B, TB_SYSTEM_COMMON_CODE C WHERE B.MATRL_CD = A.ALNICU_MATRL_CD AND C.BASE_GROUP_CD = '007' AND B.QUTY_CD = C.BASE_CD) QUTY_NM							
+				, (SELECT BASE_CD_NM FROM TB_MATRL_CODE_ADM B, TB_SYSTEM_COMMON_CODE C WHERE B.MATRL_CD = A.ALNICU_MATRL_CD AND C.BASE_GROUP_CD = '019' AND B.GUBUN_CD = C.BASE_CD) GUBUN_NM	
+				, (SELECT BASE_CD_NM FROM TB_MATRL_CODE_ADM B, TB_SYSTEM_COMMON_CODE C WHERE B.MATRL_CD = A.ALNICU_MATRL_CD AND C.BASE_GROUP_CD = '020' AND B.CHAMFER_YN_CD = C.BASE_CD) CHAMFER_YN_NM
+				, GRAVITY    								
+				, DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+				, TM_UNIT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='008' AND B.BASE_CD = A.TM_UNIT_CD) TM_UNIT_NM
+				, PACK_UNIT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='031' AND B.BASE_CD = A.PACK_UNIT_CD) PACK_UNIT_NM
+				, ETC1
+				, PRODUCT_QTY
+				, GOODS_DESC
+				, USE_YN_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='024' AND B.BASE_CD = A.USE_YN_CD) USE_YN_NM
+				, TEC_TIME
+				, GOODS_PITCH
+				, FILM_WEIGHT
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM TB_GOODS_CODE_ADM A
+			WHERE 1=1
+		<if test="useYnCd == null or useYnCd == ''"> 
+			AND A.USE_YN_CD = '001'
+		</if>
+		<if test="searchVal != '' and searchVal != null"> 
+		 AND (GOODS_CD LIKE '%' + #{searchVal} + '%'  OR GOODS_NM LIKE '%' + #{searchVal} + '%'
+			<!-- OR PART_GUBUN LIKE '%' + #{searchVal} + '%'  OR PART_TYPE LIKE '%' + #{searchVal} + '%'
+			OR PART_REV LIKE '%' + #{searchVal} + '%'   -->OR MODEL LIKE '%' + #{searchVal} + '%'
+			OR (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_CD=A.GOODS_NM AND X.BASE_GROUP_CD='088') LIKE '%' + #{searchVal} + '%'
+			)
+		</if>
+			ORDER BY GOODS_NM
+	</select>
+	
+	<select id="read" resultMap="GoodsCodeAdmVo">
+			SELECT
+				GOODS_SEQ
+				,GOODS_CD
+				,GOODS_NM
+				,MODEL
+				,MODEL_NO
+				,ALNICU_MATRL_CD
+				,FILM_MATRL_CD
+				, GIJONG_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE C WHERE C.BASE_GROUP_CD = '080' AND A.GIJONG_CD = C.BASE_CD) GIJONG_NM	
+				,(SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.ALNICU_MATRL_CD) ALNICU_MATRL_NM
+				,(SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.FILM_MATRL_CD) FILM_MATRL_NM
+				,(SELECT QUTY_CD FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.ALNICU_MATRL_CD) QUTY_CD	
+				,(SELECT BASE_CD_NM FROM TB_MATRL_CODE_ADM B, TB_SYSTEM_COMMON_CODE C  
+				    WHERE B.MATRL_CD = A.ALNICU_MATRL_CD 
+				    	AND C.BASE_GROUP_CD = '007' AND B.QUTY_CD = C.BASE_CD) QUTY_NM							
+				,(SELECT BASE_CD_NM FROM TB_MATRL_CODE_ADM B, TB_SYSTEM_COMMON_CODE C  
+				    WHERE B.MATRL_CD = A.ALNICU_MATRL_CD 
+				    	AND C.BASE_GROUP_CD = '019' AND B.GUBUN_CD = C.BASE_CD) GUBUN_NM	
+				,(SELECT BASE_CD_NM FROM TB_MATRL_CODE_ADM B, TB_SYSTEM_COMMON_CODE C  
+				    WHERE B.MATRL_CD = A.ALNICU_MATRL_CD 
+				    	AND C.BASE_GROUP_CD = '020' AND B.CHAMFER_YN_CD = C.BASE_CD) CHAMFER_YN_NM
+				,GRAVITY    								
+				,DEAL_CORP_CD
+				,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+				,TM_UNIT_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='008' AND B.BASE_CD = A.TM_UNIT_CD) TM_UNIT_NM
+				,PACK_UNIT_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='031' AND B.BASE_CD = A.PACK_UNIT_CD) PACK_UNIT_NM
+				,ETC1
+				,PRODUCT_QTY
+				,GOODS_DESC
+				,USE_YN_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='024' AND B.BASE_CD = A.USE_YN_CD) USE_YN_NM
+				, TEC_TIME
+				, GOODS_PITCH
+				, FILM_WEIGHT
+				, LGES_CODE
+				, GOODS_SAMPLE_YN
+				, VENDOR_CODE
+				,REG_ID
+				,REG_DATE
+				,UPD_ID
+				,UPD_DATE
+			FROM TB_GOODS_CODE_ADM A
+			WHERE A.GOODS_CD = #{goodsCd}
+	</select>
+	
+	<select id="selectGoodsSeqCd" resultType="String">
+		SELECT ISNULL(RIGHT('00000' + CAST(MAX(GOODS_SEQ)+1 AS NVARCHAR),5), '00001') FROM TB_GOODS_CODE_ADM
+	</select>
+		
+	<insert id="create" parameterType="mes.domain.bm.GoodsCodeAdmVo">
+		INSERT INTO TB_GOODS_CODE_ADM(
+			GOODS_SEQ
+			, GOODS_CD
+			, GOODS_NM
+			, GIJONG_CD
+			, MODEL
+			, MODEL_NO
+			, ALNICU_MATRL_CD
+			, FILM_MATRL_CD
+			, GRAVITY
+			, DEAL_CORP_CD
+			, TM_UNIT_CD
+			, PACK_UNIT_CD
+			, ETC1
+			, PRODUCT_QTY
+			, GOODS_DESC
+			, USE_YN_CD
+			, TEC_TIME
+			, GOODS_PITCH
+			, FILM_WEIGHT
+			, LGES_CODE
+			, GOODS_SAMPLE_YN
+			, VENDOR_CODE
+			, REG_ID
+			, REG_DATE
+		) VALUES (
+			#{goodsSeq}		
+			, #{goodsCd}
+			, #{goodsNm}
+			, #{gijongCd}
+			, #{model}
+			, #{modelNo}
+			, #{alnicuMatrlCd}
+			, #{filmMatrlCd}
+			, #{gravity}
+			, #{dealCorpCd}
+			, #{tmUnitCd}
+			, #{packUnitCd}
+			, #{etc1}
+			, #{productQty}
+			, #{goodsDesc}
+			, #{useYnCd}
+			, #{tecTime}
+			, #{goodsPitch}
+			, #{filmWeight}
+			, #{lgesCode}
+			, #{goodsSampleYn}
+			, #{vendorCode}
+			, #{regId}
+			, getDate()
+		)
+	</insert>
+	
+	<update id="update" parameterType="mes.domain.bm.GoodsCodeAdmVo">
+		UPDATE	TB_GOODS_CODE_ADM 
+		SET	
+			GOODS_CD = #{goodsCd}
+			,GOODS_NM = #{goodsNm}
+			,GIJONG_CD = #{gijongCd}
+			,MODEL = #{model}
+			,MODEL_NO = #{modelNo}
+			,ALNICU_MATRL_CD = #{alnicuMatrlCd}
+			,FILM_MATRL_CD = #{filmMatrlCd}
+			,GRAVITY = #{gravity}
+			,DEAL_CORP_CD = #{dealCorpCd}
+			,TM_UNIT_CD = #{tmUnitCd}
+			,PACK_UNIT_CD = #{packUnitCd}
+			,ETC1 = #{etc1}
+			,PRODUCT_QTY = #{productQty}
+			,GOODS_DESC = #{goodsDesc}
+			,USE_YN_CD = #{useYnCd}
+			,TEC_TIME = #{tecTime}
+			,GOODS_PITCH = #{goodsPitch}
+			, FILM_WEIGHT = #{filmWeight}
+			, LGES_CODE = #{lgesCode}
+			, GOODS_SAMPLE_YN = #{goodsSampleYn}
+			, VENDOR_CODE = #{vendorCode}
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		WHERE	GOODS_SEQ = #{goodsSeq}
+	</update>
+	
+	<select id="searchModelNo" resultMap="GoodsCodeAdmVo">
+		SELECT
+			GOODS_CD 
+			,GOODS_NM
+			,MODEL
+			,MODEL_NO
+		FROM TB_GOODS_CODE_ADM 
+		WHERE MODEL_NO = #{modelNo}
+	</select>
+	
+	<!-- 월별 FP 잡체인지 제품 모달 -->
+	<select id="jobChangeGoodsModal" resultMap="GoodsCodeAdmVo" >
+			<if test="factoryCode != null"> 
+				<if test="factoryCode.equals('001')"> 
+					SELECT Z.*			
+					FROM TB_EQUIP_COND_COMMON_ADM X, TB_GOODS_CODE_ADM Z
+					WHERE LEFT(EQUIP_CD,11) =  #{equipCd}
+					AND FP_USE_YN = '001'
+					AND Z.GOODS_CD = X.GOODS_CD
+					<if test="fpMainGubun != null and fpMainGubun != ''"> 
+						AND X.FP_MAIN_GUBUN = #{fpMainGubun}
+					</if>
+				</if>
+				<if test="factoryCode.equals('002')"> 
+					SELECT Z.*			
+					FROM TB_EQUIP_COND_COMMON_ADM X, TB_GOODS_CODE_ADM Z
+					WHERE LEFT(EQUIP_CD,11) =  #{equipCd}
+					AND FP_USE_YN = '001'
+					AND Z.GOODS_CD = X.GOODS_CD
+					<if test="fpMainGubun != null and fpMainGubun != ''"> 
+						AND X.FP_MAIN_GUBUN = #{fpMainGubun}
+					</if>
+				</if>
+				<if test="factoryCode.equals('003') "> 
+					SELECT Z.*			
+					FROM TB_EQUIP_COND_COMMON_ADM X, TB_GOODS_CODE_ADM Z
+					WHERE LEFT(EQUIP_CD,10) =  #{equipCd}
+					AND FP_USE_YN = '001'
+					AND Z.GOODS_CD = X.GOODS_CD
+					<if test="fpMainGubun != null and fpMainGubun != ''"> 
+						AND X.FP_MAIN_GUBUN = #{fpMainGubun}
+					</if>
+				</if>
+			</if>
+			
+		
+	</select >
+	
+	<!-- 기종 리스트 -->
+	<select id="goosdCdGijonglist" resultMap="GoodsCodeAdmVo" >
+			
+		SELECT * FROM TB_GOODS_CODE_ADM 
+		WHERE GIJONG_CD IS NOT NULL
+		AND GIJONG_CD != ''
+		AND USE_YN_CD = '001'
+		
+	</select >
+	
+	
+</mapper>

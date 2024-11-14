@@ -12,27 +12,46 @@
     <meta name="theme-color" content="#3063A0">
     <title>MES</title>
     <link rel="apple-touch-icon" sizes="144x144" href="<c:url value='/resources/assets/apple-touch-icon.png'/>">
-    <link rel="shortcut icon" href="/resources/assets/images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet"><!--소정추가-->
+    <%
+		String factoryCode = session.getAttribute("factoryCode").toString();
+		if(factoryCode.equals("001")) {
+	%>
+			<link rel="shortcut icon" href="<c:url value='/resources/assets/images/favicon_001.png'/>">
+	<%	
+		} else if(factoryCode.equals("002")) {
+	%>
+			<link rel="shortcut icon" href="<c:url value='/resources/assets/images/favicon_001.png'/>">
+	<%
+		} else if(factoryCode.equals("003")) {
+	%>
+			<link rel="shortcut icon" href="<c:url value='/resources/assets/images/favicon_003.png'/>">
+	<%	
+		}
+	%>
     <link rel="stylesheet" href="<c:url value='/resources/assets/vendor/open-iconic/css/open-iconic-bootstrap.min.css'/>">
     <link rel="stylesheet" href="<c:url value='/resources/assets/vendor/fontawesome/css/all.css'/>">
-    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/theme.css?version=20221031'/>" data-skin="default">    
-    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/hygino_theme.css?version=20221128-011'/>"><!--하이지노css새로추가 소정-->
+    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/theme.css?version=20220725-004'/>" data-skin="default">    
+    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/hygino_theme.css?version=20221107-006'/>"><!--하이지노css새로추가 소정-->
     <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/theme-dark.min.css'/>" data-skin="dark">
-    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/custom.css?version=20220406-001'/>">
-    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/css/toastr.min.css?version=2.1.4'/>">
-    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/css/alertify.min.css?version=1.13.1'/>">
-    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/css/style.min.css?version=3.2.1'/>">
-    <link rel="stylesheet" href="<c:url value='/resources/assets/vendor/popover/css/hunterPopup.css?ver=1'/>">
-
- 
-   	<!-- dev -->
-    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.2.3/css/dx.light.css">
-    <!-- 폰트 -->
-    <link rel="stylesheet" href="<c:url value='/resources/assets/font/DoHyeon.css?ver=1'/>"><!-- 도현체 -->
-    <link rel="stylesheet" href="<c:url value='/resources/assets/font/GoThic_A1.css?ver=1'/>"><!-- Gothic A1 Bold 700 -->
-    <link rel="stylesheet" href="<c:url value='/resources/assets/font/NotoSansKR.css?ver=1'/>"><!-- Noto Sans KR -->
-    <!-- --- -->
+    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/custom.css?version=20220725-001'/>">
+    
+	<link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/css/css2.css'/>"/>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet"> --><!--소정추가-->
+	<link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/css/alertify.min.css?version=1.13.1'/>"/>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css"/> -->
+    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/css/toastr.min.css?version=2.1.4'/>"/>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"/> -->
+    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/css/style.min.css?version=3.2.1'/>"/>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" /> -->
+    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/css/datatables.min.css?version=1.10.20'/>">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/af-2.3.4/b-1.6.1/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sp-1.0.1/sl-1.3.1/datatables.min.css"/>-->
+    
+    <!-- <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css"> -->
+    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/css/jquerysctipttop.css'/>">
+    
+	<!-- <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css"> -->
+	<link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/css/jquery-ui.css'/>">
+    
     <!-- Disable unused skin immediately -->
     <script>
     var skin = localStorage.getItem('skin') || 'default';
@@ -47,12 +66,8 @@
     <!-- END THEME STYLES -->
     <link rel="stylesheet" href="<c:url value='/resources/assets/vendor/open-iconic/css/open-iconic-bootstrap.min.css'/>">
     <link rel="stylesheet" href="<c:url value='/resources/assets/vendor/fontawesome/css/all.min.css'/>">
-    <!-- datatables -->
-    <link rel="stylesheet" href="<c:url value='/resources/assets/stylesheets/css/datatables.min.css?version=1.10.20'/>">
-    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css">
 
-    <!-- BEGIN PAGE LEVEL STYLES -->
+<!-- BEGIN PAGE LEVEL STYLES -->
     <style>
     .page-sidebar {
     position: absolute;
@@ -189,44 +204,24 @@
     margin-right: 30rem;
     }
     
-    .th_necessary {
-    	color: #6593ff;
-    }
-    
-    .input_max_width {
-    	max-width:500px;
-    }
-    
-    /* DataTable 정렬 화살표 없애기 ------------------------ */
-    .dataTable > thead > tr > th[class*="sort"]:after{
-       content: "" !important;
-	}
-	.dataTable > thead > tr > th[class*="sort"]:before{
-       content: "" !important;
+	.th_necessary {
+	       color: #6593ff;
+	    }    
+
+	input[type="checkbox"]:focus {
+	outline-color : #0078a5;
+	outline-style: solid;
+	outline-width : 3px;
 	}
 	
-	table.dataTable thead > tr > th.sorting_asc, 
-	table.dataTable thead > tr > th.sorting_desc, 
-	table.dataTable thead > tr > th.sorting, 
-	table.dataTable thead > tr > td.sorting_asc, 
-	table.dataTable thead > tr > td.sorting_desc, 
-	table.dataTable thead > tr > td.sorting {
-	       padding-right: 5px;
-	       vertical-align: middle;
+	/* 모바일 자판On/Off버튼 클릭시 파란줄 생김으로 주석처리 */
+	/* 
+	button[type="button"]:focus {
+	outline-color : #0078a5;
+	outline-style: solid;
+	outline-width : 3px;
 	}
-	/* ------------------------ DataTable 정렬 화살표 없애기*/
-	
-	input[type="number"]::-webkit-outer-spin-button,
-	input[type="number"]::-webkit-inner-spin-button {
-	    -webkit-appearance: none;
-	    margin: 0;
-	}
-	
-	.popover{
-	    max-width: 100%; /* Max Width of the popover (depending on the container!) */
-	}
-	
-	
+	 */
 	#my-spinner {
       width: 100%; height: 100%;
       top: 0; left: 0;
@@ -255,49 +250,37 @@
 	   border-radius: .7em;      
 	}
 	
-	
-	#prcss-spinner {
-      width: 100%; height: 100%;
-      top: 0; left: 0;
-      display: none;
-      position: fixed;
-      z-index: 9999;
-    
+	/* 데이터테이블 정렬 화살표 없애기 */
+	.dataTable > thead > tr > th[class*="sort"]:after{
+	    content: "" !important;
+	}
+	.dataTable > thead > tr > th[class*="sort"]:before{
+	    content: "" !important;
 	}
 	
-	#prcss-spinner div {
-	   width: 100%; height: 100%;
-	   display: table;
-	   
+	table.dataTable thead > tr > th.sorting_asc, 
+	table.dataTable thead > tr > th.sorting_desc, 
+	table.dataTable thead > tr > th.sorting, 
+	table.dataTable thead > tr > td.sorting_asc, 
+	table.dataTable thead > tr > td.sorting_desc, 
+	table.dataTable thead > tr > td.sorting {
+	       padding-right: 5px;
+	       vertical-align: middle;
 	}
+	/* ------------------------ DataTable 정렬 화살표 없애기*/
 	
-	#prcss-spinner .prcss-spinner-span {
-	   display: table-cell;
-	   text-align: center;
-	   vertical-align: middle;
-	   font-size: 3rem;
-       font-weight: bold;
-       opacity: .9;
-	}
-	
-	#prcss-spinner img {
-	   background: white;
+	input[type="number"]::-webkit-outer-spin-button,
+	input[type="number"]::-webkit-inner-spin-button {
+	    -webkit-appearance: none;
+	    margin: 0;
 	}
 	
 	@media print {
 		body {
-		  -webkit-print-color-adjust: exact !important;
+			overflow:hidden;
+			height:auto;
 		}
-	    .workOrderTable_1 > th {
-	        background-color: #cecece;
-	    }
 	}
-	
-	.endline{
-		page-break-before:always
-	}
-
-	@keyframes blink-effect { 50% { background-color: #ffffff; color: #000000; } }
     </style>
     <!-- END PAGE LEVEL STYLES -->
 </head>

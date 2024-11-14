@@ -1,0 +1,1254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.bm.equipCondTempaturAdmMapper">
+
+	<resultMap id="EquipCondTempaturAdmVo" type="mes.domain.bm.EquipCondTempaturAdmVo">
+		<result property="tempaturCondCd"				column="TEMPATUR_COND_CD"	/>
+		<result property="tempaturCondNm"				column="TEMPATUR_COND_NM"	/>
+		<result property="warmupCond"					column="WARMUP_COND"		/>
+		<result property="warmupAlwncePlus"				column="WARMUP_ALWNCE_PLUS"	/>
+		<result property="warmupAlwnceMinus"			column="WARMUP_ALWNCE_MINUS"/>
+		
+		<result property="fitup1UpCond"					column="FITUP1_UP_COND"/>
+		<result property="fitup1UpAlwncePlus"			column="FITUP1_UP_ALWNCE_PLUS"/>
+		<result property="fitup1UpAlwnceMinus"			column="FITUP1_UP_ALWNCE_MINUS"/>
+		<result property="fitup1DownCond"				column="FITUP1_DOWN_COND"/>
+		<result property="fitup1DownAlwncePlus"			column="FITUP1_DOWN_ALWNCE_PLUS"/>
+		<result property="fitup1DownAlwnceMinus"		column="FITUP1_DOWN_ALWNCE_MINUS"/>
+		<result property="fitup2UpleftCond"				column="FITUP2_UPLEFT_COND"/>
+		<result property="fitup2UpleftAlwncePlus"		column="FITUP2_UPLEFT_ALWNCE_PLUS"/>
+		<result property="fitup2UpleftAlwnceMinus"		column="FITUP2_UPLEFT_ALWNCE_MINUS"/>
+		<result property="fitup2DownleftCond"			column="FITUP2_DOWNLEFT_COND"/>
+		<result property="fitup2DownleftAlwncePlus"		column="FITUP2_DOWNLEFT_ALWNCE_PLUS"/>
+		<result property="fitup2DownleftAlwnceMinus"	column="FITUP2_DOWNLEFT_ALWNCE_MINUS"/>
+		<result property="fitup2UprightCond"			column="FITUP2_UPRIGHT_COND"/>
+		<result property="fitup2UprightAlwncePlus"		column="FITUP2_UPRIGHT_ALWNCE_PLUS"/>
+		<result property="fitup2UprightAlwnceMinus"		column="FITUP2_UPRIGHT_ALWNCE_MINUS"/>
+		<result property="fitup2DownrightCond"			column="FITUP2_DOWNRIGHT_COND"/>
+		<result property="fitup2DownrightAlwncePlus"	column="FITUP2_DOWNRIGHT_ALWNCE_PLUS"/>
+		<result property="fitup2DownrightAlwnceMinus"	column="FITUP2_DOWNRIGHT_ALWNCE_MINUS"/>
+		<result property="rollheatUpCond"				column="ROLLHEAT_UP_COND"/>
+		<result property="rollheatUpAlwncePlus"			column="ROLLHEAT_UP_ALWNCE_PLUS"/>
+		<result property="rollheatUpAlwnceMinus"		column="ROLLHEAT_UP_ALWNCE_MINUS"/>
+		<result property="rollheatDownCond"				column="ROLLHEAT_DOWN_COND"/>
+		<result property="rollheatDownAlwncePlus"		column="ROLLHEAT_DOWN_ALWNCE_PLUS"/>
+		<result property="rollheatDownAlwnceMinus"		column="ROLLHEAT_DOWN_ALWNCE_MINUS"/>
+		<result property="firstUpleftCond"				column="FIRST_UPLEFT_COND"/>
+		<result property="firstUpleftAlwncePlus"		column="FIRST_UPLEFT_ALWNCE_PLUS"/>
+		<result property="firstUpleftAlwnceMinus"		column="FIRST_UPLEFT_ALWNCE_MINUS"/>
+		<result property="firstDownleftCond"			column="FIRST_DOWNLEFT_COND"/>
+		<result property="firstDownleftAlwncePlus"		column="FIRST_DOWNLEFT_ALWNCE_PLUS"/>
+		<result property="firstDownleftAlwnceMinus"		column="FIRST_DOWNLEFT_ALWNCE_MINUS"/>
+		<result property="firstUprightCond"				column="FIRST_UPRIGHT_COND"/>
+		<result property="firstUprightAlwncePlus"		column="FIRST_UPRIGHT_ALWNCE_PLUS"/>
+		<result property="firstUprightAlwnceMinus"		column="FIRST_UPRIGHT_ALWNCE_MINUS"/>
+		<result property="firstDownrightCond"			column="FIRST_DOWNRIGHT_COND"/>
+		<result property="firstDownrightAlwncePlus"		column="FIRST_DOWNRIGHT_ALWNCE_PLUS"/>
+		<result property="firstDownrightAlwnceMinus"	column="FIRST_DOWNRIGHT_ALWNCE_MINUS"/>
+		
+		<result property="push1UpCond"					column="PUSH1_UP_COND"/>
+		<result property="push1UpAlwncePlus"			column="PUSH1_UP_ALWNCE_PLUS"/>
+		<result property="push1UpAlwnceMinus"			column="PUSH1_UP_ALWNCE_MINUS"/>
+		<result property="push1DownCond"				column="PUSH1_DOWN_COND"/>
+		<result property="push1DownAlwncePlus"			column="PUSH1_DOWN_ALWNCE_PLUS"/>
+		<result property="push1DownAlwnceMinus"			column="PUSH1_DOWN_ALWNCE_MINUS"/>
+	
+		<result property="secondUpleftCond"				column="SECOND_UPLEFT_COND"/>
+		<result property="secondUpleftAlwncePlus"		column="SECOND_UPLEFT_ALWNCE_PLUS"/>
+		<result property="secondUpleftAlwnceMinus"		column="SECOND_UPLEFT_ALWNCE_MINUS"/>
+		<result property="secondDownleftCond"			column="SECOND_DOWNLEFT_COND"/>
+		<result property="secondDownleftAlwncePlus"		column="SECOND_DOWNLEFT_ALWNCE_PLUS"/>
+		<result property="secondDownleftAlwnceMinus"	column="SECOND_DOWNLEFT_ALWNCE_MINUS"/>
+		<result property="secondUprightCond"			column="SECOND_UPRIGHT_COND"/>
+		<result property="secondUprightAlwncePlus"		column="SECOND_UPRIGHT_ALWNCE_PLUS"/>
+		<result property="secondUprightAlwnceMinus"		column="SECOND_UPRIGHT_ALWNCE_MINUS"/>
+		<result property="secondDownrightCond"			column="SECOND_DOWNRIGHT_COND"/>
+		<result property="secondDownrightAlwncePlus"	column="SECOND_DOWNRIGHT_ALWNCE_PLUS"/>
+		<result property="secondDownrightAlwnceMinus"	column="SECOND_DOWNRIGHT_ALWNCE_MINUS"/>
+		<result property="thirdUpleftCond"				column="THIRD_UPLEFT_COND"/>
+		<result property="thirdUpleftAlwncePlus"		column="THIRD_UPLEFT_ALWNCE_PLUS"/>
+		<result property="thirdUpleftAlwnceMinus"		column="THIRD_UPLEFT_ALWNCE_MINUS"/>
+		<result property="thirdDownleftCond"			column="THIRD_DOWNLEFT_COND"/>
+		<result property="thirdDownleftAlwncePlus"		column="THIRD_DOWNLEFT_ALWNCE_PLUS"/>
+		<result property="thirdDownleftAlwnceMinus"		column="THIRD_DOWNLEFT_ALWNCE_MINUS"/>
+		<result property="thirdUprightCond"				column="THIRD_UPRIGHT_COND"/>
+		<result property="thirdUprightAlwncePlus"		column="THIRD_UPRIGHT_ALWNCE_PLUS"/>
+		<result property="thirdUprightAlwnceMinus"		column="THIRD_UPRIGHT_ALWNCE_MINUS"/>
+		<result property="thirdDownrightCond"			column="THIRD_DOWNRIGHT_COND"/>
+		<result property="thirdDownrightAlwncePlus"		column="THIRD_DOWNRIGHT_ALWNCE_PLUS"/>
+		<result property="thirdDownrightAlwnceMinus"	column="THIRD_DOWNRIGHT_ALWNCE_MINUS"/>
+		<result property="jinjeop1UpCond"				column="JINJEOP1_UP_COND"/>
+		<result property="jinjeop1UpAlwncePlus"			column="JINJEOP1_UP_ALWNCE_PLUS"/>
+		<result property="jinjeop1UpAlwnceMinus"		column="JINJEOP1_UP_ALWNCE_MINUS"/>
+		<result property="jinjeop1DownCond"				column="JINJEOP1_DOWN_COND"/>
+		<result property="jinjeop1DownAlwncePlus"		column="JINJEOP1_DOWN_ALWNCE_PLUS"/>
+		<result property="jinjeop1DownAlwnceMinus"		column="JINJEOP1_DOWN_ALWNCE_MINUS"/>
+		<result property="jinjeop2UpCond"				column="JINJEOP2_UP_COND"/>
+		<result property="jinjeop2UpAlwncePlus"			column="JINJEOP2_UP_ALWNCE_PLUS"/>
+		<result property="jinjeop2UpAlwnceMinus"		column="JINJEOP2_UP_ALWNCE_MINUS"/>
+		<result property="jinjeop2DownCond"				column="JINJEOP2_DOWN_COND"/>
+		<result property="jinjeop2DownAlwncePlus"		column="JINJEOP2_DOWN_ALWNCE_PLUS"/>
+		<result property="jinjeop2DownAlwnceMinus"		column="JINJEOP2_DOWN_ALWNCE_MINUS"/>
+		
+		<result property="useYnCd"						column="USE_YN_CD"			/>
+		<result property="regId"						column="REG_ID"				/>
+		<result property="regDate"						column="REG_DATE"			/>
+		<result property="updId"						column="UPD_ID"				/>
+		<result property="updDate"						column="UPD_DATE"			/>
+	</resultMap>
+	
+	<!-- 6층 온도 정보(Bom온도조건관리)_23.10.24 추가 -->
+	<resultMap id="EquipCondTempaturSixFloorAdmVo" type="mes.domain.bm.EquipCondTempaturSixFloorAdmVo">
+		<result property="tempaturCondCd"				column="TEMPATUR_COND_CD"				/>
+		<result property="tempaturCondNm"				column="TEMPATUR_COND_NM"				/>
+		<result property="upTabHeatCond"				column="UP_TAB_HEAT_COND"				/>
+		<result property="upTabHeatPlus"				column="UP_TAB_HEAT_PLUS"				/>
+		<result property="upTabHeatMinus"				column="UP_TAB_HEAT_MINUS"				/>
+		<result property="downTabHeatCond"				column="DOWN_TAB_HEAT_COND"				/>
+		<result property="downTabHeatPlus"				column="DOWN_TAB_HEAT_PLUS"				/>
+		<result property="downTabHeatMinus"				column="DOWN_TAB_HEAT_MINUS"			/>
+		<result property="upRollHeatCond"				column="UP_ROLL_HEAT_COND"				/>
+		<result property="upRollHeatPlus"				column="UP_ROLL_HEAT_PLUS"				/>
+		<result property="upRollHeatMinus"				column="UP_ROLL_HEAT_MINUS"				/>
+		<result property="downRollHeatCond"				column="DOWN_ROLL_HEAT_COND"			/>
+		<result property="downRollHeatPlus"				column="DOWN_ROLL_HEAT_PLUS"			/>
+		<result property="downRollHeatMinus"			column="DOWN_ROLL_HEAT_MINUS"			/>
+		<result property="upFilmJoinTopCond"			column="UP_FILM_JOIN_TOP_COND"			/>
+		<result property="upFilmJoinTopPlus"			column="UP_FILM_JOIN_TOP_PLUS"			/>
+		<result property="upFilmJoinTopMinus"			column="UP_FILM_JOIN_TOP_MINUS"			/>
+		<result property="upFilmJoinBottomCond"			column="UP_FILM_JOIN_BOTTOM_COND"		/>
+		<result property="upFilmJoinBottomPlus"			column="UP_FILM_JOIN_BOTTOM_PLUS"		/>
+		<result property="upFilmJoinBottomMinus"		column="UP_FILM_JOIN_BOTTOM_MINUS"		/>
+		<result property="downFilmJoinTopCond"			column="DOWN_FILM_JOIN_TOP_COND"		/>
+		<result property="downFilmJoinTopPlus"			column="DOWN_FILM_JOIN_TOP_PLUS"		/>
+		<result property="downFilmJoinTopMinus"			column="DOWN_FILM_JOIN_TOP_MINUS"		/>
+		<result property="downFilmJoinBottomCond"		column="DOWN_FILM_JOIN_BOTTOM_COND"		/>
+		<result property="downFilmJoinBottomPlus"		column="DOWN_FILM_JOIN_BOTTOM_PLUS"		/>
+		<result property="downFilmJoinBottomMinus"		column="DOWN_FILM_JOIN_BOTTOM_MINUS"	/>
+		<result property="downTabHeatKeepCond"			column="DOWN_TAB_HEAT_KEEP_COND"		/>
+		<result property="downTabHeatKeepPlus"			column="DOWN_TAB_HEAT_KEEP_PLUS"		/>
+		<result property="downTabHeatKeepMinus"			column="DOWN_TAB_HEAT_KEEP_MINUS"		/>
+		<result property="fup1stMTsidCond"				column="FUP1ST_M_TSID_COND"				/>
+		<result property="fup1stMTsidPlus"				column="FUP1ST_M_TSID_PLUS"				/>
+		<result property="fup1stMTsidMinus"				column="FUP1ST_M_TSID_MINUS"			/>
+		<result property="fup1stMTmidCond"				column="FUP1ST_M_TMID_COND"				/>
+		<result property="fup1stMTmidPlus"				column="FUP1ST_M_TMID_PLUS"				/>
+		<result property="fup1stMTmidMinus"				column="FUP1ST_M_TMID_MINUS"			/>
+		<result property="fdown1stMTsidCond"			column="FDOWN1ST_M_TSID_COND"			/>
+		<result property="fdown1stMTsidPlus"			column="FDOWN1ST_M_TSID_PLUS"			/>
+		<result property="fdown1stMTsidMinus"			column="FDOWN1ST_M_TSID_MINUS"			/>
+		<result property="fdown1stMTmidCond"			column="FDOWN1ST_M_TMID_COND"			/>
+		<result property="fdown1stMTmidPlus"			column="FDOWN1ST_M_TMID_PLUS"			/>
+		<result property="fdown1stMTmidMinus"			column="FDOWN1ST_M_TMID_MINUS"			/>
+		<result property="fup1stMTpushCond"				column="FUP1ST_M_TPUSH_COND"			/>
+		<result property="fup1stMTpushPlus"				column="FUP1ST_M_TPUSH_PLUS"			/>
+		<result property="fup1stMTpushMinus"			column="FUP1ST_M_TPUSH_MINUS"			/>
+		<result property="fdown1stMTpushCond"			column="FDOWN1ST_M_TPUSH_COND"			/>
+		<result property="fdown1stMTpushPlus"			column="FDOWN1ST_M_TPUSH_PLUS"			/>
+		<result property="fdown1stMTpushMinus"			column="FDOWN1ST_M_TPUSH_MINUS"			/>
+		<result property="bup1stMTsidCond"				column="BUP1ST_M_TSID_COND"				/>
+		<result property="bup1stMTsidPlus"				column="BUP1ST_M_TSID_PLUS"				/>
+		<result property="bup1stMTsidMinus"				column="BUP1ST_M_TSID_MINUS"			/>
+		<result property="bup1stMTmidCond"				column="BUP1ST_M_TMID_COND"				/>
+		<result property="bup1stMTmidPlus"				column="BUP1ST_M_TMID_PLUS"				/>
+		<result property="bup1stMTmidMinus"				column="BUP1ST_M_TMID_MINUS"			/>
+		<result property="bdown1stMTsidCond"			column="BDOWN1ST_M_TSID_COND"			/>
+		<result property="bdown1stMTsidPlus"			column="BDOWN1ST_M_TSID_PLUS"			/>
+		<result property="bdown1stMTsidMinus"			column="BDOWN1ST_M_TSID_MINUS"			/>
+		<result property="bdown1stMTmidCond"			column="BDOWN1ST_M_TMID_COND"			/>
+		<result property="bdown1stMTmidPlus"			column="BDOWN1ST_M_TMID_PLUS"			/>
+		<result property="bdown1stMTmidMinus"			column="BDOWN1ST_M_TMID_MINUS"			/>
+		<result property="bup1stPushCond"				column="BUP1ST_PUSH_COND"				/>
+		<result property="bup1stPushPlus"				column="BUP1ST_PUSH_PLUS"				/>
+		<result property="bup1stPushMinus"				column="BUP1ST_PUSH_MINUS"				/>
+		<result property="bdown1stPushCond"				column="BDOWN1ST_PUSH_COND"				/>
+		<result property="bdown1stPushPlus"				column="BDOWN1ST_PUSH_PLUS"				/>
+		<result property="bdown1stPushMinus"			column="BDOWN1ST_PUSH_MINUS"			/>
+		<result property="fupFilmFuseCond"				column="FUP_FILM_FUSE_COND"				/>
+		<result property="fupFilmFusePlus"				column="FUP_FILM_FUSE_PLUS"				/>
+		<result property="fupFilmFuseMinus"				column="FUP_FILM_FUSE_MINUS"			/>
+		<result property="fdownFilmFuseCond"			column="FDOWN_FILM_FUSE_COND"			/>
+		<result property="fdownFilmFusePlus"			column="FDOWN_FILM_FUSE_PLUS"			/>
+		<result property="fdownFilmFuseMinus"			column="FDOWN_FILM_FUSE_MINUS"			/>
+		<result property="bupFilmFuseCond"				column="BUP_FILM_FUSE_COND"				/>
+		<result property="bupFilmFusePlus"				column="BUP_FILM_FUSE_PLUS"				/>
+		<result property="bupFilmFuseMinus"				column="BUP_FILM_FUSE_MINUS"			/>
+		<result property="bdownFilmFuseCond"			column="BDOWN_FILM_FUSE_COND"			/>
+		<result property="bdownFilmFusePlus"			column="BDOWN_FILM_FUSE_PLUS"			/>
+		<result property="bdownFilmFuseMinus"			column="BDOWN_FILM_FUSE_MINUS"			/>
+		<result property="fup2ndMTsidCond"				column="FUP2ND_M_TSID_COND"				/>
+		<result property="fup2ndMTsidPlus"				column="FUP2ND_M_TSID_PLUS"				/>
+		<result property="fup2ndMTsidMinus"				column="FUP2ND_M_TSID_MINUS"			/>
+		<result property="fup2ndMTmidCond"				column="FUP2ND_M_TMID_COND"				/>
+		<result property="fup2ndMTmidPlus"				column="FUP2ND_M_TMID_PLUS"				/>
+		<result property="fup2ndMTmidMinus"				column="FUP2ND_M_TMID_MINUS"			/>
+		<result property="fdown2ndMTsidCond"			column="FDOWN2ND_M_TSID_COND"			/>
+		<result property="fdown2ndMTsidPlus"			column="FDOWN2ND_M_TSID_PLUS"			/>
+		<result property="fdown2ndMTsidMinus"			column="FDOWN2ND_M_TSID_MINUS"			/>
+		<result property="fdown2ndMTmidCond"			column="FDOWN2ND_M_TMID_COND"			/>
+		<result property="fdown2ndMTmidPlus"			column="FDOWN2ND_M_TMID_PLUS"			/>
+		<result property="fdown2ndMTmidMinus"			column="FDOWN2ND_M_TMID_MINUS"			/>
+		<result property="bup2ndMTsidCond"				column="BUP2ND_M_TSID_COND"				/>
+		<result property="bup2ndMTsidPlus"				column="BUP2ND_M_TSID_PLUS"				/>
+		<result property="bup2ndMTsidMinus"				column="BUP2ND_M_TSID_MINUS"			/>
+		<result property="bup2ndMTmidCond"				column="BUP2ND_M_TMID_COND"				/>
+		<result property="bup2ndMTmidPlus"				column="BUP2ND_M_TMID_PLUS"				/>
+		<result property="bup2ndMTmidMinus"				column="BUP2ND_M_TMID_MINUS"			/>
+		<result property="bdown2ndMTsidCond"			column="BDOWN2ND_M_TSID_COND"			/>
+		<result property="bdown2ndMTsidPlus"			column="BDOWN2ND_M_TSID_PLUS"			/>
+		<result property="bdown2ndMTsidMinus"			column="BDOWN2ND_M_TSID_MINUS"			/>
+		<result property="bdown2ndMTmidCond"			column="BDOWN2ND_M_TMID_COND"			/>
+		<result property="bdown2ndMTmidPlus"			column="BDOWN2ND_M_TMID_PLUS"			/>
+		<result property="bdown2ndMTmidMinus"			column="BDOWN2ND_M_TMID_MINUS"			/>
+		<result property="fup3rdMTsidCond"				column="FUP3RD_M_TSID_COND"				/>
+		<result property="fup3rdMTsidPlus"				column="FUP3RD_M_TSID_PLUS"				/>
+		<result property="fup3rdMTsidMinus"				column="FUP3RD_M_TSID_MINUS"			/>
+		<result property="fup3rdMTmidCond"				column="FUP3RD_M_TMID_COND"				/>
+		<result property="fup3rdMTmidPlus"				column="FUP3RD_M_TMID_PLUS"				/>
+		<result property="fup3rdMTmidMinus"				column="FUP3RD_M_TMID_MINUS"			/>
+		<result property="fdown3rdMTsidCond"			column="FDOWN3RD_M_TSID_COND"			/>
+		<result property="fdown3rdMTsidPlus"			column="FDOWN3RD_M_TSID_PLUS"			/>
+		<result property="fdown3rdMTsidMinus"			column="FDOWN3RD_M_TSID_MINUS"			/>
+		<result property="fdown3rdMTmidCond"			column="FDOWN3RD_M_TMID_COND"			/>
+		<result property="fdown3rdMTmidPlus"			column="FDOWN3RD_M_TMID_PLUS"			/>
+		<result property="fdown3rdMTmidMinus"			column="FDOWN3RD_M_TMID_MINUS"			/>
+		<result property="bup3rdMTsidCond"				column="BUP3RD_M_TSID_COND"				/>
+		<result property="bup3rdMTsidPlus"				column="BUP3RD_M_TSID_PLUS"				/>
+		<result property="bup3rdMTsidMinus"				column="BUP3RD_M_TSID_MINUS"			/>
+		<result property="bup3rdMTmidCond"				column="BUP3RD_M_TMID_COND"				/>
+		<result property="bup3rdMTmidPlus"				column="BUP3RD_M_TMID_PLUS"				/>
+		<result property="bup3rdMTmidMinus"				column="BUP3RD_M_TMID_MINUS"			/>
+		<result property="bdown3rdMTsidCond"			column="BDOWN3RD_M_TSID_COND"			/>
+		<result property="bdown3rdMTsidPlus"			column="BDOWN3RD_M_TSID_PLUS"			/>
+		<result property="bdown3rdMTsidMinus"			column="BDOWN3RD_M_TSID_MINUS"			/>
+		<result property="bdown3rdMTmidCond"			column="BDOWN3RD_M_TMID_COND"			/>
+		<result property="bdown3rdMTmidPlus"			column="BDOWN3RD_M_TMID_PLUS"			/>
+		<result property="bdown3rdMTmidMinus"			column="BDOWN3RD_M_TMID_MINUS"			/>
+		<result property="fupFilmRfmCoolCond"			column="FUP_FILM_RFM_COOL_COND"			/>
+		<result property="fupFilmRfmCoolPlus"			column="FUP_FILM_RFM_COOL_PLUS"			/>
+		<result property="fupFilmRfmCoolMinus"			column="FUP_FILM_RFM_COOL_MINUS"		/>
+		<result property="fdownFilmRfmCoolCond"			column="FDOWN_FILM_RFM_COOL_COND"		/>
+		<result property="fdownFilmRfmCoolPlus"			column="FDOWN_FILM_RFM_COOL_PLUS"		/>
+		<result property="fdownFilmRfmCoolMinus"		column="FDOWN_FILM_RFM_COOL_MINUS"		/>
+		<result property="bupFilmRfmCoolCond"			column="BUP_FILM_RFM_COOL_COND"			/>
+		<result property="bupFilmRfmCoolPlus"			column="BUP_FILM_RFM_COOL_PLUS"			/>
+		<result property="bupFilmRfmCoolMinus"			column="BUP_FILM_RFM_COOL_MINUS"		/>
+		<result property="bdownFilmRfmCoolCond"			column="BDOWN_FILM_RFM_COOL_COND"		/>
+		<result property="bdownFilmRfmCoolPlus"			column="BDOWN_FILM_RFM_COOL_PLUS"		/>
+		<result property="bdownFilmRfmCoolMinus"		column="BDOWN_FILM_RFM_COOL_MINUS"		/>
+		<result property="BdownFilmRfmCool"				column="BDOWN_FILM_RFM_COOL"			/>
+		<result property="useYnCd"						column="USE_YN_CD"						/>
+		<result property="regId"						column="REG_ID"							/>
+		<result property="regDate"						column="REG_DATE"						/>
+		<result property="updId"						column="UPD_ID"							/>
+		<result property="updDate"						column="UPD_DATE"						/>
+		
+		<result property="equipCondSeq"					column="EQUIP_COND_SEQ"					/>
+	</resultMap>
+	
+	<!-- 온도 전제 조회 -->
+	<select id="listAll" resultMap="EquipCondTempaturAdmVo">
+			SELECT
+				TEMPATUR_COND_CD
+				, TEMPATUR_COND_NM
+				, WARMUP_COND
+				, WARMUP_ALWNCE_PLUS
+				, WARMUP_ALWNCE_MINUS
+				, FITUP1_UP_COND
+				, FITUP1_UP_ALWNCE_PLUS
+				, FITUP1_UP_ALWNCE_MINUS
+				, FITUP1_DOWN_COND
+				, FITUP1_DOWN_ALWNCE_PLUS
+				, FITUP1_DOWN_ALWNCE_MINUS
+				, FITUP2_UPLEFT_COND
+				, FITUP2_UPLEFT_ALWNCE_PLUS
+				, FITUP2_UPLEFT_ALWNCE_MINUS
+				, FITUP2_DOWNLEFT_COND
+				, FITUP2_DOWNLEFT_ALWNCE_PLUS
+				, FITUP2_DOWNLEFT_ALWNCE_MINUS
+				, FITUP2_UPRIGHT_COND
+				, FITUP2_UPRIGHT_ALWNCE_PLUS
+				, FITUP2_UPRIGHT_ALWNCE_MINUS
+				, FITUP2_DOWNRIGHT_COND
+				, FITUP2_DOWNRIGHT_ALWNCE_PLUS
+				, FITUP2_DOWNRIGHT_ALWNCE_MINUS
+				, ROLLHEAT_UP_COND
+				, ROLLHEAT_UP_ALWNCE_PLUS
+				, ROLLHEAT_UP_ALWNCE_MINUS
+				, ROLLHEAT_DOWN_COND
+				, ROLLHEAT_DOWN_ALWNCE_PLUS
+				, ROLLHEAT_DOWN_ALWNCE_MINUS
+				, FIRST_UPLEFT_COND
+				, FIRST_UPLEFT_ALWNCE_PLUS
+				, FIRST_UPLEFT_ALWNCE_MINUS
+				, FIRST_DOWNLEFT_COND
+				, FIRST_DOWNLEFT_ALWNCE_PLUS
+				, FIRST_DOWNLEFT_ALWNCE_MINUS
+				, FIRST_UPRIGHT_COND
+				, FIRST_UPRIGHT_ALWNCE_PLUS
+				, FIRST_UPRIGHT_ALWNCE_MINUS
+				, FIRST_DOWNRIGHT_COND
+				, FIRST_DOWNRIGHT_ALWNCE_PLUS
+				, FIRST_DOWNRIGHT_ALWNCE_MINUS
+				
+				, PUSH1_UP_COND
+				, PUSH1_UP_ALWNCE_PLUS
+				, PUSH1_UP_ALWNCE_MINUS
+				, PUSH1_DOWN_COND
+				, PUSH1_DOWN_ALWNCE_PLUS
+				, PUSH1_DOWN_ALWNCE_MINUS
+				
+				, SECOND_UPLEFT_COND
+				, SECOND_UPLEFT_ALWNCE_PLUS
+				, SECOND_UPLEFT_ALWNCE_MINUS
+				, SECOND_DOWNLEFT_COND
+				, SECOND_DOWNLEFT_ALWNCE_PLUS
+				, SECOND_DOWNLEFT_ALWNCE_MINUS
+				, SECOND_UPRIGHT_COND
+				, SECOND_UPRIGHT_ALWNCE_PLUS
+				, SECOND_UPRIGHT_ALWNCE_MINUS
+				, SECOND_DOWNRIGHT_COND
+				, SECOND_DOWNRIGHT_ALWNCE_PLUS
+				, SECOND_DOWNRIGHT_ALWNCE_MINUS
+				, THIRD_UPLEFT_COND
+				, THIRD_UPLEFT_ALWNCE_PLUS
+				, THIRD_UPLEFT_ALWNCE_MINUS
+				, THIRD_DOWNLEFT_COND
+				, THIRD_DOWNLEFT_ALWNCE_PLUS
+				, THIRD_DOWNLEFT_ALWNCE_MINUS
+				, THIRD_UPRIGHT_COND
+				, THIRD_UPRIGHT_ALWNCE_PLUS
+				, THIRD_UPRIGHT_ALWNCE_MINUS
+				, THIRD_DOWNRIGHT_COND
+				, THIRD_DOWNRIGHT_ALWNCE_PLUS
+				, THIRD_DOWNRIGHT_ALWNCE_MINUS
+				, JINJEOP1_UP_COND
+				, JINJEOP1_UP_ALWNCE_PLUS
+				, JINJEOP1_UP_ALWNCE_MINUS
+				, JINJEOP1_DOWN_COND
+				, JINJEOP1_DOWN_ALWNCE_PLUS
+				, JINJEOP1_DOWN_ALWNCE_MINUS
+				, JINJEOP2_UP_COND
+				, JINJEOP2_UP_ALWNCE_PLUS
+				, JINJEOP2_UP_ALWNCE_MINUS
+				, JINJEOP2_DOWN_COND
+				, JINJEOP2_DOWN_ALWNCE_PLUS
+				, JINJEOP2_DOWN_ALWNCE_MINUS
+				, USE_YN_CD
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM TB_BOM_TEMPATUR_COND_ADM
+				WHERE 1=1 
+				<if test="useYnCd == null or useYnCd == ''"> 
+					AND USE_YN_CD = '001'
+				</if>			 
+	</select>
+	
+	<!-- 온도 특정 조회 -->
+	<select id="read" resultMap="EquipCondTempaturAdmVo">
+		<![CDATA[
+			SELECT
+				TEMPATUR_COND_CD
+				, TEMPATUR_COND_NM
+				, WARMUP_COND
+				, WARMUP_ALWNCE_PLUS
+				, WARMUP_ALWNCE_MINUS
+				, FITUP1_UP_COND
+				, FITUP1_UP_ALWNCE_PLUS
+				, FITUP1_UP_ALWNCE_MINUS
+				, FITUP1_DOWN_COND
+				, FITUP1_DOWN_ALWNCE_PLUS
+				, FITUP1_DOWN_ALWNCE_MINUS
+				, FITUP2_UPLEFT_COND
+				, FITUP2_UPLEFT_ALWNCE_PLUS
+				, FITUP2_UPLEFT_ALWNCE_MINUS
+				, FITUP2_DOWNLEFT_COND
+				, FITUP2_DOWNLEFT_ALWNCE_PLUS
+				, FITUP2_DOWNLEFT_ALWNCE_MINUS
+				, FITUP2_UPRIGHT_COND
+				, FITUP2_UPRIGHT_ALWNCE_PLUS
+				, FITUP2_UPRIGHT_ALWNCE_MINUS
+				, FITUP2_DOWNRIGHT_COND
+				, FITUP2_DOWNRIGHT_ALWNCE_PLUS
+				, FITUP2_DOWNRIGHT_ALWNCE_MINUS
+				, ROLLHEAT_UP_COND
+				, ROLLHEAT_UP_ALWNCE_PLUS
+				, ROLLHEAT_UP_ALWNCE_MINUS
+				, ROLLHEAT_DOWN_COND
+				, ROLLHEAT_DOWN_ALWNCE_PLUS
+				, ROLLHEAT_DOWN_ALWNCE_MINUS
+				, FIRST_UPLEFT_COND
+				, FIRST_UPLEFT_ALWNCE_PLUS
+				, FIRST_UPLEFT_ALWNCE_MINUS
+				, FIRST_DOWNLEFT_COND
+				, FIRST_DOWNLEFT_ALWNCE_PLUS
+				, FIRST_DOWNLEFT_ALWNCE_MINUS
+				, FIRST_UPRIGHT_COND
+				, FIRST_UPRIGHT_ALWNCE_PLUS
+				, FIRST_UPRIGHT_ALWNCE_MINUS
+				, FIRST_DOWNRIGHT_COND
+				, FIRST_DOWNRIGHT_ALWNCE_PLUS
+				, FIRST_DOWNRIGHT_ALWNCE_MINUS
+				
+				, PUSH1_UP_COND
+				, PUSH1_UP_ALWNCE_PLUS
+				, PUSH1_UP_ALWNCE_MINUS
+				, PUSH1_DOWN_COND
+				, PUSH1_DOWN_ALWNCE_PLUS
+				, PUSH1_DOWN_ALWNCE_MINUS
+				
+				, SECOND_UPLEFT_COND
+				, SECOND_UPLEFT_ALWNCE_PLUS
+				, SECOND_UPLEFT_ALWNCE_MINUS
+				, SECOND_DOWNLEFT_COND
+				, SECOND_DOWNLEFT_ALWNCE_PLUS
+				, SECOND_DOWNLEFT_ALWNCE_MINUS
+				, SECOND_UPRIGHT_COND
+				, SECOND_UPRIGHT_ALWNCE_PLUS
+				, SECOND_UPRIGHT_ALWNCE_MINUS
+				, SECOND_DOWNRIGHT_COND
+				, SECOND_DOWNRIGHT_ALWNCE_PLUS
+				, SECOND_DOWNRIGHT_ALWNCE_MINUS
+				, THIRD_UPLEFT_COND
+				, THIRD_UPLEFT_ALWNCE_PLUS
+				, THIRD_UPLEFT_ALWNCE_MINUS
+				, THIRD_DOWNLEFT_COND
+				, THIRD_DOWNLEFT_ALWNCE_PLUS
+				, THIRD_DOWNLEFT_ALWNCE_MINUS
+				, THIRD_UPRIGHT_COND
+				, THIRD_UPRIGHT_ALWNCE_PLUS
+				, THIRD_UPRIGHT_ALWNCE_MINUS
+				, THIRD_DOWNRIGHT_COND
+				, THIRD_DOWNRIGHT_ALWNCE_PLUS
+				, THIRD_DOWNRIGHT_ALWNCE_MINUS
+				, JINJEOP1_UP_COND
+				, JINJEOP1_UP_ALWNCE_PLUS
+				, JINJEOP1_UP_ALWNCE_MINUS
+				, JINJEOP1_DOWN_COND
+				, JINJEOP1_DOWN_ALWNCE_PLUS
+				, JINJEOP1_DOWN_ALWNCE_MINUS
+				, JINJEOP2_UP_COND
+				, JINJEOP2_UP_ALWNCE_PLUS
+				, JINJEOP2_UP_ALWNCE_MINUS
+				, JINJEOP2_DOWN_COND
+				, JINJEOP2_DOWN_ALWNCE_PLUS
+				, JINJEOP2_DOWN_ALWNCE_MINUS
+				, USE_YN_CD
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM TB_BOM_TEMPATUR_COND_ADM
+			WHERE
+				TEMPATUR_COND_CD = #{tempaturCondCd}
+		]]>
+	</select>
+	
+	<!-- 온도 코드 시퀸스 -->
+	<select id="selectTempaturSeqCd" resultType="String">
+		SELECT ISNULL(RIGHT('000' + CAST(MAX(SUBSTRING(tempatur_cond_cd,1,3))+1 AS NVARCHAR),3), '001') FROM TB_BOM_TEMPATUR_COND_ADM
+	</select>
+	
+	<!-- 온도  생성 -->
+	<insert id="create" parameterType="mes.domain.bm.EquipCondTempaturAdmVo">
+		<![CDATA[
+			INSERT INTO TB_BOM_TEMPATUR_COND_ADM(
+				TEMPATUR_COND_CD,
+				TEMPATUR_COND_NM,
+				WARMUP_COND,
+				WARMUP_ALWNCE_PLUS,
+				WARMUP_ALWNCE_MINUS,
+				FITUP1_UP_COND,
+				FITUP1_UP_ALWNCE_PLUS,
+				FITUP1_UP_ALWNCE_MINUS,
+				FITUP1_DOWN_COND,
+				FITUP1_DOWN_ALWNCE_PLUS,
+				FITUP1_DOWN_ALWNCE_MINUS,
+				FITUP2_UPLEFT_COND,
+				FITUP2_UPLEFT_ALWNCE_PLUS,
+				FITUP2_UPLEFT_ALWNCE_MINUS,
+				FITUP2_DOWNLEFT_COND,
+				FITUP2_DOWNLEFT_ALWNCE_PLUS,
+				FITUP2_DOWNLEFT_ALWNCE_MINUS,
+				FITUP2_UPRIGHT_COND,
+				FITUP2_UPRIGHT_ALWNCE_PLUS,
+				FITUP2_UPRIGHT_ALWNCE_MINUS,
+				FITUP2_DOWNRIGHT_COND,
+				FITUP2_DOWNRIGHT_ALWNCE_PLUS,
+				FITUP2_DOWNRIGHT_ALWNCE_MINUS,
+				
+				PUSH1_UP_COND,
+				PUSH1_UP_ALWNCE_PLUS,
+				PUSH1_UP_ALWNCE_MINUS,
+				PUSH1_DOWN_COND,
+				PUSH1_DOWN_ALWNCE_PLUS,
+				PUSH1_DOWN_ALWNCE_MINUS,
+				
+				ROLLHEAT_UP_COND,
+				ROLLHEAT_UP_ALWNCE_PLUS,
+				ROLLHEAT_UP_ALWNCE_MINUS,
+				ROLLHEAT_DOWN_COND,
+				ROLLHEAT_DOWN_ALWNCE_PLUS,
+				ROLLHEAT_DOWN_ALWNCE_MINUS,
+				FIRST_UPLEFT_COND,
+				FIRST_UPLEFT_ALWNCE_PLUS,
+				FIRST_UPLEFT_ALWNCE_MINUS,
+				FIRST_DOWNLEFT_COND,
+				FIRST_DOWNLEFT_ALWNCE_PLUS,
+				FIRST_DOWNLEFT_ALWNCE_MINUS,
+				FIRST_UPRIGHT_COND,
+				FIRST_UPRIGHT_ALWNCE_PLUS,
+				FIRST_UPRIGHT_ALWNCE_MINUS,
+				FIRST_DOWNRIGHT_COND,
+				FIRST_DOWNRIGHT_ALWNCE_PLUS,
+				FIRST_DOWNRIGHT_ALWNCE_MINUS,
+				SECOND_UPLEFT_COND,
+				SECOND_UPLEFT_ALWNCE_PLUS,
+				SECOND_UPLEFT_ALWNCE_MINUS,
+				SECOND_DOWNLEFT_COND,
+				SECOND_DOWNLEFT_ALWNCE_PLUS,
+				SECOND_DOWNLEFT_ALWNCE_MINUS,
+				SECOND_UPRIGHT_COND,
+				SECOND_UPRIGHT_ALWNCE_PLUS,
+				SECOND_UPRIGHT_ALWNCE_MINUS,
+				SECOND_DOWNRIGHT_COND,
+				SECOND_DOWNRIGHT_ALWNCE_PLUS,
+				SECOND_DOWNRIGHT_ALWNCE_MINUS,
+				THIRD_UPLEFT_COND,
+				THIRD_UPLEFT_ALWNCE_PLUS,
+				THIRD_UPLEFT_ALWNCE_MINUS,
+				THIRD_DOWNLEFT_COND,
+				THIRD_DOWNLEFT_ALWNCE_PLUS,
+				THIRD_DOWNLEFT_ALWNCE_MINUS,
+				THIRD_UPRIGHT_COND,
+				THIRD_UPRIGHT_ALWNCE_PLUS,
+				THIRD_UPRIGHT_ALWNCE_MINUS,
+				THIRD_DOWNRIGHT_COND,
+				THIRD_DOWNRIGHT_ALWNCE_PLUS,
+				THIRD_DOWNRIGHT_ALWNCE_MINUS,
+				JINJEOP1_UP_COND,
+				JINJEOP1_UP_ALWNCE_PLUS,
+				JINJEOP1_UP_ALWNCE_MINUS,
+				JINJEOP1_DOWN_COND,
+				JINJEOP1_DOWN_ALWNCE_PLUS,
+				JINJEOP1_DOWN_ALWNCE_MINUS,
+				JINJEOP2_UP_COND,
+				JINJEOP2_UP_ALWNCE_PLUS,
+				JINJEOP2_UP_ALWNCE_MINUS,
+				JINJEOP2_DOWN_COND,
+				JINJEOP2_DOWN_ALWNCE_PLUS,
+				JINJEOP2_DOWN_ALWNCE_MINUS,
+				USE_YN_CD,
+				REG_ID,
+				REG_DATE
+			) 
+			VALUES(
+				#{tempaturCondCd},
+				#{tempaturCondNm},
+				#{warmupCond},
+				#{warmupAlwncePlus},
+				#{warmupAlwnceMinus},
+				#{fitup1UpCond},
+				#{fitup1UpAlwncePlus},
+				#{fitup1UpAlwnceMinus},
+				#{fitup1DownCond},
+				#{fitup1DownAlwncePlus},
+				#{fitup1DownAlwnceMinus},
+				#{fitup2UpleftCond},
+				#{fitup2UpleftAlwncePlus},
+				#{fitup2UpleftAlwnceMinus},
+				#{fitup2DownleftCond},
+				#{fitup2DownleftAlwncePlus},
+				#{fitup2DownleftAlwnceMinus},
+				#{fitup2UprightCond},
+				#{fitup2UprightAlwncePlus},
+				#{fitup2UprightAlwnceMinus},
+				#{fitup2DownrightCond},
+				#{fitup2DownrightAlwncePlus},
+				#{fitup2DownrightAlwnceMinus},
+				#{rollheatUpCond},
+				#{rollheatUpAlwncePlus},
+				#{rollheatUpAlwnceMinus},
+				#{rollheatDownCond},
+				#{rollheatDownAlwncePlus},
+				#{rollheatDownAlwnceMinus},
+				#{firstUpleftCond},
+				#{firstUpleftAlwncePlus},
+				#{firstUpleftAlwnceMinus},
+				#{firstDownleftCond},
+				#{firstDownleftAlwncePlus},
+				#{firstDownleftAlwnceMinus},
+				#{firstUprightCond},
+				#{firstUprightAlwncePlus},
+				#{firstUprightAlwnceMinus},
+				#{firstDownrightCond},
+				#{firstDownrightAlwncePlus},
+				#{firstDownrightAlwnceMinus},
+				
+				#{push1UpCond},
+				#{push1UpAlwncePlus},
+				#{push1UpAlwnceMinus},
+				#{push1DownCond},
+				#{push1DownAlwncePlus},
+				#{push1DownAlwnceMinus},
+				
+				#{secondUpleftCond},
+				#{secondUpleftAlwncePlus},
+				#{secondUpleftAlwnceMinus},
+				#{secondDownleftCond},
+				#{secondDownleftAlwncePlus},
+				#{secondDownleftAlwnceMinus},
+				#{secondUprightCond},
+				#{secondUprightAlwncePlus},
+				#{secondUprightAlwnceMinus},
+				#{secondDownrightCond},
+				#{secondDownrightAlwncePlus},
+				#{secondDownrightAlwnceMinus},
+				#{thirdUpleftCond},
+				#{thirdUpleftAlwncePlus},
+				#{thirdUpleftAlwnceMinus},
+				#{thirdDownleftCond},
+				#{thirdDownleftAlwncePlus},
+				#{thirdDownleftAlwnceMinus},
+				#{thirdUprightCond},
+				#{thirdUprightAlwncePlus},
+				#{thirdUprightAlwnceMinus},
+				#{thirdDownrightCond},
+				#{thirdDownrightAlwncePlus},
+				#{thirdDownrightAlwnceMinus},
+				#{jinjeop1UpCond},
+				#{jinjeop1UpAlwncePlus},
+				#{jinjeop1UpAlwnceMinus},
+				#{jinjeop1DownCond},
+				#{jinjeop1DownAlwncePlus},
+				#{jinjeop1DownAlwnceMinus},
+				#{jinjeop2UpCond},
+				#{jinjeop2UpAlwncePlus},
+				#{jinjeop2UpAlwnceMinus},
+				#{jinjeop2DownCond},
+				#{jinjeop2DownAlwncePlus},
+				#{jinjeop2DownAlwnceMinus},
+				#{useYnCd},
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+
+	<!-- 온도 수정 -->
+	<update id="update">
+		<![CDATA[
+			UPDATE
+				TB_BOM_TEMPATUR_COND_ADM 
+			SET
+				TEMPATUR_COND_NM = #{tempaturCondNm},
+				WARMUP_COND = #{warmupCond},
+				WARMUP_ALWNCE_PLUS = #{warmupAlwncePlus},
+				WARMUP_ALWNCE_MINUS = #{warmupAlwnceMinus},
+				FITUP1_UP_COND = #{fitup1UpCond},
+				FITUP1_UP_ALWNCE_PLUS = #{fitup1UpAlwncePlus},
+				FITUP1_UP_ALWNCE_MINUS = #{fitup1UpAlwnceMinus},
+				FITUP1_DOWN_COND = #{fitup1DownCond},
+				FITUP1_DOWN_ALWNCE_PLUS = #{fitup1DownAlwncePlus},
+				FITUP1_DOWN_ALWNCE_MINUS = #{fitup1DownAlwnceMinus},
+				FITUP2_UPLEFT_COND = #{fitup2UpleftCond},
+				FITUP2_UPLEFT_ALWNCE_PLUS = #{fitup2UpleftAlwncePlus},
+				FITUP2_UPLEFT_ALWNCE_MINUS = #{fitup2UpleftAlwnceMinus},
+				FITUP2_DOWNLEFT_COND = #{fitup2DownleftCond},
+				FITUP2_DOWNLEFT_ALWNCE_PLUS = #{fitup2DownleftAlwncePlus},
+				FITUP2_DOWNLEFT_ALWNCE_MINUS = #{fitup2DownleftAlwnceMinus},
+				FITUP2_UPRIGHT_COND = #{fitup2UprightCond},
+				FITUP2_UPRIGHT_ALWNCE_PLUS = #{fitup2UprightAlwncePlus},
+				FITUP2_UPRIGHT_ALWNCE_MINUS = #{fitup2UprightAlwnceMinus},
+				FITUP2_DOWNRIGHT_COND = #{fitup2DownrightCond},
+				FITUP2_DOWNRIGHT_ALWNCE_PLUS = #{fitup2DownrightAlwncePlus},
+				FITUP2_DOWNRIGHT_ALWNCE_MINUS = #{fitup2DownrightAlwnceMinus},
+				ROLLHEAT_UP_COND = #{rollheatUpCond},
+				ROLLHEAT_UP_ALWNCE_PLUS = #{rollheatUpAlwncePlus},
+				ROLLHEAT_UP_ALWNCE_MINUS = #{rollheatUpAlwnceMinus},
+				ROLLHEAT_DOWN_COND = #{rollheatDownCond},
+				ROLLHEAT_DOWN_ALWNCE_PLUS = #{rollheatDownAlwncePlus},
+				ROLLHEAT_DOWN_ALWNCE_MINUS = #{rollheatDownAlwnceMinus},
+				FIRST_UPLEFT_COND = #{firstUpleftCond},
+				FIRST_UPLEFT_ALWNCE_PLUS = #{firstUpleftAlwncePlus},
+				FIRST_UPLEFT_ALWNCE_MINUS = #{firstUpleftAlwnceMinus},
+				FIRST_DOWNLEFT_COND = #{firstDownleftCond},
+				FIRST_DOWNLEFT_ALWNCE_PLUS = #{firstDownleftAlwncePlus},
+				FIRST_DOWNLEFT_ALWNCE_MINUS = #{firstDownleftAlwnceMinus},
+				FIRST_UPRIGHT_COND = #{firstUprightCond},
+				FIRST_UPRIGHT_ALWNCE_PLUS = #{firstUprightAlwncePlus},
+				FIRST_UPRIGHT_ALWNCE_MINUS = #{firstUprightAlwnceMinus},
+				FIRST_DOWNRIGHT_COND = #{firstDownrightCond},
+				FIRST_DOWNRIGHT_ALWNCE_PLUS = #{firstDownrightAlwncePlus},
+				FIRST_DOWNRIGHT_ALWNCE_MINUS = #{firstDownrightAlwnceMinus},
+				
+				PUSH1_UP_COND = #{push1UpCond},
+				PUSH1_UP_ALWNCE_PLUS = #{push1UpAlwncePlus},
+				PUSH1_UP_ALWNCE_MINUS = #{push1UpAlwnceMinus},
+				PUSH1_DOWN_COND = #{push1DownCond},
+				PUSH1_DOWN_ALWNCE_PLUS = #{push1DownAlwncePlus},
+				PUSH1_DOWN_ALWNCE_MINUS = #{push1DownAlwnceMinus},
+				
+				SECOND_UPLEFT_COND = #{secondUpleftCond},
+				SECOND_UPLEFT_ALWNCE_PLUS = #{secondUpleftAlwncePlus},
+				SECOND_UPLEFT_ALWNCE_MINUS = #{secondUpleftAlwnceMinus},
+				SECOND_DOWNLEFT_COND = #{secondDownleftCond},
+				SECOND_DOWNLEFT_ALWNCE_PLUS = #{secondDownleftAlwncePlus},
+				SECOND_DOWNLEFT_ALWNCE_MINUS = #{secondDownleftAlwnceMinus},
+				SECOND_UPRIGHT_COND = #{secondUprightCond},
+				SECOND_UPRIGHT_ALWNCE_PLUS = #{secondUprightAlwncePlus},
+				SECOND_UPRIGHT_ALWNCE_MINUS = #{secondUprightAlwnceMinus},
+				SECOND_DOWNRIGHT_COND = #{secondDownrightCond},
+				SECOND_DOWNRIGHT_ALWNCE_PLUS = #{secondDownrightAlwncePlus},
+				SECOND_DOWNRIGHT_ALWNCE_MINUS = #{secondDownrightAlwnceMinus},
+				THIRD_UPLEFT_COND = #{thirdUpleftCond},
+				THIRD_UPLEFT_ALWNCE_PLUS = #{thirdUpleftAlwncePlus},
+				THIRD_UPLEFT_ALWNCE_MINUS = #{thirdUpleftAlwnceMinus},
+				THIRD_DOWNLEFT_COND = #{thirdDownleftCond},
+				THIRD_DOWNLEFT_ALWNCE_PLUS = #{thirdDownleftAlwncePlus},
+				THIRD_DOWNLEFT_ALWNCE_MINUS = #{thirdDownleftAlwnceMinus},
+				THIRD_UPRIGHT_COND = #{thirdUprightCond},
+				THIRD_UPRIGHT_ALWNCE_PLUS = #{thirdUprightAlwncePlus},
+				THIRD_UPRIGHT_ALWNCE_MINUS = #{thirdUprightAlwnceMinus},
+				THIRD_DOWNRIGHT_COND = #{thirdDownrightCond},
+				THIRD_DOWNRIGHT_ALWNCE_PLUS = #{thirdDownrightAlwncePlus},
+				THIRD_DOWNRIGHT_ALWNCE_MINUS = #{thirdDownrightAlwnceMinus},
+				JINJEOP1_UP_COND = #{jinjeop1UpCond},
+				JINJEOP1_UP_ALWNCE_PLUS = #{jinjeop1UpAlwncePlus},
+				JINJEOP1_UP_ALWNCE_MINUS = #{jinjeop1UpAlwnceMinus},
+				JINJEOP1_DOWN_COND = #{jinjeop1DownCond},
+				JINJEOP1_DOWN_ALWNCE_PLUS = #{jinjeop1DownAlwncePlus},
+				JINJEOP1_DOWN_ALWNCE_MINUS = #{jinjeop1DownAlwnceMinus},
+				JINJEOP2_UP_COND = #{jinjeop2UpCond},
+				JINJEOP2_UP_ALWNCE_PLUS = #{jinjeop2UpAlwncePlus},
+				JINJEOP2_UP_ALWNCE_MINUS = #{jinjeop2UpAlwnceMinus},
+				JINJEOP2_DOWN_COND = #{jinjeop2DownCond},
+				JINJEOP2_DOWN_ALWNCE_PLUS = #{jinjeop2DownAlwncePlus},
+				JINJEOP2_DOWN_ALWNCE_MINUS = #{jinjeop2DownAlwnceMinus}
+				, USE_YN_CD = #{useYnCd}
+				, UPD_ID = #{updId}
+				, UPD_DATE = getdate()
+			WHERE
+				TEMPATUR_COND_CD = #{tempaturCondCd}
+		]]>
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 6층 온도 정보(Bom온도조건관리)_23.10.24 추가 -->
+	
+	<!-- 온도 전제 조회 -->
+	<select id="tempaturSixFloorList" resultMap="EquipCondTempaturSixFloorAdmVo">
+		SELECT
+			*
+		FROM TB_BOM_TEMPATUR_COND_SIX_FLOOR_ADM
+		WHERE 1=1 
+		<if test="useYnCd == null or useYnCd == ''"> 
+			AND USE_YN_CD = '001'
+		</if>			 
+	</select>
+	
+	<!-- 온도 특정 조회 -->
+	<select id="tempaturSixFloorRead" resultMap="EquipCondTempaturSixFloorAdmVo">
+			SELECT
+				*
+			<!-- 기초제조조건관리 사용 -->
+			<if test="pageGubun == 'bmsc3050'">
+				FROM TB_BOM_TEMPATUR_COND_SIX_FLOOR_ADM
+				WHERE TEMPATUR_COND_CD = #{tempaturCondCd}
+			</if>
+			
+			<!-- 제조조건관리 사용 -->
+			<if test="pageGubun == 'emsc3030'">
+				FROM TB_EQUIP_TEMPATUR_COND_SIX_FLOOR_ADM
+				WHERE EQUIP_COND_SEQ = #{equipCondSeq}
+			</if>
+	</select>
+	
+	<!-- 온도 코드 시퀸스 -->
+	<select id="selectTempaturSixFloorSeqCd" resultType="String">
+		SELECT ISNULL(RIGHT('000' + CAST(MAX(SUBSTRING(TEMPATUR_COND_CD,1,3))+1 AS NVARCHAR),3), '001') FROM TB_BOM_TEMPATUR_COND_SIX_FLOOR_ADM
+	</select>
+	
+	<!-- 온도  생성 -->
+	<insert id="tempaturSixFloorCreate" parameterType="mes.domain.bm.EquipCondTempaturSixFloorAdmVo">
+		<!-- 기초제조조건관리 사용 -->
+		<if test="pageGubun == 'bmsc3050'">
+			INSERT INTO TB_BOM_TEMPATUR_COND_SIX_FLOOR_ADM (
+				TEMPATUR_COND_CD
+				, TEMPATUR_COND_NM
+				, USE_YN_CD
+		</if>
+		<!-- 제조조건관리 사용 -->
+		<if test="pageGubun == 'emsc3030'">
+			INSERT INTO TB_EQUIP_TEMPATUR_COND_SIX_FLOOR_ADM (
+				EQUIP_COND_SEQ
+		</if>
+			, UP_TAB_HEAT_COND
+			, UP_TAB_HEAT_PLUS
+			, UP_TAB_HEAT_MINUS
+			, DOWN_TAB_HEAT_COND
+			, DOWN_TAB_HEAT_PLUS
+			, DOWN_TAB_HEAT_MINUS
+			, UP_ROLL_HEAT_COND
+			, UP_ROLL_HEAT_PLUS
+			, UP_ROLL_HEAT_MINUS
+			, DOWN_ROLL_HEAT_COND
+			, DOWN_ROLL_HEAT_PLUS
+			, DOWN_ROLL_HEAT_MINUS
+			, UP_FILM_JOIN_TOP_COND
+			, UP_FILM_JOIN_TOP_PLUS
+			, UP_FILM_JOIN_TOP_MINUS
+			, UP_FILM_JOIN_BOTTOM_COND
+			, UP_FILM_JOIN_BOTTOM_PLUS
+			, UP_FILM_JOIN_BOTTOM_MINUS
+			, DOWN_FILM_JOIN_TOP_COND
+			, DOWN_FILM_JOIN_TOP_PLUS
+			, DOWN_FILM_JOIN_TOP_MINUS
+			, DOWN_FILM_JOIN_BOTTOM_COND
+			, DOWN_FILM_JOIN_BOTTOM_PLUS
+			, DOWN_FILM_JOIN_BOTTOM_MINUS
+			, DOWN_TAB_HEAT_KEEP_COND
+			, DOWN_TAB_HEAT_KEEP_PLUS
+			, DOWN_TAB_HEAT_KEEP_MINUS
+			, FUP1ST_M_TSID_COND
+			, FUP1ST_M_TSID_PLUS
+			, FUP1ST_M_TSID_MINUS
+			, FUP1ST_M_TMID_COND
+			, FUP1ST_M_TMID_PLUS
+			, FUP1ST_M_TMID_MINUS
+			, FDOWN1ST_M_TSID_COND
+			, FDOWN1ST_M_TSID_PLUS
+			, FDOWN1ST_M_TSID_MINUS
+			, FDOWN1ST_M_TMID_COND
+			, FDOWN1ST_M_TMID_PLUS
+			, FDOWN1ST_M_TMID_MINUS
+			, FUP1ST_M_TPUSH_COND
+			, FUP1ST_M_TPUSH_PLUS
+			, FUP1ST_M_TPUSH_MINUS
+			, FDOWN1ST_M_TPUSH_COND
+			, FDOWN1ST_M_TPUSH_PLUS
+			, FDOWN1ST_M_TPUSH_MINUS
+			, BUP1ST_M_TSID_COND
+			, BUP1ST_M_TSID_PLUS
+			, BUP1ST_M_TSID_MINUS
+			, BUP1ST_M_TMID_COND
+			, BUP1ST_M_TMID_PLUS
+			, BUP1ST_M_TMID_MINUS
+			, BDOWN1ST_M_TSID_COND
+			, BDOWN1ST_M_TSID_PLUS
+			, BDOWN1ST_M_TSID_MINUS
+			, BDOWN1ST_M_TMID_COND
+			, BDOWN1ST_M_TMID_PLUS
+			, BDOWN1ST_M_TMID_MINUS
+			, BUP1ST_PUSH_COND
+			, BUP1ST_PUSH_PLUS
+			, BUP1ST_PUSH_MINUS
+			, BDOWN1ST_PUSH_COND
+			, BDOWN1ST_PUSH_PLUS
+			, BDOWN1ST_PUSH_MINUS
+			, FUP_FILM_FUSE_COND
+			, FUP_FILM_FUSE_PLUS
+			, FUP_FILM_FUSE_MINUS
+			, FDOWN_FILM_FUSE_COND
+			, FDOWN_FILM_FUSE_PLUS
+			, FDOWN_FILM_FUSE_MINUS
+			, BUP_FILM_FUSE_COND
+			, BUP_FILM_FUSE_PLUS
+			, BUP_FILM_FUSE_MINUS
+			, BDOWN_FILM_FUSE_COND
+			, BDOWN_FILM_FUSE_PLUS
+			, BDOWN_FILM_FUSE_MINUS
+			, FUP2ND_M_TSID_COND
+			, FUP2ND_M_TSID_PLUS
+			, FUP2ND_M_TSID_MINUS
+			, FUP2ND_M_TMID_COND
+			, FUP2ND_M_TMID_PLUS
+			, FUP2ND_M_TMID_MINUS
+			, FDOWN2ND_M_TSID_COND
+			, FDOWN2ND_M_TSID_PLUS
+			, FDOWN2ND_M_TSID_MINUS
+			, FDOWN2ND_M_TMID_COND
+			, FDOWN2ND_M_TMID_PLUS
+			, FDOWN2ND_M_TMID_MINUS
+			, BUP2ND_M_TSID_COND
+			, BUP2ND_M_TSID_PLUS
+			, BUP2ND_M_TSID_MINUS
+			, BUP2ND_M_TMID_COND
+			, BUP2ND_M_TMID_PLUS
+			, BUP2ND_M_TMID_MINUS
+			, BDOWN2ND_M_TSID_COND
+			, BDOWN2ND_M_TSID_PLUS
+			, BDOWN2ND_M_TSID_MINUS
+			, BDOWN2ND_M_TMID_COND
+			, BDOWN2ND_M_TMID_PLUS
+			, BDOWN2ND_M_TMID_MINUS
+			, FUP3RD_M_TSID_COND
+			, FUP3RD_M_TSID_PLUS
+			, FUP3RD_M_TSID_MINUS
+			, FUP3RD_M_TMID_COND
+			, FUP3RD_M_TMID_PLUS
+			, FUP3RD_M_TMID_MINUS
+			, FDOWN3RD_M_TSID_COND
+			, FDOWN3RD_M_TSID_PLUS
+			, FDOWN3RD_M_TSID_MINUS
+			, FDOWN3RD_M_TMID_COND
+			, FDOWN3RD_M_TMID_PLUS
+			, FDOWN3RD_M_TMID_MINUS
+			, BUP3RD_M_TSID_COND
+			, BUP3RD_M_TSID_PLUS
+			, BUP3RD_M_TSID_MINUS
+			, BUP3RD_M_TMID_COND
+			, BUP3RD_M_TMID_PLUS
+			, BUP3RD_M_TMID_MINUS
+			, BDOWN3RD_M_TSID_COND
+			, BDOWN3RD_M_TSID_PLUS
+			, BDOWN3RD_M_TSID_MINUS
+			, BDOWN3RD_M_TMID_COND
+			, BDOWN3RD_M_TMID_PLUS
+			, BDOWN3RD_M_TMID_MINUS
+			, FUP_FILM_RFM_COOL_COND
+			, FUP_FILM_RFM_COOL_PLUS
+			, FUP_FILM_RFM_COOL_MINUS
+			, FDOWN_FILM_RFM_COOL_COND
+			, FDOWN_FILM_RFM_COOL_PLUS
+			, FDOWN_FILM_RFM_COOL_MINUS
+			, BUP_FILM_RFM_COOL_COND
+			, BUP_FILM_RFM_COOL_PLUS
+			, BUP_FILM_RFM_COOL_MINUS
+			, BDOWN_FILM_RFM_COOL_COND
+			, BDOWN_FILM_RFM_COOL_PLUS
+			, BDOWN_FILM_RFM_COOL_MINUS
+			, REG_ID
+			, REG_DATE
+		) 
+		VALUES(
+		<!-- 기초제조조건관리 사용 -->
+		<if test="pageGubun == 'bmsc3050'">
+			#{tempaturCondCd}
+			, #{tempaturCondNm}
+			, #{useYnCd}
+		</if>
+		
+		<!-- 제조조건관리 사용 -->
+		<if test="pageGubun == 'emsc3030'">
+			#{equipCondSeq}
+		</if>
+			, #{upTabHeatCond}
+			, #{upTabHeatPlus}
+			, #{upTabHeatMinus}
+			, #{downTabHeatCond}
+			, #{downTabHeatPlus}
+			, #{downTabHeatMinus}
+			, #{upRollHeatCond}
+			, #{upRollHeatPlus}
+			, #{upRollHeatMinus}
+			, #{downRollHeatCond}
+			, #{downRollHeatPlus}
+			, #{downRollHeatMinus}
+			, #{upFilmJoinTopCond}
+			, #{upFilmJoinTopPlus}
+			, #{upFilmJoinTopMinus}
+			, #{upFilmJoinBottomCond}
+			, #{upFilmJoinBottomPlus}
+			, #{upFilmJoinBottomMinus}
+			, #{downFilmJoinTopCond}
+			, #{downFilmJoinTopPlus}
+			, #{downFilmJoinTopMinus}
+			, #{downFilmJoinBottomCond}
+			, #{downFilmJoinBottomPlus}
+			, #{downFilmJoinBottomMinus}
+			, #{downTabHeatKeepCond}
+			, #{downTabHeatKeepPlus}
+			, #{downTabHeatKeepMinus}
+			, #{fup1stMTsidCond}
+			, #{fup1stMTsidPlus}
+			, #{fup1stMTsidMinus}
+			, #{fup1stMTmidCond}
+			, #{fup1stMTmidPlus}
+			, #{fup1stMTmidMinus}
+			, #{fdown1stMTsidCond}
+			, #{fdown1stMTsidPlus}
+			, #{fdown1stMTsidMinus}
+			, #{fdown1stMTmidCond}
+			, #{fdown1stMTmidPlus}
+			, #{fdown1stMTmidMinus}
+			, #{fup1stMTpushCond}
+			, #{fup1stMTpushPlus}
+			, #{fup1stMTpushMinus}
+			, #{fdown1stMTpushCond}
+			, #{fdown1stMTpushPlus}
+			, #{fdown1stMTpushMinus}
+			, #{bup1stMTsidCond}
+			, #{bup1stMTsidPlus}
+			, #{bup1stMTsidMinus}
+			, #{bup1stMTmidCond}
+			, #{bup1stMTmidPlus}
+			, #{bup1stMTmidMinus}
+			, #{bdown1stMTsidCond}
+			, #{bdown1stMTsidPlus}
+			, #{bdown1stMTsidMinus}
+			, #{bdown1stMTmidCond}
+			, #{bdown1stMTmidPlus}
+			, #{bdown1stMTmidMinus}
+			, #{bup1stPushCond}
+			, #{bup1stPushPlus}
+			, #{bup1stPushMinus}
+			, #{bdown1stPushCond}
+			, #{bdown1stPushPlus}
+			, #{bdown1stPushMinus}
+			, #{fupFilmFuseCond}
+			, #{fupFilmFusePlus}
+			, #{fupFilmFuseMinus}
+			, #{fdownFilmFuseCond}
+			, #{fdownFilmFusePlus}
+			, #{fdownFilmFuseMinus}
+			, #{bupFilmFuseCond}
+			, #{bupFilmFusePlus}
+			, #{bupFilmFuseMinus}
+			, #{bdownFilmFuseCond}
+			, #{bdownFilmFusePlus}
+			, #{bdownFilmFuseMinus}
+			, #{fup2ndMTsidCond}
+			, #{fup2ndMTsidPlus}
+			, #{fup2ndMTsidMinus}
+			, #{fup2ndMTmidCond}
+			, #{fup2ndMTmidPlus}
+			, #{fup2ndMTmidMinus}
+			, #{fdown2ndMTsidCond}
+			, #{fdown2ndMTsidPlus}
+			, #{fdown2ndMTsidMinus}
+			, #{fdown2ndMTmidCond}
+			, #{fdown2ndMTmidPlus}
+			, #{fdown2ndMTmidMinus}
+			, #{bup2ndMTsidCond}
+			, #{bup2ndMTsidPlus}
+			, #{bup2ndMTsidMinus}
+			, #{bup2ndMTmidCond}
+			, #{bup2ndMTmidPlus}
+			, #{bup2ndMTmidMinus}
+			, #{bdown2ndMTsidCond}
+			, #{bdown2ndMTsidPlus}
+			, #{bdown2ndMTsidMinus}
+			, #{bdown2ndMTmidCond}
+			, #{bdown2ndMTmidPlus}
+			, #{bdown2ndMTmidMinus}
+			, #{fup3rdMTsidCond}
+			, #{fup3rdMTsidPlus}
+			, #{fup3rdMTsidMinus}
+			, #{fup3rdMTmidCond}
+			, #{fup3rdMTmidPlus}
+			, #{fup3rdMTmidMinus}
+			, #{fdown3rdMTsidCond}
+			, #{fdown3rdMTsidPlus}
+			, #{fdown3rdMTsidMinus}
+			, #{fdown3rdMTmidCond}
+			, #{fdown3rdMTmidPlus}
+			, #{fdown3rdMTmidMinus}
+			, #{bup3rdMTsidCond}
+			, #{bup3rdMTsidPlus}
+			, #{bup3rdMTsidMinus}
+			, #{bup3rdMTmidCond}
+			, #{bup3rdMTmidPlus}
+			, #{bup3rdMTmidMinus}
+			, #{bdown3rdMTsidCond}
+			, #{bdown3rdMTsidPlus}
+			, #{bdown3rdMTsidMinus}
+			, #{bdown3rdMTmidCond}
+			, #{bdown3rdMTmidPlus}
+			, #{bdown3rdMTmidMinus}
+			, #{fupFilmRfmCoolCond}
+			, #{fupFilmRfmCoolPlus}
+			, #{fupFilmRfmCoolMinus}
+			, #{fdownFilmRfmCoolCond}
+			, #{fdownFilmRfmCoolPlus}
+			, #{fdownFilmRfmCoolMinus}
+			, #{bupFilmRfmCoolCond}
+			, #{bupFilmRfmCoolPlus}
+			, #{bupFilmRfmCoolMinus}
+			, #{bdownFilmRfmCoolCond}
+			, #{bdownFilmRfmCoolPlus}
+			, #{bdownFilmRfmCoolMinus}
+			, #{regId}
+			, getDate()
+		)
+	</insert>
+
+	<!-- 온도 수정 -->
+	<update id="tempaturSixFloorUpdate">
+		<!-- 기초제조조건관리 사용 -->
+		<if test="pageGubun == 'bmsc3050'">
+			UPDATE
+				TB_BOM_TEMPATUR_COND_SIX_FLOOR_ADM 
+			SET
+				USE_YN_CD = #{useYnCd}
+				, TEMPATUR_COND_NM = #{tempaturCondNm}
+				, UP_TAB_HEAT_COND = #{upTabHeatCond}
+		</if>
+		<!-- 제조조건관리 사용 -->
+		<if test="pageGubun == 'emsc3030'">
+			UPDATE
+				TB_EQUIP_TEMPATUR_COND_SIX_FLOOR_ADM 
+			SET
+				UP_TAB_HEAT_COND = #{upTabHeatCond}
+		</if>
+			, UP_TAB_HEAT_PLUS = #{upTabHeatPlus}
+			, UP_TAB_HEAT_MINUS = #{upTabHeatMinus}
+			, DOWN_TAB_HEAT_COND = #{downTabHeatCond}
+			, DOWN_TAB_HEAT_PLUS = #{downTabHeatPlus}
+			, DOWN_TAB_HEAT_MINUS = #{downTabHeatMinus}
+			, UP_ROLL_HEAT_COND = #{upRollHeatCond}
+			, UP_ROLL_HEAT_PLUS = #{upRollHeatPlus}
+			, UP_ROLL_HEAT_MINUS = #{upRollHeatMinus}
+			, DOWN_ROLL_HEAT_COND = #{downRollHeatCond}
+			, DOWN_ROLL_HEAT_PLUS = #{downRollHeatPlus}
+			, DOWN_ROLL_HEAT_MINUS = #{downRollHeatMinus}
+			, UP_FILM_JOIN_TOP_COND = #{upFilmJoinTopCond}
+			, UP_FILM_JOIN_TOP_PLUS = #{upFilmJoinTopPlus}
+			, UP_FILM_JOIN_TOP_MINUS = #{upFilmJoinTopMinus}
+			, UP_FILM_JOIN_BOTTOM_COND = #{upFilmJoinBottomCond}
+			, UP_FILM_JOIN_BOTTOM_PLUS = #{upFilmJoinBottomPlus}
+			, UP_FILM_JOIN_BOTTOM_MINUS = #{upFilmJoinBottomMinus}
+			, DOWN_FILM_JOIN_TOP_COND = #{downFilmJoinTopCond}
+			, DOWN_FILM_JOIN_TOP_PLUS = #{downFilmJoinTopPlus}
+			, DOWN_FILM_JOIN_TOP_MINUS = #{downFilmJoinTopMinus}
+			, DOWN_FILM_JOIN_BOTTOM_COND = #{downFilmJoinBottomCond}
+			, DOWN_FILM_JOIN_BOTTOM_PLUS = #{downFilmJoinBottomPlus}
+			, DOWN_FILM_JOIN_BOTTOM_MINUS = #{downFilmJoinBottomMinus}
+			, DOWN_TAB_HEAT_KEEP_COND = #{downTabHeatKeepCond}
+			, DOWN_TAB_HEAT_KEEP_PLUS = #{downTabHeatKeepPlus}
+			, DOWN_TAB_HEAT_KEEP_MINUS = #{downTabHeatKeepMinus}
+			, FUP1ST_M_TSID_COND = #{fup1stMTsidCond}
+			, FUP1ST_M_TSID_PLUS = #{fup1stMTsidPlus}
+			, FUP1ST_M_TSID_MINUS = #{fup1stMTsidMinus}
+			, FUP1ST_M_TMID_COND = #{fup1stMTmidCond}
+			, FUP1ST_M_TMID_PLUS = #{fup1stMTmidPlus}
+			, FUP1ST_M_TMID_MINUS = #{fup1stMTmidMinus}
+			, FDOWN1ST_M_TSID_COND = #{fdown1stMTsidCond}
+			, FDOWN1ST_M_TSID_PLUS = #{fdown1stMTsidPlus}
+			, FDOWN1ST_M_TSID_MINUS = #{fdown1stMTsidMinus}
+			, FDOWN1ST_M_TMID_COND = #{fdown1stMTmidCond}
+			, FDOWN1ST_M_TMID_PLUS = #{fdown1stMTmidPlus}
+			, FDOWN1ST_M_TMID_MINUS = #{fdown1stMTmidMinus}
+			, FUP1ST_M_TPUSH_COND = #{fup1stMTpushCond}
+			, FUP1ST_M_TPUSH_PLUS = #{fup1stMTpushPlus}
+			, FUP1ST_M_TPUSH_MINUS = #{fup1stMTpushMinus}
+			, FDOWN1ST_M_TPUSH_COND = #{fdown1stMTpushCond}
+			, FDOWN1ST_M_TPUSH_PLUS = #{fdown1stMTpushPlus}
+			, FDOWN1ST_M_TPUSH_MINUS = #{fdown1stMTpushMinus}
+			, BUP1ST_M_TSID_COND = #{bup1stMTsidCond}
+			, BUP1ST_M_TSID_PLUS = #{bup1stMTsidPlus}
+			, BUP1ST_M_TSID_MINUS = #{bup1stMTsidMinus}
+			, BUP1ST_M_TMID_COND = #{bup1stMTmidCond}
+			, BUP1ST_M_TMID_PLUS = #{bup1stMTmidPlus}
+			, BUP1ST_M_TMID_MINUS = #{bup1stMTmidMinus}
+			, BDOWN1ST_M_TSID_COND = #{bdown1stMTsidCond}
+			, BDOWN1ST_M_TSID_PLUS = #{bdown1stMTsidPlus}
+			, BDOWN1ST_M_TSID_MINUS = #{bdown1stMTsidMinus}
+			, BDOWN1ST_M_TMID_COND = #{bdown1stMTmidCond}
+			, BDOWN1ST_M_TMID_PLUS = #{bdown1stMTmidPlus}
+			, BDOWN1ST_M_TMID_MINUS = #{bdown1stMTmidMinus}
+			, BUP1ST_PUSH_COND = #{bup1stPushCond}
+			, BUP1ST_PUSH_PLUS = #{bup1stPushPlus}
+			, BUP1ST_PUSH_MINUS = #{bup1stPushMinus}
+			, BDOWN1ST_PUSH_COND = #{bdown1stPushCond}
+			, BDOWN1ST_PUSH_PLUS = #{bdown1stPushPlus}
+			, BDOWN1ST_PUSH_MINUS = #{bdown1stPushMinus}
+			, FUP_FILM_FUSE_COND = #{fupFilmFuseCond}
+			, FUP_FILM_FUSE_PLUS = #{fupFilmFusePlus}
+			, FUP_FILM_FUSE_MINUS = #{fupFilmFuseMinus}
+			, FDOWN_FILM_FUSE_COND = #{fdownFilmFuseCond}
+			, FDOWN_FILM_FUSE_PLUS = #{fdownFilmFusePlus}
+			, FDOWN_FILM_FUSE_MINUS = #{fdownFilmFuseMinus}
+			, BUP_FILM_FUSE_COND = #{bupFilmFuseCond}
+			, BUP_FILM_FUSE_PLUS = #{bupFilmFusePlus}
+			, BUP_FILM_FUSE_MINUS = #{bupFilmFuseMinus}
+			, BDOWN_FILM_FUSE_COND = #{bdownFilmFuseCond}
+			, BDOWN_FILM_FUSE_PLUS = #{bdownFilmFusePlus}
+			, BDOWN_FILM_FUSE_MINUS = #{bdownFilmFuseMinus}
+			, FUP2ND_M_TSID_COND = #{fup2ndMTsidCond}
+			, FUP2ND_M_TSID_PLUS = #{fup2ndMTsidPlus}
+			, FUP2ND_M_TSID_MINUS = #{fup2ndMTsidMinus}
+			, FUP2ND_M_TMID_COND = #{fup2ndMTmidCond}
+			, FUP2ND_M_TMID_PLUS = #{fup2ndMTmidPlus}
+			, FUP2ND_M_TMID_MINUS = #{fup2ndMTmidMinus}
+			, FDOWN2ND_M_TSID_COND = #{fdown2ndMTsidCond}
+			, FDOWN2ND_M_TSID_PLUS = #{fdown2ndMTsidPlus}
+			, FDOWN2ND_M_TSID_MINUS = #{fdown2ndMTsidMinus}
+			, FDOWN2ND_M_TMID_COND = #{fdown2ndMTmidCond}
+			, FDOWN2ND_M_TMID_PLUS = #{fdown2ndMTmidPlus}
+			, FDOWN2ND_M_TMID_MINUS = #{fdown2ndMTmidMinus}
+			, BUP2ND_M_TSID_COND = #{bup2ndMTsidCond}
+			, BUP2ND_M_TSID_PLUS = #{bup2ndMTsidPlus}
+			, BUP2ND_M_TSID_MINUS = #{bup2ndMTsidMinus}
+			, BUP2ND_M_TMID_COND = #{bup2ndMTmidCond}
+			, BUP2ND_M_TMID_PLUS = #{bup2ndMTmidPlus}
+			, BUP2ND_M_TMID_MINUS = #{bup2ndMTmidMinus}
+			, BDOWN2ND_M_TSID_COND = #{bdown2ndMTsidCond}
+			, BDOWN2ND_M_TSID_PLUS = #{bdown2ndMTsidPlus}
+			, BDOWN2ND_M_TSID_MINUS = #{bdown2ndMTsidMinus}
+			, BDOWN2ND_M_TMID_COND = #{bdown2ndMTmidCond}
+			, BDOWN2ND_M_TMID_PLUS = #{bdown2ndMTmidPlus}
+			, BDOWN2ND_M_TMID_MINUS = #{bdown2ndMTmidMinus}
+			, FUP3RD_M_TSID_COND = #{fup3rdMTsidCond}
+			, FUP3RD_M_TSID_PLUS = #{fup3rdMTsidPlus}
+			, FUP3RD_M_TSID_MINUS = #{fup3rdMTsidMinus}
+			, FUP3RD_M_TMID_COND = #{fup3rdMTmidCond}
+			, FUP3RD_M_TMID_PLUS = #{fup3rdMTmidPlus}
+			, FUP3RD_M_TMID_MINUS = #{fup3rdMTmidMinus}
+			, FDOWN3RD_M_TSID_COND = #{fdown3rdMTsidCond}
+			, FDOWN3RD_M_TSID_PLUS = #{fdown3rdMTsidPlus}
+			, FDOWN3RD_M_TSID_MINUS = #{fdown3rdMTsidMinus}
+			, FDOWN3RD_M_TMID_COND = #{fdown3rdMTmidCond}
+			, FDOWN3RD_M_TMID_PLUS = #{fdown3rdMTmidPlus}
+			, FDOWN3RD_M_TMID_MINUS = #{fdown3rdMTmidMinus}
+			, BUP3RD_M_TSID_COND = #{bup3rdMTsidCond}
+			, BUP3RD_M_TSID_PLUS = #{bup3rdMTsidPlus}
+			, BUP3RD_M_TSID_MINUS = #{bup3rdMTsidMinus}
+			, BUP3RD_M_TMID_COND = #{bup3rdMTmidCond}
+			, BUP3RD_M_TMID_PLUS = #{bup3rdMTmidPlus}
+			, BUP3RD_M_TMID_MINUS = #{bup3rdMTmidMinus}
+			, BDOWN3RD_M_TSID_COND = #{bdown3rdMTsidCond}
+			, BDOWN3RD_M_TSID_PLUS = #{bdown3rdMTsidPlus}
+			, BDOWN3RD_M_TSID_MINUS = #{bdown3rdMTsidMinus}
+			, BDOWN3RD_M_TMID_COND = #{bdown3rdMTmidCond}
+			, BDOWN3RD_M_TMID_PLUS = #{bdown3rdMTmidPlus}
+			, BDOWN3RD_M_TMID_MINUS = #{bdown3rdMTmidMinus}
+			, FUP_FILM_RFM_COOL_COND = #{fupFilmRfmCoolCond}
+			, FUP_FILM_RFM_COOL_PLUS = #{fupFilmRfmCoolPlus}
+			, FUP_FILM_RFM_COOL_MINUS = #{fupFilmRfmCoolMinus}
+			, FDOWN_FILM_RFM_COOL_COND = #{fdownFilmRfmCoolCond}
+			, FDOWN_FILM_RFM_COOL_PLUS = #{fdownFilmRfmCoolPlus}
+			, FDOWN_FILM_RFM_COOL_MINUS = #{fdownFilmRfmCoolMinus}
+			, BUP_FILM_RFM_COOL_COND = #{bupFilmRfmCoolCond}
+			, BUP_FILM_RFM_COOL_PLUS = #{bupFilmRfmCoolPlus}
+			, BUP_FILM_RFM_COOL_MINUS = #{bupFilmRfmCoolMinus}
+			, BDOWN_FILM_RFM_COOL_COND = #{bdownFilmRfmCoolCond}
+			, BDOWN_FILM_RFM_COOL_PLUS = #{bdownFilmRfmCoolPlus}
+			, BDOWN_FILM_RFM_COOL_MINUS = #{bdownFilmRfmCoolMinus}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getdate()
+		<!-- 기초제조조건관리 사용 -->
+		<if test="pageGubun == 'bmsc3050'">
+			WHERE TEMPATUR_COND_CD = #{tempaturCondCd}
+		</if>
+		<!-- 제조조건관리 사용 -->
+		<if test="pageGubun == 'emsc3030'">
+			WHERE EQUIP_COND_SEQ = #{equipCondSeq}
+		</if>
+	</update>
+	
+</mapper>

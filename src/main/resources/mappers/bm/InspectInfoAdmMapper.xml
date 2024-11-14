@@ -1,0 +1,1742 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.bm.inspectInfoAdmMapper">
+
+	<resultMap id="InspectInfoAdmVo" type="mes.domain.bm.InspectInfoAdmVo">
+		<result property="matrlGubunCd"			column="MATRL_GUBUN_CD"		/>
+		<result property="inWhsGroupSeq"		column="IN_WHS_GROUP_SEQ"	/>
+		<result property="inspectItem1"			column="INSPECT_ITEM1"		/>
+		<result property="inspectItem2"			column="INSPECT_ITEM2"		/>
+		<result property="inspectItem3"			column="INSPECT_ITEM3"		/>
+		<result property="inspectItem4"			column="INSPECT_ITEM4"		/>
+		<result property="inspectItem5"			column="INSPECT_ITEM5"		/>
+		<result property="inspectItem6"			column="INSPECT_ITEM6"		/>
+		<result property="inspectItem7"			column="INSPECT_ITEM7"		/>
+		<result property="inspectItem8"			column="INSPECT_ITEM8"		/>
+		<result property="inspectItem9"			column="INSPECT_ITEM9"		/>
+		<result property="inspectItem10"		column="INSPECT_ITEM10"		/>
+		<result property="inspectItem11"		column="INSPECT_ITEM11"		/>
+		<result property="inspectItem12"		column="INSPECT_ITEM12"		/>
+		<result property="inspectItem13"		column="INSPECT_ITEM13"		/>
+		<result property="inspectItem14"		column="INSPECT_ITEM14"		/>
+		<result property="inspectItem15"		column="INSPECT_ITEM15"		/>
+		<result property="inspectItem16"		column="INSPECT_ITEM16"		/>
+		<result property="inspectItem17"		column="INSPECT_ITEM17"		/>
+		<result property="inspectItem18"		column="INSPECT_ITEM18"		/>
+		<result property="inspectItem19"		column="INSPECT_ITEM19"		/>
+		<result property="inspectItem20"		column="INSPECT_ITEM20"		/>
+		<result property="inspectItem21"		column="INSPECT_ITEM21"		/>
+		<result property="inspectItem22"		column="INSPECT_ITEM22"		/>
+		<result property="inspectItem23"		column="INSPECT_ITEM23"		/>
+		<result property="inspectItem24"		column="INSPECT_ITEM24"		/>
+		<result property="inspectItem25"		column="INSPECT_ITEM25"		/>
+		<result property="inspectItem26"		column="INSPECT_ITEM26"		/>
+		<result property="inspectItem27"		column="INSPECT_ITEM27"		/>
+		<result property="inspectItem28"		column="INSPECT_ITEM28"		/>
+		<result property="inspectItem29"		column="INSPECT_ITEM29"		/>
+		<result property="inspectItem30"		column="INSPECT_ITEM30"		/>
+		<result property="inspectDate"			column="INSPECT_DATE"		/>
+		<result property="regId"				column="REG_ID"				/>
+		<result property="regDate"				column="REG_DATE"			/>
+		<result property="updId"				column="UPD_ID"				/>
+		<result property="updDate"				column="UPD_DATE"			/>
+		
+		<result property="matrlCd"				column="MATRL_CD"			/>
+		<result property="matrlNm"				column="MATRL_NM"			/>
+		<result property="preInWhsQty"			column="PRE_IN_WHS_QTY"		/>
+		<result property="inWhsQty"				column="IN_WHS_QTY"			/>
+		<result property="preInWhsDate"			column="PRE_IN_WHS_DATE"	/>
+		<result property="spplyDealCorpCd"		column="SPPLY_DEAL_CORP_CD"	/>
+		<result property="dealCorpNm"			column="DEAL_CORP_NM"		/>
+		
+		<result property="idx"         			column="IDX"				/>
+		<result property="lotNo"       			column="LOT_NO"				/>
+		<result property="managementCd"			column="MANAGEMENT_CD"		/>
+		<result property="managementNm"			column="MANAGEMENT_NM"		/>
+		<result property="modelCd"     			column="MODEL_CD"			/>
+		<result property="modelNm"     			column="MODEL_NM"			/>
+		<result property="resultNm"    			column="RESULT_NM"			/>
+		<result property="resultCd"     		column="RESULT_CD"			/> 
+		<result property="inspectEtc"   		column="INSPECT_ETC"		/> 
+		
+		<result property="inspectCd"   			column="INSPECT_CD"			/> 		
+		<result property="inspectNm"   			column="INSPECT_NM"			/> 
+	
+		<result property="insepctEtc001"   			column="INSEPCT_ETC001"			/> 		
+		<result property="insepctEtc002"   			column="INSEPCT_ETC002"			/> 
+		<result property="insepctEtc003"   			column="INSEPCT_ETC003"			/> 		
+		<result property="insepctEtc004"   			column="INSEPCT_ETC004"			/> 
+		<result property="insepctEtc005"   			column="INSEPCT_ETC005"			/> 		
+		<result property="insepctEtc006"   			column="INSEPCT_ETC006"			/> 
+		<result property="insepctEtc007"   			column="INSEPCT_ETC007"			/> 		
+		<result property="insepctEtc008"   			column="INSEPCT_ETC008"			/> 
+		<result property="insepctEtc009"   			column="INSEPCT_ETC009"			/> 
+		<result property="insepctEtc010"   			column="INSEPCT_ETC010"			/> 		
+		<result property="insepctEtc011"   			column="INSEPCT_ETC011"			/> 
+		<result property="insepctEtc012"   			column="INSEPCT_ETC012"			/> 		
+		<result property="insepctEtc013"   			column="INSEPCT_ETC013"			/> 
+		<result property="insepctEtc014"   			column="INSEPCT_ETC014"			/> 		
+		<result property="insepctEtc015"   			column="INSEPCT_ETC015"			/>  
+		<result property="insepctEtc016"   			column="INSEPCT_ETC016"			/> 		
+		<result property="insepctEtc017"   			column="INSEPCT_ETC017"			/> 
+		<result property="insepctEtc018"   			column="INSEPCT_ETC018"			/> 
+		<result property="insepctEtc019"   			column="INSEPCT_ETC019"			/> 
+		<result property="insepctEtc020"   			column="INSEPCT_ETC020"			/> 		
+		<result property="insepctEtc021"   			column="INSEPCT_ETC021"			/> 
+		<result property="insepctEtc022"   			column="INSEPCT_ETC022"			/> 		
+		<result property="insepctEtc023"   			column="INSEPCT_ETC023"			/> 
+		<result property="insepctEtc024"   			column="INSEPCT_ETC024"			/> 		
+		<result property="insepctEtc025"   			column="INSEPCT_ETC025"			/>  
+		<result property="insepctEtc026"   			column="INSEPCT_ETC026"			/> 		
+		<result property="insepctEtc027"   			column="INSEPCT_ETC027"			/> 
+		<result property="insepctEtc028"   			column="INSEPCT_ETC028"			/> 
+		<result property="insepctEtc029"   			column="INSEPCT_ETC029"			/> 
+		<result property="insepctEtc030"   			column="INSEPCT_ETC030"			/> 			
+		<result property="insepctEtc031"   			column="INSEPCT_ETC031"			/> 
+		<result property="insepctEtc032"   			column="INSEPCT_ETC032"			/> 		
+		<result property="insepctEtc033"   			column="INSEPCT_ETC033"			/> 
+		<result property="insepctEtc034"   			column="INSEPCT_ETC034"			/> 		
+		<result property="insepctEtc035"   			column="INSEPCT_ETC035"			/>  
+		<result property="insepctEtc036"   			column="INSEPCT_ETC036"			/> 		
+		<result property="insepctEtc037"   			column="INSEPCT_ETC037"			/> 
+		<result property="insepctEtc038"   			column="INSEPCT_ETC038"			/> 
+		<result property="insepctEtc039"   			column="INSEPCT_ETC039"			/> 
+		<result property="insepctEtc040"   			column="INSEPCT_ETC040"			/> 			
+		<result property="insepctEtc041"   			column="INSEPCT_ETC041"			/> 
+		<result property="insepctEtc042"   			column="INSEPCT_ETC042"			/> 		
+		<result property="insepctEtc043"   			column="INSEPCT_ETC043"			/> 
+		<result property="insepctEtc044"   			column="INSEPCT_ETC044"			/> 		
+		<result property="insepctEtc045"   			column="INSEPCT_ETC045"			/>  
+	</resultMap>
+	
+	
+	<!-- 시스템공통그룹 전체조회 -->
+	<select id="read" resultMap="InspectInfoAdmVo">
+		<![CDATA[
+			SELECT
+			MATRL_GUBUN_CD
+			, INSPECT_ITEM1
+			, INSPECT_ITEM2
+			, INSPECT_ITEM3
+			, INSPECT_ITEM4
+			, INSPECT_ITEM5
+			, INSPECT_ITEM6
+			, INSPECT_ITEM7
+			, INSPECT_ITEM8
+			, INSPECT_ITEM9
+			, INSPECT_ITEM10
+			, INSPECT_ITEM11
+			, INSPECT_ITEM12
+			, INSPECT_ITEM13
+			, INSPECT_ITEM14
+			, INSPECT_ITEM15
+			, INSPECT_ITEM16
+			, INSPECT_ITEM17
+			, INSPECT_ITEM18
+			, INSPECT_ITEM19
+			, INSPECT_ITEM20
+			, INSPECT_ITEM21
+			, INSPECT_ITEM22
+			, INSPECT_ITEM23
+			, INSPECT_ITEM24
+			, INSPECT_ITEM25
+			, INSPECT_ITEM26
+			, INSPECT_ITEM27
+			, INSPECT_ITEM28
+			, INSPECT_ITEM29
+			, INSPECT_ITEM30
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			FROM	TB_INSPECT_INFO_ADM 
+			WHERE	MATRL_GUBUN_CD = #{matrlGubunCd}
+		]]>
+	</select>
+	
+	<!-- 시스템공통그룹 전체조회 -->
+	<select id="read2" resultMap="InspectInfoAdmVo">
+		<![CDATA[
+			SELECT
+			MATRL_GUBUN_CD
+			, IN_WHS_GROUP_SEQ
+			, INSPECT_ITEM1
+			, INSPECT_ITEM2
+			, INSPECT_ITEM3
+			, INSPECT_ITEM4
+			, INSPECT_ITEM5
+			, INSPECT_ITEM6
+			, INSPECT_ITEM7
+			, INSPECT_ITEM8
+			, INSPECT_ITEM9
+			, INSPECT_ITEM10
+			, INSPECT_ITEM11
+			, INSPECT_ITEM12
+			, INSPECT_ITEM13
+			, INSPECT_ITEM14
+			, INSPECT_ITEM15
+			, INSPECT_ITEM16
+			, INSPECT_ITEM17
+			, INSPECT_ITEM18
+			, INSPECT_ITEM19
+			, INSPECT_ITEM20
+			, INSPECT_ITEM21
+			, INSPECT_ITEM22
+			, INSPECT_ITEM23
+			, INSPECT_ITEM24
+			, INSPECT_ITEM25
+			, INSPECT_ITEM26
+			, INSPECT_ITEM27
+			, INSPECT_ITEM28
+			, INSPECT_ITEM29
+			, INSPECT_ITEM30
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			FROM	TB_MATRL_INSPECT_ADM 
+			WHERE	IN_WHS_GROUP_SEQ = #{inWhsGroupSeq} 
+					
+		]]>
+	</select>
+	
+	<!-- 수입검사 상단조회 -->
+	<select id="read3" resultMap="InspectInfoAdmVo">
+		<![CDATA[
+			SELECT
+				IDX
+				,IN_WHS_GROUP_SEQ
+				,MATRL_GUBUN_CD		
+				,LOT_NO
+				,MANAGEMENT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='065' AND D.BASE_CD = MANAGEMENT_CD) MANAGEMENT_NM			
+				, (SELECT BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='065' AND D.BASE_CD = MANAGEMENT_CD) MODEL_NM
+				,RESULT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='043' AND D.BASE_CD = RESULT_CD) RESULT_NM
+				,INSPECT_ETC
+				,INSPECT_DATE
+				,REG_ID
+				,REG_DATE
+				,UPD_ID
+				,UPD_DATE
+			FROM	TB_MATRL_INSPECT_ADM_CODE 
+			WHERE	LOT_NO = #{lotNo} 
+					
+		]]>
+	</select>
+	
+		<!-- 수입검사 상단조회 -->
+	<select id="read3New" resultMap="InspectInfoAdmVo">
+		<![CDATA[
+			SELECT
+				IDX
+				,IN_WHS_GROUP_SEQ
+				,MATRL_GUBUN_CD		
+				,MATRL_CD
+				,LOT_NO
+				,MANAGEMENT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='065' AND D.BASE_CD = MANAGEMENT_CD) MANAGEMENT_NM			
+				, (SELECT BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='065' AND D.BASE_CD = MANAGEMENT_CD) MODEL_NM
+				,RESULT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='043' AND D.BASE_CD = RESULT_CD) RESULT_NM
+				,INSPECT_ETC
+				,INSPECT_DATE
+				,REG_ID
+				,REG_DATE
+				,UPD_ID
+				,UPD_DATE
+			FROM	TB_MATRL_INSPECT_ADM_CODE 
+			WHERE	LOT_NO = #{lotNo} 
+					
+		]]>
+	</select>
+	
+	<!-- 수입검사 하단조회 -->
+	<select id="read4" resultMap="InspectInfoAdmVo">
+		<![CDATA[
+			SELECT
+			LOT_NO
+			, INSPECT_ITEM13
+			, INSPECT_ITEM14
+			, INSPECT_ITEM15
+			, INSPECT_ITEM16
+			, INSPECT_ITEM17
+			, INSPECT_ITEM18
+			, INSPECT_ITEM19
+			, INSPECT_ITEM20
+			, INSPECT_ITEM21		
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			FROM	TB_MATRL_INSPECT_DTL
+			WHERE	LOT_NO = #{lotNo} 
+					
+		]]>
+	</select>
+	
+		<!-- 수입검사 하단조회 -->
+	<select id="read4New" resultMap="InspectInfoAdmVo">
+		<![CDATA[
+			SELECT
+			LOT_NO
+			, MATRL_CD
+			, INSPECT_ITEM13
+			, INSPECT_ITEM14
+			, INSPECT_ITEM15
+			, INSPECT_ITEM16
+			, INSPECT_ITEM17
+			, INSPECT_ITEM18
+			, INSPECT_ITEM19
+			, INSPECT_ITEM20
+			, INSPECT_ITEM21		
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			FROM	TB_MATRL_INSPECT_DTL
+			WHERE	LOT_NO = #{lotNo} 
+					
+		]]>
+	</select>
+	
+		
+	<!-- 자재코드별 시스템그룹 전체조회 -->
+	<select id="dtlRead" resultMap="InspectInfoAdmVo">
+		<![CDATA[
+			SELECT
+			MATRL_GUBUN_CD
+			, INSPECT_ITEM1
+			, INSPECT_ITEM2
+			, INSPECT_ITEM3
+			, INSPECT_ITEM4
+			, INSPECT_ITEM5
+			, INSPECT_ITEM6
+			, INSPECT_ITEM7
+			, INSPECT_ITEM8
+			, INSPECT_ITEM9
+			, INSPECT_ITEM10
+			, INSPECT_ITEM11
+			, INSPECT_ITEM12
+			, INSPECT_ITEM13
+			, INSPECT_ITEM14
+			, INSPECT_ITEM15
+			, INSPECT_ITEM16
+			, INSPECT_ITEM17
+			, INSPECT_ITEM18
+			, INSPECT_ITEM19
+			, INSPECT_ITEM20
+			, INSPECT_ITEM21
+			, INSPECT_ITEM22
+			, INSPECT_ITEM23
+			, INSPECT_ITEM24
+			, INSPECT_ITEM25
+			, INSPECT_ITEM26
+			, INSPECT_ITEM27
+			, INSPECT_ITEM28
+			, INSPECT_ITEM29
+			, INSPECT_ITEM30
+			, MATRL_CD
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			FROM	TB_INSPECT_INFO_ADM 
+			WHERE	MATRL_GUBUN_CD = #{matrlGubunCd}
+			AND MATRL_CD = #{matrlCd}
+		]]>
+	</select>
+	
+	<!-- 자재코드별 시스템그룹 전체조회  : 자재코드에 맞는 데이터가 없을 경우 기존 데이터 조회 -->
+	<select id="dtlReadWithoutMatrlCd" resultMap="InspectInfoAdmVo">
+		<![CDATA[
+			SELECT
+			MATRL_GUBUN_CD
+			, INSPECT_ITEM1
+			, INSPECT_ITEM2
+			, INSPECT_ITEM3
+			, INSPECT_ITEM4
+			, INSPECT_ITEM5
+			, INSPECT_ITEM6
+			, INSPECT_ITEM7
+			, INSPECT_ITEM8
+			, INSPECT_ITEM9
+			, INSPECT_ITEM10
+			, INSPECT_ITEM11
+			, INSPECT_ITEM12
+			, INSPECT_ITEM13
+			, INSPECT_ITEM14
+			, INSPECT_ITEM15
+			, INSPECT_ITEM16
+			, INSPECT_ITEM17
+			, INSPECT_ITEM18
+			, INSPECT_ITEM19
+			, INSPECT_ITEM20
+			, INSPECT_ITEM21
+			, INSPECT_ITEM22
+			, INSPECT_ITEM23
+			, INSPECT_ITEM24
+			, INSPECT_ITEM25
+			, INSPECT_ITEM26
+			, INSPECT_ITEM27
+			, INSPECT_ITEM28
+			, INSPECT_ITEM29
+			, INSPECT_ITEM30
+			, MATRL_CD
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			FROM	TB_INSPECT_INFO_ADM 
+			WHERE	MATRL_GUBUN_CD = #{matrlGubunCd}
+			AND (MATRL_CD = '' OR MATRL_CD IS NULL)
+		]]>
+	</select>
+	
+	<!-- 수입검사 합격여부 -->
+	<select id="listPass" resultMap="InspectInfoAdmVo">
+		<![CDATA[
+			SELECT
+				IN_WHS_GROUP_SEQ
+				, LOT_NO
+				, INSPECT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='066' AND B.BASE_CD = A.INSPECT_CD) INSPECT_NM
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM	TB_MATRL_INSPECT_PASS A
+			WHERE	IN_WHS_GROUP_SEQ = #{inWhsGroupSeq}
+					
+		]]>
+	</select>
+	
+	<!-- 수입검사 idx조회 -->
+	<select id="selectIdx" resultMap="InspectInfoAdmVo">
+		<![CDATA[
+			SELECT ISNULL( MAX(IDX) , 1) IDX				
+			FROM	TB_MATRL_INSPECT_ADM_CODE 
+			WHERE IN_WHS_GROUP_SEQ = #{inWhsGroupSeq}
+			AND LOT_NO = #{lotNo}
+			AND	MATRL_GUBUN_CD = #{matrlGubunCd}
+					
+		]]>
+	</select>
+	
+	<insert id="create" parameterType="mes.domain.bm.InspectInfoAdmVo">
+		<![CDATA[
+			INSERT
+				INTO TB_INSPECT_INFO_ADM(
+				MATRL_GUBUN_CD,
+				INSPECT_ITEM1,
+				INSPECT_ITEM2,
+				INSPECT_ITEM3,
+				INSPECT_ITEM4,
+				INSPECT_ITEM5,
+				INSPECT_ITEM6,
+				INSPECT_ITEM7,
+				INSPECT_ITEM8,
+				INSPECT_ITEM9,
+				INSPECT_ITEM10,
+				INSPECT_ITEM11,
+				INSPECT_ITEM12,
+				INSPECT_ITEM13,
+				INSPECT_ITEM14,
+				INSPECT_ITEM15,
+				INSPECT_ITEM16,
+				INSPECT_ITEM17,
+				INSPECT_ITEM18,
+				INSPECT_ITEM19,
+				INSPECT_ITEM20,
+				INSPECT_ITEM21,
+				INSPECT_ITEM22,
+				INSPECT_ITEM23,
+				INSPECT_ITEM24,
+				INSPECT_ITEM25,
+				INSPECT_ITEM26,
+				INSPECT_ITEM27,
+				INSPECT_ITEM28,
+				INSPECT_ITEM29,
+				INSPECT_ITEM30,
+				REG_ID,
+				REG_DATE
+			) 
+			VALUES(
+				#{matrlGubunCd},
+				#{inspectItem1},
+				#{inspectItem2},
+				#{inspectItem3},
+				#{inspectItem4},
+				#{inspectItem5},
+				#{inspectItem6},
+				#{inspectItem7},
+				#{inspectItem8},
+				#{inspectItem9},
+				#{inspectItem10},
+				#{inspectItem11},
+				#{inspectItem12},
+				#{inspectItem13},
+				#{inspectItem14},
+				#{inspectItem15},
+				#{inspectItem16},
+				#{inspectItem17},
+				#{inspectItem18},
+				#{inspectItem19},
+				#{inspectItem20},
+				#{inspectItem21},
+				#{inspectItem22},
+				#{inspectItem23},
+				#{inspectItem24},
+				#{inspectItem25},
+				#{inspectItem26},
+				#{inspectItem27},
+				#{inspectItem28},
+				#{inspectItem29},
+				#{inspectItem30},
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+	
+	<insert id="create2" parameterType="mes.domain.bm.InspectInfoAdmVo">
+		<![CDATA[
+			INSERT
+				INTO TB_MATRL_INSPECT_ADM(
+				MATRL_GUBUN_CD,
+				IN_WHS_GROUP_SEQ,
+				INSPECT_ITEM1,
+				INSPECT_ITEM2,
+				INSPECT_ITEM3,
+				INSPECT_ITEM4,
+				INSPECT_ITEM5,
+				INSPECT_ITEM6,
+				INSPECT_ITEM7,
+				INSPECT_ITEM8,
+				INSPECT_ITEM9,
+				INSPECT_ITEM10,
+				INSPECT_ITEM11,
+				INSPECT_ITEM12,
+				INSPECT_ITEM13,
+				INSPECT_ITEM14,
+				INSPECT_ITEM15,
+				INSPECT_ITEM16,
+				INSPECT_ITEM17,
+				INSPECT_ITEM18,
+				INSPECT_ITEM19,
+				INSPECT_ITEM20,
+				INSPECT_ITEM21,
+				INSPECT_ITEM22,
+				INSPECT_ITEM23,
+				INSPECT_ITEM24,
+				INSPECT_ITEM25,
+				INSPECT_ITEM26,
+				INSPECT_ITEM27,
+				INSPECT_ITEM28,
+				INSPECT_ITEM29,
+				INSPECT_ITEM30,
+				REG_ID,
+				REG_DATE
+			) 
+			VALUES(
+				#{matrlGubunCd},
+				#{inWhsGroupSeq},
+				#{inspectItem1},
+				#{inspectItem2},
+				#{inspectItem3},
+				#{inspectItem4},
+				#{inspectItem5},
+				#{inspectItem6},
+				#{inspectItem7},
+				#{inspectItem8},
+				#{inspectItem9},
+				#{inspectItem10},
+				#{inspectItem11},
+				#{inspectItem12},
+				#{inspectItem13},
+				#{inspectItem14},
+				#{inspectItem15},
+				#{inspectItem16},
+				#{inspectItem17},
+				#{inspectItem18},
+				#{inspectItem19},
+				#{inspectItem20},
+				#{inspectItem21},
+				#{inspectItem22},
+				#{inspectItem23},
+				#{inspectItem24},
+				#{inspectItem25},
+				#{inspectItem26},
+				#{inspectItem27},
+				#{inspectItem28},
+				#{inspectItem29},
+				#{inspectItem30},
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+	
+	<insert id="create3" parameterType="mes.domain.bm.InspectInfoAdmVo">
+		<![CDATA[
+			INSERT
+			INTO TB_MATRL_INSPECT_ADM_CODE(
+				IDX
+				,IN_WHS_GROUP_SEQ
+				,MATRL_GUBUN_CD
+				,LOT_NO
+				,MANAGEMENT_CD
+				,RESULT_CD
+				,INSPECT_ETC
+				,INSPECT_DATE
+				,REG_ID
+				,REG_DATE				
+			) 
+			VALUES(
+				#{idx},
+				#{inWhsGroupSeq},
+				#{matrlGubunCd},
+				#{lotNo},
+				#{managementCd},
+				#{resultCd},
+				#{inspectEtc},
+				#{inspectDate},						
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+	
+		<insert id="create3New" parameterType="mes.domain.bm.InspectInfoAdmVo">
+		<![CDATA[
+			INSERT
+			INTO TB_MATRL_INSPECT_ADM_CODE(
+				IDX
+				,IN_WHS_GROUP_SEQ
+				,MATRL_GUBUN_CD
+				,LOT_NO
+				,MATRL_CD
+				,MANAGEMENT_CD
+				,RESULT_CD
+				,INSPECT_ETC
+				,INSPECT_DATE
+				,REG_ID
+				,REG_DATE				
+			) 
+			VALUES(
+				#{idx},
+				#{inWhsGroupSeq},
+				#{matrlGubunCd},
+				#{lotNo},
+				#{matrlCd},
+				#{managementCd},
+				#{resultCd},
+				#{inspectEtc},
+				#{inspectDate},						
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+	
+	<insert id="create4" parameterType="mes.domain.bm.InspectInfoAdmVo">
+		<![CDATA[
+			INSERT
+				INTO TB_MATRL_INSPECT_DTL(
+				LOT_NO,			
+				INSPECT_ITEM13,
+				INSPECT_ITEM14,
+				INSPECT_ITEM15,
+				INSPECT_ITEM16,
+				INSPECT_ITEM17,
+				INSPECT_ITEM18,
+				INSPECT_ITEM19,
+				INSPECT_ITEM20,
+				INSPECT_ITEM21,
+				REG_ID,
+				REG_DATE
+			) 
+			VALUES(
+				#{lotNo},	
+				#{inspectItem13},
+				#{inspectItem14},
+				#{inspectItem15},
+				#{inspectItem16},
+				#{inspectItem17},
+				#{inspectItem18},
+				#{inspectItem19},
+				#{inspectItem20},
+				#{inspectItem21},
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+	
+		<insert id="create4New" parameterType="mes.domain.bm.InspectInfoAdmVo">
+		<![CDATA[
+			INSERT
+				INTO TB_MATRL_INSPECT_DTL(
+				LOT_NO,			
+				MATRL_CD,
+				INSPECT_ITEM13,
+				INSPECT_ITEM14,
+				INSPECT_ITEM15,
+				INSPECT_ITEM16,
+				INSPECT_ITEM17,
+				INSPECT_ITEM18,
+				INSPECT_ITEM19,
+				INSPECT_ITEM20,
+				INSPECT_ITEM21,
+				REG_ID,
+				REG_DATE
+			) 
+			VALUES(
+				#{lotNo},	
+				#{matrlCd},		
+				#{inspectItem13},
+				#{inspectItem14},
+				#{inspectItem15},
+				#{inspectItem16},
+				#{inspectItem17},
+				#{inspectItem18},
+				#{inspectItem19},
+				#{inspectItem20},
+				#{inspectItem21},
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+	
+		<insert id="dtlCreate" parameterType="mes.domain.bm.InspectInfoAdmVo">
+		<![CDATA[
+			INSERT
+				INTO TB_INSPECT_INFO_ADM(
+				MATRL_GUBUN_CD,
+				INSPECT_ITEM1,
+				INSPECT_ITEM2,
+				INSPECT_ITEM3,
+				INSPECT_ITEM4,
+				INSPECT_ITEM5,
+				INSPECT_ITEM6,
+				INSPECT_ITEM7,
+				INSPECT_ITEM8,
+				INSPECT_ITEM9,
+				INSPECT_ITEM10,
+				INSPECT_ITEM11,
+				INSPECT_ITEM12,
+				INSPECT_ITEM13,
+				INSPECT_ITEM14,
+				INSPECT_ITEM15,
+				INSPECT_ITEM16,
+				INSPECT_ITEM17,
+				INSPECT_ITEM18,
+				INSPECT_ITEM19,
+				INSPECT_ITEM20,
+				INSPECT_ITEM21,
+				INSPECT_ITEM22,
+				INSPECT_ITEM23,
+				INSPECT_ITEM24,
+				INSPECT_ITEM25,
+				INSPECT_ITEM26,
+				INSPECT_ITEM27,
+				INSPECT_ITEM28,
+				INSPECT_ITEM29,
+				INSPECT_ITEM30,
+				MATRL_CD,
+				REG_ID,
+				REG_DATE
+			) 
+			VALUES(
+				#{matrlGubunCd},
+				#{inspectItem1},
+				#{inspectItem2},
+				#{inspectItem3},
+				#{inspectItem4},
+				#{inspectItem5},
+				#{inspectItem6},
+				#{inspectItem7},
+				#{inspectItem8},
+				#{inspectItem9},
+				#{inspectItem10},
+				#{inspectItem11},
+				#{inspectItem12},
+				#{inspectItem13},
+				#{inspectItem14},
+				#{inspectItem15},
+				#{inspectItem16},
+				#{inspectItem17},
+				#{inspectItem18},
+				#{inspectItem19},
+				#{inspectItem20},
+				#{inspectItem21},
+				#{inspectItem22},
+				#{inspectItem23},
+				#{inspectItem24},
+				#{inspectItem25},
+				#{inspectItem26},
+				#{inspectItem27},
+				#{inspectItem28},
+				#{inspectItem29},
+				#{inspectItem30},
+				#{matrlCd},
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+	
+	<insert id="createPass" parameterType="mes.domain.bm.InspectInfoAdmVo">
+		<![CDATA[
+			INSERT
+				INTO TB_MATRL_INSPECT_PASS(
+				IN_WHS_GROUP_SEQ,
+				LOT_NO,			
+				INSPECT_CD,
+				REG_ID,
+				REG_DATE
+			) 
+			VALUES(
+				#{inWhsGroupSeq},
+				#{lotNo},			
+				#{inspectCd},	
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+	
+	
+	<update id="update" parameterType="mes.domain.bm.GoodsCodeAdmVo">
+		<![CDATA[
+			UPDATE
+				TB_INSPECT_INFO_ADM 
+			SET
+				MATRL_GUBUN_CD = #{matrlGubunCd},
+				INSPECT_ITEM1 = #{inspectItem1},
+				INSPECT_ITEM2 = #{inspectItem2},
+				INSPECT_ITEM3 = #{inspectItem3},
+				INSPECT_ITEM4 = #{inspectItem4},
+				INSPECT_ITEM5 = #{inspectItem5},
+				INSPECT_ITEM6 = #{inspectItem6},
+				INSPECT_ITEM7 = #{inspectItem7},
+				INSPECT_ITEM8 = #{inspectItem8},
+				INSPECT_ITEM9 = #{inspectItem9},
+				INSPECT_ITEM10 = #{inspectItem10},
+				INSPECT_ITEM11 = #{inspectItem11},
+				INSPECT_ITEM12 = #{inspectItem12},
+				INSPECT_ITEM13 = #{inspectItem13},
+				INSPECT_ITEM14 = #{inspectItem14},
+				INSPECT_ITEM15 = #{inspectItem15},
+				INSPECT_ITEM16 = #{inspectItem16},
+				INSPECT_ITEM17 = #{inspectItem17},
+				INSPECT_ITEM18 = #{inspectItem18},
+				INSPECT_ITEM19 = #{inspectItem19},
+				INSPECT_ITEM20 = #{inspectItem20},
+				INSPECT_ITEM21 = #{inspectItem21},
+				INSPECT_ITEM22 = #{inspectItem22},
+				INSPECT_ITEM23 = #{inspectItem23},
+				INSPECT_ITEM24 = #{inspectItem24},
+				INSPECT_ITEM25 = #{inspectItem25},
+				INSPECT_ITEM26 = #{inspectItem26},
+				INSPECT_ITEM27 = #{inspectItem27},
+				INSPECT_ITEM28 = #{inspectItem28},
+				INSPECT_ITEM29 = #{inspectItem29},
+				INSPECT_ITEM30 = #{inspectItem30},
+				UPD_ID = #{updId},
+				UPD_DATE = getDate()
+			WHERE
+				MATRL_GUBUN_CD = #{matrlGubunCd}
+		]]>
+	</update>
+	
+	<update id="update2" parameterType="mes.domain.bm.GoodsCodeAdmVo">
+		<![CDATA[
+			UPDATE
+				TB_MATRL_INSPECT_ADM 
+			SET
+				MATRL_GUBUN_CD = #{matrlGubunCd},
+				IN_WHS_GROUP_SEQ = #{inWhsGroupSeq},
+				INSPECT_ITEM1 = #{inspectItem1},
+				INSPECT_ITEM2 = #{inspectItem2},
+				INSPECT_ITEM3 = #{inspectItem3},
+				INSPECT_ITEM4 = #{inspectItem4},
+				INSPECT_ITEM5 = #{inspectItem5},
+				INSPECT_ITEM6 = #{inspectItem6},
+				INSPECT_ITEM7 = #{inspectItem7},
+				INSPECT_ITEM8 = #{inspectItem8},
+				INSPECT_ITEM9 = #{inspectItem9},
+				INSPECT_ITEM10 = #{inspectItem10},
+				INSPECT_ITEM11 = #{inspectItem11},
+				INSPECT_ITEM12 = #{inspectItem12},
+				INSPECT_ITEM13 = #{inspectItem13},
+				INSPECT_ITEM14 = #{inspectItem14},
+				INSPECT_ITEM15 = #{inspectItem15},
+				INSPECT_ITEM16 = #{inspectItem16},
+				INSPECT_ITEM17 = #{inspectItem17},
+				INSPECT_ITEM18 = #{inspectItem18},
+				INSPECT_ITEM19 = #{inspectItem19},
+				INSPECT_ITEM20 = #{inspectItem20},
+				INSPECT_ITEM21 = #{inspectItem21},
+				INSPECT_ITEM22 = #{inspectItem22},
+				INSPECT_ITEM23 = #{inspectItem23},
+				INSPECT_ITEM24 = #{inspectItem24},
+				INSPECT_ITEM25 = #{inspectItem25},
+				INSPECT_ITEM26 = #{inspectItem26},
+				INSPECT_ITEM27 = #{inspectItem27},
+				INSPECT_ITEM28 = #{inspectItem28},
+				INSPECT_ITEM29 = #{inspectItem29},
+				INSPECT_ITEM30 = #{inspectItem30},
+				UPD_ID = #{updId},
+				UPD_DATE = getDate()
+			WHERE				
+				IN_WHS_GROUP_SEQ = #{inWhsGroupSeq}
+		]]>
+	</update>
+	
+	<update id="update3" >
+		<![CDATA[
+			UPDATE
+				TB_MATRL_INSPECT_ADM_CODE
+			SET				
+				MANAGEMENT_CD = #{managementCd}
+				,RESULT_CD = #{resultCd}
+				,INSPECT_ETC = #{inspectEtc}
+				,INSPECT_DATE = #{inspectDate}
+				,UPD_ID = #{updId}
+				,UPD_DATE = getDate()
+			WHERE				
+			IDX = #{idx}
+			AND IN_WHS_GROUP_SEQ = #{inWhsGroupSeq}
+			AND LOT_NO = #{lotNo}
+			AND	MATRL_GUBUN_CD = #{matrlGubunCd}
+		]]>
+	</update>
+	
+	<update id="update4" >
+		<![CDATA[
+			UPDATE
+				TB_MATRL_INSPECT_DTL
+			SET						
+				INSPECT_ITEM13 = #{inspectItem13},
+				INSPECT_ITEM14 = #{inspectItem14},
+				INSPECT_ITEM15 = #{inspectItem15},
+				INSPECT_ITEM16 = #{inspectItem16},
+				INSPECT_ITEM17 = #{inspectItem17},
+				INSPECT_ITEM18 = #{inspectItem18},
+				INSPECT_ITEM19 = #{inspectItem19},
+				INSPECT_ITEM20 = #{inspectItem20},
+				INSPECT_ITEM21 = #{inspectItem21},				
+				UPD_ID = #{updId},
+				UPD_DATE = getDate()
+			WHERE				
+				LOT_NO = #{lotNo}
+		]]>
+	</update>
+	
+	<update id="update3New" >
+		<![CDATA[
+			UPDATE
+				TB_MATRL_INSPECT_ADM_CODE
+			SET				
+				MANAGEMENT_CD = #{managementCd}
+				,RESULT_CD = #{resultCd}
+				,INSPECT_ETC = #{inspectEtc}
+				,INSPECT_DATE = #{inspectDate}
+				,UPD_ID = #{updId}
+				,UPD_DATE = getDate()
+			WHERE				
+			IDX = #{idx}
+			AND IN_WHS_GROUP_SEQ = #{inWhsGroupSeq}
+			AND LOT_NO = #{lotNo}
+			AND	MATRL_GUBUN_CD = #{matrlGubunCd}
+			AND MATRL_CD = #{matrlCd}
+		]]>
+	</update>
+	
+	<update id="update4New" >
+		<![CDATA[
+			UPDATE
+				TB_MATRL_INSPECT_DTL
+			SET						
+				INSPECT_ITEM13 = #{inspectItem13},
+				INSPECT_ITEM14 = #{inspectItem14},
+				INSPECT_ITEM15 = #{inspectItem15},
+				INSPECT_ITEM16 = #{inspectItem16},
+				INSPECT_ITEM17 = #{inspectItem17},
+				INSPECT_ITEM18 = #{inspectItem18},
+				INSPECT_ITEM19 = #{inspectItem19},
+				INSPECT_ITEM20 = #{inspectItem20},
+				INSPECT_ITEM21 = #{inspectItem21},				
+				UPD_ID = #{updId},
+				UPD_DATE = getDate()
+			WHERE				
+				LOT_NO = #{lotNo}
+				AND MATRL_CD = #{matrlCd}
+		]]>
+	</update>
+	
+	<update id="dtlUpdate" parameterType="mes.domain.bm.InspectInfoAdmVo">
+		<![CDATA[
+			UPDATE
+				TB_INSPECT_INFO_ADM 
+			SET
+				MATRL_GUBUN_CD = #{matrlGubunCd},
+				INSPECT_ITEM1 = #{inspectItem1},
+				INSPECT_ITEM2 = #{inspectItem2},
+				INSPECT_ITEM3 = #{inspectItem3},
+				INSPECT_ITEM4 = #{inspectItem4},
+				INSPECT_ITEM5 = #{inspectItem5},
+				INSPECT_ITEM6 = #{inspectItem6},
+				INSPECT_ITEM7 = #{inspectItem7},
+				INSPECT_ITEM8 = #{inspectItem8},
+				INSPECT_ITEM9 = #{inspectItem9},
+				INSPECT_ITEM10 = #{inspectItem10},
+				INSPECT_ITEM11 = #{inspectItem11},
+				INSPECT_ITEM12 = #{inspectItem12},
+				INSPECT_ITEM13 = #{inspectItem13},
+				INSPECT_ITEM14 = #{inspectItem14},
+				INSPECT_ITEM15 = #{inspectItem15},
+				INSPECT_ITEM16 = #{inspectItem16},
+				INSPECT_ITEM17 = #{inspectItem17},
+				INSPECT_ITEM18 = #{inspectItem18},
+				INSPECT_ITEM19 = #{inspectItem19},
+				INSPECT_ITEM20 = #{inspectItem20},
+				INSPECT_ITEM21 = #{inspectItem21},
+				INSPECT_ITEM22 = #{inspectItem22},
+				INSPECT_ITEM23 = #{inspectItem23},
+				INSPECT_ITEM24 = #{inspectItem24},
+				INSPECT_ITEM25 = #{inspectItem25},
+				INSPECT_ITEM26 = #{inspectItem26},
+				INSPECT_ITEM27 = #{inspectItem27},
+				INSPECT_ITEM28 = #{inspectItem28},
+				INSPECT_ITEM29 = #{inspectItem29},
+				INSPECT_ITEM30 = #{inspectItem30},
+				UPD_ID = #{updId},
+				UPD_DATE = getDate()
+			WHERE
+				MATRL_GUBUN_CD = #{matrlGubunCd}
+				AND	MATRL_CD = #{matrlCd}
+		]]>
+	</update>
+	
+	<update id="updatePass" >
+		<![CDATA[
+			UPDATE
+				TB_MATRL_INSPECT_PASS
+			SET				
+				INSPECT_CD = #{inspectCd}					
+				,UPD_ID = #{updId}
+				,UPD_DATE = getDate()
+			WHERE IN_WHS_GROUP_SEQ = #{inWhsGroupSeq}
+			AND LOT_NO = #{lotNo}
+			
+		]]>
+	</update>
+
+	<delete id="delete1" >
+		<![CDATA[
+		DELETE FROM TB_MATRL_INSPECT_ADM_CODE
+			WHERE				
+				LOT_NO = #{lotNo}
+		]]>
+	</delete>
+	
+	<delete id="delete2" >
+		<![CDATA[
+		DELETE FROM TB_MATRL_INSPECT_DTL
+			WHERE				
+				LOT_NO = #{lotNo}
+		]]>
+	</delete>
+	
+	<delete id="deletePass" >
+		<![CDATA[
+		DELETE FROM TB_MATRL_INSPECT_PASS
+			WHERE				
+				LOT_NO = #{lotNo}
+		]]>
+	</delete>
+	
+	<!-- 품질관리 수입검사현황 자재명 List 조회 -->
+	<select id="inspectMatrlCodeList" resultMap="InspectInfoAdmVo">
+			SELECT 
+			 MAX(C.MATRL_CD) MATRL_CD,
+			 C.MATRL_NM			
+		
+			FROM 		
+				 TB_MATRL_INSPECT_ADM_CODE A
+				left outer join TB_MATRL_INSPECT_DTL B				
+				on A.LOT_NO = B.LOT_NO 			
+				LEFT OUTER JOIN TB_MATRL_INSPECT_PASS F
+				ON A.LOT_NO = F.LOT_NO 
+				
+				, TB_MATRL_CODE_ADM C
+				, TB_IN_OUT_WHS_ADM D
+				, TB_DEAL_CORP_ADM E				
+			WHERE 
+			 A.MATRL_GUBUN_CD = #{matrlGubunCd}	
+			AND D.LOT_NO = A.LOT_NO
+			AND D.MATRL_CD = C.MATRL_CD
+			AND D.SPPLY_DEAL_CORP_CD = E.DEAL_CORP_CD	
+			AND A.INSPECT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			GROUP BY MATRL_NM
+
+	</select>
+
+	<!-- 품질관리 - 수입검사현황(qmsc0100) 조회시 사용 -->
+	<select id="inspectListRead" resultType="HashMap" parameterType="mes.domain.bm.InspectInfoAdmVo" >
+		<![CDATA[
+		SELECT AAA_PVT.[001]  AS INSEPCT_ETC001,
+			AAA_PVT.[002] AS INSEPCT_ETC002,
+			AAA_PVT.[003] AS INSEPCT_ETC003,
+			AAA_PVT.[004] AS INSEPCT_ETC004,
+			AAA_PVT.[005] AS INSEPCT_ETC005,
+			AAA_PVT.[006] AS INSEPCT_ETC006,			
+			AAA_PVT.[007] AS INSEPCT_ETC007,
+			AAA_PVT.[008] AS INSEPCT_ETC008,
+			AAA_PVT.[009] AS INSEPCT_ETC009,
+			AAA_PVT.[010] AS INSEPCT_ETC010,
+			AAA_PVT.[011] AS INSEPCT_ETC011,
+			AAA_PVT.[012] AS INSEPCT_ETC012,
+			AAA_PVT.[013] AS INSEPCT_ETC013,
+			AAA_PVT.[014] AS INSEPCT_ETC014,
+			AAA_PVT.[015] AS INSEPCT_ETC015,			
+			AAA_PVT.[016] AS INSEPCT_ETC016,
+			AAA_PVT.[017] AS INSEPCT_ETC017,
+			AAA_PVT.[018] AS INSEPCT_ETC018,
+			AAA_PVT.[019] AS INSEPCT_ETC019,
+			AAA_PVT.[020] AS INSEPCT_ETC020,
+			AAA_PVT.[021] AS INSEPCT_ETC021,
+			AAA_PVT.[022] AS INSEPCT_ETC022,
+			AAA_PVT.[023] AS INSEPCT_ETC023,
+			AAA_PVT.[024] AS INSEPCT_ETC024,
+			AAA_PVT.[025] AS INSEPCT_ETC025,			
+			AAA_PVT.[026] AS INSEPCT_ETC026,
+			AAA_PVT.[027] AS INSEPCT_ETC027,
+			AAA_PVT.[028] AS INSEPCT_ETC028,
+			AAA_PVT.[029] AS INSEPCT_ETC029,
+			AAA_PVT.[030] AS INSEPCT_ETC030,
+			AAA_PVT.[031] AS INSEPCT_ETC031,
+			AAA_PVT.[032] AS INSEPCT_ETC032,
+			AAA_PVT.[033] AS INSEPCT_ETC033,
+			AAA_PVT.[034] AS INSEPCT_ETC034,
+			AAA_PVT.[035] AS INSEPCT_ETC035,			
+			AAA_PVT.[036] AS INSEPCT_ETC036,
+			AAA_PVT.[037] AS INSEPCT_ETC037,
+			AAA_PVT.[038] AS INSEPCT_ETC038,
+			AAA_PVT.[039] AS INSEPCT_ETC039,
+			AAA_PVT.[040] AS INSEPCT_ETC040,
+			AAA_PVT.[041] AS INSEPCT_ETC041,
+			AAA_PVT.[042] AS INSEPCT_ETC042,
+			AAA_PVT.[043] AS INSEPCT_ETC043,
+			AAA_PVT.[044] AS INSEPCT_ETC044,
+			AAA_PVT.[045] AS INSEPCT_ETC045,
+			C.MATRL_CD,
+			C.MATRL_NM,
+			D.PRE_IN_WHS_QTY,
+			D.IN_WHS_QTY,
+			D.DIFF_QTY,
+			D.PRE_IN_WHS_DATE,
+			E.DEAL_CORP_NM,	
+			ISNULL(F.INSPECT_CD,'') INSPECT_CD,
+			ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '066' AND INSPECT_CD = BASE_CD),'') INSPECT_NM,					
+			MANAGEMENT_PVT.* ,
+			B.INSPECT_ITEM13,
+			B.INSPECT_ITEM14,
+			B.INSPECT_ITEM15,
+			B.INSPECT_ITEM16,
+			B.INSPECT_ITEM17,
+			B.INSPECT_ITEM18,
+			B.INSPECT_ITEM19,
+			B.INSPECT_ITEM20,
+			B.INSPECT_ITEM21			
+			FROM 
+			(
+				SELECT 	
+				
+				LOT_NO
+				, MATRL_GUBUN_CD
+				, IN_WHS_GROUP_SEQ
+				, [MANAGEMENT_CD]
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '043' AND RESULT_CD = BASE_CD) RESULT_CD			
+				, CONVERT(CHAR(10), REG_DATE,23) REG_DATE
+				FROM TB_MATRL_INSPECT_ADM_CODE 
+				WHERE REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				GROUP BY LOT_NO, MATRL_GUBUN_CD
+				, IN_WHS_GROUP_SEQ, [RESULT_CD]
+				, MANAGEMENT_CD, REG_DATE  ) AS t
+				PIVOT(MIN(t.RESULT_CD) for t.MANAGEMENT_CD IN (${codeList})) as MANAGEMENT_PVT INNER JOIN
+				
+					(SELECT                
+		            LOT_NO
+			            , MATRL_GUBUN_CD
+			            , IN_WHS_GROUP_SEQ
+			            , [MANAGEMENT_CD]
+			            , INSPECT_ETC
+			
+			            , CONVERT(CHAR(10), REG_DATE,23) REG_DATE
+		            FROM TB_MATRL_INSPECT_ADM_CODE 		        	
+		            WHERE REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		            GROUP BY LOT_NO, MATRL_GUBUN_CD, [MANAGEMENT_CD], IN_WHS_GROUP_SEQ, INSPECT_ETC, REG_DATE     		         
+		       		) AS y
+	           		PIVOT(MIN(y.INSPECT_ETC) for y.MANAGEMENT_CD IN (${codeList2})) AS AAA_PVT ON MANAGEMENT_PVT.LOT_NO = AAA_PVT.LOT_NO
+            
+				left outer join TB_MATRL_INSPECT_DTL B				
+				on MANAGEMENT_PVT.LOT_NO = B.LOT_NO 			
+				LEFT OUTER JOIN TB_MATRL_INSPECT_PASS F
+				ON MANAGEMENT_PVT.LOT_NO = F.LOT_NO 							
+				, TB_MATRL_CODE_ADM C
+				, TB_IN_OUT_WHS_ADM D
+				, TB_DEAL_CORP_ADM E				
+				WHERE 
+				 MANAGEMENT_PVT.MATRL_GUBUN_CD = #{matrlGubunCd}			
+				AND D.LOT_NO = MANAGEMENT_PVT.LOT_NO
+				AND D.MATRL_CD = C.MATRL_CD
+				AND D.SPPLY_DEAL_CORP_CD = E.DEAL_CORP_CD	
+				AND MANAGEMENT_PVT.REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			]]>
+				<if test="matrlCd != null and matrlCd != ''">
+					AND D.MATRL_CD = #{matrlCd}
+				</if>
+			
+			
+						
+	
+	</select>
+	
+	<!-- 품질관리 - 수입검사현황(qmsc3100) 조회시 사용, 기존 데이터 -->
+	<select id="inspectListReadFac3" resultType="HashMap" parameterType="mes.domain.bm.InspectInfoAdmVo" >
+		
+<!-- 		SELECT AAA_PVT.[001]  AS INSEPCT_ETC001,
+			AAA_PVT.[002] AS INSEPCT_ETC002,
+			AAA_PVT.[003] AS INSEPCT_ETC003,
+			AAA_PVT.[004] AS INSEPCT_ETC004,
+			AAA_PVT.[005] AS INSEPCT_ETC005,
+			AAA_PVT.[006] AS INSEPCT_ETC006,			
+			AAA_PVT.[007] AS INSEPCT_ETC007,
+			AAA_PVT.[008] AS INSEPCT_ETC008,
+			AAA_PVT.[009] AS INSEPCT_ETC009,
+			AAA_PVT.[010] AS INSEPCT_ETC010,
+			AAA_PVT.[011] AS INSEPCT_ETC011,
+			AAA_PVT.[012] AS INSEPCT_ETC012,
+			AAA_PVT.[013] AS INSEPCT_ETC013,
+			AAA_PVT.[014] AS INSEPCT_ETC014,
+			AAA_PVT.[015] AS INSEPCT_ETC015,			
+			AAA_PVT.[016] AS INSEPCT_ETC016,
+			AAA_PVT.[017] AS INSEPCT_ETC017,
+			AAA_PVT.[018] AS INSEPCT_ETC018,
+			AAA_PVT.[019] AS INSEPCT_ETC019,
+			AAA_PVT.[020] AS INSEPCT_ETC020,
+			AAA_PVT.[021] AS INSEPCT_ETC021,
+			AAA_PVT.[022] AS INSEPCT_ETC022,
+			AAA_PVT.[023] AS INSEPCT_ETC023,
+			AAA_PVT.[024] AS INSEPCT_ETC024,
+			AAA_PVT.[025] AS INSEPCT_ETC025,			
+			AAA_PVT.[026] AS INSEPCT_ETC026,
+			AAA_PVT.[027] AS INSEPCT_ETC027,
+			AAA_PVT.[028] AS INSEPCT_ETC028,
+			AAA_PVT.[029] AS INSEPCT_ETC029,
+			AAA_PVT.[030] AS INSEPCT_ETC030,
+			AAA_PVT.[031] AS INSEPCT_ETC031,
+			AAA_PVT.[032] AS INSEPCT_ETC032,
+			AAA_PVT.[033] AS INSEPCT_ETC033,
+			AAA_PVT.[034] AS INSEPCT_ETC034,
+			AAA_PVT.[035] AS INSEPCT_ETC035,			
+			AAA_PVT.[036] AS INSEPCT_ETC036,
+			AAA_PVT.[037] AS INSEPCT_ETC037,
+			AAA_PVT.[038] AS INSEPCT_ETC038,
+			AAA_PVT.[039] AS INSEPCT_ETC039,
+			AAA_PVT.[040] AS INSEPCT_ETC040,
+			AAA_PVT.[041] AS INSEPCT_ETC041,
+			AAA_PVT.[042] AS INSEPCT_ETC042,
+			AAA_PVT.[043] AS INSEPCT_ETC043,
+			AAA_PVT.[044] AS INSEPCT_ETC044,
+			AAA_PVT.[045] AS INSEPCT_ETC045,
+			C.MATRL_CD,
+			C.MATRL_NM,
+			D.PRE_IN_WHS_QTY,
+			D.IN_WHS_QTY,
+			D.DIFF_QTY,
+			D.PRE_IN_WHS_DATE,
+			E.DEAL_CORP_NM,	
+			ISNULL(F.INSPECT_CD,'') INSPECT_CD,
+			ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '066' AND INSPECT_CD = BASE_CD),'') INSPECT_NM,	
+			D.IN_WHS_DATE,
+			D.STATUS_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = D.STATUS_CD) STATUS_NM,		
+			D.APPROVAL_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = D.APPROVAL_CD) APPROVAL_NM,
+			D.FRRRD_DATE,
+			D.FRRRD_TYPE,
+			D.RETEST_DATE,
+			MANAGEMENT_PVT.* ,
+			B.INSPECT_ITEM13,
+			B.INSPECT_ITEM14,
+			B.INSPECT_ITEM15,
+			B.INSPECT_ITEM16,
+			B.INSPECT_ITEM17,
+			B.INSPECT_ITEM18,
+			B.INSPECT_ITEM19,
+			B.INSPECT_ITEM20,
+			B.INSPECT_ITEM21			
+			FROM 
+			(
+				SELECT 	
+				
+				LOT_NO
+				, MATRL_GUBUN_CD
+				, IN_WHS_GROUP_SEQ
+				, [MANAGEMENT_CD]
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '043' AND RESULT_CD = BASE_CD) RESULT_CD			
+				, INSPECT_DATE REG_DATE
+				FROM TB_MATRL_INSPECT_ADM_CODE 
+				WHERE INSPECT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				GROUP BY LOT_NO, MATRL_GUBUN_CD
+				, IN_WHS_GROUP_SEQ, [RESULT_CD]
+				, MANAGEMENT_CD, INSPECT_DATE  ) AS t
+				PIVOT(MIN(t.RESULT_CD) for t.MANAGEMENT_CD IN (${codeList})) as MANAGEMENT_PVT INNER JOIN
+				
+					(SELECT                
+		            LOT_NO
+			            , MATRL_GUBUN_CD
+			            , IN_WHS_GROUP_SEQ
+			            , [MANAGEMENT_CD]
+			            , INSPECT_ETC
+			
+			            , INSPECT_DATE REG_DATE
+		            FROM TB_MATRL_INSPECT_ADM_CODE 
+		        	WHERE INSPECT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		            GROUP BY LOT_NO, MATRL_GUBUN_CD, [MANAGEMENT_CD], IN_WHS_GROUP_SEQ, INSPECT_ETC, INSPECT_DATE	         
+		         
+		       		) AS y
+	           		PIVOT(MIN(y.INSPECT_ETC) for y.MANAGEMENT_CD IN (${codeList2})) AS AAA_PVT ON MANAGEMENT_PVT.LOT_NO = AAA_PVT.LOT_NO
+            
+				left outer join TB_MATRL_INSPECT_DTL B				
+				on MANAGEMENT_PVT.LOT_NO = B.LOT_NO 			
+				LEFT OUTER JOIN TB_MATRL_INSPECT_PASS F
+				ON MANAGEMENT_PVT.LOT_NO = F.LOT_NO 							
+				, TB_MATRL_CODE_ADM C
+				, TB_IN_OUT_WHS_ADM D
+				, TB_DEAL_CORP_ADM E				
+				WHERE 
+				 MANAGEMENT_PVT.MATRL_GUBUN_CD = #{matrlGubunCd}			
+				AND D.LOT_NO = MANAGEMENT_PVT.LOT_NO
+				AND D.MATRL_CD = C.MATRL_CD
+				AND D.SPPLY_DEAL_CORP_CD = E.DEAL_CORP_CD	
+				AND MANAGEMENT_PVT.REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo} -->
+		<![CDATA[	
+			SELECT AAA_PVT.[001]  AS INSEPCT_ETC001,
+			AAA_PVT.[002] AS INSEPCT_ETC002,
+			AAA_PVT.[003] AS INSEPCT_ETC003,
+			AAA_PVT.[004] AS INSEPCT_ETC004,
+			AAA_PVT.[005] AS INSEPCT_ETC005,
+			AAA_PVT.[006] AS INSEPCT_ETC006,			
+			AAA_PVT.[007] AS INSEPCT_ETC007,
+			AAA_PVT.[008] AS INSEPCT_ETC008,
+			AAA_PVT.[009] AS INSEPCT_ETC009,
+			AAA_PVT.[010] AS INSEPCT_ETC010,
+			AAA_PVT.[011] AS INSEPCT_ETC011,
+			AAA_PVT.[012] AS INSEPCT_ETC012,
+			AAA_PVT.[013] AS INSEPCT_ETC013,
+			AAA_PVT.[014] AS INSEPCT_ETC014,
+			AAA_PVT.[015] AS INSEPCT_ETC015,			
+			AAA_PVT.[016] AS INSEPCT_ETC016,
+			AAA_PVT.[017] AS INSEPCT_ETC017,
+			AAA_PVT.[018] AS INSEPCT_ETC018,
+			AAA_PVT.[019] AS INSEPCT_ETC019,
+			AAA_PVT.[020] AS INSEPCT_ETC020,
+			AAA_PVT.[021] AS INSEPCT_ETC021,
+			AAA_PVT.[022] AS INSEPCT_ETC022,
+			AAA_PVT.[023] AS INSEPCT_ETC023,
+			AAA_PVT.[024] AS INSEPCT_ETC024,
+			AAA_PVT.[025] AS INSEPCT_ETC025,			
+			AAA_PVT.[026] AS INSEPCT_ETC026,
+			AAA_PVT.[027] AS INSEPCT_ETC027,
+			AAA_PVT.[028] AS INSEPCT_ETC028,
+			AAA_PVT.[029] AS INSEPCT_ETC029,
+			AAA_PVT.[030] AS INSEPCT_ETC030,
+			AAA_PVT.[031] AS INSEPCT_ETC031,
+			AAA_PVT.[032] AS INSEPCT_ETC032,
+			AAA_PVT.[033] AS INSEPCT_ETC033,
+			AAA_PVT.[034] AS INSEPCT_ETC034,
+			AAA_PVT.[035] AS INSEPCT_ETC035,			
+			AAA_PVT.[036] AS INSEPCT_ETC036,
+			AAA_PVT.[037] AS INSEPCT_ETC037,
+			AAA_PVT.[038] AS INSEPCT_ETC038,
+			AAA_PVT.[039] AS INSEPCT_ETC039,
+			AAA_PVT.[040] AS INSEPCT_ETC040,
+			AAA_PVT.[041] AS INSEPCT_ETC041,
+			AAA_PVT.[042] AS INSEPCT_ETC042,
+			AAA_PVT.[043] AS INSEPCT_ETC043,
+			AAA_PVT.[044] AS INSEPCT_ETC044,
+			AAA_PVT.[045] AS INSEPCT_ETC045,
+			C.MATRL_CD,
+			C.MATRL_NM,
+			D.PRE_IN_WHS_QTY,
+			D.IN_WHS_QTY,
+			D.DIFF_QTY,
+			D.PRE_IN_WHS_DATE,
+			E.DEAL_CORP_NM,	
+			ISNULL(F.INSPECT_CD,'') INSPECT_CD,
+			ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '066' AND INSPECT_CD = BASE_CD),'') INSPECT_NM,	
+			D.IN_WHS_DATE,
+			D.STATUS_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = D.STATUS_CD) STATUS_NM,		
+			D.APPROVAL_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = D.APPROVAL_CD) APPROVAL_NM,
+			D.FRRRD_DATE,
+			D.FRRRD_TYPE,
+			D.RETEST_DATE,
+			A.* ,
+			D.LOT_NO MAIN_LOT_NO,
+			D.IN_WHS_GROUP_SEQ MAIN_IN_WHS_GROUP_SEQ,
+			B.INSPECT_ITEM13,
+			B.INSPECT_ITEM14,
+			B.INSPECT_ITEM15,
+			B.INSPECT_ITEM16,
+			B.INSPECT_ITEM17,
+			B.INSPECT_ITEM18,
+			B.INSPECT_ITEM19,
+			B.INSPECT_ITEM20,
+			B.INSPECT_ITEM21,
+			D.FILE_NM,	
+			D.FILE_GROUP
+			FROM 
+
+			TB_IN_OUT_WHS_ADM D
+
+			LEFT OUTER JOIN
+			(
+				SELECT * FROM
+				(
+				SELECT 	
+				A.IN_WHS_GROUP_SEQ
+				,A.LOT_NO
+				, MATRL_GUBUN_CD		
+				, [MANAGEMENT_CD]
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '043' AND RESULT_CD = BASE_CD) RESULT_CD			
+				, INSPECT_DATE REG_DATE
+				FROM 
+				TB_MATRL_INSPECT_ADM_CODE A
+				WHERE INSPECT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				AND A.MATRL_GUBUN_CD = #{matrlGubunCd}
+				AND A.MATRL_CD = ''
+				GROUP BY A.LOT_NO, MATRL_GUBUN_CD
+				, [RESULT_CD], MANAGEMENT_CD, INSPECT_DATE ,A.IN_WHS_GROUP_SEQ
+				)AS t
+				PIVOT(MIN(t.RESULT_CD) for t.MANAGEMENT_CD IN (${codeList})) 
+				as MANAGEMENT_PVT ) A
+				ON 1=1 
+				AND D.LOT_NO = A.LOT_NO
+				
+				LEFT OUTER JOIN
+				
+					(SELECT                
+		            LOT_NO
+			            , MATRL_GUBUN_CD
+			            , IN_WHS_GROUP_SEQ
+			            , [MANAGEMENT_CD]
+			            , INSPECT_ETC
+			
+			            , INSPECT_DATE REG_DATE
+		            FROM TB_MATRL_INSPECT_ADM_CODE 
+		        	WHERE INSPECT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		        	AND MATRL_CD = ''
+		            GROUP BY LOT_NO, MATRL_GUBUN_CD, [MANAGEMENT_CD], IN_WHS_GROUP_SEQ, INSPECT_ETC, INSPECT_DATE	         
+		         
+		       		) AS y
+	           		PIVOT(MIN(y.INSPECT_ETC) for y.MANAGEMENT_CD IN (${codeList2})) 
+					AS AAA_PVT 
+					ON A.LOT_NO = AAA_PVT.LOT_NO
+            
+				left outer join TB_MATRL_INSPECT_DTL B				
+				on A.LOT_NO = B.LOT_NO 			
+				LEFT OUTER JOIN TB_MATRL_INSPECT_PASS F
+				ON A.LOT_NO = F.LOT_NO 							
+				, TB_MATRL_CODE_ADM C				
+				, TB_DEAL_CORP_ADM E				
+				WHERE 				 			
+				 D.MATRL_CD = C.MATRL_CD
+				AND D.SPPLY_DEAL_CORP_CD = E.DEAL_CORP_CD	
+				AND D.IN_WHS_GROUP_SEQ IN (SELECT IN_WHS_GROUP_SEQ FROM TB_MATRL_INSPECT_ADM_CODE WHERE INSPECT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo} AND MATRL_GUBUN_CD = #{matrlGubunCd} AND MATRL_CD = '')
+
+				
+			]]>
+				<if test="matrlCd != null and matrlCd != ''">
+					AND D.MATRL_CD = #{matrlCd}
+				</if>
+			
+			ORDER BY REG_DATE DESC
+						
+	
+	</select>
+	
+	<!-- 품질관리 - 수입검사현황(qmsc3100) 조회시 사용, 기존 데이터 -->
+	<select id="inspectListReadFac3New" resultType="HashMap" parameterType="mes.domain.bm.InspectInfoAdmVo" >
+		
+<!-- 		SELECT AAA_PVT.[001]  AS INSEPCT_ETC001,
+			AAA_PVT.[002] AS INSEPCT_ETC002,
+			AAA_PVT.[003] AS INSEPCT_ETC003,
+			AAA_PVT.[004] AS INSEPCT_ETC004,
+			AAA_PVT.[005] AS INSEPCT_ETC005,
+			AAA_PVT.[006] AS INSEPCT_ETC006,			
+			AAA_PVT.[007] AS INSEPCT_ETC007,
+			AAA_PVT.[008] AS INSEPCT_ETC008,
+			AAA_PVT.[009] AS INSEPCT_ETC009,
+			AAA_PVT.[010] AS INSEPCT_ETC010,
+			AAA_PVT.[011] AS INSEPCT_ETC011,
+			AAA_PVT.[012] AS INSEPCT_ETC012,
+			AAA_PVT.[013] AS INSEPCT_ETC013,
+			AAA_PVT.[014] AS INSEPCT_ETC014,
+			AAA_PVT.[015] AS INSEPCT_ETC015,			
+			AAA_PVT.[016] AS INSEPCT_ETC016,
+			AAA_PVT.[017] AS INSEPCT_ETC017,
+			AAA_PVT.[018] AS INSEPCT_ETC018,
+			AAA_PVT.[019] AS INSEPCT_ETC019,
+			AAA_PVT.[020] AS INSEPCT_ETC020,
+			AAA_PVT.[021] AS INSEPCT_ETC021,
+			AAA_PVT.[022] AS INSEPCT_ETC022,
+			AAA_PVT.[023] AS INSEPCT_ETC023,
+			AAA_PVT.[024] AS INSEPCT_ETC024,
+			AAA_PVT.[025] AS INSEPCT_ETC025,			
+			AAA_PVT.[026] AS INSEPCT_ETC026,
+			AAA_PVT.[027] AS INSEPCT_ETC027,
+			AAA_PVT.[028] AS INSEPCT_ETC028,
+			AAA_PVT.[029] AS INSEPCT_ETC029,
+			AAA_PVT.[030] AS INSEPCT_ETC030,
+			AAA_PVT.[031] AS INSEPCT_ETC031,
+			AAA_PVT.[032] AS INSEPCT_ETC032,
+			AAA_PVT.[033] AS INSEPCT_ETC033,
+			AAA_PVT.[034] AS INSEPCT_ETC034,
+			AAA_PVT.[035] AS INSEPCT_ETC035,			
+			AAA_PVT.[036] AS INSEPCT_ETC036,
+			AAA_PVT.[037] AS INSEPCT_ETC037,
+			AAA_PVT.[038] AS INSEPCT_ETC038,
+			AAA_PVT.[039] AS INSEPCT_ETC039,
+			AAA_PVT.[040] AS INSEPCT_ETC040,
+			AAA_PVT.[041] AS INSEPCT_ETC041,
+			AAA_PVT.[042] AS INSEPCT_ETC042,
+			AAA_PVT.[043] AS INSEPCT_ETC043,
+			AAA_PVT.[044] AS INSEPCT_ETC044,
+			AAA_PVT.[045] AS INSEPCT_ETC045,
+			C.MATRL_CD,
+			C.MATRL_NM,
+			D.PRE_IN_WHS_QTY,
+			D.IN_WHS_QTY,
+			D.DIFF_QTY,
+			D.PRE_IN_WHS_DATE,
+			E.DEAL_CORP_NM,	
+			ISNULL(F.INSPECT_CD,'') INSPECT_CD,
+			ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '066' AND INSPECT_CD = BASE_CD),'') INSPECT_NM,	
+			D.IN_WHS_DATE,
+			D.STATUS_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = D.STATUS_CD) STATUS_NM,		
+			D.APPROVAL_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = D.APPROVAL_CD) APPROVAL_NM,
+			D.FRRRD_DATE,
+			D.FRRRD_TYPE,
+			D.RETEST_DATE,
+			MANAGEMENT_PVT.* ,
+			B.INSPECT_ITEM13,
+			B.INSPECT_ITEM14,
+			B.INSPECT_ITEM15,
+			B.INSPECT_ITEM16,
+			B.INSPECT_ITEM17,
+			B.INSPECT_ITEM18,
+			B.INSPECT_ITEM19,
+			B.INSPECT_ITEM20,
+			B.INSPECT_ITEM21			
+			FROM 
+			(
+				SELECT 	
+				
+				LOT_NO
+				, MATRL_GUBUN_CD
+				, IN_WHS_GROUP_SEQ
+				, [MANAGEMENT_CD]
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '043' AND RESULT_CD = BASE_CD) RESULT_CD			
+				, INSPECT_DATE REG_DATE
+				FROM TB_MATRL_INSPECT_ADM_CODE 
+				WHERE INSPECT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				GROUP BY LOT_NO, MATRL_GUBUN_CD
+				, IN_WHS_GROUP_SEQ, [RESULT_CD]
+				, MANAGEMENT_CD, INSPECT_DATE  ) AS t
+				PIVOT(MIN(t.RESULT_CD) for t.MANAGEMENT_CD IN (${codeList})) as MANAGEMENT_PVT INNER JOIN
+				
+					(SELECT                
+		            LOT_NO
+			            , MATRL_GUBUN_CD
+			            , IN_WHS_GROUP_SEQ
+			            , [MANAGEMENT_CD]
+			            , INSPECT_ETC
+			
+			            , INSPECT_DATE REG_DATE
+		            FROM TB_MATRL_INSPECT_ADM_CODE 
+		        	WHERE INSPECT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		            GROUP BY LOT_NO, MATRL_GUBUN_CD, [MANAGEMENT_CD], IN_WHS_GROUP_SEQ, INSPECT_ETC, INSPECT_DATE	         
+		         
+		       		) AS y
+	           		PIVOT(MIN(y.INSPECT_ETC) for y.MANAGEMENT_CD IN (${codeList2})) AS AAA_PVT ON MANAGEMENT_PVT.LOT_NO = AAA_PVT.LOT_NO
+            
+				left outer join TB_MATRL_INSPECT_DTL B				
+				on MANAGEMENT_PVT.LOT_NO = B.LOT_NO 			
+				LEFT OUTER JOIN TB_MATRL_INSPECT_PASS F
+				ON MANAGEMENT_PVT.LOT_NO = F.LOT_NO 							
+				, TB_MATRL_CODE_ADM C
+				, TB_IN_OUT_WHS_ADM D
+				, TB_DEAL_CORP_ADM E				
+				WHERE 
+				 MANAGEMENT_PVT.MATRL_GUBUN_CD = #{matrlGubunCd}			
+				AND D.LOT_NO = MANAGEMENT_PVT.LOT_NO
+				AND D.MATRL_CD = C.MATRL_CD
+				AND D.SPPLY_DEAL_CORP_CD = E.DEAL_CORP_CD	
+				AND MANAGEMENT_PVT.REG_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo} -->
+		<![CDATA[	
+			SELECT AAA_PVT.[001]  AS INSEPCT_ETC001,
+			AAA_PVT.[002] AS INSEPCT_ETC002,
+			AAA_PVT.[003] AS INSEPCT_ETC003,
+			AAA_PVT.[004] AS INSEPCT_ETC004,
+			AAA_PVT.[005] AS INSEPCT_ETC005,
+			AAA_PVT.[006] AS INSEPCT_ETC006,			
+			AAA_PVT.[007] AS INSEPCT_ETC007,
+			AAA_PVT.[008] AS INSEPCT_ETC008,
+			AAA_PVT.[009] AS INSEPCT_ETC009,
+			AAA_PVT.[010] AS INSEPCT_ETC010,
+			AAA_PVT.[011] AS INSEPCT_ETC011,
+			AAA_PVT.[012] AS INSEPCT_ETC012,
+			AAA_PVT.[013] AS INSEPCT_ETC013,
+			AAA_PVT.[014] AS INSEPCT_ETC014,
+			AAA_PVT.[015] AS INSEPCT_ETC015,			
+			AAA_PVT.[016] AS INSEPCT_ETC016,
+			AAA_PVT.[017] AS INSEPCT_ETC017,
+			AAA_PVT.[018] AS INSEPCT_ETC018,
+			AAA_PVT.[019] AS INSEPCT_ETC019,
+			AAA_PVT.[020] AS INSEPCT_ETC020,
+			AAA_PVT.[021] AS INSEPCT_ETC021,
+			AAA_PVT.[022] AS INSEPCT_ETC022,
+			AAA_PVT.[023] AS INSEPCT_ETC023,
+			AAA_PVT.[024] AS INSEPCT_ETC024,
+			AAA_PVT.[025] AS INSEPCT_ETC025,			
+			AAA_PVT.[026] AS INSEPCT_ETC026,
+			AAA_PVT.[027] AS INSEPCT_ETC027,
+			AAA_PVT.[028] AS INSEPCT_ETC028,
+			AAA_PVT.[029] AS INSEPCT_ETC029,
+			AAA_PVT.[030] AS INSEPCT_ETC030,
+			AAA_PVT.[031] AS INSEPCT_ETC031,
+			AAA_PVT.[032] AS INSEPCT_ETC032,
+			AAA_PVT.[033] AS INSEPCT_ETC033,
+			AAA_PVT.[034] AS INSEPCT_ETC034,
+			AAA_PVT.[035] AS INSEPCT_ETC035,			
+			AAA_PVT.[036] AS INSEPCT_ETC036,
+			AAA_PVT.[037] AS INSEPCT_ETC037,
+			AAA_PVT.[038] AS INSEPCT_ETC038,
+			AAA_PVT.[039] AS INSEPCT_ETC039,
+			AAA_PVT.[040] AS INSEPCT_ETC040,
+			AAA_PVT.[041] AS INSEPCT_ETC041,
+			AAA_PVT.[042] AS INSEPCT_ETC042,
+			AAA_PVT.[043] AS INSEPCT_ETC043,
+			AAA_PVT.[044] AS INSEPCT_ETC044,
+			AAA_PVT.[045] AS INSEPCT_ETC045,
+			C.MATRL_CD,
+			C.MATRL_NM,
+			D.PRE_IN_WHS_QTY,
+			D.IN_WHS_QTY,
+			D.DIFF_QTY,
+			D.PRE_IN_WHS_DATE,
+			E.DEAL_CORP_NM,	
+			ISNULL(F.INSPECT_CD,'') INSPECT_CD,
+			ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '066' AND INSPECT_CD = BASE_CD),'') INSPECT_NM,	
+			D.IN_WHS_DATE,
+			D.STATUS_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = D.STATUS_CD) STATUS_NM,		
+			D.APPROVAL_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = D.APPROVAL_CD) APPROVAL_NM,
+			D.FRRRD_DATE,
+			D.FRRRD_TYPE,
+			D.RETEST_DATE,
+			A.* ,
+			D.LOT_NO MAIN_LOT_NO,
+			D.IN_WHS_GROUP_SEQ MAIN_IN_WHS_GROUP_SEQ,
+			B.INSPECT_ITEM13,
+			B.INSPECT_ITEM14,
+			B.INSPECT_ITEM15,
+			B.INSPECT_ITEM16,
+			B.INSPECT_ITEM17,
+			B.INSPECT_ITEM18,
+			B.INSPECT_ITEM19,
+			B.INSPECT_ITEM20,
+			B.INSPECT_ITEM21,
+			D.FILE_NM,	
+			D.FILE_GROUP
+			FROM 
+
+			TB_IN_OUT_WHS_ADM D
+
+			LEFT OUTER JOIN
+			(
+				SELECT * FROM
+				(
+				SELECT 	
+				A.IN_WHS_GROUP_SEQ
+				,A.LOT_NO
+				, MATRL_GUBUN_CD		
+				, [MANAGEMENT_CD]
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '043' AND RESULT_CD = BASE_CD) RESULT_CD			
+				, INSPECT_DATE REG_DATE
+				FROM 
+				TB_MATRL_INSPECT_ADM_CODE A
+				WHERE INSPECT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				AND A.MATRL_GUBUN_CD = #{matrlGubunCd}
+				AND A.MATRL_CD != ''
+				GROUP BY A.LOT_NO, MATRL_GUBUN_CD
+				, [RESULT_CD], MANAGEMENT_CD, INSPECT_DATE ,A.IN_WHS_GROUP_SEQ
+				)AS t
+				PIVOT(MIN(t.RESULT_CD) for t.MANAGEMENT_CD IN (${codeList})) 
+				as MANAGEMENT_PVT ) A
+				ON 1=1 
+				AND D.LOT_NO = A.LOT_NO
+				
+				LEFT OUTER JOIN
+				
+					(SELECT                
+		            LOT_NO
+			            , MATRL_GUBUN_CD
+			            , IN_WHS_GROUP_SEQ
+			            , [MANAGEMENT_CD]
+			            , INSPECT_ETC
+			
+			            , INSPECT_DATE REG_DATE
+		            FROM TB_MATRL_INSPECT_ADM_CODE 
+		        	WHERE INSPECT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo} AND MATRL_CD != ''
+		            GROUP BY LOT_NO, MATRL_GUBUN_CD, [MANAGEMENT_CD], IN_WHS_GROUP_SEQ, INSPECT_ETC, INSPECT_DATE	         
+		         
+		       		) AS y
+	           		PIVOT(MIN(y.INSPECT_ETC) for y.MANAGEMENT_CD IN (${codeList2})) 
+					AS AAA_PVT 
+					ON A.LOT_NO = AAA_PVT.LOT_NO
+            
+				left outer join TB_MATRL_INSPECT_DTL B				
+				on A.LOT_NO = B.LOT_NO 			
+				LEFT OUTER JOIN TB_MATRL_INSPECT_PASS F
+				ON A.LOT_NO = F.LOT_NO 							
+				, TB_MATRL_CODE_ADM C				
+				, TB_DEAL_CORP_ADM E				
+				WHERE 				 			
+				 D.MATRL_CD = C.MATRL_CD
+				AND D.SPPLY_DEAL_CORP_CD = E.DEAL_CORP_CD	
+				AND D.IN_WHS_GROUP_SEQ IN (SELECT IN_WHS_GROUP_SEQ FROM TB_MATRL_INSPECT_ADM_CODE WHERE INSPECT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo} AND MATRL_GUBUN_CD = #{matrlGubunCd} AND MATRL_CD != '')
+
+				
+			]]>
+				<if test="matrlCd != null and matrlCd != ''">
+					AND D.MATRL_CD = #{matrlCd}
+				</if>
+			
+			ORDER BY REG_DATE DESC
+						
+	
+	</select>
+</mapper>

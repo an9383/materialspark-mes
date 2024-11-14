@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.bm.equipCondSizeAdmMapper">
+
+	<resultMap id="EquipCondSizeAdmVo" type="mes.domain.bm.EquipCondSizeAdmVo">
+		<result property="sizeCondCd"				column="SIZE_COND_CD"					/>
+		<result property="sizeCondNm"				column="SIZE_COND_NM"					/>
+		<result property="wpLeftCond"				column="WP_LEFT_COND"					/>
+		<result property="wpLeftAlwncePlus"			column="WP_LEFT_ALWNCE_PLUS"			/>
+		<result property="wpLeftAlwnceMinus"		column="WP_LEFT_ALWNCE_MINUS"			/>
+		<result property="wpRightCond"				column="WP_RIGHT_COND"					/>
+		<result property="wpRightAlwncePlus"		column="WP_RIGHT_ALWNCE_PLUS"			/>
+		<result property="wpRightAlwnceMinus"		column="WP_RIGHT_ALWNCE_MINUS"			/>
+		<result property="pitchLeftCond"			column="PITCH_LEFT_COND"				/>
+		<result property="pitchLeftAlwncePlus"		column="PITCH_LEFT_ALWNCE_PLUS"			/>
+		<result property="pitchLeftAlwnceMinus"		column="PITCH_LEFT_ALWNCE_MINUS"		/>
+		<result property="pitchRightCond"			column="PITCH_RIGHT_COND"				/>
+		<result property="pitchRightAlwncePlus"		column="PITCH_RIGHT_ALWNCE_PLUS"		/>
+		<result property="pitchRightAlwnceMinus"	column="PITCH_RIGHT_ALWNCE_MINUS"		/>
+		<result property="ppfWingLeftCond"			column="PPF_WING_LEFT_COND"				/>
+		<result property="ppfWingLeftAlwncePlus"	column="PPF_WING_LEFT_ALWNCE_PLUS"		/>
+		<result property="ppfWingLeftAlwnceMinus"	column="PPF_WING_LEFT_ALWNCE_MINUS"		/>
+		<result property="ppfWingRightCond"			column="PPF_WING_RIGHT_COND"			/>
+		<result property="ppfWingRightAlwncePlus"	column="PPF_WING_RIGHT_ALWNCE_PLUS"		/>
+		<result property="ppfWingRightAlwnceMinus"	column="PPF_WING_RIGHT_ALWNCE_MINUS"	/>
+		<result property="ppfDepthLeftCond"			column="PPF_DEPTH_LEFT_COND"			/>
+		<result property="ppfDepthLeftAlwncePlus"	column="PPF_DEPTH_LEFT_ALWNCE_PLUS"		/>
+		<result property="ppfDepthLeftAlwnceMinus"	column="PPF_DEPTH_LEFT_ALWNCE_MINUS"	/>
+		<result property="ppfDepthRightCond"		column="PPF_DEPTH_RIGHT_COND"			/>
+		<result property="ppfDepthRightAlwncePlus"	column="PPF_DEPTH_RIGHT_ALWNCE_PLUS"	/>
+		<result property="ppfDepthRightAlwnceMinus"	column="PPF_DEPTH_RIGHT_ALWNCE_MINUS"	/>
+		<result property="filmCond"					column="FILM_COND"						/>
+		<result property="filmAlwncePlus"			column="FILM_ALWNCE_PLUS"				/>
+		<result property="filmAlwnceMinus"			column="FILM_ALWNCE_MINUS"				/>
+		<result property="metalDepthCond"			column="METAL_DEPTH_COND"				/>
+		<result property="metalDepthAlwncePlus"		column="METAL_DEPTH_ALWNCE_PLUS"		/>
+		<result property="metalDepthAlwnceMinus"	column="METAL_DEPTH_ALWNCE_MINUS"		/>
+		<result property="metalThicknessCond"		column="METAL_THICKNESS_COND"			/>
+		<result property="metalThicknessAlwncePlus"	column="METAL_THICKNESS_ALWNCE_PLUS"	/>
+		<result property="metalThicknessAlwnceMinus" column="METAL_THICKNESS_ALWNCE_MINUS"	/>	<!-- property와 column이 딱 붙어있으면 에러남 -->
+		<result property="thCenterCond"				column="TH_CENTER_COND"					/>
+		<result property="thCenterAlwncePlus"		column="TH_CENTER_ALWNCE_PLUS"			/>
+		<result property="thCenterAlwnceMinus"		column="TH_CENTER_ALWNCE_MINUS"			/>
+		<result property="thEdgeCond"				column="TH_EDGE_COND"					/>
+		<result property="thEdgeAlwncePlus"			column="TH_EDGE_ALWNCE_PLUS"			/>
+		<result property="thEdgeAlwnceMinus"		column="TH_EDGE_ALWNCE_MINUS"			/>
+		<result property="burrCond"					column="BURR_COND"						/>
+		<result property="burrAlwncePlus"			column="BURR_ALWNCE_PLUS"				/>
+		<result property="burrAlwnceMinus"			column="BURR_ALWNCE_MINUS"				/>
+		<result property="gapOfLayerCond"			column="GAP_OF_LAYER_COND"				/>
+		<result property="gapOfLayerPlus"			column="GAP_OF_LAYER_PLUS"				/>
+		<result property="gapOfLayerMinus"			column="GAP_OF_LAYER_MINUS"				/>
+		<result property="useYnCd"					column="USE_YN_CD"						/>
+		<result property="regId"					column="REG_ID"							/>
+		<result property="regDate"					column="REG_DATE"						/>
+		<result property="updId"					column="UPD_ID"							/>
+		<result property="updDate"					column="UPD_DATE"						/>
+		
+		
+		<result property="wpCenterCond"                            column="WP_CENTER_COND"                  />
+		<result property="wpCenterAlwncePlus"                      column="WP_CENTER_ALWNCE_PLUS"           />
+		<result property="wpCenterAlwnceMinus"                     column="WP_CENTER_ALWNCE_MINUS"          />
+		<result property="ppfDepthCenterCond"                      column="PPF_DEPTH_CENTER_COND"           />
+		<result property="ppfDepthCenterAlwncePlus"                column="PPF_DEPTH_CENTER_ALWNCE_PLUS"    />
+		<result property="ppfDepthCenterAlwnceMinus"               column="PPF_DEPTH_CENTER_ALWNCE_MINUS"   />
+		<result property="wpDeviationCond"                         column="WP_DEVIATION_COND"               />
+		<result property="wpDeviationAlwncePlus"                   column="WP_DEVIATION_ALWNCE_PLUS"        />
+		<result property="wpDeviationAlwnceMinus"                  column="WP_DEVIATION_ALWNCE_MINUS"       />
+		<result property="x1X2Cond"                                column="X1_X2_COND"                      />
+		<result property="x1X2AlwncePlus"                          column="X1_X2_COND_PLUS"                 />
+		<result property="x1X2AlwnceMinus"                         column="X1_X2_COND_MINUS"                />
+		<result property="thEdgeRightCond"                         column="TH_EDGE_RIGHT_COND"              />
+		<result property="thEdgeRightAlwncePlus"                   column="TH_EDGE_RIGHT_ALWNCE_PLUS"       />
+		<result property="thEdgeRightAlwnceMinus"                  column="TH_EDGE_RIGHT_ALWNCE_MINUS"      />
+		<result property="bendingCond"                             column="BENDING_COND"                    />
+		<result property="bendingAlwncePlus"                       column="BENDING_ALWNCE_PLUS"             />
+		<result property="bendingAlwnceMinus"                      column="BENDING_ALWNCE_MINUS"            />
+		
+		<result property="equipCondSeq"					column="EQUIP_COND_SEQ"		/>
+	</resultMap>
+	
+	<!-- 치수 기초코드 전제 조회 -->
+	<select id="listAll" resultMap="EquipCondSizeAdmVo">
+				SELECT
+					SIZE_COND_CD
+					, SIZE_COND_NM
+					, WP_LEFT_COND
+					, WP_LEFT_ALWNCE_PLUS
+					, WP_LEFT_ALWNCE_MINUS
+					, WP_RIGHT_COND
+					, WP_RIGHT_ALWNCE_PLUS
+					, WP_RIGHT_ALWNCE_MINUS
+					, PITCH_LEFT_COND
+					, PITCH_LEFT_ALWNCE_PLUS
+					, PITCH_LEFT_ALWNCE_MINUS
+					, PITCH_RIGHT_COND
+					, PITCH_RIGHT_ALWNCE_PLUS
+					, PITCH_RIGHT_ALWNCE_MINUS
+					, PPF_WING_LEFT_COND
+					, PPF_WING_LEFT_ALWNCE_PLUS
+					, PPF_WING_LEFT_ALWNCE_MINUS
+					, PPF_WING_RIGHT_COND
+					, PPF_WING_RIGHT_ALWNCE_PLUS
+					, PPF_WING_RIGHT_ALWNCE_MINUS
+					, PPF_DEPTH_LEFT_COND
+					, PPF_DEPTH_LEFT_ALWNCE_PLUS
+					, PPF_DEPTH_LEFT_ALWNCE_MINUS
+					, PPF_DEPTH_RIGHT_COND
+					, PPF_DEPTH_RIGHT_ALWNCE_PLUS
+					, PPF_DEPTH_RIGHT_ALWNCE_MINUS
+					, FILM_COND
+					, FILM_ALWNCE_PLUS
+					, FILM_ALWNCE_MINUS
+					, METAL_DEPTH_COND
+					, METAL_DEPTH_ALWNCE_PLUS
+					, METAL_DEPTH_ALWNCE_MINUS
+					, METAL_THICKNESS_COND
+					, METAL_THICKNESS_ALWNCE_PLUS
+					, METAL_THICKNESS_ALWNCE_MINUS
+					, TH_CENTER_COND
+					, TH_CENTER_ALWNCE_PLUS
+					, TH_CENTER_ALWNCE_MINUS
+					, TH_EDGE_COND
+					, TH_EDGE_ALWNCE_PLUS
+					, TH_EDGE_ALWNCE_MINUS
+					, ISNULL(GAP_OF_LAYER_COND, 0) AS GAP_OF_LAYER_COND
+					, ISNULL(GAP_OF_LAYER_PLUS, 0) AS GAP_OF_LAYER_PLUS
+					, ISNULL(GAP_OF_LAYER_MINUS, 0) AS GAP_OF_LAYER_MINUS
+					, BURR_COND
+					, BURR_ALWNCE_PLUS
+					, BURR_ALWNCE_MINUS
+					, WP_CENTER_COND
+					, WP_CENTER_ALWNCE_PLUS
+					, WP_CENTER_ALWNCE_MINUS
+					, PPF_DEPTH_CENTER_COND
+					, PPF_DEPTH_CENTER_ALWNCE_PLUS
+					, PPF_DEPTH_CENTER_ALWNCE_MINUS
+					, WP_DEVIATION_COND
+					, WP_DEVIATION_ALWNCE_PLUS
+					, WP_DEVIATION_ALWNCE_MINUS
+					, X1_X2_COND
+					, X1_X2_COND_PLUS
+					, X1_X2_COND_MINUS
+					, TH_EDGE_RIGHT_COND
+					, TH_EDGE_RIGHT_ALWNCE_PLUS
+					, TH_EDGE_RIGHT_ALWNCE_MINUS
+					, BENDING_COND
+					, BENDING_ALWNCE_PLUS
+					, BENDING_ALWNCE_MINUS				
+					, USE_YN_CD
+					, REG_ID
+					, REG_DATE
+					, UPD_ID
+					, UPD_DATE
+			FROM TB_BOM_SIZE_COND_ADM
+				WHERE 1=1 
+				<if test="useYnCd == null or useYnCd == ''"> 
+					AND USE_YN_CD = '001'
+				</if>
+	</select>
+	
+	<!-- 치수 기초코드 특정 조회 -->
+	<select id="read" resultMap="EquipCondSizeAdmVo">
+		<![CDATA[
+			SELECT
+					SIZE_COND_CD
+					, SIZE_COND_NM
+					, WP_LEFT_COND
+					, WP_LEFT_ALWNCE_PLUS
+					, WP_LEFT_ALWNCE_MINUS
+					, WP_RIGHT_COND
+					, WP_RIGHT_ALWNCE_PLUS
+					, WP_RIGHT_ALWNCE_MINUS
+					, PITCH_LEFT_COND
+					, PITCH_LEFT_ALWNCE_PLUS
+					, PITCH_LEFT_ALWNCE_MINUS
+					, PITCH_RIGHT_COND
+					, PITCH_RIGHT_ALWNCE_PLUS
+					, PITCH_RIGHT_ALWNCE_MINUS
+					, PPF_WING_LEFT_COND
+					, PPF_WING_LEFT_ALWNCE_PLUS
+					, PPF_WING_LEFT_ALWNCE_MINUS
+					, PPF_WING_RIGHT_COND
+					, PPF_WING_RIGHT_ALWNCE_PLUS
+					, PPF_WING_RIGHT_ALWNCE_MINUS
+					, PPF_DEPTH_LEFT_COND
+					, PPF_DEPTH_LEFT_ALWNCE_PLUS
+					, PPF_DEPTH_LEFT_ALWNCE_MINUS
+					, PPF_DEPTH_RIGHT_COND
+					, PPF_DEPTH_RIGHT_ALWNCE_PLUS
+					, PPF_DEPTH_RIGHT_ALWNCE_MINUS
+					, FILM_COND
+					, FILM_ALWNCE_PLUS
+					, FILM_ALWNCE_MINUS
+					, METAL_DEPTH_COND
+					, METAL_DEPTH_ALWNCE_PLUS
+					, METAL_DEPTH_ALWNCE_MINUS
+					, METAL_THICKNESS_COND
+					, METAL_THICKNESS_ALWNCE_PLUS
+					, METAL_THICKNESS_ALWNCE_MINUS
+					, TH_CENTER_COND
+					, TH_CENTER_ALWNCE_PLUS
+					, TH_CENTER_ALWNCE_MINUS
+					, TH_EDGE_COND
+					, TH_EDGE_ALWNCE_PLUS
+					, TH_EDGE_ALWNCE_MINUS
+					, BURR_COND
+					, BURR_ALWNCE_PLUS
+					, BURR_ALWNCE_MINUS
+					, GAP_OF_LAYER_COND
+					, GAP_OF_LAYER_PLUS
+					, GAP_OF_LAYER_MINUS
+					, USE_YN_CD
+					, WP_CENTER_COND
+					, WP_CENTER_ALWNCE_PLUS
+					, WP_CENTER_ALWNCE_MINUS
+					, PPF_DEPTH_CENTER_COND
+					, PPF_DEPTH_CENTER_ALWNCE_PLUS
+					, PPF_DEPTH_CENTER_ALWNCE_MINUS
+					, WP_DEVIATION_COND
+					, WP_DEVIATION_ALWNCE_PLUS
+					, WP_DEVIATION_ALWNCE_MINUS
+					, X1_X2_COND
+					, X1_X2_COND_PLUS
+					, X1_X2_COND_MINUS
+					, TH_EDGE_RIGHT_COND
+					, TH_EDGE_RIGHT_ALWNCE_PLUS
+					, TH_EDGE_RIGHT_ALWNCE_MINUS
+					, BENDING_COND
+					, BENDING_ALWNCE_PLUS
+					, BENDING_ALWNCE_MINUS				
+					, REG_ID
+					, REG_DATE
+					, UPD_ID
+					, UPD_DATE
+			FROM
+				TB_BOM_SIZE_COND_ADM 
+			WHERE
+				SIZE_COND_CD = #{sizeCondCd}
+		]]>
+	</select>
+
+	<!-- 치수 코드 시퀸스 -->
+	<select id="selectSizeSeqCd" resultType="String">
+		SELECT
+			ISNULL(RIGHT('000' + CAST(MAX(SUBSTRING(SIZE_COND_CD,1,3))+1 AS NVARCHAR),3), '001') 
+		FROM
+			TB_BOM_SIZE_COND_ADM
+	</select>
+	
+	<!-- 치수 기초코드 생성 -->
+	<insert id="create" parameterType="mes.domain.bm.EquipCondSizeAdmVo">
+		<![CDATA[
+			INSERT INTO TB_BOM_SIZE_COND_ADM(
+					SIZE_COND_CD
+					, SIZE_COND_NM
+					, WP_LEFT_COND
+					, WP_LEFT_ALWNCE_PLUS
+					, WP_LEFT_ALWNCE_MINUS
+					, WP_RIGHT_COND
+					, WP_RIGHT_ALWNCE_PLUS
+					, WP_RIGHT_ALWNCE_MINUS
+					, PITCH_LEFT_COND
+					, PITCH_LEFT_ALWNCE_PLUS
+					, PITCH_LEFT_ALWNCE_MINUS
+					, PITCH_RIGHT_COND
+					, PITCH_RIGHT_ALWNCE_PLUS
+					, PITCH_RIGHT_ALWNCE_MINUS
+					, PPF_WING_LEFT_COND
+					, PPF_WING_LEFT_ALWNCE_PLUS
+					, PPF_WING_LEFT_ALWNCE_MINUS
+					, PPF_WING_RIGHT_COND
+					, PPF_WING_RIGHT_ALWNCE_PLUS
+					, PPF_WING_RIGHT_ALWNCE_MINUS
+					, PPF_DEPTH_LEFT_COND
+					, PPF_DEPTH_LEFT_ALWNCE_PLUS
+					, PPF_DEPTH_LEFT_ALWNCE_MINUS
+					, PPF_DEPTH_RIGHT_COND
+					, PPF_DEPTH_RIGHT_ALWNCE_PLUS
+					, PPF_DEPTH_RIGHT_ALWNCE_MINUS
+					, FILM_COND
+					, FILM_ALWNCE_PLUS
+					, FILM_ALWNCE_MINUS
+					, METAL_DEPTH_COND
+					, METAL_DEPTH_ALWNCE_PLUS
+					, METAL_DEPTH_ALWNCE_MINUS
+					, METAL_THICKNESS_COND
+					, METAL_THICKNESS_ALWNCE_PLUS
+					, METAL_THICKNESS_ALWNCE_MINUS
+					, TH_CENTER_COND
+					, TH_CENTER_ALWNCE_PLUS
+					, TH_CENTER_ALWNCE_MINUS
+					, TH_EDGE_COND
+					, TH_EDGE_ALWNCE_PLUS
+					, TH_EDGE_ALWNCE_MINUS
+					, GAP_OF_LAYER_COND
+					, GAP_OF_LAYER_PLUS
+					, GAP_OF_LAYER_MINUS
+					, BURR_COND
+					, BURR_ALWNCE_PLUS
+					, BURR_ALWNCE_MINUS
+					, WP_CENTER_COND
+					, WP_CENTER_ALWNCE_PLUS
+					, WP_CENTER_ALWNCE_MINUS
+					, PPF_DEPTH_CENTER_COND
+					, PPF_DEPTH_CENTER_ALWNCE_PLUS
+					, PPF_DEPTH_CENTER_ALWNCE_MINUS
+					, WP_DEVIATION_COND
+					, WP_DEVIATION_ALWNCE_PLUS
+					, WP_DEVIATION_ALWNCE_MINUS
+					, X1_X2_COND
+					, X1_X2_COND_PLUS
+					, X1_X2_COND_MINUS
+					, TH_EDGE_RIGHT_COND
+					, TH_EDGE_RIGHT_ALWNCE_PLUS
+					, TH_EDGE_RIGHT_ALWNCE_MINUS
+					, BENDING_COND
+					, BENDING_ALWNCE_PLUS
+					, BENDING_ALWNCE_MINUS
+					, USE_YN_CD
+					, REG_ID
+					, REG_DATE
+			) 
+			VALUES(
+				#{sizeCondCd}
+				, #{sizeCondNm}
+				, #{wpLeftCond}
+				, #{wpLeftAlwncePlus}
+				, #{wpLeftAlwnceMinus}
+				, #{wpRightCond}
+				, #{wpRightAlwncePlus}
+				, #{wpRightAlwnceMinus}
+				, #{pitchLeftCond}
+				, #{pitchLeftAlwncePlus}
+				, #{pitchLeftAlwnceMinus}
+				, #{pitchRightCond}
+				, #{pitchRightAlwncePlus}
+				, #{pitchRightAlwnceMinus}
+				, #{ppfWingLeftCond}
+				, #{ppfWingLeftAlwncePlus}
+				, #{ppfWingLeftAlwnceMinus}
+				, #{ppfWingRightCond}
+				, #{ppfWingRightAlwncePlus}
+				, #{ppfWingRightAlwnceMinus}
+				, #{ppfDepthLeftCond}
+				, #{ppfDepthLeftAlwncePlus}
+				, #{ppfDepthLeftAlwnceMinus}
+				, #{ppfDepthRightCond}
+				, #{ppfDepthRightAlwncePlus}
+				, #{ppfDepthRightAlwnceMinus}
+				, #{filmCond}
+				, #{filmAlwncePlus}
+				, #{filmAlwnceMinus}
+				, #{metalDepthCond}
+				, #{metalDepthAlwncePlus}
+				, #{metalDepthAlwnceMinus}
+				, #{metalThicknessCond}
+				, #{metalThicknessAlwncePlus}
+				, #{metalThicknessAlwnceMinus}
+				, #{thCenterCond}
+				, #{thCenterAlwncePlus}
+				, #{thCenterAlwnceMinus}
+				, #{thEdgeCond}
+				, #{thEdgeAlwncePlus}
+				, #{thEdgeAlwnceMinus}
+				, #{gapOfLayerCond}
+				, #{gapOfLayerPlus}
+				, #{gapOfLayerMinus}
+				, #{burrCond}
+				, #{burrAlwncePlus}
+				, #{burrAlwnceMinus}
+				, #{wpCenterCond}             
+				, #{wpCenterAlwncePlus}       
+				, #{wpCenterAlwnceMinus}      
+				, #{ppfDepthCenterCond}       
+				, #{ppfDepthCenterAlwncePlus} 
+				, #{ppfDepthCenterAlwnceMinus}
+				, #{wpDeviationCond}          
+				, #{wpDeviationAlwncePlus}    
+				, #{wpDeviationAlwnceMinus}   
+				, #{x1X2Cond}                 
+				, #{x1X2AlwncePlus}           
+				, #{x1X2AlwnceMinus}          
+				, #{thEdgeRightCond}          
+				, #{thEdgeRightAlwncePlus}    
+				, #{thEdgeRightAlwnceMinus}   
+				, #{bendingCond}              
+				, #{bendingAlwncePlus}        
+				, #{bendingAlwnceMinus}
+				, #{useYnCd}
+				, #{regId}
+				, getdate()
+			)
+		]]>
+	</insert>
+
+	<!-- 치수 기초코드 수정 -->
+	<update id="update">
+		<![CDATA[
+			UPDATE
+				TB_BOM_SIZE_COND_ADM 
+			SET
+				SIZE_COND_CD = #{sizeCondCd}
+				, SIZE_COND_NM = #{sizeCondNm}
+				, WP_LEFT_COND = #{wpLeftCond}
+				, WP_LEFT_ALWNCE_PLUS = #{wpLeftAlwncePlus}
+				, WP_LEFT_ALWNCE_MINUS = #{wpLeftAlwnceMinus}
+				, WP_RIGHT_COND = #{wpRightCond}
+				, WP_RIGHT_ALWNCE_PLUS = #{wpRightAlwncePlus}
+				, WP_RIGHT_ALWNCE_MINUS = #{wpRightAlwnceMinus}
+				, PITCH_LEFT_COND = #{pitchLeftCond}
+				, PITCH_LEFT_ALWNCE_PLUS = #{pitchLeftAlwncePlus}
+				, PITCH_LEFT_ALWNCE_MINUS = #{pitchLeftAlwnceMinus}
+				, PITCH_RIGHT_COND = #{pitchRightCond}
+				, PITCH_RIGHT_ALWNCE_PLUS = #{pitchRightAlwncePlus}
+				, PITCH_RIGHT_ALWNCE_MINUS = #{pitchRightAlwnceMinus}
+				, PPF_WING_LEFT_COND = #{ppfWingLeftCond}
+				, PPF_WING_LEFT_ALWNCE_PLUS = #{ppfWingLeftAlwncePlus}
+				, PPF_WING_LEFT_ALWNCE_MINUS = #{ppfWingLeftAlwnceMinus}
+				, PPF_WING_RIGHT_COND = #{ppfWingRightCond}
+				, PPF_WING_RIGHT_ALWNCE_PLUS = #{ppfWingRightAlwncePlus}
+				, PPF_WING_RIGHT_ALWNCE_MINUS = #{ppfWingRightAlwnceMinus}
+				, PPF_DEPTH_LEFT_COND = #{ppfDepthLeftCond}
+				, PPF_DEPTH_LEFT_ALWNCE_PLUS = #{ppfDepthLeftAlwncePlus}
+				, PPF_DEPTH_LEFT_ALWNCE_MINUS = #{ppfDepthLeftAlwnceMinus}
+				, PPF_DEPTH_RIGHT_COND = #{ppfDepthRightCond}
+				, PPF_DEPTH_RIGHT_ALWNCE_PLUS = #{ppfDepthRightAlwncePlus}
+				, PPF_DEPTH_RIGHT_ALWNCE_MINUS = #{ppfDepthRightAlwnceMinus}
+				, FILM_COND = #{filmCond}
+				, FILM_ALWNCE_PLUS = #{filmAlwncePlus}
+				, FILM_ALWNCE_MINUS = #{filmAlwnceMinus}
+				, METAL_DEPTH_COND = #{metalDepthCond}
+				, METAL_DEPTH_ALWNCE_PLUS = #{metalDepthAlwncePlus}
+				, METAL_DEPTH_ALWNCE_MINUS = #{metalDepthAlwnceMinus}
+				, METAL_THICKNESS_COND = #{metalThicknessCond}
+				, METAL_THICKNESS_ALWNCE_PLUS = #{metalThicknessAlwncePlus}
+				, METAL_THICKNESS_ALWNCE_MINUS = #{metalThicknessAlwnceMinus}
+				, TH_CENTER_COND = #{thCenterCond}
+				, TH_CENTER_ALWNCE_PLUS = #{thCenterAlwncePlus}
+				, TH_CENTER_ALWNCE_MINUS = #{thCenterAlwnceMinus}
+				, TH_EDGE_COND = #{thEdgeCond}
+				, TH_EDGE_ALWNCE_PLUS = #{thEdgeAlwncePlus}
+				, TH_EDGE_ALWNCE_MINUS = #{thEdgeAlwnceMinus}
+				, BURR_COND = #{burrCond}
+				, BURR_ALWNCE_PLUS = #{burrAlwncePlus}
+				, BURR_ALWNCE_MINUS = #{burrAlwnceMinus}
+				, GAP_OF_LAYER_COND = #{gapOfLayerCond}
+				, GAP_OF_LAYER_PLUS = #{gapOfLayerPlus}
+				, GAP_OF_LAYER_MINUS = #{gapOfLayerMinus}
+				, WP_CENTER_COND                 = #{wpCenterCond}             
+				, WP_CENTER_ALWNCE_PLUS          = #{wpCenterAlwncePlus}       
+				, WP_CENTER_ALWNCE_MINUS         = #{wpCenterAlwnceMinus}      
+				, PPF_DEPTH_CENTER_COND          = #{ppfDepthCenterCond}       
+				, PPF_DEPTH_CENTER_ALWNCE_PLUS   = #{ppfDepthCenterAlwncePlus} 
+				, PPF_DEPTH_CENTER_ALWNCE_MINUS  = #{ppfDepthCenterAlwnceMinus}
+				, WP_DEVIATION_COND              = #{wpDeviationCond}          
+				, WP_DEVIATION_ALWNCE_PLUS       = #{wpDeviationAlwncePlus}    
+				, WP_DEVIATION_ALWNCE_MINUS      = #{wpDeviationAlwnceMinus}   
+				, X1_X2_COND                     = #{x1X2Cond}                 
+				, X1_X2_COND_PLUS                = #{x1X2AlwncePlus}           
+				, X1_X2_COND_MINUS               = #{x1X2AlwnceMinus}          
+				, TH_EDGE_RIGHT_COND             = #{thEdgeRightCond}          
+				, TH_EDGE_RIGHT_ALWNCE_PLUS      = #{thEdgeRightAlwncePlus}    
+				, TH_EDGE_RIGHT_ALWNCE_MINUS     = #{thEdgeRightAlwnceMinus}   
+				, BENDING_COND                   = #{bendingCond}              
+				, BENDING_ALWNCE_PLUS            = #{bendingAlwncePlus}        
+				, BENDING_ALWNCE_MINUS           = #{bendingAlwnceMinus}			
+				, USE_YN_CD = #{useYnCd}	
+				, UPD_ID = #{updId}
+				, UPD_DATE = getdate()
+			WHERE
+				SIZE_COND_CD = #{sizeCondCd}
+		]]>
+	</update>
+	
+	
+	
+	
+	
+	
+	<!-- 6층 온도 정보(Bom온도조건관리)_23.10.24 추가 -->
+	
+	<!-- 치수 기초코드 전제 조회 -->
+	<select id="sizeSixFloorList" resultMap="EquipCondSizeAdmVo">
+		SELECT
+			*
+		FROM TB_BOM_SIZE_COND_SIX_FLOOR_ADM
+		WHERE 1=1 
+		<if test="useYnCd == null or useYnCd == ''"> 
+			AND USE_YN_CD = '001'
+		</if>
+	</select>
+	
+	<!-- 치수 기초코드 특정 조회 -->
+	<select id="sizeSixFloorRead" resultMap="EquipCondSizeAdmVo">
+		SELECT
+			*
+		<!-- 기초제조조건관리 사용 -->
+		<if test="pageGubun == 'bmsc3050'">
+			FROM TB_BOM_SIZE_COND_SIX_FLOOR_ADM
+			WHERE SIZE_COND_CD = #{sizeCondCd}
+		</if>
+		<!-- 제조조건관리 사용 -->
+		<if test="pageGubun == 'emsc3030'">
+			FROM TB_EQUIP_SIZE_COND_SIX_FLOOR_ADM
+			WHERE EQUIP_COND_SEQ = #{equipCondSeq}
+		</if>
+	</select>
+
+	<!-- 치수 코드 시퀸스 -->
+	<select id="selectSizeSixFloorSeqCd" resultType="String">
+		SELECT
+			ISNULL(RIGHT('000' + CAST(MAX(SUBSTRING(SIZE_COND_CD,1,3))+1 AS NVARCHAR),3), '001') 
+		FROM
+			TB_BOM_SIZE_COND_SIX_FLOOR_ADM
+	</select>
+	
+	<!-- 치수 기초코드 생성 -->
+	<insert id="sizeSixFloorCeate" parameterType="mes.domain.bm.EquipCondSizeAdmVo">
+		<!-- 기초제조조건관리 사용 -->
+		<if test="pageGubun == 'bmsc3050'">
+			INSERT INTO TB_BOM_SIZE_COND_SIX_FLOOR_ADM (
+				SIZE_COND_CD
+				, SIZE_COND_NM
+				, USE_YN_CD
+		</if>
+		
+		<!-- 제조조건관리 사용 -->
+		<if test="pageGubun == 'emsc3030'">
+			INSERT INTO TB_EQUIP_SIZE_COND_SIX_FLOOR_ADM (
+				EQUIP_COND_SEQ
+		</if>
+			, WP_LEFT_COND
+			, WP_LEFT_ALWNCE_PLUS
+			, WP_LEFT_ALWNCE_MINUS
+			, WP_RIGHT_COND
+			, WP_RIGHT_ALWNCE_PLUS
+			, WP_RIGHT_ALWNCE_MINUS
+			, PITCH_LEFT_COND
+			, PITCH_LEFT_ALWNCE_PLUS
+			, PITCH_LEFT_ALWNCE_MINUS
+			, PITCH_RIGHT_COND
+			, PITCH_RIGHT_ALWNCE_PLUS
+			, PITCH_RIGHT_ALWNCE_MINUS
+			, PPF_WING_LEFT_COND
+			, PPF_WING_LEFT_ALWNCE_PLUS
+			, PPF_WING_LEFT_ALWNCE_MINUS
+			, PPF_WING_RIGHT_COND
+			, PPF_WING_RIGHT_ALWNCE_PLUS
+			, PPF_WING_RIGHT_ALWNCE_MINUS
+			, PPF_DEPTH_LEFT_COND
+			, PPF_DEPTH_LEFT_ALWNCE_PLUS
+			, PPF_DEPTH_LEFT_ALWNCE_MINUS
+			, PPF_DEPTH_RIGHT_COND
+			, PPF_DEPTH_RIGHT_ALWNCE_PLUS
+			, PPF_DEPTH_RIGHT_ALWNCE_MINUS
+			, FILM_COND
+			, FILM_ALWNCE_PLUS
+			, FILM_ALWNCE_MINUS
+			, METAL_DEPTH_COND
+			, METAL_DEPTH_ALWNCE_PLUS
+			, METAL_DEPTH_ALWNCE_MINUS
+			, METAL_THICKNESS_COND
+			, METAL_THICKNESS_ALWNCE_PLUS
+			, METAL_THICKNESS_ALWNCE_MINUS
+			, TH_CENTER_COND
+			, TH_CENTER_ALWNCE_PLUS
+			, TH_CENTER_ALWNCE_MINUS
+			, TH_EDGE_COND
+			, TH_EDGE_ALWNCE_PLUS
+			, TH_EDGE_ALWNCE_MINUS
+			, GAP_OF_LAYER_COND
+			, GAP_OF_LAYER_PLUS
+			, GAP_OF_LAYER_MINUS
+			, BURR_COND
+			, BURR_ALWNCE_PLUS
+			, BURR_ALWNCE_MINUS
+			, WP_CENTER_COND
+			, WP_CENTER_ALWNCE_PLUS
+			, WP_CENTER_ALWNCE_MINUS
+			, PPF_DEPTH_CENTER_COND
+			, PPF_DEPTH_CENTER_ALWNCE_PLUS
+			, PPF_DEPTH_CENTER_ALWNCE_MINUS
+			, WP_DEVIATION_COND
+			, WP_DEVIATION_ALWNCE_PLUS
+			, WP_DEVIATION_ALWNCE_MINUS
+			, X1_X2_COND
+			, X1_X2_COND_PLUS
+			, X1_X2_COND_MINUS
+			, TH_EDGE_RIGHT_COND
+			, TH_EDGE_RIGHT_ALWNCE_PLUS
+			, TH_EDGE_RIGHT_ALWNCE_MINUS
+			, BENDING_COND
+			, BENDING_ALWNCE_PLUS
+			, BENDING_ALWNCE_MINUS
+			, REG_ID
+			, REG_DATE
+		) 
+		VALUES (
+			<!-- 기초제조조건관리 사용 -->
+			<if test="pageGubun == 'bmsc3050'">
+				#{sizeCondCd}
+				, #{sizeCondNm}
+				, #{useYnCd}
+			</if>
+			
+			<!-- 제조조건관리 사용 -->
+			<if test="pageGubun == 'emsc3030'">
+				#{equipCondSeq}
+			</if>
+			, #{wpLeftCond}
+			, #{wpLeftAlwncePlus}
+			, #{wpLeftAlwnceMinus}
+			, #{wpRightCond}
+			, #{wpRightAlwncePlus}
+			, #{wpRightAlwnceMinus}
+			, #{pitchLeftCond}
+			, #{pitchLeftAlwncePlus}
+			, #{pitchLeftAlwnceMinus}
+			, #{pitchRightCond}
+			, #{pitchRightAlwncePlus}
+			, #{pitchRightAlwnceMinus}
+			, #{ppfWingLeftCond}
+			, #{ppfWingLeftAlwncePlus}
+			, #{ppfWingLeftAlwnceMinus}
+			, #{ppfWingRightCond}
+			, #{ppfWingRightAlwncePlus}
+			, #{ppfWingRightAlwnceMinus}
+			, #{ppfDepthLeftCond}
+			, #{ppfDepthLeftAlwncePlus}
+			, #{ppfDepthLeftAlwnceMinus}
+			, #{ppfDepthRightCond}
+			, #{ppfDepthRightAlwncePlus}
+			, #{ppfDepthRightAlwnceMinus}
+			, #{filmCond}
+			, #{filmAlwncePlus}
+			, #{filmAlwnceMinus}
+			, #{metalDepthCond}
+			, #{metalDepthAlwncePlus}
+			, #{metalDepthAlwnceMinus}
+			, #{metalThicknessCond}
+			, #{metalThicknessAlwncePlus}
+			, #{metalThicknessAlwnceMinus}
+			, #{thCenterCond}
+			, #{thCenterAlwncePlus}
+			, #{thCenterAlwnceMinus}
+			, #{thEdgeCond}
+			, #{thEdgeAlwncePlus}
+			, #{thEdgeAlwnceMinus}
+			, #{gapOfLayerCond}
+			, #{gapOfLayerPlus}
+			, #{gapOfLayerMinus}
+			, #{burrCond}
+			, #{burrAlwncePlus}
+			, #{burrAlwnceMinus}
+			, #{wpCenterCond}             
+			, #{wpCenterAlwncePlus}       
+			, #{wpCenterAlwnceMinus}      
+			, #{ppfDepthCenterCond}       
+			, #{ppfDepthCenterAlwncePlus} 
+			, #{ppfDepthCenterAlwnceMinus}
+			, #{wpDeviationCond}          
+			, #{wpDeviationAlwncePlus}    
+			, #{wpDeviationAlwnceMinus}   
+			, #{x1X2Cond}                 
+			, #{x1X2AlwncePlus}           
+			, #{x1X2AlwnceMinus}          
+			, #{thEdgeRightCond}          
+			, #{thEdgeRightAlwncePlus}    
+			, #{thEdgeRightAlwnceMinus}   
+			, #{bendingCond}              
+			, #{bendingAlwncePlus}        
+			, #{bendingAlwnceMinus}
+			, #{regId}
+			, getdate()
+		)
+	</insert>
+
+	<!-- 치수 기초코드 수정 -->
+	<update id="sizeSixFloorUpdate">
+		<!-- 기초제조조건관리 사용 -->
+		<if test="pageGubun == 'bmsc3050'">
+			UPDATE
+				TB_BOM_SIZE_COND_SIX_FLOOR_ADM 
+			SET
+				USE_YN_CD = #{useYnCd}
+				, SIZE_COND_NM = #{sizeCondNm}
+				, WP_LEFT_COND = #{wpLeftCond}
+		</if>
+		<!-- 제조조건관리 사용 -->
+		<if test="pageGubun == 'emsc3030'">
+			UPDATE
+				TB_EQUIP_SIZE_COND_SIX_FLOOR_ADM
+			SET
+				WP_LEFT_COND = #{wpLeftCond}
+		</if>
+			, WP_LEFT_ALWNCE_PLUS = #{wpLeftAlwncePlus}
+			, WP_LEFT_ALWNCE_MINUS = #{wpLeftAlwnceMinus}
+			, WP_RIGHT_COND = #{wpRightCond}
+			, WP_RIGHT_ALWNCE_PLUS = #{wpRightAlwncePlus}
+			, WP_RIGHT_ALWNCE_MINUS = #{wpRightAlwnceMinus}
+			, PITCH_LEFT_COND = #{pitchLeftCond}
+			, PITCH_LEFT_ALWNCE_PLUS = #{pitchLeftAlwncePlus}
+			, PITCH_LEFT_ALWNCE_MINUS = #{pitchLeftAlwnceMinus}
+			, PITCH_RIGHT_COND = #{pitchRightCond}
+			, PITCH_RIGHT_ALWNCE_PLUS = #{pitchRightAlwncePlus}
+			, PITCH_RIGHT_ALWNCE_MINUS = #{pitchRightAlwnceMinus}
+			, PPF_WING_LEFT_COND = #{ppfWingLeftCond}
+			, PPF_WING_LEFT_ALWNCE_PLUS = #{ppfWingLeftAlwncePlus}
+			, PPF_WING_LEFT_ALWNCE_MINUS = #{ppfWingLeftAlwnceMinus}
+			, PPF_WING_RIGHT_COND = #{ppfWingRightCond}
+			, PPF_WING_RIGHT_ALWNCE_PLUS = #{ppfWingRightAlwncePlus}
+			, PPF_WING_RIGHT_ALWNCE_MINUS = #{ppfWingRightAlwnceMinus}
+			, PPF_DEPTH_LEFT_COND = #{ppfDepthLeftCond}
+			, PPF_DEPTH_LEFT_ALWNCE_PLUS = #{ppfDepthLeftAlwncePlus}
+			, PPF_DEPTH_LEFT_ALWNCE_MINUS = #{ppfDepthLeftAlwnceMinus}
+			, PPF_DEPTH_RIGHT_COND = #{ppfDepthRightCond}
+			, PPF_DEPTH_RIGHT_ALWNCE_PLUS = #{ppfDepthRightAlwncePlus}
+			, PPF_DEPTH_RIGHT_ALWNCE_MINUS = #{ppfDepthRightAlwnceMinus}
+			, FILM_COND = #{filmCond}
+			, FILM_ALWNCE_PLUS = #{filmAlwncePlus}
+			, FILM_ALWNCE_MINUS = #{filmAlwnceMinus}
+			, METAL_DEPTH_COND = #{metalDepthCond}
+			, METAL_DEPTH_ALWNCE_PLUS = #{metalDepthAlwncePlus}
+			, METAL_DEPTH_ALWNCE_MINUS = #{metalDepthAlwnceMinus}
+			, METAL_THICKNESS_COND = #{metalThicknessCond}
+			, METAL_THICKNESS_ALWNCE_PLUS = #{metalThicknessAlwncePlus}
+			, METAL_THICKNESS_ALWNCE_MINUS = #{metalThicknessAlwnceMinus}
+			, TH_CENTER_COND = #{thCenterCond}
+			, TH_CENTER_ALWNCE_PLUS = #{thCenterAlwncePlus}
+			, TH_CENTER_ALWNCE_MINUS = #{thCenterAlwnceMinus}
+			, TH_EDGE_COND = #{thEdgeCond}
+			, TH_EDGE_ALWNCE_PLUS = #{thEdgeAlwncePlus}
+			, TH_EDGE_ALWNCE_MINUS = #{thEdgeAlwnceMinus}
+			, BURR_COND = #{burrCond}
+			, BURR_ALWNCE_PLUS = #{burrAlwncePlus}
+			, BURR_ALWNCE_MINUS = #{burrAlwnceMinus}
+			, GAP_OF_LAYER_COND = #{gapOfLayerCond}
+			, GAP_OF_LAYER_PLUS = #{gapOfLayerPlus}
+			, GAP_OF_LAYER_MINUS = #{gapOfLayerMinus}
+			, WP_CENTER_COND                 = #{wpCenterCond}             
+			, WP_CENTER_ALWNCE_PLUS          = #{wpCenterAlwncePlus}       
+			, WP_CENTER_ALWNCE_MINUS         = #{wpCenterAlwnceMinus}      
+			, PPF_DEPTH_CENTER_COND          = #{ppfDepthCenterCond}       
+			, PPF_DEPTH_CENTER_ALWNCE_PLUS   = #{ppfDepthCenterAlwncePlus} 
+			, PPF_DEPTH_CENTER_ALWNCE_MINUS  = #{ppfDepthCenterAlwnceMinus}
+			, WP_DEVIATION_COND              = #{wpDeviationCond}          
+			, WP_DEVIATION_ALWNCE_PLUS       = #{wpDeviationAlwncePlus}    
+			, WP_DEVIATION_ALWNCE_MINUS      = #{wpDeviationAlwnceMinus}   
+			, X1_X2_COND                     = #{x1X2Cond}                 
+			, X1_X2_COND_PLUS                = #{x1X2AlwncePlus}           
+			, X1_X2_COND_MINUS               = #{x1X2AlwnceMinus}          
+			, TH_EDGE_RIGHT_COND             = #{thEdgeRightCond}          
+			, TH_EDGE_RIGHT_ALWNCE_PLUS      = #{thEdgeRightAlwncePlus}    
+			, TH_EDGE_RIGHT_ALWNCE_MINUS     = #{thEdgeRightAlwnceMinus}   
+			, BENDING_COND                   = #{bendingCond}              
+			, BENDING_ALWNCE_PLUS            = #{bendingAlwncePlus}        
+			, BENDING_ALWNCE_MINUS           = #{bendingAlwnceMinus}			
+			, UPD_ID = #{updId}
+			, UPD_DATE = getdate()
+		<!-- 기초제조조건관리 사용 -->
+		<if test="pageGubun == 'bmsc3050'">
+			WHERE SIZE_COND_CD = #{sizeCondCd}
+		</if>
+		<!-- 제조조건관리 사용 -->
+		<if test="pageGubun == 'emsc3030'">
+			WHERE EQUIP_COND_SEQ = #{equipCondSeq}
+		</if>
+	</update>
+	
+</mapper>

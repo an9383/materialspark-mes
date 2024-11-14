@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.io.StockPaymentAdmMapper">
+
+	<resultMap id="StockPaymentAdmVo" type="mes.domain.io.StockPaymentAdmVo">
+		<result property="spSeq"				column="SP_SEQ"				/>
+		<result property="spCd"					column="SP_CD"				/>
+		<result property="spNm"					column="SP_NM"				/>
+		<result property="lotNo"				column="LOT_NO"				/>
+		<result property="spType"				column="SP_TYPE"			/>
+		<result property="spTypeNm"				column="SP_TYPE_NM"			/>
+		<result property="spGubun"				column="SP_GUBUN"			/>
+		<result property="spGubunNm"			column="SP_GUBUN_NM"		/>
+		<result property="spDate"				column="SP_DATE"			/>
+		<result property="spQty"				column="SP_QTY"				/>
+		<result property="spCount"				column="SP_COUNT"			/>
+		<result property="locationCd"			column="LOCATION_CD"		/>
+		<result property="locationNm"			column="LOCATION_NM"		/>
+		<result property="factoryCd"			column="FACTORY_CD"			/>
+		<result property="factoryNm"			column="FACTORY_Nm"			/>
+		<result property="spDesc"				column="SP_DESC"			/>
+		<result property="regId"				column="REG_ID"				/>
+		<result property="regDate"				column="REG_DATE"			/>
+		<result property="updId"				column="UPD_ID"				/>
+		<result property="updDate"				column="UPD_DATE"			/>
+	</resultMap>
+
+	<select id="readStockPaymentAdmList" resultMap="StockPaymentAdmVo">
+		SELECT
+			A.SP_SEQ
+			, A.SP_CD
+			, CASE WHEN SP_TYPE = '001' THEN (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM X WHERE A.SP_CD = X.MATRL_CD)
+					ELSE (SELECT X.GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE A.SP_CD = X.GOODS_CD)
+			END AS SP_NM
+			, A.LOT_NO
+			, A.SP_TYPE
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '100' AND X.BASE_CD = A.SP_TYPE) SP_TYPE_NM
+			, A.SP_GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '100' AND X.BASE_CD = A.SP_GUBUN) SP_GUBUN_NM
+			, A.SP_DATE
+			, A.SP_QTY
+			, A.SP_COUNT
+			, A.LOCATION_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '003' AND X.BASE_CD = A.LOCATION_CD) LOCATION_NM
+			, A.FACTORY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '033' AND X.BASE_CD = A.FACTORY_CD) FACTORY_NM
+			, A.SP_DESC
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM TB_STOCK_PAYMENT_ADM A
+		WHERE LOT_NO = '${lotNo}'
+		ORDER BY SP_SEQ DESC
+	</select>
+
+	<insert id="stockPaymentPlus">
+		INSERT INTO TB_STOCK_PAYMENT_ADM (
+			SP_SEQ
+			, SP_CD
+			, LOT_NO
+			, SP_TYPE
+			, SP_GUBUN
+			, SP_DATE
+			, SP_QTY
+			, SP_COUNT
+			, LOCATION_CD
+			, FACTORY_CD
+			, SP_DESC
+			, REG_ID
+			, REG_DATE
+		) 
+		VALUES (
+			NEXT VALUE FOR SP_SEQ
+			, #{spCd}
+			, #{lotNo}
+			, #{spType}
+			, #{spGubun}
+			, CONVERT(CHAR(8), getDate(), 112)
+			, #{spQty}
+			, #{spCount}
+			, #{locationCd}
+			, #{factoryCd}
+			, #{spDesc}
+			, #{regId}
+			, getDate()
+		)
+	</insert>
+	
+	<insert id="stockPaymentMinus">
+		INSERT INTO TB_STOCK_PAYMENT_ADM (
+			SP_SEQ
+			, SP_CD
+			, LOT_NO
+			, SP_TYPE
+			, SP_GUBUN
+			, SP_DATE
+			, SP_QTY
+			, SP_COUNT
+			, LOCATION_CD
+			, FACTORY_CD
+			, SP_DESC
+			, REG_ID
+			, REG_DATE
+		) SELECT
+			NEXT VALUE FOR SP_SEQ
+			, A.SP_CD
+			, A.LOT_NO
+			, A.SP_TYPE
+			, #{spGubun}
+			, CONVERT(CHAR(8), getDate(), 112)
+			, A.SP_QTY
+			, A.SP_COUNT
+			, A.LOCATION_CD
+			, A.FACTORY_CD
+			, A.SP_DESC
+			, #{regId}
+			, getDate()
+		FROM TB_STOCK_PAYMENT_ADM A
+			, (SELECT MAX(SP_SEQ) MAX_SP_SEQ FROM TB_STOCK_PAYMENT_ADM
+				WHERE LOT_NO = #{lotNo}) B
+		WHERE A.SP_SEQ = B.MAX_SP_SEQ
+	</insert>
+	
+	<!-- 작업지시Dtl 저장시에만 사용 -->
+	<insert id="workOrdStockPaymentPuls">
+		INSERT INTO TB_STOCK_PAYMENT_ADM (
+			SP_SEQ
+			, SP_CD
+			, LOT_NO
+			, SP_TYPE
+			, SP_GUBUN
+			, SP_DATE
+			, SP_QTY
+			, SP_COUNT
+			, LOCATION_CD
+			, FACTORY_CD
+			, SP_DESC
+			, REG_ID
+			, REG_DATE
+		) SELECT
+			NEXT VALUE FOR SP_SEQ
+			, A.SP_CD
+			, A.LOT_NO
+			, '001'
+			, 'I'
+			, CONVERT(CHAR(8), getDate(), 112)
+			, A.SP_QTY
+			, A.SP_COUNT
+			, '004'
+			, A.FACTORY_CD
+			, A.SP_DESC
+			, #{regId}
+			, getDate()
+		FROM TB_STOCK_PAYMENT_ADM A
+			, (SELECT MAX(SP_SEQ) MAX_SP_SEQ, A.LOT_NO FROM TB_STOCK_PAYMENT_ADM A, (SELECT LOT_NO FROM TB_WORK_ORDER_DTL
+																					WHERE WORK_ORD_NO = #{workOrdNo}
+																					AND REMAKE_YN != 'Y') B
+				WHERE A.LOT_NO = B.LOT_NO
+				GROUP BY A.LOT_NO
+			) B
+		WHERE A.SP_SEQ = B.MAX_SP_SEQ
+	</insert>
+	
+	<!-- 작업지시Dtl 저장시에만 사용 -->
+	<insert id="workOrdStockPaymentMinus">
+		INSERT INTO TB_STOCK_PAYMENT_ADM (
+			SP_SEQ
+			, SP_CD
+			, LOT_NO
+			, SP_TYPE
+			, SP_GUBUN
+			, SP_DATE
+			, SP_QTY
+			, SP_COUNT
+			, LOCATION_CD
+			, FACTORY_CD
+			, SP_DESC
+			, REG_ID
+			, REG_DATE
+		) SELECT
+			NEXT VALUE FOR SP_SEQ
+			, A.SP_CD
+			, A.LOT_NO
+			, '001'
+			, 'O'
+			, CONVERT(CHAR(8), getDate(), 112)
+			, A.SP_QTY
+			, A.SP_COUNT
+			, '004'
+			, A.FACTORY_CD
+			, A.SP_DESC
+			, #{regId}
+			, getDate()
+		FROM TB_STOCK_PAYMENT_ADM A
+			, (SELECT MAX(SP_SEQ) MAX_SP_SEQ, A.LOT_NO FROM TB_STOCK_PAYMENT_ADM A, (SELECT LOT_NO FROM TB_WORK_ORDER_DTL
+																					WHERE WORK_ORD_NO = #{workOrdNo}
+																					AND REMAKE_YN != 'Y') B
+				WHERE A.LOT_NO = B.LOT_NO
+				GROUP BY A.LOT_NO
+			) B
+		WHERE A.SP_SEQ = B.MAX_SP_SEQ
+	</insert>
+	
+	
+	<!-- 수불 - 검사완료제품 포장대기시 사용(사용자가 포장수량 직접입력하기 때문에) -->
+	<insert id="goodUnpackStockPaymentMinus">
+		INSERT INTO TB_STOCK_PAYMENT_ADM (
+			SP_SEQ
+			, SP_CD
+			, LOT_NO
+			, SP_TYPE
+			, SP_GUBUN
+			, SP_DATE
+			, SP_QTY
+			, SP_COUNT
+			, LOCATION_CD
+			, FACTORY_CD
+			, SP_DESC
+			, REG_ID
+			, REG_DATE
+		) SELECT
+			NEXT VALUE FOR SP_SEQ
+			, A.SP_CD
+			, A.LOT_NO
+			, A.SP_TYPE
+			, #{spGubun}
+			, CONVERT(CHAR(8), getDate(), 112)
+			, A.SP_QTY
+			, #{spCount}
+			, #{locationCd}
+			, A.FACTORY_CD
+			, A.SP_DESC
+			, #{regId}
+			, getDate()
+		FROM TB_STOCK_PAYMENT_ADM A
+			, (SELECT MAX(SP_SEQ) MAX_SP_SEQ FROM TB_STOCK_PAYMENT_ADM
+				WHERE LOT_NO = #{lotNo}) B
+		WHERE A.SP_SEQ = B.MAX_SP_SEQ
+	</insert>
+	
+</mapper>

@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.mm.outWhsAdmMapper">
+
+	<resultMap id="OutWhsAdmVo" type="mes.domain.mm.OutWhsAdmVo">
+		<result property="poNo"					column="PO_NO"				/>
+		<result property="poSeq"		    	column="PO_SEQ"				/>
+		<result property="inSeq"				column="IN_SEQ"				/>	
+		<result property="outSeq"				column="OUT_SEQ"			/>			
+		<result property="lotNo"				column="LOT_NO"				/>		
+		<result property="barcodeNo"			column="BARCODE_NO"			/>		
+		<result property="partCd"		  	  	column="PART_CD"			/>
+		<result property="partRev"		        column="PART_REV"			/>
+		<result property="partSpec"		  	  	column="PART_SPEC"			/>
+		<result property="partUnit"		  	  	column="PART_UNIT"			/>
+		<result property="partUnitNm"		  	column="PART_UNIT_NM"		/>
+		<result property="itemCd"		  	  	column="ITEM_CD"			/>
+		<result property="itemNm"		  	  	column="ITEM_NM"			/>
+		<result property="itemRev"		        column="ITEM_REV"			/>
+		<result property="itemGubun"		    column="ITEM_GUBUN"			/>
+		<result property="partNm"		        column="PART_NM"			/>
+		<result property="partGubun"		    column="PART_GUBUN"			/>
+		<result property="partType"		   		column="PART_TYPE"			/>
+		<result property="statusCd"				column="STATUS_CD"			/> 
+		<result property="workOrdNo"			column="WORK_ORD_NO"		/> 
+		<result property="preOutWhsDate"		column="PRE_OUT_WHS_DATE"	/> 
+		<result property="preOutQty"			column="PRE_OUT_QTY"		/> 
+		<result property="preWorkCharger"		column="PRE_WORK_CHARGER"	/>
+		<result property="preWorkChargerNm"		column="PRE_WORK_CHARGER_NM"/>  
+		<result property="outWhsDate"			column="OUT_WHS_DATE"		/>
+		<result property="outQty"				column="OUT_QTY"			/> 
+		<result property="outWorkCharger"		column="OUT_WORK_CHARGER"	/>
+		<result property="partReqNo"			column="PART_REQ_NO"		/> 
+		<result property="inWhsDesc"			column="IN_WHS_DESC"		/> 
+		<result property="regId"				column="REG_ID"				/>
+		<result property="regDate"				column="REG_DATE"			/>
+		<result property="updId"				column="UPD_ID"				/>				
+		<result property="updDate"				column="UPD_DATE"			/>
+		
+		<result property="remainQty"			column="REMAIN_QTY"			/> 
+		<result property="locationCd"			column="LOCATION_CD"		/>		
+		<result property="locationNm"			column="LOCATION_NM"		/>
+		<result property="areaCd"				column="AREA_CD"			/>		
+		<result property="areaNm"				column="AREA_NM"			/>
+		<result property="floorCd"				column="FLOOR_CD"			/>		
+		<result property="floorNm"				column="FLOOR_NM"			/>
+		<result property="locationNo"			column="LOCATION_NO"		/>
+		<result property="ordLotNo"		        column="ORD_LOT_NO"			/>
+		<result property="workOrdQty"		    column="WORK_ORD_QTY"		/>
+		<result property="partConsumpt"			column="PART_CONSUMPT"		/>
+		<result property="totalConsumpt"		column="TOTAL_CONSUMPT"		/>
+		<result property="tmQty"				column="TM_QTY" 			/>
+		<result property="confirmYn"			column="CONFIRM_YN" 		/>
+		<result property="startDate"			column="START_DATE"			/>				
+		<result property="endDate"				column="END_DATE"			/>
+		<result property="value"				column="VALUE"				/>
+		<result property="diffQty"				column="DIFF_QTY"			/>
+		<result property="realQty"				column="REAL_QTY"			/>
+		<result property="realQtyOption"		column="REAL_QTY_OPTION"	/>
+		
+		<result property="outCase"				column="OUT_CASE"	/>
+	</resultMap>
+	
+	<!-- 자재출고 목록조회 -->
+	<select id="preOutWhsAdmList" resultMap="OutWhsAdmVo">
+		SELECT	PO_NO 
+			,  PO_SEQ 
+			, IN_SEQ 
+			, OUT_SEQ 
+			, LOT_NO 
+			, BARCODE_NO 
+			, PART_CD
+			, (SELECT PART_NM FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV) PART_NM
+			, PART_REV 
+			, (SELECT PART_SPEC FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV) PART_SPEC
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_CD = (SELECT PART_TYPE FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV) AND BASE_GROUP_CD='077') PART_TYPE
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_CD = (SELECT PART_UNIT FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV) AND BASE_GROUP_CD='036') PART_UNIT
+			
+<!-- 			, (SELECT ITEM_CD FROM TB_WORK_ORDER X WHERE X.WORK_ORD_NO=A.WORK_ORD_NO)ITEM_CD -->
+<!-- 			, (SELECT ITEM_REV FROM TB_WORK_ORDER X WHERE X.WORK_ORD_NO=A.WORK_ORD_NO)ITEM_REV -->
+<!-- 			, (SELECT ITEM_NM FROM TB_ITEM_MOTOR_ADM X WHERE X.ITEM_CD= (SELECT ITEM_CD FROM TB_WORK_ORDER X WHERE X.WORK_ORD_NO=A.WORK_ORD_NO) -->
+<!-- 			AND X.ITEM_REV= (SELECT ITEM_REV FROM TB_WORK_ORDER X WHERE X.WORK_ORD_NO=A.WORK_ORD_NO)) ITEM_NM -->
+			
+			, STATUS_CD
+			, WORK_ORD_NO
+			, PRE_OUT_WHS_DATE 
+			, PRE_OUT_QTY
+			, PRE_WORK_CHARGER 
+			, (SELECT USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.PRE_WORK_CHARGER) PRE_WORK_CHARGER_NM
+			, OUT_WHS_DATE 
+			, OUT_QTY 
+			, OUT_WORK_CHARGER 
+			, PART_REQ_NO
+			, IN_WHS_DESC 
+			, REG_ID
+			, REG_DATE
+			, UPD_ID 
+			, UPD_DATE 
+		FROM	TB_OUT_WHS_ADM	A
+		WHERE 1=1
+		<if test="startDate!=null and !startDate.equals('')">
+			AND PRE_OUT_WHS_DATE BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="partReqNo!=null and !partReqNo.equals('')">
+			AND PART_REQ_NO = #{partReqNo}
+		</if>
+		<if test="outCase!=null and !outCase.equals('')">
+			AND OUT_CASE = #{outCase}
+		</if>
+		ORDER BY A.PRE_OUT_WHS_DATE DESC
+	</select>
+	
+	
+	<!-- 자재출고 상세조회 -->
+	<select id="preOutWhsAdmRead" resultMap="OutWhsAdmVo">
+		SELECT 
+			A.PO_NO
+			, A.PO_SEQ
+			, A.IN_SEQ
+			, A.OUT_SEQ
+			, A.LOT_NO
+			, A.BARCODE_NO
+			, A.PART_CD
+			, A.PART_REV
+			, (SELECT PART_NM FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV) PART_NM
+			, (SELECT PART_SPEC FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV) PART_SPEC
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE  WHERE BASE_CD = (SELECT PART_UNIT FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV) AND BASE_GROUP_CD='036')PART_UNIT_NM
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE  WHERE BASE_CD = (SELECT PART_TYPE FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV) AND BASE_GROUP_CD='077')PART_TYPE
+			, A.STATUS_CD
+			, A.WORK_ORD_NO
+			, A.PRE_OUT_WHS_DATE
+			, ISNULL(A.PRE_OUT_QTY,0) PRE_OUT_QTY
+			, (SELECT REMAIN_QTY FROM TB_IN_WHS_ADM X WHERE X.PO_NO=A.PO_NO AND X.PO_SEQ=A.PO_SEQ AND X.IN_SEQ=A.IN_SEQ) REMAIN_QTY
+			, A.PRE_WORK_CHARGER
+			, (SELECT USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.PRE_WORK_CHARGER) PRE_WORK_CHARGER_NM
+			, A.IN_WHS_DESC
+			, A.LOCATION_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_CD=A.LOCATION_CD AND X.BASE_GROUP_CD='073') LOCATION_NM
+			, A.AREA_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_CD=A.AREA_CD AND X.BASE_GROUP_CD='067') AREA_NM
+			, A.FLOOR_CD
+			, C.PART_CONSUMPT
+			, B.DTL_ORD_QTY * C.PART_CONSUMPT TOTAL_CONSUMPT
+			, ISNULL(D.TM_QTY,0) TM_QTY
+		FROM TB_OUT_WHS_ADM A 
+		LEFT OUTER JOIN TB_WORK_ORDER B
+		ON A.WORK_ORD_NO=B.WORK_ORD_NO
+		AND A.OUT_CASE=#{outCase}
+		INNER JOIN TB_ITEM_MOTOR_EBOM C
+		ON B.ITEM_CD=C.ITEM_CD
+		AND B.ITEM_REV=C.ITEM_REV
+		AND A.PART_CD=C.PART_CD
+		AND A.PART_REV=C.PART_REV
+		INNER JOIN TB_ITEM_PART_ADM D
+		ON D.PART_CD=A.PART_CD
+		AND D.PART_REV=A.PART_REV
+		WHERE 1=1
+		<if test="startDate!=null and !startDate.equals('')">
+		AND PRE_OUT_WHS_DATE BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="workOrdNo!=null and !workOrdNo.equals('')">
+		AND A.WORK_ORD_NO=#{workOrdNo}
+		</if>
+		AND PART_REQ_NO IS NULL
+		ORDER BY A.PRE_OUT_WHS_DATE DESC
+		
+	</select>
+	
+	<!--출고수량과 총소료량 비교 조회 -->
+	<select id="compareConsumptPreOutQty" resultMap="OutWhsAdmVo">
+		<![CDATA[
+			SELECT 
+				A.PART_CD,
+				A.PART_REV,
+				A.PRE_OUT_QTY,
+				B.TOTAL_CONSUMPT,
+				(CASE WHEN A.PRE_OUT_QTY = B.TOTAL_CONSUMPT THEN 'Y' ELSE 'N' END) DIFF_QTY
+			FROM 
+			
+			(
+				SELECT PART_CD,
+					PART_REV,
+					SUM(PRE_OUT_QTY) PRE_OUT_QTY
+				FROM TB_OUT_WHS_ADM 
+				WHERE WORK_ORD_NO=#{workOrdNo}
+				GROUP BY PART_CD , PART_REV
+			) A
+			INNER JOIN 
+			(
+				SELECT PART_CD,
+					PART_REV,
+					SUM(PART_CONSUMPT)*#{workOrdQty} TOTAL_CONSUMPT
+				FROM TB_ITEM_MOTOR_EBOM
+				WHERE ITEM_CD = #{itemCd}
+				AND ITEM_REV=#{itemRev}
+				GROUP BY PART_CD, PART_REV
+			) B
+			ON A.PART_CD=B.PART_CD
+			AND A.PART_REV=B.PART_REV
+
+		]]>
+	</select>
+	
+	<insert id="preOutWhsAdmCreate">
+		<![CDATA[
+			INSERT INTO TB_OUT_WHS_ADM		(
+				PO_NO,
+				PO_SEQ,
+				IN_SEQ,
+				OUT_SEQ,
+				LOT_NO,
+				BARCODE_NO,
+				PART_CD,
+				PART_REV,
+				STATUS_CD,
+				WORK_ORD_NO,
+				PRE_OUT_WHS_DATE,
+				PRE_OUT_QTY,
+				PRE_WORK_CHARGER,
+				PART_REQ_NO,
+				LOCATION_CD,
+				AREA_CD,
+				FLOOR_CD,
+				LOCATION_NO,
+				IN_WHS_DESC,
+				OUT_CASE,
+				REG_ID,
+				REG_DATE
+			) 
+			VALUES(
+				#{poNo},
+				#{poSeq},
+				#{inSeq},
+				#{outSeq},
+				#{lotNo},
+				#{barcodeNo},
+				#{partCd},
+				#{partRev},
+				#{statusCd},
+				#{workOrdNo},
+				#{preOutWhsDate},
+				#{preOutQty},
+				#{preWorkCharger},
+				#{partReqNo},
+				#{locationCd},
+				#{areaCd},
+				#{floorCd},
+				#{locationNo},
+				#{inWhsDesc},
+				#{outCase},
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+	
+	
+	<!-- 자재출고 출고수량 수정-->
+	<update id="updatePreOutQty">
+		UPDATE TB_OUT_WHS_ADM 
+		<set>
+			<if test="preOutQty!=null and !preOutQty.equals('')">
+			 PRE_OUT_QTY = PRE_OUT_QTY + #{preOutQty} , 
+			</if>
+			<if test="partReqNo!=null and !partReqNo.equals('')">
+			 PART_REQ_NO = PART_REQ_NO + ',' + #{partReqNo} ,
+			</if>
+			UPD_ID = #{updId},
+			UPD_DATE = GETDATE()
+		</set>
+		WHERE BARCODE_NO = #{barcodeNo}
+	</update>
+	
+		
+	<!-- 자재출고 출고수량 수정-->
+	<update id="updateConfirmYn">
+		UPDATE TB_OUT_WHS_ADM 
+		SET 
+			CONFIRM_YN = #{confirmYn}, 
+			UPD_ID = #{updId},
+			UPD_DATE = GETDATE()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+	</update>
+	
+	<!-- 자재출고 시퀀스 생성 -->
+	<select id="getOutSeq" resultType="Integer">
+		<![CDATA[
+			SELECT ISNULL(MAX(OUT_SEQ)+1,0) FROM TB_OUT_WHS_ADM WHERE PO_NO = #{poNo} AND PO_SEQ = #{poSeq} AND IN_SEQ = #{inSeq}
+		]]>
+	</select>
+	
+	<!--  입출고관리 남은수량 값 수정-->
+	<update id="updateRemainQty">
+		<![CDATA[
+			UPDATE TB_IN_WHS_ADM 
+			SET
+				REMAIN_QTY = REMAIN_QTY - #{preOutQty}
+				, STATUS_CD = 'O'
+			WHERE BARCODE_NO = #{barcodeNo} 
+		]]>
+	</update>
+	
+	<!-- 작지번호에 해당하는 바코드인지 여부확인 -->
+	<select id="checkBarcodeNo" resultType="Integer">
+		SELECT COUNT(*) FROM TB_ITEM_MOTOR_EBOM A , TB_ITEM_PART_ADM B
+		WHERE A.PART_CD=B.PART_CD
+		AND A.PART_REV=B.PART_REV
+		AND A.ITEM_CD=#{itemCd}
+		AND A.ITEM_REV=#{itemRev} 
+		<if test="partCd!=null and !partCd.equals('')">
+		AND A.PART_CD=#{partCd} 
+		AND A.PART_REV=#{partRev}
+		</if>
+		<if test="partGubun!=null and !partGubun.equals('')">
+		AND B.PART_GUBUN NOT IN (#{partGubun})
+		</if>
+		
+	</select>
+	
+
+	<!--작지에 해당하는 품번 소모량 값 가져오기 -->
+	<select id="getConsumpt" resultType="Integer">
+		SELECT DISTINCT(ISNULL(A.DTL_ORD_QTY * B.PART_CONSUMPT,0))PRE_OUT_QTY
+		FROM  TB_WORK_ORDER A, TB_ITEM_MOTOR_EBOM B, TB_IN_WHS_ADM C
+	    WHERE 1=1
+	    AND A.ITEM_CD=B.ITEM_CD
+	    AND A.ITEM_REV=B.ITEM_REV
+	    AND B.PART_CD=C.PART_CD
+	    AND B.PART_REV=C.PART_REV
+	    AND A.ITEM_CD=#{itemCd} AND A.ITEM_REV=#{itemRev}
+	    AND C.BARCODE_NO=#{barcodeNo}
+	    AND A.WORK_ORD_NO=#{workOrdNo}
+	</select>
+	
+	<!-- 자재출고현황 작지번호 모달조회-->
+	<select id="workOrdNoList" resultMap="OutWhsAdmVo">
+		SELECT 
+			DISTINCT(A.WORK_ORD_NO)
+			, B.ITEM_CD
+			, B.ITEM_GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_CD=B.ITEM_GUBUN AND X.BASE_GROUP_CD='037') ITEM_GUBUN
+			, (SELECT ITEM_NM FROM TB_ITEM_MOTOR_ADM X WHERE X.ITEM_CD=B.ITEM_CD AND X.ITEM_REV=B.ITEM_REV) ITEM_NM
+			, B.ORD_LOT_NO
+			, B.WORK_ORD_QTY
+		FROM TB_OUT_WHS_ADM A,TB_WORK_ORDER B
+		WHERE 1=1
+		AND A.WORK_ORD_NO=B.WORK_ORD_NO
+	</select>
+	
+	<!-- 작업지시 자재투입 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+	
+	<!-- barcode No 존재 확인 -->
+	<select id="barcodeExsitCheck" resultType="Integer">
+		<![CDATA[
+			SELECT
+				COUNT(*)
+			FROM TB_OUT_WHS_ADM A
+			WHERE 1=1
+			AND A.BARCODE_NO = #{barcodeNo}
+		]]>
+	</select>
+	
+	<!-- barcode No 자재출고인지 개별출고인지 확인 -->
+	<select id="barcodeStatusCheck" resultType="String">
+		<![CDATA[
+			SELECT
+				DISTINCT(OUT_CASE)
+			FROM TB_OUT_WHS_ADM A
+			WHERE 1=1
+			AND A.BARCODE_NO = #{barcodeNo}
+		]]>
+	</select>
+	
+	<!-- 작지번호에 투입되는 자재가 맞는지 확인 -->
+	<select id="barcodeWorkordNoCheck" resultType="Integer">
+		<![CDATA[
+			SELECT
+				COUNT(*)
+			FROM TB_OUT_WHS_ADM A
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{workOrdNo}
+			AND A.BARCODE_NO = #{barcodeNo}
+		]]>
+	</select>
+	
+		
+	<!-- barcode No 투입유무 확인 -->
+	<select id="barcodeOutStatusCheck" resultType="String">
+		<![CDATA[
+			SELECT
+				STATUS_CD
+			FROM TB_OUT_WHS_ADM A
+			WHERE 1=1
+			AND A.BARCODE_NO = #{barcodeNo}
+		]]>
+	</select>
+	
+	
+	<!-- 해당 공정에 투입되는 자재가 맞는지 확인 -->
+	<select id="barcodePrcssCdCheck" resultType="Integer">
+		<![CDATA[
+			SELECT
+				COUNT(*)
+			FROM TB_WORK_ORDER A, TB_ITEM_BOM_MAP B
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{workOrdNo}
+			AND A.ITEM_CD = B.ITEM_CD
+			ANd A.ITEM_REV = B.ITEM_REV
+			AND B.PRCSS_CD = #{minorPrcssCd}
+			AND B.PART_CD = #{partCd}
+			ANd B.PART_REV = #{partRev}
+		]]>
+	</select>
+	
+	<!-- 자재투입 barcode Scan -->
+	<select id="barcodeNoScan" resultMap="OutWhsAdmVo">
+		SELECT
+			A.PO_NO,
+			A.PO_SEQ,
+			A.IN_SEQ,
+			A.OUT_SEQ,
+			A.OUT_CASE,
+			A.BARCODE_NO,
+			A.WORK_ORD_NO,
+			A.PART_CD,
+			A.PART_REV,
+			ISNULL(A.PRE_OUT_QTY,0) PRE_OUT_QTY,
+			ISNULL(A.OUT_QTY,0) OUT_QTY
+		FROM TB_OUT_WHS_ADM A
+		WHERE 1=1
+		AND A.BARCODE_NO = #{barcodeNo}
+		AND (
+		(OUT_CASE='001' AND WORK_ORD_NO=#{workOrdNo}) 
+		OR (OUT_CASE='002' AND WORK_ORD_NO IS NULL)
+		OR (OUT_CASE='003' AND WORK_ORD_NO=#{workOrdNo}) 
+		OR (OUT_CASE='003' AND WORK_ORD_NO IS NULL)
+		)
+		AND (ISNULL(A.PRE_OUT_QTY,0) - ISNULL(A.OUT_QTY,0)) > 0  
+	</select>
+	
+	<!-- 자재투입 자재 출고처리 -->
+	<update id="outWhsOutQtyEdit" parameterType="mes.domain.mm.OutWhsAdmVo">
+		UPDATE TB_OUT_WHS_ADM
+		SET
+			OUT_WHS_DATE = #{outWhsDate},
+			OUT_QTY = ISNULL(OUT_QTY,'0') + #{outQty},
+			OUT_WORK_CHARGER = #{outWorkCharger},
+			STATUS_CD = 'P'
+		WHERE 1=1
+		AND PO_NO = #{poNo}
+		AND PO_SEQ = #{poSeq}
+		AND IN_SEQ = #{inSeq}
+		AND OUT_SEQ = #{outSeq}
+		
+		
+	</update>
+	
+	<!-- 수주상세별 출고 모니터링 조회 -->
+	<select id="outMonitoringList" resultMap="OutWhsAdmVo">
+		SELECT
+			A.PART_CD,
+			A.PART_REV,
+			B.PART_NM,
+			B.PART_SPEC,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_CD=B.PART_UNIT AND X.BASE_GROUP_CD='036') PART_UNIT,
+			A.PRE_OUT_WHS_DATE,
+			A.PRE_OUT_QTY,
+			A.STATUS_CD,
+			A.BARCODE_NO,
+			(SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER=A.PRE_WORK_CHARGER) PRE_WORK_CHARGER
+		FROM TB_OUT_WHS_ADM A, TB_ITEM_PART_ADM B
+		WHERE 1=1
+		AND A.PART_CD=B.PART_CD
+		AND A.PART_REV=B.PART_REV 
+		AND A.WORK_ORD_NO = #{workOrdNo}
+	</select>
+	
+	
+	<!-- 수불관리 부품 바코드 상세조회 -->
+	<select id="itemPartRead" resultMap="OutWhsAdmVo">
+		SELECT
+			Z.BARCODE_NO,
+			Z.SP_CD PART_CD,
+			Z.SP_REV PART_REV,
+			(CASE WHEN Z.SP_TYPE = '001' 
+				THEN (SELECT PART_NM FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=Z.SP_CD AND X.PART_REV=Z.SP_REV)
+				ELSE (SELECT ITEM_NM FROM TB_ITEM_MOTOR_ADM X WHERE X.ITEM_CD=Z.SP_CD AND X.ITEM_REV=Z.SP_REV)
+				END ) PART_NM,
+			(CASE WHEN Z.SP_TYPE = '001' 
+				THEN (SELECT PART_SPEC FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=Z.SP_CD AND X.PART_REV=Z.SP_REV)
+				ELSE (SELECT ITEM_CAPA FROM TB_ITEM_MOTOR_ADM X WHERE X.ITEM_CD=Z.SP_CD AND X.ITEM_REV=Z.SP_REV)
+				END ) PART_SPEC,
+			(CASE WHEN Z.SP_TYPE = '001' 
+				THEN (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_CD=(SELECT PART_UNIT FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=Z.SP_CD AND X.PART_REV=Z.SP_REV) AND BASE_GROUP_CD='036')
+				ELSE  (SELECT ITEM_SERIES FROM TB_ITEM_MOTOR_ADM X WHERE X.ITEM_CD=Z.SP_CD AND X.ITEM_REV=Z.SP_REV)
+				END ) PART_UNIT,
+			(CASE WHEN Z.SP_TYPE = '001' 
+				THEN (SELECT UNIT_COST FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=Z.SP_CD AND X.PART_REV=Z.SP_REV)
+				ELSE  (SELECT UNIT_COST FROM TB_ITEM_MOTOR_ADM X WHERE X.ITEM_CD=Z.SP_CD AND X.ITEM_REV=Z.SP_REV)
+				END ) UNIT_COST,
+			ISNULL(A.QTY,0) IN_QTY,
+			ISNULL(B.QTY,0) OUT_QTY,
+			ISNULL(D.QTY,0) ADJ_IN_QTY,
+			ISNULL(E.QTY,0) ADJ_OUT_QTY,
+			(ISNULL(A.QTY,0)+ISNULL(D.QTY,0))-ISNULL(B.QTY,0)-ISNULL(E.QTY,0) REMAIN_QTY,
+			0 PRE_OUT_QTY,
+			Z.LOCATION_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_CD=Z.LOCATION_CD AND X.BASE_GROUP_CD='073')LOCATION_NM,
+			Z.AREA_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_CD=Z.AREA_CD AND X.BASE_GROUP_CD='067')AREA_NM,
+			Z.FLOOR_CD,
+			Z.LOCATION_NO
+			FROM 
+				(
+				SELECT 
+					SP_TYPE,
+					SP_CD,
+					SP_REV,
+					BARCODE_NO,
+					LOCATION_CD,
+					AREA_CD,
+					FLOOR_CD,
+					LOCATION_NO
+				FROM TB_STOCK_PAYMENT_ADM
+				WHERE 1=1
+				AND SP_TYPE = '001'
+				AND BARCODE_NO = #{barcodeNo}
+				AND SP_GUBUN IN('001','003')
+				GROUP BY SP_TYPE,SP_CD,SP_REV,BARCODE_NO,LOCATION_CD,AREA_CD,FLOOR_CD,LOCATION_NO
+			
+			) Z
+			LEFT OUTER JOIN
+			(
+				SELECT 
+					SP_CD,
+					SP_REV,
+					SUM(SP_QTY) QTY
+				FROM TB_STOCK_PAYMENT_ADM
+				WHERE 1=1
+				AND SP_TYPE = '001'
+				AND BARCODE_NO = #{barcodeNo}
+				AND SP_GUBUN='001'
+				GROUP BY SP_TYPE,SP_CD,SP_REV,SP_GUBUN 
+			) A
+			ON Z.SP_CD=A.SP_CD
+			AND Z.SP_REV=A.SP_REV
+			LEFT OUTER JOIN 
+			(
+				SELECT
+					SP_CD,
+					SP_REV,
+					SUM(SP_QTY) QTY
+				FROM TB_STOCK_PAYMENT_ADM
+				WHERE 1=1
+				AND SP_TYPE ='001'
+				AND BARCODE_NO = #{barcodeNo}
+				AND SP_GUBUN='002'
+				GROUP BY SP_TYPE,SP_CD,SP_REV,SP_GUBUN 
+			) B
+			ON Z.SP_CD=B.SP_CD
+			AND Z.SP_REV=B.SP_REV
+			LEFT OUTER JOIN 
+			(
+				SELECT 
+					SP_CD,
+					SP_REV,
+					SUM(SP_QTY) QTY
+				FROM TB_STOCK_PAYMENT_ADM
+				WHERE 1=1
+				AND SP_TYPE ='001'
+				AND BARCODE_NO = #{barcodeNo}
+				AND SP_GUBUN='003'
+				GROUP BY SP_TYPE,SP_CD,SP_REV,SP_GUBUN 
+			) D
+			ON Z.SP_CD=D.SP_CD
+			AND Z.SP_REV=D.SP_REV
+			LEFT OUTER JOIN 
+			(
+				SELECT 
+					SP_CD,
+					SP_REV,
+					SUM(SP_QTY) QTY
+				FROM TB_STOCK_PAYMENT_ADM
+				WHERE 1=1
+				AND SP_TYPE ='001'
+				AND BARCODE_NO = #{barcodeNo}
+				AND SP_GUBUN='004'
+				GROUP BY SP_TYPE,SP_CD,SP_REV,SP_GUBUN 
+			) E
+			ON Z.SP_CD=E.SP_CD
+			AND Z.SP_REV=E.SP_REV
+
+	</select>
+	
+	<!-- 재공창고현황 -->
+	<!-- 재공창고현황 기본조회 -->
+	<select id="wareHouseList" resultMap="OutWhsAdmVo">
+		 SELECT 
+			A.PART_CD
+			,A.PART_REV
+			, A.PART_NM
+			, A.PART_SPEC
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE  WHERE BASE_CD = A.PART_UNIT AND BASE_GROUP_CD='035')PART_GUBUN
+			, A.PART_UNIT
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE  WHERE BASE_CD = A.PART_UNIT AND BASE_GROUP_CD='036')PART_UNIT_NM
+			,ISNULL(SUM(B.PRE_OUT_QTY),0) PRE_OUT_QTY
+			,ISNULL(SUM(B.OUT_QTY),0) OUT_QTY
+			,ISNULL(SUM(B.PRE_OUT_QTY),0)-ISNULL(SUM(B.OUT_QTY),0) REAL_QTY
+		FROM TB_ITEM_PART_ADM A
+		LEFT OUTER JOIN TB_OUT_WHS_ADM B
+		ON A.PART_CD=B.PART_CD
+		AND A.PART_REV=B.PART_REV
+		GROUP BY A.PART_CD, A.PART_REV,A.PART_NM,A.PART_SPEC,A.PART_GUBUN,A.PART_UNIT
+		<if test="realQtyOption!=null and !realQtyOption.equals('')">
+		HAVING ISNULL(SUM(B.PRE_OUT_QTY),0)-ISNULL(SUM(B.OUT_QTY),0) > 0
+		</if>
+		ORDER BY A.PART_CD 
+	</select>
+	
+	<!-- 재공창고현황 상세조회 -->
+	<select id="wareHouseRead" resultMap="OutWhsAdmVo">
+		 SELECT 
+			BARCODE_NO
+			,PART_CD
+			,PART_REV
+			,ISNULL(SUM(PRE_OUT_QTY),0) PRE_OUT_QTY
+			,ISNULL(SUM(OUT_QTY),0) OUT_QTY
+			,ISNULL(SUM(PRE_OUT_QTY),0)-ISNULL(SUM(OUT_QTY),0) REAL_QTY
+			,PRE_OUT_WHS_DATE
+			,OUT_WHS_DATE
+			,OUT_CASE
+			,WORK_ORD_NO
+		FROM TB_OUT_WHS_ADM
+		WHERE 1=1
+		AND PART_CD=#{partCd}
+		AND PART_REV=#{partRev}
+		GROUP BY BARCODE_NO,PART_CD,PART_REV,PRE_OUT_WHS_DATE,OUT_WHS_DATE,OUT_CASE,WORK_ORD_NO
+		ORDER BY PRE_OUT_WHS_DATE DESC
+	</select>
+	
+</mapper>
+	

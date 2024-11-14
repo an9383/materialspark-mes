@@ -1,13 +1,8 @@
 package mes.web.home;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,90 +12,92 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import mes.domain.bm.CommonCodeAdmVo;
-import mes.service.bm.CommonCodeAdmService;
-import mes.web.ut.DateUtil;
-import mes.web.ut.Utils;
+import mes.web.cm.Constants;
 
 @Controller
 public class HomeController {
-	
-	@Inject
-	private CommonCodeAdmService commonCodeAdmService;
-
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
 	// home
-	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView root(ModelAndView mav, HttpServletRequest request) {
+
 		String userAgent = request.getHeader("user-agent");
 		logger.info("userAgent(PDA확인하기) : " + userAgent);
 		if (userAgent.indexOf("iPhone") != -1 || userAgent.indexOf("iPad") != -1 || userAgent.indexOf("Android") != -1 || userAgent.indexOf("BlackBerry") != -1 || userAgent.indexOf("symbian") != -1 || userAgent.indexOf("sony") != -1 || userAgent.indexOf("Mobile") != -1) {
-			logger.info("Mobile 접속 tmsc0100(PDA Main)으로 이동");
-			mav.setViewName("redirect:/tmsc0100");
+			logger.info("Mobile 접속 pdsc0070(PDA Main)으로 이동");
+			mav.setViewName("redirect:/pdsc0070");
 		} else {
 			logger.info("PC 접속 main으로 이동");
 			mav.setViewName("redirect:/main");
 		}
+
 		return mav;
 	}
 	
-	//모바일 권한없음 PDA 메인
-	@RequestMapping(value = "/mainPDA", method = RequestMethod.GET)
-	public String mainPDA (Locale locale, Model model) throws Exception {
-		
-		logger.info("mainPDA 페이지");
-
-		return "cm/mainPDA";
+	//404 에러처리
+	@RequestMapping(value = "/auth/page404", method = RequestMethod.GET)
+	public ModelAndView page404(ModelAndView mav) {
+		mav.setViewName("auth/page404");
+		return mav;
+	}
+	
+	//500 에러처리
+	@RequestMapping(value = "/auth/page500", method = RequestMethod.GET)
+	public ModelAndView page500(ModelAndView mav) {
+		mav.setViewName("auth/page500");
+		return mav;
+	}
+	
+	//그외 에러처리
+	@RequestMapping(value = "/auth/pageError", method = RequestMethod.GET)
+	public ModelAndView pageError(ModelAndView mav) {
+		mav.setViewName("auth/pageError");
+		return mav;
 	}
 
 	// dashboard
-	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public ModelAndView dashboard(ModelAndView mav) {
-		mav.setViewName("home/dashboard");
-		return mav;
-	}
+	//@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	//public ModelAndView dashboard(ModelAndView mav) {
+	//	mav.setViewName("home/dashboard");
+	//	return mav;
+	//}
 
 	// commingsoon
-	@RequestMapping(value = "/commingsoon", method = RequestMethod.GET)
-	public ModelAndView commingsoon(ModelAndView mav) {
-		mav.setViewName("etc/commingsoon");
-		return mav;
-	}
+	//@RequestMapping(value = "/commingsoon", method = RequestMethod.GET)
+	//public ModelAndView commingsoon(ModelAndView mav) {
+	//	mav.setViewName("etc/commingsoon");
+	//	return mav;
+	//}
 
 	// default
-	@RequestMapping(value = "/defaultpage", method = RequestMethod.GET)
-	public ModelAndView defaultpage(ModelAndView mav) {
-		mav.setViewName("etc/defaultpage");
-		return mav;
-	}
+	//@RequestMapping(value = "/defaultpage", method = RequestMethod.GET)
+	//public ModelAndView defaultpage(ModelAndView mav) {
+	//	mav.setViewName("etc/defaultpage");
+	//	return mav;
+	//}
 
 	// pagesidebar
-	@RequestMapping(value = "/pagesidebar", method = RequestMethod.GET)
-	public ModelAndView pagesidebar(ModelAndView mav) {
-		mav.setViewName("etc/pagesidebar");
-		return mav;
-	}
+	//@RequestMapping(value = "/pagesidebar", method = RequestMethod.GET)
+	//public ModelAndView pagesidebar(ModelAndView mav) {
+	//	mav.setViewName("etc/pagesidebar");
+	//	return mav;
+	//}
 
 	// eaars
-	@RequestMapping(value = "/eaars", method = RequestMethod.GET)
-	public ModelAndView eaars(ModelAndView mav) {
-		mav.setViewName("etc/eaars");
-		return mav;
-	}
+	//@RequestMapping(value = "/eaars", method = RequestMethod.GET)
+	//public ModelAndView eaars(ModelAndView mav) {
+	//	mav.setViewName("etc/eaars");
+	//	return mav;
+	//}
 
 	// attend
-	@RequestMapping(value = "/attend", method = RequestMethod.GET)
-	public ModelAndView attend(ModelAndView mav) {
-		mav.setViewName("etc/attend");
-		return mav;
-	}
-	
-	
-	
-	
-	
+	//@RequestMapping(value = "/attend", method = RequestMethod.GET)
+	//public ModelAndView attend(ModelAndView mav) {
+	//	mav.setViewName("etc/attend");
+	//	return mav;
+	//}
 	
 
 	/*---------------------------------------- 테스트 페이지 ----------------------------------------*/
@@ -141,327 +138,112 @@ public class HomeController {
 	}
 	
 	
-	/*---------------------------20200907 생성 :  준비중으로 이동---------------------------*/
 	
-	
-	@RequestMapping(value = "/notPage", method = RequestMethod.GET)
-	public ModelAndView notPage (ModelAndView mav) {
-		mav.setViewName("cm/notPage");
-		return mav;
-	}
-	
-	// 모니터링(재고현황) 메인
-	@RequestMapping(value = "/smsc0070", method = RequestMethod.GET)
-	public String smsc0070(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "sm/smsc0070";
-	}
-	
-	// 모니터링(재고현황) 메인
-	@RequestMapping(value = "/cmsc0010", method = RequestMethod.GET)
-	public String cmsc0010(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "cm/cmsc0010";
-	}
-	
-	// 설비관리(설비등록) 메인
-	@RequestMapping(value = "/emsc0010", method = RequestMethod.GET)
-	public String emsc0010(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "em/emsc0010";
-	}
-	
-	
-	// 설비관리(설비등록) 메인
-	@RequestMapping(value = "/emsc0050", method = RequestMethod.GET)
-	public String emsc0050(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "em/emsc0050";
-	}
-
-
-	// 품질관리(불량집계현황) 메인
-	@RequestMapping(value = "/qmsc0070", method = RequestMethod.GET)
-	public String qmsc0070(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "qm/qmsc0070";
-	}
-	
-
-
-	// 재고관리(재고실사관리) 메인
-	@RequestMapping(value = "/tmsc0030", method = RequestMethod.GET)
-	public String tmsc0030(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "tm/tmsc0030";
-	}
-	
-	// 재공창고현황 메인
-	@RequestMapping(value = "/tmsc0240", method = RequestMethod.GET)
-	public String tmsc0240(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "tm/tmsc0240";
-	}
-	
-	
-
-	// pda(재고현황)사출 메인
-	@RequestMapping(value = "/tmsc0120", method = RequestMethod.GET)
-	public String tmsc0120(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "tm/tmsc0120";
-	}
-	
-	// pda(재고현황)봉제 메인
-	@RequestMapping(value = "/tmsc0320", method = RequestMethod.GET)
-	public String tmsc0320(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "tm/tmsc0320";
-	}
-	
-	
-	//생산관리(폐기등록/현황)
-	@RequestMapping(value = "/wmsc0020", method = RequestMethod.GET)
-	public String wmsc0020(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "wm/wmsc0020";
-	}
-	
-	//생산관리(폐기등록/현황)
-	@RequestMapping(value = "/wmsc0030", method = RequestMethod.GET)
-	public String wmsc0030(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "wm/wmsc0030";
-	}
-	
-	//생산관리(폐기등록/현황)
-	@RequestMapping(value = "/wmsc0070", method = RequestMethod.GET)
-	public String wmsc0070(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "wm/wmsc0070";
-	}
-	
-	//생산관리(폐기등록/현황)
-	@RequestMapping(value = "/wmsc0100", method = RequestMethod.GET)
-	public String wmsc0100(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "wm/wmsc0100";
-	}
-
-	//생산관리(폐기등록/현황)
-	@RequestMapping(value = "/wmsc0120", method = RequestMethod.GET)
-	public String wmsc0120(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "wm/wmsc0120";
-	}
-	
-	
-	//생산관리(폐기등록/현황)
-	@RequestMapping(value = "/wmsc0130", method = RequestMethod.GET)
-	public String wmsc0130(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "wm/wmsc0130";
-	}
-	
-	//생산관리(폐기등록/현황)
-	@RequestMapping(value = "/wmsc0140", method = RequestMethod.GET)
-	public String wmsc0140(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "wm/wmsc0140";
-	}
-
-	
-	// 모니터링(수주진행현황) 메인
-	@RequestMapping(value = "/mmsc0010", method = RequestMethod.GET)
-	public String mmsc0010(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "mm/mmsc0010";
-	}
-
-	
-	
-	// 모니터링(생산현황) 메인
-	@RequestMapping(value = "/mmsc0110", method = RequestMethod.GET)
-	public String mmsc0110(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "mm/mmsc0110";
-	}
-	
-	// 모니터링(생산입출고현황) 메인
-	@RequestMapping(value = "/mmsc0120", method = RequestMethod.GET)
-	public String mmsc0120(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "mm/mmsc0120";
-	}
-
-	
-	/*
-	 * // 생산실적수집
-	 * 
-	 * @RequestMapping(value = "/posc0020", method = RequestMethod.GET) public
-	 * String posc0020(Locale locale, Model model) throws Exception {
-	 * model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-	 * model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-	 * model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd")); return
-	 * "notPage/notPage"; }
-	 * 
-	 * // 자주검사
-	 * 
-	 * @RequestMapping(value = "/posc0030", method = RequestMethod.GET) public
-	 * String posc0030(Locale locale, Model model) throws Exception {
-	 * model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-	 * model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-	 * model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd")); return
-	 * "notPage/notPage"; }
-	 * 
-	 * // 불량등록
-	 * 
-	 * @RequestMapping(value = "/posc0040", method = RequestMethod.GET) public
-	 * String posc0040(Locale locale, Model model) throws Exception {
-	 * model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-	 * model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-	 * model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd")); return
-	 * "notPage/notPage"; }
-	 * 
-	 * // 비가동사유등록
-	 * 
-	 * @RequestMapping(value = "/posc0050", method = RequestMethod.GET) public
-	 * String posc0050(Locale locale, Model model) throws Exception {
-	 * model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-	 * model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-	 * model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd")); return
-	 * "notPage/notPage"; }
-	 * 
-	 * // 제품라벨발행
-	 * 
-	 * @RequestMapping(value = "/posc0060", method = RequestMethod.GET) public
-	 * String posc0060(Locale locale, Model model) throws Exception {
-	 * model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-	 * model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-	 * model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd")); return
-	 * "notPage/notPage"; }
-	 */
-	// 생산일보관리(전체)
-	@RequestMapping(value = "/mmsc0130", method = RequestMethod.GET)
-	public String mmsc0130(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "mm/mmsc0130";
-	}
-	
-	// 경영정보관리
-	// 거래처별 월 매출현황
-	@RequestMapping(value = "/bssc0232", method = RequestMethod.GET)
-	public String bssc0232(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "bs/bssc0232";
-	}
-	
-	// 고객사별 매출 계획 대비 실적 현황 메인
-	@RequestMapping(value = "/bssc0233", method = RequestMethod.GET)
-	public String bssc0233(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "bs/bssc0233";
-	}
-	
-	// 거래처별 월 자재 입고현황
-	@RequestMapping(value = "/bssc0234", method = RequestMethod.GET)
-	public String bssc0234(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "bs/bssc0234";
-	}
-	
-	// 순매출 현황
-	@RequestMapping(value = "/bssc0235", method = RequestMethod.GET)
-	public String bssc0235(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "bs/bssc0235";
-	}
-	
-	// 업체별 매입 계획 대비 실적 현황
-	@RequestMapping(value = "/bssc0236", method = RequestMethod.GET)
-	public String bssc0236(Locale locale, Model model) throws Exception {
-		model.addAttribute("serverDateFrom", DateUtil.getDay("yyyy-mm-dd", -6));
-		model.addAttribute("serverDateTo", DateUtil.getToday("yyyy-mm-dd"));
-		model.addAttribute("serverDate", DateUtil.getToday("yyyy-mm-dd"));
-		return "bs/bssc0236";
-	}
-	
-	
-	
-	// 우편번호 찾기
-	@RequestMapping(value = "/popup/jusoPopup", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView jusoPopup(ModelAndView mav, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		logger.info("팝업!");
-		try {
-			mav.setViewName("/layout/jusoPopup");
-		}
-
-		catch (NullPointerException e) {
-			// e.printStackTrace();
-		}
-		return mav;
-	}
-	
-	// 데브익스프레스
-	@RequestMapping(value = "/Devexpress", method = RequestMethod.GET)
-	public String Devexpress(Locale locale, Model model) throws Exception {
-		return "cm/Devexpress";
-	}
-	
-	
-	
-	
-	
+	/* ---------------------------------------- PDA 테스트 페이지 ----------------------------------------  */
+	//pda012
+	@RequestMapping(value = "/pda011", method = RequestMethod.GET)
+	public String pda011GET(Locale locale, Model model) throws Exception {
 		
+		logger.info("pda011 페이지");
+
+		return "testPage/pda011";
+	}
 	
+	//pda012
+	@RequestMapping(value = "/pda012", method = RequestMethod.GET)
+	public String pda012GET(Locale locale, Model model) throws Exception {
+		
+		logger.info("pda012 페이지");
+
+		return "testPage/pda012";
+	}
+	
+	//pda013
+	@RequestMapping(value = "/pda013", method = RequestMethod.GET)
+	public String pda013GET(Locale locale, Model model) throws Exception {
+		
+		logger.info("pda013 페이지");
+
+		return "testPage/pda013";
+	}
+	
+	//pda013_1
+	@RequestMapping(value = "/pda013_1", method = RequestMethod.GET)
+	public String pda013_1GET(Locale locale, Model model) throws Exception {
+		
+		logger.info("pda013_1 페이지");
+
+		return "testPage/pda013_1";
+	}
+	
+	//pda014
+	@RequestMapping(value = "/pda014", method = RequestMethod.GET)
+	public String pda014GET (Locale locale, Model model) throws Exception {
+		
+		logger.info("pda014 페이지");
+
+		return "testPage/pda014";
+	}
+	
+	
+	/* ---------------------------------------- 미개발 페이지 ----------------------------------------  */
+
+	//eisc0040
+	@RequestMapping(value = "/eisc0040", method = RequestMethod.GET)
+	public String ei_sc0040 (Locale locale, Model model) throws Exception {
+		
+		logger.info("eisc0040 페이지");
+
+		return "testPage/notPage";
+	}
+	
+	//Main
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public String main (Locale locale, Model model, HttpServletRequest request) throws Exception {
+		logger.info("main 페이지 - 생산팀이면 posc0010으로, 그외 main으로");
+		HttpSession session = request.getSession(true);
+		String userDepartemntCd = (String) session.getAttribute(Constants.USER_DEPARTMENT_CD);
+		String factoryCode = (String) session.getAttribute(Constants.FACTORY_CODE);
+		String teamPageMoveYn = "";
+		if(factoryCode.equals("003")) {
+			teamPageMoveYn = (String) session.getAttribute(Constants.TEAM_PAGE_MOVE_YN);
+		} else {
+			teamPageMoveYn = "002";
+		}
+		//생산팀이면 작업지시선택(posc0010)
+		if (userDepartemntCd.equals("001"))
+			if (factoryCode.equals("001")) {
+            return "redirect:/posc2010";   
+		} else if (factoryCode.equals("002")){ 
+			return "redirect:/posc2010";   
+		} else if (factoryCode.equals("003") && teamPageMoveYn.equals("001")) {
+			return "redirect:/posc3090";
+			//return "redirect:/posc3010";
+		} else {
+			return "cm/main";
+			
+		//생상팀 외
+		} else {
+			return "cm/main";
+		}
+	}
+	
+	//posc3090
+	@RequestMapping(value = "/posc3090", method = RequestMethod.GET)
+	public String posc3090GET (Locale locale, Model model) throws Exception {
+		
+		logger.info("posc3090 페이지");
+
+		return "po/posc3090";
+	}
+	
+	//모바일 권한없음 PDA 메인
+	@RequestMapping(value = "/mainPDA", method = RequestMethod.GET)
+	public String mainPDA (Locale locale, Model model) throws Exception {
+		
+		logger.info("mainPDA 페이지");
+
+		return "cm/mainPDA";
+	}
 	
 }

@@ -1,0 +1,2776 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.io.matrlInOutWhsAdmMapper">
+
+<resultMap id="MatrlInOutWhsAdmVo" type="mes.domain.io.MatrlInOutWhsAdmVo">
+	<result property="lotNo"					column="LOT_NO"					/>         
+	<result property="lotNoCheck"				column="LOT_NO_CHECK"			/>                   
+	<result property="srLot"					column="SR_LOT"					/>                       
+	<result property="inWhsGroupSeq"			column="IN_WHS_GROUP_SEQ"		/>       
+	<result property="matrlCd"					column="MATRL_CD"				/>   
+	<result property="matrlNm"					column="MATRL_NM"				/> 		                
+	<result property="preInWhsQty"				column="PRE_IN_WHS_QTY"			/>          
+	<result property="inWhsQty"					column="IN_WHS_QTY"				/> 
+	<result property="inspectQty"				column="INSPECT_QTY"			/>  
+	<result property="adjustQty"				column="ADJUST_QTY"				/>		               
+	<result property="diffQty"					column="DIFF_QTY"				/>
+	<result property="inWhsLength"				column="IN_WHS_LENGTH"			/>		                     
+	<result property="spplyDealCorpCd"			column="SPPLY_DEAL_CORP_CD"		/> 
+	<result property="spplyDealCorpNm"			column="SPPLY_DEAL_CORP_NM"		/> 		          
+	<result property="preInWhsDate"				column="PRE_IN_WHS_DATE"		/>         
+	<result property="inWhsDate"				column="IN_WHS_DATE"			/>               
+	<result property="inspctDate"				column="INSPCT_DATE"			/>    
+	<result property="barcodeNo"				column="BARCODE_NO"				/>  
+	<result property="approvalCd"				column="APPROVAL_CD"			/>
+	<result property="approvalNm"				column="APPROVAL_NM"			/>	
+	<result property="inApprovalCd"				column="IN_APPROVAL_CD"			/>			             
+	<result property="statusCd"					column="STATUS_CD"				/> 
+	<result property="statusNm"					column="STATUS_NM"				/>		                      
+	<result property="matrlChargr"				column="MATRL_CHARGR"			/>
+	<result property="frrrdDate"				column="FRRRD_DATE"				/>
+	<result property="frrrdType"				column="FRRRD_TYPE"				/>
+	<result property="frrrdDesc"				column="FRRRD_DESC"				/>
+	<result property="filmType"					column="FILM_TYPE"				/>
+	<result property="retestDate"				column="RETEST_DATE"			/>
+	<result property="preOutEquipCd"			column="PRE_OUT_EQUIP_CD"		/>	
+	<result property="preOutEquipNm"			column="PRE_OUT_EQUIP_NM"		/>
+	<result property="preOutGoodsCd"			column="PRE_OUT_GOODS_CD"		/>
+	<result property="preOutGoodsNm"			column="PRE_OUT_GOODS_NM"		/>		
+	<result property="preWorkCharger"			column="PRE_WORK_CHARGER"		/>
+	<result property="preWorkChargerNm"			column="PRE_WORK_CHARGERNM"		/>	
+	<result property="preOutQty"				column="PRE_OUT_QTY"			/> 
+	<result property="preOutWhsDate"			column="PRE_OUT_WHS_DATE"		/>       
+	<result property="outEquipCd"				column="OUT_EQUIP_CD"			/> 
+	<result property="outEquipNm"				column="OUT_EQUIP_NM"			/> 
+	<result property="outGoodsCd"				column="OUT_GOODS_CD"			/>
+	<result property="outGoodsNm"				column="OUT_GOODS_NM"			/>
+	<result property="outWorkCharger"			column="OUT_WORK_CHARGER"		/>
+	<result property="outWorkChargerNm"			column="OUT_WORK_CHARGERNM"		/>					
+	<result property="outQty"					column="OUT_QTY"				/> 			   		              
+	<result property="outWhsDate"				column="OUT_WHS_DATE"			/>           
+	<result property="locationCd"				column="LOCATION_CD"			/> 
+	<result property="locationNm"				column="LOCATION_NM"			/> 		              
+	<result property="inWhsDesc"				column="IN_WHS_DESC"			/>               
+	<result property="manufactrCd"				column="MANUFACTR_CD"			/>
+	<result property="manufactrNm"				column="MANUFACTR_NM"			/>				
+	<result property="qutyCd"       	       	column="QUTY_CD"				/> 
+	<result property="qutyNm"  	    	        column="QUTY_NM"				/> 
+	<result property="thickness"    	        column="THICKNESS"				/> 
+	<result property="depth"        	       	column="DEPTH"					/> 
+	<result property="length"       	        column="LENGTH"					/> 	
+	<result property="width"        	       	column="WIDTH"					/> 
+	<result property="pitch"        	       	column="PITCH"					/>	
+	<result property="model"        	       	column="MODEL"					/>
+	<result property="regId"					column="REG_ID"					/>                        
+	<result property="regDate"					column="REG_DATE"				/>                    
+	<result property="updId"					column="UPD_ID"					/>                        
+	<result property="updDate"					column="UPD_DATE"				/>
+	<result property="histId"					column="HIST_ID"				/>                        
+	<result property="histDate"					column="HIST_DATE"				/>
+	
+	<result property="poNoSeq"					column="PO_NO_SEQ"				/>
+		
+	<result property="newPoGroup"				column="NEW_PO_GROUP"			/>
+	
+	<result property="preInDiff"				column="PRE_IN_DIFF"			/>	<!-- 가입고량 - 입고량 차이 -->	
+	<result property="outputHistDate"			column="OUTPUT_HIST_DATE"		/>                        
+	<result property="poGubunCd"				column="PO_GUBUN_CD"			/>
+	<result property="poGubunNm"				column="PO_GUBUN_NM"			/>                        
+	<result property="poAttn"					column="PO_ATTN"				/>
+	<result property="poNo"						column="PO_NO"					/>                        
+	<result property="boxCount"					column="BOX_COUNT"				/>
+	<result property="outputQty"				column="OUPTPUT_QTY"			/>                        
+	<result property="deliveryDate"				column="DELIVERY_DATE"			/>
+	<result property="deliveryDealCorpCd"		column="DELIVERY_DEAL_CORP_CD"	/>                        
+	<result property="deliveryDealCorpNm"		column="DELIVERY_DEAL_CORP_NM"	/>		
+	<result property="dealCorpCd"				column="DEAL_CORP_CD"			/>                        
+	<result property="dealCorpNm"				column="DEAL_CORP_NM"			/>		
+	<result property="outputQty"				column="OUTPUT_QTY"				/>		
+	<result property="goodsCd"					column="GOODS_CD"				/>		
+	<result property="goodsNm"					column="GOODS_NM"				/>
+	<result property="poSeq"					column="PO_SEQ"					/>		
+	<result property="poGroup"					column="PO_GROUP"				/>	
+	<result property="packCnt"					column="PACK_CNT"				/>
+	<result property="boxNo"					column="BOX_NO"					/>
+		
+	<result property="equipGroup"				column="EQUIP_GROUP"			/>
+	<result property="lifeCycle"				column="LIFE_CYCLE"				/>
+	<result property="endLifeCycle"				column="END_LIFE_CYCLE"			/>
+	<result property="matrlGubunCd"				column="MATRL_GUBUN_CD" 		/>
+	<result property="etc1"						column="ETC1" 					/>
+	<result property="etc2"						column="ETC2" 					/>
+	<result property="approvalCd001"			column="APPROVAL_CD_001" 		/>
+	<result property="approvalCd002"			column="APPROVAL_CD_002" 		/>
+	<result property="approvalCd003"			column="APPROVAL_CD_003" 		/>
+	<result property="approvalCd004"			column="APPROVAL_CD_004" 		/>
+	<result property="approvalCd005"			column="APPROVAL_CD_005" 		/>
+	<result property="approvalCd006"			column="APPROVAL_CD_006" 		/>
+	<result property="approvalCd007"			column="APPROVAL_CD_007" 		/>
+	<result property="approvalCd008"			column="APPROVAL_CD_008" 		/>
+	<result property="approvalCd009"			column="APPROVAL_CD_009" 		/>
+	
+	<result property="matrlInitial"				column="MATRL_INITIAL" 			/>
+	<result property="fifoCheck"				column="FIFO_CHECK" 			/>
+	<result property="baseCdAbbr"				column="BASE_CD_ABBR" 			/>	<!-- 세부코드 약칭(Al, Ni, F 구분) -->
+	<result property="outputCnt"				column="OUTPUT_CNT" 			/>
+	
+	<result property="gubunCd"					column="GUBUN_CD" 				/>
+	<result property="gubunNm"					column="GUBUN_NM" 				/>
+	<result property="chamferYnCd"				column="CHAMFER_YN_CD" 			/>
+	<result property="chamferYnNm"				column="CHAMFER_YN_NM" 			/>
+	<result property="surfaceTrtmtCd"			column="SURFACE_TRTMT_CD" 		/>
+	<result property="surfaceTrtmtNm"			column="SURFACE_TRTMT_NM" 		/>
+	
+	<result property="workOrdNo"				column="WORK_ORD_NO" 			/>
+	<result property="fairQty"					column="FAIR_QTY" 				/>
+	<result property="faultyQty"				column="FAULTY_QTY" 			/>
+	<result property="remakeYn"					column="REMAKE_YN" 				/>
+	<result property="changeLocation"			column="CHANGE_LOCATION" 		/>
+	<result property="connectCd"				column="CONNECT_CD" 			/>
+	<result property="connectNm"				column="CONNECT_NM" 			/>
+	
+	<result property="goodsStatus"				column="GOODS_STATUS" 			/>
+	<result property="goodsStatusNm"			column="GOODS_STATUS_NM"		/>
+	<result property="faultystatus"				column="FAULTY_STATUS" 			/>
+	<result property="faultyStatusNm"			column="FAULTY_STATUS_NM"		/>
+	
+	<result property="goodsNmList"				column="GOODS_NM_LIST"			/>
+	
+	<result property="inspectCd"   				column="INSPECT_CD"				/> 		
+	<result property="inspectNm"   				column="INSPECT_NM"				/> 
+	<result property="remainQty"				column="REMAIN_QTY"				/>
+	
+	<result property="motherRollLot"			column="MOTHER_ROLL_LOT"		/>
+	<result property="rollCount"				column="ROLL_COUNT"				/>
+	
+	<result property="startDate"				column="START_DATE"				/>
+	<result property="endDate"					column="ENDDATE"				/>
+	
+	<result property="customerLotNo"			column="CUSTOMER_LOT_NO"		/>
+	
+	<result property="rollCnt"					column="ROLL_CNT"				/>
+	<result property="weightUnit"				column="WEIGHT_UNIT"			/>
+	<result property="paidGubun"				column="PAID_GUBUN"				/>
+	<result property="paidGubunNm"				column="PAID_GUBUN_NM"			/>
+	<result property="printYn"					column="PRINT_YN"				/>
+	<result property="completeYn"				column="COMPLETE_YN"			/>
+	<result property="poDate"					column="PO_DATE"				/>
+	<result property="goodsOutDate"				column="GOODS_OUT_DATE"			/>
+	<result property="poCode"					column="PO_CODE"				/>
+	<result property="palletQty"				column="PALLET_QTY"				/>
+	<result property="rowId"					column="ROW_ID"						/>
+	<result property="fautlyByProductionTeam"	column="FAULTY_BY_PRODUCTION_TEAM"	/>
+	<result property="goodsDesc"				column="GOODS_DESC"				/>
+	<result property="deadLine"					column="DEAD_LINE"				/>
+	<result property="originalEquipNm"			column="ORIGINAL_EQUIP_NM"				/>
+	<result property="equipCd"					column="EQUIP_CD"				/>
+	<result property="equipNm"					column="EQUIP_NM"				/>
+	<result property="locationInputDate"		column="LOCATION_INPUT_DATE"	/>
+	
+	<result property="ppfDepthLeftAlwnce"		column="PPF_DEPTH_LEFT_ALWNCE"	/>
+	<result property="metalDepthAlwnce"			column="METAL_DEPTH_ALWNCE"		/>
+	<result property="ppfWingLeftAlwnce"		column="PPF_WING_LEFT_ALWNCE"	/>
+	<result property="wpLeftAlwnce"				column="WP_LEFT_ALWNCE"			/>
+	<result property="wpDeviation"				column="WP_DEVIATION"			/>
+	<result property="metalThicknessAlwnce"		column="METAL_THICKNESS_ALWNCE"	/>
+	<result property="thCenterAlwnce"			column="TH_CENTER_ALWNCE"		/>
+	<result property="filmAlwnce"				column="FILM_ALWNCE"			/>
+	<result property="pitchLeftAlwnce"			column="PITCH_LEFT_ALWNCE"		/>
+	<result property="gapOfLayer"				column="GAP_OF_LAYER"			/>
+	<result property="edgePress"				column="EDGE_PRESS"				/>
+	<result property="foldingEndurance"			column="FOLDING_ENDURANCE"		/>
+	<result property="thicknessQty"				column="THICKNESS_QTY"			/>
+	
+	<result property="model"					column="MODEL"					/>
+	<result property="fileGroup"				column="FILE_GROUP"				/>
+	<result property="fileNm"					column="FILE_NM"				/>
+	<result property="disposeGubun"				column="DISPOSE_GUBUN"			/>
+	<result property="customerPalletNo"			column="CUSTOMER_PALLET_NO"		/>
+	<result property="factCheck"				column="FACT_CHECK"				/>
+	<result property="modelNo"					column="MODEL_NO"				/>
+	<result property="inWhsTime"				column="IN_WHS_TIME"			/>
+	<result property="floorGubun"				column="FLOOR_GUBUN"			/>
+	<result property="matrlFifoCheck"			column="MATRL_FIFO_CHECK"		/>
+</resultMap>
+
+	<!-- 입출고관리 가입고자재목록조회 -->
+	<select id="listPreInWhsAll" resultMap="MatrlInOutWhsAdmVo">
+		SELECT
+			B.LIFE_CYCLE
+			, CONVERT(CHAR(10), DATEADD(MM, CONVERT(INT, B.LIFE_CYCLE), CONVERT(CHAR(10), A.IN_WHS_DATE, 23)), 23) AS END_LIFE_CYCLE
+			, A.LOT_NO
+			, A.SR_LOT
+			, A.IN_WHS_GROUP_SEQ
+			, A.MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.MATRL_CD) MATRL_NM
+			, A.PRE_IN_WHS_QTY
+			, A.IN_WHS_QTY
+			, A.INSPECT_QTY
+			, A.ADJUST_QTY			
+			, A.DIFF_QTY
+			, A.REMAIN_QTY
+			, A.IN_WHS_LENGTH
+			, A.SPPLY_DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_NM
+			, A.PRE_IN_WHS_DATE
+			, A.IN_WHS_DATE
+			, A.INSPCT_DATE
+			, A.BARCODE_NO
+			, A.APPROVAL_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+			, A.STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = A.STATUS_CD) STATUS_NM
+			, A.MATRL_CHARGR
+			, A.FRRRD_DATE
+			, A.FRRRD_TYPE
+			, A.FRRRD_DESC
+			, A.PRE_OUT_WHS_DATE
+			, A.PRE_OUT_EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.PRE_OUT_EQUIP_CD) PRE_OUT_EQUIP_NM
+			, A.OUT_WHS_DATE
+			, A.OUT_EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.OUT_EQUIP_CD) OUT_EQUIP_NM
+			, A.LOCATION_CD
+			, A.IN_WHS_DESC
+			, A.FIFO_CHECK
+			, A.IN_WHS_TIME
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM TB_IN_OUT_WHS_ADM A, TB_MATRL_CODE_ADM B
+		WHERE A.MATRL_CD = B.MATRL_CD
+		<if test="inWhsDate != null and inWhsDate != ''"> 
+		  	AND IN_WHS_DATE = #{inWhsDate}
+		</if> 
+		<if test="approvalCd != null and approvalCd != ''">
+			AND APPROVAL_CD = #{approvalCd}
+		</if>
+		<if test="locationCd != null and locationCd != ''">
+			AND LOCATION_CD = #{locationCd}
+		</if>
+		<if test="matrlCd != null and matrlCd != ''">
+			AND A.MATRL_CD = #{matrlCd}
+		</if>
+		<if test="statusCd != null and statusCd != ''">
+			AND A.STATUS_CD = #{statusCd}
+		</if>
+		<if test="exceptBarcodeNo != null and exceptBarcodeNo != ''">
+			AND A.BARCODE_NO NOT IN ('${exceptBarcodeNo}')
+		</if>
+		
+		<if test="inApprovalCd != null and inApprovalCd != ''">
+			AND APPROVAL_CD IN ('${inApprovalCd}')
+		</if>
+		
+		<if test="startDate != null and startDate != '' and endDate != null and endDate != ''"> 
+			<![CDATA[
+		  		AND IN_WHS_DATE >= #{startDate}
+	  			AND IN_WHS_DATE <= #{endDate}
+	  		]]>
+		</if> 
+		
+	</select>
+	
+	<!-- 입출고관리 자재입고현황(바코드)목록조회 -->
+	<select id="listInWhsAll" resultMap="MatrlInOutWhsAdmVo">
+		SELECT	
+			A.LOT_NO
+	        , A.SR_LOT
+	        , A.IN_WHS_GROUP_SEQ
+	        , A.MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM X WHERE X.MATRL_CD = A.MATRL_CD)MATRL_NM
+			, PRE_IN_WHS_QTY
+			, IN_WHS_QTY
+			, LEFT(CONVERT(float, PRE_IN_WHS_QTY) - CONVERT(float, IN_WHS_QTY),4) PRE_IN_DIFF
+	        , A.INSPECT_QTY
+	        , A.ADJUST_QTY
+	        , A.DIFF_QTY
+	        , A.REMAIN_QTY
+	        , A.IN_WHS_LENGTH
+	        , A.SPPLY_DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_NM
+	        , A.PRE_IN_WHS_DATE
+	        , A.IN_WHS_DATE
+	        , A.INSPCT_DATE
+	        , A.BARCODE_NO
+	        , A.APPROVAL_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+	        , A.STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = A.STATUS_CD) STATUS_NM
+	        , A.MATRL_CHARGR
+	        , A.PRE_OUT_WHS_DATE
+	        , A.PRE_OUT_EQUIP_CD
+			, (SELECT B.EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.PRE_OUT_EQUIP_CD) PRE_OUT_EQUIP_NM
+	        , A.PRE_OUT_GOODS_CD
+			, (SELECT B.GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.PRE_OUT_GOODS_CD) PRE_OUT_GOODS_NM
+	        , A.PRE_OUT_QTY
+	        , A.PRE_WORK_CHARGER
+	        , A.OUT_WHS_DATE
+	        , A.OUT_EQUIP_CD
+	        , A.OUT_GOODS_CD
+	        , A.OUT_QTY
+	        , A.OUT_WORK_CHARGER
+	        , A.LOCATION_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='077' AND B.BASE_CD = A.LOCATION_CD) LOCATION_NM
+	        , A.MANUFACTR_CD
+	        , A.FRRRD_DATE
+			, A.FRRRD_TYPE
+			, A.FRRRD_DESC
+	        , A.IN_WHS_DESC
+	        , A.FIFO_CHECK
+	        , A.MOTHER_ROLL_LOT
+			, (SELECT CASE WHEN ISNULL(X.ETC2,'') = '' THEN '0' ELSE X.ETC2 END FROM TB_MATRL_CODE_ADM X WHERE X.MATRL_CD = A.MATRL_CD) AS ROLL_COUNT
+	        , A.REG_ID
+	        , A.REG_DATE
+	        , A.UPD_ID
+	        , A.UPD_DATE
+	        , A.PAID_GUBUN
+	        , A.WEIGHT_UNIT
+	        , A.ROLL_CNT
+   			, B.INSPECT_CD
+			, (SELECT Z.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE Z WHERE Z.BASE_GROUP_CD = '066' AND Z.BASE_CD = B.INSPECT_CD) INSPECT_NM
+			, ( CASE WHEN FLOOR_GUBUN = '' OR FLOOR_GUBUN IS NULL THEN NULL ELSE CONCAT(FLOOR_GUBUN, '층') END ) AS FLOOR_GUBUN
+		FROM TB_IN_OUT_WHS_ADM A
+		LEFT OUTER JOIN TB_MATRL_INSPECT_PASS B
+		ON 1=1
+		AND A.IN_WHS_GROUP_SEQ = B.IN_WHS_GROUP_SEQ
+		AND A.LOT_NO = B.LOT_NO
+		WHERE 1=1
+		<if test="inWhsDateFrom != null and inWhsDateFrom != ''"> 
+			<![CDATA[
+		  		AND IN_WHS_DATE >= #{inWhsDateFrom}
+		  	]]> 
+		</if> 
+		<if test="inWhsDateTo != null and inWhsDateTo != ''"> 
+			<![CDATA[
+		  		AND IN_WHS_DATE <= #{inWhsDateTo}
+			]]> 
+		</if>
+		<if test="qutyCd != null and qutyCd != ''"> 
+			<![CDATA[
+		  		AND QUTY_CD = #{qutyCd}
+			]]>
+		</if>
+		<if test="excludeStatusO != null and excludeStatusO != ''"> 
+			<![CDATA[
+		  		AND STATUS_CD NOT IN ('O')
+			]]> 
+		</if>
+		<if test="excludeStatusP != null and excludeStatusP != ''"> 
+			<![CDATA[
+		  		AND STATUS_CD NOT IN ('P')
+			]]> 
+		</if>
+		
+		<if test="approvalCd != null and approvalCd != ''"> 
+			<![CDATA[
+		  		AND APPROVAL_CD = #{approvalCd}
+			]]> 
+		</if>
+		<if test="statusCd != null and statusCd != ''"> 
+			<![CDATA[
+		  		AND STATUS_CD = #{statusCd}
+			]]> 
+		</if>
+		<if test="matrlCd != null and matrlCd != ''"> 
+			<![CDATA[
+		  		AND A.MATRL_CD = #{matrlCd}
+			]]> 
+		</if>
+		
+		<if test="preOutWhsDateFrom != null and preOutWhsDateFrom != '' and preOutWhsDateTo != null and preOutWhsDateTo != ''"> 
+			<![CDATA[
+		  		AND PRE_OUT_WHS_DATE >= #{preOutWhsDateFrom}
+		  		AND PRE_OUT_WHS_DATE <= #{preOutWhsDateTo}
+		  		AND STATUS_CD = 'O'
+		  	]]>
+		</if>
+		<if test="barcodeNo != null and barcodeNo != ''"> 
+			<![CDATA[
+		  		AND A.BARCODE_NO = #{barcodeNo}
+			]]> 
+		</if>
+	</select>
+	
+	<!-- 자재입고 자재명 List 조회 -->
+	<select id="matrlCdInOutList" resultMap="MatrlInOutWhsAdmVo">
+		SELECT   
+            MAX(B.MATRL_CD) MATRL_CD,
+            B.MATRL_NM
+		FROM   TB_IN_OUT_WHS_ADM A,
+            TB_MATRL_CODE_ADM B
+		WHERE A.MATRL_CD = B.MATRL_CD
+		 
+			<if test="inWhsDate != null and inWhsDate != ''"> 
+		  		AND A.IN_WHS_DATE = #{inWhsDate}
+			</if>
+			
+			<if test="inWhsDateFrom != null and inWhsDateFrom != '' and inWhsDateTo != null and inWhsDateTo != ''"> 
+			  	AND A.IN_WHS_DATE BETWEEN #{inWhsDateFrom} AND #{inWhsDateTo}
+			</if>
+			
+			<if test="approvalCd != null and approvalCd != ''"> 
+                AND A.APPROVAL_CD = #{approvalCd}
+			</if>
+			
+         GROUP BY B.MATRL_NM
+	</select>
+	
+	<!-- 품질관리 수입검사관리 입고량 수정 -->	
+	<update id="updateinspectQty">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			IN_WHS_QTY = #{inspectQty}
+			,INSPECT_QTY = #{inspectQty}
+			,DIFF_QTY = #{diffQty}
+			,REMAIN_QTY = #{inspectQty}			
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		WHERE	BARCODE_NO= #{barcodeNo}
+	</update>
+	
+	<!-- 품질관리 수입검사관리 자재명 List 조회 -->
+	<select id="inspectMatrlCodeList" resultMap="MatrlInOutWhsAdmVo">
+		SELECT   
+            MAX(B.MATRL_CD) MATRL_CD,
+            B.MATRL_NM
+		FROM   TB_IN_OUT_WHS_ADM A,
+            TB_MATRL_CODE_ADM B
+		WHERE A.MATRL_CD = B.MATRL_CD      
+			AND A.PRE_IN_WHS_DATE BETWEEN #{startDate} AND #{endDate}
+			<if test="approvalCd != null and approvalCd != ''"> 
+                AND A.APPROVAL_CD = #{approvalCd}
+			</if>
+         GROUP BY B.MATRL_NM
+	</select>
+	
+	<!-- 품질관리 수입검사그룹목록조회 -->
+	<select id="listInWhsInspectAll" resultMap="MatrlInOutWhsAdmVo">
+		SELECT 
+			A.IN_WHS_GROUP_SEQ
+			,APPROVAL_CD
+			,MATRL_CD
+			,(SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.MATRL_CD) MATRL_NM
+			,(SELECT MATRL_GUBUN_CD FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.MATRL_CD) MATRL_GUBUN_CD
+			,PRE_IN_WHS_QTY
+			,IN_WHS_QTY
+			,INSPECT_QTY
+			,ADJUST_QTY				
+			,DIFF_QTY
+			,SPPLY_DEAL_CORP_CD
+			,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_NM
+			,PRE_IN_WHS_DATE
+			,IN_WHS_DATE
+			,INSPCT_DATE
+			,STATUS_CD
+			,APPROVAL_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+			, B.APPROVAL_CD_001
+			, B.APPROVAL_CD_002
+			, B.APPROVAL_CD_003
+			, B.APPROVAL_CD_004
+			, B.APPROVAL_CD_005
+			, B.APPROVAL_CD_006
+			, B.APPROVAL_CD_007
+			, B.APPROVAL_CD_008
+			, B.APPROVAL_CD_009
+		FROM
+		( SELECT
+				IN_WHS_GROUP_SEQ
+				,MAX(MATRL_CD) MATRL_CD
+				,SUM(CONVERT(float,PRE_IN_WHS_QTY)) PRE_IN_WHS_QTY
+				,SUM(CONVERT(float,IN_WHS_QTY)) IN_WHS_QTY
+				,SUM(CONVERT(float,INSPECT_QTY)) INSPECT_QTY
+				,SUM(CONVERT(float,ADJUST_QTY)) ADJUST_QTY				
+				,SUM(CONVERT(float,DIFF_QTY)) DIFF_QTY
+				,MAX(SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_CD
+				,MAX(PRE_IN_WHS_DATE) PRE_IN_WHS_DATE
+				,MAX(IN_WHS_DATE) IN_WHS_DATE
+				,MAX(INSPCT_DATE) INSPCT_DATE
+				,MAX(APPROVAL_CD) APPROVAL_CD
+				,MAX(STATUS_CD) STATUS_CD
+		FROM TB_IN_OUT_WHS_ADM			
+			WHERE 1=1
+<!-- 				PRE_IN_WHS_DATE = #{preInWhsDate} -->
+			
+				AND PRE_IN_WHS_DATE BETWEEN #{startDate} AND #{endDate}			
+				<!-- AND STATUS_CD NOT IN ('O', 'P') -->
+			GROUP BY IN_WHS_GROUP_SEQ
+		) A
+		, (
+			SELECT
+				IN_WHS_GROUP_SEQ
+				,COUNT(CASE WHEN APPROVAL_CD = '001' THEN 1 END) AS APPROVAL_CD_001
+				, COUNT(CASE WHEN APPROVAL_CD = '002' THEN 1 END) AS APPROVAL_CD_002
+				, COUNT(CASE WHEN APPROVAL_CD = '003' THEN 1 END) AS APPROVAL_CD_003
+				, COUNT(CASE WHEN APPROVAL_CD = '004' THEN 1 END) AS APPROVAL_CD_004
+				, COUNT(CASE WHEN APPROVAL_CD = '005' THEN 1 END) AS APPROVAL_CD_005
+				, COUNT(CASE WHEN APPROVAL_CD = '006' THEN 1 END) AS APPROVAL_CD_006
+				, COUNT(CASE WHEN APPROVAL_CD = '007' THEN 1 END) AS APPROVAL_CD_007
+				, COUNT(CASE WHEN APPROVAL_CD = '008' THEN 1 END) AS APPROVAL_CD_008
+				, COUNT(CASE WHEN APPROVAL_CD = '009' THEN 1 END) AS APPROVAL_CD_009
+			FROM TB_IN_OUT_WHS_ADM
+			WHERE 1=1 							
+			AND PRE_IN_WHS_DATE BETWEEN #{startDate} AND #{endDate}
+			<!-- AND PRE_IN_WHS_DATE = #{preInWhsDate} -->
+			<!-- AND STATUS_CD NOT IN ('O', 'P') -->
+			GROUP BY IN_WHS_GROUP_SEQ
+		) B
+		
+			
+			
+		WHERE A.IN_WHS_GROUP_SEQ = B.IN_WHS_GROUP_SEQ
+<!-- 				PRE_IN_WHS_DATE = #{preInWhsDate} -->
+		
+		<if test="approvalCd != null and approvalCd != ''"> 
+		<!-- AND APPROVAL_CD = #{approvalCd} -->
+		AND APPROVAL_CD_${approvalCd} > 0
+		</if>
+		<if test="matrlCd != null and matrlCd != ''">
+			AND A.MATRL_CD = #{matrlCd}
+		</if>
+
+	</select>
+	
+	<!-- 품질관리 수입검사그룹목록조회 -->
+	<select id="listInWhsInspectAllFac3" resultMap="MatrlInOutWhsAdmVo">
+		<if test="gubun != null and gubun.equals('001')"> 
+			SELECT 
+				A.IN_WHS_GROUP_SEQ
+				,APPROVAL_CD
+				,MATRL_CD
+				,(SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.MATRL_CD) MATRL_NM
+				,(SELECT MATRL_GUBUN_CD FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.MATRL_CD) MATRL_GUBUN_CD
+				,PRE_IN_WHS_QTY
+				,IN_WHS_QTY
+				,INSPECT_QTY
+				,ADJUST_QTY				
+				,DIFF_QTY
+				,SPPLY_DEAL_CORP_CD
+				,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_NM
+				,PRE_IN_WHS_DATE
+				,IN_WHS_DATE
+				,C.INSPECT_DATE INSPCT_DATE
+				,STATUS_CD
+				,APPROVAL_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+				, B.APPROVAL_CD_001
+				, B.APPROVAL_CD_002
+				, B.APPROVAL_CD_003
+				, B.APPROVAL_CD_004
+				, B.APPROVAL_CD_005
+				, B.APPROVAL_CD_006
+				, B.APPROVAL_CD_007
+				, B.APPROVAL_CD_008
+				, B.APPROVAL_CD_009
+				, A.FILE_GROUP
+			FROM
+			( SELECT
+					IN_WHS_GROUP_SEQ
+					,MAX(MATRL_CD) MATRL_CD
+					,SUM(CONVERT(float,PRE_IN_WHS_QTY)) PRE_IN_WHS_QTY
+					,SUM(CONVERT(float,IN_WHS_QTY)) IN_WHS_QTY
+					,SUM(CONVERT(float,INSPECT_QTY)) INSPECT_QTY
+					,SUM(CONVERT(float,ADJUST_QTY)) ADJUST_QTY				
+					,SUM(CONVERT(float,DIFF_QTY)) DIFF_QTY
+					,MAX(SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_CD
+					,MAX(PRE_IN_WHS_DATE) PRE_IN_WHS_DATE
+					,MAX(IN_WHS_DATE) IN_WHS_DATE
+					,MAX(INSPCT_DATE) INSPCT_DATE
+					,MAX(APPROVAL_CD) APPROVAL_CD
+					,MAX(STATUS_CD) STATUS_CD
+					,MAX(FILE_GROUP) FILE_GROUP
+				FROM TB_IN_OUT_WHS_ADM
+				WHERE 1=1
+	<!-- 				PRE_IN_WHS_DATE = #{preInWhsDate} -->
+				
+					AND PRE_IN_WHS_DATE BETWEEN #{startDate} AND #{endDate}			
+					<!-- AND STATUS_CD NOT IN ('O', 'P') -->
+				GROUP BY IN_WHS_GROUP_SEQ
+			) A
+			, (
+				SELECT
+					IN_WHS_GROUP_SEQ
+					,COUNT(CASE WHEN APPROVAL_CD = '001' THEN 1 END) AS APPROVAL_CD_001
+					, COUNT(CASE WHEN APPROVAL_CD = '002' THEN 1 END) AS APPROVAL_CD_002
+					, COUNT(CASE WHEN APPROVAL_CD = '003' THEN 1 END) AS APPROVAL_CD_003
+					, COUNT(CASE WHEN APPROVAL_CD = '004' THEN 1 END) AS APPROVAL_CD_004
+					, COUNT(CASE WHEN APPROVAL_CD = '005' THEN 1 END) AS APPROVAL_CD_005
+					, COUNT(CASE WHEN APPROVAL_CD = '006' THEN 1 END) AS APPROVAL_CD_006
+					, COUNT(CASE WHEN APPROVAL_CD = '007' THEN 1 END) AS APPROVAL_CD_007
+					, COUNT(CASE WHEN APPROVAL_CD = '008' THEN 1 END) AS APPROVAL_CD_008
+					, COUNT(CASE WHEN APPROVAL_CD = '009' THEN 1 END) AS APPROVAL_CD_009
+				FROM TB_IN_OUT_WHS_ADM
+				WHERE 1=1 							
+				AND PRE_IN_WHS_DATE BETWEEN #{startDate} AND #{endDate}
+				<!-- AND PRE_IN_WHS_DATE = #{preInWhsDate} -->
+				<!-- AND STATUS_CD NOT IN ('O', 'P') -->
+				GROUP BY IN_WHS_GROUP_SEQ
+			) B
+			LEFT OUTER JOIN 
+			 ( 
+				SELECT 
+					IN_WHS_GROUP_SEQ
+					,MAX(INSPECT_DATE) INSPECT_DATE					
+				FROM TB_MATRL_INSPECT_ADM_CODE
+
+				GROUP BY IN_WHS_GROUP_SEQ
+			) C
+			ON 1=1 
+			AND B.IN_WHS_GROUP_SEQ = C.IN_WHS_GROUP_SEQ
+			<if test="lotNo != null and lotNo != ''"> 
+			, ( SELECT IN_WHS_GROUP_SEQ, LOT_NO  FROM TB_IN_OUT_WHS_ADM WHERE  LOT_NO = #{lotNo}) D
+			</if>
+			WHERE A.IN_WHS_GROUP_SEQ = B.IN_WHS_GROUP_SEQ
+			<if test="lotNo != null and lotNo != ''"> 
+				AND A.IN_WHS_GROUP_SEQ = D.IN_WHS_GROUP_SEQ
+			</if>
+			<if test="approvalCd != null and approvalCd != ''"> 
+				<!-- AND APPROVAL_CD = #{approvalCd} -->
+				AND APPROVAL_CD_${approvalCd} > 0
+			</if>
+			<if test="matrlCd != null and matrlCd != ''">
+				AND A.MATRL_CD = #{matrlCd}
+			</if>
+		</if>
+		
+		<if test="gubun != null and gubun.equals('002')"> 
+			SELECT 
+				A.IN_WHS_GROUP_SEQ
+				,APPROVAL_CD
+				,MATRL_CD
+				,(SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.MATRL_CD) MATRL_NM
+				,(SELECT MATRL_GUBUN_CD FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.MATRL_CD) MATRL_GUBUN_CD
+				,PRE_IN_WHS_QTY
+				,IN_WHS_QTY
+				,INSPECT_QTY
+				,ADJUST_QTY				
+				,DIFF_QTY
+				,SPPLY_DEAL_CORP_CD
+				,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_NM
+				,PRE_IN_WHS_DATE
+				,IN_WHS_DATE
+				,C.INSPECT_DATE INSPCT_DATE
+				,STATUS_CD
+				,APPROVAL_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+				, B.APPROVAL_CD_001
+				, B.APPROVAL_CD_002
+				, B.APPROVAL_CD_003
+				, B.APPROVAL_CD_004
+				, B.APPROVAL_CD_005
+				, B.APPROVAL_CD_006
+				, B.APPROVAL_CD_007
+				, B.APPROVAL_CD_008
+				, B.APPROVAL_CD_009
+				, A.FILE_GROUP
+			FROM
+			( SELECT
+					A.IN_WHS_GROUP_SEQ
+					,MAX(MATRL_CD) MATRL_CD
+					,SUM(CONVERT(float,PRE_IN_WHS_QTY)) PRE_IN_WHS_QTY
+					,SUM(CONVERT(float,IN_WHS_QTY)) IN_WHS_QTY
+					,SUM(CONVERT(float,INSPECT_QTY)) INSPECT_QTY
+					,SUM(CONVERT(float,ADJUST_QTY)) ADJUST_QTY				
+					,SUM(CONVERT(float,DIFF_QTY)) DIFF_QTY
+					,MAX(SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_CD
+					,MAX(PRE_IN_WHS_DATE) PRE_IN_WHS_DATE
+					,MAX(IN_WHS_DATE) IN_WHS_DATE
+					,MAX(INSPCT_DATE) INSPCT_DATE
+					,MAX(APPROVAL_CD) APPROVAL_CD
+					,MAX(STATUS_CD) STATUS_CD
+					,MAX(FILE_GROUP) FILE_GROUP
+				FROM TB_IN_OUT_WHS_ADM A
+				WHERE 1=1				
+				GROUP BY A.IN_WHS_GROUP_SEQ
+			) A
+			, (
+				SELECT
+					IN_WHS_GROUP_SEQ
+					,COUNT(CASE WHEN APPROVAL_CD = '001' THEN 1 END) AS APPROVAL_CD_001
+					, COUNT(CASE WHEN APPROVAL_CD = '002' THEN 1 END) AS APPROVAL_CD_002
+					, COUNT(CASE WHEN APPROVAL_CD = '003' THEN 1 END) AS APPROVAL_CD_003
+					, COUNT(CASE WHEN APPROVAL_CD = '004' THEN 1 END) AS APPROVAL_CD_004
+					, COUNT(CASE WHEN APPROVAL_CD = '005' THEN 1 END) AS APPROVAL_CD_005
+					, COUNT(CASE WHEN APPROVAL_CD = '006' THEN 1 END) AS APPROVAL_CD_006
+					, COUNT(CASE WHEN APPROVAL_CD = '007' THEN 1 END) AS APPROVAL_CD_007
+					, COUNT(CASE WHEN APPROVAL_CD = '008' THEN 1 END) AS APPROVAL_CD_008
+					, COUNT(CASE WHEN APPROVAL_CD = '009' THEN 1 END) AS APPROVAL_CD_009
+				FROM TB_IN_OUT_WHS_ADM
+				WHERE 1=1 							
+				
+				GROUP BY IN_WHS_GROUP_SEQ
+			) B
+			, ( 
+				SELECT 
+					IN_WHS_GROUP_SEQ
+					,MAX(INSPECT_DATE) INSPECT_DATE					
+				FROM TB_MATRL_INSPECT_ADM_CODE
+				WHERE REPLACE(INSPECT_DATE,'-','') BETWEEN #{startDate} AND #{endDate}
+				GROUP BY IN_WHS_GROUP_SEQ
+			) C
+			<if test="lotNo != null and lotNo != ''"> 
+			, ( SELECT IN_WHS_GROUP_SEQ, LOT_NO  FROM TB_IN_OUT_WHS_ADM WHERE  LOT_NO = #{lotNo}) D
+			</if>
+			WHERE A.IN_WHS_GROUP_SEQ = B.IN_WHS_GROUP_SEQ
+			AND A.IN_WHS_GROUP_SEQ = C.IN_WHS_GROUP_SEQ
+			<if test="lotNo != null and lotNo != ''"> 
+				AND A.IN_WHS_GROUP_SEQ = D.IN_WHS_GROUP_SEQ
+			</if>
+			<if test="approvalCd != null and approvalCd != ''"> 
+				<!-- AND APPROVAL_CD = #{approvalCd} -->
+				AND APPROVAL_CD_${approvalCd} > 0
+			</if>
+			<if test="matrlCd != null and matrlCd != ''">
+				AND A.MATRL_CD = #{matrlCd}
+			</if>
+		</if>
+	</select>
+
+
+
+	<!-- 품질관리 수입검사그룹상세목록조회 -->
+	<select id="listInWhsInspectDtl" resultMap="MatrlInOutWhsAdmVo">
+		SELECT	
+			A.LOT_NO
+			, A.SR_LOT
+			, A.IN_WHS_GROUP_SEQ
+			, A.MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM B WHERE B.MATRL_CD = A.MATRL_CD) MATRL_NM
+			, A.PRE_IN_WHS_QTY
+			, A.IN_WHS_QTY
+			, A.INSPECT_QTY
+			, A.ADJUST_QTY				
+			, A.DIFF_QTY
+			, A.REMAIN_QTY
+			, A.IN_WHS_LENGTH
+			, A.SPPLY_DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_NM
+			, A.PRE_IN_WHS_DATE
+			, A.IN_WHS_DATE
+			, A.INSPCT_DATE
+			, A.BARCODE_NO
+			, A.APPROVAL_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+			, A.STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = A.STATUS_CD) STATUS_NM
+			, A.MATRL_CHARGR
+			, A.PRE_OUT_WHS_DATE
+			, A.PRE_OUT_EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.PRE_OUT_EQUIP_CD) PRE_OUT_EQUIP_NM
+			, A.OUT_WHS_DATE
+			, A.OUT_EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.OUT_EQUIP_CD) OUT_EQUIP_NM			
+			, A.LOCATION_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='004' AND B.BASE_CD = A.LOCATION_CD) LOCATION_NM
+			, A.IN_WHS_DESC
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+			, B.THICKNESS
+			, B.ETC1
+			, C.LOT_NO LOT_NO_CHECK
+			, D.INSPECT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='066' AND B.BASE_CD = D.INSPECT_CD) INSPECT_NM
+		FROM TB_MATRL_CODE_ADM B, TB_IN_OUT_WHS_ADM A
+		LEFT OUTER JOIN (SELECT DISTINCT LOT_NO FROM TB_MATRL_INSPECT_ADM_CODE) C
+		ON A.LOT_NO = C.LOT_NO
+		LEFT OUTER JOIN TB_MATRL_INSPECT_PASS D
+		ON A.IN_WHS_GROUP_SEQ = D.IN_WHS_GROUP_SEQ AND A.LOT_NO = D.LOT_NO
+		WHERE A.MATRL_CD = B.MATRL_CD
+		AND A.IN_WHS_GROUP_SEQ = #{inWhsGroupSeq}
+		AND A.PRE_IN_WHS_DATE = #{preInWhsDate}
+		<!-- AND A.APPROVAL_CD NOT IN ('003', '005', '006', '007') -->
+		<!-- AND A.STATUS_CD NOT IN ('P') -->
+	</select>
+	
+	<!--입출고관리 자재입고 바코드 List 조회 -->			
+	<select id="barcodeList" resultMap="MatrlInOutWhsAdmVo">
+		SELECT
+			A.LOT_NO
+			, A.BARCODE_NO
+			, A.MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM X WHERE X.MATRL_CD = A.MATRL_CD)MATRL_NM
+			, A.IN_WHS_QTY
+			, STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = A.STATUS_CD) STATUS_NM
+			, APPROVAL_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='026' AND X.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+			, A.LOCATION_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='077' AND B.BASE_CD = A.LOCATION_CD) LOCATION_NM
+		FROM TB_IN_OUT_WHS_ADM A
+		
+		WHERE 1=1
+		<if test="barcodeNo != null and barcodeNo != ''">
+			AND A.IN_WHS_GROUP_SEQ = (SELECT IN_WHS_GROUP_SEQ FROM TB_IN_OUT_WHS_ADM X WHERE X.BARCODE_NO = #{barcodeNo})
+		</if>
+	</select>
+	
+	<!--입출고관리 자재입고 바코드 Read 조회 -->			
+	<select id="barcodeRead" resultMap="MatrlInOutWhsAdmVo">
+		SELECT
+			A.LOT_NO
+			, A.BARCODE_NO
+			, A.MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM X WHERE X.MATRL_CD = A.MATRL_CD)MATRL_NM
+			, A.PRE_IN_WHS_QTY
+			, A.IN_WHS_QTY
+			, STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = A.STATUS_CD) STATUS_NM
+			, APPROVAL_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='026' AND X.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+			, A.LOCATION_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='077' AND B.BASE_CD = A.LOCATION_CD) LOCATION_NM
+			, REMAIN_QTY
+			, PRE_OUT_WHS_DATE
+			, FIFO_CHECK
+		FROM TB_IN_OUT_WHS_ADM A
+		
+		WHERE 1=1
+		<if test="barcodeNo != null and barcodeNo != ''">				
+			AND A.BARCODE_NO = #{barcodeNo}
+		</if>
+		<if test="lotNo != null and lotNo != ''">				
+			AND A.LOT_NO = #{lotNo}
+		</if>
+	</select>
+			
+	<!-- 입출고관리 자재입고상세조회 -->			
+	<select id="read" resultMap="MatrlInOutWhsAdmVo">
+		SELECT	
+			A.LOT_NO
+			, A.SR_LOT
+			, A.IN_WHS_GROUP_SEQ
+			, A.MATRL_CD
+			, C.MATRL_NM
+			, C.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = C.QUTY_CD) QUTY_NM
+			, (SELECT BASE_CD_ABBR FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = C.QUTY_CD) BASE_CD_ABBR
+			, C.SURFACE_TRTMT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='021' AND B.BASE_CD = C.SURFACE_TRTMT_CD) AS SURFACE_TRTMT_NM
+			, C.THICKNESS
+			, C.ETC1
+			, C.ETC2
+			, C.MATRL_INITIAL
+			, A.PRE_IN_WHS_QTY
+			, A.IN_WHS_QTY
+			, A.INSPECT_QTY
+			, A.ADJUST_QTY
+			, A.DIFF_QTY
+			, A.REMAIN_QTY
+			, A.IN_WHS_LENGTH
+			, A.SPPLY_DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_NM
+			, A.PRE_IN_WHS_DATE
+			, A.IN_WHS_DATE
+			, A.INSPCT_DATE
+			, A.BARCODE_NO
+			, A.APPROVAL_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+			, A.STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = A.STATUS_CD) STATUS_NM
+			, A.MATRL_CHARGR
+			, A.PRE_OUT_WHS_DATE
+			, A.PRE_OUT_EQUIP_CD
+			, A.PRE_OUT_QTY
+			, A.PRE_OUT_GOODS_CD
+			, (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.PRE_OUT_GOODS_CD) PRE_OUT_GOODS_NM			
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.PRE_OUT_EQUIP_CD) PRE_OUT_EQUIP_NM
+			, A.OUT_WHS_DATE
+			, A.OUT_EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.OUT_EQUIP_CD) OUT_EQUIP_NM
+			, A.OUT_GOODS_CD
+			, (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.OUT_GOODS_CD) OUT_GOODS_NM
+			, A.OUT_QTY			
+			, A.LOCATION_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='004' AND B.BASE_CD = A.LOCATION_CD) LOCATION_NM
+			, A.IN_WHS_DESC
+			, A.FIFO_CHECK
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+			, D.GOODS_NM_LIST
+			, A.FRRRD_DATE
+			, A.FRRRD_DESC
+			, A.FRRRD_TYPE
+			, A.IN_WHS_TIME
+			, C.MATRL_FIFO_CHECK
+		FROM TB_IN_OUT_WHS_ADM A,
+			TB_MATRL_CODE_ADM C,
+			(SELECT STUFF((
+					SELECT ', ' + GOODS_NM
+					FROM (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM
+					WHERE ALNICU_MATRL_CD = (SELECT MATRL_CD FROM TB_IN_OUT_WHS_ADM WHERE BARCODE_NO = #{barcodeNo})
+					OR FILM_MATRL_CD = (SELECT MATRL_CD FROM TB_IN_OUT_WHS_ADM WHERE BARCODE_NO = #{barcodeNo})
+			) AA
+			FOR XML PATH('')), 1, 1, '') AS GOODS_NM_LIST) D
+		WHERE 1=1 
+			AND A.MATRL_CD = C.MATRL_CD
+		<if test="lotNo != null and lotNo != ''">				
+			AND A.LOT_NO = #{lotNo}
+		</if>
+		<if test="barcodeNo != null and barcodeNo != ''">				
+			AND A.BARCODE_NO = #{barcodeNo}
+		</if>
+	</select>
+
+	<!-- 입출고관리 자재입고그룹시퀀스조회 -->	
+	<select id="selectInWhsGroupSeq" resultType="String">
+		SELECT NEXT VALUE FOR IN_WHS_GROUP_SEQ
+	</select>
+
+	<!-- 입출고관리 자재입고등록 -->
+	<insert id="create">
+		INSERT INTO TB_IN_OUT_WHS_ADM(
+			LOT_NO
+			,SR_LOT
+			,IN_WHS_GROUP_SEQ
+			,MATRL_CD
+			,PRE_IN_WHS_QTY
+			,IN_WHS_QTY
+			,INSPECT_QTY
+			,ADJUST_QTY				
+			,DIFF_QTY
+			,REMAIN_QTY
+			,IN_WHS_LENGTH
+			,SPPLY_DEAL_CORP_CD
+			,PRE_IN_WHS_DATE
+			,IN_WHS_DATE
+			,INSPCT_DATE
+			,BARCODE_NO
+			,APPROVAL_CD
+			,STATUS_CD
+			,MATRL_CHARGR
+			,PRE_OUT_WHS_DATE
+			,PRE_OUT_EQUIP_CD
+			,OUT_WHS_DATE
+			,OUT_EQUIP_CD
+			,LOCATION_CD
+			,IN_WHS_DESC
+			,REG_ID
+			,REG_DATE
+		) 
+		VALUES(
+			#{lotNo}
+			,#{srLot}
+			,#{inWhsGroupSeq}
+			,#{matrlCd}
+			,#{preInWhsQty}
+			,#{inWhsQty}
+			,#{inspectQty}
+			,#{adjustQty}			
+			,#{diffQty}
+			,#{remainQty}
+			,#{inWhsLength}
+			,#{spplyDealCorpCd}
+			,#{preInWhsDate}
+			,#{inWhsDate}
+			,#{inspctDate}
+			,#{barcodeNo}
+			,#{approvalCd}
+			,#{statusCd}
+			,#{matrlChargr}
+			,#{preOutWhsDate}
+			,#{preOutEquipCd}
+			,#{outWhsDate}
+			,#{outEquipCd}
+			,#{locationCd}
+			,#{inWhsDesc}
+			,#{regId}
+			,#{regDate}
+		)	
+	</insert>
+	
+	<!-- 입출고관리 자재입고정보수정 -->	
+	<update id="update">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET	
+			LOT_NO = #{lotNo}
+			,SR_LOT = #{srLot}
+			,IN_WHS_GROUP_SEQ = #{inWhsGroupSeq}
+			,MATRL_CD = #{matrlCd}
+			,PRE_IN_WHS_QTY = #{preInWhsQty}
+			,IN_WHS_QTY = #{inWhsQty}
+			,INSPECT_QTY = #{inspectQty}
+			,ADJUST_QTY = #{inWhsQty}				
+			,DIFF_QTY = #{adjustQty}
+			,REMAIN_QTY = #{remainQty}
+			,IN_WHS_LENGTH = #{inWhsLength}
+			,SPPLY_DEAL_CORP_CD = #{spplyDealCorpCd}
+			,PRE_IN_WHS_DATE = #{preInWhsDate}
+			,IN_WHS_DATE = #{inWhsDate}
+			,INSPCT_DATE = #{inspctDate}
+			,BARCODE_NO = #{barcodeNo}
+			,APPROVAL_CD = #{approvalCd}
+			,STATUS_CD = #{statusCd}
+			,MATRL_CHARGR = #{matrlChargr}
+			,PRE_OUT_WHS_DATE = #{preOutWhsDate}
+			,PRE_OUT_EQUIP_CD = #{preOutEquipCd}
+			,OUT_WHS_DATE = #{outWhsDate}
+			,OUT_EQUIP_CD = #{outEquipCd}
+			,LOCATION_CD = #{locationCd}
+			,IN_WHS_DESC = #{inWhsDesc}
+			,FIFO_CHECK = #{fifoCheck}	
+			,REG_ID = #{regId}
+			,REG_DATE = #{regDate}
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		WHERE	LOT_NO = #{lotNo}
+	</update>
+	
+	<!-- 입출고관리 자재입고Location수정 -->	
+	<update id="updateLocation">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			LOCATION_CD = #{locationCd}			
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		WHERE	LOT_NO = #{lotNo}
+	</update>
+	
+	<!-- 입출고관리 자재입고 FIFO수정 -->	
+	<update id="updateFifoCheck">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			FIFO_CHECK = #{fifoCheck}			
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		WHERE	LOT_NO = #{lotNo}
+	</update>
+	
+	<!-- 입출고관리 입고현황관리 잔량 수정 -->	
+	<update id="updateRemainQty">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			REMAIN_QTY = #{remainQty}			
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		WHERE	LOT_NO = #{lotNo}
+	</update>
+
+	<!-- 입출고관리 자재입고상태정보수정 -->
+	<update id="updateApprovalStatus">
+UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			IN_WHS_QTY		= #{inspectQty}
+			, INSPECT_QTY	= #{inspectQty}
+			, DIFF_QTY		= CONVERT(float,#{preInWhsQty})-CONVERT(float,#{inspectQty})
+			, APPROVAL_CD	= #{approvalCd}
+			, FAULTY_BY_PRODUCTION_TEAM = #{fautlyByProductionTeam}
+		<if test="statusCd != null and statusCd != ''"> 
+	  		, STATUS_CD = #{statusCd}
+		</if>
+		<if test="matrlChargr != null and matrlChargr != ''"> 
+	  		, MATRL_CHARGR = #{matrlChargr}
+		</if>
+		<if test="fifoCheck != null and fifoCheck != ''"> 
+	  		, FIFO_CHECK = #{fifoCheck}
+		</if>
+		<if test="remainQty != null and remainQty != ''"> 
+	  		, REMAIN_QTY = #{remainQty}
+		</if>
+		<if test="retestDate != null and retestDate != ''">
+			, RETEST_DATE = #{retestDate}
+		</if>
+	<choose>
+		<when test='statusCd == "A"'>
+			, IN_WHS_DATE = #{inWhsDate}
+			, INSPCT_DATE = #{inspctDate}
+		</when>
+		<otherwise>
+			<if test="frrrdDate != null and frrrdDate != ''">
+				, FRRRD_DATE = #{frrrdDate}
+			</if>
+			<if test="frrrdType != null and frrrdType != ''">
+				, FRRRD_TYPE = #{frrrdType}
+			</if>
+			, FRRRD_DESC = #{frrrdDesc}
+<!-- 			, PRE_OUT_WHS_DATE = NULL -->
+<!-- 			, PRE_OUT_EQUIP_CD = NULL -->
+<!-- 			, PRE_OUT_GOODS_CD = NULL -->
+<!-- 			, PRE_OUT_QTY = NULL -->
+<!-- 			, PRE_WORK_CHARGER = NULL -->
+			<if test="filmType != null and filmType != ''">
+				, FILM_TYPE = #{filmType}
+			</if>
+		</otherwise>
+	</choose>
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		<if test="inWhsDesc != null and inWhsDesc != ''"> 
+	  		, IN_WHS_DESC = #{inWhsDesc}
+		</if>
+		WHERE	LOT_NO = #{lotNo}
+	</update>
+	
+	
+	<!-- 자재 자재 상태변경 이력등록 -->
+	<insert id="insertMatrlHist">
+		INSERT INTO TB_IN_OUT_WHS_ADM_HIST (
+			LOT_NO
+			, SR_LOT
+			, IN_WHS_GROUP_SEQ
+			, MATRL_CD
+			, PRE_IN_WHS_QTY
+			, IN_WHS_QTY
+			, WEIGHT_UNIT
+			, ROLL_CNT
+			, INSPECT_QTY
+			, ADJUST_QTY
+			, DIFF_QTY
+			, REMAIN_QTY
+			, IN_WHS_LENGTH
+			, SPPLY_DEAL_CORP_CD
+			, PRE_IN_WHS_DATE
+			, IN_WHS_DATE
+			, INSPCT_DATE
+			, BARCODE_NO
+			, APPROVAL_CD
+			, STATUS_CD
+			, MATRL_CHARGR
+			, FAULTY_BY_PRODUCTION_TEAM
+			, FRRRD_DATE
+			, FRRRD_TYPE
+			, FRRRD_DESC
+			, FILM_TYPE
+			, PRE_OUT_WHS_DATE
+			, PRE_OUT_EQUIP_CD
+			, PRE_OUT_GOODS_CD
+			, PRE_OUT_QTY
+			, PRE_WORK_CHARGER
+			, OUT_WHS_DATE
+			, OUT_EQUIP_CD
+			, OUT_GOODS_CD
+			, OUT_QTY
+			, OUT_WORK_CHARGER
+			, LOCATION_CD
+			, MANUFACTR_CD
+			, IN_WHS_DESC
+			, FIFO_CHECK
+			, PAID_GUBUN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, HIST_ID
+			, HIST_DATE
+		)
+		SELECT
+			LOT_NO
+			, SR_LOT
+			, IN_WHS_GROUP_SEQ
+			, MATRL_CD
+			, PRE_IN_WHS_QTY
+			, IN_WHS_QTY
+			, WEIGHT_UNIT
+			, ROLL_CNT
+			, INSPECT_QTY
+			, ADJUST_QTY
+			, DIFF_QTY
+			, REMAIN_QTY
+			, IN_WHS_LENGTH
+			, SPPLY_DEAL_CORP_CD
+			, PRE_IN_WHS_DATE
+			, IN_WHS_DATE
+			, INSPCT_DATE
+			, BARCODE_NO
+			, APPROVAL_CD
+			, STATUS_CD
+			, MATRL_CHARGR
+			, FAULTY_BY_PRODUCTION_TEAM
+			, FRRRD_DATE
+			, FRRRD_TYPE
+			, FRRRD_DESC
+			, FILM_TYPE
+			, PRE_OUT_WHS_DATE
+			, PRE_OUT_EQUIP_CD
+			, PRE_OUT_GOODS_CD
+			, PRE_OUT_QTY
+			, PRE_WORK_CHARGER
+			, OUT_WHS_DATE
+			, OUT_EQUIP_CD
+			, OUT_GOODS_CD
+			, OUT_QTY
+			, OUT_WORK_CHARGER
+			, LOCATION_CD
+			, MANUFACTR_CD
+			, IN_WHS_DESC
+			, FIFO_CHECK
+			, PAID_GUBUN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, #{histId}
+			, getDate()
+		FROM TB_IN_OUT_WHS_ADM
+		WHERE BARCODE_NO = #{barcodeNo}
+	</insert>
+	
+	<!-- 자재 입출고관리 이력 inWhsGroupSeq 기준으로삭제-->	
+	<delete id="deleteMatrlHistInWhsGroupSeq">
+		DELETE TB_IN_OUT_WHS_ADM_HIST
+		WHERE IN_WHS_GROUP_SEQ = #{inWhsGroupSeq}
+	</delete>
+	
+	<!-- 자재 입출고관리 이력 barcodeNo 기준으로삭제-->	
+	<delete id="deleteMatrlHistBarcode">
+		DELETE TB_IN_OUT_WHS_ADM_HIST
+		WHERE BARCODE_NO = #{barcodeNo}
+	</delete>
+	
+	
+	<!-- 입출고관리 자재가출고정보조회 -->
+	<select id="listPreOutWhsAll" resultMap="MatrlInOutWhsAdmVo">
+		SELECT
+			A.MATRL_CD
+		    , A.LOT_NO
+		    , A.BARCODE_NO
+		    , A.APPROVAL_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+			, A.STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = A.STATUS_CD) STATUS_NM
+		    , A.PRE_OUT_EQUIP_CD
+		    , (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.PRE_OUT_EQUIP_CD) PRE_OUT_EQUIP_NM
+		    , A.PRE_IN_WHS_DATE
+		    , A.PRE_OUT_GOODS_CD
+		    , A.PRE_OUT_WHS_DATE
+		    , A.PRE_OUT_QTY
+		    , A.INSPECT_QTY
+		    , A.REMAIN_QTY
+		    , A.PRE_WORK_CHARGER
+		    , (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.PRE_WORK_CHARGER) PRE_WORK_CHARGERNM
+		    , A.OUT_EQUIP_CD
+		    , (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.OUT_EQUIP_CD) OUT_EQUIP_NM
+		    , A.OUT_GOODS_CD
+		    , (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.OUT_GOODS_CD) PRE_OUT_GOODS_NM
+		    , A.OUT_QTY
+		    , A.OUT_WHS_DATE
+		    , A.OUT_WORK_CHARGER
+		    , (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.OUT_WORK_CHARGER) OUT_WORK_CHARGERNM
+		    , A.IN_WHS_DATE
+		    , A.STATUS_CD
+		    , A.REG_ID
+		    , A.REG_DATE
+		    , A.UPD_ID 
+		    , A.UPD_DATE
+			, D.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+			, D.THICKNESS
+			, D.DEPTH
+			, D.LENGTH
+			, D.WIDTH
+			, D.PITCH
+			, (SELECT STUFF((
+					SELECT ', ' + GOODS_NM
+					FROM (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM
+					WHERE ALNICU_MATRL_CD = (SELECT MATRL_CD FROM TB_IN_OUT_WHS_ADM WHERE BARCODE_NO = A.BARCODE_NO)
+					OR FILM_MATRL_CD = (SELECT MATRL_CD FROM TB_IN_OUT_WHS_ADM WHERE BARCODE_NO = A.BARCODE_NO)
+			) AA
+			FOR XML PATH('')), 1, 1, '') AS GOODS_NM_LIST) GOODS_NM_LIST
+		FROM
+			TB_IN_OUT_WHS_ADM A,
+			TB_MATRL_CODE_ADM D
+		WHERE	1=1
+			<if test="statusCd != null and statusCd != ''">
+				AND A.STATUS_CD = #{statusCd} 
+			</if>
+			<if test="statusCd == null and statusCd == ''">
+				AND A.STATUS_CD IN ('O','P')
+			</if>
+			
+			AND A.MATRL_CD = D.MATRL_CD
+			
+			<if test="preOutWhsDateFrom != null and preOutWhsDateFrom != ''">				
+				AND A.PRE_OUT_WHS_DATE >= #{preOutWhsDateFrom}
+			</if>
+			<if test="preOutWhsDateTo != null and preOutWhsDateTo != ''">
+				<![CDATA[	
+				AND A.PRE_OUT_WHS_DATE <= #{preOutWhsDateTo}
+				]]>
+			</if>
+			<if test="equipGroup != null and equipGroup != ''">
+				<![CDATA[
+				AND E.EQUIP_GROUP = #{equipGroup}
+				]]>
+			</if>
+
+	</select>
+		
+	<!-- 입출고관리 자재가출고정보수정 -->
+	<update id="updatePreOutWhsStatus">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			PRE_OUT_WHS_DATE 	= #{preOutWhsDate}
+			,PRE_OUT_EQUIP_CD 	= #{preOutEquipCd}
+			,PRE_OUT_GOODS_CD 	= #{preOutGoodsCd}
+			,PRE_WORK_CHARGER 	= #{preWorkCharger}	
+			,PRE_OUT_QTY 		= #{preOutQty}				
+			,STATUS_CD 			= #{statusCd}
+			<if test="floorGubun != null and floorGubun != ''">
+				,FLOOR_GUBUN 	= #{floorGubun}
+			</if>
+			,UPD_ID 			= #{updId}
+			,UPD_DATE 			= getDate()
+		WHERE BARCODE_NO = #{barcodeNo}
+		AND STATUS_CD  = 'A'
+	</update>
+	
+	<!-- 입출고관리 자재 출고 승인으로 변경 -->
+	<update id="matrlPreOutWhsDataDeleteChange">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			PRE_OUT_WHS_DATE 	= #{preOutWhsDate}
+			,PRE_OUT_EQUIP_CD 	= #{preOutEquipCd}
+			,PRE_OUT_GOODS_CD 	= #{preOutGoodsCd}
+			,PRE_WORK_CHARGER 	= #{preWorkCharger}	
+			,PRE_OUT_QTY 		= #{preOutQty}				
+			,STATUS_CD 			= #{statusCd}
+			,UPD_ID 			= #{updId}
+			,UPD_DATE 			= getDate()
+		WHERE BARCODE_NO = #{barcodeNo}
+	</update>
+	
+	<!-- 입출고관리 자재출고 선입선출체크 -->			
+	<select id="preOutWhsFifoCheck" resultMap="MatrlInOutWhsAdmVo">
+		<![CDATA[
+			SELECT 
+				A.MATRL_CD
+				, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM X WHERE X.MATRL_CD = A.MATRL_CD) MATRL_NM
+				, (SELECT MATRL_FIFO_CHECK FROM TB_MATRL_CODE_ADM X WHERE X.MATRL_CD = A.MATRL_CD) MATRL_FIFO_CHECK
+				, A.BARCODE_NO
+				, A.IN_WHS_DATE
+				, A.IN_WHS_TIME
+			FROM TB_IN_OUT_WHS_ADM A
+			WHERE 1=1
+			]]>
+			<if test="matrlCd != null and matrlCd != ''">
+				<![CDATA[
+					AND MATRL_CD = #{matrlCd}
+				]]>
+			</if>
+			<![CDATA[
+				AND STATUS_CD = 'A' 
+			]]>
+			<if test="inWhsDate != null and inWhsDate != ''">
+				<![CDATA[
+					AND IN_WHS_DATE < #{inWhsDate}
+				]]>
+			</if>
+			<![CDATA[
+				AND (FIFO_CHECK = NULL OR FIFO_CHECK != 'N')
+				AND APPROVAL_CD ='001'
+			]]>
+		<if test="exceptBarcodeNo != null and exceptBarcodeNo != ''">
+			AND A.BARCODE_NO NOT IN ('${exceptBarcodeNo}')
+		</if>
+		ORDER BY IN_WHS_DATE ASC
+	</select>
+	
+	<!-- 입출고관리 자재투입 선입선출체크 -->			
+	<select id="inputFifoCheck" resultMap="MatrlInOutWhsAdmVo">
+		SELECT 
+			A.MATRL_CD
+			, (SELECT MATRL_NM FROM TB_MATRL_CODE_ADM X WHERE X.MATRL_CD = A.MATRL_CD) MATRL_NM
+			, A.BARCODE_NO
+			, A.IN_WHS_DATE
+			, A.PRE_OUT_WHS_DATE
+			, FIFO_CHECK
+			, STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = A.STATUS_CD) STATUS_NM
+		FROM TB_IN_OUT_WHS_ADM A
+		WHERE 1=1
+		<if test="barcodeNo != null and barcodeNo != ''">
+			<![CDATA[
+				AND MATRL_CD = ( SELECT MATRL_CD FROM TB_IN_OUT_WHS_ADM WHERE BARCODE_NO = #{barcodeNo} )
+				AND PRE_OUT_WHS_DATE < ( SELECT PRE_OUT_WHS_DATE FROM TB_IN_OUT_WHS_ADM WHERE BARCODE_NO = #{barcodeNo} )
+			]]>
+		</if>
+		AND STATUS_CD = 'O'
+		AND (FIFO_CHECK = NULL OR FIFO_CHECK != 'N')
+		AND APPROVAL_CD = '001'
+		<if test="floorGubun != null and floorGubun != ''">
+			AND FLOOR_GUBUN = #{floorGubun}
+		</if>
+	</select>
+	
+	<!-- 입출고관리 제품출하 리스트 -->
+	<select id="listAllProductShipment" resultMap="MatrlInOutWhsAdmVo">
+		<![CDATA[
+			SELECT	
+				A.PO_SEQ
+				,A.PO_GROUP
+				,E.APPROVAL_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='026' AND H.BASE_CD = E.APPROVAL_CD) APPROVAL_NM
+				, ISNULL(E.OUTPUT_HIST_DATE, A.PO_DATE) AS OUTPUT_HIST_DATE
+				,B.PO_GUBUN_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='018' AND H.BASE_CD = B.PO_GUBUN_CD) PO_GUBUN_NM
+				,B.DEAL_CORP_CD		
+				,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM H WHERE H.DEAL_CORP_CD = B.DEAL_CORP_CD) DEAL_CORP_NM
+				,B.PO_ATTN
+				,B.PO_NO
+				,B.GOODS_CD
+				,C.GOODS_NM
+				,D.QUTY_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='007' AND H.BASE_CD = D.QUTY_CD) QUTY_NM
+				,D.THICKNESS
+				,D.DEPTH
+				,D.LENGTH
+				,D.PITCH
+				,( (SELECT COUNT(*)
+					FROM TB_PURCHASE_ORDER_DTL H
+					WHERE A.PO_SEQ = H.PO_SEQ
+					AND A.PO_GROUP = H.PO_GROUP)
+				) BOX_COUNT
+				,A.OUTPUT_CNT AS OUTPUT_QTY
+				,B.DELIVERY_DATE
+				,B.DELIVERY_DEAL_CORP_CD
+				,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM H WHERE H.DEAL_CORP_CD = B.DELIVERY_DEAL_CORP_CD) DELIVERY_DEAL_CORP_NM
+				,B.DEAD_LINE
+				,(
+					SELECT
+						COUNT(DISPOSE_GUBUN) 
+					FROM TB_PURCHASE_ORDER_DTL X, TB_GOODS_PRODUCT_INFO_ADM Y 
+					WHERE 
+					X.PO_SEQ = B.PO_SEQ 
+					AND X.BOX_NO = Y.BOX_NO 
+					AND A.PO_GROUP = X.PO_GROUP
+					AND DISPOSE_GUBUN = '003'
+				) DISPOSE_GUBUN
+			FROM
+			(
+				SELECT
+					PO_SEQ
+					, PO_GROUP
+					, SUM(OUTPUT_CNT) AS OUTPUT_CNT
+					, MIN(PO_DATE) AS PO_DATE
+				FROM TB_PURCHASE_ORDER_DTL
+				GROUP BY
+					PO_SEQ
+					, PO_GROUP
+			) AS A
+			LEFT JOIN TB_PURCHASE_ORDER_OUTPUT_HIST AS E
+			ON A.PO_SEQ = E.PO_SEQ
+			AND A.PO_GROUP = E.PO_GROUP
+			
+			,TB_PURCHASE_ORDER_ADM B
+			,TB_GOODS_CODE_ADM C
+			,TB_MATRL_CODE_ADM D
+			WHERE 1=1
+			AND B.GOODS_CD = C.GOODS_CD
+			AND C.ALNICU_MATRL_CD = D.MATRL_CD
+			AND A.PO_SEQ = B.PO_SEQ
+			AND B.DELIVERY_DATE >= #{chooseDateFrom}
+			AND B.DELIVERY_DATE <= #{chooseDateTo} 
+		]]>
+		<if test="approvalCd != null and approvalCd != ''"> 
+			 	AND A.APPROVAL_CD = #{approvalCd}
+		</if>
+		ORDER BY
+			B.DELIVERY_DATE, A.PO_SEQ, A.PO_GROUP
+	</select>
+	
+	<!-- 입출고관리 제품출하 상세 리스트 -->			
+	<select id="listAllProductShipmentDtl" resultMap="MatrlInOutWhsAdmVo">
+		SELECT
+			A.BOX_NO
+			, A.GOODS_CD
+			, A.PO_NO_SEQ
+			, B.GOODS_NM
+			, C.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='007' AND H.BASE_CD = C.QUTY_CD) QUTY_NM
+			, C.THICKNESS
+			, C.DEPTH
+			, C.LENGTH
+			, C.PITCH
+			, A.PACK_CNT
+			, A.OUTPUT_CNT
+			, D.GOODS_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='036' AND H.BASE_CD = D.GOODS_STATUS) GOODS_STATUS_NM
+			, D.FAULTY_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='051' AND H.BASE_CD = D.FAULTY_STATUS) FAULTY_STATUS_NM
+			, D.CUSTOMER_LOT_NO
+		FROM TB_PURCHASE_ORDER_DTL A
+			, TB_GOODS_CODE_ADM B
+			, TB_MATRL_CODE_ADM C
+			, TB_GOODS_PRODUCT_INFO_ADM D
+		WHERE A.GOODS_CD = B.GOODS_CD
+			AND B.ALNICU_MATRL_CD = C.MATRL_CD
+			AND A.BOX_NO = D.BOX_NO
+			AND D.GOODS_STATUS = '003'
+		<if test="poSeq != null and poSeq != ''"> 
+			<![CDATA[
+		  		AND A.PO_SEQ = #{poSeq}
+			]]> 
+		</if>
+		<if test="poGroup != null and poGroup != ''"> 
+			<![CDATA[
+		  		AND A.PO_GROUP = #{poGroup}
+			]]> 
+		</if>
+		
+		UNION ALL
+		
+		SELECT
+			A.BOX_NO
+			, A.GOODS_CD
+			, A.PO_NO_SEQ
+			, B.GOODS_NM
+			, C.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='007' AND H.BASE_CD = C.QUTY_CD) QUTY_NM
+			, C.THICKNESS
+			, C.DEPTH
+			, C.LENGTH
+			, C.PITCH
+			, A.PACK_CNT
+			, A.OUTPUT_CNT
+			, D.GOODS_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='036' AND H.BASE_CD = D.GOODS_STATUS) GOODS_STATUS_NM
+			, D.FAULTY_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='051' AND H.BASE_CD = D.FAULTY_STATUS) FAULTY_STATUS_NM
+			, ''
+		FROM TB_PURCHASE_ORDER_DTL A
+			, TB_GOODS_CODE_ADM B
+			, TB_MATRL_CODE_ADM C
+			, TB_PRE_GOODS_INVENTORY_DTL D
+		WHERE A.GOODS_CD = B.GOODS_CD
+			AND B.ALNICU_MATRL_CD = C.MATRL_CD
+			AND A.BOX_NO = D.BOX_NO
+			AND D.GOODS_STATUS = '003'
+		<if test="poSeq != null and poSeq != ''"> 
+			<![CDATA[
+		  		AND A.PO_SEQ = #{poSeq}
+			]]> 
+		</if>
+		<if test="poGroup != null and poGroup != ''"> 
+			<![CDATA[
+		  		AND A.PO_GROUP = #{poGroup}
+			]]> 
+		</if>
+			ORDER BY PO_NO_SEQ
+	</select>
+	
+	<!-- 입출고관리 제품출하 중복체크 -->			
+	<select id="purchaseOrderDtlRead" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) BOX_COUNT
+			FROM TB_PURCHASE_ORDER_DTL A				
+			WHERE BOX_NO = #{boxNo}
+				
+		]]>		
+	</select>
+	
+	<!-- 입출고관리 제품출하 승인구분 업데이트 -->
+	<update id="updateApproval">
+		UPDATE	TB_PURCHASE_ORDER_OUTPUT_HIST 
+		SET	UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		<if test="factoryCode.equals('001') or factoryCode.equals('002')">
+			,PO_GROUP = #{newPoGroup}
+		</if>
+		<if test="approvalCd != '' and approvalCd != null">
+			,APPROVAL_CD = #{approvalCd}
+		</if>
+		WHERE	PO_SEQ = #{poSeq}
+			AND PO_GROUP = #{poGroup}
+	</update>
+	
+	<!-- 입출고관리 제품출하 출하순서 업데이트 -->
+	<update id="updateDtlPoGroup">
+		UPDATE TB_PURCHASE_ORDER_DTL
+		SET PO_GROUP = #{newPoGroup}
+		WHERE  PO_SEQ = #{poSeq}
+		AND PO_GROUP = #{poGroup}
+	
+	</update>
+	
+	<!-- 제품출하등록 동일 파레트 번호 확인 -->
+	<select id="checkPalletNo" resultType="int">
+		SELECT COUNT(*) 
+		FROM TB_PURCHASE_ORDER_OUTPUT_HIST 
+		WHERE PO_SEQ = #{poSeq}
+		AND PO_GROUP = #{newPoGroup}
+		
+	</select>
+	
+	<!-- 입출고관리 반품목록조회 -->
+	<select id="matrlFaultyTypeList" resultMap="MatrlInOutWhsAdmVo">
+		SELECT	
+			LOT_NO
+			, SR_LOT
+			, IN_WHS_GROUP_SEQ
+			, A.MATRL_CD
+			, B.MATRL_NM
+			, B.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE C WHERE C.BASE_GROUP_CD='007' AND C.BASE_CD = B.QUTY_CD) QUTY_NM
+			, PRE_IN_WHS_QTY
+			, IN_WHS_QTY
+			,  LEFT(CONVERT(float, PRE_IN_WHS_QTY) - CONVERT(float, IN_WHS_QTY),4) PRE_IN_DIFF
+			, INSPECT_QTY
+			, ADJUST_QTY				
+			, DIFF_QTY
+			, REMAIN_QTY
+			, IN_WHS_LENGTH
+			, SPPLY_DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_NM
+			, PRE_IN_WHS_DATE
+			, IN_WHS_DATE
+			, INSPCT_DATE
+			, BARCODE_NO
+			, APPROVAL_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+			, STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = A.STATUS_CD) STATUS_NM
+			, MATRL_CHARGR
+			,  A.FRRRD_DATE
+			,  A.FRRRD_TYPE
+			,  A.FRRRD_DESC
+			<if test='factoryCode != null and factoryCode.equals("003")'>
+				, A.FILM_TYPE
+			</if>
+			,  A.RETEST_DATE
+			, PRE_OUT_WHS_DATE
+			, PRE_OUT_EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.PRE_OUT_EQUIP_CD) PRE_OUT_EQUIP_NM
+			, OUT_WHS_DATE
+			, OUT_EQUIP_CD
+			, (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.OUT_EQUIP_CD) OUT_EQUIP_NM			
+			, LOCATION_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='004' AND B.BASE_CD = A.LOCATION_CD) LOCATION_NM
+			, IN_WHS_DESC
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM TB_IN_OUT_WHS_ADM A, TB_MATRL_CODE_ADM	B
+		WHERE A.MATRL_CD = B.MATRL_CD
+		<choose>
+			<when test="tapTemp == 1">
+				AND (A.APPROVAL_CD = '003' OR A.APPROVAL_CD = '004')
+				
+				<![CDATA[
+					AND FRRRD_DATE >= #{inWhsDateFrom}
+					AND FRRRD_DATE <= #{inWhsDateTo}
+				]]>
+				
+			</when>
+			<when test="tapTemp == 2">
+				AND A.APPROVAL_CD = '005'
+			</when>
+			<when test="tapTemp == 3">
+				AND (A.APPROVAL_CD = '006' OR A.APPROVAL_CD = '007')
+			</when>
+			<when test="tapTemp == 4">
+				AND A.APPROVAL_CD = '009'			
+				<if test="inWhsDateFrom!=null and !inWhsDateFrom.equals('') and inWhsDateTo!=null and !inWhsDateTo.equals('')">
+					<![CDATA[
+						AND SUBSTRING(FRRRD_DATE,0, 7) >= #{inWhsDateFrom}
+						AND SUBSTRING(FRRRD_DATE,0, 7) <= #{inWhsDateTo}
+					]]>
+				</if>
+				
+				<if test="inWhsDateFrom_F3!=null and !inWhsDateFrom_F3.equals('') and inWhsDateTo_F3!=null and !inWhsDateTo_F3.equals('')">
+					<![CDATA[
+						AND SUBSTRING(RETEST_DATE,0, 7) >= #{inWhsDateFrom_F3}
+						AND SUBSTRING(RETEST_DATE,0, 7) <= #{inWhsDateTo_F3}
+					]]>
+				</if>
+			</when>
+			<when test="tapTemp == 5">
+				AND (A.APPROVAL_CD = '005' OR A.APPROVAL_CD = '006')
+				<if test="inWhsDateFrom!=null and !inWhsDateFrom.equals('') and inWhsDateTo!=null and !inWhsDateTo.equals('')">
+					<![CDATA[
+						AND SUBSTRING(FRRRD_DATE,0, 7) >= #{inWhsDateFrom}
+						AND SUBSTRING(FRRRD_DATE,0, 7) <= #{inWhsDateTo}
+					]]>
+				</if>
+				
+				<if test="inWhsDateFrom_F3!=null and !inWhsDateFrom_F3.equals('') and inWhsDateTo_F3!=null and !inWhsDateTo_F3.equals('')">
+					<![CDATA[
+						AND SUBSTRING(RETEST_DATE,0, 7) >= #{inWhsDateFrom_F3}
+						AND SUBSTRING(RETEST_DATE,0, 7) <= #{inWhsDateTo_F3}
+					]]>
+				</if>
+				
+				<if test="factoryCode == 003">
+					AND LEFT(A.MATRL_CD, 1) = 'A'
+				</if>
+				
+			</when>
+			<when test="tapTemp == 6">
+				AND (A.APPROVAL_CD = '007' OR A.APPROVAL_CD = '008' OR A.APPROVAL_CD = '011')
+				<if test="inWhsDateFrom!=null and !inWhsDateFrom.equals('') and inWhsDateTo!=null and !inWhsDateTo.equals('')">
+					<![CDATA[
+						AND SUBSTRING(FRRRD_DATE,0, 7) >= #{inWhsDateFrom}
+						AND SUBSTRING(FRRRD_DATE,0, 7) <= #{inWhsDateTo}
+					]]>
+				</if>
+				
+				<if test="inWhsDateFrom_F3!=null and !inWhsDateFrom_F3.equals('') and inWhsDateTo_F3!=null and !inWhsDateTo_F3.equals('')">
+					<![CDATA[
+						AND SUBSTRING(RETEST_DATE,0, 7) >= #{inWhsDateFrom_F3}
+						AND SUBSTRING(RETEST_DATE,0, 7) <= #{inWhsDateTo_F3}
+					]]>
+				</if>
+			</when>
+			<when test="tapTemp == 7">
+				<if test="inWhsDateFrom!=null and !inWhsDateFrom.equals('') and inWhsDateTo!=null and !inWhsDateTo.equals('')">
+					<![CDATA[
+						AND SUBSTRING(FRRRD_DATE,0, 7) >= #{inWhsDateFrom}
+						AND SUBSTRING(FRRRD_DATE,0, 7) <= #{inWhsDateTo}
+					]]>
+				</if>
+				
+				<if test="inWhsDateFrom_F3!=null and !inWhsDateFrom_F3.equals('') and inWhsDateTo_F3!=null and !inWhsDateTo_F3.equals('')">
+					<![CDATA[
+						AND SUBSTRING(RETEST_DATE,0, 7) >= #{inWhsDateFrom_F3}
+						AND SUBSTRING(RETEST_DATE,0, 7) <= #{inWhsDateTo_F3}
+					]]>
+				</if>
+			</when>
+			
+			<when test="tapTemp == 8">
+				AND ( A.APPROVAL_CD = '006' OR A.APPROVAL_CD = '010' ) 
+				<if test="inWhsDateFrom!=null and !inWhsDateFrom.equals('') and inWhsDateTo!=null and !inWhsDateTo.equals('')">
+					<![CDATA[
+						AND SUBSTRING(FRRRD_DATE,0, 7) >= #{inWhsDateFrom}
+						AND SUBSTRING(FRRRD_DATE,0, 7) <= #{inWhsDateTo}
+					]]>
+				</if>
+				
+				<if test="inWhsDateFrom_F3!=null and !inWhsDateFrom_F3.equals('') and inWhsDateTo_F3!=null and !inWhsDateTo_F3.equals('')">
+					<![CDATA[
+						AND SUBSTRING(RETEST_DATE,0, 7) >= #{inWhsDateFrom_F3}
+						AND SUBSTRING(RETEST_DATE,0, 7) <= #{inWhsDateTo_F3}
+					]]>
+				</if>
+				
+				<if test="factoryCode == 003">
+					AND LEFT(A.MATRL_CD, 1) = 'N'
+				</if>
+			</when>
+		</choose>
+		
+		
+		<if test="matrlCd != null and matrlCd != ''"> 
+	  		AND A.MATRL_CD = #{matrlCd}
+		</if>
+	</select>
+	
+	<!--선입선출 목록조회 -->
+	<select id="firstInFirstOutList" resultMap="MatrlInOutWhsAdmVo">
+		<![CDATA[
+			SELECT
+				A.MATRL_CD 
+				, A.MATRL_NM
+				, A.GUBUN_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='019' AND H.BASE_CD = A.GUBUN_CD) GUBUN_NM
+				, A.CHAMFER_YN_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='020' AND H.BASE_CD = A.CHAMFER_YN_CD) CHAMFER_YN_NM
+				, A.SURFACE_TRTMT_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='021' AND H.BASE_CD = A.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+				,ISNULL(B.IN_WHS_QTY,0) IN_WHS_QTY
+				,CONCAT(A.THICKNESS,'X',A.DEPTH,'-PP',A.WIDTH,'X',A.LENGTH,'-',A.PITCH,'P') MODEL
+				,A.THICKNESS
+				,A.DEPTH
+				,A.WIDTH
+				,A.LENGTH
+				,A.PITCH
+				,A.QUTY_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE C WHERE C.BASE_GROUP_CD='007' AND C.BASE_CD = A.QUTY_CD) QUTY_NM
+			FROM  
+				TB_MATRL_CODE_ADM A LEFT OUTER JOIN (
+				SELECT 
+					MATRL_CD
+					,SUM(CONVERT(float,IN_WHS_QTY)) IN_WHS_QTY
+				FROM TB_IN_OUT_WHS_ADM
+				WHERE APPROVAL_CD = '001' 
+					AND STATUS_CD = 'A' 
+					AND IN_WHS_DATE <= #{inWhsDateTo}
+					GROUP BY MATRL_CD) B 
+				ON A.MATRL_CD = B.MATRL_CD
+			WHERE 1=1	
+		]]>
+			<if test='qutyCd == "A"'>  
+				AND (A.QUTY_CD = '001' OR A.QUTY_CD = '002')
+			</if>
+			<if test='qutyCd == "F"'> 
+				AND (A.QUTY_CD != '001' AND A.QUTY_CD != '002')
+			</if>
+			<!-- 재고있는것 -->
+			<if test='fifoGubun == "1"'>  
+				AND B.IN_WHS_QTY IS NOT NULL
+			</if>
+			<!-- 재고없는것 -->
+			<if test='fifoGubun == "2"'>  
+				AND B.IN_WHS_QTY IS NULL
+			</if>
+			ORDER BY B.IN_WHS_QTY DESC
+	</select>
+	
+	<select id="firstInFirstOutDtlList" resultMap="MatrlInOutWhsAdmVo">
+		<![CDATA[
+			SELECT A.LOT_NO,
+				A.MATRL_CD
+				, A.PRE_IN_WHS_DATE
+				, A.IN_WHS_QTY
+				, A.BARCODE_NO
+				, D.LIFE_CYCLE
+				, A.IN_WHS_DATE
+				, A.FRRRD_DATE
+				, A.FRRRD_TYPE
+				, A.FRRRD_DESC
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE C WHERE C.BASE_GROUP_CD='007' AND C.BASE_CD = D.QUTY_CD) QUTY_NM
+				, LOCATION_CD				
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='004' AND B.BASE_CD = A.LOCATION_CD) LOCATION_NM
+			FROM TB_IN_OUT_WHS_ADM A, TB_MATRL_CODE_ADM D
+			WHERE #{matrlCd} = D.MATRL_CD
+			AND D.MATRL_CD = A.MATRL_CD
+			AND APPROVAL_CD = '001' 
+			AND STATUS_CD = 'A' 			
+			AND IN_WHS_DATE <= #{inWhsDateTo}
+		]]>				
+		<if test='qutyCd == "A"'>  
+			AND	(D.QUTY_CD = '001' OR D.QUTY_CD = '002')
+		</if>
+		<if test='qutyCd == "F"'> 
+			AND (D.QUTY_CD = '003' OR D.QUTY_CD = '004' OR D.QUTY_CD = '005' OR D.QUTY_CD = '006' OR D.QUTY_CD = '007')
+		</if>		
+	</select>
+	
+	<!-- 수입검사관리(qmsc0020) 삭제 시 사용 총3개쿼리문 사용-->
+	<!-- 삭제 전 삭제데이터 TB_IN_OUT_WHS_ADM_TEMP로 이동 -->
+	<insert id="insertMatrlInOutTemp">
+		INSERT INTO TB_IN_OUT_WHS_ADM_TEMP (
+			LOT_NO,
+			SR_LOT,
+			IN_WHS_GROUP_SEQ,
+			MATRL_CD,
+			PRE_IN_WHS_QTY,
+			IN_WHS_QTY,
+			WEIGHT_UNIT,
+			ROLL_CNT,
+			INSPECT_QTY,
+			ADJUST_QTY,
+			DIFF_QTY,
+			REMAIN_QTY,
+			IN_WHS_LENGTH,
+			SPPLY_DEAL_CORP_CD,
+			PRE_IN_WHS_DATE,
+			IN_WHS_DATE,
+			INSPCT_DATE,
+			BARCODE_NO,
+			APPROVAL_CD,
+			STATUS_CD,
+			MATRL_CHARGR,
+			FRRRD_DATE,
+			FRRRD_TYPE,
+			FRRRD_DESC,
+			PRE_OUT_WHS_DATE,
+			PRE_OUT_EQUIP_CD,
+			PRE_OUT_GOODS_CD,
+			PRE_OUT_QTY,
+			PRE_WORK_CHARGER,
+			OUT_WHS_DATE,
+			OUT_EQUIP_CD,
+			OUT_GOODS_CD,
+			OUT_QTY,
+			OUT_WORK_CHARGER,
+			LOCATION_CD,
+			MANUFACTR_CD,
+			IN_WHS_DESC,
+			FIFO_CHECK,
+			LIFE_TIME,
+			SURFACE_DATE,
+			DATA1,
+			DATA2,
+			MOTHER_ROLL_LOT,
+			MOTHER_ROLL_LOT_NO,
+			STANDARD,
+			ROLL_COUNT,
+			PAID_GUBUN,
+			REG_ID,
+			REG_DATE,
+			UPD_ID,
+			UPD_DATE,
+			DLT_DATE
+		)
+		SELECT 
+			LOT_NO,
+			SR_LOT,
+			IN_WHS_GROUP_SEQ,
+			MATRL_CD,
+			PRE_IN_WHS_QTY,
+			IN_WHS_QTY,
+			WEIGHT_UNIT,
+			ROLL_CNT,
+			INSPECT_QTY,
+			ADJUST_QTY,
+			DIFF_QTY,
+			REMAIN_QTY,
+			IN_WHS_LENGTH,
+			SPPLY_DEAL_CORP_CD,
+			PRE_IN_WHS_DATE,
+			IN_WHS_DATE,
+			INSPCT_DATE,
+			BARCODE_NO,
+			APPROVAL_CD,
+			STATUS_CD,
+			MATRL_CHARGR,
+			FRRRD_DATE,
+			FRRRD_TYPE,
+			FRRRD_DESC,
+			PRE_OUT_WHS_DATE,
+			PRE_OUT_EQUIP_CD,
+			PRE_OUT_GOODS_CD,
+			PRE_OUT_QTY,
+			PRE_WORK_CHARGER,
+			OUT_WHS_DATE,
+			OUT_EQUIP_CD,
+			OUT_GOODS_CD,
+			OUT_QTY,
+			OUT_WORK_CHARGER,
+			LOCATION_CD,
+			MANUFACTR_CD,
+			IN_WHS_DESC,
+			FIFO_CHECK,
+			LIFE_TIME,
+			SURFACE_DATE,
+			DATA1,
+			DATA2,
+			MOTHER_ROLL_LOT,
+			MOTHER_ROLL_LOT_NO,
+			STANDARD,
+			ROLL_COUNT,
+			PAID_GUBUN,
+			REG_ID,
+			REG_DATE,
+			UPD_ID,
+			UPD_DATE,
+			getDate()
+		FROM TB_IN_OUT_WHS_ADM
+		WHERE	LOT_NO = #{lotNo}
+	</insert>
+	
+	<!-- 삭제자 IP, ID, 날짜 수정 -->
+	<update id="updateMatrlInOutTempDltId">
+		UPDATE	TB_IN_OUT_WHS_ADM_TEMP
+		SET
+			IP_ADDRESS = #{ipAddress},
+			DLT_ID = #{dltId},
+			DLT_DATE = getDate()
+		WHERE	LOT_NO = #{lotNo}
+	</update>
+	
+	<!-- 입출고관리 원본 삭제-->	
+	<delete id="deleteMatrlInOut">
+		DELETE TB_IN_OUT_WHS_ADM
+		WHERE	LOT_NO = #{lotNo}
+	</delete>
+	
+	
+	<!-- 입출고관리-자재입출고 내역 조회 -->
+	<select id="matrlInOutHistList" resultMap="MatrlInOutWhsAdmVo">
+		SELECT
+			A.LOT_NO
+			, A.SR_LOT
+			, A.IN_WHS_GROUP_SEQ
+			, A.MATRL_CD
+			, B.MATRL_NM
+			, A.PRE_IN_WHS_QTY
+			, A.IN_WHS_QTY
+			, A.INSPECT_QTY
+			, A.ADJUST_QTY
+			, A.DIFF_QTY
+			, A.REMAIN_QTY
+			, A.IN_WHS_LENGTH
+			, A.SPPLY_DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.SPPLY_DEAL_CORP_CD) SPPLY_DEAL_CORP_NM
+			, A.PRE_IN_WHS_DATE
+			, A.IN_WHS_DATE
+			, A.INSPCT_DATE
+			, A.BARCODE_NO
+			, A.APPROVAL_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='026' AND B.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+			, A.STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='047' AND B.BASE_CD = A.STATUS_CD) STATUS_NM
+			, A.MATRL_CHARGR
+			, A.FRRRD_DATE
+			, A.FRRRD_TYPE
+			, A.FRRRD_DESC
+			, A.PRE_OUT_WHS_DATE
+			, A.PRE_OUT_EQUIP_CD
+			, (SELECT B.EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.PRE_OUT_EQUIP_CD) PRE_OUT_EQUIP_NM
+			, A.PRE_OUT_GOODS_CD
+			, (SELECT B.GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.PRE_OUT_GOODS_CD) PRE_OUT_GOODS_NM
+			, A.PRE_OUT_QTY
+			, A.PRE_WORK_CHARGER
+			, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.PRE_WORK_CHARGER) PRE_WORK_CHARGERNM
+			, A.OUT_WHS_DATE
+			, A.OUT_EQUIP_CD
+			, (SELECT B.EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.OUT_EQUIP_CD) OUT_EQUIP_NM
+			, A.OUT_GOODS_CD
+			, (SELECT B.GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.OUT_GOODS_CD) OUT_GOODS_NM
+			, A.OUT_QTY
+			, A.OUT_WORK_CHARGER
+			, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.OUT_WORK_CHARGER) OUT_WORK_CHARGERNM
+			, A.LOCATION_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='077' AND B.BASE_CD = A.LOCATION_CD) LOCATION_NM
+			, A.MANUFACTR_CD
+			, A.IN_WHS_DESC
+			, A.FIFO_CHECK
+			, '' WORK_ORD_NO
+			, '' FAIR_QTY
+			, '' FAULTY_QTY
+			, '' REMAKE_YN
+			, '' CHANGE_LOCATION
+			, '' CONNECT_CD
+			, '' CONNECT_NM
+			, A.HIST_ID
+			, A.HIST_DATE AS REG_DATE
+		FROM TB_IN_OUT_WHS_ADM_HIST A, TB_MATRL_CODE_ADM B
+		WHERE 1=1
+		AND A.MATRL_CD = B.MATRL_CD
+		AND A.BARCODE_NO = #{barcodeNo}
+		
+		UNION ALL
+		
+		SELECT
+	         A.LOT_NO
+	         , '' SR_LOT
+	         , '' IN_WHS_GROUP_SEQ
+	         , A. MATRL_CD
+	         , B.MATRL_NM
+	         , '' PRE_IN_WHS_QTY
+	         , '' IN_WHS_QTY
+	         , A.INSPECT_QTY
+	         , '' ADJUST_QTY
+	         , '' DIFF_QTY
+	         , '' REMAIN_QTY
+	         , '' IN_WHS_LENGTH
+	         , '' SPPLY_DEAL_CORP_CD
+	         , '' SPPLY_DEAL_CORP_NM
+	         , '' PRE_IN_WHS_DATE
+	         , '' IN_WHS_DATE
+	         , '' INSPCT_DATE
+	         , A.BARCODE_NO
+	         , '' APPROVAL_CD
+	         , '' APPROVAL_NM
+	         , '' STATUS_CD
+	         , '' STATUS_NM
+	         , '' MATRL_CHARGR
+	         , '' FRRRD_DATE
+	         , '' FRRRD_TYPE
+	         , '' FRRRD_DESC
+	         , '' PRE_OUT_WHS_DATE
+	         , '' PRE_OUT_EQUIP_CD
+	         , '' PRE_OUT_EQUIP_NM
+	         , '' PRE_OUT_GOODS_CD
+	         , '' PRE_OUT_GOODS_NM
+	         , '' PRE_OUT_QTY
+	         , '' PRE_WORK_CHARGER
+	         , '' PRE_WORK_CHARGERNM
+	         , A.REG_DATE OUT_WHS_DATE
+	         , C.EQUIP_CD AS OUT_EQUIP_CD
+	         , (SELECT B.EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = C.EQUIP_CD) OUT_EQUIP_NM
+	         , C.GOODS_CD OUT_GOODS_CD
+	         , (SELECT B.GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = C.GOODS_CD) OUT_GOODS_NM
+	         , '' OUT_QTY
+	         , '' OUT_WORK_CHARGER
+	         , '' OUT_WORK_CHARGERNM
+	         , '' LOCATION_CD
+	         , '' LOCATION_NM
+	         , '' MANUFACTR_CD
+	         , '' IN_WHS_DESC
+	         , '' FIFO_CHECK
+	         , A.WORK_ORD_NO
+	         , A.FAIR_QTY
+	         , A.FAULTY_QTY
+	         , A.REMAKE_YN
+	         , A.CHANGE_LOCATION
+	         , A.CONNECT_CD
+	         , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='059' AND D.BASE_CD = A.CONNECT_CD) CONNECT_NM
+	         , A.REG_ID
+	         , A.REG_DATE
+	      FROM TB_WORK_ORDER_DTL A, TB_MATRL_CODE_ADM B, TB_WORK_ORDER C
+	      WHERE 1=1
+	      AND A.MATRL_CD = B.MATRL_CD
+	      AND A.WORK_ORD_NO = C.WORK_ORD_NO
+	      AND A.BARCODE_NO = #{barcodeNo}
+	      ORDER BY REG_DATE
+	</select>
+	
+	
+	
+	<select id="productShipmentPalateDataList" resultMap="MatrlInOutWhsAdmVo">
+		<![CDATA[
+			SELECT
+				(B.PO_SEQ + B.PO_GROUP) AS ROW_ID
+				, B.PO_SEQ
+				, B.PO_GROUP
+				, B.GOODS_CD
+				, B.PACK_CNT
+				, B.OUTPUT_CNT
+				, B.COMPLETE_YN
+				, A.PO_GUBUN_CD
+				, ( SELECT PO_NO FROM TB_PURCHASE_ORDER_ADM X WHERE X.PO_SEQ = A.PO_SEQ ) AS PO_NO
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='018' AND H.BASE_CD = A.PO_GUBUN_CD) PO_GUBUN_NM
+				, A.DEAL_CORP_CD		
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM H WHERE H.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+				, A.PO_ATTN
+				, A.GOODS_CD
+				, D.GOODS_NM
+				, E.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='007' AND H.BASE_CD = E.QUTY_CD) QUTY_NM
+				, E.THICKNESS
+				, E.DEPTH
+				, E.LENGTH
+				, E.PITCH
+				, B.BOX_COUNT
+				, A.DELIVERY_DATE
+				, A.DELIVERY_DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM G WHERE G.DEAL_CORP_CD = A.DELIVERY_DEAL_CORP_CD) DELIVERY_DEAL_CORP_NM
+				, B.GOODS_STATUS
+				, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '036' AND BASE_CD = B.GOODS_STATUS ) GOODS_STATUS_NM
+				, B.GOODS_OUT_DATE
+				, B.LOCATION_CD
+				, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '004' AND BASE_CD = B.LOCATION_CD ) LOCATION_NM
+				, A.PO_CODE
+				, A.PALLET_QTY
+				, B.LOCATION_INPUT_DATE			
+				, B.DISPOSE_GUBUN
+				, B.CUSTOMER_PALLET_NO
+				, D.MODEL_NO
+			FROM TB_PURCHASE_ORDER_ADM A
+			, (
+				SELECT
+					PO_SEQ
+					, PO_GROUP
+					, GOODS_CD
+					, SUM(PACK_CNT) AS PACK_CNT
+					, SUM(OUTPUT_CNT) AS OUTPUT_CNT
+					, COUNT(PACK_CNT) AS BOX_COUNT
+					, COMPLETE_YN
+					, B.GOODS_STATUS
+					, B.GOODS_OUT_DATE
+					, B.LOCATION_CD
+					, A.LOCATION_INPUT_DATE	
+					, COUNT(CASE WHEN DISPOSE_GUBUN = '003' THEN 1 END) DISPOSE_GUBUN
+					, A.CUSTOMER_PALLET_NO				
+				FROM TB_PURCHASE_ORDER_DTL A
+				, (
+					SELECT
+						DISTINCT BOX_NO
+						, GOODS_STATUS
+						, GOODS_OUT_DATE
+						, LOCATION_CD		
+						, DISPOSE_GUBUN				
+					FROM TB_GOODS_PRODUCT_INFO_ADM
+				) B
+				WHERE 1=1
+				AND A.BOX_NO = B.BOX_NO
+				GROUP BY
+					PO_SEQ
+					, PO_GROUP
+					, GOODS_CD
+					, COMPLETE_YN
+					, B.GOODS_STATUS
+					, B.GOODS_OUT_DATE
+					, B.LOCATION_CD
+					, A.LOCATION_INPUT_DATE
+					, A.CUSTOMER_PALLET_NO
+			) AS B
+			, TB_GOODS_CODE_ADM D
+			, TB_MATRL_CODE_ADM E
+			WHERE 1=1
+			AND A.PO_SEQ = B.PO_SEQ
+			AND A.GOODS_CD = D.GOODS_CD
+			AND D.ALNICU_MATRL_CD = E.MATRL_CD
+			AND A.DELIVERY_DATE >= #{chooseDateFrom}
+			AND A.DELIVERY_DATE <= #{chooseDateTo}
+		]]>
+		<if test="printWether != null and printWether != ''">
+			AND B.PRINT_YN = #{printWether}
+		</if>
+		<if test="completeYn != null and completeYn != ''">
+			AND B.COMPLETE_YN = #{completeYn}	
+		</if>
+		<if test="scanPalletNo != null and scanPalletNo != ''">
+			AND B.PO_GROUP = #{scanPalletNo}	
+		</if>
+		
+		<if test="goodsStatus != null and goodsStatus != ''">
+			AND B.GOODS_STATUS = #{goodsStatus}	
+		</if>
+				
+		ORDER BY DEAL_CORP_NM,PO_NO,PO_GROUP
+	
+	</select>
+	
+	<select id="productShipmentPalateDtlDataList" resultMap="MatrlInOutWhsAdmVo">
+		<![CDATA[
+			SELECT
+				A.PO_NO_SEQ
+				,( SELECT PO_NO FROM TB_PURCHASE_ORDER_ADM X WHERE X.PO_SEQ = A.PO_SEQ ) AS PO_NO
+				, A.PO_GROUP
+				, B.CUSTOMER_LOT_NO -- 고객사 lOT NO
+				, B.BOX_NO --포장넘버
+				, B.FACT_CHECK
+				, B.GOODS_CD--제품
+				, B.GOODS_STATUS--입출고상태 --공통코드	
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='036' AND H.BASE_CD = B.GOODS_STATUS ) GOODS_STATUS_NM
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='051' AND H.BASE_CD = B.FAULTY_STATUS ) FAULTY_STATUS_NM
+				, C.QUTY_CD --재질
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='007' AND H.BASE_CD = C.QUTY_CD ) QUTY_NM
+				, C.THICKNESS --두께
+				, C.DEPTH--폭
+				, C.LENGTH--길이
+				, C.PITCH--피치
+				, A.PACK_CNT
+				, A.OUTPUT_CNT--출고량
+				, B.COMPLETE_YN
+				, B.GOODS_DESC
+				, B.DISPOSE_GUBUN
+			FROM TB_PURCHASE_ORDER_DTL A
+			, TB_GOODS_PRODUCT_INFO_ADM B
+			, TB_GOODS_CODE_ADM D
+			, TB_MATRL_CODE_ADM C
+			
+			WHERE 1=1
+			AND A.BOX_NO = B.BOX_NO
+			AND B.GOODS_CD = D.GOODS_CD
+			AND D.ALNICU_MATRL_CD = C.MATRL_CD
+			]]>
+			<if test="poSeq != null and poSeq != ''">
+				AND A.PO_SEQ = #{poSeq}
+			</if>
+			AND A.PO_GROUP = #{poGroup}
+		
+			<if test="boxNo != null and boxNo != ''">
+				AND A.BOX_NO = #{boxNo}
+			</if>
+			ORDER BY PO_NO_SEQ
+	</select>
+	
+	
+	<update id="productShipmentPrintUpdate">
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET 
+			PRINT_YN = 'Y'
+		WHERE BOX_NO IN
+		(
+			SELECT
+				BOX_NO
+			FROM TB_PURCHASE_ORDER_DTL
+			WHERE PO_GROUP = #{poGroup}
+			AND PO_SEQ = #{poSeq}
+		)
+	</update>
+	
+	<!-- 제품 테이블 비고란 업데이트 -->
+	<update id="goodsProductDescUpdate_F3">
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET 
+			GOODS_DESC = #{goodsDesc}
+		WHERE BOX_NO = #{boxNo}
+	</update>
+	
+	<!-- 승인 여부 UPDATE -->	
+	<update id="matrlInOutApprovalUpdate">
+		UPDATE TB_IN_OUT_WHS_ADM
+		SET 
+			APPROVAL_CD = #{approvalCd}
+			<if test="frrrdDate != '' and frrrdDate != null">
+			, FRRRD_DATE = #{frrrdDate}
+			</if>
+			, UPD_ID = #{updId}
+			, UPD_DATE = GETDATE()
+		WHERE BARCODE_NO = #{barcodeNo}
+	</update>
+	
+	
+	
+	<select id="remainQtyHistory" resultMap="MatrlInOutWhsAdmVo">
+		SELECT
+			EQUIP_CD
+			, ( SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = AA.EQUIP_CD ) AS EQUIP_NM
+			, BB.EQUIP_NM AS ORIGINAL_EQUIP_NM
+			, AA.LOT_NO
+			, ( CASE WHEN STATUS_CD = '' THEN 'P' ELSE STATUS_CD END ) AS STATUS_CD
+			--, ( CASE WHEN IN_WHS_QTY = '' THEN LAG(IN_WHS_QTY) OVER(ORDER BY REG_DATE) ELSE IN_WHS_QTY END ) AS IN_WHS_QTY --값이 없는 경우는 투입된 경우임
+			--, ( CASE WHEN REMAIN_QTY = '' THEN LAG(REMAIN_QTY) OVER(ORDER BY REG_DATE) ELSE REMAIN_QTY END ) AS REMAIN_QTY --값이 없는 경우는 투입된 경우임
+			
+			, ( CASE WHEN IN_WHS_QTY = '' THEN LAG(IN_WHS_QTY) OVER (PARTITION BY AA.LOT_NO ORDER BY REG_DATE) ELSE IN_WHS_QTY END ) AS IN_WHS_QTY  --값이 없는 경우는 투입된 경우임
+			, ( CASE WHEN REMAIN_QTY = '' THEN LAG(REMAIN_QTY) OVER (PARTITION BY AA.LOT_NO ORDER BY REG_DATE) ELSE REMAIN_QTY END ) AS REMAIN_QTY  --값이 없는 경우는 투입된 경우임
+			
+			, AA.REG_DATE
+			, AA.HIST_DATE
+			, BB.MODEL
+		FROM
+		(
+			SELECT
+				A.LOT_NO
+			FROM TB_IN_OUT_WHS_ADM_HIST A, (SELECT LOT_NO, MIN(REG_DATE) AS REG_DATE FROM TB_WORK_ORDER_DTL WHERE CONVERT(CHAR(6), REG_DATE, 112) BETWEEN #{chooseDateFrom} AND #{chooseDateTo} AND LEFT(MATRL_CD, 1) != 'F' GROUP BY LOT_NO ) B
+			WHERE 1=1
+			AND A.LOT_NO = B.LOT_NO
+			AND A.HIST_DATE >= (SELECT MIN(REG_DATE) AS REG_DATE FROM TB_WORK_ORDER_DTL WHERE LOT_NO = B.LOT_NO )
+			AND A.STATUS_CD IN ('O')
+			GROUP BY 
+				A.LOT_NO
+		) AS SUDEL
+		LEFT OUTER JOIN
+		(
+			SELECT
+				A.LOT_NO
+				, A.STATUS_CD
+				, A.IN_WHS_QTY
+				, A.REMAIN_QTY
+				, A.HIST_DATE
+				, NULL AS REG_DATE
+				, '' AS WORK_ORD_NO
+				, A.OUT_EQUIP_CD AS EQUIP_CD
+				, ( SELECT MODEL FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD =  ( SELECT MATRL_CD FROM TB_IN_OUT_WHS_ADM WHERE LOT_NO = A.LOT_NO ) ) AS MODEL
+			FROM TB_IN_OUT_WHS_ADM_HIST A, (SELECT LOT_NO, MIN(REG_DATE) AS REG_DATE FROM TB_WORK_ORDER_DTL WHERE CONVERT(CHAR(6), REG_DATE, 112) BETWEEN #{chooseDateFrom} AND #{chooseDateTo} AND LEFT(MATRL_CD, 1) != 'F' GROUP BY LOT_NO ) B
+			WHERE 1=1
+			AND A.LOT_NO = B.LOT_NO
+			AND A.HIST_DATE >= (SELECT MIN(REG_DATE) AS REG_DATE FROM TB_WORK_ORDER_DTL WHERE LOT_NO = B.LOT_NO )
+			AND A.STATUS_CD IN ('O')
+	
+			UNION ALL
+	
+			SELECT
+				B.LOT_NO
+				, '' AS STATUS_CD
+				, '' AS IN_WHS_QTY
+				, '' AS REMAIN_QTY
+				, NULL AS HIST_DATE
+				, B.REG_DATE
+				, B.WORK_ORD_NO
+				, ( SELECT EQUIP_CD FROM TB_WORK_ORDER X WHERE X.WORK_ORD_NO = B.WORK_ORD_NO ) AS EQUIP_CD
+	
+				, ( SELECT MODEL FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = ( SELECT GOODS_CD FROM TB_WORK_ORDER X WHERE X.WORK_ORD_NO = B.WORK_ORD_NO ) ) AS MODEL
+				
+			FROM TB_WORK_ORDER_DTL B, (SELECT LOT_NO, MIN(REG_DATE) AS REG_DATE FROM TB_WORK_ORDER_DTL WHERE CONVERT(CHAR(6), REG_DATE, 112) BETWEEN #{chooseDateFrom} AND #{chooseDateTo} AND LEFT(MATRL_CD, 1) != 'F' GROUP BY LOT_NO ) C
+			WHERE 1=1
+			AND B.LOT_NO = C.LOT_NO
+			AND B.REG_DATE > (SELECT MIN(REG_DATE) AS REG_DATE FROM TB_WORK_ORDER_DTL WHERE LOT_NO = C.LOT_NO )
+		) AA
+		ON 1=1
+		AND SUDEL.LOT_NO = AA.LOT_NO
+		
+		, (
+			SELECT
+				LOT_NO
+				, NUMBER
+				, ( SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD =  C.EQUIP_CD ) AS EQUIP_NM
+				, MODEL
+			FROM
+			(
+			SELECT
+				B.LOT_NO
+				, ROW_NUMBER() OVER (PARTITION BY B.LOT_NO ORDER BY B.REG_DATE ASC) AS NUMBER
+				, B.WORK_ORD_NO
+				, ( SELECT EQUIP_CD FROM TB_WORK_ORDER X WHERE X.WORK_ORD_NO =  B.WORK_ORD_NO ) AS EQUIP_CD
+				, ( SELECT MODEL FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = ( SELECT GOODS_CD FROM TB_WORK_ORDER X WHERE X.WORK_ORD_NO = B.WORK_ORD_NO ) ) AS MODEL
+			FROM TB_WORK_ORDER_DTL B, (SELECT LOT_NO, MIN(REG_DATE) AS REG_DATE FROM TB_WORK_ORDER_DTL WHERE CONVERT(CHAR(6), REG_DATE, 112) BETWEEN #{chooseDateFrom} AND #{chooseDateTo} AND LEFT(MATRL_CD, 1) != 'F' GROUP BY LOT_NO ) C
+			WHERE 1=1
+			AND B.LOT_NO = C.LOT_NO
+			AND B.REG_DATE >= (SELECT MIN(REG_DATE) AS REG_DATE FROM TB_WORK_ORDER_DTL WHERE LOT_NO = C.LOT_NO)	
+			) AS C
+			WHERE NUMBER = 1
+		) BB
+		WHERE AA.LOT_NO = BB.LOT_NO
+		
+		<if test="lotNo != '' and lotNo != null">
+			AND AA.LOT_NO = #{lotNo}
+		</if>
+		
+		ORDER BY LOT_NO, REG_DATE ASC
+	</select>
+	
+	
+	
+	
+	<!-- 출하검사성적서조회 -->
+	<select id="shipReportsList" resultMap="MatrlInOutWhsAdmVo">
+		<![CDATA[
+			SELECT	
+				A.PO_SEQ
+				, A.APPROVAL_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='026' AND H.BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+				, B.PO_GUBUN_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='018' AND H.BASE_CD = B.PO_GUBUN_CD) PO_GUBUN_NM
+				, B.DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM H WHERE H.DEAL_CORP_CD = B.DEAL_CORP_CD) DEAL_CORP_NM
+				, B.PO_ATTN
+				, A.PO_NO
+				, B.GOODS_CD
+				, C.GOODS_NM
+				, D.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='007' AND H.BASE_CD = D.QUTY_CD) QUTY_NM
+				, D.THICKNESS
+				, D.DEPTH
+				, D.LENGTH
+				, D.PITCH
+				, (
+					(
+						SELECT
+							COUNT(*)
+						FROM TB_PURCHASE_ORDER_DTL H
+						WHERE A.PO_SEQ = H.PO_SEQ
+					)
+				) AS BOX_COUNT
+				, SUM( A.OUTPUT_QTY ) AS OUTPUT_QTY
+				, B.DELIVERY_DATE
+				, B.DELIVERY_DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM H WHERE H.DEAL_CORP_CD = B.DELIVERY_DEAL_CORP_CD) DELIVERY_DEAL_CORP_NM
+				, B.DEAD_LINE
+			FROM TB_PURCHASE_ORDER_OUTPUT_HIST A
+			INNER JOIN TB_PURCHASE_ORDER_ADM B ON A.PO_SEQ = B.PO_SEQ
+			INNER JOIN TB_GOODS_CODE_ADM C ON B.GOODS_CD = C.GOODS_CD
+			INNER JOIN TB_MATRL_CODE_ADM D ON C.ALNICU_MATRL_CD = D.MATRL_CD
+			WHERE 1=1
+			AND B.DELIVERY_DATE >= #{chooseDateFrom}
+			AND B.DELIVERY_DATE <= #{chooseDateTo} 
+		]]>
+		<if test="approvalCd != null and approvalCd != ''"> 
+			 AND A.APPROVAL_CD = #{approvalCd}
+		</if>
+		<if test="qutyCd != null and qutyCd != ''"> 
+			 AND D.QUTY_CD = #{qutyCd}
+		</if>
+		<if test="dealCorpCd != null and dealCorpCd != ''"> 
+			 AND B.DEAL_CORP_CD = #{dealCorpCd}
+		</if>
+		
+		
+		GROUP BY 
+			A.PO_SEQ
+			, A.APPROVAL_CD
+			, B.PO_GUBUN_CD
+			, B.DEAL_CORP_CD
+			, B.PO_ATTN
+			, A.PO_NO
+			, B.GOODS_CD
+			, C.GOODS_NM
+			, D.QUTY_CD
+			, D.THICKNESS
+			, D.DEPTH
+			, D.LENGTH
+			, D.PITCH
+			, B.DELIVERY_DATE
+			, B.DELIVERY_DEAL_CORP_CD
+			, B.DEAD_LINE
+		
+		ORDER BY
+			B.DELIVERY_DATE, A.PO_SEQ
+	</select>
+	
+	
+	
+	
+	
+	<!-- 출하검사성적서조회 -->
+	<select id="shipReportsDtlList" resultMap="MatrlInOutWhsAdmVo">
+		SELECT
+			AA.CUSTOMER_LOT_NO
+			, OUTPUT_CNT
+			, OUTPUT_CNT AS excelOutputCnt
+			, 'SAMPLE1' AS 'data'
+			, MATRL_LOT_NO
+			, BB.WORK_ORD_NO
+
+			, (
+				CASE
+				WHEN MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( BB.STEP_CD, ISNULL(DD.STEP_CD, EE.STEP_CD) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( DD.STEP_CD, ISNULL(EE.STEP_CD, BB.STEP_CD) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( EE.STEP_CD, ISNULL(DD.STEP_CD, BB.STEP_CD) )
+				END
+			) AS STEP_CD
+			, (
+				CASE
+				WHEN MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), BB.PPF_DEPTH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.PPF_DEPTH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.PPF_DEPTH_LEFT_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), DD.PPF_DEPTH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.PPF_DEPTH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.PPF_DEPTH_LEFT_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), EE.PPF_DEPTH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.PPF_DEPTH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.PPF_DEPTH_LEFT_ALWNCE), 0)) )
+				END
+			) AS PPF_DEPTH_LEFT_ALWNCE
+			, (
+				CASE
+				WHEN MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), BB.METAL_DEPTH_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.METAL_DEPTH_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.METAL_DEPTH_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), DD.METAL_DEPTH_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.METAL_DEPTH_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.METAL_DEPTH_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), EE.METAL_DEPTH_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.METAL_DEPTH_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.METAL_DEPTH_ALWNCE), 0)) )
+				END
+			) AS METAL_DEPTH_ALWNCE
+
+			, (
+				CASE
+				WHEN MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), BB.PPF_WING_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.PPF_WING_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.PPF_WING_LEFT_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), DD.PPF_WING_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.PPF_WING_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.PPF_WING_LEFT_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), EE.PPF_WING_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.PPF_WING_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.PPF_WING_LEFT_ALWNCE), 0)) )
+				END
+			) AS PPF_WING_LEFT_ALWNCE
+
+			, (
+				CASE
+				WHEN MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), BB.WP_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.WP_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.WP_LEFT_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), DD.WP_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.WP_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.WP_LEFT_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), EE.WP_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.WP_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.WP_LEFT_ALWNCE), 0)) )
+				END
+			) AS WP_LEFT_ALWNCE
+
+			
+			, (
+				CASE
+				WHEN MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), FORMAT(ABS(CONVERT(FLOAT, BB.WP_LEFT_ALWNCE) - CONVERT(FLOAT, BB.WP_RIGHT_ALWNCE)), '0.000') ), ISNULL(CONVERT(DECIMAL(18,2), FORMAT(ABS(CONVERT(FLOAT, DD.WP_LEFT_ALWNCE) - CONVERT(FLOAT, DD.WP_RIGHT_ALWNCE)), '0.000') ), ISNULL(CONVERT(DECIMAL(18,2), FORMAT(ABS(CONVERT(FLOAT, EE.WP_LEFT_ALWNCE) - CONVERT(FLOAT, EE.WP_RIGHT_ALWNCE)), '0.000') ), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), FORMAT(ABS(CONVERT(FLOAT, DD.WP_LEFT_ALWNCE) - CONVERT(FLOAT, DD.WP_RIGHT_ALWNCE)), '0.000') ), ISNULL(CONVERT(DECIMAL(18,2), FORMAT(ABS(CONVERT(FLOAT, EE.WP_LEFT_ALWNCE) - CONVERT(FLOAT, EE.WP_RIGHT_ALWNCE)), '0.000') ), ISNULL(CONVERT(DECIMAL(18,2), FORMAT(ABS(CONVERT(FLOAT, EE.WP_LEFT_ALWNCE) - CONVERT(FLOAT, EE.WP_RIGHT_ALWNCE)), '0.000') ), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), FORMAT(ABS(CONVERT(FLOAT, EE.WP_LEFT_ALWNCE) - CONVERT(FLOAT, EE.WP_RIGHT_ALWNCE)), '0.000') ), ISNULL(CONVERT(DECIMAL(18,2), FORMAT(ABS(CONVERT(FLOAT, DD.WP_LEFT_ALWNCE) - CONVERT(FLOAT, DD.WP_RIGHT_ALWNCE)), '0.000') ), ISNULL(CONVERT(DECIMAL(18,2), FORMAT(ABS(CONVERT(FLOAT, BB.WP_LEFT_ALWNCE) - CONVERT(FLOAT, BB.WP_RIGHT_ALWNCE)), '0.000') ), 0)) )
+				END
+			) AS WP_DEVIATION
+
+			, (
+				CASE
+				WHEN MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 3) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,3), BB.METAL_THICKNESS_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), DD.METAL_THICKNESS_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), EE.METAL_THICKNESS_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 3) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,3), DD.METAL_THICKNESS_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), EE.METAL_THICKNESS_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), BB.METAL_THICKNESS_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO, 3) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,3), EE.METAL_THICKNESS_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), DD.METAL_THICKNESS_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), BB.METAL_THICKNESS_ALWNCE), 0)) )
+				END
+			) AS METAL_THICKNESS_ALWNCE
+
+			, (
+				CASE
+				WHEN MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 3) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,3), BB.TH_CENTER_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), DD.TH_CENTER_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), EE.TH_CENTER_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 3) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,3), DD.TH_CENTER_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), EE.TH_CENTER_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), BB.TH_CENTER_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO, 3) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,3), EE.TH_CENTER_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), DD.TH_CENTER_ALWNCE), ISNULL(CONVERT(DECIMAL(18,3), BB.TH_CENTER_ALWNCE), 0)) )
+				END
+			) AS TH_CENTER_ALWNCE
+
+			, (
+				CASE
+				WHEN MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), BB.FILM_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.FILM_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.FILM_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), DD.FILM_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.FILM_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.FILM_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), EE.FILM_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.FILM_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.FILM_ALWNCE), 0)) )
+				END
+			) AS FILM_ALWNCE
+
+			, (
+				CASE
+				WHEN MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), BB.PITCH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.PITCH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.PITCH_LEFT_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), DD.PITCH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), EE.PITCH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.PITCH_LEFT_ALWNCE), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), EE.PITCH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), DD.PITCH_LEFT_ALWNCE), ISNULL(CONVERT(DECIMAL(18,2), BB.PITCH_LEFT_ALWNCE), 0)) )
+				END
+			) AS PITCH_LEFT_ALWNCE
+
+			, (
+				CASE
+				WHEN MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), REPLACE(BB.GAP_OF_LAYER, '', Null)), ISNULL(CONVERT(DECIMAL(18,2), REPLACE(DD.GAP_OF_LAYER, '', Null)), ISNULL(CONVERT(DECIMAL(18,2), REPLACE(EE.GAP_OF_LAYER, '', Null)), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO != ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), REPLACE(DD.GAP_OF_LAYER, '', Null)), ISNULL(CONVERT(DECIMAL(18,2), REPLACE(EE.GAP_OF_LAYER, '', Null)), ISNULL(CONVERT(DECIMAL(18,2), REPLACE(BB.GAP_OF_LAYER, '', Null)), 0)) )
+				WHEN MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO) OVER(ORDER BY CUSTOMER_LOT_NO ASC),'') AND MATRL_LOT_NO = ISNULL(LAG(MATRL_LOT_NO, 2) OVER(ORDER BY CUSTOMER_LOT_NO ASC), '')
+				THEN ISNULL( CONVERT(DECIMAL(18,2), REPLACE(EE.GAP_OF_LAYER, '', Null)), ISNULL(CONVERT(DECIMAL(18,2), REPLACE(DD.GAP_OF_LAYER, '', Null)), ISNULL(CONVERT(DECIMAL(18,2), REPLACE(BB.GAP_OF_LAYER, '', Null)), 0)) )
+				END
+			) AS GAP_OF_LAYER
+			
+			, ( CASE WHEN ( AA.QUTY_CD = 'E556_NC' ) THEN 'NO' ELSE 'OK' END ) AS EDGE_PRESS
+			, ( CASE WHEN ( AA.BASE_CD_ABBR = 'A' ) THEN '8' ELSE '7' END ) AS FOLDING_ENDURANCE
+			, ISNULL(CC.THICKNESS_QTY, '0') AS THICKNESS_QTY
+			, 'OK' AS resvData
+			
+			, AA.MODEL
+			, AA.GOODS_NM
+			, AA.GOODS_CD
+		FROM
+		(
+			SELECT 
+				A.PO_GROUP
+				, A.BOX_NO
+				, A.PO_NO_SEQ
+				, A.GOODS_CD
+				, B.GOODS_NM
+				, C.QUTY_CD
+				, H.BASE_CD_NM AS QUTY_NM
+				, H.BASE_CD_ABBR
+				, A.PACK_CNT
+				, A.OUTPUT_CNT
+				, D.GOODS_STATUS
+				, H2.BASE_CD_NM AS GOODS_STATUS_NM
+				, D.FAULTY_STATUS
+				, H3.BASE_CD_NM AS FAULTY_STATUS_NM
+				, COALESCE(STUFF(D.MATRL_LOT_NO, CHARINDEX('/', D.MATRL_LOT_NO), LEN(D.MATRL_LOT_NO) - CHARINDEX('/', D.MATRL_LOT_NO) + 1, ''), D.MATRL_LOT_NO) AS MATRL_LOT_NO
+				, D.CUSTOMER_LOT_NO
+				, B.MODEL
+			FROM TB_PURCHASE_ORDER_DTL A
+			JOIN TB_GOODS_CODE_ADM B ON A.GOODS_CD = B.GOODS_CD
+			JOIN TB_MATRL_CODE_ADM C ON B.ALNICU_MATRL_CD = C.MATRL_CD
+		
+			LEFT JOIN TB_GOODS_PRODUCT_INFO_ADM D ON A.BOX_NO = D.BOX_NO AND D.GOODS_STATUS = '003'
+			LEFT JOIN TB_PRE_GOODS_INVENTORY_DTL E ON A.BOX_NO = E.BOX_NO AND E.GOODS_STATUS = '003'
+			LEFT JOIN TB_SYSTEM_COMMON_CODE H ON H.BASE_GROUP_CD = '007' AND H.BASE_CD = C.QUTY_CD
+			LEFT JOIN TB_SYSTEM_COMMON_CODE H2 ON H2.BASE_GROUP_CD = '036' AND H2.BASE_CD = COALESCE(D.GOODS_STATUS, E.GOODS_STATUS)
+			LEFT JOIN TB_SYSTEM_COMMON_CODE H3 ON H3.BASE_GROUP_CD = '051' AND H3.BASE_CD = COALESCE(D.FAULTY_STATUS, E.FAULTY_STATUS)
+		
+			WHERE (D.BOX_NO IS NOT NULL OR E.BOX_NO IS NOT NULL)
+			AND A.PO_SEQ = #{poSeq}
+
+		) AS AA
+		
+		LEFT OUTER JOIN 
+		(
+			SELECT
+				AA.*
+			FROM TB_AGT_SIZE_STEP AA
+			JOIN (
+				SELECT
+					LOT_NO
+					, MAX(WORK_ORD_NO) WORK_ORD_NO
+					, STEP_CD
+				FROM TB_AGT_SIZE_STEP A
+				WHERE STEP_CD = '001'
+				GROUP BY LOT_NO, STEP_CD
+			) BB
+			ON AA.WORK_ORD_NO = BB.WORK_ORD_NO
+			AND AA.LOT_NO = BB.LOT_NO
+			AND AA.STEP_CD = BB.STEP_CD
+		) AS BB
+		ON AA.MATRL_LOT_NO = BB.LOT_NO
+
+
+		LEFT OUTER JOIN 
+		(
+			SELECT
+				AA.*
+			FROM TB_AGT_SIZE_STEP AA
+			JOIN (
+				SELECT
+					LOT_NO
+					, MAX(WORK_ORD_NO) WORK_ORD_NO
+					, STEP_CD
+				FROM TB_AGT_SIZE_STEP A
+				WHERE STEP_CD = '002'
+				GROUP BY LOT_NO, STEP_CD
+			) BB
+			ON AA.WORK_ORD_NO = BB.WORK_ORD_NO
+			AND AA.LOT_NO = BB.LOT_NO
+			AND AA.STEP_CD = BB.STEP_CD
+		) AS DD
+		ON AA.MATRL_LOT_NO = DD.LOT_NO
+
+		LEFT OUTER JOIN 
+		(
+			SELECT
+				AA.*
+			FROM TB_AGT_SIZE_STEP AA
+			JOIN (
+				SELECT
+					LOT_NO
+					, MAX(WORK_ORD_NO) WORK_ORD_NO
+					, STEP_CD
+				FROM TB_AGT_SIZE_STEP A
+				WHERE STEP_CD = '003'
+				GROUP BY LOT_NO, STEP_CD
+			) BB
+			ON AA.WORK_ORD_NO = BB.WORK_ORD_NO
+			AND AA.LOT_NO = BB.LOT_NO
+			AND AA.STEP_CD = BB.STEP_CD
+		) AS EE
+		ON AA.MATRL_LOT_NO = EE.LOT_NO
+
+		
+		LEFT OUTER JOIN TB_SHIP_REPORTS AS CC
+		ON AA.MATRL_LOT_NO = CC.LOT_NO
+
+		ORDER BY AA.CUSTOMER_LOT_NO
+	</select>
+	
+	
+	
+	
+	<!-- 도금 두께 등록 -->
+	<insert id="shipReportsPlatedCreate">
+		<!-- Lot 중복 방지를 위해 중복되는 경우 삭제 후 Insert -->
+		BEGIN TRANSACTION
+
+		IF EXISTS (SELECT * FROM TB_SHIP_REPORTS WHERE LOT_NO = #{lotNo})
+		BEGIN
+			DELETE FROM TB_SHIP_REPORTS WHERE LOT_NO = #{lotNo}
+		END
+		
+		INSERT INTO TB_SHIP_REPORTS
+		(
+			LOT_NO
+			, THICKNESS_QTY
+			, REG_ID
+			, REG_DATE
+		)
+		VALUES
+		(
+			#{lotNo}
+			, #{thicknessQty}
+			, #{regId}
+			, GETDATE()
+		)
+		
+		COMMIT TRANSACTION
+	</insert>
+	
+	<select id="matrlInOutReporFileGroupMaxNum" resultMap="MatrlInOutWhsAdmVo">
+		SELECT
+			MAX(ISNULL(FILE_GROUP,0))+1 AS FILE_GROUP
+		FROM TB_IN_OUT_WHS_ADM
+	</select>
+	
+	<update id="matrlInOutReportUpload">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			FILE_GROUP	= #{fileGroup}
+			, FILE_NM	= #{fileNm}
+			, UPD_ID	= #{updId}
+			, UPD_DATE	= getDate()
+		WHERE LOT_NO IN ( ${lotNo} )
+	</update>
+	
+	<!-- 자재 층 구분자 업데이트 -->
+	<update id="matrlInOutFloorGubunUpdate">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			FLOOR_GUBUN = #{floorGubun}
+			, UPD_ID	= #{updId}
+			, UPD_DATE	= getDate()
+		WHERE LOT_NO = #{lotNo}
+	</update>
+	
+	
+</mapper>

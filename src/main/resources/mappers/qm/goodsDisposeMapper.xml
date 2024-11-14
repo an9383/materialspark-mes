@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.qm.goodsDisposeMapper">
+
+	<resultMap id="GoodsDisposeVo" type="mes.domain.qm.GoodsDisposeVo">
+	
+		<result property="workOrdNo"    	 column="WORK_ORD_NO"		/>
+		<result property="lotNo"	     	 column="LOT_NO"			/>
+		<result property="equipCd"     	     column="EQUIP_CD"			/>
+		<result property="goodsCd"       	 column="GOODS_CD"			/>
+		<result property="goodsNm"       	 column="GOODS_NM"			/>
+		<result property="qutyNm"       	 column="QUTY_NM"			/>
+		<result property="ordDate"       	 column="ORD_DATE"			/>                             
+		<result property="trayNo"            column="TRAY_NO"			/>
+		<result property="matrlLotNo"        column="MATRL_LOT_NO"		/>
+		<result property="filmLotNo"         column="FILM_LOT_NO"		/>
+		<result property="inspStatus"        column="INSP_STATUS"		/>
+		<result property="inspStatusNm"      column="INSP_STATUS_NM"	/>
+		<result property="reInspStatus"      column="RE_INSP_STATUS"	/>
+		<result property="reInspStatusNm"	 column="RE_INSP_STATUS_NM"	/>
+		<result property="disStatus"         column="DIS_STATUS"		/>
+		<result property="disStatusNm"	     column="DIS_STATUS_NM"		/>
+		<result property="inspDate"          column="INSP_DATE"			/>                               
+		<result property="faultyGubun"       column="FAULTY_GUBUN"		/>
+		<result property="faultyGubunNm"	 column="FAULTY_GUBUN_NM"	/>
+		<result property="regId"             column="REG_ID"			/>
+		<result property="regDate"           column="REG_DATE"			/>
+		<result property="updId"             column="UPD_ID"			/>
+		<result property="updDate"           column="UPD_DATE"			/>
+		<result property="abnormalPrcss"     column="ABNORMAL_PRCSS"	/>
+		<result property="appointDate"		 column="APPOINT_DATE"		/>
+                                                                    
+		<result property="matrlCd"		     column="MATRL_CD"			/>
+		<result property="qutyCd"            column="QURT_CD"			/>
+		<result property="dealCorpCd"        column="DEAL_CORP_CD"		/>
+		<result property="dealCorpNm"        column="DEAL_CORP_NM"		/>
+		<result property="alnicuMatrlCd"     column="ALNICU_MATRL_CD"	/>
+		<result property="surfaceTrtmtCd"    column="SURFACE_TRTMT_CD"	/>
+		<result property="surfaceTrtmtNm"    column="SURFACE_TRTMT_NM"	/>
+		<result property="dateCheck"         column="DATE_CHECK"		/>
+		<result property="equipNm"           column="EQUIP_NM"			/>
+		<result property="boxNo"             column="BOX_NO"			/>
+		<result property="abnormalDate"      column="ABNORMAL_DATE"		/>
+		<result property="abnormalNo"        column="ABNORMAL_NO"		/>
+		<result property="abnormalDesc"      column="ABNORMAL_DESC"		/>
+		<result property="manager"           column="MANAGER"			/>
+		<result property="managerNm"         column="MANAGER_NM"		/>
+		<result property="isolationYn"       column="ISOLATION_YN"		/>
+		<result property="isolationYnNm"     column="ISOLATION_YN_NM"	/>
+		<result property="fileNm"            column="FILE_NM"			/>
+		<result property="disposeCnt"        column="DISPOSE_CNT"		/>
+		<result property="accCnt"            column="ACC_CNT"			/>
+		<result property="workChargr"        column="WORK_CHARGR"		/>
+		<result property="workChargrNm"      column="WORK_CHARGR_NM"	/>
+		<result property="inspctChargr"      column="INSPCT_CHARGR"		/>
+		<result property="inspctChargrNm"    column="INSPCT_CHARGR_NM"	/>
+		<result property="inspctDate"        column="INSPCT_DATE"		/>
+		<result property="productDate"       column="PRODUCT_DATE"		/>
+		<result property="abnormalCnt"       column="ABNORMAL_CNT"		/>
+		<result property="departmentCd"      column="DEPARTMENT_CD"		/>
+		<result property="departmentNm"      column="DEPARTMENT_NM"		/>
+		<result property="labelLotNoSeq"     column="LABEL_LOT_NO_SEQ"		/>
+		<result property="faultyCnt"         column="FAULTY_CNT"		/>
+		<result property="disposeGubun"      column="DISPOSE_GUBUN"		/>
+		<result property="disposeGubunNm"    column="DISPOSE_GUBUN_NM"		/>
+
+	</resultMap>
+	
+	
+	
+	<select id="list" resultMap="GoodsDisposeVo">
+		SELECT 	
+			STUFF
+			(
+				( 
+					SELECT  
+						DISTINCT ',' + (SELECT USER_NM	FROM TB_USER WHERE USER_NUMBER = X.VALUE)
+					FROM   
+						( 
+							SELECT 
+								ABNORMAL_NO
+								, LABEL_LOT_NO_SEQ
+								, WORK_CHARGR	
+								, VALUE
+								, (SELECT USER_NM FROM TB_USER X WHERE VALUE = USER_NUMBER) USER_NM
+							FROM TB_GOODS_DISPOSE_DTL
+							CROSS APPLY STRING_SPLIT(WORK_CHARGR, ',')
+						) X
+					WHERE   X.LABEL_LOT_NO_SEQ = B.LABEL_LOT_NO_SEQ
+					FOR XML PATH('') 
+				),1,1,''
+			)  WORK_CHARGR_NM
+			,A.IDX
+			,A.ABNORMAL_NO
+			,A.ABNORMAL_PRCSS
+			,A.ABNORMAL_DATE
+			,A.ABNORMAL_DESC
+			,A.MANAGER
+			,A.ISOLATION_YN
+			,A.FILE_NM
+			,A.DISPOSE_CNT
+			,A.ACC_CNT			
+			,B.LABEL_LOT_NO_SEQ
+			,B.BOX_NO
+			,B.GOODS_CD			
+			,B.EQUIP_CD			
+			,B.WORK_CHARGR		
+			,B.INSPCT_CHARGR			
+			,B.INSPCT_DATE
+			,B.PRODUCT_DATE
+			,B.ABNORMAL_CNT
+			,B.FAULTY_CNT
+			,B.DEPARTMENT_CD			
+			,B.LOT_NO
+			,B.FILM_LOT_NO	
+			,B.DISPOSE_GUBUN
+			,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = B.GOODS_CD) GOODS_NM
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_CD = B.DEPARTMENT_CD AND BASE_GROUP_CD = '013') DEPARTMENT_NM
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_CD = A.ABNORMAL_PRCSS AND BASE_GROUP_CD = '121') ABNORMAL_PRCSS_NM
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_CD = B.DISPOSE_GUBUN AND BASE_GROUP_CD = '122') DISPOSE_GUBUN_NM
+			,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = B.EQUIP_CD) EQUIP_NM
+			,(SELECT USER_NM FROM TB_USER X WHERE B.INSPCT_CHARGR = X.USER_NUMBER) INSPCT_CHARGR_NM
+			,(SELECT USER_NM FROM TB_USER X WHERE A.MANAGER = X.USER_NUMBER) MANAGER_NM
+			,(CASE WHEN A.ISOLATION_YN = '001' THEN 'YES' ELSE 'NO' END) ISOLATION_YN_NM
+		FROM TB_GOODS_DISPOSE_ADM A,TB_GOODS_DISPOSE_DTL B
+		WHERE 
+			A.ABNORMAL_NO = B.ABNORMAL_NO
+			<if test="equipCd != null and !equipCd.equals('')">
+				AND EQUIP_CD = #{equipCd}
+			</if>
+			<if test="dateCheck != null and dateCheck.equals('001')">
+				AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				AND INSPCT_DATE IS NOT NULL
+			</if>
+			<if test="dateCheck != null and dateCheck.equals('002')">
+				AND INSPCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			</if>
+			<if test="dateCheck != null and dateCheck.equals('003')">
+				AND ABNORMAL_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+				AND INSPCT_DATE IS NOT NULL
+			</if>
+			<if test="disposeGubun != null and !disposeGubun.equals('')">
+				AND DISPOSE_GUBUN = #{disposeGubun}
+			</if>
+			<if test="matrlLotNo != null and !matrlLotNo.equals('')">
+				AND LOT_NO LIKE '%' + #{matrlLotNo} +'%'
+			</if>
+	</select>
+	
+	
+	<select id="readAdm" resultMap="GoodsDisposeVo">
+		<![CDATA[
+			SELECT
+				IDX
+				,ABNORMAL_NO
+				,ABNORMAL_PRCSS
+				,ABNORMAL_DATE
+				,ABNORMAL_DESC
+				,MANAGER
+				,ISOLATION_YN
+				,FILE_NM
+				,DISPOSE_CNT
+				,ACC_CNT
+			FROM 
+				TB_GOODS_DISPOSE_ADM A			
+			WHERE 
+				A.ABNORMAL_NO = #{abnormalNo}
+		]]>
+	</select>
+	
+	<select id="readDtl" resultMap="GoodsDisposeVo">
+		<![CDATA[
+			SELECT 
+				ABNORMAL_NO
+				,LABEL_LOT_NO_SEQ
+				,BOX_NO
+				,GOODS_CD
+				,EQUIP_CD
+				,WORK_CHARGR
+				,INSPCT_CHARGR
+				,INSPCT_DATE
+				,PRODUCT_DATE
+				,ABNORMAL_CNT
+				,FAULTY_CNT
+				,DEPARTMENT_CD
+				,LOT_NO
+				,FILM_LOT_NO
+				,DISPOSE_GUBUN
+			FROM 
+				TB_GOODS_DISPOSE_DTL B
+			WHERE 
+				B.ABNORMAL_NO = #{abnormalNo}
+		]]>
+		<if test="boxNo !=null and boxNo != ''">
+			AND B.BOX_NO = #{boxNo}
+		</if>
+			
+		
+	</select>
+	
+	<!-- 이상발생번호채번 -->
+	<select id="selectNoSeq" resultType="String">
+		<![CDATA[
+			SELECT 'SLD-' + CONVERT(CHAR(8), CONVERT(DATE,GETDATE()), 112) + '-' + RIGHT('000' + CAST(ISNULL(RIGHT(MAX(ABNORMAL_NO),3),0)+1 AS NVARCHAR), 3) ABNORMAL_NO 
+			FROM TB_GOODS_DISPOSE_ADM
+			WHERE ABNORMAL_DATE = #{abnormalDate}
+		]]>		
+	</select>
+	
+	<!-- 이상발생내용 누적횟수 -->
+	<select id="selectAccCnt" resultType="String">
+		<![CDATA[
+			SELECT ISNULL(MAX(ACC_CNT),0) + 1 ACC_CNT 
+			FROM TB_GOODS_DISPOSE_ADM
+			WHERE ABNORMAL_DESC = #{abnormalDesc}
+		]]>		
+	</select>
+
+	<insert id="createAdm" parameterType="mes.domain.qm.GoodsDisposeVo">
+		<![CDATA[
+			INSERT INTO TB_GOODS_DISPOSE_ADM
+			(			 	
+				ABNORMAL_PRCSS
+				,ABNORMAL_DATE
+				,ABNORMAL_NO
+				,ABNORMAL_DESC
+				,MANAGER
+				,ISOLATION_YN
+				,FILE_NM
+				,DISPOSE_CNT
+				,ACC_CNT
+				,REG_ID
+				,REG_DATE
+			)
+			VALUES
+			(
+				
+				#{abnormalPrcss}
+				,#{abnormalDate}
+				,#{abnormalNo}
+				,#{abnormalDesc}
+				,#{manager}
+				,#{isolationYn}
+				,#{fileNm}
+				,#{disposeCnt}
+				,#{accCnt}
+				,#{regId}
+				,getDate()
+			)
+		]]>
+	</insert>
+	
+	<insert id="createDtl" parameterType="mes.domain.qm.GoodsDisposeVo">
+		<![CDATA[
+			INSERT INTO TB_GOODS_DISPOSE_DTL
+			(			
+				ABNORMAL_NO 					
+				,LABEL_LOT_NO_SEQ
+				,BOX_NO
+				,GOODS_CD
+				,EQUIP_CD
+				,WORK_CHARGR
+				,INSPCT_CHARGR
+				,INSPCT_DATE
+				,PRODUCT_DATE
+				,ABNORMAL_CNT
+				,FAULTY_CNT
+				,DEPARTMENT_CD
+				,LOT_NO
+				,FILM_LOT_NO
+				,DISPOSE_GUBUN
+				,REG_ID
+				,REG_DATE
+			)
+			VALUES
+			(
+				#{abnormalNo}
+				,#{labelLotNoSeq}
+				,#{boxNo}
+				,#{goodsCd}
+				,#{equipCd}
+				,#{workChargr}
+				,#{inspctChargr}
+				,#{inspctDate}
+				,#{productDate}
+				,#{abnormalCnt}
+				,#{faultyCnt}
+				,#{departmentCd}
+				,#{lotNo}
+				,#{filmLotNo}		
+				,#{disposeGubun}		
+				,#{regId}
+				,getDate()
+			)
+		]]>
+	</insert>
+	
+	<update id="updateDisposeGubun" parameterType="mes.domain.qm.GoodsDisposeVo">
+		<![CDATA[
+			UPDATE TB_GOODS_DISPOSE_DTL
+			SET DISPOSE_GUBUN = #{disposeGubun}
+			,APPOINT_DATE = #{appointDate}
+			,UPD_ID = #{updId}
+			,UPD_DATE = GETDATE()
+			WHERE LABEL_LOT_NO_SEQ = #{labelLotNoSeq}
+		]]>
+	</update>
+	
+	
+	<delete id="deleteAdm" parameterType="mes.domain.qm.GoodsDisposeVo">
+		<![CDATA[
+		
+		]]>
+	</delete>
+	
+	<delete id="deleteDtl" parameterType="mes.domain.qm.GoodsDisposeVo">
+	<![CDATA[
+	
+	]]>
+	</delete>
+	
+	
+
+	
+</mapper>

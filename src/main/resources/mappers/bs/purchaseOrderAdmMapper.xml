@@ -1,0 +1,4392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+     
+<mapper namespace="mes.mappers.bs.purchaseOrderAdmMapper">
+
+	<resultMap id="PurchaseOrderAdmVo" type="mes.domain.bs.PurchaseOrderAdmVo">
+      	<result property="poNo"                         column="PO_NO"               		/>
+      	<result property="goodsCd"                      column="GOODS_CD"           	 	/>
+      	<result property="goodsNm"                      column="GOODS_NM"            		/>
+      	<result property="modelNo"                      column="MODEL_NO"            		/>
+      	<result property="poDate"                       column="PO_DATE"            		/>
+      	<result property="poQty"                        column="PO_QTY"               		/>
+      	<result property="preOutputQty"                 column="PRE_OUTPUT_QTY"        	 	/>
+      	<result property="outputQty"                    column="OUTPUT_QTY"            		/>
+      	<result property="remainQty"                    column="REMAIN_QTY"           	 	/>
+      	<result property="poGubunCd"                    column="PO_GUBUN_CD"         		/>
+      	<result property="poGubunNm"                    column="PO_GUBUN_NM"       		 	/>
+      	<result property="poCode"                       column="PO_CODE"           		 	/>
+      	<result property="poAttn"                       column="PO_ATTN"            		/>
+      	<result property="poSeq"                        column="PO_SEQ"               		/>
+      	<result property="outputCnt"               		column="OUTPUT_CNT"         		/>
+      	<result property="moneyUnitCd"                  column="MONEY_UNIT_CD"         		/>
+      	<result property="moneyUnitNm"                  column="MONEY_UNIT_NM"         		/>
+      	<result property="costUnit"                     column="COST_UNIT"            		/>
+      	<result property="totalPrice"                   column="TOTAL_PRICE"         		/>
+      	<result property="totalPrice1"                  column="TOTAL_PRICE1"         		/>
+      	<result property="totalPrice2"                  column="TOTAL_PRICE2"         		/>
+      	<result property="totalPrice3"                  column="TOTAL_PRICE3"         		/>      
+      	<result property="deliveryDate"                 column="DELIVERY_DATE"         		/>
+      	<result property="dealCorpCd"                   column="DEAL_CORP_CD"         		/>
+      	<result property="dealCorpNm"                   column="DEAL_CORP_NM"         		/>
+      	<result property="deliveryDealCorpCd"           column="DELIVERY_DEAL_CORP_CD"   	/>
+      	<result property="deliveryDealCorpNm"           column="DELIVERY_DEAL_CORP_NM"  	/>
+      	<result property="sampleYn"           			column="SAMPLE_YN"   				/>
+      	<result property="poDesc"                       column="PO_DESC"            		/>
+      	<result property="regId"                        column="REG_ID"              	 	/>
+      	<result property="regDate"                      column="REG_DATE"            		/>
+      	<result property="updId"                        column="UPD_ID"               		/>
+      	<result property="updDate"                      column="UPD_DATE"           	 	/>
+      	<result property="qutyCd"                       column="QUTY_CD"            		/>
+      	<result property="qutyNm"                       column="QUTY_NM"            		/>
+      	<result property="thickness"                    column="THICKNESS"            		/>
+      	<result property="depth"                        column="DEPTH"               		/>
+      	<result property="length"                       column="LENGTH"              		/>
+      	<result property="width"                       	column="WIDTH"               		/>
+      	<result property="pitch"                        column="PITCH"               		/>
+      	<result property="outputHistDate"               column="OUTPUT_HIST_DATE"      		/>
+      	<result property="model"                     	column="MODEL"               		/>
+      	<result property="outputHistDate"               column="OUTPUT_HIST_DATE"      		/>
+      	<result property="approvalCd"                   column="APPROVAL_CD"        	 	/>
+      	<result property="approvalNm"                   column="APPROVAL_NM"         		/>
+      	<result property="outputPrice"                  column="OUTPUT_PRICE"        	 	/>
+		<result property="outputPri"					column="OUTPUT_PRI"          		/>
+		<result property="notOutputPri"					column="NOTOUTPUT_PRI"          	/>
+		<result property="customerLotNo"				column="CUSTOMER_LOT_NO"          	/>
+		<result property="boxNo"						column="BOX_NO"          			/>
+      	<result property="packDate"          			column="PACK_DATE"        		 	/>
+		
+		<result property="selBoxNo1"					column="SEL_BOX_NO1"         	 	/>
+		<result property="selBoxNo2"					column="SEL_BOX_NO2"         	 	/>
+		<result property="matrlLotNo"					column="MATRL_LOT_NO"          		/>
+		<result property="filmLotNo"					column="FILM_LOT_NO"          		/>
+		<result property="poNoSeq"						column="PO_NO_SEQ"          		/>
+		<result property="poGroup"            			column="PO_GROUP"         			/>
+      	<result property="ordGubun"                     column="ORD_GUBUN"           	 	/>
+      	<result property="ordGubunNm"                   column="ORD_GUBUN_NM"           	/>
+      	<result property="alnicuMatrlCd"                column="ALNICU_MATRL_CD"         	/>
+      	
+      	<result property="palletQty"                	column="PALLET_QTY"         		/>
+		<result property="completeYn"         			column="COMPLETE_YN"				/>
+   	 	<result property="goodsStatus"					column="GOODS_STATUS"				/>
+   	 	<result property="goodsStatusNm"				column="GOODS_STATUS_NM"			/>
+   	 	
+   	 	<result property="deadLine"						column="DEAD_LINE"			/>
+   	 	
+   	 	<result property="workOrdLotNo"					column="WORK_ORD_LOT_NO"			/>
+   	 	
+   	 	<result property="isMulti"						column="IS_MULTI"					/>
+   	 	<result property="disposeGubun"					column="DISPOSE_GUBUN"				/>
+   	 	<result property="disposeGubunNm"				column="DISPOSE_GUBUN_NM"			/>
+   	 	<result property="inWhsDate"					column="IN_WHS_DATE"				/>
+   	 	<result property="remainCnt"					column="REMAIN_CNT"					/>
+   	 	<result property="productGubun"					column="PRODUCT_GUBUN"				/>
+   	 	<result property="goodsSampleYn"				column="GOODS_SAMPLE_YN"			/>
+   	 	<result property="goodsSampleYnNm"				column="GOODS_SAMPLE_YN_NM"			/>
+   	 	<result property="inspDate"						column="INSP_DATE"					/>
+	</resultMap>
+   
+   <resultMap id="PurchaseOrderDtl" type="mes.domain.bs.PurchaseOrderDtl">
+      <result property="poSeq"              column="PO_SEQ"           	/>
+      <result property="poGroup"            column="PO_GROUP"           />
+      <result property="poNo"               column="PO_NO"          	/>
+      <result property="poDate"             column="PO_DATE"        	/>
+      <result property="poQty"              column="PO_QTY"           	/>
+      <result property="outputQty"          column="OUTPUT_QTY"         />
+      <result property="remainQty"          column="REMAIN_QTY"         />
+      <result property="poGubunCd"          column="PO_GUBUN_CD"     	/>
+      <result property="poGubunNm"          column="PO_GUBUN_NM"     	/>
+      <result property="poCode"             column="PO_CODE"         	/>
+      <result property="poAttn"             column="PO_ATTN"        	/>
+      <result property="moneyUnitCd"        column="MONEY_UNIT_CD"      />
+      <result property="moneyUnitNm"        column="MONEY_UNIT_NM"      />
+      <result property="costUnit"           column="COST_UNIT"         	/>
+      <result property="totalPrice"         column="TOTAL_PRICE"      	/>
+      <result property="deliveryDate"       column="DELIVERY_DATE"      />
+      <result property="dealCorpCd"         column="DEAL_CORP_CD"      	/>
+      <result property="dealCorpNm"         column="DEAL_CORP_NM"      	/>
+      <result property="poDesc"             column="PO_DESC"         	/>
+      <result property="goodsCd"            column="GOODS_CD"         	/>
+      <result property="goodsNm"            column="GOODS_NM"         	/>
+      <result property="boxNo"              column="BOX_NO"            	/>
+      <result property="boxNoOld"           column="BOX_NO_OLD"         />
+      <result property="poNoSeq"            column="PO_NO_SEQ"         	/>
+      <result property="packCnt"            column="PACK_CNT"         	/>
+      <result property="outputCnt"          column="OUTPUT_CNT"         />
+      <result property="poDate"             column="PO_DATE"         	/>
+      <result property="completeYn"         column="COMPLETE_YN"        />
+      <result property="regId"              column="REG_ID"           	/>
+      <result property="regDate"            column="REG_DATE"         	/>
+      <result property="updId"              column="UPD_ID"            	/>
+      <result property="updDate"			column="UPD_DATE"         	/>
+   </resultMap>
+   
+	<resultMap id="PurchaseOrderOutputHistVo" type="mes.domain.bs.PurchaseOrderOutputHistVo">
+		<result property="poSeq"				column="PO_SEQ"					/>
+		<result property="poNo"					column="PO_NO"					/>
+		<result property="poGroup"				column="PO_GROUP"				/>
+		<result property="preOutputQty"			column="PRE_OUTPUT_QTY"			/>
+		<result property="outputQty"			column="OUTPUT_QTY"				/>
+		<result property="remainQty"			column="REMAIN_QTY"				/>
+		<result property="outputHistDate"		column="OUTPUT_HIST_DATE"		/>
+		<result property="approvalCd"			column="APPROVAL_CD"			/>
+		<result property="trayCnt"				column="TRAY_CNT"				/>
+		<result property="regId"				column="REG_ID"					/>
+		<result property="regDate"				column="REG_DATE"				/>
+		<result property="updId"				column="UPD_ID"					/>
+		<result property="updDate"				column="UPD_DATE"				/>
+		<result property="outputGubun"          column="OUTPUT_GUBUN"			/>
+		<result property="completeYn"         	column="COMPLETE_YN"			/>
+      
+		<!-- 추가항목 -->      
+		<result property="poGroupOrder"			column="PO_GROUP_ORDER"			/>
+   	 	<result property="goodsStatus"			column="GOODS_STATUS"			/>
+   	 	<result property="goodsStatusNm"			column="GOODS_STATUS_NM"			/>
+   	 	<result property="exceptPallet"			column="EXCEPT_PALLET"			/>
+   </resultMap>
+   
+   
+   
+   <!-- 영업관리 구매주문정보목록조회 -->
+   <select id="listPurchaseOrderAll" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+         SELECT
+         	A.PO_SEQ
+            ,A.PO_NO
+            ,A.GOODS_CD
+            ,C.GOODS_NM
+            ,C.MODEL_NO
+            ,A.PO_DATE
+            ,A.PO_QTY
+            ,A.OUTPUT_QTY
+            
+            <if test='factoryCode == "001" or factoryCode == "002"'>
+            	,A.REMAIN_QTY
+            </if>
+            <if test='factoryCode == "003"'>
+            	, ( PO_QTY - ( SELECT ISNULL(SUM(OUTPUT_CNT),0) FROM TB_PURCHASE_ORDER_DTL WHERE PO_SEQ = A.PO_SEQ ) ) AS REMAIN_QTY
+            </if>
+            
+            ,A.PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.PO_GUBUN_CD) PO_GUBUN_NM
+            ,A.PO_CODE
+            ,A.PO_ATTN
+            ,A.MONEY_UNIT_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='032' AND B.BASE_CD = A.MONEY_UNIT_CD) MONEY_UNIT_NM
+            ,A.COST_UNIT
+            ,A.TOTAL_PRICE
+            ,A.DELIVERY_DATE
+            ,A.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+            ,A.DELIVERY_DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DELIVERY_DEAL_CORP_CD) DELIVERY_DEAL_CORP_NM
+            ,A.PO_DESC
+            ,A.PALLET_QTY
+            ,A.DEAD_LINE
+            ,A.REG_ID
+            ,A.REG_DATE
+            ,A.UPD_ID
+            ,A.UPD_DATE
+            ,D.QUTY_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+            ,D.THICKNESS
+            ,D.DEPTH
+            ,D.LENGTH
+            ,D.WIDTH
+            ,D.PITCH
+            ,A.DEAD_LINE
+         FROM   TB_PURCHASE_ORDER_ADM A,
+            TB_GOODS_CODE_ADM C,
+            TB_MATRL_CODE_ADM D
+         WHERE 1=1
+            AND A.GOODS_CD = C.GOODS_CD
+            AND C.ALNICU_MATRL_CD = D.MATRL_CD
+            <if test="poDateFrom != null and poDateFrom != ''"> 
+               <![CDATA[
+               AND A.DELIVERY_DATE >= #{poDateFrom}
+               ]]>
+            </if>
+            <if test="poDateTo != null and poDateTo != ''">  
+               <![CDATA[
+               AND A.DELIVERY_DATE <= #{poDateTo}
+               ]]>
+            </if>
+            <if test="deliveryDate != null and deliveryDate != ''">
+				AND A.DELIVERY_DATE = #{deliveryDate}
+			</if>
+            <if test="poGubunCd != null and poGubunCd != ''"> 
+               AND A.PO_GUBUN_CD = #{poGubunCd}
+            </if>
+            
+			<if test="dealCorpCd != null and dealCorpCd != ''">
+				<if test="dealCorpCd.equals('002')">
+					AND ( SELECT DEAL_CORP_INFO FROM TB_DEAL_CORP_ADM X WHERE X.DEAL_CORP_CD = A.DEAL_CORP_CD) = '002'
+				</if>
+				<if test="!dealCorpCd.equals('002')">
+					AND ( SELECT DEAL_CORP_INFO FROM TB_DEAL_CORP_ADM X WHERE X.DEAL_CORP_CD = A.DEAL_CORP_CD) != '002'
+				</if>
+            </if>
+   </select>
+   
+   <!-- 영업관리 구매주문정보상세조회 -->
+   <select id="read" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <![CDATA[
+         SELECT   A.PO_SEQ
+            ,A.PO_NO
+            ,A.GOODS_CD
+            ,C.GOODS_NM      
+            ,A.PO_DATE
+            ,A.PO_QTY
+            ,A.OUTPUT_QTY
+            ,A.REMAIN_QTY
+            ,A.PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.PO_GUBUN_CD) PO_GUBUN_NM
+            ,A.PO_CODE
+            ,A.PO_ATTN
+            ,A.MONEY_UNIT_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='032' AND B.BASE_CD = A.MONEY_UNIT_CD) MONEY_UNIT_NM
+            ,A.COST_UNIT
+            ,A.TOTAL_PRICE
+            ,A.DELIVERY_DATE
+            ,A.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+            ,A.DELIVERY_DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DELIVERY_DEAL_CORP_CD) DELIVERY_DEAL_CORP_NM
+            ,A.SAMPLE_YN
+            ,A.PO_DESC
+            ,A.PALLET_QTY
+            ,A.DEAD_LINE
+            ,A.REG_ID
+            ,A.REG_DATE
+            ,A.UPD_ID
+            ,A.UPD_DATE
+            ,D.QUTY_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+            ,D.THICKNESS
+            ,D.DEPTH
+            ,D.LENGTH
+            ,D.WIDTH
+            ,D.PITCH
+
+         FROM   TB_PURCHASE_ORDER_ADM A,
+            TB_GOODS_CODE_ADM C,
+            TB_MATRL_CODE_ADM D
+
+         WHERE 1=1
+            AND A.PO_SEQ = #{poSeq} 
+            AND A.GOODS_CD = C.GOODS_CD
+            AND C.ALNICU_MATRL_CD = D.MATRL_CD
+      ]]>
+   </select>
+
+   <select id="selectPurchaseOrderSeq" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultType="String">
+      SELECT ISNULL(RIGHT('000' + CAST(MAX(SUBSTRING(PO_SEQ, 10, 12))+1 AS NVARCHAR),3), '001') FROM TB_PURCHASE_ORDER_ADM WHERE PO_DATE = #{poDate} 
+   </select>   
+   
+   <!-- 영업관리 구매주문정보등록 -->
+   <insert id="create" parameterType="mes.domain.bs.PurchaseOrderAdmVo">
+      <![CDATA[
+      INSERT INTO TB_PURCHASE_ORDER_ADM(
+         PO_SEQ
+         ,PO_NO
+         ,GOODS_CD
+         ,PO_DATE
+         ,PO_QTY
+         ,OUTPUT_QTY
+         ,REMAIN_QTY
+         ,PO_GUBUN_CD
+         ,PO_CODE
+         ,PO_ATTN
+         ,MONEY_UNIT_CD
+         ,COST_UNIT
+         ,TOTAL_PRICE
+         ,DELIVERY_DATE
+         ,DEAL_CORP_CD
+         ,SAMPLE_YN
+         ,PO_DESC
+         ,PALLET_QTY
+         ,DEAD_LINE
+         ,REG_ID
+         ,REG_DATE
+      ) 
+      VALUES(
+         #{poSeq}      
+         ,#{poNo}
+         ,#{goodsCd}
+         ,#{poDate}
+         ,#{poQty}
+         ,#{outputQty}
+         ,#{remainQty}
+         ,#{poGubunCd}
+         ,#{poCode}
+         ,#{poAttn}
+         ,#{moneyUnitCd}
+         ,#{costUnit}
+         ,#{totalPrice}
+         ,#{deliveryDate}
+         ,#{dealCorpCd}
+         ,#{sampleYn}
+         ,#{poDesc}
+         ,#{palletQty}
+         ,#{deadLine}
+         ,#{regId}
+         ,getDate()
+      )
+      ]]>
+   </insert>
+   
+   <!-- 영업관리 구매주문정보 삭제가능한지 체크 -->
+   <select id="purchaseOrderDeleteCheck" resultType="int">
+      SELECT COUNT(*) FROM TB_PURCHASE_ORDER_DTL
+        WHERE PO_SEQ = #{poSeq}
+   </select>
+  
+     <!-- 출하 기록 boxNo 변경여부 체크 -->
+   <select id="purchaseOrderDtlDeleteCheck" resultType="int">
+      SELECT COUNT(*) FROM TB_PURCHASE_ORDER_DTL
+        WHERE PO_SEQ = #{poSeq}
+      AND PO_GROUP = #{poGroup}
+   </select>
+   
+   <!-- 영업관리 구매주문정보 삭제 -->
+   <delete id="purchaseOrderDelete" parameterType="mes.domain.bs.PurchaseOrderAdmVo">
+      DELETE TB_PURCHASE_ORDER_ADM
+      WHERE PO_SEQ = #{poSeq}
+   </delete>
+   
+   <!-- 영업관리 구매주문정보수정 -->
+   <update id="update" parameterType="mes.domain.bs.PurchaseOrderAdmVo">
+      <![CDATA[
+      UPDATE   TB_PURCHASE_ORDER_ADM 
+      SET   
+         PO_NO = #{poNo}
+         ,GOODS_CD = #{goodsCd}
+         ,PO_QTY = #{poQty}
+         ,REMAIN_QTY = #{remainQty}
+         ,PO_GUBUN_CD = #{poGubunCd}
+         ,PO_CODE = #{poCode}
+         ,PO_ATTN = #{poAttn}
+         ,MONEY_UNIT_CD = #{moneyUnitCd}
+         ,COST_UNIT = #{costUnit}
+         ,TOTAL_PRICE = #{totalPrice}
+         ,DELIVERY_DATE = #{deliveryDate}
+         ,DEAL_CORP_CD = #{dealCorpCd}
+         ,DELIVERY_DEAL_CORP_CD = #{deliveryDealCorpCd}
+         ,SAMPLE_YN = #{sampleYn}
+         ,PO_DESC = #{poDesc}
+         ,PALLET_QTY = #{palletQty}
+         ,DEAD_LINE = #{deadLine}
+         ,UPD_ID = #{updId}
+         ,UPD_DATE = getDate()
+      WHERE   PO_SEQ = #{poSeq}
+      ]]>        
+   </update>
+   
+   <!-- 영업관리 출고이력수정 -->
+   <update id="updateOutputHist" parameterType="mes.domain.bs.PurchaseOrderOutputHistVo">
+      <![CDATA[
+      UPDATE   TB_PURCHASE_ORDER_OUTPUT_HIST
+      SET   
+         REMAIN_QTY = #{poQty} - #{outputQty} - #{preOutputQty}
+         ,PO_NO = #{poNo}
+         ,UPD_ID = #{updId}
+         ,UPD_DATE = getDate()
+      WHERE   PO_SEQ = #{poSeq}
+      AND PO_GROUP = #{poGroup}
+      ]]>        
+   </update>
+   
+   <!-- 영업관리 영업일보목록조회 -->
+   <select id="listPurchaseOrderDaily" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+         SELECT   
+            A.PO_SEQ
+            ,A.PO_NO
+            ,A.GOODS_CD
+            ,C.MODEL
+            ,C.GOODS_NM
+            ,A.PO_DATE
+            ,A.PO_QTY
+            ,A.OUTPUT_QTY
+            ,A.REMAIN_QTY
+            ,A.PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.PO_GUBUN_CD) PO_GUBUN_NM
+            ,A.PO_CODE
+            ,A.PO_ATTN
+            ,A.MONEY_UNIT_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='032' AND B.BASE_CD = A.MONEY_UNIT_CD) MONEY_UNIT_NM
+            ,A.COST_UNIT
+            ,A.TOTAL_PRICE
+            ,A.DELIVERY_DATE
+            ,A.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+            ,A.DELIVERY_DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DELIVERY_DEAL_CORP_CD) DELIVERY_DEAL_CORP_NM
+            ,A.PO_DESC
+            ,A.DEAD_LINE
+            ,A.REG_ID
+            ,A.REG_DATE
+            ,A.UPD_ID
+            ,A.UPD_DATE
+            ,(A.COST_UNIT*A.OUTPUT_QTY) OUTPUT_PRI
+			,(A.COST_UNIT*A.REMAIN_QTY) NOTOUTPUT_PRI
+            ,D.QUTY_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+            ,D.THICKNESS
+            ,D.DEPTH
+            ,D.LENGTH
+            ,D.WIDTH
+            ,D.PITCH
+            ,F.OUTPUT_HIST_DATE
+            ,A.DEAD_LINE
+         FROM TB_PURCHASE_ORDER_ADM A,
+            TB_GOODS_CODE_ADM C,
+            TB_MATRL_CODE_ADM D,
+         
+            (SELECT A.PO_SEQ,
+               STUFF((
+                  SELECT ', ' + DD.OUTPUT_HIST_DATE
+                  FROM (SELECT DISTINCT A.PO_SEQ, B.OUTPUT_HIST_DATE
+                        FROM TB_PURCHASE_ORDER_ADM A LEFT OUTER JOIN TB_PURCHASE_ORDER_OUTPUT_HIST B ON A.PO_SEQ = B.PO_SEQ
+                        WHERE 1=1 
+                     <if test="poDateFrom != null and poDateFrom != ''"> 
+                        <![CDATA[
+                        AND A.DELIVERY_DATE >= #{poDateFrom}
+                        ]]>
+                     </if>
+                     <if test="poDateTo != null and poDateTo != ''">  
+                        <![CDATA[
+                        AND A.DELIVERY_DATE <= #{poDateTo}
+                        ]]>
+                     </if>
+                     <if test="poGubunCd != null and poGubunCd != ''"> 
+                        AND A.PO_GUBUN_CD = #{poGubunCd}
+                     </if>
+                     <!--출고완료된것 -->
+                     <if test='outputGubun=="1"'> 
+                        AND A.PO_QTY = A.OUTPUT_QTY
+                     </if>
+                     <!--미출고인것 -->
+                     <if test='outputGubun=="2"'> 
+                        AND A.PO_QTY != A.OUTPUT_QTY
+                     </if>
+            ) DD
+            WHERE DD.PO_SEQ = A.PO_SEQ
+            FOR XML PATH('')
+            ), 1, 1, '') AS OUTPUT_HIST_DATE
+            
+         FROM TB_PURCHASE_ORDER_ADM A LEFT OUTER JOIN TB_PURCHASE_ORDER_OUTPUT_HIST B ON A.PO_SEQ = B.PO_SEQ
+         WHERE 1=1
+         GROUP BY A.PO_SEQ) F
+         WHERE 1=1
+            AND A.GOODS_CD = C.GOODS_CD
+            AND C.ALNICU_MATRL_CD = D.MATRL_CD
+            AND A.PO_SEQ = F.PO_SEQ
+         <if test="poDateFrom != null and poDateFrom != ''"> 
+            <![CDATA[
+            AND A.DELIVERY_DATE >= #{poDateFrom}
+            ]]>
+         </if>
+         <if test="poDateTo != null and poDateTo != ''">  
+            <![CDATA[
+            AND A.DELIVERY_DATE <= #{poDateTo}
+            ]]>
+         </if>
+         <if test="poGubunCd != null and poGubunCd != ''"> 
+            AND A.PO_GUBUN_CD = #{poGubunCd}
+         </if>
+         <!--출고완료된것 -->
+         <if test='outputGubun=="1"'> 
+            AND A.PO_QTY = A.OUTPUT_QTY
+         </if>
+         <!--미출고인것 -->
+         <if test='outputGubun=="2"'> 
+            AND A.PO_QTY != A.OUTPUT_QTY
+         </if>
+   </select>
+   
+    <!-- 영업관리 영업일보목록상세조회 -->
+   <select id="outputHistList" parameterType="mes.domain.bs.PurchaseOrderOutputHistVo" resultMap="PurchaseOrderOutputHistVo">
+		SELECT   
+			A.PO_GROUP
+			, CAST ( RIGHT(A.PO_GROUP, 2) AS INT) AS PO_GROUP_ORDER
+			, A.PRE_OUTPUT_QTY
+			, A.OUTPUT_QTY
+			, A.REMAIN_QTY
+			, A.OUTPUT_HIST_DATE
+			, A.APPROVAL_CD
+			, A.OUTPUT_GUBUN
+			, ISNULL(B.TRAY_CNT, 0) TRAY_CNT
+			, A.COMPLETE_YN
+			, B.GOODS_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='036' AND X.BASE_CD = B.GOODS_STATUS) AS GOODS_STATUS_NM
+		FROM TB_PURCHASE_ORDER_OUTPUT_HIST A 
+		LEFT JOIN (
+			SELECT
+				PO_SEQ
+				, PO_GROUP
+				, ISNULL(COUNT(*), 0) TRAY_CNT
+				, GOODS_STATUS
+			FROM
+			(
+				SELECT
+					PO_SEQ
+					, PO_GROUP
+					, ISNULL(COUNT(*), 0) TRAY_CNT
+					, ( SELECT GOODS_STATUS FROM TB_GOODS_PRODUCT_INFO_ADM X WHERE X.BOX_NO = A.BOX_NO ) GOODS_STATUS
+				FROM TB_PURCHASE_ORDER_DTL A
+				WHERE PO_SEQ = #{poSeq}
+				GROUP BY PO_SEQ, PO_GROUP, BOX_NO
+			) A
+			GROUP BY PO_SEQ, PO_GROUP, GOODS_STATUS
+		) B 
+		ON 1=1 
+		AND A.PO_SEQ = B.PO_SEQ
+		AND A.PO_GROUP = B.PO_GROUP
+		WHERE 1=1
+		AND A.PO_SEQ = #{poSeq}
+		
+		<!-- (솔)에서만 사용 -->
+		<if test="exceptOutput != null and exceptOutput != ''">
+			AND COMPLETE_YN IN ( ${completeYn} )
+			AND GOODS_STATUS IN ( ${goodsStatus} )
+		</if>
+		<if test="exceptPallet != null and exceptPallet != ''">
+			AND A.PO_GROUP NOT IN ( ${exceptPallet} )
+		</if>
+   </select>
+   
+   
+   
+    <!-- 영업관리 영업일보목록조회 -->
+   <select id="listPurchaseOrderDaily_F3" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+         SELECT   
+            A.PO_SEQ
+            ,A.PO_NO
+            ,A.GOODS_CD
+            ,C.MODEL
+            ,C.GOODS_NM
+            ,A.PO_DATE
+            ,A.PO_QTY
+            ,G.OUTPUT_CNT
+            
+            , CONVERT(INT, A.COST_UNIT) * CONVERT(INT, ISNULL(G.OUTPUT_CNT, 0)) AS OUTPUT_PRI
+			, ( CONVERT(INT, A.COST_UNIT) * ( CONVERT(INT, ISNULL(A.PO_QTY, 0)) - CONVERT(INT, ISNULL(G.OUTPUT_CNT, 0)) ) ) AS NOTOUTPUT_PRI
+			, ( CONVERT(INT, ISNULL(A.PO_QTY, 0)) - CONVERT(INT, ISNULL(G.OUTPUT_CNT, 0)) ) AS REMAIN_QTY
+			
+            ,A.PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.PO_GUBUN_CD) PO_GUBUN_NM
+            ,A.PO_CODE
+            ,A.PO_ATTN
+            ,A.MONEY_UNIT_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='032' AND B.BASE_CD = A.MONEY_UNIT_CD) MONEY_UNIT_NM
+            ,A.COST_UNIT
+            ,A.TOTAL_PRICE
+            ,A.DELIVERY_DATE
+            ,A.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+            ,A.DELIVERY_DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DELIVERY_DEAL_CORP_CD) DELIVERY_DEAL_CORP_NM
+            ,A.PO_DESC
+            ,A.DEAD_LINE
+            ,A.REG_ID
+            ,A.REG_DATE
+            ,A.UPD_ID
+            ,A.UPD_DATE
+            ,D.QUTY_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+            ,D.THICKNESS
+            ,D.DEPTH
+            ,D.LENGTH
+            ,D.WIDTH
+            ,D.PITCH
+            ,F.OUTPUT_HIST_DATE
+            ,A.DEAD_LINE
+         FROM
+         (
+			SELECT
+				A.PO_SEQ
+				, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+			FROM TB_PURCHASE_ORDER_DTL A
+			LEFT OUTER JOIN
+			(	
+				SELECT
+					GOODS_STATUS
+					, BOX_NO
+				FROM TB_GOODS_PRODUCT_INFO_ADM
+			) B
+			ON A.BOX_NO = B.BOX_NO
+			WHERE 1=1
+			AND B.GOODS_STATUS = '003'
+			GROUP BY PO_SEQ
+		) G
+		LEFT OUTER JOIN 
+		TB_PURCHASE_ORDER_ADM A
+        ON G.PO_SEQ = A.PO_SEQ
+        
+		, TB_GOODS_CODE_ADM C
+		, TB_MATRL_CODE_ADM D
+		, (
+			SELECT
+				A.PO_SEQ
+				, STUFF((
+		      		SELECT
+		      			', ' + DD.OUTPUT_HIST_DATE
+		      		FROM
+		      		(
+			      		SELECT
+			      			DISTINCT A.PO_SEQ
+			      			, B.OUTPUT_HIST_DATE
+			            FROM TB_PURCHASE_ORDER_ADM A
+			            LEFT OUTER JOIN TB_PURCHASE_ORDER_OUTPUT_HIST B
+			            ON A.PO_SEQ = B.PO_SEQ
+			            WHERE 1=1 
+						<if test="poDateFrom != null and poDateFrom != ''"> 
+						   <![CDATA[
+						   AND A.DELIVERY_DATE >= #{poDateFrom}
+						   ]]>
+						</if>
+						<if test="poDateTo != null and poDateTo != ''">  
+						   <![CDATA[
+						   AND A.DELIVERY_DATE <= #{poDateTo}
+						   ]]>
+						</if>
+						<if test="poGubunCd != null and poGubunCd != ''"> 
+						   AND A.PO_GUBUN_CD = #{poGubunCd}
+						</if>
+						<!--출고완료된것 -->
+						<if test='outputGubun=="1"'> 
+						   AND A.PO_QTY = A.OUTPUT_QTY
+						</if>
+						<!--미출고인것 -->
+						<if test='outputGubun=="2"'> 
+						   AND A.PO_QTY != A.OUTPUT_QTY
+						</if>
+					) DD
+					WHERE DD.PO_SEQ = A.PO_SEQ
+					FOR XML PATH('')
+				), 1, 1, '') AS OUTPUT_HIST_DATE
+	         FROM TB_PURCHASE_ORDER_ADM A
+	         LEFT OUTER JOIN
+	         TB_PURCHASE_ORDER_OUTPUT_HIST B
+	         ON A.PO_SEQ = B.PO_SEQ
+	         WHERE 1=1
+	         GROUP BY A.PO_SEQ
+		) F
+		WHERE 1=1
+        AND A.GOODS_CD = C.GOODS_CD
+        AND C.ALNICU_MATRL_CD = D.MATRL_CD
+        AND A.PO_SEQ = F.PO_SEQ
+		<if test="poDateFrom != null and poDateFrom != ''"> 
+			<![CDATA[
+				AND A.DELIVERY_DATE >= #{poDateFrom}
+			]]>
+		</if>
+		<if test="poDateTo != null and poDateTo != ''">  
+		   <![CDATA[
+		   AND A.DELIVERY_DATE <= #{poDateTo}
+		   ]]>
+		</if>
+		<if test="poGubunCd != null and poGubunCd != ''"> 
+		   AND A.PO_GUBUN_CD = #{poGubunCd}
+		</if>
+		<!--출고완료된것 -->
+		<if test='outputGubun=="1"'> 
+		   AND A.PO_QTY = A.OUTPUT_QTY
+		</if>
+		<!--미출고인것 -->
+		<if test='outputGubun=="2"'> 
+		   AND A.PO_QTY != A.OUTPUT_QTY
+		</if>
+	</select>
+   
+    <!-- 영업관리 영업일보목록상세조회 -->
+   <select id="outputHistList_F3" parameterType="mes.domain.bs.PurchaseOrderOutputHistVo" resultMap="PurchaseOrderOutputHistVo">
+		SELECT   
+			A.PO_GROUP
+			, CAST ( RIGHT(A.PO_GROUP, 2) AS INT) AS PO_GROUP_ORDER
+			, A.PRE_OUTPUT_QTY
+			, A.OUTPUT_QTY
+			--, A.REMAIN_QTY
+			, A.OUTPUT_HIST_DATE
+			, A.APPROVAL_CD
+			, A.OUTPUT_GUBUN
+			, ISNULL(B.TRAY_CNT, 0) TRAY_CNT
+			, A.COMPLETE_YN
+			, B.GOODS_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='036' AND X.BASE_CD = B.GOODS_STATUS) AS GOODS_STATUS_NM
+			, B.OUTPUT_CNT
+			, ( (SELECT CONVERT(INT, PO_QTY) FROM TB_PURCHASE_ORDER_ADM X WHERE X.PO_SEQ = A.PO_SEQ) - CONVERT(INT, B.OUTPUT_CNT) ) AS REMAIN_QTY
+		FROM TB_PURCHASE_ORDER_OUTPUT_HIST A 
+		LEFT JOIN (
+			SELECT
+				PO_SEQ
+				, PO_GROUP
+				, ISNULL(COUNT(*), 0) TRAY_CNT
+				, GOODS_STATUS
+				, SUM(OUTPUT_CNT) AS OUTPUT_CNT
+			FROM
+			(
+				SELECT
+					PO_SEQ
+					, PO_GROUP
+					, ISNULL(COUNT(*), 0) TRAY_CNT
+					, ( SELECT GOODS_STATUS FROM TB_GOODS_PRODUCT_INFO_ADM X WHERE X.BOX_NO = A.BOX_NO ) GOODS_STATUS
+					, SUM(OUTPUT_CNT) AS OUTPUT_CNT
+				FROM TB_PURCHASE_ORDER_DTL A
+				WHERE PO_SEQ = #{poSeq}
+				GROUP BY PO_SEQ, PO_GROUP, BOX_NO
+			) A
+			GROUP BY PO_SEQ, PO_GROUP, GOODS_STATUS
+		) B 
+		ON 1=1 
+		AND A.PO_SEQ = B.PO_SEQ
+		AND A.PO_GROUP = B.PO_GROUP
+		WHERE 1=1
+		AND A.PO_SEQ = #{poSeq}
+		AND GOODS_STATUS = '003' 
+		
+		<!-- (솔)에서만 사용 -->
+		<if test="exceptOutput != null and exceptOutput != ''">
+			AND COMPLETE_YN IN ( ${completeYn} )
+			AND GOODS_STATUS IN ( ${goodsStatus} )
+		</if>
+		<if test="exceptPallet != null and exceptPallet != ''">
+			AND A.PO_GROUP NOT IN ( ${exceptPallet} )
+		</if>
+   </select>
+   
+   
+   
+   
+   
+   
+   
+   
+   <!-- 영업관리 영업관리 제품 출하 내역 조회 -->
+   <select id="inspectList" parameterType="mes.domain.bs.PurchaseOrderDtl" resultMap="PurchaseOrderDtl">
+   		SELECT   
+			PO_SEQ
+			, PO_GROUP
+			, GOODS_CD
+			, PO_NO_SEQ
+			, BOX_NO
+			, PACK_CNT
+			, OUTPUT_CNT
+			, PO_DATE
+			, COMPLETE_YN
+			, REG_ID
+			, REG_DATE
+		FROM TB_PURCHASE_ORDER_DTL
+		where 1=1
+			AND PO_SEQ = #{poSeq}
+			AND PO_GROUP = #{poGroup}
+   </select>
+   
+   <!-- 영업관리정보 출고이력목록조회 -->
+   <select id="listOutputHistAll" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+         SELECT A.PO_SEQ   
+            ,A.PO_NO
+            ,C.GOODS_CD
+            ,D.GOODS_NM
+            ,C.PO_DATE
+            ,C.PO_QTY
+            ,A.PRE_OUTPUT_QTY
+            ,A.OUTPUT_QTY
+            ,A.REMAIN_QTY
+            ,A.OUTPUT_HIST_DATE
+            ,C.PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,C.PO_CODE
+            ,C.PO_ATTN
+            ,C.MONEY_UNIT_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='031' AND B.BASE_CD = C.MONEY_UNIT_CD) MONEY_UNIT_NM
+            ,C.COST_UNIT
+            ,C.TOTAL_PRICE
+            ,C.DELIVERY_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,C.DELIVERY_DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DELIVERY_DEAL_CORP_CD) DELIVERY_DEAL_CORP_NM
+            ,C.PO_DESC
+            ,C.DEAD_LINE
+            ,E.QUTY_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM
+            ,E.THICKNESS
+            ,E.DEPTH
+            ,E.LENGTH
+            ,E.WIDTH
+            ,E.PITCH
+            ,A.OUTPUT_GUBUN
+         FROM   TB_PURCHASE_ORDER_OUTPUT_HIST A,
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1
+            AND A.PO_SEQ = C.PO_SEQ
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD
+            <if test="outputHistDateFrom != null and outputHistDateFrom != ''">            
+               AND C.DELIVERY_DATE >= #{outputHistDateFrom}
+            </if>
+            <if test="outputHistDateTo != null and outputHistDateTo != ''">
+               <![CDATA[   
+               AND C.DELIVERY_DATE <= #{outputHistDateTo}
+               ]]>
+            </if>
+            <if test="outputHistDate != null and outputHistDate != ''">            
+               AND A.OUTPUT_HIST_DATE = #{outputHistDate}
+            </if>
+            <if test="poGubunCd != null and poGubunCd != ''">            
+               AND C.PO_GUBUN_CD = #{poGubunCd}
+            </if>      
+   </select>   
+   
+      <!-- 영업관리 수주집계표 거래처/품목별 -->
+   <select id="listDealGoods" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <![CDATA[
+         SELECT            
+            C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM      
+            ,SUM(PO_QTY) PO_QTY
+            ,SUM(OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,C.PO_CODE         
+            ,SUM(C.TOTAL_PRICE) TOTAL_PRICE       
+            , SUBSTRING(DELIVERY_DATE,0,7) DELIVERY_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM   
+            ,SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) OUTPUT_PRI
+			,SUM(CONVERT(FLOAT,C.TOTAL_PRICE)) - SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) NOTOUTPUT_PRI
+			,SUM(REMAIN_QTY) REMAIN_QTY 
+         FROM TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >= #{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <= #{outputHistDateTo}
+      ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+      <![CDATA[
+            GROUP BY SUBSTRING(DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD,PO_GUBUN_CD
+         
+
+         UNION ALL
+
+         SELECT
+            
+            ''GOODS_CD
+            ,'' GOODS_NM      
+            ,SUM(PO_QTY) PO_QTY
+            ,SUM(OUTPUT_QTY) OUTPUT_QTY       
+            ,'' PO_GUBUN_CD
+            ,'' PO_GUBUN_NM
+            ,'' PO_CODE                  
+            ,SUM(C.TOTAL_PRICE) TOTAL_PRICE   
+            , SUBSTRING(DELIVERY_DATE,0,7) DELIVERY_DATE
+            ,'99999' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+            ,'' QUTY_NM      
+            ,SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) OUTPUT_PRI
+			,SUM(CONVERT(FLOAT,C.TOTAL_PRICE)) - SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) NOTOUTPUT_PRI
+			,SUM(REMAIN_QTY) REMAIN_QTY 
+         FROM   
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1
+            
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >= #{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <= #{outputHistDateTo}
+      ]]>   
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+      <![CDATA[
+            GROUP BY SUBSTRING(DELIVERY_DATE,0,7)
+   
+         ORDER BY DELIVERY_DATE ASC, DEAL_CORP_CD ASC
+         
+            
+      ]]>      
+   </select>   
+   
+   <!-- 영업관리 수주집계표 오더구분별 -->
+   <select id="listOrderGubun" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <![CDATA[
+         SELECT            
+            C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM      
+            ,SUM(PO_QTY) PO_QTY
+            ,SUM(OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,C.PO_CODE         
+            ,SUM(C.TOTAL_PRICE) TOTAL_PRICE       
+            , SUBSTRING(DELIVERY_DATE,0,7) DELIVERY_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM  
+            ,SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) OUTPUT_PRI
+			,SUM(CONVERT(FLOAT,C.TOTAL_PRICE)) - SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) NOTOUTPUT_PRI      
+			,SUM(REMAIN_QTY) REMAIN_QTY 
+         FROM   
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1
+            
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >= #{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <= #{outputHistDateTo}
+      ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+      <![CDATA[
+            GROUP BY SUBSTRING(DELIVERY_DATE,0,7),PO_GUBUN_CD,C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD
+         
+
+         UNION ALL
+
+         SELECT
+            
+            ''GOODS_CD
+            ,'' GOODS_NM      
+            ,SUM(PO_QTY) PO_QTY
+            ,SUM(OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,'' PO_CODE                  
+            ,SUM(C.TOTAL_PRICE) TOTAL_PRICE   
+            ,'999999' DELIVERY_DATE
+            ,'' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+            ,'' QUTY_NM      
+            ,SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) OUTPUT_PRI
+			,SUM(CONVERT(FLOAT,C.TOTAL_PRICE)) - SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) NOTOUTPUT_PRI   
+			,SUM(REMAIN_QTY) REMAIN_QTY     
+         FROM   
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1
+            
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >= #{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <= #{outputHistDateTo}
+      ]]>   
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+      <![CDATA[
+               GROUP BY PO_GUBUN_CD
+
+         ORDER BY PO_GUBUN_CD ASC, DELIVERY_DATE ASC
+         
+            
+      ]]>      
+   </select>   
+   
+   <!-- 영업관리 년도별 수주집계표 거래처/품목별 -->
+   <select id="listDealGoodsYear" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <![CDATA[
+         SELECT            
+            C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM      
+            ,SUM(PO_QTY) PO_QTY
+            ,SUM(OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,C.PO_CODE         
+            ,SUM(C.TOTAL_PRICE) TOTAL_PRICE       
+            , SUBSTRING(DELIVERY_DATE,0,5) DELIVERY_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM  
+            ,SUM(REMAIN_QTY) REMAIN_QTY  
+			,SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) OUTPUT_PRI
+			,SUM(CONVERT(FLOAT,C.TOTAL_PRICE)) - SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) NOTOUTPUT_PRI
+         FROM TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) >= #{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) <= #{outputHistDateTo}
+      ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+      <![CDATA[
+            GROUP BY SUBSTRING(DELIVERY_DATE,0,5),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD,PO_GUBUN_CD
+         
+
+         UNION ALL
+
+         SELECT
+            
+            ''GOODS_CD
+            ,'' GOODS_NM      
+            ,SUM(PO_QTY) PO_QTY
+            ,SUM(OUTPUT_QTY) OUTPUT_QTY       
+            ,'' PO_GUBUN_CD
+            ,'' PO_GUBUN_NM
+            ,'' PO_CODE                  
+            ,SUM(C.TOTAL_PRICE) TOTAL_PRICE   
+            , SUBSTRING(DELIVERY_DATE,0,5) DELIVERY_DATE
+            ,'99999' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+            ,'' QUTY_NM 
+            ,SUM(REMAIN_QTY) REMAIN_QTY  
+			,SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) OUTPUT_PRI
+			,SUM(CONVERT(FLOAT,C.TOTAL_PRICE)) - SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) NOTOUTPUT_PRI       
+           
+         FROM   
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1
+            
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) >= #{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) <= #{outputHistDateTo}
+      ]]>   
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+      <![CDATA[
+            GROUP BY SUBSTRING(DELIVERY_DATE,0,5)
+   
+         ORDER BY DELIVERY_DATE ASC, DEAL_CORP_CD ASC      
+         
+            
+      ]]>      
+   </select>   
+   
+   <!-- 영업관리 년도별 수주집계표 오더구분별 -->
+   <select id="listOrderGubunYear" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <![CDATA[
+         SELECT            
+            C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM      
+            ,SUM(PO_QTY) PO_QTY
+            ,SUM(OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,C.PO_CODE         
+            ,SUM(C.TOTAL_PRICE) TOTAL_PRICE       
+            , SUBSTRING(DELIVERY_DATE,0,5) DELIVERY_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM
+            ,SUM(REMAIN_QTY) REMAIN_QTY  
+			,SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) OUTPUT_PRI
+			,SUM(CONVERT(FLOAT,C.TOTAL_PRICE)) - SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) NOTOUTPUT_PRI         
+         FROM   
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1
+            
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) >= #{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) <= #{outputHistDateTo}
+      ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+      <![CDATA[
+            GROUP BY SUBSTRING(DELIVERY_DATE,0,5),PO_GUBUN_CD,C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD
+         
+
+         UNION ALL
+
+         SELECT
+            
+            ''GOODS_CD
+            ,'' GOODS_NM      
+            ,SUM(PO_QTY) PO_QTY
+            ,SUM(OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,'' PO_CODE                  
+            ,SUM(C.TOTAL_PRICE) TOTAL_PRICE   
+            ,'9999999' DELIVERY_DATE
+            ,'' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+            ,'' QUTY_NM        
+            ,SUM(REMAIN_QTY) REMAIN_QTY  
+			,SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) OUTPUT_PRI
+			,SUM(CONVERT(FLOAT,C.TOTAL_PRICE)) - SUM(CONVERT(FLOAT,C.COST_UNIT)*CONVERT(FLOAT,C.OUTPUT_QTY)) NOTOUTPUT_PRI       
+         FROM   
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1
+            
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) >= #{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) <= #{outputHistDateTo}
+      ]]>   
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+      <![CDATA[
+               GROUP BY PO_GUBUN_CD
+
+         ORDER BY PO_GUBUN_CD ASC, DELIVERY_DATE ASC
+         
+            
+      ]]>      
+   </select>   
+   
+   
+   <insert id="histCreate">
+      INSERT INTO TB_PURCHASE_ORDER_OUTPUT_HIST(
+         PO_SEQ
+         , PO_NO
+         , PO_GROUP
+         , PRE_OUTPUT_QTY
+         , OUTPUT_QTY
+         , REMAIN_QTY
+         , OUTPUT_HIST_DATE
+         , APPROVAL_CD
+         , OUTPUT_GUBUN
+         , COMPLETE_YN
+         , REG_ID
+         , REG_DATE
+      ) 
+      VALUES(
+         #{poSeq}
+         , #{poNo}
+         , #{poGroup}
+         , #{preOutputQty}
+         , #{outputQty}
+         , #{remainQty}
+         , #{outputHistDate}
+         , #{approvalCd}
+         , #{outputGubun}
+         , #{completeYn}
+         , #{regId}
+         , GETDATE()      
+      )
+   </insert>
+   
+	<!-- 파레트에 트레이 추가 적재 출고이력 수정 -->
+	<update id="addTrayByPallet" parameterType="mes.domain.bs.PurchaseOrderOutputHistVo">
+		<![CDATA[
+			DECLARE @poSeq varchar(14),
+					@poGroup int,
+					@outputQty int,
+					@maxPoGroup int;
+			
+			SET @poSeq = #{poSeq}
+			SET @poGroup = #{poGroup}
+			SET @outputQty = #{outputQty}
+			
+			SELECT @maxPoGroup = MAX(PO_GROUP) FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+			WHERE PO_SEQ = #{poSeq}
+			
+			UPDATE TB_PURCHASE_ORDER_OUTPUT_HIST
+			SET	OUTPUT_QTY += @outputQty
+				, REMAIN_QTY -= @outputQty
+			WHERE PO_SEQ = @poSeq
+			AND PO_GROUP = @poGroup
+						
+			SET @poGroup += 1
+			
+			WHILE(@poGroup <= @maxPoGroup)
+			BEGIN
+			   
+				UPDATE TB_PURCHASE_ORDER_OUTPUT_HIST
+				SET	PRE_OUTPUT_QTY += @outputQty
+					, REMAIN_QTY -= @outputQty
+				WHERE PO_SEQ = @poSeq
+				AND PO_GROUP = @poGroup
+			
+				SET @poGroup += 1
+			
+			END
+		]]>
+	</update>
+	
+	<!-- 파레트에 트레이 추가 적재 출고이력 수정 -->
+	<update id="addTrayByPallet_F3" parameterType="mes.domain.bs.PurchaseOrderOutputHistVo">
+		<![CDATA[
+			DECLARE
+				@poSeq varchar(14)
+				, @poGroup int
+				, @outputQty int
+				, @maxPoGroup int
+				, @realPoGroup VARCHAR(30);
+			
+			SET @poSeq			= #{poSeq}
+			SET @poGroup		= CAST( RIGHT(#{poGroup}, 2) AS INT )
+			SET @outputQty		= #{outputQty}
+			SET @realPoGroup	= #{poGroup}
+			
+			SELECT
+				@maxPoGroup = CAST( MAX(RIGHT(PO_GROUP,2)) AS INT )
+			FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+			WHERE PO_SEQ = #{poSeq}
+			
+			UPDATE TB_PURCHASE_ORDER_OUTPUT_HIST
+			SET
+				OUTPUT_QTY		+= @outputQty
+				, REMAIN_QTY	-= @outputQty
+			WHERE PO_SEQ = @poSeq
+			AND PO_GROUP = @realPoGroup
+						
+			SET @poGroup += 1
+			
+			WHILE( @poGroup <= @maxPoGroup )
+			BEGIN
+				UPDATE TB_PURCHASE_ORDER_OUTPUT_HIST
+				SET
+					PRE_OUTPUT_QTY	+= @outputQty
+					, REMAIN_QTY	-= @outputQty
+				WHERE PO_SEQ = @poSeq
+				AND PO_GROUP = @realPoGroup
+			
+				SET @poGroup += 1
+			END
+		]]>
+	</update>
+	
+	<!-- 파레트에 트레이 추가 적재 출고이력 수정 -->
+	<update id="removeTrayByPallet" parameterType="mes.domain.bs.PurchaseOrderOutputHistVo">
+		<![CDATA[
+			DECLARE @poSeq varchar(14),
+					@poGroup int,
+					@cancelOutputSum int,
+					@maxPoGroup int;
+			
+			SET @poSeq = #{poSeq}
+			SET @poGroup = #{poGroup}
+			SET @cancelOutputSum = #{cancelOutputSum}
+			
+			PRINT @poSeq;
+			PRINT @poGroup;
+			PRINT @cancelOutputSum;
+			
+			SELECT @maxPoGroup = MAX(PO_GROUP) FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+			WHERE PO_SEQ = #{poSeq}
+			
+			UPDATE TB_PURCHASE_ORDER_OUTPUT_HIST
+			SET	OUTPUT_QTY -= @cancelOutputSum
+				, REMAIN_QTY += @cancelOutputSum
+			WHERE PO_SEQ = @poSeq
+			AND PO_GROUP = @poGroup
+			
+			SET @poGroup += 1
+			
+			WHILE(@poGroup <= @maxPoGroup)
+			BEGIN
+			   
+				UPDATE TB_PURCHASE_ORDER_OUTPUT_HIST
+				SET	PRE_OUTPUT_QTY -= @cancelOutputSum
+					, REMAIN_QTY += @cancelOutputSum
+				WHERE PO_SEQ = @poSeq
+				AND PO_GROUP = @poGroup
+			
+				SET @poGroup += 1
+			
+			END
+		]]>
+	</update>
+	
+	<!-- 파레트에 트레이 추가 적재 출고이력 수정 -->
+	<update id="removeTrayByPallet_F3" parameterType="mes.domain.bs.PurchaseOrderOutputHistVo">
+		<![CDATA[
+			DECLARE
+				@poSeq varchar(14)
+				, @poGroup int
+				, @cancelOutputSum int
+				, @maxPoGroup int
+				, @realPoGroup VARCHAR(30);
+			
+			SET @poSeq				= #{poSeq}
+			SET @poGroup			= CAST( RIGHT(#{poGroup}, 2) AS INT )
+			SET @cancelOutputSum	= #{cancelOutputSum}
+			SET @realPoGroup		= #{poGroup}
+			
+			SELECT
+				@maxPoGroup = CAST( MAX(RIGHT(PO_GROUP,2)) AS INT )
+			FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+			WHERE PO_SEQ = #{poSeq}
+			
+			UPDATE TB_PURCHASE_ORDER_OUTPUT_HIST
+			SET
+				OUTPUT_QTY		-= @cancelOutputSum
+				, REMAIN_QTY	+= @cancelOutputSum
+			WHERE PO_SEQ = @poSeq
+			AND PO_GROUP = @realPoGroup
+			
+			SET @poGroup += 1
+			
+			WHILE(@poGroup <= @maxPoGroup)
+			
+			BEGIN
+			
+				SELECT
+					@realPoGroup = PO_GROUP
+				FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+				WHERE  PO_SEQ = @poSeq
+				GROUP BY PO_GROUP
+				HAVING CAST(RIGHT(PO_GROUP, 2) AS INT) = @poGroup
+			
+				UPDATE TB_PURCHASE_ORDER_OUTPUT_HIST
+				SET
+					PRE_OUTPUT_QTY	-= @cancelOutputSum
+					, REMAIN_QTY	+= @cancelOutputSum
+				WHERE PO_SEQ = @poSeq
+				AND PO_GROUP = @realPoGroup
+			
+				SET @poGroup += 1
+			END
+		]]>
+	</update>
+   
+   <!-- 영업관리 구매주문정보수정 -->
+   <update id="updateQty" parameterType="mes.domain.bs.PurchaseOrderAdmVo">
+      <![CDATA[
+	      UPDATE TB_PURCHASE_ORDER_ADM 
+	      SET   
+	         PO_NO = #{poNo}
+	         , GOODS_CD					= #{goodsCd}
+	         , PO_QTY					= #{poQty}
+	         , PO_GUBUN_CD				= #{poGubunCd}
+	         , OUTPUT_QTY				= #{outputQty}
+	         , REMAIN_QTY				= #{remainQty}
+	         , PO_CODE					= #{poCode}
+	         , PO_ATTN					= #{poAttn}
+	         , MONEY_UNIT_CD			= #{moneyUnitCd}
+	         , COST_UNIT				= #{costUnit}
+	         , TOTAL_PRICE				= #{totalPrice}
+	         , DELIVERY_DATE			= #{deliveryDate}
+	         , DEAL_CORP_CD				= #{dealCorpCd}
+	         , DELIVERY_DEAL_CORP_CD	= #{deliveryDealCorpCd}
+	         , PO_DESC					= #{poDesc}
+	         , UPD_ID					= #{updId}
+	         , UPD_DATE					= getDate()
+	      WHERE PO_SEQ = #{poSeq}
+      ]]>
+   </update>
+   
+   <!-- 입출고관리 - 출고현황관리(iosc0070) 기간 조회 -->
+   <select id="productOutpoutDataList" resultMap="PurchaseOrderAdmVo">
+      <![CDATA[
+         SELECT
+             A.PO_SEQ
+            , A.PO_NO
+            , A.PO_GROUP
+            , A.PRE_OUTPUT_QTY
+            , A.OUTPUT_QTY
+            , A.REMAIN_QTY
+            , A.OUTPUT_HIST_DATE
+            , A.APPROVAL_CD
+            , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='026' AND BASE_CD = A.APPROVAL_CD) APPROVAL_NM
+            , A.REG_ID
+            , A.REG_DATE
+            , A.UPD_ID
+            , A.UPD_DATE
+            , B.PO_GUBUN_CD
+            , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='018' AND BASE_CD = B.PO_GUBUN_CD) PO_GUBUN_NM
+            , B.PO_ATTN
+            , B.PO_CODE
+            , B.DELIVERY_DATE
+            , B.GOODS_CD
+            , C.GOODS_NM
+            , B.MONEY_UNIT_CD
+            , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='032' AND BASE_CD = B.MONEY_UNIT_CD) MONEY_UNIT_NM
+            , C.ALNICU_MATRL_CD
+            , D.QUTY_CD
+            , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='007' AND BASE_CD = D.QUTY_CD) QUTY_NM
+            , C.MODEL
+            , D.THICKNESS
+            , D.DEPTH
+            , D.LENGTH
+            , D.PITCH
+            , B.PO_GUBUN_CD
+            , B.COST_UNIT
+            , B.TOTAL_PRICE
+            , B.DEAL_CORP_CD
+            , E.DEAL_CORP_NM
+            , B.DELIVERY_DEAL_CORP_CD
+            , (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM F WHERE F.DEAL_CORP_CD = B.DEAL_CORP_CD) DEAL_CORP_NM
+            , B.PO_DESC
+            , B.COST_UNIT * A.OUTPUT_QTY AS OUTPUT_PRICE
+            , A.OUTPUT_GUBUN
+            , B.DEAD_LINE
+            ,(SELECT COUNT(DISPOSE_GUBUN) 
+				FROM TB_PURCHASE_ORDER_DTL X, TB_GOODS_PRODUCT_INFO_ADM Y 
+				WHERE 
+				X.PO_SEQ = B.PO_SEQ 
+				AND X.BOX_NO = Y.BOX_NO 
+				AND A.PO_GROUP = X.PO_GROUP
+				AND DISPOSE_GUBUN = '003'  ) DISPOSE_GUBUN
+         FROM   TB_PURCHASE_ORDER_OUTPUT_HIST A, TB_PURCHASE_ORDER_ADM B, TB_GOODS_CODE_ADM C, TB_MATRL_CODE_ADM D, TB_DEAL_CORP_ADM E
+         WHERE A.PO_SEQ = B.PO_SEQ
+         AND B.GOODS_CD = C.GOODS_CD
+         AND C.ALNICU_MATRL_CD = D.MATRL_CD
+         AND B.DEAL_CORP_CD = E.DEAL_CORP_CD
+      ]]>
+      <if test="poGubunCd != null and poGubunCd != ''">            
+         AND B.PO_GUBUN_CD = #{poGubunCd}
+      </if>
+      <if test="approvalCd != null and approvalCd != ''">            
+         AND A.APPROVAL_CD = #{approvalCd}
+      </if>
+      <if test="dateGubun ==  '001'">            
+         AND B.DELIVERY_DATE >= #{outputHistDateFrom}
+         AND  #{outputHistDateTo} >= B.DELIVERY_DATE            
+      </if>
+      <if test="dateGubun ==  '002'">            
+         AND A.OUTPUT_HIST_DATE >= #{outputHistDateFrom}
+         AND #{outputHistDateTo} >= A.OUTPUT_HIST_DATE
+      </if>
+   </select>
+   
+   <!-- 입출고관리 - 출고현황관리(iosc0180) 기간 조회 -->
+   <select id="productOutpoutDataDtlList" resultMap="PurchaseOrderAdmVo">
+		SELECT
+			C.DELIVERY_DATE
+			, A.ORD_GUBUN
+		    , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='018' AND BASE_CD = A.ORD_GUBUN) ORD_GUBUN_NM
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM X WHERE X.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+			, C.PO_CODE
+			, D.MODEL_NO
+			, C.PO_NO
+			, D.ALNICU_MATRL_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='007' AND BASE_CD = E.QUTY_CD) QUTY_NM
+			, A.BOX_NO
+			, A.CUSTOMER_LOT_NO
+			<!-- , A.MATRL_LOT_NO -->
+			, ISNULL((SELECT dbo.FC_BM_USERNM(STRING_AGG(MATRL_LOT_NO, ', ')) FROM TB_PRODUCTION_PERF_TRAY X WHERE X.LABEL_LOT_NO_SEQ = A.BOX_NO), A.MATRL_LOT_NO) AS MATRL_LOT_NO
+			
+			, A.FILM_LOT_NO
+			, A.SEL_BOX_NO1
+			, A.SEL_BOX_NO2
+			, B.OUTPUT_CNT
+			, A.REMAIN_CNT
+			, B.PO_DATE
+			, C.PO_DESC
+			, B.PO_GROUP
+			, A.PACK_DATE
+			, B.COMPLETE_YN
+			, A.GOODS_STATUS
+			, C.DEAD_LINE
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='036' AND X.BASE_CD = A.GOODS_STATUS) AS GOODS_STATUS_NM
+			, (
+				SELECT
+					dbo.FC_BM_USERNM( STRING_AGG(WORK_ORD_LOT_NO, ', ') WITHIN GROUP(ORDER BY WORK_ORD_LOT_NO) )
+				FROM TB_WORK_ORDER_OUTPUT_SUB X
+				WHERE X.WORK_ORD_NO IN ( SELECT DISTINCT Z.WORK_ORD_NO FROM TB_GOODS_PRODUCT_INFO_DTL Z WHERE Z.BOX_NO = A.BOX_NO )
+			) AS WORK_ORD_LOT_NO
+			, A.DISPOSE_GUBUN
+			, A.IN_WHS_DATE
+			, D.GOODS_SAMPLE_YN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='124' AND X.BASE_CD = D.GOODS_SAMPLE_YN ) AS GOODS_SAMPLE_YN_NM
+			, D.GOODS_CD
+			, D.GOODS_NM
+			, ( SELECT TOP 1 INSP_DATE FROM TB_SHIP_INSPECT_ADM WHERE TRAY_NO = A.BOX_NO AND INSP_DATE IS NOT NULL  ORDER BY IDX DESC ) AS INSP_DATE
+		FROM
+			TB_GOODS_PRODUCT_INFO_ADM A 
+			LEFT OUTER JOIN TB_PURCHASE_ORDER_DTL B
+			ON A.BOX_NO = B.BOX_NO
+			LEFT OUTER JOIN TB_PURCHASE_ORDER_ADM C
+			ON B.PO_SEQ = C.PO_SEQ
+			LEFT OUTER JOIN TB_GOODS_CODE_ADM D
+			ON A.GOODS_CD = D.GOODS_CD
+			LEFT OUTER JOIN TB_MATRL_CODE_ADM E
+			ON D.ALNICU_MATRL_CD = E.MATRL_CD
+		WHERE 1=1
+       
+      <!-- 23.07.10(포장대기리스트추가로 인해 추가됨) -->
+      <if test="goodsStatus != null and goodsStatus != ''">            
+         AND A.GOODS_STATUS IN ( ${goodsStatus} )
+      </if>
+      <if test="dateGubun == '301'"> <!-- 입고일 -->            
+         AND A.IN_WHS_DATE >= #{outputHistDateFrom}
+         AND #{outputHistDateTo} >= A.IN_WHS_DATE      
+      </if>
+      <if test="dateGubun == '302'"> <!-- 검사일 -->            
+         AND ( SELECT TOP 1 INSP_DATE FROM TB_SHIP_INSPECT_ADM WHERE TRAY_NO = A.BOX_NO AND INSP_DATE IS NOT NULL  ORDER BY IDX DESC ) >= #{outputHistDateFrom}
+         AND #{outputHistDateTo} >= ( SELECT TOP 1 INSP_DATE FROM TB_SHIP_INSPECT_ADM WHERE TRAY_NO = A.BOX_NO AND INSP_DATE IS NOT NULL  ORDER BY IDX DESC )
+      </if>
+       <if test="productGubun != null and productGubun != ''">
+			<if test="productGubun != '003'">
+         		AND D.GOODS_SAMPLE_YN = #{productGubun}
+         	</if>      
+      </if>
+      <!-- 23.07.10(포장대기리스트추가로 인해 추가됨) -->
+      
+      <if test="dateGubun == '001'">            
+         AND A.PACK_DATE >= #{outputHistDateFrom}
+         AND #{outputHistDateTo} >= A.PACK_DATE      
+      </if>
+      <if test="dateGubun == '002'">         
+         AND C.DELIVERY_DATE >= #{outputHistDateFrom}
+         AND #{outputHistDateTo} >= C.DELIVERY_DATE    
+      </if>
+      <if test="dateGubun == '003'">           
+         AND B.PO_DATE >= #{outputHistDateFrom}
+         AND #{outputHistDateTo} >= B.PO_DATE
+      </if>
+      <choose>
+			<when test="isMulti == ''">
+				<if test="boxNo != null and boxNo != ''">       
+			         AND (A.BOX_NO LIKE '%'+ #{boxNo} +'%' OR A.SEL_BOX_NO1 LIKE '%'+ #{boxNo} +'%' OR A.SEL_BOX_NO2 LIKE '%'+ #{boxNo} +'%') 
+			      </if>
+			      <if test="matrlLotNo != null and matrlLotNo != ''">          
+			         AND A.MATRL_LOT_NO LIKE '%'+ #{matrlLotNo} +'%'
+			      </if>
+			      <if test="filmLotNo != null and filmLotNo != ''">        
+			         AND A.FILM_LOT_NO LIKE '%'+ #{filmLotNo} +'%'
+			      </if>
+			      <if test="customerLotNo != null and customerLotNo != ''">      
+			         AND A.CUSTOMER_LOT_NO LIKE '%'+ #{customerLotNo} +'%'
+			      </if>
+			</when>
+			<when test="isMulti != ''">
+				AND (1=0
+				<if test="boxNo != null and boxNo != ''">      
+					OR A.BOX_NO IN ( '${boxNo}' )
+				</if>
+				<if test="matrlLotNo != null and matrlLotNo != ''"> 
+			      	OR A.MATRL_LOT_NO IN ( '${matrlLotNo}' )
+			    </if>
+		      	<if test="filmLotNo != null and filmLotNo != ''">     
+			      	OR A.FILM_LOT_NO IN ( '${filmLotNo}' )
+		    	</if>
+		      	<if test="customerLotNo != null and customerLotNo != ''">  
+			      	OR A.CUSTOMER_LOT_NO IN ( '${customerLotNo}' )
+			    </if>
+			    )
+			</when>
+      </choose>
+      <if test="poGroup != null and poGroup != ''">      
+         AND B.PO_GROUP LIKE '%'+ #{poGroup} +'%'
+      </if>
+   </select>
+   
+   <!-- 제품 출하 내역 등록 -->
+   <insert id="createPurchaseOrderDtl" parameterType="mes.domain.bs.PurchaseOrderDtl">
+      INSERT TB_PURCHASE_ORDER_DTL(
+         PO_SEQ
+         , PO_GROUP
+         , PO_NO_SEQ
+         , GOODS_CD
+         , BOX_NO
+         , PACK_CNT
+         , OUTPUT_CNT
+         , PO_DATE
+         , COMPLETE_YN
+         , LOCATION_INPUT_DATE
+         , REG_ID
+         , REG_DATE
+      ) VALUES (
+         #{poSeq}
+         , #{poGroup}
+         , #{poNoSeq}
+         , #{goodsCd}
+         , #{boxNo}
+         , #{packCnt}
+         , #{outputCnt}
+         , #{poDate}
+         , #{completeYn}
+         , #{locationInputDate}
+         , #{regId}
+         , getDate()
+      )
+   </insert>
+   
+   <!-- poNoSeq 가져오기 -->
+   <select id="purchaseOrderPoNoSeq" resultType="String">
+		SELECT ISNULL(MAX(PO_NO_SEQ),0)+1 PO_NO_SEQ FROM TB_PURCHASE_ORDER_DTL
+		WHERE PO_SEQ = #{poSeq}
+		AND PO_GROUP = #{poGroup}
+	<!-- <if test="factoryCode.equals('002')">
+		AND PO_GROUP = #{poGroup}
+	</if> -->
+   </select>
+   
+   <!-- 제품 출하 취소 체크 -->
+   <select id="productOutputCancelCheck" resultType="int">
+      SELECT ISNULL(MAX(PO_GROUP),0) PO_GROUP FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+        WHERE PO_SEQ = #{poSeq}
+   </select>
+   
+   <!-- 출하 취소 boxNo 삭제 -->
+   <delete id="deletePurchaseOrderDtl" parameterType="mes.domain.bs.PurchaseOrderDtl">
+      DELETE FROM TB_PURCHASE_ORDER_DTL
+      WHERE PO_SEQ = #{poSeq}
+      AND PO_GROUP = #{poGroup}
+      <if test="boxNo != null and boxNo != ''">
+      AND BOX_NO = #{boxNo}
+      </if>
+   </delete>
+   
+   <!-- 출하 취소 boxNo 삭제 후 순번 업데이트-->
+   <delete id="updatePurchaseOrderDtl" parameterType="mes.domain.bs.PurchaseOrderDtl">
+      
+   </delete>
+   
+   <!-- 출하 취소 총 출하 수량 수정-->
+   <update id="updatePurchaseOutputHist" parameterType="mes.domain.bs.PurchaseOrderOutputHistVo">
+      UPDATE TB_PURCHASE_ORDER_OUTPUT_HIST
+      SET OUTPUT_QTY -= #{cancelOutputSum},
+         REMAIN_QTY += #{cancelOutputSum},
+         UPD_ID = #{updId},
+         UPD_DATE = getDate()
+      WHERE PO_SEQ = #{poSeq}
+      AND PO_GROUP = #{poGroup}
+   </update>
+   
+   <!-- 박스 교체로 새 박스 투입 -->
+   <update id="updatePurchaseOutputHistIn" parameterType="mes.domain.bs.PurchaseOrderOutputHistVo">
+      UPDATE TB_PURCHASE_ORDER_OUTPUT_HIST
+      SET OUTPUT_QTY += #{outputQty},
+      	 REMAIN_QTY -= #{outputQty},
+         UPD_ID = #{updId},
+         UPD_DATE = getDate()
+      WHERE PO_SEQ = #{poSeq}
+      AND PO_GROUP = #{poGroup}
+      
+      UPDATE TB_PURCHASE_ORDER_ADM
+      SET
+        OUTPUT_QTY += #{outputQty}
+        , REMAIN_QTY -= #{outputQty}
+        , UPD_ID = #{updId}
+        , UPD_DATE = getDate()
+      WHERE   PO_SEQ = #{poSeq}
+   </update>
+   
+   <!-- 출하 이력 단일 조회-->
+   <select id="readPurchaseOrderOutputHist" resultMap="PurchaseOrderOutputHistVo">
+      SELECT
+         PO_SEQ
+         , PO_GROUP
+         , PO_NO
+         , PRE_OUTPUT_QTY
+         , OUTPUT_QTY
+         , REMAIN_QTY
+         , OUTPUT_HIST_DATE
+         , APPROVAL_CD
+         , OUTPUT_GUBUN
+         , REG_ID
+         , REG_DATE
+         , UPD_ID
+         , UPD_DATE
+      FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+      WHERE PO_SEQ = #{poSeq}
+      AND PO_GROUP = #{poGroup}
+   </select>
+   
+      <!-- 출하 이력 리스트 조회-->
+   <select id="readPurchaseOrderOutputHistList" resultMap="PurchaseOrderOutputHistVo">
+      SELECT
+         PO_SEQ
+         , PO_GROUP
+         , PO_NO
+         , PRE_OUTPUT_QTY
+         , OUTPUT_QTY
+         , REMAIN_QTY
+         , OUTPUT_HIST_DATE
+         , APPROVAL_CD
+         , OUTPUT_GUBUN
+         , REG_ID
+         , REG_DATE
+         , UPD_ID
+         , UPD_DATE
+      FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+      WHERE PO_SEQ = #{poSeq}   
+   </select>
+   
+   <!-- 출하 이력 단일 조회-->
+   <select id="readPurchaseOrderOutputHistSugi" resultMap="PurchaseOrderOutputHistVo">
+      SELECT
+         PO_SEQ
+         , PO_GROUP
+         , PO_NO
+         , PRE_OUTPUT_QTY
+         , OUTPUT_QTY
+         , REMAIN_QTY
+         , OUTPUT_HIST_DATE
+         , APPROVAL_CD
+         , OUTPUT_GUBUN
+         , REG_ID
+         , REG_DATE
+         , UPD_ID
+         , UPD_DATE
+      FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+      WHERE PO_SEQ = #{poSeq}   
+      AND OUTPUT_GUBUN = '002'   
+   </select>
+   
+   <!-- 출고수량 0인 출하 이력 삭제-->
+   <delete id="deletePurchaseOrderOutputHist" parameterType="mes.domain.bs.PurchaseOrderOutputHistVo">
+      DELETE FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+      WHERE PO_SEQ = #{poSeq}
+      AND PO_GROUP = #{poGroup}
+   </delete>
+   
+   <!-- 출고수량 0인 출하 이력 삭제-->
+   <insert id="createPurchaseCancelHist" parameterType="mes.domain.bs.PurchaseOrderOutputHistVo">
+      INSERT INTO TB_PURCHASE_CANCEL_HIST (
+         PO_SEQ
+         , PO_GROUP
+         , CANCEL_OUTPUT_SUM
+         , REG_ID
+         , REG_DATE
+      )
+      VALUES (
+         #{poSeq}
+         , #{poGroup}
+         , #{cancelOutputSum}
+         , #{regId}
+         , getDate()
+      )
+   </insert>
+
+   <!-- 해당 PO 출하 취소수량만큼 출하수량, 미출하수량 UPDATE-->
+   <update id="updatePurchaseAdmOutputCancel" parameterType="mes.domain.bs.PurchaseOrderAdmVo">
+      <![CDATA[
+         UPDATE   TB_PURCHASE_ORDER_ADM 
+         SET
+            OUTPUT_QTY -= #{outputQty}
+            , REMAIN_QTY += #{remainQty}
+            , UPD_ID = #{updId}
+            , UPD_DATE = getDate()
+         WHERE   PO_SEQ = #{poSeq}
+      ]]>
+   </update>
+   
+   <!-- 해당 PO 출하 수량만큼 출하수량, 미출하수량 UPDATE-->
+   <update id="updatePurchaseAdmOutput" parameterType="mes.domain.bs.PurchaseOrderAdmVo">
+      <![CDATA[
+         UPDATE   TB_PURCHASE_ORDER_ADM 
+         SET
+            OUTPUT_QTY += #{outputQty}
+            , REMAIN_QTY -= #{remainQty}
+            , UPD_ID = #{updId}
+            , UPD_DATE = getDate()
+         WHERE   PO_SEQ = #{poSeq}
+      ]]>
+   </update>
+   
+      <!-- 제품출하 불량처리 iosc0060 -->
+   <update id="updateDtl" parameterType="mes.domain.bs.PurchaseOrderDtl">
+         UPDATE   TB_PURCHASE_ORDER_DTL 
+         SET   BOX_NO = #{boxNo}
+            , UPD_ID = #{updId}
+            , UPD_DATE = getDate()
+         WHERE   BOX_NO = #{boxNoOld};
+         
+         UPDATE TB_GOODS_PRODUCT_INFO_ADM 
+         SET CUSTOMER_LOT_NO = #{customerLotNo}
+         WHERE BOX_NO = #{boxNo};
+         
+         UPDATE TB_GOODS_PRODUCT_INFO_ADM 
+         SET CUSTOMER_LOT_NO = NULL
+         WHERE BOX_NO = #{boxNoOld}
+   </update>
+   
+  <!-- 영업관리 출고집계표 거래처/품목별 -->
+   <select id="listDealGoodsOutput" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <!-- SELECT            
+            C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM                  
+            ,SUM(A.OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,C.PO_CODE                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,A.OUTPUT_QTY))) TOTAL_PRICE
+            , SUBSTRING(A.OUTPUT_HIST_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM         
+         FROM TB_PURCHASE_ORDER_OUTPUT_HIST A, 
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND A.PO_SEQ = C.PO_SEQ
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD    -->   
+      <!--          GROUP BY SUBSTRING(A.OUTPUT_HIST_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD,PO_GUBUN_CD,C.PO_QTY,COST_UNIT
+         
+         UNION ALL -->
+            <!--          SELECT            
+            ''GOODS_CD
+            ,'' GOODS_NM                  
+            ,SUM(A.OUTPUT_QTY) OUTPUT_QTY       
+            ,'' PO_GUBUN_CD
+            ,'' PO_GUBUN_NM
+            ,'' PO_CODE                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,A.OUTPUT_QTY))) TOTAL_PRICE
+            , SUBSTRING(A.OUTPUT_HIST_DATE,0,7) PO_DATE
+            ,'99999' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+            ,'' QUTY_NM         
+         FROM TB_PURCHASE_ORDER_OUTPUT_HIST A,    
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND A.PO_SEQ = C.PO_SEQ
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,7) >= #{outputHistDateFrom}  
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,7) <= #{outputHistDateTo}     -->
+      <![CDATA[            
+         SELECT            
+             C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+            ,SUM(C.PO_QTY ) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY         
+            ,C.PO_CODE                              
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY))) TOTAL_PRICE2
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY)))  TOTAL_PRICE3
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM
+            , C.SAMPLE_YN         
+         FROM TB_PURCHASE_ORDER_ADM C, 
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1                    
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD         
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >= #{outputHistDateFrom}  
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <= #{outputHistDateTo}    
+            AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+      ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+      <![CDATA[
+             GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD, C.SAMPLE_YN
+         
+         UNION ALL
+            
+         SELECT            
+            ''GOODS_CD
+            ,'' GOODS_NM                  
+            ,SUM(PO_QTY) PO_QTY
+            ,SUM(X.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(X.REMAIN_QTY) REMAIN_QTY    
+            ,'' PO_CODE                  
+            ,SUM(TOTAL_PRICE1) TOTAL_PRICE1
+            ,SUM( TOTAL_PRICE2) TOTAL_PRICE2
+            ,SUM( TOTAL_PRICE3 ) TOTAL_PRICE3
+            , SUBSTRING(X.PO_DATE,0,7) PO_DATE
+            ,'99999' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+            ,'' QUTY_NM               
+            ,'' SAMPLE_YN   
+         FROM  (      SELECT            
+            C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+               ,SUM(C.PO_QTY ) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY         
+            ,C.PO_CODE                              
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY))) TOTAL_PRICE2
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY)))  TOTAL_PRICE3
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM         
+            , C.SAMPLE_YN
+         FROM TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1                       
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >= #{outputHistDateFrom}  
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <= #{outputHistDateTo}
+            AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+            ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+            <![CDATA[
+            GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD, C.SAMPLE_YN)   AS X
+            
+            ]]>         
+      <![CDATA[
+         GROUP BY SUBSTRING(X.PO_DATE,0,7)
+         ORDER BY SUBSTRING(C.DELIVERY_DATE,0,7) ASC, DEAL_CORP_CD ASC, GOODS_NM
+      ]]>      
+   </select>         
+   
+   
+   <!-- 영업관리 출고집계표 거래처별 -->
+   <select id="listDealOutput" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+   <!--    <![CDATA[
+               SELECT                        
+            SUM(A.OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM               
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,A.OUTPUT_QTY))) TOTAL_PRICE
+            , SUBSTRING(A.OUTPUT_HIST_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+   
+         FROM TB_PURCHASE_ORDER_OUTPUT_HIST A, 
+            TB_PURCHASE_ORDER_ADM C
+         
+         WHERE 1=1            
+            AND A.PO_SEQ = C.PO_SEQ         
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,7) >= #{outputHistDateFrom}
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,7) <= #{outputHistDateTo}  
+         ]]>   
+         <if test="poGubunCd != null and poGubunCd != ''">   
+            <![CDATA[         
+               AND C.PO_GUBUN_CD = #{poGubunCd}
+            ]]>
+         </if>   
+      <![CDATA[         
+            GROUP BY SUBSTRING(A.OUTPUT_HIST_DATE,0,7),C.DEAL_CORP_CD,PO_GUBUN_CD
+         
+         UNION ALL
+
+         SELECT            
+         
+            SUM(A.OUTPUT_QTY) OUTPUT_QTY       
+            ,'' PO_GUBUN_CD
+            ,'' PO_GUBUN_NM
+         
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,A.OUTPUT_QTY))) TOTAL_PRICE
+            , SUBSTRING(A.OUTPUT_HIST_DATE,0,7) PO_DATE
+            ,'99999' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+      
+         FROM TB_PURCHASE_ORDER_OUTPUT_HIST A,    
+            TB_PURCHASE_ORDER_ADM C
+      
+         WHERE 1=1            
+            AND A.PO_SEQ = C.PO_SEQ         
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,7) >= #{outputHistDateFrom}
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,7) <= #{outputHistDateTo}  
+      ]]>   
+   
+      <![CDATA[
+            GROUP BY SUBSTRING(A.OUTPUT_HIST_DATE,0,7)
+   
+         ORDER BY SUBSTRING(A.OUTPUT_HIST_DATE,0,7) ASC, DEAL_CORP_CD ASC      
+         
+         
+      ]]>       -->
+      <![CDATA[
+            SELECT                        
+
+            SUM(C.PO_QTY) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY      
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY))) TOTAL_PRICE2
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY)))  TOTAL_PRICE3
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            , C.SAMPLE_YN
+   
+         FROM TB_PURCHASE_ORDER_ADM C 
+         WHERE 1=1           
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >=#{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <=#{outputHistDateTo}   
+            AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+            ]]>   
+            
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+         <![CDATA[
+            GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD, C.SAMPLE_YN
+
+
+
+            UNION ALL
+
+         SELECT            
+         
+            SUM(X.PO_QTY) PO_QTY
+            ,SUM(X.OUTPUT_QTY) OUTPUT_QTY
+            ,SUM(X.REMAIN_QTY) REMAIN_QTY
+
+            ,SUM(TOTAL_PRICE1) TOTAL_PRICE1
+            ,SUM(TOTAL_PRICE2) TOTAL_PRICE2
+            ,SUM(TOTAL_PRICE3) TOTAL_PRICE3
+            , SUBSTRING(X.PO_DATE,0,7) PO_DATE
+            ,'99999' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+      		,'' SAMPLE_YN
+      		
+         FROM (SELECT                        
+                
+            
+            SUM(C.PO_QTY) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY
+                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY))) TOTAL_PRICE2
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY)))  TOTAL_PRICE3
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            , C.SAMPLE_YN
+            
+         FROM TB_PURCHASE_ORDER_ADM C 
+         WHERE 1=1                             
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >=#{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <=#{outputHistDateTo}
+            AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')   
+            ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+            <![CDATA[
+            GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD, C.SAMPLE_YN) X
+
+            GROUP BY SUBSTRING(X.PO_DATE,0,7)   
+   
+         ORDER BY SUBSTRING(C.DELIVERY_DATE,0,7) ASC, DEAL_CORP_CD ASC   
+         ]]>
+   </select>   
+   
+   
+   <!-- 영업관리 출고집계표 오더구분별 -->
+   <select id="listOrderGubunOutput" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <!-- <![CDATA[
+         SELECT            
+            C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM                  
+            ,SUM(A.OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,C.PO_CODE                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,A.OUTPUT_QTY))) TOTAL_PRICE
+            , SUBSTRING(A.OUTPUT_HIST_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM         
+         FROM TB_PURCHASE_ORDER_OUTPUT_HIST A, 
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND A.PO_SEQ = C.PO_SEQ
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,7) >= #{outputHistDateFrom}
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,7) <= #{outputHistDateTo}  
+         ]]>   
+         <if test="poGubunCd != null and poGubunCd != ''">   
+            <![CDATA[         
+               AND C.PO_GUBUN_CD = #{poGubunCd}
+            ]]>
+         </if>   
+      <![CDATA[      
+            GROUP BY SUBSTRING(A.OUTPUT_HIST_DATE,0,7),PO_GUBUN_CD,C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD
+         
+         UNION ALL
+
+         SELECT            
+            ''GOODS_CD
+            ,'' GOODS_NM                  
+            ,SUM(A.OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,'' PO_CODE                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,A.OUTPUT_QTY))) TOTAL_PRICE
+            , '9999999' PO_DATE
+            ,'99999' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+            ,'' QUTY_NM         
+         FROM TB_PURCHASE_ORDER_OUTPUT_HIST A,    
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND A.PO_SEQ = C.PO_SEQ
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,7) >= #{outputHistDateFrom}
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,7) <= #{outputHistDateTo}  
+         ]]>   
+      <if test="poGubunCd != null and poGubunCd != ''">   
+         <![CDATA[         
+            AND C.PO_GUBUN_CD = #{poGubunCd}
+         ]]>
+      </if>   
+      <![CDATA[
+            GROUP BY PO_GUBUN_CD
+   
+         ORDER BY PO_GUBUN_CD ASC, DEAL_CORP_CD ASC      
+      ]]>       -->
+      
+      <![CDATA[
+         SELECT                                    
+            SUM(C.PO_QTY) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY))) TOTAL_PRICE2
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY)))  TOTAL_PRICE3
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE               
+            , C.SAMPLE_YN
+            
+         FROM TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >=#{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <=#{outputHistDateTo}     
+            AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+         ]]>
+         <if test="poGubunCd != null and poGubunCd != ''">   
+         <![CDATA[         
+            AND C.PO_GUBUN_CD = #{poGubunCd}
+         ]]>
+         </if>   
+         <![CDATA[
+         GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),PO_GUBUN_CD, C.SAMPLE_YN
+         
+
+         UNION ALL
+
+         SELECT            
+            SUM(X.PO_QTY) PO_QTY
+            ,SUM(X.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(X.PO_QTY ) - SUM(X.OUTPUT_QTY)  REMAIN_QTY
+            ,'9999999' PO_GUBUN_CD
+            ,'' PO_GUBUN_NM                                    
+            ,SUM(TOTAL_PRICE1) TOTAL_PRICE1            
+            ,SUM(TOTAL_PRICE2) TOTAL_PRICE2
+            ,SUM(TOTAL_PRICE3)  TOTAL_PRICE3
+            ,SUBSTRING(X.PO_DATE,0,7) PO_DATE  
+            , '' SAMPLE_YN             
+         FROM (SELECT            
+                        
+            SUM(C.PO_QTY) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY))) TOTAL_PRICE2
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY)))  TOTAL_PRICE3
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            , C.SAMPLE_YN
+         FROM TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1         
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >=#{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <=#{outputHistDateTo}  
+            AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')       
+         ]]>
+         <if test="poGubunCd != null and poGubunCd != ''">   
+         <![CDATA[         
+            AND C.PO_GUBUN_CD = #{poGubunCd}
+         ]]>
+         </if>
+         <![CDATA[
+            GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),PO_GUBUN_CD, C.SAMPLE_YN)    X      
+
+            GROUP BY SUBSTRING(X.PO_DATE,0,7)
+   
+         ORDER BY PO_DATE ASC, PO_GUBUN_CD ASC   
+         ]]>
+   </select>   
+   
+   <!-- 영업관리 년도별 출고집계표 거래처/품목별 -->
+   <select id="listDealGoodsOutputYear" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <!-- <![CDATA[
+         SELECT            
+            C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM                  
+            ,SUM(A.OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,C.PO_CODE                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,A.OUTPUT_QTY))) TOTAL_PRICE
+            , SUBSTRING(A.OUTPUT_HIST_DATE,0,5) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM         
+         FROM TB_PURCHASE_ORDER_OUTPUT_HIST A, 
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND A.PO_SEQ = C.PO_SEQ
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,5) >= #{outputHistDateFrom}  
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,5) <= #{outputHistDateTo}    
+      ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+      <![CDATA[
+            GROUP BY SUBSTRING(A.OUTPUT_HIST_DATE,0,5),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD,PO_GUBUN_CD
+         
+         UNION ALL
+
+         SELECT            
+            ''GOODS_CD
+            ,'' GOODS_NM                  
+            ,SUM(A.OUTPUT_QTY) OUTPUT_QTY       
+            ,'' PO_GUBUN_CD
+            ,'' PO_GUBUN_NM
+            ,'' PO_CODE                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,A.OUTPUT_QTY))) TOTAL_PRICE
+            , SUBSTRING(A.OUTPUT_HIST_DATE,0,5) PO_DATE
+            ,'99999' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+            ,'' QUTY_NM         
+         FROM TB_PURCHASE_ORDER_OUTPUT_HIST A,    
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND A.PO_SEQ = C.PO_SEQ
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,5) >= #{outputHistDateFrom}  
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,5) <= #{outputHistDateTo}    
+            
+      ]]>   
+         <if test="poGubunCd != null and poGubunCd != ''">   
+            <![CDATA[         
+               AND C.PO_GUBUN_CD = #{poGubunCd}
+            ]]>
+         </if>   
+      <![CDATA[
+            GROUP BY SUBSTRING(A.OUTPUT_HIST_DATE,0,5)
+   
+         ORDER BY SUBSTRING(A.OUTPUT_HIST_DATE,0,5) ASC, DEAL_CORP_CD ASC      
+      ]]>       -->
+      <![CDATA[
+      SELECT            
+            C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+            ,SUM(C.PO_QTY ) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY         
+            ,C.PO_CODE                              
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY))) TOTAL_PRICE2
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY)))  TOTAL_PRICE3
+            , SUBSTRING(C.DELIVERY_DATE,0,5) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM         
+         FROM TB_PURCHASE_ORDER_ADM C,    
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1                                 
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD         
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) >= #{outputHistDateFrom}  
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) <= #{outputHistDateTo}    
+      ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+      <![CDATA[
+             GROUP BY SUBSTRING(C.DELIVERY_DATE,0,5),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD
+         
+         UNION ALL
+            
+         SELECT            
+            ''GOODS_CD
+            ,'' GOODS_NM                  
+            ,SUM(PO_QTY) PO_QTY
+            ,SUM(X.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(X.REMAIN_QTY) REMAIN_QTY             
+            ,'' PO_CODE                  
+            ,SUM(TOTAL_PRICE1) TOTAL_PRICE1
+            ,SUM( TOTAL_PRICE2) TOTAL_PRICE2
+            ,SUM( TOTAL_PRICE3 ) TOTAL_PRICE3
+            , SUBSTRING(X.PO_DATE,0,5) PO_DATE
+            ,'99999' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+            ,'' QUTY_NM                  
+         FROM  (      SELECT            
+             C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+               ,SUM(C.PO_QTY ) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY
+         
+            ,C.PO_CODE                              
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY))) TOTAL_PRICE2
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY)))  TOTAL_PRICE3
+            , SUBSTRING(C.DELIVERY_DATE,0,5) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM         
+            
+         FROM TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1                          
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) >= #{outputHistDateFrom}  
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) <= #{outputHistDateTo}
+            ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+            <![CDATA[
+            GROUP BY SUBSTRING(C.DELIVERY_DATE,0,5),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD)   AS X
+            
+            ]]>         
+      <![CDATA[
+         GROUP BY SUBSTRING(X.PO_DATE,0,5)
+         ORDER BY SUBSTRING(C.DELIVERY_DATE,0,5) ASC, DEAL_CORP_CD ASC, GOODS_NM
+      ]]>      
+   </select>   
+   
+   
+   <!-- 영업관리 년도별 출고집계표 오더구분별 -->
+   <select id="listOrderGubunOutputYear" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <!-- <![CDATA[
+         SELECT            
+            C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM                  
+            ,SUM(A.OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,C.PO_CODE                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,A.OUTPUT_QTY))) TOTAL_PRICE
+            , SUBSTRING(A.OUTPUT_HIST_DATE,0,5) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM         
+         FROM TB_PURCHASE_ORDER_OUTPUT_HIST A, 
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND A.PO_SEQ = C.PO_SEQ
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,5) >= #{outputHistDateFrom}
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,5) <= #{outputHistDateTo}  
+         ]]>   
+         <if test="poGubunCd != null and poGubunCd != ''">   
+            <![CDATA[         
+               AND C.PO_GUBUN_CD = #{poGubunCd}
+            ]]>
+         </if>   
+      <![CDATA[      
+            GROUP BY SUBSTRING(A.OUTPUT_HIST_DATE,0,5),PO_GUBUN_CD,C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD
+         
+         UNION ALL
+
+         SELECT            
+            ''GOODS_CD
+            ,'' GOODS_NM                  
+            ,SUM(A.OUTPUT_QTY) OUTPUT_QTY       
+            ,PO_GUBUN_CD
+            , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            ,'' PO_CODE                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,A.OUTPUT_QTY))) TOTAL_PRICE
+            , '9999999' PO_DATE
+            ,'99999' DEAL_CORP_CD
+            ,'' DEAL_CORP_NM
+            ,'' QUTY_NM         
+         FROM TB_PURCHASE_ORDER_OUTPUT_HIST A,    
+            TB_PURCHASE_ORDER_ADM C,
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND A.PO_SEQ = C.PO_SEQ
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,5) >= #{outputHistDateFrom}
+            AND SUBSTRING(A.OUTPUT_HIST_DATE,0,5) <= #{outputHistDateTo}  
+         ]]>   
+      <if test="poGubunCd != null and poGubunCd != ''">   
+         <![CDATA[         
+            AND C.PO_GUBUN_CD = #{poGubunCd}
+         ]]>
+      </if>   
+      <![CDATA[
+            GROUP BY PO_GUBUN_CD
+         ORDER BY PO_GUBUN_CD ASC, DEAL_CORP_CD ASC      
+      ]]>       -->
+      <![CDATA[
+         SELECT                                    
+             SUM(C.PO_QTY) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY))) TOTAL_PRICE2
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY)))  TOTAL_PRICE3
+            , SUBSTRING(C.DELIVERY_DATE,0,5) PO_DATE               
+         FROM TB_PURCHASE_ORDER_ADM C, 
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1            
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) >=#{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) <=#{outputHistDateTo}     
+         ]]>
+         <if test="poGubunCd != null and poGubunCd != ''">   
+         <![CDATA[         
+            AND C.PO_GUBUN_CD = #{poGubunCd}
+         ]]>
+         </if>   
+         <![CDATA[
+         GROUP BY SUBSTRING(C.DELIVERY_DATE,0,5),PO_GUBUN_CD
+         
+
+         UNION ALL
+
+         SELECT            
+            SUM(X.PO_QTY) PO_QTY
+            ,SUM(X.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(X.PO_QTY ) - SUM(X.OUTPUT_QTY)  REMAIN_QTY
+            ,'9999999' PO_GUBUN_CD
+            ,'' PO_GUBUN_NM                                    
+            ,SUM(TOTAL_PRICE1) TOTAL_PRICE1            
+            ,SUM(TOTAL_PRICE2) TOTAL_PRICE2
+            ,SUM(TOTAL_PRICE3)  TOTAL_PRICE3
+            ,SUBSTRING(X.PO_DATE,0,5) PO_DATE               
+         FROM (SELECT            
+              SUM(C.PO_QTY) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY
+            ,PO_GUBUN_CD
+            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM                  
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY))) TOTAL_PRICE2
+            ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.OUTPUT_QTY)))  TOTAL_PRICE3
+            , SUBSTRING(C.DELIVERY_DATE,0,5) PO_DATE               
+         FROM TB_PURCHASE_ORDER_ADM C, 
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E
+         WHERE 1=1           
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) >=#{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) <=#{outputHistDateTo}         
+         ]]>
+         <if test="poGubunCd != null and poGubunCd != ''">   
+         <![CDATA[         
+            AND C.PO_GUBUN_CD = #{poGubunCd}
+         ]]>
+         </if>
+         <![CDATA[
+            GROUP BY SUBSTRING(C.DELIVERY_DATE,0,5),PO_GUBUN_CD)    X      
+
+            GROUP BY SUBSTRING(X.PO_DATE,0,5)
+   
+         ORDER BY PO_DATE ASC, PO_GUBUN_CD ASC   
+         ]]>
+   </select>
+   
+	<select id="tracePurchaseOrderOutputHist" resultMap="PurchaseOrderAdmVo">
+		SELECT DISTINCT
+        	A.PO_SEQ
+			, A.PO_DATE
+			, B.PO_NO
+			, B.GOODS_CD
+			, C.GOODS_NM
+			, C.MODEL_NO
+			, B.PO_QTY
+			, B.OUTPUT_QTY
+			, B.REMAIN_QTY
+			, B.PO_GUBUN_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE G WHERE G.BASE_GROUP_CD='018' AND G.BASE_CD = B.PO_GUBUN_CD) PO_GUBUN_NM
+			, B.PO_CODE
+			, B.PO_ATTN
+			, B.MONEY_UNIT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE G WHERE G.BASE_GROUP_CD='032' AND G.BASE_CD = B.MONEY_UNIT_CD) MONEY_UNIT_NM
+			, B.COST_UNIT
+			, B.TOTAL_PRICE
+			, B.DELIVERY_DATE
+			, B.DEAL_CORP_CD
+			, D.DEAL_CORP_NM
+			, B.PO_DESC
+			, A.PO_GROUP
+			, A.GOODS_CD
+			, A.PO_NO_SEQ
+			, A.BOX_NO
+			, A.PACK_CNT
+			, A.OUTPUT_CNT
+			, A.PO_DATE
+			, B.DEAD_LINE
+			, E.CUSTOMER_LOT_NO
+		FROM TB_PURCHASE_ORDER_DTL A, TB_PURCHASE_ORDER_ADM B, TB_GOODS_CODE_ADM C, TB_DEAL_CORP_ADM D, TB_GOODS_PRODUCT_INFO_ADM E
+		WHERE A.PO_SEQ = B.PO_SEQ
+		AND B.GOODS_CD = C.GOODS_CD
+		AND B.DEAL_CORP_CD = D.DEAL_CORP_CD
+		AND A.BOX_NO = E.BOX_NO
+		<if test="customerLotNo != null and customerLotNo != ''"> 
+			<if test="checkLikeCustomerLotNo.equals('001') ">
+				AND E.CUSTOMER_LOT_NO = #{customerLotNo}
+			</if>
+			<if test="checkLikeCustomerLotNo.equals('002') "> 
+				AND E.CUSTOMER_LOT_NO LIKE '%'+ #{customerLotNo} +'%'
+			</if>
+		</if>
+		<if test="customerLotNo == null or customerLotNo == ''"> 
+			AND A.BOX_NO = #{boxNo}
+		</if>
+     
+   </select>
+   
+   <select id="tracePurchaseOrderOutputHist2" resultMap="PurchaseOrderAdmVo">
+		SELECT DISTINCT
+        	A.PO_SEQ
+			, A.PO_DATE
+			, B.PO_NO
+			, B.GOODS_CD
+			, C.GOODS_NM
+			, C.MODEL_NO
+			, B.PO_QTY
+			, B.OUTPUT_QTY
+			, B.REMAIN_QTY
+			, B.PO_GUBUN_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE G WHERE G.BASE_GROUP_CD='018' AND G.BASE_CD = B.PO_GUBUN_CD) PO_GUBUN_NM
+			, B.PO_CODE
+			, B.PO_ATTN
+			, B.MONEY_UNIT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE G WHERE G.BASE_GROUP_CD='032' AND G.BASE_CD = B.MONEY_UNIT_CD) MONEY_UNIT_NM
+			, B.COST_UNIT
+			, B.TOTAL_PRICE
+			, B.DELIVERY_DATE
+			, B.DEAL_CORP_CD
+			, D.DEAL_CORP_NM
+			, B.PO_DESC
+			, A.PO_GROUP
+			, A.GOODS_CD
+			, A.PO_NO_SEQ
+			, A.BOX_NO
+			, A.PACK_CNT
+			, A.OUTPUT_CNT
+			, A.PO_DATE
+			, E.CUSTOMER_LOT_NO
+		FROM TB_PURCHASE_ORDER_DTL A, TB_PURCHASE_ORDER_ADM B, TB_GOODS_CODE_ADM C, TB_DEAL_CORP_ADM D, TB_GOODS_PRODUCT_INFO_ADM E
+		WHERE A.PO_SEQ = B.PO_SEQ
+		AND B.GOODS_CD = C.GOODS_CD
+		AND B.DEAL_CORP_CD = D.DEAL_CORP_CD
+		AND A.BOX_NO = E.BOX_NO
+		<if test="customerLotNo != null and customerLotNo != ''"> 
+			<if test="checkLikeCustomerLotNo.equals('001') ">
+				AND E.CUSTOMER_LOT_NO = #{customerLotNo}
+			</if>
+			<if test="checkLikeCustomerLotNo.equals('002') "> 
+				AND E.CUSTOMER_LOT_NO LIKE '%'+ #{customerLotNo} +'%'
+			</if>
+		</if>
+		<if test="customerLotNo == null or customerLotNo == ''"> 
+			AND A.BOX_NO = #{boxNo}
+		</if>
+     
+   </select>
+   
+     <!-- 출고집계표 요약본 -->
+   <select id="listchulgojipgye" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <![CDATA[
+      
+       select 
+			AA.DEAL_CORP_CD
+            ,AA. DEAL_CORP_NM    
+			,AA.GOODS_CD
+            ,AA.GOODS_NM            
+            , AA.PO_QTY
+            , AA.OUTPUT_QTY 
+			, ISNULL(BB.OUTPUT_QTY,0) REMAIN_QTY
+			, ISNULL(AA.OUTPUT_QTY,0) + ISNULL(BB.OUTPUT_QTY,0) TOTAL_PRICE1
+			, AA.COST_UNIT
+			, ISNULL(AA.COST_UNIT,0) * ISNULL(AA.OUTPUT_QTY,0) OUTPUT_PRI
+			 , ISNULL(AA.COST_UNIT,0) * ISNULL(BB.OUTPUT_QTY,0) NOTOUTPUT_PRI
+			, ISNULL(AA.COST_UNIT,1) * ( AA.OUTPUT_QTY + ISNULL(BB.OUTPUT_QTY,0)) TOTAL_PRICE2           
+            , AA.PO_DATE
+            , AA.SAMPLE_YN
+
+ FROM 
+ (SELECT            
+             C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+            ,SUM(C.PO_QTY ) PO_QTY
+            ,SUM(F.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(F.OUTPUT_QTY)  REMAIN_QTY  
+			,C.COST_UNIT
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM       
+            , C.SAMPLE_YN
+                 
+          FROM TB_PURCHASE_ORDER_ADM C,
+		(select PO_SEQ, SUM(OUTPUT_QTY) OUTPUT_QTY,SUBSTRING(C.OUTPUT_HIST_DATE,0,7) OUTPUT_HIST_DATE 
+		from TB_PURCHASE_ORDER_OUTPUT_HIST C	
+			GROUP BY PO_SEQ,SUBSTRING(C.OUTPUT_HIST_DATE,0,7) ) as F	 
+		WHERE 1=1
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND F.PO_SEQ = C.PO_SEQ          
+				AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) = SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+				
+	  GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,C.COST_UNIT, C.SAMPLE_YN		
+
+			 ) AA LEFT OUTER JOIN
+
+			 (
+			  SELECT            
+             C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM  
+            ,SUM(F.OUTPUT_QTY) OUTPUT_QTY            
+			,C.COST_UNIT
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            , C.SAMPLE_YN
+           
+         FROM TB_PURCHASE_ORDER_ADM C,
+		(select PO_SEQ, SUM(OUTPUT_QTY) OUTPUT_QTY,SUBSTRING(C.OUTPUT_HIST_DATE,0,7) OUTPUT_HIST_DATE 
+		from TB_PURCHASE_ORDER_OUTPUT_HIST C
+			GROUP BY PO_SEQ,SUBSTRING(C.OUTPUT_HIST_DATE,0,7) ) as F	 
+         WHERE 1=1                               
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}   
+			AND F.PO_SEQ = C.PO_SEQ
+			AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) > SUBSTRING(C.DELIVERY_DATE,0,7)
+			AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+      
+  
+             GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.COST_UNIT, C.SAMPLE_YN) BB
+
+			 ON AA.DEAL_CORP_CD = BB.DEAL_CORP_CD
+			 AND AA.GOODS_CD = BB.GOODS_CD
+			 AND AA.PO_DATE = BB.PO_DATE
+
+
+	UNION ALL
+
+
+	  select 
+			AA.DEAL_CORP_CD
+            ,'999999' DEAL_CORP_NM    
+			,'' GOODS_CD
+            ,'' GOODS_NM            
+            , SUM(AA.PO_QTY) PO_QTY
+            , SUM(AA.OUTPUT_QTY) OUTPUT_QTY
+			, SUM(ISNULL(BB.OUTPUT_QTY,0)) OUTPUT_QTY
+			, SUM(ISNULL(AA.OUTPUT_QTY,0) + ISNULL(BB.OUTPUT_QTY,0)) total1
+			, '' COST_UNIT
+			, SUM(ISNULL(AA.COST_UNIT,0) * ISNULL(AA.OUTPUT_QTY,0)) outt
+			 ,SUM( ISNULL(AA.COST_UNIT,0) * ISNULL(BB.OUTPUT_QTY,0)) NOTOUTPUT_PRI
+			, SUM(ISNULL(AA.COST_UNIT,1) * ( AA.OUTPUT_QTY + ISNULL(BB.OUTPUT_QTY,0))) total2
+            , '' PO_DATE
+            , '' SAMPLE_YN
+
+ FROM 
+ (SELECT            
+             C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+            ,SUM(C.PO_QTY ) PO_QTY
+            ,SUM(F.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(F.OUTPUT_QTY)  REMAIN_QTY  
+			,C.COST_UNIT
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            , C.SAMPLE_YN
+                        
+          FROM TB_PURCHASE_ORDER_ADM C,
+		(select PO_SEQ, SUM(OUTPUT_QTY) OUTPUT_QTY,SUBSTRING(C.OUTPUT_HIST_DATE,0,7) OUTPUT_HIST_DATE 
+		from TB_PURCHASE_ORDER_OUTPUT_HIST C	
+			GROUP BY PO_SEQ,SUBSTRING(C.OUTPUT_HIST_DATE,0,7) ) as F	 
+		WHERE 1=1
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND F.PO_SEQ = C.PO_SEQ          
+				AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) = SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+	  GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,C.COST_UNIT, C.SAMPLE_YN		
+
+			 ) AA LEFT OUTER JOIN
+
+			 (
+			  SELECT            
+             C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM  
+            ,SUM(F.OUTPUT_QTY) OUTPUT_QTY            
+			,C.COST_UNIT
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            , C.SAMPLE_YN
+           
+         FROM TB_PURCHASE_ORDER_ADM C,
+		(select PO_SEQ, SUM(OUTPUT_QTY) OUTPUT_QTY,SUBSTRING(C.OUTPUT_HIST_DATE,0,7) OUTPUT_HIST_DATE 
+		from TB_PURCHASE_ORDER_OUTPUT_HIST C
+			GROUP BY PO_SEQ,SUBSTRING(C.OUTPUT_HIST_DATE,0,7) ) as F	 
+         WHERE 1=1                               
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+			AND F.PO_SEQ = C.PO_SEQ
+			AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) > SUBSTRING(C.DELIVERY_DATE,0,7)
+      		AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+  
+             GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.COST_UNIT, C.SAMPLE_YN) BB
+
+			 ON AA.DEAL_CORP_CD = BB.DEAL_CORP_CD
+			 AND AA.GOODS_CD = BB.GOODS_CD
+			 AND AA.PO_DATE = BB.PO_DATE
+			 
+		GROUP BY AA.DEAL_CORP_CD, AA.DEAL_CORP_NM
+
+		ORDER BY DEAL_CORP_CD ASC , DEAL_CORP_NM DESC, GOODS_NM
+		
+]]>
+<!--             select 
+			AA.DEAL_CORP_CD
+            ,AA. DEAL_CORP_NM    
+			,AA.GOODS_CD
+            ,AA.GOODS_NM            
+            , AA.PO_QTY
+            , AA.OUTPUT_QTY 
+			, ISNULL(BB.OUTPUT_QTY,0) REMAIN_QTY
+			, ISNULL(AA.OUTPUT_QTY,0) + ISNULL(BB.OUTPUT_QTY,0) TOTAL_PRICE1
+			, AA.COST_UNIT
+			, ISNULL(AA.COST_UNIT,0) * ISNULL(AA.OUTPUT_QTY,0) OUTPUT_PRI
+			 , ISNULL(AA.COST_UNIT,0) * ISNULL(BB.OUTPUT_QTY,0) NOTOUTPUT_PRI
+			, ISNULL(AA.COST_UNIT,1) * ( AA.OUTPUT_QTY + ISNULL(BB.OUTPUT_QTY,0)) TOTAL_PRICE2
+            , AA.PO_CODE 
+            , AA.PO_DATE
+
+ FROM 
+ (SELECT            
+             C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+            ,SUM(C.PO_QTY ) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY         
+            ,C.PO_CODE 
+			,C.COST_UNIT
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM            
+         FROM TB_PURCHASE_ORDER_ADM C, 
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E,
+			TB_PURCHASE_ORDER_OUTPUT_HIST F
+         WHERE 1=1                    
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD         
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND F.PO_SEQ = C.PO_SEQ
+			AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) = SUBSTRING(C.DELIVERY_DATE,0,7)
+      
+  
+             GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,C.COST_UNIT
+
+			 ) AA LEFT OUTER JOIN
+
+			 (
+			  SELECT            
+             C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM  
+            ,SUM(F.OUTPUT_QTY) OUTPUT_QTY
+            ,C.PO_CODE 
+			,C.COST_UNIT
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+           
+         FROM TB_PURCHASE_ORDER_ADM C, 
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E,
+			TB_PURCHASE_ORDER_OUTPUT_HIST F
+         WHERE 1=1                    
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD         
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}     
+			AND F.PO_SEQ = C.PO_SEQ
+			AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) > SUBSTRING(C.DELIVERY_DATE,0,7)
+      
+  
+             GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,C.COST_UNIT) BB
+
+			 ON AA.DEAL_CORP_CD = BB.DEAL_CORP_CD
+			 AND AA.GOODS_CD = BB.GOODS_CD
+			 AND AA.PO_CODE = BB.PO_CODE
+			 AND AA.PO_DATE = BB.PO_DATE
+
+
+	UNION ALL
+
+
+	  select 
+			AA.DEAL_CORP_CD
+            ,'999999' DEAL_CORP_NM    
+			,'' GOODS_CD
+            ,'' GOODS_NM            
+            , SUM(AA.PO_QTY) PO_QTY
+            , SUM(AA.OUTPUT_QTY) OUTPUT_QTY
+			, SUM(ISNULL(BB.OUTPUT_QTY,0)) OUTPUT_QTY
+			, SUM(ISNULL(AA.OUTPUT_QTY,0) + ISNULL(BB.OUTPUT_QTY,0)) total1
+			, '' COST_UNIT
+			, SUM(ISNULL(AA.COST_UNIT,0) * ISNULL(AA.OUTPUT_QTY,0)) outt
+			 ,SUM( ISNULL(AA.COST_UNIT,0) * ISNULL(BB.OUTPUT_QTY,0)) NOTOUTPUT_PRI
+			, SUM(ISNULL(AA.COST_UNIT,1) * ( AA.OUTPUT_QTY + ISNULL(BB.OUTPUT_QTY,0))) total2
+            , ''PO_CODE 
+            , ''PO_DATE
+
+ FROM 
+ (SELECT            
+             C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+            ,SUM(C.PO_QTY ) PO_QTY
+            ,SUM(C.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(C.PO_QTY ) - SUM(C.OUTPUT_QTY)  REMAIN_QTY         
+            ,C.PO_CODE 
+			,C.COST_UNIT
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM            
+         FROM TB_PURCHASE_ORDER_ADM C, 
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E,
+			TB_PURCHASE_ORDER_OUTPUT_HIST F
+         WHERE 1=1                    
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD         
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND F.PO_SEQ = C.PO_SEQ
+			AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) = SUBSTRING(C.DELIVERY_DATE,0,7)
+      
+  
+             GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,C.COST_UNIT
+
+			 ) AA LEFT OUTER JOIN
+
+			 (
+			  SELECT            
+             C.GOODS_CD
+            ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM  
+            ,SUM(F.OUTPUT_QTY) OUTPUT_QTY
+            ,C.PO_CODE 
+			,C.COST_UNIT
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            ,C.DEAL_CORP_CD
+            ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+           
+         FROM TB_PURCHASE_ORDER_ADM C, 
+            TB_GOODS_CODE_ADM D,
+            TB_MATRL_CODE_ADM E,
+			TB_PURCHASE_ORDER_OUTPUT_HIST F
+         WHERE 1=1                    
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD         
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}     
+			AND F.PO_SEQ = C.PO_SEQ
+			AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) > SUBSTRING(C.DELIVERY_DATE,0,7)
+      
+  
+             GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,C.COST_UNIT) BB
+
+			 ON AA.DEAL_CORP_CD = BB.DEAL_CORP_CD
+			 AND AA.GOODS_CD = BB.GOODS_CD
+			 AND AA.PO_CODE = BB.PO_CODE
+			 AND AA.PO_DATE = BB.PO_DATE
+			 
+		GROUP BY AA.DEAL_CORP_CD, AA.DEAL_CORP_NM
+
+		ORDER BY DEAL_CORP_CD ASC , DEAL_CORP_NM DESC, GOODS_NM -->
+      
+   </select>
+   
+   
+	<!-- 샘플판매 목록 조회 -->
+	<select id="purchaseOrderAdmSampleList" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+		<![CDATA[
+			SELECT 
+				AA.DEAL_CORP_CD
+	            , AA. DEAL_CORP_NM    
+				, AA.GOODS_CD
+	            , AA.GOODS_NM            
+	            , AA.PO_QTY
+	            , AA.OUTPUT_QTY 
+				, ISNULL(BB.OUTPUT_QTY,0) REMAIN_QTY
+				, ISNULL(AA.OUTPUT_QTY,0) + ISNULL(BB.OUTPUT_QTY,0) TOTAL_PRICE1
+				, AA.COST_UNIT
+				, ISNULL(AA.COST_UNIT,0) * ISNULL(AA.OUTPUT_QTY,0) OUTPUT_PRI
+				, ISNULL(AA.COST_UNIT,0) * ISNULL(BB.OUTPUT_QTY,0) NOTOUTPUT_PRI
+				, ISNULL(AA.COST_UNIT,1) * ( AA.OUTPUT_QTY + ISNULL(BB.OUTPUT_QTY,0)) TOTAL_PRICE2           
+	            , AA.PO_DATE
+	            , AA.SAMPLE_YN
+			FROM 
+			(	SELECT            
+             		C.GOODS_CD
+		            , (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+		            , SUM(C.PO_QTY ) PO_QTY
+		            , SUM(F.OUTPUT_QTY) OUTPUT_QTY       
+		            , SUM(C.PO_QTY ) - SUM(F.OUTPUT_QTY)  REMAIN_QTY  
+					, C.COST_UNIT
+		            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+		            , C.DEAL_CORP_CD
+		            , (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM       
+		            , C.SAMPLE_YN
+				FROM TB_PURCHASE_ORDER_ADM C,
+				(
+					SELECT
+						PO_SEQ
+						, SUM(OUTPUT_QTY) OUTPUT_QTY
+						,SUBSTRING(C.OUTPUT_HIST_DATE,0,7) OUTPUT_HIST_DATE 
+					FROM TB_PURCHASE_ORDER_OUTPUT_HIST C	
+					GROUP BY PO_SEQ,SUBSTRING(C.OUTPUT_HIST_DATE,0,7)
+				) AS F	 
+				WHERE 1=1
+            	AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND F.PO_SEQ = C.PO_SEQ          
+				AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) = SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND C.SAMPLE_YN = 'Y'
+				
+	  			GROUP BY
+	  				SUBSTRING(C.DELIVERY_DATE,0,7)
+	  				, C.DEAL_CORP_CD
+	  				, C.GOODS_CD
+	  				, C.PO_CODE
+	  				, C.COST_UNIT
+	  				, C.SAMPLE_YN		
+			) AA
+			
+			LEFT OUTER JOIN (
+				SELECT            
+					C.GOODS_CD
+		            , (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM  
+		            , SUM(F.OUTPUT_QTY) OUTPUT_QTY            
+					, C.COST_UNIT
+		            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+		            , C.DEAL_CORP_CD
+		            , (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+		            , C.SAMPLE_YN
+         		FROM TB_PURCHASE_ORDER_ADM C,
+				(
+					SELECT
+						PO_SEQ
+						, SUM(OUTPUT_QTY) OUTPUT_QTY
+						, SUBSTRING(C.OUTPUT_HIST_DATE,0,7) OUTPUT_HIST_DATE
+					FROM TB_PURCHASE_ORDER_OUTPUT_HIST C
+					GROUP BY PO_SEQ
+					, SUBSTRING(C.OUTPUT_HIST_DATE,0,7)
+				) AS F	 
+		        WHERE 1=1                               
+	            AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}   
+				AND F.PO_SEQ = C.PO_SEQ
+				AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) > SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND C.SAMPLE_YN = 'Y'
+  
+				GROUP BY
+					SUBSTRING(C.DELIVERY_DATE,0,7)
+					, C.DEAL_CORP_CD
+					, C.GOODS_CD,C.COST_UNIT
+					, C.SAMPLE_YN
+			) BB
+
+			ON AA.DEAL_CORP_CD = BB.DEAL_CORP_CD
+			AND AA.GOODS_CD = BB.GOODS_CD
+			AND AA.PO_DATE = BB.PO_DATE
+			
+			UNION ALL
+
+
+	  		SELECT 
+				AA.DEAL_CORP_CD
+	            ,'999999' DEAL_CORP_NM    
+				,'' GOODS_CD
+	            ,'' GOODS_NM            
+	            , SUM(AA.PO_QTY) PO_QTY
+	            , SUM(AA.OUTPUT_QTY) OUTPUT_QTY
+				, SUM(ISNULL(BB.OUTPUT_QTY,0)) OUTPUT_QTY
+				, SUM(ISNULL(AA.OUTPUT_QTY,0) + ISNULL(BB.OUTPUT_QTY,0)) total1
+				, '' COST_UNIT
+				, SUM(ISNULL(AA.COST_UNIT,0) * ISNULL(AA.OUTPUT_QTY,0)) outt
+				 ,SUM( ISNULL(AA.COST_UNIT,0) * ISNULL(BB.OUTPUT_QTY,0)) NOTOUTPUT_PRI
+				, SUM(ISNULL(AA.COST_UNIT,1) * ( AA.OUTPUT_QTY + ISNULL(BB.OUTPUT_QTY,0))) total2
+	            , '' PO_DATE
+	            , '' SAMPLE_YN
+
+			FROM (
+ 				SELECT            
+		             C.GOODS_CD
+		            , (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+		            , SUM(C.PO_QTY ) PO_QTY
+		            , SUM(F.OUTPUT_QTY) OUTPUT_QTY       
+		            , SUM(C.PO_QTY ) - SUM(F.OUTPUT_QTY)  REMAIN_QTY  
+					, C.COST_UNIT
+		            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+		            , C.DEAL_CORP_CD
+		            , (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+		            , C.SAMPLE_YN
+				FROM TB_PURCHASE_ORDER_ADM C,
+				(
+					SELECT
+						PO_SEQ
+						, SUM(OUTPUT_QTY) OUTPUT_QTY
+						,SUBSTRING(C.OUTPUT_HIST_DATE,0,7) OUTPUT_HIST_DATE 
+					FROM TB_PURCHASE_ORDER_OUTPUT_HIST C	
+					GROUP BY
+						PO_SEQ
+						, SUBSTRING(C.OUTPUT_HIST_DATE,0,7)
+				) AS F	 
+				WHERE 1=1
+            	AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND F.PO_SEQ = C.PO_SEQ          
+				AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) = SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND C.SAMPLE_YN = 'Y'
+	  			GROUP BY
+					SUBSTRING(C.DELIVERY_DATE,0,7)
+					, C.DEAL_CORP_CD
+					, C.GOODS_CD
+					, C.PO_CODE
+					, C.COST_UNIT
+					, C.SAMPLE_YN		
+			) AA
+			LEFT OUTER JOIN (
+				SELECT            
+					C.GOODS_CD
+		            , (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM  
+		            , SUM(F.OUTPUT_QTY) OUTPUT_QTY            
+					, C.COST_UNIT
+		            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+		            , C.DEAL_CORP_CD
+		            , (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+		            , C.SAMPLE_YN
+				FROM TB_PURCHASE_ORDER_ADM C,
+				(
+					SELECT
+						PO_SEQ
+						, SUM(OUTPUT_QTY) OUTPUT_QTY
+						, SUBSTRING(C.OUTPUT_HIST_DATE,0,7) OUTPUT_HIST_DATE
+					FROM TB_PURCHASE_ORDER_OUTPUT_HIST C
+					GROUP BY
+						PO_SEQ
+						, SUBSTRING(C.OUTPUT_HIST_DATE,0,7)
+				) AS F	 
+	         	WHERE 1=1                               
+	            AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND F.PO_SEQ = C.PO_SEQ
+				AND SUBSTRING(F.OUTPUT_HIST_DATE,0,7) > SUBSTRING(C.DELIVERY_DATE,0,7)
+	      		AND C.SAMPLE_YN = 'Y'
+	  
+	            GROUP BY
+		            SUBSTRING(C.DELIVERY_DATE,0,7)
+		            , C.DEAL_CORP_CD
+		            , C.GOODS_CD
+		            , C.COST_UNIT, C.SAMPLE_YN
+			) BB
+			ON AA.DEAL_CORP_CD = BB.DEAL_CORP_CD
+			AND AA.GOODS_CD = BB.GOODS_CD
+			AND AA.PO_DATE = BB.PO_DATE
+			 
+			GROUP BY AA.DEAL_CORP_CD, AA.DEAL_CORP_NM
+
+			ORDER BY DEAL_CORP_CD ASC , DEAL_CORP_NM DESC, GOODS_NM
+		]]>
+	</select>
+	
+	<!-- 파레트 삭제 -->
+	<delete id="palletDelete">
+		DELETE TB_PURCHASE_ORDER_OUTPUT_HIST
+		WHERE PO_SEQ = #{poSeq}
+		AND PO_GROUP = #{poGroup}
+		
+		DELETE TB_PURCHASE_ORDER_DTL
+		WHERE PO_SEQ = #{poSeq}
+		AND PO_GROUP = #{poGroup}
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- 영업관리 출고집계표 거래처/품목별 -->
+	<select id="listDealGoodsOutput_F3" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+		<![CDATA[            
+			SELECT
+				C.GOODS_CD
+	            , (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+	            , C.PO_QTY
+	            , G.OUTPUT_CNT AS OUTPUT_QTY
+	            , C.PO_CODE
+	            , ( CONVERT(FLOAT, ISNULL(C.PO_QTY, 0)) - CONVERT(FLOAT, ISNULL(G.OUTPUT_CNT, 0)) ) AS REMAIN_QTY
+	            ,(CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY)) TOTAL_PRICE1
+		        ,(CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT)) TOTAL_PRICE2
+		        ,(CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY)) - (CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT))  TOTAL_PRICE3
+	            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+	            , C.DEAL_CORP_CD
+	            , (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+	            , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM
+	            , C.SAMPLE_YN         
+			FROM
+			(
+				SELECT
+					A.PO_SEQ
+					, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+				FROM TB_PURCHASE_ORDER_DTL A
+				LEFT OUTER JOIN
+				(	
+					SELECT
+						GOODS_STATUS
+						, BOX_NO
+					FROM TB_GOODS_PRODUCT_INFO_ADM
+				) B
+				ON A.BOX_NO = B.BOX_NO
+				WHERE B.GOODS_STATUS = '003'
+				GROUP BY PO_SEQ
+			) G
+			LEFT OUTER JOIN
+				TB_PURCHASE_ORDER_ADM C
+			ON G.PO_SEQ = C.PO_SEQ
+            , TB_GOODS_CODE_ADM D
+            , TB_MATRL_CODE_ADM E
+			WHERE 1=1                    
+            AND C.GOODS_CD = D.GOODS_CD
+            AND D.ALNICU_MATRL_CD = E.MATRL_CD         
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >= #{outputHistDateFrom}  
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <= #{outputHistDateTo}    
+            AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+		]]>
+		<if test="poGubunCd != null and poGubunCd != ''">   
+		   <![CDATA[         
+		      AND C.PO_GUBUN_CD = #{poGubunCd}
+		   ]]>
+		</if>   
+		<![CDATA[
+			GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD, C.SAMPLE_YN, G.OUTPUT_CNT, C.COST_UNIT, C.PO_QTY
+         
+			UNION ALL
+	            
+	        SELECT            
+				''GOODS_CD
+				, '' GOODS_NM
+				, SUM(PO_QTY) PO_QTY
+				, SUM(X.OUTPUT_QTY) OUTPUT_QTY
+				, '' PO_CODE       
+				, SUM(X.REMAIN_QTY) REMAIN_QTY    
+				, SUM(TOTAL_PRICE1) TOTAL_PRICE1
+				, SUM( TOTAL_PRICE2) TOTAL_PRICE2
+				, SUM( TOTAL_PRICE3 ) TOTAL_PRICE3
+				,  SUBSTRING(X.PO_DATE,0,7) PO_DATE
+				, '99999' DEAL_CORP_CD
+				, '' DEAL_CORP_NM
+				, '' QUTY_NM               
+				, '' SAMPLE_YN   
+			FROM
+			(
+				SELECT
+					C.GOODS_CD
+		            , (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+					, C.PO_QTY
+		            , G.OUTPUT_CNT AS OUTPUT_QTY
+		            , C.PO_CODE
+		            , ( CONVERT(FLOAT, ISNULL(C.PO_QTY, 0)) - CONVERT(FLOAT, ISNULL(G.OUTPUT_CNT, 0)) ) AS REMAIN_QTY
+			    	, (CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY)) TOTAL_PRICE1
+			        , (CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT)) TOTAL_PRICE2
+			        , (CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY)) - (CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT))  TOTAL_PRICE3
+		            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+		            , C.DEAL_CORP_CD
+		            , (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+		            , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM         
+		            , C.SAMPLE_YN
+				FROM
+	         	(
+					SELECT
+						A.PO_SEQ
+						, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+					FROM TB_PURCHASE_ORDER_DTL A
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							GOODS_STATUS
+							, BOX_NO
+						FROM TB_GOODS_PRODUCT_INFO_ADM
+					) B
+					ON A.BOX_NO = B.BOX_NO
+					WHERE 1=1
+					AND B.GOODS_STATUS = '003'
+					GROUP BY PO_SEQ
+				) G
+				LEFT OUTER JOIN
+					TB_PURCHASE_ORDER_ADM C
+				ON G.PO_SEQ = C.PO_SEQ
+	            , TB_GOODS_CODE_ADM D
+	            , TB_MATRL_CODE_ADM E
+				WHERE 1=1                       
+	            AND C.GOODS_CD = D.GOODS_CD
+	            AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+	            AND SUBSTRING(C.DELIVERY_DATE,0,7) >= #{outputHistDateFrom}  
+	            AND SUBSTRING(C.DELIVERY_DATE,0,7) <= #{outputHistDateTo}
+	            AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+		]]>
+		<if test="poGubunCd != null and poGubunCd != ''">   
+		   <![CDATA[         
+		      AND C.PO_GUBUN_CD = #{poGubunCd}
+		   ]]>
+		</if>   
+		<![CDATA[
+				GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD, C.SAMPLE_YN, G.OUTPUT_CNT, C.COST_UNIT, C.PO_QTY
+			) AS X
+		]]>         
+		<![CDATA[
+			GROUP BY SUBSTRING(X.PO_DATE,0,7)
+			ORDER BY SUBSTRING(C.DELIVERY_DATE,0,7) ASC, DEAL_CORP_CD ASC, GOODS_NM
+		]]>
+   </select>
+
+
+
+   <!-- 영업관리 출고집계표 거래처별 -->
+   <select id="listDealOutput_F3" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <![CDATA[
+		SELECT                        
+            C.PO_QTY
+            , G.OUTPUT_CNT AS OUTPUT_QTY
+			,C.PO_QTY - G.OUTPUT_CNT AS REMAIN_QTY
+	        ,(CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY)) TOTAL_PRICE1
+	        ,(CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT)) TOTAL_PRICE2
+	        ,(CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY)) - (CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT))  TOTAL_PRICE3
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+            , C.DEAL_CORP_CD
+            , (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+            , C.SAMPLE_YN
+         FROM
+         (
+			SELECT
+				A.PO_SEQ
+				, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+			FROM TB_PURCHASE_ORDER_DTL A
+			LEFT OUTER JOIN
+			(	
+				SELECT
+					GOODS_STATUS
+					, BOX_NO
+				FROM TB_GOODS_PRODUCT_INFO_ADM
+			) B
+			ON A.BOX_NO = B.BOX_NO
+			WHERE 1=1
+			AND B.GOODS_STATUS = '003'
+			GROUP BY PO_SEQ
+		) G
+		LEFT OUTER JOIN
+		TB_PURCHASE_ORDER_ADM C
+		ON G.PO_SEQ = C.PO_SEQ 
+		WHERE 1=1           
+		AND SUBSTRING(C.DELIVERY_DATE,0,7) >=#{outputHistDateFrom}
+		AND SUBSTRING(C.DELIVERY_DATE,0,7) <=#{outputHistDateTo}   
+		AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+	]]>   
+            
+	<if test="poGubunCd != null and poGubunCd != ''">   
+		<![CDATA[         
+			AND C.PO_GUBUN_CD = #{poGubunCd}
+		]]>
+	</if>   
+	<![CDATA[
+	
+		GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD, C.SAMPLE_YN, C.PO_QTY, COST_UNIT, G.OUTPUT_CNT
+
+		UNION ALL
+
+		SELECT
+            SUM(X.PO_QTY) PO_QTY
+            , SUM(X.OUTPUT_QTY) OUTPUT_QTY
+            , SUM(X.REMAIN_QTY) REMAIN_QTY
+            , SUM(TOTAL_PRICE1) TOTAL_PRICE1
+            , SUM(TOTAL_PRICE2) TOTAL_PRICE2
+            , SUM(TOTAL_PRICE3) TOTAL_PRICE3
+            ,  SUBSTRING(X.PO_DATE,0,7) PO_DATE
+            , '99999' DEAL_CORP_CD
+            , '' DEAL_CORP_NM
+      		, '' SAMPLE_YN
+         FROM (
+         	SELECT                        
+	            C.PO_QTY
+				, G.OUTPUT_CNT AS OUTPUT_QTY
+			    , C.PO_QTY - G.OUTPUT_CNT AS REMAIN_QTY
+		        , (CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY)) TOTAL_PRICE1
+		        , (CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT)) TOTAL_PRICE2
+		        , (CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY)) - (CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT))  TOTAL_PRICE3
+	            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+	            , C.DEAL_CORP_CD
+	            , (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+				, C.SAMPLE_YN
+			FROM
+			(
+				SELECT
+					A.PO_SEQ
+					, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+				FROM TB_PURCHASE_ORDER_DTL A
+				LEFT OUTER JOIN
+				(	
+					SELECT
+						GOODS_STATUS
+						, BOX_NO
+					FROM TB_GOODS_PRODUCT_INFO_ADM
+				) B
+				ON A.BOX_NO = B.BOX_NO
+				WHERE 1=1
+				AND B.GOODS_STATUS = '003'
+				GROUP BY PO_SEQ
+			) G
+			LEFT OUTER JOIN
+			TB_PURCHASE_ORDER_ADM C
+			ON G.PO_SEQ = C.PO_SEQ
+			WHERE 1=1                             
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) >=#{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,7) <=#{outputHistDateTo}
+            AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')   
+            ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+            <![CDATA[
+            GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD, C.SAMPLE_YN, C.PO_QTY, COST_UNIT, G.OUTPUT_CNT
+		) X
+
+		GROUP BY SUBSTRING(X.PO_DATE,0,7)   
+   
+		ORDER BY SUBSTRING(C.DELIVERY_DATE,0,7) ASC, DEAL_CORP_CD ASC   
+	]]>
+   </select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 영업관리 출고집계표 오더구분별 -->
+   <select id="listOrderGubunOutput_F3" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+      <![CDATA[
+         SELECT                                    
+            SUM(C.PO_QTY) PO_QTY
+            , PO_GUBUN_CD
+            , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+            , SUM(G.OUTPUT_CNT) AS OUTPUT_QTY
+			, SUM(C.PO_QTY ) - SUM(G.OUTPUT_CNT) AS REMAIN_QTY
+			, SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+		    , SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT))) TOTAL_PRICE2
+		    , SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT)))  TOTAL_PRICE3
+            
+            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE               
+            , C.SAMPLE_YN
+            
+         FROM
+         (
+			SELECT
+				A.PO_SEQ
+				, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+			FROM TB_PURCHASE_ORDER_DTL A
+			LEFT OUTER JOIN
+			(	
+				SELECT
+					GOODS_STATUS
+					, BOX_NO
+				FROM TB_GOODS_PRODUCT_INFO_ADM
+			) B
+			ON A.BOX_NO = B.BOX_NO
+			WHERE 1=1
+			AND B.GOODS_STATUS = '003'
+			GROUP BY PO_SEQ
+		) G
+		LEFT OUTER JOIN
+			TB_PURCHASE_ORDER_ADM C
+		ON G.PO_SEQ = C.PO_SEQ
+		, TB_GOODS_CODE_ADM D
+		, TB_MATRL_CODE_ADM E
+		WHERE 1=1            
+		AND C.GOODS_CD = D.GOODS_CD
+		AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+		AND SUBSTRING(C.DELIVERY_DATE,0,7) >=#{outputHistDateFrom}
+		AND SUBSTRING(C.DELIVERY_DATE,0,7) <=#{outputHistDateTo}     
+		AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+		]]>
+		
+		<if test="poGubunCd != null and poGubunCd != ''">   
+			<![CDATA[         
+				AND C.PO_GUBUN_CD = #{poGubunCd}
+			]]>
+		</if>
+		   
+		<![CDATA[
+			GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),PO_GUBUN_CD, C.SAMPLE_YN
+         
+         UNION ALL
+
+         SELECT            
+            SUM(X.PO_QTY) PO_QTY
+            , '9999999' PO_GUBUN_CD
+            , '' PO_GUBUN_NM
+			, SUM(X.OUTPUT_QTY) OUTPUT_QTY
+            , SUM(X.PO_QTY ) - SUM(X.OUTPUT_QTY)  REMAIN_QTY
+            , SUM(TOTAL_PRICE1) TOTAL_PRICE1            
+            , SUM(TOTAL_PRICE2) TOTAL_PRICE2
+            , SUM(TOTAL_PRICE3)  TOTAL_PRICE3
+            , SUBSTRING(X.PO_DATE,0,7) PO_DATE  
+            , '' SAMPLE_YN             
+         FROM
+         (
+         	SELECT            
+                        
+	            SUM(C.PO_QTY) PO_QTY
+	            ,PO_GUBUN_CD
+	            ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM
+				, SUM(G.OUTPUT_CNT) AS OUTPUT_QTY
+				, SUM(C.PO_QTY ) - SUM(G.OUTPUT_CNT) AS REMAIN_QTY
+				, SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+			    , SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT))) TOTAL_PRICE2
+			    , SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT)))  TOTAL_PRICE3
+	            , SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+	            , C.SAMPLE_YN
+			FROM
+			(
+				SELECT
+					A.PO_SEQ
+					, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+				FROM TB_PURCHASE_ORDER_DTL A
+				LEFT OUTER JOIN
+				(	
+					SELECT
+						GOODS_STATUS
+						, BOX_NO
+					FROM TB_GOODS_PRODUCT_INFO_ADM
+				) B
+				ON A.BOX_NO = B.BOX_NO
+				WHERE 1=1
+				AND B.GOODS_STATUS = '003'
+				GROUP BY PO_SEQ
+			) G
+			LEFT OUTER JOIN
+				TB_PURCHASE_ORDER_ADM C
+			ON G.PO_SEQ = C.PO_SEQ
+	            , TB_GOODS_CODE_ADM D
+	            , TB_MATRL_CODE_ADM E
+			WHERE 1=1         
+			AND C.GOODS_CD = D.GOODS_CD
+			AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+			AND SUBSTRING(C.DELIVERY_DATE,0,7) >=#{outputHistDateFrom}
+			AND SUBSTRING(C.DELIVERY_DATE,0,7) <=#{outputHistDateTo}  
+			AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+         ]]>
+         <if test="poGubunCd != null and poGubunCd != ''">   
+         <![CDATA[         
+            AND C.PO_GUBUN_CD = #{poGubunCd}
+         ]]>
+         </if>
+         <![CDATA[
+            GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),PO_GUBUN_CD, C.SAMPLE_YN)    X      
+
+            GROUP BY SUBSTRING(X.PO_DATE,0,7)
+   
+         ORDER BY PO_DATE ASC, PO_GUBUN_CD ASC   
+         ]]>
+   </select>
+   
+   
+   
+   
+   
+   
+   
+   
+	<!-- 출고집계표 요약본 -->
+	<select id="listchulgojipgye_F3" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+		<![CDATA[
+			SELECT 
+				AA.DEAL_CORP_CD
+			    ,AA. DEAL_CORP_NM    
+				,AA.GOODS_CD
+			    ,AA.GOODS_NM            
+			    , AA.PO_QTY
+			    , AA.OUTPUT_QTY 
+				, ISNULL(BB.OUTPUT_QTY,0) REMAIN_QTY
+				, ISNULL(AA.OUTPUT_QTY,0) + ISNULL(BB.OUTPUT_QTY,0) TOTAL_PRICE1
+				, AA.COST_UNIT
+				, ISNULL(AA.COST_UNIT,0) * ISNULL(AA.OUTPUT_QTY,0) OUTPUT_PRI
+				, ISNULL(AA.COST_UNIT,0) * ISNULL(BB.OUTPUT_QTY,0) NOTOUTPUT_PRI
+				, ISNULL(AA.COST_UNIT,1) * ( AA.OUTPUT_QTY + ISNULL(BB.OUTPUT_QTY,0)) TOTAL_PRICE2           
+			    , AA.PO_DATE
+			    , AA.SAMPLE_YN
+			 FROM 
+			 (
+				SELECT            
+					C.GOODS_CD
+					,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+					,SUM(C.PO_QTY ) PO_QTY
+					,SUM(G.OUTPUT_CNT) OUTPUT_QTY       
+					,SUM(C.PO_QTY ) - SUM(G.OUTPUT_CNT)  REMAIN_QTY  
+					,C.COST_UNIT
+					, SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+					,C.DEAL_CORP_CD
+					,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM       
+					, C.SAMPLE_YN
+				FROM
+				(
+					SELECT
+						A.PO_SEQ
+						, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+						, C.OUTPUT_HIST_DATE
+					FROM TB_PURCHASE_ORDER_DTL A
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							GOODS_STATUS
+							, BOX_NO
+						FROM TB_GOODS_PRODUCT_INFO_ADM
+					) B
+					ON A.BOX_NO = B.BOX_NO
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							PO_SEQ
+							, OUTPUT_HIST_DATE
+						FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+						GROUP BY PO_SEQ, OUTPUT_HIST_DATE
+					) C
+					ON A.PO_SEQ = C.PO_SEQ
+			
+					WHERE 1=1
+					AND B.GOODS_STATUS = '003'
+					GROUP BY A.PO_SEQ, OUTPUT_HIST_DATE
+				) AS G
+				LEFT OUTER JOIN
+					TB_PURCHASE_ORDER_ADM C
+				ON G.PO_SEQ = C.PO_SEQ
+				WHERE 1=1
+				AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND SUBSTRING(G.OUTPUT_HIST_DATE,0,7) = SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+				GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,C.COST_UNIT, C.SAMPLE_YN
+			) AA
+			LEFT OUTER JOIN
+			(
+				SELECT            
+					C.GOODS_CD
+					,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM  
+					,SUM(G.OUTPUT_CNT) OUTPUT_QTY            
+					,C.COST_UNIT
+					, SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+					,C.DEAL_CORP_CD
+					,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+					, C.SAMPLE_YN
+				FROM
+				(
+					SELECT
+						A.PO_SEQ
+						, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+						, C.OUTPUT_HIST_DATE
+					FROM TB_PURCHASE_ORDER_DTL A
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							GOODS_STATUS
+							, BOX_NO
+						FROM TB_GOODS_PRODUCT_INFO_ADM
+					) B
+					ON A.BOX_NO = B.BOX_NO
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							PO_SEQ
+							, OUTPUT_HIST_DATE
+						FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+						GROUP BY PO_SEQ, OUTPUT_HIST_DATE
+					) C
+					ON A.PO_SEQ = C.PO_SEQ
+			
+					WHERE 1=1
+					AND B.GOODS_STATUS = '003'
+					GROUP BY A.PO_SEQ, OUTPUT_HIST_DATE
+				) AS G
+				LEFT OUTER JOIN
+					TB_PURCHASE_ORDER_ADM C
+				ON G.PO_SEQ = C.PO_SEQ
+			
+				WHERE 1=1                               
+				AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}   
+				AND SUBSTRING(G.OUTPUT_HIST_DATE,0,7) > SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+				GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.COST_UNIT, C.SAMPLE_YN
+			) BB
+			
+			ON AA.DEAL_CORP_CD = BB.DEAL_CORP_CD
+			AND AA.GOODS_CD = BB.GOODS_CD
+			AND AA.PO_DATE = BB.PO_DATE
+		
+			UNION ALL
+			
+			SELECT 
+				AA.DEAL_CORP_CD
+	            , '999999' DEAL_CORP_NM    
+				, '' GOODS_CD
+	            , '' GOODS_NM            
+	            , SUM(AA.PO_QTY) PO_QTY
+	            , SUM(AA.OUTPUT_QTY) OUTPUT_QTY
+				, SUM(ISNULL(BB.OUTPUT_QTY,0)) OUTPUT_QTY
+				, SUM(ISNULL(AA.OUTPUT_QTY,0) + ISNULL(BB.OUTPUT_QTY,0)) TOTAL1
+				, '' COST_UNIT
+				, SUM(ISNULL(AA.COST_UNIT,0) * ISNULL(AA.OUTPUT_QTY,0)) OUTT
+				, SUM( ISNULL(AA.COST_UNIT,0) * ISNULL(BB.OUTPUT_QTY,0)) NOTOUTPUT_PRI
+				, SUM(ISNULL(AA.COST_UNIT,1) * ( AA.OUTPUT_QTY + ISNULL(BB.OUTPUT_QTY,0))) TOTAL2
+	            , '' PO_DATE
+	            , '' SAMPLE_YN
+			FROM
+			(
+				SELECT            
+					C.GOODS_CD
+					,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+					,SUM(C.PO_QTY ) PO_QTY
+					,SUM(G.OUTPUT_CNT) OUTPUT_QTY       
+					,SUM(C.PO_QTY ) - SUM(G.OUTPUT_CNT)  REMAIN_QTY  
+					,C.COST_UNIT
+					, SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+					,C.DEAL_CORP_CD
+					,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+					, C.SAMPLE_YN
+				FROM
+				(
+					SELECT
+						A.PO_SEQ
+						, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+						, C.OUTPUT_HIST_DATE
+					FROM TB_PURCHASE_ORDER_DTL A
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							GOODS_STATUS
+							, BOX_NO
+						FROM TB_GOODS_PRODUCT_INFO_ADM
+					) B
+					ON A.BOX_NO = B.BOX_NO
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							PO_SEQ
+							, OUTPUT_HIST_DATE
+						FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+						GROUP BY PO_SEQ, OUTPUT_HIST_DATE
+					) C
+					ON A.PO_SEQ = C.PO_SEQ
+		
+					WHERE 1=1
+					AND B.GOODS_STATUS = '003'
+					GROUP BY A.PO_SEQ, OUTPUT_HIST_DATE
+				) AS G
+				LEFT OUTER JOIN
+					TB_PURCHASE_ORDER_ADM C
+				ON G.PO_SEQ = C.PO_SEQ
+				WHERE 1=1
+				AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND SUBSTRING(G.OUTPUT_HIST_DATE,0,7) = SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+				GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,C.COST_UNIT, C.SAMPLE_YN
+			) AA
+			LEFT OUTER JOIN
+			(
+				SELECT
+					C.GOODS_CD
+					,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM  
+					,SUM(G.OUTPUT_CNT) OUTPUT_QTY            
+					,C.COST_UNIT
+					, SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+					,C.DEAL_CORP_CD
+					,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+					, C.SAMPLE_YN
+				FROM
+				(
+					SELECT
+						A.PO_SEQ
+						, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+						, C.OUTPUT_HIST_DATE
+					FROM TB_PURCHASE_ORDER_DTL A
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							GOODS_STATUS
+							, BOX_NO
+						FROM TB_GOODS_PRODUCT_INFO_ADM
+					) B
+					ON A.BOX_NO = B.BOX_NO
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							PO_SEQ
+							, OUTPUT_HIST_DATE
+						FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+						GROUP BY PO_SEQ, OUTPUT_HIST_DATE
+					) C
+					ON A.PO_SEQ = C.PO_SEQ
+	
+					WHERE 1=1
+					AND B.GOODS_STATUS = '003'
+					GROUP BY A.PO_SEQ, OUTPUT_HIST_DATE
+				) G
+				LEFT OUTER JOIN
+				TB_PURCHASE_ORDER_ADM C
+				ON G.PO_SEQ = C.PO_SEQ
+				WHERE 1=1                               
+				AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND SUBSTRING(G.OUTPUT_HIST_DATE,0,7) > SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND ( C.SAMPLE_YN != 'Y' OR  C.SAMPLE_YN IS NULL OR C.SAMPLE_YN = 'N' OR C.SAMPLE_YN = '')
+				GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.COST_UNIT, C.SAMPLE_YN
+			) BB
+	
+			ON AA.DEAL_CORP_CD = BB.DEAL_CORP_CD
+			AND AA.GOODS_CD = BB.GOODS_CD
+			AND AA.PO_DATE = BB.PO_DATE
+				 
+			GROUP BY AA.DEAL_CORP_CD, AA.DEAL_CORP_NM
+	
+			ORDER BY DEAL_CORP_CD ASC , DEAL_CORP_NM DESC, GOODS_NM
+		]]>
+	</select>
+	
+	
+	
+	
+	
+	<!-- 출고집계표 요약본 -->
+	<select id="purchaseOrderAdmSampleList_F3" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+		<![CDATA[
+			SELECT 
+				AA.DEAL_CORP_CD
+			    ,AA. DEAL_CORP_NM    
+				,AA.GOODS_CD
+			    ,AA.GOODS_NM            
+			    , AA.PO_QTY
+			    , AA.OUTPUT_QTY 
+				, ISNULL(BB.OUTPUT_QTY,0) REMAIN_QTY
+				, ISNULL(AA.OUTPUT_QTY,0) + ISNULL(BB.OUTPUT_QTY,0) TOTAL_PRICE1
+				, AA.COST_UNIT
+				, ISNULL(AA.COST_UNIT,0) * ISNULL(AA.OUTPUT_QTY,0) OUTPUT_PRI
+				, ISNULL(AA.COST_UNIT,0) * ISNULL(BB.OUTPUT_QTY,0) NOTOUTPUT_PRI
+				, ISNULL(AA.COST_UNIT,1) * ( AA.OUTPUT_QTY + ISNULL(BB.OUTPUT_QTY,0)) TOTAL_PRICE2           
+			    , AA.PO_DATE
+			    , AA.SAMPLE_YN
+			 FROM 
+			 (
+				SELECT            
+					C.GOODS_CD
+					,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+					,SUM(C.PO_QTY ) PO_QTY
+					,SUM(G.OUTPUT_CNT) OUTPUT_QTY       
+					,SUM(C.PO_QTY ) - SUM(G.OUTPUT_CNT)  REMAIN_QTY  
+					,C.COST_UNIT
+					, SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+					,C.DEAL_CORP_CD
+					,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM       
+					, C.SAMPLE_YN
+				FROM
+				(
+					SELECT
+						A.PO_SEQ
+						, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+						, C.OUTPUT_HIST_DATE
+					FROM TB_PURCHASE_ORDER_DTL A
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							GOODS_STATUS
+							, BOX_NO
+						FROM TB_GOODS_PRODUCT_INFO_ADM
+					) B
+					ON A.BOX_NO = B.BOX_NO
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							PO_SEQ
+							, OUTPUT_HIST_DATE
+						FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+						GROUP BY PO_SEQ, OUTPUT_HIST_DATE
+					) C
+					ON A.PO_SEQ = C.PO_SEQ
+			
+					WHERE 1=1
+					AND B.GOODS_STATUS = '003'
+					GROUP BY A.PO_SEQ, OUTPUT_HIST_DATE
+				) AS G
+				LEFT OUTER JOIN
+					TB_PURCHASE_ORDER_ADM C
+				ON G.PO_SEQ = C.PO_SEQ
+				WHERE 1=1
+				AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND SUBSTRING(G.OUTPUT_HIST_DATE,0,7) = SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND C.SAMPLE_YN = 'Y'
+				GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,C.COST_UNIT, C.SAMPLE_YN
+			) AA
+			LEFT OUTER JOIN
+			(
+				SELECT            
+					C.GOODS_CD
+					,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM  
+					,SUM(G.OUTPUT_CNT) OUTPUT_QTY            
+					,C.COST_UNIT
+					, SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+					,C.DEAL_CORP_CD
+					,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+					, C.SAMPLE_YN
+				FROM
+				(
+					SELECT
+						A.PO_SEQ
+						, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+						, C.OUTPUT_HIST_DATE
+					FROM TB_PURCHASE_ORDER_DTL A
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							GOODS_STATUS
+							, BOX_NO
+						FROM TB_GOODS_PRODUCT_INFO_ADM
+					) B
+					ON A.BOX_NO = B.BOX_NO
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							PO_SEQ
+							, OUTPUT_HIST_DATE
+						FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+						GROUP BY PO_SEQ, OUTPUT_HIST_DATE
+					) C
+					ON A.PO_SEQ = C.PO_SEQ
+			
+					WHERE 1=1
+					AND B.GOODS_STATUS = '003'
+					GROUP BY A.PO_SEQ, OUTPUT_HIST_DATE
+				) AS G
+				LEFT OUTER JOIN
+					TB_PURCHASE_ORDER_ADM C
+				ON G.PO_SEQ = C.PO_SEQ
+			
+				WHERE 1=1                               
+				AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}   
+				AND SUBSTRING(G.OUTPUT_HIST_DATE,0,7) > SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND C.SAMPLE_YN = 'Y'
+				GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.COST_UNIT, C.SAMPLE_YN
+			) BB
+			
+			ON AA.DEAL_CORP_CD = BB.DEAL_CORP_CD
+			AND AA.GOODS_CD = BB.GOODS_CD
+			AND AA.PO_DATE = BB.PO_DATE
+		
+			UNION ALL
+			
+			SELECT 
+				AA.DEAL_CORP_CD
+	            , '999999' DEAL_CORP_NM    
+				, '' GOODS_CD
+	            , '' GOODS_NM            
+	            , SUM(AA.PO_QTY) PO_QTY
+	            , SUM(AA.OUTPUT_QTY) OUTPUT_QTY
+				, SUM(ISNULL(BB.OUTPUT_QTY,0)) OUTPUT_QTY
+				, SUM(ISNULL(AA.OUTPUT_QTY,0) + ISNULL(BB.OUTPUT_QTY,0)) TOTAL1
+				, '' COST_UNIT
+				, SUM(ISNULL(AA.COST_UNIT,0) * ISNULL(AA.OUTPUT_QTY,0)) OUTT
+				, SUM( ISNULL(AA.COST_UNIT,0) * ISNULL(BB.OUTPUT_QTY,0)) NOTOUTPUT_PRI
+				, SUM(ISNULL(AA.COST_UNIT,1) * ( AA.OUTPUT_QTY + ISNULL(BB.OUTPUT_QTY,0))) TOTAL2
+	            , '' PO_DATE
+	            , '' SAMPLE_YN
+			FROM
+			(
+				SELECT            
+					C.GOODS_CD
+					,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+					,SUM(C.PO_QTY ) PO_QTY
+					,SUM(G.OUTPUT_CNT) OUTPUT_QTY       
+					,SUM(C.PO_QTY ) - SUM(G.OUTPUT_CNT)  REMAIN_QTY  
+					,C.COST_UNIT
+					, SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+					,C.DEAL_CORP_CD
+					,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+					, C.SAMPLE_YN
+				FROM
+				(
+					SELECT
+						A.PO_SEQ
+						, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+						, C.OUTPUT_HIST_DATE
+					FROM TB_PURCHASE_ORDER_DTL A
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							GOODS_STATUS
+							, BOX_NO
+						FROM TB_GOODS_PRODUCT_INFO_ADM
+					) B
+					ON A.BOX_NO = B.BOX_NO
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							PO_SEQ
+							, OUTPUT_HIST_DATE
+						FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+						GROUP BY PO_SEQ, OUTPUT_HIST_DATE
+					) C
+					ON A.PO_SEQ = C.PO_SEQ
+		
+					WHERE 1=1
+					AND B.GOODS_STATUS = '003'
+					GROUP BY A.PO_SEQ, OUTPUT_HIST_DATE
+				) AS G
+				LEFT OUTER JOIN
+					TB_PURCHASE_ORDER_ADM C
+				ON G.PO_SEQ = C.PO_SEQ
+				WHERE 1=1
+				AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND SUBSTRING(G.OUTPUT_HIST_DATE,0,7) = SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND C.SAMPLE_YN = 'Y'
+				GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,C.COST_UNIT, C.SAMPLE_YN
+			) AA
+			LEFT OUTER JOIN
+			(
+				SELECT
+					C.GOODS_CD
+					,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM  
+					,SUM(G.OUTPUT_CNT) OUTPUT_QTY            
+					,C.COST_UNIT
+					, SUBSTRING(C.DELIVERY_DATE,0,7) PO_DATE
+					,C.DEAL_CORP_CD
+					,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+					, C.SAMPLE_YN
+				FROM
+				(
+					SELECT
+						A.PO_SEQ
+						, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+						, C.OUTPUT_HIST_DATE
+					FROM TB_PURCHASE_ORDER_DTL A
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							GOODS_STATUS
+							, BOX_NO
+						FROM TB_GOODS_PRODUCT_INFO_ADM
+					) B
+					ON A.BOX_NO = B.BOX_NO
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							PO_SEQ
+							, OUTPUT_HIST_DATE
+						FROM TB_PURCHASE_ORDER_OUTPUT_HIST
+						GROUP BY PO_SEQ, OUTPUT_HIST_DATE
+					) C
+					ON A.PO_SEQ = C.PO_SEQ
+	
+					WHERE 1=1
+					AND B.GOODS_STATUS = '003'
+					GROUP BY A.PO_SEQ, OUTPUT_HIST_DATE
+				) G
+				LEFT OUTER JOIN
+				TB_PURCHASE_ORDER_ADM C
+				ON G.PO_SEQ = C.PO_SEQ
+				WHERE 1=1                               
+				AND SUBSTRING(C.DELIVERY_DATE,0,7) = #{outputHistDateFrom}
+				AND SUBSTRING(G.OUTPUT_HIST_DATE,0,7) > SUBSTRING(C.DELIVERY_DATE,0,7)
+				AND C.SAMPLE_YN = 'Y'
+				GROUP BY SUBSTRING(C.DELIVERY_DATE,0,7),C.DEAL_CORP_CD,C.GOODS_CD,C.COST_UNIT, C.SAMPLE_YN
+			) BB
+	
+			ON AA.DEAL_CORP_CD = BB.DEAL_CORP_CD
+			AND AA.GOODS_CD = BB.GOODS_CD
+			AND AA.PO_DATE = BB.PO_DATE
+				 
+			GROUP BY AA.DEAL_CORP_CD, AA.DEAL_CORP_NM
+	
+			ORDER BY DEAL_CORP_CD ASC , DEAL_CORP_NM DESC, GOODS_NM
+		]]>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	<!-- 영업관리 출고집계표 거래처/품목별 -->
+	<select id="listDealGoodsOutputYear_F3" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+		<![CDATA[
+			 SELECT            
+				C.GOODS_CD
+			    ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+				,C.PO_CODE
+			    ,SUM(C.PO_QTY ) PO_QTY
+			    ,SUM(G.OUTPUT_CNT) OUTPUT_QTY       
+			    ,SUM(C.PO_QTY ) - SUM(G.OUTPUT_CNT)  REMAIN_QTY
+			    ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+			    ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT))) TOTAL_PRICE2
+			    ,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT)))  TOTAL_PRICE3
+				, SUBSTRING(C.DELIVERY_DATE,0,5) PO_DATE
+			    ,C.DEAL_CORP_CD
+			    ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+			    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM         
+			FROM
+			(
+				SELECT
+					A.PO_SEQ
+					, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+				FROM TB_PURCHASE_ORDER_DTL A
+				LEFT OUTER JOIN
+				(	
+					SELECT
+						GOODS_STATUS
+						, BOX_NO
+					FROM TB_GOODS_PRODUCT_INFO_ADM
+				) B
+				ON A.BOX_NO = B.BOX_NO
+				WHERE B.GOODS_STATUS = '003'
+				GROUP BY PO_SEQ
+			) G
+			LEFT OUTER JOIN
+				TB_PURCHASE_ORDER_ADM C
+			ON G.PO_SEQ = C.PO_SEQ
+			, TB_GOODS_CODE_ADM D
+			, TB_MATRL_CODE_ADM E
+			WHERE 1=1                                 
+			AND C.GOODS_CD = D.GOODS_CD
+			AND D.ALNICU_MATRL_CD = E.MATRL_CD
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) >= #{outputHistDateFrom}  
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) <= #{outputHistDateTo}    
+		]]>
+		<if test="poGubunCd != null and poGubunCd != ''">   
+		   <![CDATA[         
+		      AND C.PO_GUBUN_CD = #{poGubunCd}
+		   ]]>
+		</if>   
+		<![CDATA[
+			GROUP BY SUBSTRING(C.DELIVERY_DATE,0,5),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD
+         
+         UNION ALL
+            
+			SELECT            
+	            ''GOODS_CD
+	            ,'' GOODS_NM   
+				,'' PO_CODE
+	            ,SUM(PO_QTY) PO_QTY
+				,SUM(X.OUTPUT_QTY) OUTPUT_QTY       
+	            ,SUM(X.REMAIN_QTY) REMAIN_QTY                  
+	            ,SUM(TOTAL_PRICE1) TOTAL_PRICE1
+	            ,SUM( TOTAL_PRICE2) TOTAL_PRICE2
+	            ,SUM( TOTAL_PRICE3 ) TOTAL_PRICE3
+	            , SUBSTRING(X.PO_DATE,0,5) PO_DATE
+	            ,'99999' DEAL_CORP_CD
+	            ,'' DEAL_CORP_NM
+	            ,'' QUTY_NM                  
+			FROM
+			(
+				SELECT            
+					C.GOODS_CD
+					,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD= C.GOODS_CD) GOODS_NM            
+					,SUM(C.PO_QTY ) PO_QTY
+					,SUM(G.OUTPUT_CNT) OUTPUT_QTY       
+					,SUM(C.PO_QTY ) - SUM(G.OUTPUT_CNT)  REMAIN_QTY
+					,C.PO_CODE                              
+					,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+					,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT))) TOTAL_PRICE2
+					,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT)))  TOTAL_PRICE3
+					, SUBSTRING(C.DELIVERY_DATE,0,5) PO_DATE
+					,C.DEAL_CORP_CD
+					,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = C.DEAL_CORP_CD) DEAL_CORP_NM
+					,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = E.QUTY_CD) QUTY_NM 
+				FROM
+				(
+					SELECT
+						A.PO_SEQ
+						, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+					FROM TB_PURCHASE_ORDER_DTL A
+					LEFT OUTER JOIN
+					(	
+						SELECT
+							GOODS_STATUS
+							, BOX_NO
+						FROM TB_GOODS_PRODUCT_INFO_ADM
+					) B
+					ON A.BOX_NO = B.BOX_NO
+					WHERE B.GOODS_STATUS = '003'
+					GROUP BY PO_SEQ
+				) G
+				LEFT OUTER JOIN
+					TB_PURCHASE_ORDER_ADM C
+				ON G.PO_SEQ = C.PO_SEQ
+				, TB_GOODS_CODE_ADM D
+				, TB_MATRL_CODE_ADM E
+				WHERE 1=1                          
+				AND C.GOODS_CD = D.GOODS_CD
+				AND D.ALNICU_MATRL_CD = E.MATRL_CD
+	           AND SUBSTRING(C.DELIVERY_DATE,0,5) >= #{outputHistDateFrom}  
+	           AND SUBSTRING(C.DELIVERY_DATE,0,5) <= #{outputHistDateTo}
+            ]]>
+            <if test="poGubunCd != null and poGubunCd != ''">   
+               <![CDATA[         
+                  AND C.PO_GUBUN_CD = #{poGubunCd}
+               ]]>
+            </if>   
+            <![CDATA[
+            GROUP BY SUBSTRING(C.DELIVERY_DATE,0,5),C.DEAL_CORP_CD,C.GOODS_CD,C.PO_CODE,QUTY_CD)   AS X
+            
+            ]]>         
+      <![CDATA[
+         GROUP BY SUBSTRING(X.PO_DATE,0,5)
+         ORDER BY SUBSTRING(C.DELIVERY_DATE,0,5) ASC, DEAL_CORP_CD ASC, GOODS_NM
+      ]]>
+   </select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 영업관리 년도별 출고집계표 오더구분별 -->
+	<select id="listOrderGubunOutputYear_F3" parameterType="mes.domain.bs.PurchaseOrderAdmVo" resultMap="PurchaseOrderAdmVo">
+		<![CDATA[
+			SELECT                                    
+				SUM(C.PO_QTY) PO_QTY
+				,SUM(G.OUTPUT_CNT) OUTPUT_QTY       
+				,SUM(C.PO_QTY ) - SUM(G.OUTPUT_CNT)  REMAIN_QTY
+				,PO_GUBUN_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM                  
+				,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+				,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT))) TOTAL_PRICE2
+				,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT)))  TOTAL_PRICE3
+				, SUBSTRING(C.DELIVERY_DATE,0,5) PO_DATE               
+			FROM
+			(
+				SELECT
+					A.PO_SEQ
+					, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+				FROM TB_PURCHASE_ORDER_DTL A
+				LEFT OUTER JOIN
+				(	
+					SELECT
+						GOODS_STATUS
+						, BOX_NO
+					FROM TB_GOODS_PRODUCT_INFO_ADM
+				) B
+				ON A.BOX_NO = B.BOX_NO
+				WHERE B.GOODS_STATUS = '003'
+				GROUP BY PO_SEQ
+			) G
+			LEFT OUTER JOIN
+				TB_PURCHASE_ORDER_ADM C
+			ON G.PO_SEQ = C.PO_SEQ
+			, TB_GOODS_CODE_ADM D
+			, TB_MATRL_CODE_ADM E
+			WHERE 1=1            
+			AND C.GOODS_CD = D.GOODS_CD
+			AND D.ALNICU_MATRL_CD = E.MATRL_CD
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) >=#{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) <=#{outputHistDateTo}     
+         ]]>
+         <if test="poGubunCd != null and poGubunCd != ''">   
+         <![CDATA[         
+            AND C.PO_GUBUN_CD = #{poGubunCd}
+         ]]>
+         </if>   
+         <![CDATA[
+         GROUP BY SUBSTRING(C.DELIVERY_DATE,0,5),PO_GUBUN_CD
+         
+         UNION ALL
+
+         SELECT            
+            SUM(X.PO_QTY) PO_QTY
+            ,SUM(X.OUTPUT_QTY) OUTPUT_QTY       
+            ,SUM(X.PO_QTY ) - SUM(X.OUTPUT_QTY)  REMAIN_QTY
+            ,'9999999' PO_GUBUN_CD
+            ,'' PO_GUBUN_NM                                    
+            ,SUM(TOTAL_PRICE1) TOTAL_PRICE1            
+            ,SUM(TOTAL_PRICE2) TOTAL_PRICE2
+            ,SUM(TOTAL_PRICE3)  TOTAL_PRICE3
+            ,SUBSTRING(X.PO_DATE,0,5) PO_DATE               
+         FROM (
+			SELECT            
+				SUM(C.PO_QTY) PO_QTY
+				,SUM(G.OUTPUT_CNT) OUTPUT_QTY       
+				,SUM(C.PO_QTY ) - SUM(G.OUTPUT_CNT)  REMAIN_QTY
+				,PO_GUBUN_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = C.PO_GUBUN_CD) PO_GUBUN_NM                  
+				,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) TOTAL_PRICE1            
+				,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT))) TOTAL_PRICE2
+				,SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,C.PO_QTY))) - SUM((CONVERT(FLOAT,C.COST_UNIT) * CONVERT(FLOAT,G.OUTPUT_CNT)))  TOTAL_PRICE3
+				, SUBSTRING(C.DELIVERY_DATE,0,5) PO_DATE               
+			FROM
+			(
+				SELECT
+					A.PO_SEQ
+					, SUM(A.OUTPUT_CNT) AS OUTPUT_CNT
+				FROM TB_PURCHASE_ORDER_DTL A
+				LEFT OUTER JOIN
+				(	
+					SELECT
+						GOODS_STATUS
+						, BOX_NO
+					FROM TB_GOODS_PRODUCT_INFO_ADM
+				) B
+				ON A.BOX_NO = B.BOX_NO
+				WHERE B.GOODS_STATUS = '003'
+				GROUP BY PO_SEQ
+			) G
+			LEFT OUTER JOIN
+				TB_PURCHASE_ORDER_ADM C
+			ON G.PO_SEQ = C.PO_SEQ
+			, TB_GOODS_CODE_ADM D
+			, TB_MATRL_CODE_ADM E
+
+			WHERE 1=1           
+			AND C.GOODS_CD = D.GOODS_CD
+			AND D.ALNICU_MATRL_CD = E.MATRL_CD               
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) >=#{outputHistDateFrom}
+            AND SUBSTRING(C.DELIVERY_DATE,0,5) <=#{outputHistDateTo}         
+         ]]>
+         <if test="poGubunCd != null and poGubunCd != ''">   
+         <![CDATA[         
+            AND C.PO_GUBUN_CD = #{poGubunCd}
+         ]]>
+         </if>
+         <![CDATA[
+            GROUP BY SUBSTRING(C.DELIVERY_DATE,0,5),PO_GUBUN_CD)    X      
+
+            GROUP BY SUBSTRING(X.PO_DATE,0,5)
+   
+         ORDER BY PO_DATE ASC, PO_GUBUN_CD ASC   
+         ]]>
+   </select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

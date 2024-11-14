@@ -1,0 +1,2997 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.po.agtMapper">
+
+	<resultMap id="AgtVo" type="mes.domain.po.AgtVo">
+		<result property="workOrdNo"				column="WORK_ORD_NO"				/>
+		<result property="ordLotNo"					column="ORD_LOT_NO"					/>
+		<result property="stepCd"					column="STEP_CD"					/>
+		<result property="equipCd"					column="EQUIP_CD"					/>
+		<result property="lotNo"					column="LOT_NO"						/>
+		<result property="countStep001"				column="COUNT_STEP_001"				/>
+		<result property="countStep002"				column="COUNT_STEP_002"				/>
+		<result property="regDate"					column="REG_DATE"					/>
+		<result property="warmupCond"				column="WARMUP_COND"				/>
+		<result property="fitup1UpCond"				column="FITUP1_UP_COND"				/>
+		<result property="fitup1DownCond"			column="FITUP1_DOWN_COND"			/>
+		<result property="fitup2UpleftCond"			column="FITUP2_UPLEFT_COND"			/>
+		<result property="fitup2DownleftCond"		column="FITUP2_DOWNLEFT_COND"		/>
+		<result property="fitup2UprightCond"		column="FITUP2_UPRIGHT_COND"		/>
+		<result property="fitup2DownrightCond"		column="FITUP2_DOWNRIGHT_COND"		/>
+		<result property="rollheatUpCond"			column="ROLLHEAT_UP_COND"			/>
+		<result property="rollheatDownCond"			column="ROLLHEAT_DOWN_COND"			/>
+		<result property="firstUpleftCond"			column="FIRST_UPLEFT_COND"			/>
+		<result property="firstDownleftCond"		column="FIRST_DOWNLEFT_COND"		/>
+		<result property="firstUprightCond"			column="FIRST_UPRIGHT_COND"			/>
+		<result property="firstDownrightCond"		column="FIRST_DOWNRIGHT_COND"		/>
+		<result property="push1UpCond"				column="PUSH1_UP_COND"				/>
+		<result property="push1DownCond"			column="PUSH1_DOWN_COND"			/>
+		<result property="secondUpleftCond"			column="SECOND_UPLEFT_COND"			/>
+		<result property="secondDownleftCond"		column="SECOND_DOWNLEFT_COND"		/>
+		<result property="secondUprightCond"		column="SECOND_UPRIGHT_COND"		/>
+		<result property="secondDownrightCond"		column="SECOND_DOWNRIGHT_COND"		/>
+		<result property="thirdUpleftCond"			column="THIRD_UPLEFT_COND"			/>
+		<result property="thirdDownleftCond"		column="THIRD_DOWNLEFT_COND"		/>
+		<result property="thirdUprightCond"			column="THIRD_UPRIGHT_COND"			/>
+		<result property="thirdDownrightCond"		column="THIRD_DOWNRIGHT_COND"		/>
+		<result property="jinjeop1UpCond"			column="JINJEOP1_UP_COND"			/>
+		<result property="jinjeop1DownCond"			column="JINJEOP1_DOWN_COND"			/>
+		<result property="jinjeop2UpCond"			column="JINJEOP2_UP_COND"			/>
+		<result property="jinjeop2DownCond"			column="JINJEOP2_DOWN_COND"			/>
+		<result property="fitupCond"				column="FITUP_COND"					/>
+		<result property="fitup2Cond"				column="FITUP2_COND"				/>
+		<result property="firstCond"				column="FIRST_COND"					/>
+		<result property="secondCond"				column="SECOND_COND"				/>
+		<result property="thirdCond"				column="THIRD_COND"					/>
+		<result property="jinjeopCond"				column="JINJEOP_COND"				/>
+		<result property="jinjeop2Cond"				column="JINJEOP2_COND"				/>
+		<result property="push1Cond"				column="PUSH1_COND"					/>
+		<result property="reformCond"				column="REFORM_COND"				/>
+		<result property="coolCond"					column="COOL_COND"					/>
+		<result property="wpLeftAlwnce"				column="WP_LEFT_ALWNCE"				/>
+		<result property="wpRightAlwnce"			column="WP_RIGHT_ALWNCE"			/>
+		<result property="pitchLeftAlwnce"			column="PITCH_LEFT_ALWNCE"			/>
+		<result property="pitchRightAlwnce"			column="PITCH_RIGHT_ALWNCE"			/>
+		<result property="ppfWingLeftAlwnce"		column="PPF_WING_LEFT_ALWNCE"		/>
+		<result property="ppfWingRightAlwnce"		column="PPF_WING_RIGHT_ALWNCE"		/>
+		<result property="ppfDepthLeftAlwnce"		column="PPF_DEPTH_LEFT_ALWNCE"		/>
+		<result property="ppfDepthRightAlwnce"		column="PPF_DEPTH_RIGHT_ALWNCE"		/>
+		<result property="filmAlwnce"				column="FILM_ALWNCE"				/>
+		<result property="metalDepthAlwnce"			column="METAL_DEPTH_ALWNCE"			/>
+		<result property="metalThicknessAlwnce"		column="METAL_THICKNESS_ALWNCE"		/>
+		<result property="thCenterAlwnce"			column="TH_CENTER_ALWNCE"			/>
+		<result property="thEdgeAlwncePlus"			column="TH_EDGE_ALWNCE_PLUS"		/>
+		<result property="thStepInput"			    column="TH_STEP_INPUT"		        />
+		<result property="thEdgeCnt"			    column="TH_EDGE_CNT"		        />
+		<result property="thEdgeResult"			    column="TH_EDGE_Result"		        />
+		<result property="bulgeLeftupHeight"		column="BULGE_LEFTUP_HEIGHT"		/>
+		<result property="bulgeLeftdownHeight"		column="BULGE_LEFTDOWN_HEIGHT"		/>
+		<result property="bulgeRightupHeight"		column="BULGE_RIGHTUP_HEIGHT"		/>
+		<result property="bulgeRightdownHeight"		column="BULGE_RIGHTDOWN_HEIGHT"		/>
+		<result property="bulgeLeftupWidth"			column="BULGE_LEFTUP_WIDTH"			/>
+		<result property="bulgeLeftdownWidth"		column="BULGE_LEFTDOWN_WIDTH"		/>
+		<result property="bulgeRightupWidth"		column="BULGE_RIGHTUP_WIDTH"		/>
+		<result property="bulgeRightdownWidth"		column="BULGE_RIGHTDOWN_WIDTH"		/>
+		<result property="burrMetalAlwnce"			column="BURR_METAL_ALWNCE"			/>
+		<result property="burrRcutAlwnce"			column="BURR_RCUT_ALWNCE"			/>
+		<result property="burrRedgeAlwnce"			column="BURR_REDGE_ALWNCE"			/>		
+		<result property="regId"					column="REG_ID"						/>	
+		<result property="updId"					column="UPD_ID"						/>
+		<result property="updDate"					column="UPD_DATE"					/>
+		<result property="dltId"					column="DLT_ID"						/>	
+		<result property="dltDate"					column="DLT_DATE"					/>
+		<result property="ipAddress"				column="IP_ADDRESS"					/>
+		<result property="gapOfLayer"				column="GAP_OF_LAYER"				/>		
+		<result property="ppfDepthCenterAlwnce"		column="PPF_DEPTH_CENTER_ALWNCE"	/>
+		<result property="wpCenterAlwnce"           column="WP_CENTER_ALWNCE"			/>
+		<result property="wpDeviationAlwnce"        column="WP_DEVIATION_ALWNCE"		/>
+		<result property="x1X2Alwnce"               column="X1_X2_ALWNCE"				/>
+		<result property="thEdgeRightAlwnce"        column="TH_EDGE_RIGHT_ALWNCE"		/>
+		<result property="bendingAlwnce"            column="BENDING_ALWNCE"				/>
+	</resultMap>
+	
+	<resultMap id="EquipTempaturCondAdm" type="mes.domain.em.EquipTempaturCondAdm">
+		<result property="equipCondSeq"					column="EQUIP_COND_SEQ"				/>
+		<result property="workOrdNo"					column="WORK_ORD_NO"				/>
+		<result property="warmupCond"					column="WARMUP_COND"				/>
+		<result property="warmupAlwncePlus"				column="WARMUP_ALWNCE_PLUS"			/>
+		<result property="warmupAlwnceMinus"			column="WARMUP_ALWNCE_MINUS"		/>
+		<result property="fitup1UpCond"					column="FITUP1_UP_COND"				/>
+		<result property="fitup1UpAlwncePlus"			column="FITUP1_UP_ALWNCE_PLUS"		/>
+		<result property="fitup1UpAlwnceMinus"			column="FITUP1_UP_ALWNCE_MINUS"		/>
+		<result property="fitup1DownCond"				column="FITUP1_DOWN_COND"			/>
+		<result property="fitup1DownAlwncePlus"			column="FITUP1_DOWN_ALWNCE_PLUS"	/>
+		<result property="fitup1DownAlwnceMinus"		column="FITUP1_DOWN_ALWNCE_MINUS"	/>
+		<result property="fitup2UpleftCond"				column="FITUP2_UPLEFT_COND"			/>
+		<result property="fitup2UpleftAlwncePlus"		column="FITUP2_UPLEFT_ALWNCE_PLUS"	/>
+		<result property="fitup2UpleftAlwnceMinus"		column="FITUP2_UPLEFT_ALWNCE_MINUS"	/>
+		<result property="fitup2DownleftCond"			column="FITUP2_DOWNLEFT_COND"		/>
+		<result property="fitup2DownleftAlwncePlus"		column="FITUP2_DOWNLEFT_ALWNCE_PLUS"/>
+		<result property="fitup2DownleftAlwnceMinus"	column="FITUP2_DOWNLEFT_ALWNCE_MINUS"/>
+		<result property="fitup2UprightCond"			column="FITUP2_UPRIGHT_COND"		/>
+		<result property="fitup2UprightAlwncePlus"		column="FITUP2_UPRIGHT_ALWNCE_PLUS"	/>
+		<result property="fitup2UprightAlwnceMinus"		column="FITUP2_UPRIGHT_ALWNCE_MINUS"/>
+		<result property="fitup2DownrightCond"			column="FITUP2_DOWNRIGHT_COND"		/>
+		<result property="fitup2DownrightAlwncePlus"	column="FITUP2_DOWNRIGHT_ALWNCE_PLUS"/>
+		<result property="fitup2DownrightAlwnceMinus"	column="FITUP2_DOWNRIGHT_ALWNCE_MINUS"/>
+		<result property="rollheatUpCond"				column="ROLLHEAT_UP_COND"			/>
+		<result property="rollheatUpAlwncePlus"			column="ROLLHEAT_UP_ALWNCE_PLUS"	/>
+		<result property="rollheatUpAlwnceMinus"		column="ROLLHEAT_UP_ALWNCE_MINUS"	/>
+		<result property="rollheatDownCond"				column="ROLLHEAT_DOWN_COND"			/>
+		<result property="rollheatDownAlwncePlus"		column="ROLLHEAT_DOWN_ALWNCE_PLUS"	/>
+		<result property="rollheatDownAlwnceMinus"		column="ROLLHEAT_DOWN_ALWNCE_MINUS"	/>
+		<result property="firstUpleftCond"				column="FIRST_UPLEFT_COND"			/>
+		<result property="firstUpleftAlwncePlus"		column="FIRST_UPLEFT_ALWNCE_PLUS"	/>
+		<result property="firstUpleftAlwnceMinus"		column="FIRST_UPLEFT_ALWNCE_MINUS"	/>
+		<result property="firstDownleftCond"			column="FIRST_DOWNLEFT_COND"		/>
+		<result property="firstDownleftAlwncePlus"		column="FIRST_DOWNLEFT_ALWNCE_PLUS"	/>
+		<result property="firstDownleftAlwnceMinus"		column="FIRST_DOWNLEFT_ALWNCE_MINUS"/>
+		<result property="firstUprightCond"				column="FIRST_UPRIGHT_COND"			/>
+		<result property="firstUprightAlwncePlus"		column="FIRST_UPRIGHT_ALWNCE_PLUS"	/>
+		<result property="firstUprightAlwnceMinus"		column="FIRST_UPRIGHT_ALWNCE_MINUS"	/>
+		<result property="firstDownrightCond"			column="FIRST_DOWNRIGHT_COND"		/>
+		<result property="firstDownrightAlwncePlus"		column="FIRST_DOWNRIGHT_ALWNCE_PLUS"/>
+		<result property="firstDownrightAlwnceMinus"	column="FIRST_DOWNRIGHT_ALWNCE_MINUS"/>
+		
+		<result property="push1UpCond"					column="PUSH1_UP_COND"				/>
+		<result property="push1UpAlwncePlus"			column="PUSH1_UP_ALWNCE_PLUS"		/>
+		<result property="push1UpAlwnceMinus"			column="PUSH1_UP_ALWNCE_MINUS"		/>
+		<result property="push1DownCond"				column="PUSH1_DOWN_COND"			/>
+		<result property="push1DownAlwncePlus"			column="PUSH1_DOWN_ALWNCE_PLUS"		/>
+		<result property="push1DownAlwnceMinus"			column="PUSH1_DOWN_ALWNCE_MINUS"	/>
+		
+		<result property="secondUpleftCond"				column="SECOND_UPLEFT_COND"			/>
+		<result property="secondUpleftAlwncePlus"		column="SECOND_UPLEFT_ALWNCE_PLUS"	/>
+		<result property="secondUpleftAlwnceMinus"		column="SECOND_UPLEFT_ALWNCE_MINUS"	/>
+		<result property="secondDownleftCond"			column="SECOND_DOWNLEFT_COND"		/>
+		<result property="secondDownleftAlwncePlus"		column="SECOND_DOWNLEFT_ALWNCE_PLUS"/>
+		<result property="secondDownleftAlwnceMinus"	column="SECOND_DOWNLEFT_ALWNCE_MINUS"/>
+		<result property="secondUprightCond"			column="SECOND_UPRIGHT_COND"		/>
+		<result property="secondUprightAlwncePlus"		column="SECOND_UPRIGHT_ALWNCE_PLUS"	/>
+		<result property="secondUprightAlwnceMinus"		column="SECOND_UPRIGHT_ALWNCE_MINUS"/>
+		<result property="secondDownrightCond"			column="SECOND_DOWNRIGHT_COND"		/>
+		<result property="secondDownrightAlwncePlus"	column="SECOND_DOWNRIGHT_ALWNCE_PLUS"/>
+		<result property="secondDownrightAlwnceMinus"	column="SECOND_DOWNRIGHT_ALWNCE_MINUS"/>
+		<result property="thirdUpleftCond"				column="THIRD_UPLEFT_COND"			/>
+		<result property="thirdUpleftAlwncePlus"		column="THIRD_UPLEFT_ALWNCE_PLUS"	/>
+		<result property="thirdUpleftAlwnceMinus"		column="THIRD_UPLEFT_ALWNCE_MINUS"	/>
+		<result property="thirdDownleftCond"			column="THIRD_DOWNLEFT_COND"		/>
+		<result property="thirdDownleftAlwncePlus"		column="THIRD_DOWNLEFT_ALWNCE_PLUS"	/>
+		<result property="thirdDownleftAlwnceMinus"		column="THIRD_DOWNLEFT_ALWNCE_MINUS"/>
+		<result property="thirdUprightCond"				column="THIRD_UPRIGHT_COND"			/>
+		<result property="thirdUprightAlwncePlus"		column="THIRD_UPRIGHT_ALWNCE_PLUS"	/>
+		<result property="thirdUprightAlwnceMinus"		column="THIRD_UPRIGHT_ALWNCE_MINUS"	/>
+		<result property="thirdDownrightCond"			column="THIRD_DOWNRIGHT_COND"		/>
+		<result property="thirdDownrightAlwncePlus"		column="THIRD_DOWNRIGHT_ALWNCE_PLUS"/>
+		<result property="thirdDownrightAlwnceMinus"	column="THIRD_DOWNRIGHT_ALWNCE_MINUS"/>
+		<result property="jinjeop1UpCond"				column="JINJEOP1_UP_COND"			/>
+		<result property="jinjeop1UpAlwncePlus"			column="JINJEOP1_UP_ALWNCE_PLUS"	/>
+		<result property="jinjeop1UpAlwnceMinus"		column="JINJEOP1_UP_ALWNCE_MINUS"	/>
+		<result property="jinjeop1DownCond"				column="JINJEOP1_DOWN_COND"			/>
+		<result property="jinjeop1DownAlwncePlus"		column="JINJEOP1_DOWN_ALWNCE_PLUS"	/>
+		<result property="jinjeop1DownAlwnceMinus"		column="JINJEOP1_DOWN_ALWNCE_MINUS"	/>
+		<result property="jinjeop2UpCond"				column="JINJEOP2_UP_COND"			/>
+		<result property="jinjeop2UpAlwncePlus"			column="JINJEOP2_UP_ALWNCE_PLUS"	/>
+		<result property="jinjeop2UpAlwnceMinus"		column="JINJEOP2_UP_ALWNCE_MINUS"	/>
+		<result property="jinjeop2DownCond"				column="JINJEOP2_DOWN_COND"			/>
+		<result property="jinjeop2DownAlwncePlus"		column="JINJEOP2_DOWN_ALWNCE_PLUS"	/>
+		<result property="jinjeop2DownAlwnceMinus"		column="JINJEOP2_DOWN_ALWNCE_MINUS"	/>
+		<result property="regId"						column="REG_ID"						/>
+		<result property="regDate"						column="REG_DATE"					/>
+		<result property="updId"						column="UPD_ID"						/>
+		<result property="updDate"						column="UPD_DATE"					/>		
+	</resultMap>
+	
+	<resultMap id="agtBomVo" type="mes.domain.po.AgtBomVo">
+		<result property="id"						column="ID"							/>
+		<result property="ifWorkorderCd"			column="IF_Workorder_CD"			/>
+		<result property="ifLot"					column="IF_LOT"						/>
+		<result property="ifWorkStatusCd"			column="IF_WorkStatus_CD"			/>
+		<result property="ifGoodsCd"				column="IF_GOODS_CD"				/>
+		<result property="ifGoodsNm"				column="IF_GOODS_NM"				/>
+		<result property="ifEquipCd"				column="IF_Equip_CD"				/>
+		<result property="ifEquipCondSeq"			column="IF_EQUIP_COND_SEQ"			/>
+		<result property="ifKeydt"					column="IF_Keydt"					/>
+		<result property="createdDateTime"			column="CreatedDateTime"			/>
+		<result property="ifGaHeatTime"				column="IF_Ga_heat_Time"			/>
+		<result property="ifGaPressTime"			column="IF_Ga_press_Time"			/>
+		<result property="if1stmtHeatTime"			column="IF_1stMT_heat_Time"			/>
+		<result property="if1stmtPushTime"			column="IF_1stMT_push_Time"			/>
+		<result property="ifJinTime"				column="IF_Jin_Time"				/>
+		<result property="if2ndmtHeatTime"			column="IF_2ndMT_heat_Time"			/>
+		<result property="if2ndmtPushTime"			column="IF_2ndMT_push_Time"			/>
+		<result property="ifCoolTime"				column="IF_cool_Time"				/>
+		<result property="ifReformTime"				column="IF_reform_Time"				/>
+		<result property="ifSuTime"					column="IF_Su_Time"					/>
+		<result property="if3rdmtPushTime"			column="IF_3rdMT_push_Time"			/>
+		<result property="if3rdmtHeatTime"			column="IF_3rdMT_heat_Time"			/>
+		
+		<result property="ifPressure1ch"			column="IF_Pressure_1ch"			/>
+		<result property="ifPressure2ch"			column="IF_Pressure_2ch"			/>
+		<result property="ifPressure3ch"			column="IF_Pressure_3ch"			/>
+		
+		<result property="if1stMetalUL"				column="IF_1stMetalUL"				/>
+		<result property="if1stMetalUR"				column="IF_1stMetalUR"				/>
+		<result property="if1stMetalDL"				column="IF_1stMetalDL"				/>
+		<result property="if1stMetalDR"				column="IF_1stMetalDR"				/>
+		<result property="if1stJinjubU"				column="IF_1stJinjubU"				/>
+		<result property="if1stJinjubD"				column="IF_1stJinjubD"				/>
+		<result property="if2ndMetalUL"				column="IF_2ndMetalUL"				/>
+		<result property="if2ndMetalUR"				column="IF_2ndMetalUR"				/>
+		<result property="if2ndMetalDL"				column="IF_2ndMetalDL"				/>
+		<result property="if2ndMetalDR"				column="IF_2ndMetalDR"				/>
+		<result property="if1stMetalpushU"			column="IF_1stMetalpushU"			/>
+		<result property="if1stMetalpushD"			column="IF_1stMetalpushD"			/>
+		<result property="if3rdMetalUL"				column="IF_3rdMetalUL"				/>
+		<result property="if3rdMetalUR"				column="IF_3rdMetalUR"				/>
+		<result property="if3rdMetalDL"				column="IF_3rdMetalDL"				/>
+		<result property="if3rdMetalDR"				column="IF_3rdMetalDR"				/>
+		<result property="if2ndJinjubU"				column="IF_2ndJinjubU"				/>
+		<result property="if2ndJinjubD"				column="IF_2ndJinjubD"				/>
+		
+		<result property="headlengthLeft"			column="HeadLength_Left"			/>
+		<result property="metallengthLeft"			column="MetalLength_Left"			/>
+		<result property="metalwidthUp"				column="MetalWidth_Up"				/>
+		<result property="winglengthLeft"			column="WingLength_Left"			/>
+		<result property="headlengthRight"			column="HeadLength_Right"			/>
+		<result property="metallengthRight"			column="MetalLength_Right"			/>
+		<result property="metalwidthDown"			column="MetalWidth_Down"			/>
+		<result property="filmtotallengthDown"		column="FilmTotalLength_Down"		/>
+		<result property="winglengthRight"			column="WingLength_Right"			/>
+		<result property="filmdolgiLeftupHeight"	column="FilmDolgi_LeftUp_Height"	/>
+		<result property="filmdolgiLeftupWidth"		column="FilmDolgi_LeftUp_Width"		/>
+		<result property="filmdolgiLeftdownHeight"	column="FilmDolgi_LeftDown_Height"	/>
+		<result property="filmdolgiLeftdownWidth"	column="FilmDolgi_LeftDown_Width"	/>
+		<result property="filmdolgiRightupHeight"	column="FilmDolgi_RightUp_Height"	/>
+		<result property="filmdolgiRightupWidth"	column="FilmDolgi_RightUp_Width"	/>
+		<result property="filmdolgiRightdownHeight"	column="FilmDolgi_RightDown_Height"	/>
+		<result property="filmdolgiRightdownWidth"	column="FilmDolgi_RightDown_Width"	/>
+		<result property="filmtotallengthUp"		column="FilmTotalLength_Up"			/>
+		<result property="filmwidthLeft"			column="FilmWidth_Left"				/>
+		<result property="filmwidthRight"			column="FilmWidth_Right"			/>
+		<result property="filmwidthLeftInside"		column="FilmWidth_Left_Inside"		/>
+		<result property="filmwidthRightInside"		column="FilmWidth_Right_Inside"		/>
+		<result property="filmAlwnce"				column="FILM_ALWNCE"				/>
+		<result property="metalDepthAlwnce"			column="METAL_DEPTH_ALWNCE"			/>
+		<result property="totalCount"				column="TOTAL_COUNT"				/>
+		
+		<result property="workOrdNo"				column="WORK_ORD_NO"				/>
+		<result property="ordLotNo"					column="ORD_LOT_NO"					/>
+		<result property="equipCd"					column="EQUIP_CD"					/>
+		<result property="equipNm"					column="EQUIP_NM"					/>
+		<result property="equipCondSeq"				column="EQUIP_COND_SEQ"				/>
+		<result property="goodsCd"					column="GOODS_CD"					/>
+		<result property="goodsNm"					column="GOODS_NM"					/>
+		<result property="daqDate"					column="DAG_DATE"					/>
+		<result property="regDate"					column="REG_DATE"					/>
+	</resultMap>
+	
+	
+	<!-- <resultMap id="agtSixFloorVo" type="mes.domain.po.AgtSixFloorVo">
+	    <result property="*"  column="{property}" />
+	</resultMap> -->
+	
+	<resultMap id="agtSixFloorVo" type="mes.domain.po.AgtSixFloorVo">
+	    <!-- 온도 수집 정보 매핑 -->
+	    <result property="upTabHeat" column="UP_TAB_HEAT" />
+	    <result property="downTabHeat" column="DOWN_TAB_HEAT" />
+	    <result property="upRollHeat" column="UP_ROLL_HEAT" />
+	    <result property="downRollHeat" column="DOWN_ROLL_HEAT" />
+	    <result property="upFilmJoinTop" column="UP_FILM_JOIN_TOP" />
+	    <result property="upFilmJoinBottom" column="UP_FILM_JOIN_BOTTOM" />
+	    <result property="downFilmJoinTop" column="DOWN_FILM_JOIN_TOP" />
+	    <result property="downFilmJoinBottom" column="DOWN_FILM_JOIN_BOTTOM" />
+	    <result property="downTabHeatKeep" column="DOWN_TAB_HEAT_KEEP" />
+	    <result property="fup1stMTsid" column="FUP_1ST_MT_SID" />
+	    <result property="fup1stMTmid" column="FUP_1ST_MT_MID" />
+	    <result property="fdown1stMTsid" column="FDOWN_1ST_MT_SID" />
+	    <result property="fdown1stMTmid" column="FDOWN_1ST_MT_MID" />
+	    <result property="fup1stMTpush" column="FUP_1ST_MT_PUSH" />
+	    <result property="fdown1stMTpush" column="FDOWN_1ST_MT_PUSH" />
+	    <result property="bup1stMTsid" column="BUP_1ST_MT_SID" />
+	    <result property="bup1stMTmid" column="BUP_1ST_MT_MID" />
+	    <result property="bdown1stMTsid" column="BDOWN_1ST_MT_SID" />
+	    <result property="bdown1stMTmid" column="BDOWN_1ST_MT_MID" />
+	    <result property="bup1stPush" column="BUP_1ST_PUSH" />
+	    <result property="bdown1stPush" column="BDOWN_1ST_PUSH" />
+	    <result property="fupFilmFuse" column="FUP_FILM_FUSE" />
+	    <result property="fdownFilmFuse" column="FDOWN_FILM_FUSE" />
+	    <result property="bupFilmFuse" column="BUP_FILM_FUSE" />
+	    <result property="bdownFilmFuse" column="BDOWN_FILM_FUSE" />
+	    <result property="fup2ndMTsid" column="FUP_2ND_MT_SID" />
+	    <result property="fup2ndMTmid" column="FUP_2ND_MT_MID" />
+	    <result property="fdown2ndMTsid" column="FDOWN_2ND_MT_SID" />
+	    <result property="fdown2ndMTmid" column="FDOWN_2ND_MT_MID" />
+	    <result property="bup2ndMTsid" column="BUP_2ND_MT_SID" />
+	    <result property="bup2ndMTmid" column="BUP_2ND_MT_MID" />
+	    <result property="bdown2ndMTsid" column="BDOWN_2ND_MT_SID" />
+	    <result property="bdown2ndMTmid" column="BDOWN_2ND_MT_MID" />
+	    <result property="fup3rdMTsid" column="FUP_3RD_MT_SID" />
+	    <result property="fup3rdMTmid" column="FUP_3RD_MT_MID" />
+	    <result property="fdown3rdMTsid" column="FDOWN_3RD_MT_SID" />
+	    <result property="fdown3rdMTmid" column="FDOWN_3RD_MT_MID" />
+	    <result property="bup3rdMTsid" column="BUP_3RD_MT_SID" />
+	    <result property="bup3rdMTmid" column="BUP_3RD_MT_MID" />
+	    <result property="bdown3rdMTsid" column="BDOWN_3RD_MT_SID" />
+	    <result property="bdown3rdMTmid" column="BDOWN_3RD_MT_MID" />
+	    <result property="fupFilmRfmCool" column="FUP_FILM_RFMC_COOL" />
+	    <result property="fdownFilmRfmCool" column="FDOWN_FILM_RFMC_COOL" />
+	    <result property="bupFilmRfmCool" column="BUP_FILM_RFMC_COOL" />
+	    <result property="bdownFilmRfmCool" column="BDOWN_FILM_RFMC_COOL" />
+	
+	    <!-- 시간 수집 정보 매핑 -->
+	    <result property="oneStMTwaittime" column="ONE_ST_M_TWAITTIME" />
+	    <result property="oneStMTheattime" column="ONE_ST_M_THEATTIME" />
+	    <result property="oneStMTpushwaittime" column="ONE_ST_M_TPUSHWAITTIME" />
+	    <result property="oneStMTpushheattime" column="ONE_ST_M_TPUSHHEATTIME" />
+	    <result property="twoNdMTwaittime" column="TWO_ND_M_TWAITTIME" />
+	    <result property="twoNdMTheattime" column="TWO_ND_M_THEATTIME" />
+	    <result property="twoNdMTpushwaittime" column="TWO_ND_M_TPUSHWAITTIME" />
+	    <result property="twoNdMTpushheattime" column="TWO_ND_M_TPUSHHEATTIME" />
+	    <result property="threeRdMTwaittime" column="THREE_RD_M_TWAITTIME" />
+	    <result property="threeRdMTheattime" column="THREE_RD_M_THEATTIME" />
+	    <result property="threeRdMTpushwaittime" column="THREE_RD_M_TPUSHWAITTIME" />
+	    <result property="threeRdMTpushheattime" column="THREE_RD_M_TPUSHHEATTIME" />
+	    <result property="filmFSH1operwaittime" column="FILM_FSH1_OPER_WAITTIME" />
+	    <result property="filmFSH1operheattime" column="FILM_FSH1_OPER_HEATTIME" />
+	    <result property="filmRSH1operwaittime" column="FILM_RSH1_OPER_WAITTIME" />
+	    <result property="filmRSH1operheattime" column="FILM_RSH1_OPER_HEATTIME" />
+	
+	    <!-- 치수 정보 매핑 -->
+	    <result property="wpLeftAlwnce" column="WP_LEFT_ALWNCE" />
+	    <result property="wpRightAlwnce" column="WP_RIGHT_ALWNCE" />
+	    <result property="pitchLeftAlwnce" column="PITCH_LEFT_ALWNCE" />
+	    <result property="pitchRightAlwnce" column="PITCH_RIGHT_ALWNCE" />
+	    <result property="ppfWingLeftAlwnce" column="PPF_WING_LEFT_ALWNCE" />
+	    <result property="ppfWingRightAlwnce" column="PPF_WING_RIGHT_ALWNCE" />
+	    <result property="ppfDepthLeftAlwnce" column="PPF_DEPTH_LEFT_ALWNCE" />
+	    <result property="ppfDepthRightAlwnce" column="PPF_DEPTH_RIGHT_ALWNCE" />
+	    <result property="filmAlwnce" column="FILM_ALWNCE" />
+	    <result property="metalDepthAlwnce" column="METAL_DEPTH_ALWNCE" />
+	    <result property="metalThicknessAlwnce" column="METAL_THICKNESS_ALWNCE" />
+	    <result property="thCenterAlwnce" column="TH_CENTER_ALWNCE" />
+	    <result property="thEdgeAlwncePlus" column="TH_EDGE_ALWNCE_PLUS" />
+	    <result property="thStepInput" column="TH_STEP_INPUT" />
+	    <result property="thEdgeCnt" column="TH_EDGE_CNT" />
+	    <result property="thEdgeResult" column="TH_EDGE_RESULT" />
+	    <result property="bulgeLeftupHeight" column="BULGE_LEFTUP_HEIGHT" />
+	    <result property="bulgeLeftdownHeight" column="BULGE_LEFTDOWN_HEIGHT" />
+	    <result property="bulgeRightupHeight" column="BULGE_RIGHTUP_HEIGHT" />
+	    <result property="bulgeRightdownHeight" column="BULGE_RIGHTDOWN_HEIGHT" />
+	    <result property="bulgeLeftupWidth" column="BULGE_LEFTUP_WIDTH" />
+	    <result property="bulgeLeftdownWidth" column="BULGE_LEFTDOWN_WIDTH" />
+	    <result property="bulgeRightupWidth" column="BULGE_RIGHTUP_WIDTH" />
+	    <result property="bulgeRightdownWidth" column="BULGE_RIGHTDOWN_WIDTH" />
+	    <result property="burrMetalAlwnce" column="BURR_METAL_ALWNCE" />
+	    <result property="burrRcutAlwnce" column="BURR_RCUT_ALWNCE" />
+	    <result property="burrRedgeAlwnce" column="BURR_REDGE_ALWNCE" />
+	    <result property="gapOfLayer" column="GAP_OF_LAYER" />
+	    <result property="ppfDepthCenterAlwnce" column="PPF_DEPTH_CENTER_ALWNCE" />
+	    <result property="wpCenterAlwnce" column="WP_CENTER_ALWNCE" />
+	    <result property="wpDeviationAlwnce" column="WP_DEVIATION_ALWNCE" />
+	    <result property="x1X2Alwnce" column="X1_X2_ALWNCE" />
+	    <result property="thEdgeRightAlwnce" column="TH_EDGE_RIGHT_ALWNCE" />
+	    <result property="bendingAlwnce" column="BENDING_ALWNCE" />
+	
+	    <!-- 부수적인 정보 매핑 -->
+	    <result property="menuAuth" column="MENU_AUTH" />
+	    <result property="workOrdNo" column="WORK_ORD_NO" />
+	    <result property="ordLotNo" column="ORD_LOT_NO" />
+	    <result property="stepCd" column="STEP_CD" />
+	    <result property="equipCd" column="EQUIP_CD" />
+	    <result property="lotNo" column="LOT_NO" />
+	    <result property="countStep001" column="COUNT_STEP_001" />
+	    <result property="countStep002" column="COUNT_STEP_002" />
+	    <result property="regId" column="REG_ID" />
+	    <result property="regDate" column="REG_DATE" />
+	    <result property="updId" column="UPD_ID" />
+	    <result property="updDate" column="UPD_DATE" />
+	    <result property="dltId" column="DLT_ID" />
+	    <result property="dltDate" column="DLT_DATE" />
+	    <result property="ipAddress" column="IP_ADDRESS" />
+	</resultMap>
+		
+
+<!-- 	
+	<resultMap id="agtBomVo" type="mes.domain.po.AgtSixFloorVo">
+		<result property="workOrdNo" column="work_ord_no" />
+		<result property="ordLotNo" column="ord_lot_no" />
+		<result property="stepCd" column="step_cd" />
+		<result property="equipCd" column="equip_cd" />
+		<result property="lotNo" column="lot_no" />
+		<result property="upTabHeat" column="up_tab_heat" />
+		<result property="downTabHeat" column="down_tab_heat" />
+		<result property="upRollHeat" column="up_roll_heat" />
+		<result property="downRollHeat" column="down_roll_heat" />
+		<result property="upFilmJoinTop" column="up_film_join_top" />
+		<result property="upFilmJoinBottom" column="up_film_join_bottom" />
+		<result property="downFilmJoinTop" column="down_film_join_top" />
+		<result property="downFilmJoinBottom" column="down_film_join_bottom" />
+		<result property="downTabHeatKeep" column="down_tab_heat_keep" />
+		<result property="fup1stMTsid" column="fup1st_m_tsid" />
+		<result property="fup1stMTmid" column="fup1st_m_tmid" />
+		<result property="fdown1stMTsid" column="fdown1st_m_tsid" />
+		<result property="fdown1stMTmid" column="fdown1st_m_tmid" />
+		<result property="fup1stMTpush" column="fup1st_m_tpush" />
+		<result property="fdown1stMTpush" column="fdown1st_m_tpush" />
+		<result property="bup1stMTsid" column="bup1st_m_tsid" />
+		<result property="bup1stMTmid" column="bup1st_m_tmid" />
+		<result property="bdown1stMTsid" column="bdown1st_m_tsid" />
+		<result property="bdown1stMTmid" column="bdown1st_m_tmid" />
+		<result property="bup1stPush" column="bup1st_push" />
+		<result property="bdown1stPush" column="bdown1st_push" />
+		<result property="fupFilmFuse" column="fup_film_fuse" />
+		<result property="fdownFilmFuse" column="fdown_film_fuse" />
+		<result property="bupFilmFuse" column="bup_film_fuse" />
+		<result property="bdownFilmFuse" column="bdown_film_fuse" />
+		<result property="fup2ndMTsid" column="fup2nd_m_tsid" />
+		<result property="fup2ndMTmid" column="fup2nd_m_tmid" />
+		<result property="fdown2ndMTsid" column="fdown2nd_m_tsid" />
+		<result property="fdown2ndMTmid" column="fdown2nd_m_tmid" />
+		<result property="bup2ndMTsid" column="bup2nd_m_tsid" />
+		<result property="bup2ndMTmid" column="bup2nd_m_tmid" />
+		<result property="bdown2ndMTsid" column="bdown2nd_m_tsid" />
+		<result property="bdown2ndMTmid" column="bdown2nd_m_tmid" />
+		<result property="fup3rdMTsid" column="fup3rd_m_tsid" />
+		<result property="fup3rdMTmid" column="fup3rd_m_tmid" />
+		<result property="fdown3rdMTsid" column="fdown3rd_m_tsid" />
+		<result property="fdown3rdMTmid" column="fdown3rd_m_tmid" />
+		<result property="bup3rdMTsid" column="bup3rd_m_tsid" />
+		<result property="bup3rdMTmid" column="bup3rd_m_tmid" />
+		<result property="bdown3rdMTsid" column="bdown3rd_m_tsid" />
+		<result property="bdown3rdMTmid" column="bdown3rd_m_tmid" />
+		<result property="fupFilmRfmCool" column="fup_film_rfm_cool" />
+		<result property="fdownFilmRfmCool" column="fdown_film_rfm_cool" />
+		<result property="bupFilmRfmCool" column="bup_film_rfm_cool" />
+		<result property="bdownFilmRfmCool" column="bdown_film_rfm_cool" />
+		<result property="wpLeftAlwnce" column="wp_left_alwnce" />
+		<result property="wpRightAlwnce" column="wp_right_alwnce" />
+		<result property="pitchLeftAlwnce" column="pitch_left_alwnce" />
+		<result property="pitchRightAlwnce" column="pitch_right_alwnce" />
+		<result property="ppfWingLeftAlwnce" column="ppf_wing_left_alwnce" />
+		<result property="ppfWingRightAlwnce" column="ppf_wing_right_alwnce" />
+		<result property="ppfDepthLeftAlwnce" column="ppf_depth_left_alwnce" />
+		<result property="ppfDepthRightAlwnce" column="ppf_depth_right_alwnce" />
+		<result property="filmAlwnce" column="film_alwnce" />
+		<result property="metalDepthAlwnce" column="metal_depth_alwnce" />
+		<result property="metalThicknessAlwnce" column="metal_thickness_alwnce" />
+		<result property="thCenterAlwnce" column="th_center_alwnce" />
+		<result property="thEdgeAlwncePlus" column="th_edge_alwnce_plus" />
+		<result property="thStepInput" column="th_step_input" />
+		<result property="thEdgeCnt" column="th_edge_cnt" />
+		<result property="thEdgeResult" column="th_edge_result" />
+		<result property="bulgeLeftupHeight" column="bulge_leftup_height" />
+		<result property="bulgeLeftdownHeight" column="bulge_leftdown_height" />
+		<result property="bulgeRightupHeight" column="bulge_rightup_height" />
+		<result property="bulgeRightdownHeight" column="bulge_rightdown_height" />
+		<result property="bulgeLeftupWidth" column="bulge_leftup_width" />
+		<result property="bulgeLeftdownWidth" column="bulge_leftdown_width" />
+		<result property="bulgeRightupWidth" column="bulge_rightup_width" />
+		<result property="bulgeRightdownWidth" column="bulge_rightdown_width" />
+		<result property="burrMetalAlwnce" column="burr_metal_alwnce" />
+		<result property="burrRcutAlwnce" column="burr_rcut_alwnce" />
+		<result property="burrRedgeAlwnce" column="burr_redge_alwnce" />
+		<result property="gapOfLayer" column="gap_of_layer" />
+		<result property="ppfDepthCenterAlwnce" column="ppf_depth_center_alwnce" />
+		<result property="wpCenterAlwnce" column="wp_center_alwnce" />
+		<result property="wpDeviationAlwnce" column="wp_deviation_alwnce" />
+		<result property="x1X2Alwnce" column="x1_x2_alwnce" />
+		<result property="thEdgeRightAlwnce" column="th_edge_right_alwnce" />
+		<result property="bendingAlwnce" column="bending_alwnce" />
+		<result property="regId" column="reg_id" />
+		<result property="regDate" column="reg_date" />
+	</resultMap>
+	 -->
+	 
+	 
+	<!-- 에이전트 온도 /////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- 에이젼트 온도 데이터 보기-->
+	<select id="readTemp" resultMap="AgtVo">
+			SELECT
+				WORK_ORD_NO
+				, ORD_LOT_NO
+			    , STEP_CD
+			    , EQUIP_CD
+			    , LOT_NO
+			    , ROUND(WARMUP_COND,3) WARMUP_COND
+			    , ROUND(FITUP1_UP_COND,3) FITUP1_UP_COND
+			    , ROUND(FITUP1_DOWN_COND,3) FITUP1_DOWN_COND
+			    , ROUND(FITUP2_UPLEFT_COND,3) FITUP2_UPLEFT_COND
+			    , ROUND(FITUP2_DOWNLEFT_COND,3) FITUP2_DOWNLEFT_COND
+			    , ROUND(FITUP2_UPRIGHT_COND,3) FITUP2_UPRIGHT_COND
+			    , ROUND(FITUP2_DOWNRIGHT_COND,3) FITUP2_DOWNRIGHT_COND
+			    , ROUND(ROLLHEAT_UP_COND,3) ROLLHEAT_UP_COND
+			    , ROUND(ROLLHEAT_DOWN_COND,3) ROLLHEAT_DOWN_COND
+			    , ROUND(FIRST_UPLEFT_COND,3) FIRST_UPLEFT_COND
+			    , ROUND(FIRST_DOWNLEFT_COND,3) FIRST_DOWNLEFT_COND
+			    , ROUND(FIRST_UPRIGHT_COND,3) FIRST_UPRIGHT_COND
+			    , ROUND(FIRST_DOWNRIGHT_COND,3) FIRST_DOWNRIGHT_COND
+			    , ROUND(PUSH1_UP_COND,3) PUSH1_UP_COND
+			    , ROUND(PUSH1_DOWN_COND,3) PUSH1_DOWN_COND
+			    , ROUND(SECOND_UPLEFT_COND,3) SECOND_UPLEFT_COND
+			    , ROUND(SECOND_DOWNLEFT_COND,3) SECOND_DOWNLEFT_COND
+			    , ROUND(SECOND_UPRIGHT_COND,3) SECOND_UPRIGHT_COND
+			    , ROUND(SECOND_DOWNRIGHT_COND,3) SECOND_DOWNRIGHT_COND
+			    , ROUND(THIRD_UPLEFT_COND,3) THIRD_UPLEFT_COND
+			    , ROUND(THIRD_DOWNLEFT_COND,3) THIRD_DOWNLEFT_COND
+			    , ROUND(THIRD_UPRIGHT_COND,3) THIRD_UPRIGHT_COND
+			    , ROUND(THIRD_DOWNRIGHT_COND,3) THIRD_DOWNRIGHT_COND
+			    , ROUND(JINJEOP1_UP_COND,3) JINJEOP1_UP_COND
+			    , ROUND(JINJEOP1_DOWN_COND,3) JINJEOP1_DOWN_COND
+			    , ROUND(JINJEOP2_UP_COND,3) JINJEOP2_UP_COND
+			    , ROUND(JINJEOP2_DOWN_COND,3) JINJEOP2_DOWN_COND
+			    , REG_ID
+			    , REG_DATE
+			    , UPD_ID
+			    , UPD_DATE
+			FROM TB_AGT_TEMPATUR_STEP A
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{workOrdNo}
+		<if test="ordLotNo != null and ordLotNo != ''">
+			AND A.ORD_LOT_NO = #{ordLotNo}
+		</if>
+			AND A.STEP_CD = #{stepCd}
+			AND A.LOT_NO = #{lotNo}
+	</select>
+	
+	<!-- 에이젼트 온도 조건 읽기-->
+	<select id="readTempCond" resultMap="EquipTempaturCondAdm">
+		<![CDATA[
+			SELECT
+				A.WORK_ORD_NO,
+				B.WARMUP_COND,
+				B.WARMUP_ALWNCE_PLUS,
+				B.WARMUP_ALWNCE_MINUS,
+				B.FITUP1_UP_COND,
+				B.FITUP1_UP_ALWNCE_PLUS,
+				B.FITUP1_UP_ALWNCE_MINUS,
+				B.FITUP1_DOWN_COND,
+				B.FITUP1_DOWN_ALWNCE_PLUS,
+				B.FITUP1_DOWN_ALWNCE_MINUS,
+				B.FITUP2_UPLEFT_COND,
+				B.FITUP2_UPLEFT_ALWNCE_PLUS,
+				B.FITUP2_UPLEFT_ALWNCE_MINUS,
+				B.FITUP2_DOWNLEFT_COND,
+				B.FITUP2_DOWNLEFT_ALWNCE_PLUS,
+				B.FITUP2_DOWNLEFT_ALWNCE_MINUS,
+				B.FITUP2_UPRIGHT_COND,
+				B.FITUP2_UPRIGHT_ALWNCE_PLUS,
+				B.FITUP2_UPRIGHT_ALWNCE_MINUS,
+				B.FITUP2_DOWNRIGHT_COND,
+				B.FITUP2_DOWNRIGHT_ALWNCE_PLUS,
+				B.FITUP2_DOWNRIGHT_ALWNCE_MINUS,
+				B.ROLLHEAT_UP_COND,
+				B.ROLLHEAT_UP_ALWNCE_PLUS,
+				B.ROLLHEAT_UP_ALWNCE_MINUS,
+				B.ROLLHEAT_DOWN_COND,
+				B.ROLLHEAT_DOWN_ALWNCE_PLUS,
+				B.ROLLHEAT_DOWN_ALWNCE_MINUS,
+				B.FIRST_UPLEFT_COND,
+				B.FIRST_UPLEFT_ALWNCE_PLUS,
+				B.FIRST_UPLEFT_ALWNCE_MINUS,
+				B.FIRST_DOWNLEFT_COND,
+				B.FIRST_DOWNLEFT_ALWNCE_PLUS,
+				B.FIRST_DOWNLEFT_ALWNCE_MINUS,
+				B.FIRST_UPRIGHT_COND,
+				B.FIRST_UPRIGHT_ALWNCE_PLUS,
+				B.FIRST_UPRIGHT_ALWNCE_MINUS,
+				B.FIRST_DOWNRIGHT_COND,
+				B.FIRST_DOWNRIGHT_ALWNCE_PLUS,
+				B.FIRST_DOWNRIGHT_ALWNCE_MINUS,
+				B.PUSH1_UP_COND,
+				B.PUSH1_UP_ALWNCE_PLUS,
+				B.PUSH1_UP_ALWNCE_MINUS,
+				B.PUSH1_DOWN_COND,
+				B.PUSH1_DOWN_ALWNCE_PLUS,
+				B.PUSH1_DOWN_ALWNCE_MINUS,
+				B.SECOND_UPLEFT_COND,
+				B.SECOND_UPLEFT_ALWNCE_PLUS,
+				B.SECOND_UPLEFT_ALWNCE_MINUS,
+				B.SECOND_DOWNLEFT_COND,
+				B.SECOND_DOWNLEFT_ALWNCE_PLUS,
+				B.SECOND_DOWNLEFT_ALWNCE_MINUS,
+				B.SECOND_UPRIGHT_COND,
+				B.SECOND_UPRIGHT_ALWNCE_PLUS,
+				B.SECOND_UPRIGHT_ALWNCE_MINUS,
+				B.SECOND_DOWNRIGHT_COND,
+				B.SECOND_DOWNRIGHT_ALWNCE_PLUS,
+				B.SECOND_DOWNRIGHT_ALWNCE_MINUS,
+				B.THIRD_UPLEFT_COND,
+				B.THIRD_UPLEFT_ALWNCE_PLUS,
+				B.THIRD_UPLEFT_ALWNCE_MINUS,
+				B.THIRD_DOWNLEFT_COND,
+				B.THIRD_DOWNLEFT_ALWNCE_PLUS,
+				B.THIRD_DOWNLEFT_ALWNCE_MINUS,
+				B.THIRD_UPRIGHT_COND,
+				B.THIRD_UPRIGHT_ALWNCE_PLUS,
+				B.THIRD_UPRIGHT_ALWNCE_MINUS,
+				B.THIRD_DOWNRIGHT_COND,
+				B.THIRD_DOWNRIGHT_ALWNCE_PLUS,
+				B.THIRD_DOWNRIGHT_ALWNCE_MINUS,
+				B.JINJEOP1_UP_COND,
+				B.JINJEOP1_UP_ALWNCE_PLUS,
+				B.JINJEOP1_UP_ALWNCE_MINUS,
+				B.JINJEOP1_DOWN_COND,
+				B.JINJEOP1_DOWN_ALWNCE_PLUS,
+				B.JINJEOP1_DOWN_ALWNCE_MINUS,
+				B.JINJEOP2_UP_COND,
+				B.JINJEOP2_UP_ALWNCE_PLUS,
+				B.JINJEOP2_UP_ALWNCE_MINUS,
+				B.JINJEOP2_DOWN_COND,
+				B.JINJEOP2_DOWN_ALWNCE_PLUS,
+				B.JINJEOP2_DOWN_ALWNCE_MINUS
+			FROM TB_WORK_ORDER A, TB_EQUIP_TEMPATUR_COND_ADM B
+			WHERE 1=1
+			AND A.WORK_ORD_NO= #{workOrdNo}
+			AND A.EQUIP_COND_SEQ = B.EQUIP_COND_SEQ
+		]]>
+	</select>
+	
+	<!-- 에이젼트 온도 데이터 수정 -->
+	<update id="updateTemp" parameterType="mes.domain.po.AgtVo">
+		<![CDATA[
+			UPDATE TB_AGT_TEMPATUR_STEP
+			SET
+			    WARMUP_COND = #{warmupCond}
+			    , FITUP1_UP_COND = #{fitup1UpCond}
+			    , FITUP1_DOWN_COND = #{fitup1DownCond}
+			    , FITUP2_UPLEFT_COND = #{fitup2UpleftCond}
+			    , FITUP2_DOWNLEFT_COND = #{fitup2DownleftCond}
+			    , FITUP2_UPRIGHT_COND = #{fitup2UprightCond}
+			    , FITUP2_DOWNRIGHT_COND = #{fitup2DownrightCond}
+			    , ROLLHEAT_UP_COND = #{rollheatUpCond}
+			    , ROLLHEAT_DOWN_COND = #{rollheatDownCond}
+			    , FIRST_UPLEFT_COND = #{firstUpleftCond}
+			    , FIRST_DOWNLEFT_COND = #{firstDownleftCond}
+			    , FIRST_UPRIGHT_COND = #{firstUprightCond}
+			    , FIRST_DOWNRIGHT_COND = #{firstDownrightCond}
+			    , PUSH1_UP_COND = #{push1UpCond}
+			    , PUSH1_DOWN_COND = #{push1DownCond}
+			    , SECOND_UPLEFT_COND = #{secondUpleftCond}
+			    , SECOND_DOWNLEFT_COND = #{secondDownleftCond}
+			    , SECOND_UPRIGHT_COND = #{secondUprightCond}
+			    , SECOND_DOWNRIGHT_COND = #{secondDownrightCond}
+			    , THIRD_UPLEFT_COND = #{thirdUpleftCond}
+			    , THIRD_DOWNLEFT_COND = #{thirdDownleftCond}
+			    , THIRD_UPRIGHT_COND = #{thirdUprightCond}
+			    , THIRD_DOWNRIGHT_COND = #{thirdDownrightCond}
+			    , JINJEOP1_UP_COND = #{jinjeop1UpCond}
+			    , JINJEOP1_DOWN_COND = #{jinjeop1DownCond}
+			    , JINJEOP2_UP_COND = #{jinjeop2UpCond}
+			    , JINJEOP2_DOWN_COND = #{jinjeop2DownCond}
+			    , UPD_ID = #{updId}
+			    , UPD_DATE = GETDATE()
+			WHERE 1=1
+			AND WORK_ORD_NO = #{workOrdNo}
+		]]>
+		<if test="ordLotNo != null and ordLotNo != ''">
+			AND ORD_LOT_NO = #{ordLotNo}
+		</if>
+		<![CDATA[
+			AND STEP_CD = #{stepCd}
+			AND LOT_NO = #{lotNo}
+		]]>
+	</update>
+	
+	<!-- 에이젼트 온도 데이터 존재여부 확인 -->
+	<select id="checkTemp" resultType="int">
+			SELECT
+				COUNT(*)
+			FROM TB_AGT_TEMPATUR_STEP A
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{workOrdNo}
+		<if test="ordLotNo != null and ordLotNo != ''">
+			AND A.ORD_LOT_NO = #{ordLotNo}
+		</if>
+			AND A.STEP_CD = #{stepCd}
+		<if test="lotNo != null and lotNo != ''"> 
+	  		AND A.LOT_NO = #{lotNo}
+		</if>
+	</select>
+	
+	<!-- 에이전트 치수 ////////////////////////////////////////////////////////////////////////////////ROUND(/////// -->
+	<!-- 에이젼트 치수 데이터 읽기 -->
+	<select id="readSize" resultMap="AgtVo">
+			SELECT
+				A.WORK_ORD_NO
+				, ORD_LOT_NO
+				, A.STEP_CD
+				, A.EQUIP_CD
+				, A.LOT_NO
+				, ROUND(A.WP_LEFT_ALWNCE,3) WP_LEFT_ALWNCE
+				, ROUND(A.WP_RIGHT_ALWNCE,3) WP_RIGHT_ALWNCE
+				, ROUND(A.PITCH_LEFT_ALWNCE,3) PITCH_LEFT_ALWNCE
+				, ROUND(A.PITCH_RIGHT_ALWNCE,3) PITCH_RIGHT_ALWNCE
+				, ROUND(A.PPF_WING_LEFT_ALWNCE,3) PPF_WING_LEFT_ALWNCE
+				, ROUND(A.PPF_WING_RIGHT_ALWNCE,3) PPF_WING_RIGHT_ALWNCE
+				, ROUND(A.PPF_DEPTH_LEFT_ALWNCE,3) PPF_DEPTH_LEFT_ALWNCE
+				, ROUND(A.PPF_DEPTH_RIGHT_ALWNCE,3) PPF_DEPTH_RIGHT_ALWNCE
+				, ROUND(A.FILM_ALWNCE,3) FILM_ALWNCE
+				, ROUND(A.METAL_DEPTH_ALWNCE,3) METAL_DEPTH_ALWNCE
+				, ROUND(A.METAL_THICKNESS_ALWNCE,3) METAL_THICKNESS_ALWNCE
+				, ROUND(A.TH_CENTER_ALWNCE,3) TH_CENTER_ALWNCE
+				, ROUND(A.TH_EDGE_ALWNCE_PLUS,3) TH_EDGE_ALWNCE_PLUS
+				, ROUND(A.TH_STEP_INPUT,3) TH_STEP_INPUT
+				, A.TH_EDGE_CNT
+				, A.TH_EDGE_RESULT
+				, ROUND(A.BULGE_LEFTUP_HEIGHT,3) BULGE_LEFTUP_HEIGHT
+				, ROUND(A.BULGE_LEFTDOWN_HEIGHT,3) BULGE_LEFTDOWN_HEIGHT
+				, ROUND(A.BULGE_RIGHTUP_HEIGHT,3) BULGE_RIGHTUP_HEIGHT
+				, ROUND(A.BULGE_RIGHTDOWN_HEIGHT,3) BULGE_RIGHTDOWN_HEIGHT
+				, ROUND(A.BULGE_LEFTUP_WIDTH,3) BULGE_LEFTUP_WIDTH
+				, ROUND(A.BULGE_LEFTDOWN_WIDTH,3) BULGE_LEFTDOWN_WIDTH
+				, ROUND(A.BULGE_RIGHTUP_WIDTH,3) BULGE_RIGHTUP_WIDTH
+				, ROUND(A.BULGE_RIGHTDOWN_WIDTH,3) BULGE_RIGHTDOWN_WIDTH
+				, ROUND(A.BURR_METAL_ALWNCE,3) BURR_METAL_ALWNCE
+				, ROUND(A.BURR_RCUT_ALWNCE,3) BURR_RCUT_ALWNCE
+				, ROUND(A.BURR_REDGE_ALWNCE,3) BURR_REDGE_ALWNCE
+				, ROUND(A.GAP_OF_LAYER,3) GAP_OF_LAYER
+				, ROUND(PPF_DEPTH_CENTER_ALWNCE,3) PPF_DEPTH_CENTER_ALWNCE
+				, ROUND(WP_CENTER_ALWNCE,3) WP_CENTER_ALWNCE
+				, ROUND(WP_DEVIATION_ALWNCE,3) WP_DEVIATION_ALWNCE
+				, ROUND(X1_X2_ALWNCE,3) X1_X2_ALWNCE
+				, ROUND(TH_EDGE_RIGHT_ALWNCE,3) TH_EDGE_RIGHT_ALWNCE
+				, ROUND(BENDING_ALWNCE,3) BENDING_ALWNCE
+				, REG_ID
+			    , REG_DATE
+			    , UPD_ID
+			    , UPD_DATE
+			FROM TB_AGT_SIZE_STEP A
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{workOrdNo}
+		<if test="ordLotNo != null and ordLotNo != ''">
+			AND A.ORD_LOT_NO = #{ordLotNo}
+		</if>
+			AND A.STEP_CD = #{stepCd}
+			AND A.LOT_NO = #{lotNo}
+	</select>
+	
+	<!-- 에이젼트 치수 4층 데이터 읽기 -->
+	<select id="agtSizeSixFloorList" resultMap="agtSixFloorVo">
+			SELECT
+				A.WORK_ORD_NO
+				, ORD_LOT_NO
+				, A.STEP_CD
+				, A.EQUIP_CD
+				, A.LOT_NO
+				, ROUND(A.WP_LEFT_ALWNCE,3) WP_LEFT_ALWNCE
+				, ROUND(A.WP_RIGHT_ALWNCE,3) WP_RIGHT_ALWNCE
+				, ROUND(A.PITCH_LEFT_ALWNCE,3) PITCH_LEFT_ALWNCE
+				, ROUND(A.PITCH_RIGHT_ALWNCE,3) PITCH_RIGHT_ALWNCE
+				, ROUND(A.PPF_WING_LEFT_ALWNCE,3) PPF_WING_LEFT_ALWNCE
+				, ROUND(A.PPF_WING_RIGHT_ALWNCE,3) PPF_WING_RIGHT_ALWNCE
+				, ROUND(A.PPF_DEPTH_LEFT_ALWNCE,3) PPF_DEPTH_LEFT_ALWNCE
+				, ROUND(A.PPF_DEPTH_RIGHT_ALWNCE,3) PPF_DEPTH_RIGHT_ALWNCE
+				, ROUND(A.FILM_ALWNCE,3) FILM_ALWNCE
+				, ROUND(A.METAL_DEPTH_ALWNCE,3) METAL_DEPTH_ALWNCE
+				, ROUND(A.METAL_THICKNESS_ALWNCE,3) METAL_THICKNESS_ALWNCE
+				, ROUND(A.TH_CENTER_ALWNCE,3) TH_CENTER_ALWNCE
+				, ROUND(A.TH_EDGE_ALWNCE_PLUS,3) TH_EDGE_ALWNCE_PLUS
+				, ROUND(A.TH_STEP_INPUT,3) TH_STEP_INPUT
+				, A.TH_EDGE_CNT
+				, A.TH_EDGE_RESULT
+				, ROUND(A.BULGE_LEFTUP_HEIGHT,3) BULGE_LEFTUP_HEIGHT
+				, ROUND(A.BULGE_LEFTDOWN_HEIGHT,3) BULGE_LEFTDOWN_HEIGHT
+				, ROUND(A.BULGE_RIGHTUP_HEIGHT,3) BULGE_RIGHTUP_HEIGHT
+				, ROUND(A.BULGE_RIGHTDOWN_HEIGHT,3) BULGE_RIGHTDOWN_HEIGHT
+				, ROUND(A.BULGE_LEFTUP_WIDTH,3) BULGE_LEFTUP_WIDTH
+				, ROUND(A.BULGE_LEFTDOWN_WIDTH,3) BULGE_LEFTDOWN_WIDTH
+				, ROUND(A.BULGE_RIGHTUP_WIDTH,3) BULGE_RIGHTUP_WIDTH
+				, ROUND(A.BULGE_RIGHTDOWN_WIDTH,3) BULGE_RIGHTDOWN_WIDTH
+				, ROUND(A.BURR_METAL_ALWNCE,3) BURR_METAL_ALWNCE
+				, ROUND(A.BURR_RCUT_ALWNCE,3) BURR_RCUT_ALWNCE
+				, ROUND(A.BURR_REDGE_ALWNCE,3) BURR_REDGE_ALWNCE
+				, ROUND(A.GAP_OF_LAYER,3) GAP_OF_LAYER
+				, ROUND(PPF_DEPTH_CENTER_ALWNCE,3) PPF_DEPTH_CENTER_ALWNCE
+				, ROUND(WP_CENTER_ALWNCE,3) WP_CENTER_ALWNCE
+				, ROUND(WP_DEVIATION_ALWNCE,3) WP_DEVIATION_ALWNCE
+				, ROUND(X1_X2_ALWNCE,3) X1_X2_ALWNCE
+				, ROUND(TH_EDGE_RIGHT_ALWNCE,3) TH_EDGE_RIGHT_ALWNCE
+				, ROUND(BENDING_ALWNCE,3) BENDING_ALWNCE
+				, REG_ID
+			    , REG_DATE
+			    , UPD_ID
+			    , UPD_DATE
+			FROM TB_AGT_SIZE_STEP_SIX_FLOOR_TABLE A
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{workOrdNo}
+		<if test="ordLotNo != null and ordLotNo != ''">
+			AND A.ORD_LOT_NO = #{ordLotNo}
+		</if>
+			<!-- AND A.STEP_CD = #{stepCd} -->
+			AND A.LOT_NO = #{lotNo}
+			ORDER BY STEP_CD ASC
+	</select>
+	
+	<!-- 에이젼트 치수 조건 읽기 -->
+	<select id="readSizeCond" resultMap="EquipTempaturCondAdm">
+		<![CDATA[
+			
+		]]>
+	</select>
+	
+	<!-- 에이젼트 치수 데이터 수정 -->
+	<update id="updateSize" parameterType="mes.domain.po.AgtVo">
+		<![CDATA[
+			UPDATE TB_AGT_SIZE_STEP
+			SET
+				WP_LEFT_ALWNCE = #{wpLeftAlwnce},
+				WP_RIGHT_ALWNCE = #{wpRightAlwnce},
+				PITCH_LEFT_ALWNCE = #{pitchLeftAlwnce},
+				PITCH_RIGHT_ALWNCE = #{pitchRightAlwnce},
+				PPF_WING_LEFT_ALWNCE = #{ppfWingLeftAlwnce},
+				PPF_WING_RIGHT_ALWNCE = #{ppfWingRightAlwnce},
+				PPF_DEPTH_LEFT_ALWNCE = #{ppfDepthLeftAlwnce},
+				PPF_DEPTH_RIGHT_ALWNCE = #{ppfDepthRightAlwnce},
+				FILM_ALWNCE = #{filmAlwnce},
+				METAL_DEPTH_ALWNCE = #{metalDepthAlwnce},
+				METAL_THICKNESS_ALWNCE = #{metalThicknessAlwnce},
+				TH_CENTER_ALWNCE = #{thCenterAlwnce},
+				TH_EDGE_ALWNCE_PLUS = #{thEdgeAlwncePlus},
+				TH_STEP_INPUT = #{thStepInput},
+				BULGE_LEFTUP_HEIGHT = #{bulgeLeftupHeight},
+				BULGE_LEFTDOWN_HEIGHT = #{bulgeLeftdownHeight},
+				BULGE_RIGHTUP_HEIGHT = #{bulgeRightupHeight},
+				BULGE_RIGHTDOWN_HEIGHT = #{bulgeRightdownHeight},
+				BULGE_LEFTUP_WIDTH = #{bulgeLeftupWidth},
+				BULGE_LEFTDOWN_WIDTH = #{bulgeLeftdownWidth},
+				BULGE_RIGHTUP_WIDTH = #{bulgeRightupWidth},
+				BULGE_RIGHTDOWN_WIDTH = #{bulgeRightdownWidth},
+				BURR_METAL_ALWNCE = #{burrMetalAlwnce},
+				BURR_RCUT_ALWNCE = #{burrRcutAlwnce},
+				BURR_REDGE_ALWNCE = #{burrRedgeAlwnce},
+				GAP_OF_LAYER = 					#{gapOfLayer},
+				PPF_DEPTH_CENTER_ALWNCE =   	#{ppfDepthCenterAlwnce},
+				WP_CENTER_ALWNCE  =         	#{wpCenterAlwnce},
+				WP_DEVIATION_ALWNCE =       	#{wpDeviationAlwnce},
+				X1_X2_ALWNCE =              	#{x1X2Alwnce},
+				TH_EDGE_RIGHT_ALWNCE =      	#{thEdgeRightAlwnce},
+				BENDING_ALWNCE =            	#{bendingAlwnce},
+			    UPD_ID = #{updId},
+			    UPD_DATE = GETDATE()
+			WHERE 1=1
+			AND WORK_ORD_NO = #{workOrdNo}
+		]]>
+		<if test="ordLotNo != null and ordLotNo != ''">
+			AND ORD_LOT_NO = #{ordLotNo}
+		</if>
+		<![CDATA[
+			AND STEP_CD = #{stepCd}
+			AND LOT_NO = #{lotNo}
+		]]>
+	</update>
+	
+	<!-- 에이젼트 치수 데이터 수정 -->
+	<update id="agtSizeSixFloorUpdate" parameterType="mes.domain.po.AgtSixFloorVo">
+		UPDATE TB_AGT_SIZE_STEP_SIX_FLOOR_TABLE
+		SET
+			WP_LEFT_ALWNCE = #{wpLeftAlwnce}
+			, WP_RIGHT_ALWNCE = #{wpRightAlwnce}
+			, PITCH_LEFT_ALWNCE = #{pitchLeftAlwnce}
+			, PITCH_RIGHT_ALWNCE = #{pitchRightAlwnce}
+			, PPF_WING_LEFT_ALWNCE = #{ppfWingLeftAlwnce}
+			, PPF_WING_RIGHT_ALWNCE = #{ppfWingRightAlwnce}
+			, PPF_DEPTH_LEFT_ALWNCE = #{ppfDepthLeftAlwnce}
+			, PPF_DEPTH_RIGHT_ALWNCE = #{ppfDepthRightAlwnce}
+			, FILM_ALWNCE = #{filmAlwnce}
+			, METAL_DEPTH_ALWNCE = #{metalDepthAlwnce}
+			, METAL_THICKNESS_ALWNCE = #{metalThicknessAlwnce}
+			, TH_CENTER_ALWNCE = #{thCenterAlwnce}
+			, TH_EDGE_ALWNCE_PLUS = #{thEdgeAlwncePlus}
+			, TH_STEP_INPUT = #{thStepInput}
+			, BULGE_LEFTUP_HEIGHT = #{bulgeLeftupHeight}
+			, BULGE_LEFTDOWN_HEIGHT = #{bulgeLeftdownHeight}
+			, BULGE_RIGHTUP_HEIGHT = #{bulgeRightupHeight}
+			, BULGE_RIGHTDOWN_HEIGHT = #{bulgeRightdownHeight}
+			, BULGE_LEFTUP_WIDTH = #{bulgeLeftupWidth}
+			, BULGE_LEFTDOWN_WIDTH = #{bulgeLeftdownWidth}
+			, BULGE_RIGHTUP_WIDTH = #{bulgeRightupWidth}
+			, BULGE_RIGHTDOWN_WIDTH = #{bulgeRightdownWidth}
+			, BURR_METAL_ALWNCE = #{burrMetalAlwnce}
+			, BURR_RCUT_ALWNCE = #{burrRcutAlwnce}
+			, BURR_REDGE_ALWNCE = #{burrRedgeAlwnce}
+			, GAP_OF_LAYER = #{gapOfLayer}
+			, PPF_DEPTH_CENTER_ALWNCE = #{ppfDepthCenterAlwnce}
+			, WP_CENTER_ALWNCE  = #{wpCenterAlwnce}
+			, WP_DEVIATION_ALWNCE = #{wpDeviationAlwnce}
+			, X1_X2_ALWNCE = #{x1X2Alwnce}
+			, TH_EDGE_RIGHT_ALWNCE = #{thEdgeRightAlwnce}
+			, BENDING_ALWNCE = #{bendingAlwnce}
+		    , UPD_ID = #{updId}
+		    , UPD_DATE = GETDATE()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		<if test="ordLotNo != null and ordLotNo != ''">
+			AND ORD_LOT_NO = #{ordLotNo}
+		</if>
+		AND STEP_CD = #{stepCd}
+		AND LOT_NO = #{lotNo}
+	</update>
+	
+	<!-- 에이젼트 치수 데이터 수정 -->
+	<update id="updateSizeMore" parameterType="mes.domain.po.AgtVo">
+		<![CDATA[
+			UPDATE TB_AGT_SIZE_STEP
+			SET
+				TH_STEP_INPUT = #{thStepInput},
+				TH_EDGE_CNT = #{thEdgeCnt},
+				TH_EDGE_RESULT = #{thEdgeResult}
+			WHERE 1=1
+			AND WORK_ORD_NO = #{workOrdNo}
+		]]>
+		<if test="ordLotNo != null and ordLotNo != ''">
+			AND ORD_LOT_NO = #{ordLotNo}
+		</if>
+		<![CDATA[
+			AND STEP_CD = #{stepCd}
+			AND LOT_NO = #{lotNo}
+		]]>
+	</update>
+
+	<!-- 에이젼트 치수 데이터 존재여부 확인 -->
+	<select id="checkSize" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM TB_AGT_SIZE_STEP A
+		WHERE 1=1
+		AND A.WORK_ORD_NO = #{workOrdNo}
+	<if test="ordLotNo != null and ordLotNo != ''">
+		AND A.ORD_LOT_NO = #{ordLotNo}
+	</if>
+		AND A.STEP_CD = #{stepCd}
+		AND A.LOT_NO = #{lotNo}
+	</select>
+	
+	
+	<!-- 에이젼트 ViewBom 데이터 존재여부 확인 -->
+	<select id="checkViewBomData" resultType="int">
+		<![CDATA[
+			SELECT
+				COUNT(*)
+			FROM [MTPDGS].[MtpDb].[dbo].[vCJJdata3]
+			WHERE 1=1
+			AND IF_Workorder_CD = #{ifWorkorderCd}
+		]]>
+	</select>
+	
+	<!-- 에이젼트 ViewBom 작지 조회 -->
+	<select id="readViewBomData" resultMap="agtBomVo">
+		<![CDATA[
+			SELECT TOP (1)
+				A.IF_Workorder_CD
+				, A.IF_GOODS_CD
+				, A.IF_GOODS_NM
+				, A.IF_Equip_CD
+				, A.CreatedDateTime
+				, A.IF_Ga_heat_Time
+				, A.IF_Ga_press_Time
+				, A.IF_1stMT_heat_Time
+				, A.IF_1stMT_push_Time
+				, A.IF_Jin_Time
+				, A.IF_2ndMT_heat_Time
+				, A.IF_2ndMT_push_Time
+				, A.IF_cool_Time
+				, A.IF_reform_Time
+				, A.IF_Su_Time
+				, A.IF_3rdMT_push_Time
+				, A.IF_3rdMT_heat_Time
+				
+				, A.IF_Pressure_1ch
+				, A.IF_Pressure_2ch
+				, A.IF_Pressure_3ch
+				
+				, A.IF_1stMetalUL
+				, A.IF_1stMetalUR
+				, A.IF_1stMetalDL
+				, A.IF_1stMetalDR
+				, A.IF_1stJinjubU
+				, A.IF_1stJinjubD
+				, A.IF_2ndMetalUL
+				, A.IF_2ndMetalUR
+				, A.IF_2ndMetalDL
+				, A.IF_2ndMetalDR
+				, A.IF_1stMetalpushU
+				, A.IF_1stMetalpushD
+				, A.IF_3rdMetalUL
+				, A.IF_3rdMetalUR
+				, A.IF_3rdMetalDL
+				, A.IF_3rdMetalDR
+				, A.IF_2ndJinjubU
+				, A.IF_2ndJinjubD
+				
+				, A.HeadLength_Left
+				, A.MetalLength_Left
+				, A.MetalWidth_Up
+				, A.WingLength_Left
+				, A.HeadLength_Right
+				, A.MetalLength_Right
+				, A.MetalWidth_Down
+				, A.FilmTotalLength_Down
+				, A.WingLength_Right
+				, A.FilmDolgi_LeftUp_Height
+				, A.FilmDolgi_LeftUp_Width
+				, A.FilmDolgi_LeftDown_Height
+				, A.FilmDolgi_LeftDown_Width
+				, A.FilmDolgi_RightUp_Height
+				, A.FilmDolgi_RightUp_Width
+				, A.FilmDolgi_RightDown_Height
+				, A.FilmDolgi_RightDown_Width
+				, A.FilmTotalLength_Up
+				
+				, A.FilmWidth_Left
+				, A.FilmWidth_Left_Inside
+				, A.FilmWidth_Right
+				, A.FilmWidth_Right_Inside
+
+			FROM [MTPDGS].[MtpDb].[dbo].[vCJJdata3] A
+			WHERE 1=1
+			AND (IF_Workorder_CD = #{ifWorkorderCd} OR IF_Equip_CD = (SELECT  CASE WHEN ETC1 = '' THEN EQUIP_NM
+										ELSE ETC1 END	AS EQUIP_NM
+										FROM TB_EQUIP_CODE_ADM WHERE EQUIP_NM = '${ifEquipCd}')) 
+			ORDER BY CreatedDateTime DESC
+		]]>
+	</select>
+
+	
+	<!-- 에이젼트 시간 데이터 읽기 -->
+	<select id="readTime" resultMap="AgtVo">
+		<![CDATA[
+			SELECT
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, STEP_CD
+				, EQUIP_CD
+				, LOT_NO
+				, ROUND(WARMUP_COND,3) WARMUP_COND
+				, ROUND(FITUP_COND,3) FITUP_COND
+				, ROUND(FITUP2_COND,3) FITUP2_COND
+				, ROUND(FIRST_COND,3) FIRST_COND
+				, ROUND(SECOND_COND,3) SECOND_COND
+				, ROUND(THIRD_COND,3) THIRD_COND
+				, ROUND(JINJEOP_COND,3) JINJEOP_COND
+				, ROUND(JINJEOP2_COND,3) JINJEOP2_COND
+				, ROUND(PUSH1_COND,3) PUSH1_COND
+				, ROUND(REFORM_COND,3) REFORM_COND
+				, ROUND(COOL_COND,3) COOL_COND
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM TB_AGT_TIME_STEP
+			WHERE 1=1
+			AND WORK_ORD_NO = #{workOrdNo}
+						]]>
+			<if test="ordLotNo != null and ordLotNo != ''">
+				AND ORD_LOT_NO = #{ordLotNo}
+			</if>
+			<![CDATA[
+			AND STEP_CD = #{stepCd}
+			AND LOT_NO = #{lotNo}
+		]]>
+	</select>
+	
+	
+	<!-- 에이젼트 압력 데이터 읽기 -->
+	<select id="readPress" resultMap="AgtVo">
+		<![CDATA[
+			SELECT
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, STEP_CD
+				, EQUIP_CD
+				, ROUND(WARMUP_COND,3) WARMUP_COND
+				, ROUND(FITUP_COND,3)  FITUP_COND
+				, ROUND(FIRST_COND,3)  FIRST_COND
+				, ROUND(PUSH1_COND,3)  PUSH1_COND
+				, ROUND(SECOND_COND,3) SECOND_COND
+				, ROUND(JINJEOP_COND,3) JINJEOP_COND
+				, ROUND(JINJEOP2_COND,3) JINJEOP2_COND
+				, ROUND(REFORM_COND,3) REFORM_COND
+				, ROUND(COOL_COND,3) COOL_COND
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM TB_AGT_PRESSURE_STEP
+			WHERE 1=1
+			AND WORK_ORD_NO = #{workOrdNo}
+			]]>
+			<if test="ordLotNo != null and ordLotNo != ''">
+				AND ORD_LOT_NO = #{ordLotNo}
+			</if>
+			<![CDATA[
+			AND STEP_CD = #{stepCd}
+			AND LOT_NO = #{lotNo}
+		]]>
+	</select>
+	<!-- AGT 시간 등록 -->
+	<insert id="createTime">
+		<![CDATA[
+			INSERT INTO TB_AGT_TIME_STEP(
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, STEP_CD
+				, EQUIP_CD
+				, LOT_NO
+				, REG_DATE
+				, WARMUP_COND
+				, FITUP_COND
+				, FITUP2_COND
+				, FIRST_COND
+				, SECOND_COND
+				, THIRD_COND
+				, JINJEOP_COND
+				, JINJEOP2_COND
+				, PUSH1_COND
+				, REFORM_COND
+				, COOL_COND
+				, REG_ID			
+			) 
+			VALUES(
+				#{workOrdNo}
+				, #{ordLotNo}
+				, #{stepCd}
+				, #{equipCd}
+				, #{lotNo}
+				, getDate()
+				, #{warmupCond}
+				, #{fitupCond}
+				, #{fitup2Cond}
+				, #{firstCond}
+				, #{secondCond}
+				, #{thirdCond}
+				, #{jinjeopCond}
+				, #{jinjeop2Cond}
+				, #{push1Cond}
+				, #{reformCond}
+				, #{coolCond}
+				, #{regId}
+			)
+		]]>
+	</insert>
+	
+	
+	<!-- AGT 압력 등록 -->
+	<insert id="createPressure">
+		<![CDATA[
+			INSERT INTO TB_AGT_PRESSURE_STEP(
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, STEP_CD
+				, EQUIP_CD
+				, LOT_NO
+				, REG_DATE
+				, WARMUP_COND
+				, FITUP_COND
+				, FIRST_COND
+				, PUSH1_COND
+				, SECOND_COND
+				, JINJEOP_COND
+				, JINJEOP2_COND
+				, REFORM_COND
+				, COOL_COND
+				, REG_ID
+			)
+			VALUES(
+				#{workOrdNo}
+				, #{ordLotNo}
+				, #{stepCd}
+				, #{equipCd}
+				, #{lotNo}
+				, getDate()
+				, #{warmupCond}
+				, #{fitupCond}
+				, #{firstCond}
+				, #{push1Cond}
+				, #{secondCond}
+				, #{jinjeopCond}
+				, #{jinjeop2Cond}
+				, #{reformCond}
+				, #{coolCond}
+				, #{regId}
+			)
+		]]>
+	</insert>
+	
+	<!-- AGT 온도 등록 -->
+	<insert id="createTempature">
+		<![CDATA[
+			INSERT INTO TB_AGT_TEMPATUR_STEP (
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, STEP_CD
+				, EQUIP_CD
+				, LOT_NO
+				, REG_DATE
+				, WARMUP_COND
+				, FITUP1_UP_COND
+				, FITUP1_DOWN_COND
+				, FITUP2_UPLEFT_COND
+				, FITUP2_DOWNLEFT_COND
+				, FITUP2_UPRIGHT_COND
+				, FITUP2_DOWNRIGHT_COND
+				, ROLLHEAT_UP_COND
+				, ROLLHEAT_DOWN_COND
+				, FIRST_UPLEFT_COND
+				, FIRST_DOWNLEFT_COND
+				, FIRST_UPRIGHT_COND
+				, FIRST_DOWNRIGHT_COND
+				, PUSH1_UP_COND
+				, PUSH1_DOWN_COND
+				, SECOND_UPLEFT_COND
+				, SECOND_DOWNLEFT_COND
+				, SECOND_UPRIGHT_COND
+				, SECOND_DOWNRIGHT_COND
+				, THIRD_UPLEFT_COND
+				, THIRD_DOWNLEFT_COND
+				, THIRD_UPRIGHT_COND
+				, THIRD_DOWNRIGHT_COND
+				, JINJEOP1_UP_COND
+				, JINJEOP1_DOWN_COND
+				, JINJEOP2_UP_COND
+				, JINJEOP2_DOWN_COND
+				, REG_ID
+			)
+			VALUES(
+				#{workOrdNo}
+				, #{ordLotNo}
+				, #{stepCd}
+				, #{equipCd}
+				, #{lotNo}
+				, getDate()
+				, #{warmupCond}
+				, #{fitup1UpCond}
+				, #{fitup1DownCond}
+				, #{fitup2UpleftCond}
+				, #{fitup2DownleftCond}
+				, #{fitup2UprightCond}
+				, #{fitup2DownrightCond}
+				, #{rollheatUpCond}
+				, #{rollheatDownCond}
+				, #{firstUpleftCond}
+				, #{firstDownleftCond}
+				, #{firstUprightCond}
+				, #{firstDownrightCond}
+				, #{push1UpCond}
+				, #{push1DownCond}
+				, #{secondUpleftCond}
+				, #{secondDownleftCond}
+				, #{secondUprightCond}
+				, #{secondDownrightCond}
+				, #{thirdUpleftCond}
+				, #{thirdDownleftCond}
+				, #{thirdUprightCond}
+				, #{thirdDownrightCond}
+				, #{jinjeop1UpCond}
+				, #{jinjeop1DownCond}
+				, #{jinjeop2UpCond}
+				, #{jinjeop2DownCond}
+				, #{regId}
+			)
+		]]>
+	</insert>
+	
+	<!-- AGT 치수 등록 -->
+	<insert id="createSize">
+		<![CDATA[
+			INSERT INTO TB_AGT_SIZE_STEP (
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, STEP_CD
+				, EQUIP_CD
+				, LOT_NO
+				, REG_DATE
+				, WP_LEFT_ALWNCE
+				, WP_RIGHT_ALWNCE
+				, PITCH_LEFT_ALWNCE
+				, PITCH_RIGHT_ALWNCE
+				, PPF_WING_LEFT_ALWNCE
+				, PPF_WING_RIGHT_ALWNCE
+				, PPF_DEPTH_LEFT_ALWNCE
+				, PPF_DEPTH_RIGHT_ALWNCE
+				, FILM_ALWNCE
+				, METAL_DEPTH_ALWNCE
+				, METAL_THICKNESS_ALWNCE
+				, TH_CENTER_ALWNCE
+				, TH_EDGE_ALWNCE_PLUS
+				, TH_STEP_INPUT
+				, TH_EDGE_CNT
+				, TH_EDGE_RESULT
+				, BULGE_LEFTUP_HEIGHT
+				, BULGE_LEFTDOWN_HEIGHT
+				, BULGE_RIGHTUP_HEIGHT
+				, BULGE_RIGHTDOWN_HEIGHT
+				, BULGE_LEFTUP_WIDTH
+				, BULGE_LEFTDOWN_WIDTH
+				, BULGE_RIGHTUP_WIDTH
+				, BULGE_RIGHTDOWN_WIDTH
+				, BURR_METAL_ALWNCE
+				, BURR_RCUT_ALWNCE
+				, BURR_REDGE_ALWNCE
+				, GAP_OF_LAYER
+			    , PPF_DEPTH_CENTER_ALWNCE
+			    , WP_CENTER_ALWNCE
+			    , WP_DEVIATION_ALWNCE
+			    , X1_X2_ALWNCE
+			    , TH_EDGE_RIGHT_ALWNCE
+			    , BENDING_ALWNCE
+				, REG_ID
+			)
+			VALUES(
+				#{workOrdNo}
+				, #{ordLotNo}
+				, #{stepCd}
+				, #{equipCd}
+				, #{lotNo}
+				, getDate()
+				, #{wpLeftAlwnce}
+				, #{wpRightAlwnce}
+				, #{pitchLeftAlwnce}
+				, #{pitchRightAlwnce}
+				, #{ppfWingLeftAlwnce}
+				, #{ppfWingRightAlwnce}
+				, #{ppfDepthLeftAlwnce}
+				, #{ppfDepthRightAlwnce}
+				, #{filmAlwnce}
+				, #{metalDepthAlwnce}
+				, #{metalThicknessAlwnce}
+				, #{thCenterAlwnce}
+				, #{thEdgeAlwncePlus}
+				, #{thStepInput}
+				, #{thEdgeCnt}
+				, #{thEdgeResult}
+				, #{bulgeLeftupHeight}
+				, #{bulgeLeftdownHeight}
+				, #{bulgeRightupHeight}
+				, #{bulgeRightdownHeight}
+				, #{bulgeLeftupWidth}
+				, #{bulgeLeftdownWidth}
+				, #{bulgeRightupWidth}
+				, #{bulgeRightdownWidth}
+				, #{burrMetalAlwnce}
+				, #{burrRcutAlwnce}
+				, #{burrRedgeAlwnce}
+				, #{gapOfLayer}
+				, #{ppfDepthCenterAlwnce}
+				, #{wpCenterAlwnce}
+				, #{wpDeviationAlwnce}
+				, #{x1X2Alwnce}
+				, #{thEdgeRightAlwnce}
+				, #{bendingAlwnce}
+				, #{regId}
+			)
+		]]>
+	</insert>
+	
+	
+	<!-- 설비별 DGS 데이터 조회2 -->
+	<!-- A: 온도, B: 시간, C: 압력, D: 치수 -->
+	<select id="readDgsDataList_nF1" resultMap="agtBomVo">
+		SELECT A.ID
+			, A.WORK_ORD_NO AS ifWorkorderCd
+			, A.ORD_LOT_NO
+			, A.EQUIP_CD
+			, A.EQUIP_NM AS ifEquipCd
+			, A.GOODS_CD
+			, A.GOODS_NM AS ifGoodsNm
+			, A.EQUIP_COND_SEQ
+			, A.DAQ_DATE AS createdDateTime
+			, A.REG_DATE
+			, A.DATA1 AS if1stMetalUL 
+			, A.DATA2 AS if1stMetalUR 
+			, A.DATA3 AS if1stMetalDL 
+			, A.DATA4 AS if1stMetalDR 
+			, A.DATA5 AS if1stJinjubU 
+			, A.DATA6 AS if1stJinjubD 
+			, A.DATA7 AS if2ndMetalUL 
+			, A.DATA8 AS if2ndMetalUR 
+			, A.DATA9 AS if2ndMetalDL 
+			, A.DATA10 AS if2ndMetalDR 
+			, A.DATA11 AS if1stMetalpushU
+			, A.DATA12 AS if1stMetalpushD 
+			, A.DATA13 AS if3rdMetalUL 
+			, A.DATA14 AS if3rdMetalUR 
+			, A.DATA15 AS if3rdMetalDL 
+			, A.DATA16 AS if3rdMetalDR 
+			, A.DATA17 AS if2ndJinjubU 
+			, A.DATA18 AS if2ndJinjubD 
+			, A.DATA19 AS Jinjub2U
+			, A.DATA20 AS Jinjub2D
+			, A.DATA21
+			, A.DATA22
+			, A.DATA23
+			, A.DATA24
+			, A.DATA25
+			, A.DATA26
+			, A.DATA27
+			, A.DATA28
+			, A.DATA29
+			, A.DATA30
+			
+			, B.ID
+      		, B.WORK_ORD_NO
+			, B.ORD_LOT_NO
+			, B.EQUIP_CD
+			, B.EQUIP_NM
+			, B.GOODS_CD
+			, B.GOODS_NM
+			, B.EQUIP_COND_SEQ
+			, B.DAQ_DATE
+			, B.REG_DATE
+			, B.DATA1 AS ifGaPressTime 
+			, B.DATA2 AS gaungchakpresswaittime 
+			, B.DATA3 AS gaungchakpresstime 
+			--, B.DATA4 AS 1stMTheatwaittime 
+			, B.DATA5 AS if1stmtHeatTime
+			, B.DATA6 AS if1stmtPushTime
+			--, B.DATA7 AS 1stMTpushtime
+			, B.DATA8 AS ifJinTime
+			--, B.DATA9 AS 2ndMTheatwaittime
+			, B.DATA10 AS if2ndmtHeatTime
+			--, B.DATA11 AS 2ndMTpushwaittime
+			--, B.DATA12 AS 2ndMTpushtime
+			, B.DATA13 AS coolwaittime
+			, B.DATA14 AS ifCoolTime
+			, B.DATA15 AS reformwaittime
+			, B.DATA16 AS ifJin2Time
+			, B.DATA17 AS horizontalwaittime
+			, B.DATA18 AS horizontaltime
+			, B.DATA19 AS EQstatus
+			, B.DATA20 AS OK
+			, B.DATA21 AS NG
+			--, B.DATA22 AS 3rdMTheatwaittime
+			, B.DATA23 AS if3rdmtHeatTime
+			--, B.DATA24 AS 3rdMTpushwaittime
+			--, B.DATA25 AS 3rdMTpushtime
+			, B.DATA26 AS OperationTime
+			, B.DATA27
+			, B.DATA28
+			, B.DATA29
+			, B.DATA30
+			, B.DATA31
+			, B.DATA32
+			, B.DATA33
+			, B.DATA34
+			, B.DATA35
+			, B.DATA36
+			, B.DATA37
+			, B.DATA38
+			, B.DATA39
+			, B.DATA40
+  
+			, C.ID
+			, C.WORK_ORD_NO
+			, C.ORD_LOT_NO
+			, C.EQUIP_CD
+			, C.EQUIP_NM
+			, C.GOODS_CD
+			, C.GOODS_NM
+			, C.EQUIP_COND_SEQ
+			, C.DAQ_DATE
+			, C.REG_DATE
+			, C.DATA1 AS ifPressure1ch
+			, C.DATA2 AS ifPressure2ch
+			, C.DATA3 AS ifPressure3ch
+			, C.DATA4
+			, C.DATA5
+			, C.DATA6
+			, C.DATA7
+			, C.DATA8
+			, C.DATA9
+			, C.DATA10
+
+			, D.ID
+			, D.WORK_ORD_NO
+			, D.ORD_LOT_NO
+			, D.EQUIP_CD
+			, D.EQUIP_NM
+			, D.GOODS_CD
+			, D.GOODS_NM
+			, D.EQUIP_COND_SEQ
+			, D.DAQ_DATE
+			, D.REG_DATE
+			, D.DATA1 AS Insp_Time
+			, D.DATA2 AS ORD_LOT_NO
+			, D.DATA3 AS HeadLength_Left
+			, D.DATA4 AS HeadLength_FilmWidth_Left 
+			, D.DATA5 AS HeadLength_FilmWidth_Left_Sum
+			, D.DATA6 AS FilmWidth_Left
+			, D.DATA7 AS FilmWidth_Left_Inside
+			, D.DATA8 AS MetalLength_Left
+			, D.DATA9 AS MetalWidth_Up
+			, D.DATA10 AS FilmTotalLength_Up
+			, D.DATA11 AS WingLength_Left
+			, D.DATA12 AS BichoolLength_Left
+			, D.DATA13 AS Perpendicularity_LeftDown
+			, D.DATA14 AS Perpendicularity_LeftUp
+			, D.DATA15 AS LengthL1
+			, D.DATA16 AS FilmDolgi_LeftUp_Height
+			, D.DATA17 AS FilmDolgi_LeftUp_Width
+			, D.DATA18 AS FilmDolgi_LeftDown_Height
+			, D.DATA19 AS FilmDolgi_LeftDown_Width
+			, D.DATA20 AS HeadLength_Deviation
+			, D.DATA21 AS BichoolLength_Deviation
+			, D.DATA22 AS HeadLength_Right
+			, D.DATA23 AS HeadLength_FilmWidth_Right
+			, D.DATA24 AS HeadLength_FilmWidth_Right_Sum
+			, D.DATA25 AS FilmWidth_Right
+			, D.DATA26 AS FilmWidth_Right_Inside
+			, D.DATA27 AS MetalLength_Right
+			, D.DATA28 AS MetalWidth_Down
+			, D.DATA29 AS FilmTotalLength_Down
+			, D.DATA30 AS WingLength_Right
+			, D.DATA31 AS BichoolLength_Right
+			, D.DATA32 AS Perpendicularity_RightDown
+			, D.DATA33 AS Perpendicularity_RightUp
+			, D.DATA34 AS LengthL2
+			, D.DATA35 AS FilmDolgi_RightUp_Height
+			, D.DATA36 AS FilmDolgi_RightUp_Width
+			, D.DATA37 AS FilmDolgi_RightDown_Height
+			, D.DATA38 AS FilmDolgi_RightDown_Width
+			, D.DATA39 AS HeadLength_FilmWidth_Deviation
+			, D.DATA40 AS FilmLength_Deviation
+			, D.DATA41 AS FilmDolgi_LeftDown_Deviation
+			, D.DATA42 AS FilmDolgi_LeftUp_Deviation
+			, D.DATA43 AS FilmDolgi_RightUp_Deviation
+			, D.DATA44 AS FilmDolgi_RightDown_Deviation
+			, D.DATA45 AS Metal_DIAGONAL1
+			, D.DATA46 AS Metal_DIAGONAL2
+			, D.DATA47 AS Metal_DIAGONAL_Deviation
+			, D.DATA48 AS Reserved47
+			, D.DATA49 AS Reserved48
+			, D.DATA50 AS Reserved49
+			, D.DATA51 AS Reserved50
+			, D.DATA52 AS Reserved51
+			, D.DATA53 AS Reserved52
+			, D.DATA54 AS Reserved53
+			, D.DATA55 AS Reserved54
+			, D.DATA56 AS Reserved55
+			, D.DATA57 AS Reserved56
+			, D.DATA58 AS Reserved57
+			, D.DATA59 AS Reserved58
+			, D.DATA60 AS Reserved59
+
+			, (CONVERT(FLOAT, D.DATA10) +CONVERT(FLOAT, D.DATA29)) / 2 AS FILM_ALWNCE
+			, (CONVERT(FLOAT, D.DATA9) + CONVERT(FLOAT, D.DATA28)) / 2 AS METAL_DEPTH_ALWNCE
+			, TOTAL_COUNT = COUNT(*) OVER()
+
+		FROM  [MTPDGS].[MtpDb].[dbo].[TB_TEMP_DAQ] A, [MTPDGS].[MtpDb].[dbo].[TB_TIME_DAQ] B, [MTPDGS].[MtpDb].[dbo].[TB_PRSS_DAQ] C, [MTPDGS].[MtpDb].[dbo].[TB_VISION_DAQ] D
+		WHERE 1=1
+		AND A.EQUIP_NM = (SELECT  CASE WHEN ETC1 = '' THEN EQUIP_NM
+							ELSE ETC1 END	AS EQUIP_NM
+							FROM TB_EQUIP_CODE_ADM WHERE EQUIP_NM = '${equipNm}')
+<choose>
+	<when test="ifEquipCondSeq != null and ifEquipCondSeq != '' and !'null'.equals(ifEquipCondSeq)">
+		AND A.EQUIP_COND_SEQ = '${ifEquipCondSeq}'
+	</when>
+	<otherwise>
+		AND A.EQUIP_COND_SEQ IS NULL
+	</otherwise>
+</choose>
+		AND CONVERT(CHAR(8), A.REG_DATE, 112) = '${chooseDate}'
+		AND A.ID = B.ID
+		AND B.ID = C.ID
+		ANd C.ID = D.ID
+		ORDER BY  A.REG_DATE
+		<if test="searchAll == null or searchAll == ''"> 
+			OFFSET ${start} ROWS
+			FETCH NEXT ${length} ROWS ONLY 
+		</if>
+	</select>
+
+	<!-- 설비별 DGS 제조조건 리스트 조회 2-->
+	<select id="readEquipCondSeqList_nF1" resultMap="agtBomVo">
+		SELECT
+			DISTINCT A.EQUIP_COND_SEQ AS ifEquipCondSeq
+			, A.GOODS_NM AS ifGoodsNm
+			, TOTAL_COUNT = COUNT(A.GOODS_NM) OVER()
+		FROM [MTPDGS].[MtpDb].[dbo].[TB_VISION_DAQ] A
+		WHERE 1=1
+		AND A.EQUIP_NM = (SELECT  CASE WHEN ETC1 = '' THEN EQUIP_NM
+									ELSE ETC1 END	AS EQUIP_NM
+							FROM TB_EQUIP_CODE_ADM WHERE EQUIP_NM = '${equipNm}')
+		AND CONVERT(CHAR(8), A.REG_DATE, 112) = '${chooseDate}'
+		GROUP BY A.EQUIP_COND_SEQ, A.GOODS_NM
+	</select>
+	
+	
+	
+	
+	<!-- A: 온도, B: 시간, C: 압력, D: 치수 -->
+	<select id="readDgsDataList_F2F3" resultMap="agtBomVo">
+		SELECT
+			A.ID
+			, A.WORK_ORD_NO
+			, A.ORD_LOT_NO
+			, A.EQUIP_CD
+			, A.EQUIP_NM
+			, A.GOODS_CD
+			, A.GOODS_NM
+			, A.EQUIP_COND_SEQ
+			, A.DAQ_DATE
+			, A.REG_DATE
+
+			, A.DATA1 AS tempData1
+			, A.DATA2 AS tempData2
+			, A.DATA3 AS tempData3
+			, A.DATA4 AS tempData4
+			, A.DATA5 AS tempData5
+			, A.DATA6 AS tempData6
+			, A.DATA7 AS tempData7
+			, A.DATA8 AS tempData8
+			, A.DATA9 AS tempData9
+			, A.DATA10 AS tempData10
+			, A.DATA11 AS tempData11
+			, A.DATA12 AS tempData12
+			, A.DATA13 AS tempData13
+			, A.DATA14 AS tempData14
+			, A.DATA15 AS tempData15
+			, A.DATA16 AS tempData16
+			, A.DATA17 AS tempData17
+			, A.DATA18 AS tempData18
+			, A.DATA19 AS tempData19
+			, A.DATA20 AS tempData20
+			, A.DATA21 AS tempData21
+			, A.DATA22 AS tempData22
+			, A.DATA23 AS tempData23
+			, A.DATA24 AS tempData24
+			, A.DATA25 AS tempData25
+			, A.DATA26 AS tempData26
+			, A.DATA27 AS tempData27
+			, A.DATA28 AS tempData28
+			, A.DATA29 AS tempData29
+			, A.DATA30 AS tempData30
+
+			, CONVERT(NUMERIC(10,2), B.DATA1) / 10.0 AS timeData1
+			, CONVERT(NUMERIC(10,2), B.DATA2) / 10.0 AS timeData2
+			, CONVERT(NUMERIC(10,2), B.DATA3) / 10.0 AS timeData3
+			, CONVERT(NUMERIC(10,2), B.DATA4) / 10.0 AS timeData4
+			, CONVERT(NUMERIC(10,2), B.DATA5) / 10.0 AS timeData5
+			, CONVERT(NUMERIC(10,2), B.DATA6) / 10.0 AS timeData6
+			, CONVERT(NUMERIC(10,2), B.DATA7) / 10.0 AS timeData7
+			, CONVERT(NUMERIC(10,2), B.DATA8) / 10.0 AS timeData8
+			, CONVERT(NUMERIC(10,2), B.DATA9) / 10.0 AS timeData9
+			, CONVERT(NUMERIC(10,2), B.DATA10) / 10.0 AS timeData10
+			, CONVERT(NUMERIC(10,2), B.DATA11) / 10.0 AS timeData11
+			, CONVERT(NUMERIC(10,2), B.DATA12) / 10.0 AS timeData12
+			, CONVERT(NUMERIC(10,2), B.DATA13) / 10.0 AS timeData13
+			, CONVERT(NUMERIC(10,2), B.DATA14) / 10.0 AS timeData14
+			, CONVERT(NUMERIC(10,2), B.DATA15) / 10.0 AS timeData15
+			, CONVERT(NUMERIC(10,2), B.DATA16) / 10.0 AS timeData16
+			, CONVERT(NUMERIC(10,2), B.DATA17) / 10.0 AS timeData17
+			, CONVERT(NUMERIC(10,2), B.DATA18) / 10.0 AS timeData18
+			, CONVERT(NUMERIC(10,2), B.DATA19) / 10.0 AS timeData19
+			, CONVERT(NUMERIC(10,2), B.DATA20) / 10.0 AS timeData20
+			, CONVERT(NUMERIC(10,2), B.DATA21) / 10.0 AS timeData21
+			, CONVERT(NUMERIC(10,2), B.DATA22) / 10.0 AS timeData22
+			, CONVERT(NUMERIC(10,2), B.DATA23) / 10.0 AS timeData23
+			, CONVERT(NUMERIC(10,2), B.DATA24) / 10.0 AS timeData24
+			
+			, B.DATA3 AS timeData3
+			, B.DATA4 AS timeData4
+			, B.DATA5 AS timeData5
+			, B.DATA6 AS timeData6
+			, B.DATA7 AS timeData7
+			, B.DATA8 AS timeData8
+			, B.DATA9 AS timeData9
+			, B.DATA10 AS timeData10
+			, B.DATA11 AS timeData11
+			, B.DATA12 AS timeData12
+			, B.DATA13 AS timeData13
+			, B.DATA14 AS timeData14
+			, B.DATA15 AS timeData15
+			, B.DATA16 AS timeData16
+			, B.DATA17 AS timeData17
+			, B.DATA18 AS timeData18
+			, B.DATA19 AS timeData19
+			, B.DATA20 AS timeData20
+			, B.DATA21 AS timeData21
+			, B.DATA22 AS timeData22
+			, B.DATA23 AS timeData23
+			, B.DATA24 AS timeData24
+			, B.DATA25 AS timeData25
+			, B.DATA26 AS timeData26
+			, B.DATA27 AS timeData27
+			, B.DATA28 AS timeData28
+			, B.DATA29 AS timeData29
+			, B.DATA30 AS timeData30
+			, B.DATA31 AS timeData31
+			, B.DATA32 AS timeData32
+			, B.DATA33 AS timeData33
+			, B.DATA34 AS timeData34
+			, B.DATA35 AS timeData35
+			, B.DATA36 AS timeData36
+			, B.DATA37 AS timeData37
+			, B.DATA38 AS timeData38
+			, B.DATA39 AS timeData39
+			, B.DATA40 AS timeData40
+
+			, C.DATA1 AS prssData1
+			, C.DATA2 AS prssData2
+			, C.DATA3 AS prssData3
+			, C.DATA4 AS prssData4
+			, C.DATA5 AS prssData5
+			, C.DATA6 AS prssData6
+			, C.DATA7 AS prssData7
+			, C.DATA8 AS prssData8
+			, C.DATA9 AS prssData9
+			, C.DATA10 AS prssData10
+
+			, D.DATA1 AS visionData1
+			, D.DATA2 AS visionData2
+			, D.DATA3 AS visionData3
+			, D.DATA4 AS visionData4
+			, D.DATA5 AS visionData5
+			, D.DATA6 AS visionData6
+			, D.DATA7 AS visionData7
+			, D.DATA8 AS visionData8
+			, D.DATA9 AS visionData9
+			, D.DATA10 AS visionData10
+			, D.DATA11 AS visionData11
+			, D.DATA12 AS visionData12
+			, D.DATA13 AS visionData13
+			, D.DATA14 AS visionData14
+			, D.DATA15 AS visionData15
+			, D.DATA16 AS visionData16
+			, D.DATA17 AS visionData17
+			, D.DATA18 AS visionData18
+			, D.DATA19 AS visionData19
+			, D.DATA20 AS visionData20
+			, D.DATA21 AS visionData21
+			, D.DATA22 AS visionData22
+			, D.DATA23 AS visionData23
+			, D.DATA24 AS visionData24
+			, D.DATA25 AS visionData25
+			, D.DATA26 AS visionData26
+			, D.DATA27 AS visionData27
+			, D.DATA28 AS visionData28
+			, D.DATA29 AS visionData29
+			, D.DATA30 AS visionData30
+			, D.DATA31 AS visionData31
+			, D.DATA32 AS visionData32
+			, D.DATA33 AS visionData33
+			, D.DATA34 AS visionData34
+			, D.DATA35 AS visionData35
+			, D.DATA36 AS visionData36
+			, D.DATA37 AS visionData37
+			, D.DATA38 AS visionData38
+			, D.DATA39 AS visionData39
+			, D.DATA40 AS visionData40
+			, D.DATA41 AS visionData41
+			, D.DATA42 AS visionData42
+			, D.DATA43 AS visionData43
+			, D.DATA44 AS visionData44
+			, D.DATA45 AS visionData45
+			, D.DATA46 AS visionData46
+			, D.DATA47 AS visionData47
+			, D.DATA48 AS visionData48
+			, D.DATA49 AS visionData49
+			, D.DATA50 AS visionData50
+			, D.DATA51 AS visionData51
+			, D.DATA52 AS visionData52
+			, D.DATA53 AS visionData53
+			, D.DATA54 AS visionData54
+			, D.DATA55 AS visionData55
+			, D.DATA56 AS visionData56
+			, D.DATA57 AS visionData57
+			, D.DATA58 AS visionData58
+			, D.DATA59 AS visionData59
+			, D.DATA60 AS visionData60
+			--, D.DATA61 AS visionData61
+			--, D.DATA62 AS visionData62
+			--, D.DATA63 AS visionData63
+			--, D.DATA64 AS visionData64
+			--, D.DATA65 AS visionData65
+			--, D.DATA66 AS visionData66
+			--, D.DATA67 AS visionData67
+			--, D.DATA68 AS visionData68
+			--, D.DATA69 AS visionData69
+			--, D.DATA70 AS visionData70
+			--, D.DATA71 AS visionData71
+			--, D.DATA72 AS visionData72
+			--, D.DATA73 AS visionData73
+			--, D.DATA74 AS visionData74
+			--, D.DATA75 AS visionData75
+			--, D.DATA76 AS visionData76
+			--, D.DATA77 AS visionData77
+			--, D.DATA78 AS visionData78
+			--, D.DATA79 AS visionData79
+			--, D.DATA80 AS visionData80
+			--, D.DATA81 AS visionData81
+			--, D.DATA82 AS visionData82
+			--, D.DATA83 AS visionData83
+			--, D.DATA84 AS visionData84
+			--, D.DATA85 AS visionData85
+			--, D.DATA86 AS visionData86
+			--, D.DATA87 AS visionData87
+			--, D.DATA88 AS visionData88
+			--, D.DATA89 AS visionData89
+			--, D.DATA90 AS visionData90
+			--, D.DATA91 AS visionData91
+			--, D.DATA92 AS visionData92
+			--, D.DATA93 AS visionData93
+			--, D.DATA94 AS visionData94
+			--, D.DATA95 AS visionData95
+			--, D.DATA96 AS visionData96
+			--, D.DATA97 AS visionData97
+			--, D.DATA98 AS visionData98
+			--, D.DATA99 AS visionData99
+			, D.DATA100 AS visionData100
+			
+			--, D.DATA10 AS FilmTotalLength_Up
+			--, D.DATA29 AS FilmTotalLength_Down
+			--, D.DATA9 AS MetalWidth_Up
+			--, D.DATA28 AS MetalWidth_Down
+	<choose>
+		<when test="factoryCode.equals('002')">
+			, (CONVERT(FLOAT, D.DATA10) + CONVERT(FLOAT, D.DATA29)) / 2 AS FILM_ALWNCE
+			, (CONVERT(FLOAT, D.DATA9) + CONVERT(FLOAT, D.DATA28)) / 2 AS METAL_DEPTH_ALWNCE
+		</when>
+		<when test="factoryCode.equals('003')">
+			, (CONVERT(FLOAT, D.DATA11) + CONVERT(FLOAT, D.DATA32)) / 2 AS FILM_ALWNCE
+			, (CONVERT(FLOAT, D.DATA10) + CONVERT(FLOAT, D.DATA31)) / 2 AS METAL_DEPTH_ALWNCE
+		</when>
+		<otherwise>
+		
+		</otherwise>
+	</choose>
+			, TOTAL_COUNT = COUNT(*) OVER()
+
+		FROM  [MESDAQ].[DaqDB].[dbo].[TB_TEMP_DAQ] A, [MESDAQ].[DaqDB].[dbo].[TB_TIME_DAQ] B, [MESDAQ].[DaqDB].[dbo].[TB_PRSS_DAQ] C, [MESDAQ].[DaqDB].[dbo].[TB_VISION_DAQ] D
+		WHERE 1=1
+		AND A.EQUIP_NM = (SELECT  CASE WHEN ETC1 = '' THEN EQUIP_NM
+							ELSE ETC1 END	AS EQUIP_NM
+							FROM TB_EQUIP_CODE_ADM WHERE EQUIP_NM = '${equipNm}')
+<choose>
+	<when test="equipCondSeq != null and equipCondSeq != '' and !'null'.equals(equipCondSeq)">
+		AND A.EQUIP_COND_SEQ = '${equipCondSeq}'
+	</when>
+	<otherwise>
+		AND A.EQUIP_COND_SEQ IS NULL
+	</otherwise>
+</choose>
+		AND CONVERT(CHAR(8), A.REG_DATE, 112) = '${chooseDate}'
+		AND A.ID = B.ID
+		AND B.ID = C.ID
+		AND C.ID = D.ID
+		ORDER BY  A.REG_DATE
+	<if test="searchAll == null or searchAll == ''"> 
+		OFFSET ${start} ROWS
+		FETCH NEXT ${length} ROWS ONLY 
+	</if>
+	</select>
+	
+	<!-- 설비별 DGS 제조조건 리스트 조회 -->
+	<select id="readEquipCondSeqList_F2F3" resultMap="agtBomVo">
+		SELECT
+			DISTINCT A.EQUIP_COND_SEQ 
+			, A.GOODS_NM
+			, TOTAL_COUNT = COUNT(*) OVER()
+		FROM [MESDAQ].[DaqDB].[dbo].[TB_VISION_DAQ] A
+		WHERE 1=1
+		AND EQUIP_NM = (SELECT  CASE WHEN ETC1 = '' THEN EQUIP_NM
+									ELSE ETC1 END	AS EQUIP_NM
+							FROM TB_EQUIP_CODE_ADM WHERE EQUIP_NM = '${equipNm}')
+		AND CONVERT(CHAR(8), A.REG_DATE, 112) = '${chooseDate}'
+		GROUP BY A.EQUIP_COND_SEQ, A.GOODS_NM
+	</select>
+	
+	
+	<!-- 작지별 초물/중물 압력 삭제 -->
+	<delete id="deletePress">		
+		DELETE FROM TB_AGT_PRESSURE_STEP
+		WHERE WORK_ORD_NO = #{workOrdNo}
+	<if test="ordLotNo != null and ordLotNo != ''">
+		AND ORD_LOT_NO = #{ordLotNo}
+	</if>	
+		AND LOT_NO = #{lotNo}
+		AND STEP_CD = #{stepCd}
+	</delete>
+	
+	<!-- 작지별 초물/중물 치수 삭제 -->
+	<delete id="deleteSize">		
+		DELETE FROM TB_AGT_SIZE_STEP
+		WHERE WORK_ORD_NO = #{workOrdNo}
+	<if test="ordLotNo != null and ordLotNo != ''">
+		AND ORD_LOT_NO = #{ordLotNo}
+	</if>
+		AND LOT_NO = #{lotNo}
+		AND STEP_CD = #{stepCd}
+	</delete>
+	
+	<!-- 작지별 초물/중물 온도 삭제 -->
+	<delete id="deleteTemp">		
+		DELETE FROM TB_AGT_TEMPATUR_STEP
+		WHERE WORK_ORD_NO = #{workOrdNo}
+	<if test="ordLotNo != null and ordLotNo != ''">
+		AND ORD_LOT_NO = #{ordLotNo}
+	</if>
+		AND LOT_NO = #{lotNo}
+		AND STEP_CD = #{stepCd}
+	</delete>
+	
+	<!-- 작지별 초물/중물 시간 삭제 -->
+	<delete id="deleteTime">		
+		DELETE FROM TB_AGT_TIME_STEP
+		WHERE WORK_ORD_NO = #{workOrdNo}
+	<if test="ordLotNo != null and ordLotNo != ''">
+		AND ORD_LOT_NO = #{ordLotNo}
+	</if>
+		AND LOT_NO = #{lotNo}
+		AND STEP_CD = #{stepCd}
+	</delete>
+	
+	<!-- AGT 시간 등록 -->
+	<insert id="createTimeTemp">
+		<![CDATA[
+			INSERT INTO TB_AGT_TIME_STEP_TEMP(
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, STEP_CD
+				, EQUIP_CD
+				, LOT_NO
+				, REG_DATE
+				, WARMUP_COND
+				, FITUP_COND
+				, FITUP2_COND
+				, FIRST_COND
+				, SECOND_COND
+				, THIRD_COND
+				, JINJEOP_COND
+				, JINJEOP2_COND
+				, PUSH1_COND
+				, REFORM_COND
+				, COOL_COND
+				, UPD_ID
+				, UPD_DATE
+				, REG_ID
+				, IP_ADDRESS
+				, DLT_ID
+				, DLT_DATE			
+			) 
+			VALUES(
+				#{workOrdNo}
+				, #{ordLotNo}
+				, #{stepCd}
+				, #{equipCd}
+				, #{lotNo}
+				, getDate()
+				, #{warmupCond}
+				, #{fitupCond}
+				, #{fitup2Cond}
+				, #{firstCond}
+				, #{secondCond}
+				, #{thirdCond}
+				, #{jinjeopCond}
+				, #{jinjeop2Cond}
+				, #{push1Cond}
+				, #{reformCond}
+				, #{coolCond}
+				, #{updId}
+				, #{updDate}
+				, #{regId}
+				, #{ipAddress}
+				, #{dltId}
+				, GETDATE()
+			)
+		]]>
+	</insert>
+	
+	<!-- AGT 압력 등록 -->
+	<insert id="createPressureTemp">
+		<![CDATA[
+			INSERT INTO TB_AGT_PRESSURE_STEP_TEMP(
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, STEP_CD
+				, EQUIP_CD
+				, LOT_NO
+				, REG_DATE
+				, WARMUP_COND
+				, FITUP_COND
+				, FIRST_COND
+				, PUSH1_COND
+				, SECOND_COND
+				, JINJEOP_COND
+				, JINJEOP2_COND
+				, REFORM_COND
+				, COOL_COND
+				, UPD_ID
+				, UPD_DATE
+				, REG_ID
+				, IP_ADDRESS
+				, DLT_ID
+				, DLT_DATE
+			)
+			VALUES(
+				#{workOrdNo}
+				, #{ordLotNo}
+				, #{stepCd}
+				, #{equipCd}
+				, #{lotNo}
+				, getDate()
+				, #{warmupCond}
+				, #{fitupCond}
+				, #{firstCond}
+				, #{push1Cond}
+				, #{secondCond}
+				, #{jinjeopCond}
+				, #{jinjeop2Cond}
+				, #{reformCond}
+				, #{coolCond}
+				, #{updId}
+				, #{updDate}
+				, #{regId}
+				, #{ipAddress}
+				, #{dltId}
+				, GETDATE()
+				
+			)
+		]]>
+	</insert>
+	
+	<!-- AGT 온도 등록 -->
+	<insert id="createTempatureTemp">
+		<![CDATA[
+			INSERT INTO TB_AGT_TEMPATUR_STEP_TEMP (
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, STEP_CD
+				, EQUIP_CD
+				, LOT_NO
+				, REG_DATE
+				, WARMUP_COND
+				, FITUP1_UP_COND
+				, FITUP1_DOWN_COND
+				, FITUP2_UPLEFT_COND
+				, FITUP2_DOWNLEFT_COND
+				, FITUP2_UPRIGHT_COND
+				, FITUP2_DOWNRIGHT_COND
+				, ROLLHEAT_UP_COND
+				, ROLLHEAT_DOWN_COND
+				, FIRST_UPLEFT_COND
+				, FIRST_DOWNLEFT_COND
+				, FIRST_UPRIGHT_COND
+				, FIRST_DOWNRIGHT_COND
+				, PUSH1_UP_COND
+				, PUSH1_DOWN_COND
+				, SECOND_UPLEFT_COND
+				, SECOND_DOWNLEFT_COND
+				, SECOND_UPRIGHT_COND
+				, SECOND_DOWNRIGHT_COND
+				, THIRD_UPLEFT_COND
+				, THIRD_DOWNLEFT_COND
+				, THIRD_UPRIGHT_COND
+				, THIRD_DOWNRIGHT_COND
+				, JINJEOP1_UP_COND
+				, JINJEOP1_DOWN_COND
+				, JINJEOP2_UP_COND
+				, JINJEOP2_DOWN_COND
+				, UPD_ID
+				, UPD_DATE
+				, REG_ID
+				, IP_ADDRESS
+				, DLT_ID
+				, DLT_DATE
+			)
+			VALUES(
+				#{workOrdNo}
+				, #{ordLotNo}
+				, #{stepCd}
+				, #{equipCd}
+				, #{lotNo}
+				, getDate()
+				, #{warmupCond}
+				, #{fitup1UpCond}
+				, #{fitup1DownCond}
+				, #{fitup2UpleftCond}
+				, #{fitup2DownleftCond}
+				, #{fitup2UprightCond}
+				, #{fitup2DownrightCond}
+				, #{rollheatUpCond}
+				, #{rollheatDownCond}
+				, #{firstUpleftCond}
+				, #{firstDownleftCond}
+				, #{firstUprightCond}
+				, #{firstDownrightCond}
+				, #{push1UpCond}
+				, #{push1DownCond}
+				, #{secondUpleftCond}
+				, #{secondDownleftCond}
+				, #{secondUprightCond}
+				, #{secondDownrightCond}
+				, #{thirdUpleftCond}
+				, #{thirdDownleftCond}
+				, #{thirdUprightCond}
+				, #{thirdDownrightCond}
+				, #{jinjeop1UpCond}
+				, #{jinjeop1DownCond}
+				, #{jinjeop2UpCond}
+				, #{jinjeop2DownCond}
+				, #{updId}
+				, #{updDate}
+				, #{regId}
+				, #{ipAddress}
+				, #{dltId}
+				, GETDATE()
+			)
+		]]>
+	</insert>
+	
+	<!-- AGT 치수 등록 -->
+	<insert id="createSizeTemp">
+		<![CDATA[
+			INSERT INTO TB_AGT_SIZE_STEP_TEMP (
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, STEP_CD
+				, EQUIP_CD
+				, LOT_NO
+				, REG_DATE
+				, WP_LEFT_ALWNCE
+				, WP_RIGHT_ALWNCE
+				, PITCH_LEFT_ALWNCE
+				, PITCH_RIGHT_ALWNCE
+				, PPF_WING_LEFT_ALWNCE
+				, PPF_WING_RIGHT_ALWNCE
+				, PPF_DEPTH_LEFT_ALWNCE
+				, PPF_DEPTH_RIGHT_ALWNCE
+				, FILM_ALWNCE
+				, METAL_DEPTH_ALWNCE
+				, METAL_THICKNESS_ALWNCE
+				, TH_CENTER_ALWNCE
+				, TH_EDGE_ALWNCE_PLUS
+				, BULGE_LEFTUP_HEIGHT
+				, BULGE_LEFTDOWN_HEIGHT
+				, BULGE_RIGHTUP_HEIGHT
+				, BULGE_RIGHTDOWN_HEIGHT
+				, BULGE_LEFTUP_WIDTH
+				, BULGE_LEFTDOWN_WIDTH
+				, BULGE_RIGHTUP_WIDTH
+				, BULGE_RIGHTDOWN_WIDTH
+				, BURR_METAL_ALWNCE
+				, BURR_RCUT_ALWNCE
+				, BURR_REDGE_ALWNCE
+				, GAP_OF_LAYER
+			    , PPF_DEPTH_CENTER_ALWNCE
+			    , WP_CENTER_ALWNCE
+			    , WP_DEVIATION_ALWNCE
+			    , X1_X2_ALWNCE
+			    , TH_EDGE_RIGHT_ALWNCE
+			    , BENDING_ALWNCE
+				, UPD_ID
+				, UPD_DATE
+				, REG_ID
+				, IP_ADDRESS
+				, DLT_ID
+				, DLT_DATE
+			)
+			VALUES(
+				#{workOrdNo}
+				, #{ordLotNo}
+				, #{stepCd}
+				, #{equipCd}
+				, #{lotNo}
+				, getDate()
+				, #{wpLeftAlwnce}
+				, #{wpRightAlwnce}
+				, #{pitchLeftAlwnce}
+				, #{pitchRightAlwnce}
+				, #{ppfWingLeftAlwnce}
+				, #{ppfWingRightAlwnce}
+				, #{ppfDepthLeftAlwnce}
+				, #{ppfDepthRightAlwnce}
+				, #{filmAlwnce}
+				, #{metalDepthAlwnce}
+				, #{metalThicknessAlwnce}
+				, #{thCenterAlwnce}
+				, #{thEdgeAlwncePlus}
+				, #{bulgeLeftupHeight}
+				, #{bulgeLeftdownHeight}
+				, #{bulgeRightupHeight}
+				, #{bulgeRightdownHeight}
+				, #{bulgeLeftupWidth}
+				, #{bulgeLeftdownWidth}
+				, #{bulgeRightupWidth}
+				, #{bulgeRightdownWidth}
+				, #{burrMetalAlwnce}
+				, #{burrRcutAlwnce}
+				, #{burrRedgeAlwnce}
+				, #{gapOfLayer}
+				, #{ppfDepthCenterAlwnce}
+				, #{wpCenterAlwnce}
+				, #{wpDeviationAlwnce}
+				, #{x1X2Alwnce}
+				, #{thEdgeRightAlwnce}
+				, #{bendingAlwnce}
+				, #{updId}
+				, #{updDate}
+				, #{regId}
+				, #{ipAddress}
+				, #{dltId}
+				, GETDATE()
+			)
+		]]>
+	</insert>
+	
+	<!-- 주자재별로 초,중물이 모두 입력되었는지 확인 -->
+	<select id="countAgtStepCheck" resultMap="AgtVo">
+		SELECT
+			A.ORD_LOT_NO
+			, B.STEP_CD
+		FROM 
+			(SELECT
+				RANK() OVER (PARTITION BY LOT_NO ORDER BY WORK_ORD_SEQ) RANK
+				, ORD_LOT_NO
+				, WORK_ORD_SEQ
+			FROM TB_WORK_ORDER_OUTPUT_SUB A
+			WHERE A.WORK_ORD_NO = #{workOrdNo}) A LEFT JOIN TB_AGT_SIZE_STEP B ON A.ORD_LOT_NO = B.ORD_LOT_NO
+		WHERE RANK IN ('1', '2')
+		ORDER BY ORD_LOT_NO
+
+		<!-- 
+		SELECT
+			A.LOT_NO
+			, ISNULL(B.COUNT_STEP_001, 0) COUNT_STEP_001
+			, ISNULL(C.COUNT_STEP_002, 0) COUNT_STEP_002
+		FROM
+		(SELECT LOT_NO
+			FROM TB_WORK_ORDER_DTL
+			WHERE WORK_ORD_NO = #{workOrdNo}
+			AND (LEFT(MATRL_CD, 1) = 'A' OR LEFT(MATRL_CD, 1) = 'N')) A LEFT JOIN
+		(SELECT LOT_NO, COUNT(LOT_NO) COUNT_STEP_001 FROM TB_AGT_SIZE_STEP
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND STEP_CD = '001'
+		AND LOT_NO IN (SELECT LOT_NO
+						FROM TB_WORK_ORDER_DTL
+						WHERE WORK_ORD_NO = #{workOrdNo}
+						AND (LEFT(MATRL_CD, 1) = 'A' OR LEFT(MATRL_CD, 1) = 'N'))
+		GROUP BY LOT_NO) B ON A.LOT_NO = B.LOT_NO LEFT JOIN 
+		(SELECT LOT_NO, COUNT(LOT_NO) COUNT_STEP_002 FROM TB_AGT_SIZE_STEP
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND STEP_CD = '002'
+		AND LOT_NO IN (SELECT LOT_NO
+						FROM TB_WORK_ORDER_DTL
+						WHERE WORK_ORD_NO = #{workOrdNo}
+						AND (LEFT(MATRL_CD, 1) = 'A' OR LEFT(MATRL_CD, 1) = 'N'))
+		GROUP BY LOT_NO) C ON A.LOT_NO = C.LOT_NO
+		 -->
+	</select>
+	
+	<!-- 주자재별로 초,중물이 모두 입력되었는지 확인 -->
+	<select id="countAgtStepCheck_F3" resultMap="AgtVo">
+		SELECT
+			WORK_ORD_NO
+			, STEP_CD
+			, EQUIP_CD
+			, LOT_NO
+			, WP_LEFT_ALWNCE
+			, WP_RIGHT_ALWNCE
+			, PITCH_LEFT_ALWNCE
+			, PITCH_RIGHT_ALWNCE
+			, PPF_WING_LEFT_ALWNCE
+			, PPF_WING_RIGHT_ALWNCE
+			, PPF_DEPTH_LEFT_ALWNCE
+			, PPF_DEPTH_RIGHT_ALWNCE
+			, FILM_ALWNCE
+			, METAL_DEPTH_ALWNCE
+			, METAL_THICKNESS_ALWNCE
+			, TH_CENTER_ALWNCE
+			, TH_EDGE_ALWNCE_PLUS
+			, BULGE_LEFTUP_HEIGHT
+			, BULGE_LEFTDOWN_HEIGHT
+			, BULGE_RIGHTUP_HEIGHT
+			, BULGE_RIGHTDOWN_HEIGHT
+			, BULGE_LEFTUP_WIDTH
+			, BULGE_LEFTDOWN_WIDTH
+			, BULGE_RIGHTUP_WIDTH
+			, BULGE_RIGHTDOWN_WIDTH
+			, BURR_METAL_ALWNCE
+			, BURR_RCUT_ALWNCE
+			, BURR_REDGE_ALWNCE
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_AGT_SIZE_STEP
+		WHERE WORK_ORD_NO = #{workOrdNo}
+	</select>
+	
+	<!-- 치수 불러오기 -->
+	<insert id="dataLoadSize">
+		<![CDATA[
+			INSERT INTO TB_AGT_SIZE_STEP
+			(
+				 WORK_ORD_NO
+				,ORD_LOT_NO
+				,LOT_NO
+				,STEP_CD
+				,EQUIP_CD
+				,WP_LEFT_ALWNCE
+				,WP_RIGHT_ALWNCE
+				,PITCH_LEFT_ALWNCE
+				,PITCH_RIGHT_ALWNCE
+				,PPF_WING_LEFT_ALWNCE
+				,PPF_WING_RIGHT_ALWNCE
+				,PPF_DEPTH_LEFT_ALWNCE
+				,PPF_DEPTH_RIGHT_ALWNCE
+				,FILM_ALWNCE
+				,METAL_DEPTH_ALWNCE
+				,METAL_THICKNESS_ALWNCE
+				,TH_CENTER_ALWNCE
+				,TH_EDGE_ALWNCE_PLUS
+				,TH_STEP_INPUT
+				,TH_EDGE_CNT
+				,TH_EDGE_RESULT
+				,BULGE_LEFTUP_HEIGHT
+				,BULGE_LEFTDOWN_HEIGHT
+				,BULGE_RIGHTUP_HEIGHT
+				,BULGE_RIGHTDOWN_HEIGHT
+				,BULGE_LEFTUP_WIDTH
+				,BULGE_LEFTDOWN_WIDTH
+				,BULGE_RIGHTUP_WIDTH
+				,BULGE_RIGHTDOWN_WIDTH
+				,BURR_METAL_ALWNCE
+				,BURR_RCUT_ALWNCE
+				,BURR_REDGE_ALWNCE
+				, GAP_OF_LAYER
+			    , PPF_DEPTH_CENTER_ALWNCE
+			    , WP_CENTER_ALWNCE
+			    , WP_DEVIATION_ALWNCE
+			    , X1_X2_ALWNCE
+			    , TH_EDGE_RIGHT_ALWNCE
+			    , BENDING_ALWNCE
+				,REG_ID
+				,REG_DATE				
+			)
+
+			SELECT 
+				#{workOrdNo} WORK_ORD_NO
+				,ORD_LOT_NO
+				,LOT_NO
+				,STEP_CD
+				,EQUIP_CD
+				,WP_LEFT_ALWNCE
+				,WP_RIGHT_ALWNCE
+				,PITCH_LEFT_ALWNCE
+				,PITCH_RIGHT_ALWNCE
+				,PPF_WING_LEFT_ALWNCE
+				,PPF_WING_RIGHT_ALWNCE
+				,PPF_DEPTH_LEFT_ALWNCE
+				,PPF_DEPTH_RIGHT_ALWNCE
+				,FILM_ALWNCE
+				,METAL_DEPTH_ALWNCE
+				,METAL_THICKNESS_ALWNCE
+				,TH_CENTER_ALWNCE
+				,TH_EDGE_ALWNCE_PLUS
+				,TH_STEP_INPUT
+				,TH_EDGE_CNT
+				,TH_EDGE_RESULT
+				,BULGE_LEFTUP_HEIGHT
+				,BULGE_LEFTDOWN_HEIGHT
+				,BULGE_RIGHTUP_HEIGHT
+				,BULGE_RIGHTDOWN_HEIGHT
+				,BULGE_LEFTUP_WIDTH
+				,BULGE_LEFTDOWN_WIDTH
+				,BULGE_RIGHTUP_WIDTH
+				,BULGE_RIGHTDOWN_WIDTH
+				,BURR_METAL_ALWNCE
+				,BURR_RCUT_ALWNCE
+				,BURR_REDGE_ALWNCE
+				, GAP_OF_LAYER
+			    , PPF_DEPTH_CENTER_ALWNCE
+			    , WP_CENTER_ALWNCE
+			    , WP_DEVIATION_ALWNCE
+			    , X1_X2_ALWNCE
+			    , TH_EDGE_RIGHT_ALWNCE
+			    , BENDING_ALWNCE
+				,#{regId} REG_ID
+				,getDate() REG_DATE
+			
+			FROM TB_AGT_SIZE_STEP A
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{lastWorkOrdNo}
+		]]>
+	</insert>
+	
+	<!-- 온도 불러오기 -->
+	<insert id="dataLoadTemp">
+		<![CDATA[
+			INSERT INTO TB_AGT_TEMPATUR_STEP
+			(
+				 WORK_ORD_NO
+				,ORD_LOT_NO
+				,LOT_NO
+				,STEP_CD
+				,EQUIP_CD
+				,WARMUP_COND
+				,FITUP1_UP_COND
+				,FITUP1_DOWN_COND
+				,FITUP2_UPLEFT_COND
+				,FITUP2_DOWNLEFT_COND
+				,FITUP2_UPRIGHT_COND
+				,FITUP2_DOWNRIGHT_COND
+				,ROLLHEAT_UP_COND
+				,ROLLHEAT_DOWN_COND
+				,FIRST_UPLEFT_COND
+				,FIRST_DOWNLEFT_COND
+				,FIRST_UPRIGHT_COND
+				,FIRST_DOWNRIGHT_COND
+				,PUSH1_UP_COND
+				,PUSH1_DOWN_COND
+				,SECOND_UPLEFT_COND
+				,SECOND_DOWNLEFT_COND
+				,SECOND_UPRIGHT_COND
+				,SECOND_DOWNRIGHT_COND
+				,THIRD_UPLEFT_COND
+				,THIRD_DOWNLEFT_COND
+				,THIRD_UPRIGHT_COND
+				,THIRD_DOWNRIGHT_COND
+				,JINJEOP1_UP_COND
+				,JINJEOP1_DOWN_COND
+				,JINJEOP2_UP_COND
+				,JINJEOP2_DOWN_COND
+				,REG_ID
+				,REG_DATE
+				,UPD_ID
+				,UPD_DATE
+			)			
+			SELECT
+				#{workOrdNo} WORK_ORD_NO
+				,ORD_LOT_NO
+				,LOT_NO
+				,STEP_CD
+				,EQUIP_CD
+				,WARMUP_COND
+				,FITUP1_UP_COND
+				,FITUP1_DOWN_COND
+				,FITUP2_UPLEFT_COND
+				,FITUP2_DOWNLEFT_COND
+				,FITUP2_UPRIGHT_COND
+				,FITUP2_DOWNRIGHT_COND
+				,ROLLHEAT_UP_COND
+				,ROLLHEAT_DOWN_COND
+				,FIRST_UPLEFT_COND
+				,FIRST_DOWNLEFT_COND
+				,FIRST_UPRIGHT_COND
+				,FIRST_DOWNRIGHT_COND
+				,PUSH1_UP_COND
+				,PUSH1_DOWN_COND
+				,SECOND_UPLEFT_COND
+				,SECOND_DOWNLEFT_COND
+				,SECOND_UPRIGHT_COND
+				,SECOND_DOWNRIGHT_COND
+				,THIRD_UPLEFT_COND
+				,THIRD_DOWNLEFT_COND
+				,THIRD_UPRIGHT_COND
+				,THIRD_DOWNRIGHT_COND
+				,JINJEOP1_UP_COND
+				,JINJEOP1_DOWN_COND
+				,JINJEOP2_UP_COND
+				,JINJEOP2_DOWN_COND
+				,REG_ID
+				,REG_DATE
+				,UPD_ID
+				,UPD_DATE
+			FROM TB_AGT_TEMPATUR_STEP A
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{lastWorkOrdNo}
+		]]>
+	</insert>
+	
+		<!-- 압력 불러오기 -->
+	<insert id="dataLoadPress">
+		<![CDATA[
+			INSERT INTO TB_AGT_PRESSURE_STEP
+			(
+				WORK_ORD_NO
+				,ORD_LOT_NO
+				,LOT_NO
+				,STEP_CD
+				,EQUIP_CD
+				,WARMUP_COND
+				,FITUP_COND
+				,FIRST_COND
+				,PUSH1_COND
+				,SECOND_COND
+				,JINJEOP_COND
+				,JINJEOP2_COND
+				,REFORM_COND
+				,COOL_COND
+				,REG_ID
+				,REG_DATE		
+	
+			)
+
+			SELECT 
+				#{workOrdNo} WORK_ORD_NO
+				,ORD_LOT_NO
+				,LOT_NO
+				,STEP_CD
+				,EQUIP_CD
+				,WARMUP_COND
+				,FITUP_COND
+				,FIRST_COND
+				,PUSH1_COND
+				,SECOND_COND
+				,JINJEOP_COND
+				,JINJEOP2_COND
+				,REFORM_COND
+				,COOL_COND					
+				,'admin' REG_ID
+				,getDate() REG_DATE
+			
+			FROM TB_AGT_PRESSURE_STEP A
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{lastWorkOrdNo}
+		]]>
+	</insert>
+	
+		<!-- 시간 불러오기 -->
+	<insert id="dataLoadTime">
+		<![CDATA[
+			INSERT INTO TB_AGT_TIME_STEP
+			(
+				WORK_ORD_NO
+				,ORD_LOT_NO
+				,LOT_NO
+				,STEP_CD
+				,EQUIP_CD
+				,WARMUP_COND
+				,FITUP_COND
+				,FITUP2_COND
+				,FIRST_COND
+				,SECOND_COND
+				,THIRD_COND
+				,JINJEOP_COND
+				,JINJEOP2_COND
+				,PUSH1_COND
+				,REFORM_COND
+				,COOL_COND
+				,REG_ID
+				,REG_DATE					
+			)
+
+			SELECT 
+				#{workOrdNo} WORK_ORD_NO
+				,ORD_LOT_NO
+				,LOT_NO
+				,STEP_CD
+				,EQUIP_CD
+				,WARMUP_COND
+				,FITUP_COND
+				,FITUP2_COND
+				,FIRST_COND
+				,SECOND_COND
+				,THIRD_COND
+				,JINJEOP_COND
+				,JINJEOP2_COND
+				,PUSH1_COND
+				,REFORM_COND
+				,COOL_COND	
+				,'admin' REG_ID
+				,getDate() REG_DATE
+			
+			FROM TB_AGT_TIME_STEP A
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{lastWorkOrdNo}
+		]]>
+	</insert>
+	
+	<!-- 에이젼트 온도 데이터 보기-->
+	<select id="readTemp2" resultMap="AgtVo">
+			SELECT
+				WORK_ORD_NO
+				, ORD_LOT_NO
+			    , STEP_CD
+			    , EQUIP_CD
+			    , LOT_NO
+			    , ROUND(WARMUP_COND,3) WARMUP_COND
+			    , ROUND(FITUP1_UP_COND,3) FITUP1_UP_COND
+			    , ROUND(FITUP1_DOWN_COND,3) FITUP1_DOWN_COND
+			    , ROUND(FITUP2_UPLEFT_COND,3) FITUP2_UPLEFT_COND
+			    , ROUND(FITUP2_DOWNLEFT_COND,3) FITUP2_DOWNLEFT_COND
+			    , ROUND(FITUP2_UPRIGHT_COND,3) FITUP2_UPRIGHT_COND
+			    , ROUND(FITUP2_DOWNRIGHT_COND,3) FITUP2_DOWNRIGHT_COND
+			    , ROUND(ROLLHEAT_UP_COND,3) ROLLHEAT_UP_COND
+			    , ROUND(ROLLHEAT_DOWN_COND,3) ROLLHEAT_DOWN_COND
+			    , ROUND(FIRST_UPLEFT_COND,3) FIRST_UPLEFT_COND
+			    , ROUND(FIRST_DOWNLEFT_COND,3) FIRST_DOWNLEFT_COND
+			    , ROUND(FIRST_UPRIGHT_COND,3) FIRST_UPRIGHT_COND
+			    , ROUND(FIRST_DOWNRIGHT_COND,3) FIRST_DOWNRIGHT_COND
+			    , ROUND(PUSH1_UP_COND,3) PUSH1_UP_COND
+			    , ROUND(PUSH1_DOWN_COND,3) PUSH1_DOWN_COND
+			    , ROUND(SECOND_UPLEFT_COND,3) SECOND_UPLEFT_COND
+			    , ROUND(SECOND_DOWNLEFT_COND,3) SECOND_DOWNLEFT_COND
+			    , ROUND(SECOND_UPRIGHT_COND,3) SECOND_UPRIGHT_COND
+			    , ROUND(SECOND_DOWNRIGHT_COND,3) SECOND_DOWNRIGHT_COND
+			    , ROUND(THIRD_UPLEFT_COND,3) THIRD_UPLEFT_COND
+			    , ROUND(THIRD_DOWNLEFT_COND,3) THIRD_DOWNLEFT_COND
+			    , ROUND(THIRD_UPRIGHT_COND,3) THIRD_UPRIGHT_COND
+			    , ROUND(THIRD_DOWNRIGHT_COND,3) THIRD_DOWNRIGHT_COND
+			    , ROUND(JINJEOP1_UP_COND,3) JINJEOP1_UP_COND
+			    , ROUND(JINJEOP1_DOWN_COND,3) JINJEOP1_DOWN_COND
+			    , ROUND(JINJEOP2_UP_COND,3) JINJEOP2_UP_COND
+			    , ROUND(JINJEOP2_DOWN_COND,3) JINJEOP2_DOWN_COND
+			    , REG_ID
+			    , REG_DATE
+			    , UPD_ID
+			    , UPD_DATE
+			FROM TB_AGT_TEMPATUR_STEP A
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{workOrdNo}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- AGT 온도 등록 -->
+	<insert id="agtTempatureSixFloorCreate">
+		INSERT INTO TB_AGT_TEMPATUR_STEP_SIX_FLOOR_TABLE (
+			WORK_ORD_NO
+			, ORD_LOT_NO
+			, STEP_CD
+			, EQUIP_CD
+			, LOT_NO
+			, UP_TAB_HEAT
+			, DOWN_TAB_HEAT
+			, UP_ROLL_HEAT
+			, DOWN_ROLL_HEAT
+			, UP_FILM_JOIN_TOP
+			, UP_FILM_JOIN_BOTTOM
+			, DOWN_FILM_JOIN_TOP
+			, DOWN_FILM_JOIN_BOTTOM
+			, DOWN_TAB_HEAT_KEEP
+			, FUP1ST_M_TSID
+			, FUP1ST_M_TMID
+			, FDOWN1ST_M_TSID
+			, FDOWN1ST_M_TMID
+			, FUP1ST_M_TPUSH
+			, FDOWN1ST_M_TPUSH
+			, BUP1ST_M_TSID
+			, BUP1ST_M_TMID
+			, BDOWN1ST_M_TSID
+			, BDOWN1ST_M_TMID
+			, BUP1ST_PUSH
+			, BDOWN1ST_PUSH
+			, FUP_FILM_FUSE
+			, FDOWN_FILM_FUSE
+			, BUP_FILM_FUSE
+			, BDOWN_FILM_FUSE
+			, FUP2ND_M_TSID
+			, FUP2ND_M_TMID
+			, FDOWN2ND_M_TSID
+			, FDOWN2ND_M_TMID
+			, BUP2ND_M_TSID
+			, BUP2ND_M_TMID
+			, BDOWN2ND_M_TSID
+			, BDOWN2ND_M_TMID
+			, FUP3RD_M_TSID
+			, FUP3RD_M_TMID
+			, FDOWN3RD_M_TSID
+			, FDOWN3RD_M_TMID
+			, BUP3RD_M_TSID
+			, BUP3RD_M_TMID
+			, BDOWN3RD_M_TSID
+			, BDOWN3RD_M_TMID
+			, FUP_FILM_RFM_COOL
+			, FDOWN_FILM_RFM_COOL
+			, BUP_FILM_RFM_COOL
+			, BDOWN_FILM_RFM_COOL
+			, REG_ID
+			, REG_DATE
+		)
+		VALUES(
+			#{workOrdNo}
+			, #{ordLotNo}
+			, #{stepCd}
+			, #{equipCd}
+			, #{lotNo}
+			, #{upTabHeat}
+			, #{downTabHeat}
+			, #{upRollHeat}
+			, #{downRollHeat}
+			, #{upFilmJoinTop}
+			, #{upFilmJoinBottom}
+			, #{downFilmJoinTop}
+			, #{downFilmJoinBottom}
+			, #{downTabHeatKeep}
+			, #{fup1stMTsid}
+			, #{fup1stMTmid}
+			, #{fdown1stMTsid}
+			, #{fdown1stMTmid}
+			, #{fup1stMTpush}
+			, #{fdown1stMTpush}
+			, #{bup1stMTsid}
+			, #{bup1stMTmid}
+			, #{bdown1stMTsid}
+			, #{bdown1stMTmid}
+			, #{bup1stPush}
+			, #{bdown1stPush}
+			, #{fupFilmFuse}
+			, #{fdownFilmFuse}
+			, #{bupFilmFuse}
+			, #{bdownFilmFuse}
+			, #{fup2ndMTsid}
+			, #{fup2ndMTmid}
+			, #{fdown2ndMTsid}
+			, #{fdown2ndMTmid}
+			, #{bup2ndMTsid}
+			, #{bup2ndMTmid}
+			, #{bdown2ndMTsid}
+			, #{bdown2ndMTmid}
+			, #{fup3rdMTsid}
+			, #{fup3rdMTmid}
+			, #{fdown3rdMTsid}
+			, #{fdown3rdMTmid}
+			, #{bup3rdMTsid}
+			, #{bup3rdMTmid}
+			, #{bdown3rdMTsid}
+			, #{bdown3rdMTmid}
+			, #{fupFilmRfmCool}
+			, #{fdownFilmRfmCool}
+			, #{bupFilmRfmCool}
+			, #{bdownFilmRfmCool}
+			, #{regId}
+			, getDate()
+		)
+	</insert>
+	
+	
+	
+	<!-- AGT 시간	 등록 -->
+	<insert id="agtTimeSixFloorCreate">
+		INSERT INTO TB_AGT_TIME_STEP_SIX_FLOOR_TABLE (
+			WORK_ORD_NO
+			, ORD_LOT_NO
+			, STEP_CD
+			, EQUIP_CD
+			, LOT_NO
+			, ONE_ST_M_TWAITTIME
+			, ONE_ST_M_THEATTIME
+			, ONE_ST_M_TPUSHWAITTIME
+			, ONE_ST_M_TPUSHHEATTIME
+			, TWO_ND_M_TWAITTIME
+			, TWO_ND_M_THEATTIME
+			, TWO_ND_M_TPUSHWAITTIME
+			, TWO_ND_M_TPUSHHEATTIME
+			, THREE_RD_M_TWAITTIME
+			, THREE_RD_M_THEATTIME
+			, THREE_RD_M_TPUSHWAITTIME
+			, THREE_RD_M_TPUSHHEATTIME
+			, FILM_F_S_H1OPERWAITTIME
+			, FILM_F_S_H1OPERHEATTIME
+			, FILM_R_S_H1OPERWAITTIME
+			, FILM_R_S_H1OPERHEATTIME
+			, REG_ID
+			, REG_DATE
+		)
+		VALUES(
+			#{workOrdNo}
+			, #{ordLotNo}
+			, #{stepCd}
+			, #{equipCd}
+			, #{lotNo}
+			, #{oneStMTwaittime}
+			, #{oneStMTheattime}
+			, #{oneStMTpushwaittime}
+			, #{oneStMTpushheattime}
+			, #{twoNdMTwaittime}
+			, #{twoNdMTheattime}
+			, #{twoNdMTpushwaittime}
+			, #{twoNdMTpushheattime}
+			, #{threeRdMTwaittime}
+			, #{threeRdMTheattime}
+			, #{threeRdMTpushwaittime}
+			, #{threeRdMTpushheattime}
+			, #{filmFSH1operwaittime}
+			, #{filmFSH1operheattime}
+			, #{filmRSH1operwaittime}
+			, #{filmRSH1operheattime}
+			, #{regId}
+			, getDate()
+		)
+	</insert>
+	
+	
+		<!-- AGT 치수 등록 -->
+	<insert id="agtSizeSixFloorCreate">
+		INSERT INTO TB_AGT_SIZE_STEP_SIX_FLOOR_TABLE (
+			WORK_ORD_NO
+			, ORD_LOT_NO
+			, STEP_CD
+			, EQUIP_CD
+			, LOT_NO
+			, WP_LEFT_ALWNCE
+			, WP_RIGHT_ALWNCE
+			, PITCH_LEFT_ALWNCE
+			, PITCH_RIGHT_ALWNCE
+			, PPF_WING_LEFT_ALWNCE
+			, PPF_WING_RIGHT_ALWNCE
+			, PPF_DEPTH_LEFT_ALWNCE
+			, PPF_DEPTH_RIGHT_ALWNCE
+			, FILM_ALWNCE
+			, METAL_DEPTH_ALWNCE
+			, METAL_THICKNESS_ALWNCE
+			, TH_CENTER_ALWNCE
+			, TH_EDGE_ALWNCE_PLUS
+			, TH_STEP_INPUT
+			, TH_EDGE_CNT
+			, TH_EDGE_RESULT
+			, BULGE_LEFTUP_HEIGHT
+			, BULGE_LEFTDOWN_HEIGHT
+			, BULGE_RIGHTUP_HEIGHT
+			, BULGE_RIGHTDOWN_HEIGHT
+			, BULGE_LEFTUP_WIDTH
+			, BULGE_LEFTDOWN_WIDTH
+			, BULGE_RIGHTUP_WIDTH
+			, BULGE_RIGHTDOWN_WIDTH
+			, BURR_METAL_ALWNCE
+			, BURR_RCUT_ALWNCE
+			, BURR_REDGE_ALWNCE
+			, GAP_OF_LAYER
+		    , PPF_DEPTH_CENTER_ALWNCE
+		    , WP_CENTER_ALWNCE
+		    , WP_DEVIATION_ALWNCE
+		    , X1_X2_ALWNCE
+		    , TH_EDGE_RIGHT_ALWNCE
+		    , BENDING_ALWNCE
+		    , REG_DATE
+			, REG_ID
+		)
+		VALUES(
+			#{workOrdNo}
+			, #{ordLotNo}
+			, #{stepCd}
+			, #{equipCd}
+			, #{lotNo}
+			, #{wpLeftAlwnce}
+			, #{wpRightAlwnce}
+			, #{pitchLeftAlwnce}
+			, #{pitchRightAlwnce}
+			, #{ppfWingLeftAlwnce}
+			, #{ppfWingRightAlwnce}
+			, #{ppfDepthLeftAlwnce}
+			, #{ppfDepthRightAlwnce}
+			, #{filmAlwnce}
+			, #{metalDepthAlwnce}
+			, #{metalThicknessAlwnce}
+			, #{thCenterAlwnce}
+			, #{thEdgeAlwncePlus}
+			, #{thStepInput}
+			, #{thEdgeCnt}
+			, #{thEdgeResult}
+			, #{bulgeLeftupHeight}
+			, #{bulgeLeftdownHeight}
+			, #{bulgeRightupHeight}
+			, #{bulgeRightdownHeight}
+			, #{bulgeLeftupWidth}
+			, #{bulgeLeftdownWidth}
+			, #{bulgeRightupWidth}
+			, #{bulgeRightdownWidth}
+			, #{burrMetalAlwnce}
+			, #{burrRcutAlwnce}
+			, #{burrRedgeAlwnce}
+			, #{gapOfLayer}
+			, #{ppfDepthCenterAlwnce}
+			, #{wpCenterAlwnce}
+			, #{wpDeviationAlwnce}
+			, #{x1X2Alwnce}
+			, #{thEdgeRightAlwnce}
+			, #{bendingAlwnce}
+			, getDate()
+			, #{regId}
+		)
+	</insert>
+	
+	
+	<!-- AGT 온도 등록 -->
+	<insert id="agtTempaturTempCreate">
+		INSERT INTO
+			TB_AGT_TEMPATUR_STEP_TEMP_SIX_FLOOR
+		SELECT
+			*
+			, #{ipAddress} AS IP_ADDRESS
+			, #{dltId} AS DLT_ID
+			, GETDATE() AS DLT_DATE
+		FROM TB_AGT_TEMPATUR_STEP_SIX_FLOOR_TABLE
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND STEP_CD = #{stepCd}
+		AND LOT_NO = #{lotNo}
+	</insert>
+	
+	<!-- AGT 시간 등록 -->
+	<insert id="agtTimeTempCreate">
+		INSERT INTO
+			TB_AGT_TIME_STEP_TEMP_SIX_FLOOR
+		SELECT
+			*
+			, #{ipAddress} AS IP_ADDRESS
+			, #{dltId} AS DLT_ID
+			, GETDATE() AS DLT_DATE
+		FROM TB_AGT_TIME_STEP_SIX_FLOOR_TABLE
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND STEP_CD = #{stepCd}
+		AND LOT_NO = #{lotNo}
+	</insert>
+	
+	<!-- AGT 치수 등록 -->
+	<insert id="agtSizeTempCreate">
+		INSERT INTO
+			TB_AGT_SIZE_STEP_TEMP_SIX_TEMP_FLOOR
+		SELECT
+			*
+			, #{ipAddress} AS IP_ADDRESS
+			, #{dltId} AS DLT_ID
+			, GETDATE() AS DLT_DATE
+		FROM TB_AGT_SIZE_STEP_SIX_FLOOR_TABLE
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND STEP_CD = #{stepCd}
+		AND LOT_NO = #{lotNo}
+	</insert>
+	
+	
+	
+	<!-- 작지별 초물/중물 압력 삭제 -->
+	<delete id="agtTempaturTempDelete">
+		DELETE FROM TB_AGT_TEMPATUR_STEP_SIX_FLOOR_TABLE
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{lotNo}
+		AND STEP_CD = #{stepCd}
+	</delete>
+	
+	<!-- 작지별 초물/중물 압력 삭제 -->
+	<delete id="agtTimeTempDelete">		
+		DELETE FROM TB_AGT_TIME_STEP_SIX_FLOOR_TABLE
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{lotNo}
+		AND STEP_CD = #{stepCd}
+	</delete>
+	
+		<!-- 작지별 초물/중물 압력 삭제 -->
+	<delete id="agtSizeTempDelete">
+		DELETE FROM TB_AGT_SIZE_STEP_SIX_FLOOR_TABLE
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{lotNo}
+		AND STEP_CD = #{stepCd}
+	</delete>
+	
+	
+		<!-- 에이젼트 치수 데이터 존재여부 확인 -->
+	<select id="agtCheckSizeSixFloor" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM TB_AGT_SIZE_STEP_SIX_FLOOR_TABLE A
+		WHERE 1=1
+		AND A.WORK_ORD_NO = #{workOrdNo}
+	<if test="ordLotNo != null and ordLotNo != ''">
+		AND A.ORD_LOT_NO = #{ordLotNo}
+	</if>
+		AND A.STEP_CD = #{stepCd}
+		AND A.LOT_NO = #{lotNo}
+	</select>
+	
+</mapper>

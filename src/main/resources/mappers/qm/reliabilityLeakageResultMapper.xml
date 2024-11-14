@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.mappers.qm.reliabilityLeakageResultMapper">
+
+	<resultMap id="ReliabilityLeakageResultVo" type="mes.domain.qm.ReliabilityLeakageResultVo">
+		<!-- Leakage Test 결과 -->		
+		<result property="testDate"				column="TEST_DATE"				/>
+		<result property="testSeq"				column="TEST_SEQ"				/>
+		<result property="equipNm"				column="EQUIP_NM"				/>
+		<result property="gubunDay"				column="GUBUN_DAY"				/>
+		<result property="day_0_1"				column="DAY_0_1"				/>
+		<result property="gubunNight"			column="GUBUN_NIGHT"			/>
+		<result property="night_0_1"			column="NIGHT_0_1"				/>
+		<result property="regId"				column="REG_ID"					/>
+		<result property="regDate"				column="REG_DATE"				/>
+		<result property="updId"				column="UPD_ID"					/>
+		<result property="updDate"				column="UPD_DATE"				/>
+		
+		<result property="regSeq"				column="REG_SEQ"				/>
+		
+		<result property="chooseDateFrom"		column="CHOOSE_DATE_FROM"		/>
+		<result property="chooseDateTo"			column="CHOOSE_DATE_TO"			/>
+		
+		<result property="userNm"				column="USER_NM"				/>
+		<result property="leakDstryGubun"		column="LEAK_DSTRY_GUBUN"		/>
+		
+		<result property="leakDstryFileNo"		column="LEAK_DSTRY_FILE_NO"		/>
+		<result property="admRegDate"			column="ADM_REG_DATE"			/>
+		<result property="fileSeq"				column="FILE_SEQ"				/>
+		<result property="fileName"				column="FILE_NAME"				/>
+		<result property="fileOriginName"		column="FILE_ORIGIN_NAME"		/>
+		<result property="filePath"				column="FILE_PATH"				/>
+		<result property="leakDstryDesc"		column="LEAK_DSTRY_DESC"		/>
+		
+	</resultMap>
+	
+	<!-- Leakage Test 결과 목록 -->
+	<select id="reliabilityLeakageResultList" resultMap="ReliabilityLeakageResultVo">		
+			SELECT 
+				EQUIP_NM
+			FROM TB_EQUIP_CODE_ADM
+			ORDER BY EQUIP_NM
+	</select>
+	
+	<!-- Leakage Test 목록 상세 -->
+	<select id="reliabilityLeakageResultReadList" resultMap="ReliabilityLeakageResultVo">		
+			SELECT
+				TEST_DATE
+				, TEST_SEQ
+				, EQUIP_NM
+				, GUBUN_DAY
+				, DAY_0_1
+				, GUBUN_NIGHT
+				, NIGHT_0_1
+				, REG_SEQ
+				, REG_DATE
+			FROM TB_LEAKAGE_DESTROY_ADM 
+			WHERE TEST_DATE = #{testDate}
+			AND TEST_SEQ = #{testSeq}
+			AND LEAK_DSTRY_GUBUN = #{leakDstryGubun}
+			AND REG_DATE = #{regDate}
+			ORDER BY TEST_DATE ASC, TEST_SEQ ASC, EQUIP_NM ASC
+	</select>
+	
+	<!-- Leakage Test 등록 목록 -->
+	<select id="reliabilityLeakageResultCreateList" resultMap="ReliabilityLeakageResultVo">		
+			SELECT
+				TEST_DATE
+				, TEST_SEQ
+				, REG_ID
+				, (SELECT USER_NM FROM TB_USER B WHERE B.USER_ID = REG_ID) USER_NM
+				, REG_SEQ
+				, REG_DATE
+			FROM TB_LEAKAGE_DESTROY_ADM 
+			
+			WHERE TEST_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+			AND LEAK_DSTRY_GUBUN = #{leakDstryGubun}
+			GROUP BY TEST_DATE, TEST_SEQ, REG_SEQ, REG_ID, REG_DATE
+			ORDER BY TEST_DATE, REG_DATE
+	</select>
+	
+	<!-- Leakage Test 결과등록 -->
+	<insert id="reliabilityLeakageResultCreate" parameterType="mes.domain.qm.ReliabilityLeakageResultVo">
+		<![CDATA[
+			INSERT INTO TB_LEAKAGE_DESTROY_ADM (
+				TEST_DATE
+				, TEST_SEQ
+				, EQUIP_NM
+				, GUBUN_DAY
+				, DAY_0_1
+				, GUBUN_NIGHT
+				, NIGHT_0_1
+				, LEAK_DSTRY_GUBUN
+				, REG_SEQ
+				, REG_ID	
+				, REG_DATE
+			) VALUES (
+				#{testDate}
+				, #{testSeq}
+				, #{equipNm}
+				, #{gubunDay}
+				, #{day_0_1}
+				, #{gubunNight}
+				, #{night_0_1}
+				, #{leakDstryGubun}
+				, #{regSeq}
+				, #{regId}
+				, #{regDate}
+			)		  
+		  ]]>
+	</insert>
+	
+	<!-- Leakage Test 수정 -->
+	<update id="reliabilityLeakageResultUpdate" parameterType="mes.domain.qm.ReliabilityLeakageResultVo">
+		UPDATE	
+			TB_LEAKAGE_DESTROY_ADM 
+		SET	
+			GUBUN_DAY = #{gubunDay}
+			, DAY_0_1 = #{day_0_1}
+			, GUBUN_NIGHT = #{gubunNight}
+			, NIGHT_0_1 = #{night_0_1}
+			, UPD_ID = #{updId}
+			, UPD_DATE = GETDATE()
+		WHERE 1=1
+		AND TEST_DATE = #{testDate}
+		AND EQUIP_NM = #{equipNm}
+		AND	TEST_SEQ = #{testSeq}
+		AND LEAK_DSTRY_GUBUN = #{leakDstryGubun}
+		AND REG_DATE = #{regDate}
+		
+	</update>
+	
+	<!-- Leakage Destroy 삭제 -->
+	<delete id="reliabilityLeakageResultDelete"  parameterType="mes.domain.qm.ReliabilityLeakageResultVo">
+		DELETE FROM TB_LEAKAGE_DESTROY_ADM
+		WHERE TEST_DATE = #{testDate} AND TEST_SEQ = #{testSeq} AND REG_DATE = #{regDate}
+	</delete>
+	
+	<!-- Leakage Dstry Test Dtl 목록 상세 -->
+	<select id="reliabilityLeakageResultDtlList" resultMap="ReliabilityLeakageResultVo">		
+			SELECT
+				LEAK_DSTRY_FILE_NO
+				, FILE_SEQ
+				, FILE_NAME
+				, FILE_ORIGIN_NAME
+				, FILE_PATH
+				, LEAK_DSTRY_GUBUN
+				, LEAK_DSTRY_DESC
+
+			FROM TB_LEAKAGE_DESTROY_DTL
+			WHERE LEAK_DSTRY_FILE_NO = #{leakDstryFileNo}
+			AND ADM_REG_DATE = #{admRegDate}
+			AND LEAK_DSTRY_GUBUN = #{leakDstryGubun}
+			ORDER BY FILE_SEQ
+	</select>
+	
+	<!-- Leakage Dstry Test Dtl 사진 등록 -->
+	<insert id="reliabilityPhotoCreate" parameterType="mes.domain.qm.ReliabilityLeakageResultVo">
+		<![CDATA[
+			INSERT INTO TB_LEAKAGE_DESTROY_DTL (
+				LEAK_DSTRY_FILE_NO
+				, ADM_REG_DATE
+				, FILE_SEQ
+				, FILE_NAME	
+				, FILE_ORIGIN_NAME
+				, FILE_PATH
+				, LEAK_DSTRY_GUBUN
+				, LEAK_DSTRY_DESC		
+			) VALUES (
+				#{leakDstryFileNo}
+				, #{admRegDate}
+				, #{fileSeq}
+				, #{fileName}	
+				, #{fileOriginName}
+				, #{filePath}	
+				, #{leakDstryGubun}
+				, #{leakDstryDesc}
+			)		  
+		  ]]>
+	</insert>
+	
+	<!-- Leakage Dstry Test Dtl 비고 수정 -->
+	<update id="reliabilityLeakageDtlResultUpdate" parameterType="mes.domain.qm.ReliabilityLeakageResultVo">
+	<![CDATA[
+		UPDATE	
+			TB_LEAKAGE_DESTROY_DTL 
+		SET	
+			LEAK_DSTRY_DESC = #{leakDstryDesc}
+		WHERE 1=1
+		AND LEAK_DSTRY_FILE_NO = #{leakDstryFileNo}
+		AND ADM_REG_DATE = #{admRegDate}
+		AND	FILE_SEQ = #{fileSeq}
+		AND LEAK_DSTRY_GUBUN = #{leakDstryGubun}
+		
+	]]>
+	</update>
+	
+	<!-- Leakage Dstry Test Dtl -->
+	<delete id="reliabilityLeakageDtlResultDelete" parameterType="mes.domain.qm.ReliabilityLeakageResultVo">
+		DELETE FROM TB_LEAKAGE_DESTROY_DTL
+		WHERE 1=1
+		AND LEAK_DSTRY_FILE_NO = #{leakDstryFileNo}
+		AND ADM_REG_DATE = #{admRegDate}
+		<if test="fileSeq != null and fileSeq != ''">
+			AND	FILE_SEQ = #{fileSeq}
+		</if>
+		
+	</delete>
+	
+	<!-- Leakage Test 결과 시퀀스 생성 -->
+	<select id="reliabilityLeakageResultSeq" resultType="int">
+		SELECT 
+			ISNULL(MAX(TEST_SEQ)+1, 0)
+		FROM 
+			(SELECT 
+				TEST_DATE
+				, TEST_SEQ 
+			FROM TB_LEAKAGE_DESTROY_ADM 
+			WHERE 1=1
+			AND TEST_DATE = #{testDate}
+			AND LEAK_DSTRY_GUBUN = '001'
+			GROUP BY TEST_DATE, TEST_SEQ
+			)A
+	</select>
+	
+	<!-- Dstry 결과 시퀀스 생성 -->
+	<select id="reliabilityDstryResultSeq" resultType="int">
+		SELECT 
+			ISNULL(MAX(TEST_SEQ)+1, 0)
+		FROM 
+			(SELECT 
+				TEST_DATE
+				, TEST_SEQ 
+			FROM TB_LEAKAGE_DESTROY_ADM 
+			WHERE 1=1
+			AND TEST_DATE = #{testDate}
+			AND LEAK_DSTRY_GUBUN = '002'
+			GROUP BY TEST_DATE, TEST_SEQ
+			)A
+	</select>
+	
+	<!-- REG_SEQ 채번 -->
+	<select id="regSeq" resultType="int">
+		SELECT
+			ISNULL(MAX(REG_SEQ)+1, 0) 
+		FROM TB_LEAKAGE_DESTROY_ADM
+		WHERE LEAK_DSTRY_GUBUN = #{leakDstryGubun}
+	</select>
+	
+	<!-- Leakage Test Dtl 시퀀스 생성 -->
+	<select id="reliabilityLeakageDtlResultSeq" resultType="int">
+		SELECT 
+			ISNULL(MAX(FILE_SEQ+1),0)
+		FROM TB_LEAKAGE_DESTROY_DTL 
+		WHERE LEAK_DSTRY_FILE_NO = #{leakDstryFileNo}
+		AND ADM_REG_DATE = #{admRegDate}
+	</select>
+	
+</mapper>

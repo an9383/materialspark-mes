@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.em.equipPrdcInspctAdmMapper">
+
+	<resultMap id="EquipPrdcInspctAdmVo" type="mes.domain.em.EquipPrdcInspctAdmVo">
+		<result property="equipCd"				column="EQUIP_CD"			/>
+		<result property="equipNm"				column="EQUIP_NM"			/>
+		<result property="inspctMonth"			column="INSPCT_MONTH"		/>
+		<result property="inspctDay"			column="INSPCT_DAY"			/>
+		<result property="inspctRegDate"		column="INSPCT_REG_DATE"	/>
+		<result property="inspctItem1Dtl1"		column="INSPCT_ITEM1_DTL1"	/>
+		<result property="inspctItem1Dtl2"		column="INSPCT_ITEM1_DTL2"	/>
+		<result property="inspctItem2Dtl1"		column="INSPCT_ITEM2_DTL1"	/>
+		<result property="inspctItem2Dtl2"		column="INSPCT_ITEM2_DTL2"	/>
+		<result property="inspctItem3Dtl1"		column="INSPCT_ITEM3_DTL1"	/>
+		<result property="inspctItem3Dtl2"		column="INSPCT_ITEM3_DTL2"	/>
+		<result property="inspctItem4Dtl1"		column="INSPCT_ITEM4_DTL1"	/>
+		<result property="inspctItem4Dtl2"		column="INSPCT_ITEM4_DTL2"	/>
+		<result property="inspctItem5Dtl1"		column="INSPCT_ITEM5_DTL1"	/>
+		<result property="inspctItem5Dtl2"		column="INSPCT_ITEM5_DTL2"	/>
+		<result property="inspctItem5Dtl3"		column="INSPCT_ITEM5_DTL3"	/>
+		<result property="inspctItem6Dtl1"		column="INSPCT_ITEM6_DTL1"	/>
+		<result property="inspctItem7Dtl1"		column="INSPCT_ITEM7_DTL1"	/>
+		<result property="inspctItem7Dtl2"		column="INSPCT_ITEM7_DTL2"	/>
+		<result property="inspctItem8Dtl1"		column="INSPCT_ITEM8_DTL1"	/>
+		<result property="inspctItem8Dtl2"		column="INSPCT_ITEM8_DTL2"	/>
+		<result property="inspctItem8Dtl3"		column="INSPCT_ITEM8_DTL3"	/>
+		<result property="inspctItem8Dtl4"		column="INSPCT_ITEM8_DTL4"	/>		
+		<result property="inspctItem1Dtl1Nm"		column="INSPCT_ITEM1_DTL1_NM"	/>
+		<result property="inspctItem1Dtl2Nm"		column="INSPCT_ITEM1_DTL2_NM"	/>
+		<result property="inspctItem2Dtl1Nm"		column="INSPCT_ITEM2_DTL1_NM"	/>
+		<result property="inspctItem2Dtl2Nm"		column="INSPCT_ITEM2_DTL2_NM"	/>
+		<result property="inspctItem3Dtl1Nm"		column="INSPCT_ITEM3_DTL1_NM"	/>
+		<result property="inspctItem3Dtl2Nm"		column="INSPCT_ITEM3_DTL2_NM"	/>
+		<result property="inspctItem4Dtl1Nm"		column="INSPCT_ITEM4_DTL1_NM"	/>
+		<result property="inspctItem4Dtl2Nm"		column="INSPCT_ITEM4_DTL2_NM"	/>
+		<result property="inspctItem5Dtl1Nm"		column="INSPCT_ITEM5_DTL1_NM"	/>
+		<result property="inspctItem5Dtl2Nm"		column="INSPCT_ITEM5_DTL2_NM"	/>
+		<result property="inspctItem5Dtl3Nm"		column="INSPCT_ITEM5_DTL3_NM"	/>
+		<result property="inspctItem6Dtl1Nm"		column="INSPCT_ITEM6_DTL1_NM"	/>
+		<result property="inspctItem7Dtl1Nm"		column="INSPCT_ITEM7_DTL1_NM"	/>
+		<result property="inspctItem7Dtl2Nm"		column="INSPCT_ITEM7_DTL2_NM"	/>
+		<result property="inspctItem8Dtl1Nm"		column="INSPCT_ITEM8_DTL1_NM"	/>
+		<result property="inspctItem8Dtl2Nm"		column="INSPCT_ITEM8_DTL2_NM"	/>
+		<result property="inspctItem8Dtl3Nm"		column="INSPCT_ITEM8_DTL3_NM"	/>
+		<result property="inspctItem8Dtl4Nm"		column="INSPCT_ITEM8_DTL4_NM"	/>
+		<result property="regId"				column="REG_ID"				/>
+		<result property="regDate"				column="REG_DATE"			/>
+		<result property="updId"				column="UPD_ID"				/>
+		<result property="updDate"				column="UPD_DATE"			/>
+		<result property="inspctItem1Nm"		column="INSPCT_ITEM1_NM"	/>
+		<result property="inspctItem2Nm"		column="INSPCT_ITEM2_NM"	/>
+		<result property="inspctItem3Nm"		column="INSPCT_ITEM3_NM"	/>
+		<result property="inspctItem4Nm"		column="INSPCT_ITEM4_NM"	/>
+		<result property="inspctItem5Nm"		column="INSPCT_ITEM5_NM"	/>
+		<result property="inspctItem6Nm"		column="INSPCT_ITEM6_NM"	/>
+		<result property="inspctItem7Nm"		column="INSPCT_ITEM7_NM"	/>
+		<result property="inspctItem8Nm"		column="INSPCT_ITEM8_NM"	/>	
+	</resultMap>
+	
+	<!-- <select id="listAll" resultMap="EquipPrdcInspctAdmVo">
+	<![CDATA[
+		SELECT A.EQUIP_CD, 
+		       (SELECT EQUIP_NM 
+		        FROM   TB_EQUIP_CODE_ADM B 
+		        WHERE  B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM, 
+		       A.INSPCT_MONTH, 
+		       A.INSPCT_DAY, 
+		       INSPCT_REG_DATE, 
+		       INSPCT_ITEM1_DTL1, 
+		       INSPCT_ITEM1_DTL2, 
+		       INSPCT_ITEM2_DTL1, 
+		       INSPCT_ITEM2_DTL2, 
+		       INSPCT_ITEM3_DTL1, 
+		       INSPCT_ITEM3_DTL2, 
+		       INSPCT_ITEM4_DTL1, 
+		       INSPCT_ITEM4_DTL2, 
+		       INSPCT_ITEM5_DTL1, 
+		       INSPCT_ITEM5_DTL2, 
+		       INSPCT_ITEM5_DTL3, 
+		       INSPCT_ITEM6_DTL1, 
+		       INSPCT_ITEM7_DTL1, 
+		       INSPCT_ITEM7_DTL2, 
+		       INSPCT_ITEM8_DTL1, 
+		       INSPCT_ITEM8_DTL2, 
+		       INSPCT_ITEM8_DTL3, 
+		       INSPCT_ITEM8_DTL4, 
+		       CONCAT(LEFT((SELECT BASE_CD_NM 
+		                    FROM   TB_SYSTEM_COMMON_CODE D 
+		                    WHERE  D.BASE_GROUP_CD = '038' 
+		                           AND D.BASE_CD = B.INSPCT_ITEM1_DTL1), 1), ',', 
+		       LEFT((SELECT BASE_CD_NM 
+		             FROM   TB_SYSTEM_COMMON_CODE D 
+		             WHERE  D.BASE_GROUP_CD = '038' 
+		                    AND D.BASE_CD = B.INSPCT_ITEM1_DTL2), 1)) INSPCT_ITEM1_NM, 
+		       CONCAT(LEFT((SELECT BASE_CD_NM 
+		                    FROM   TB_SYSTEM_COMMON_CODE D 
+		                    WHERE  D.BASE_GROUP_CD = '038' 
+		                           AND D.BASE_CD = B.INSPCT_ITEM2_DTL1), 1), ',', 
+		       LEFT((SELECT BASE_CD_NM 
+		             FROM   TB_SYSTEM_COMMON_CODE D 
+		             WHERE  D.BASE_GROUP_CD = '038' 
+		                    AND D.BASE_CD = B.INSPCT_ITEM2_DTL2), 1)) INSPCT_ITEM2_NM, 
+		       CONCAT(LEFT((SELECT BASE_CD_NM 
+		                    FROM   TB_SYSTEM_COMMON_CODE D 
+		                    WHERE  D.BASE_GROUP_CD = '038' 
+		                           AND D.BASE_CD = B.INSPCT_ITEM3_DTL1), 1), ',', 
+		       LEFT((SELECT BASE_CD_NM 
+		             FROM   TB_SYSTEM_COMMON_CODE D 
+		             WHERE  D.BASE_GROUP_CD = '038' 
+		                    AND D.BASE_CD = B.INSPCT_ITEM3_DTL2), 1)) INSPCT_ITEM3_NM, 
+		       CONCAT(LEFT((SELECT BASE_CD_NM 
+		                    FROM   TB_SYSTEM_COMMON_CODE D 
+		                    WHERE  D.BASE_GROUP_CD = '038' 
+		                           AND D.BASE_CD = B.INSPCT_ITEM4_DTL1), 1), ',', 
+		       LEFT((SELECT BASE_CD_NM 
+		             FROM   TB_SYSTEM_COMMON_CODE D 
+		             WHERE  D.BASE_GROUP_CD = '038' 
+		                    AND D.BASE_CD = B.INSPCT_ITEM4_DTL2), 1)) INSPCT_ITEM4_NM, 
+		       CONCAT(LEFT((SELECT BASE_CD_NM 
+		                    FROM   TB_SYSTEM_COMMON_CODE D 
+		                    WHERE  D.BASE_GROUP_CD = '038' 
+		                           AND D.BASE_CD = B.INSPCT_ITEM5_DTL1), 1), ',', 
+		       LEFT((SELECT BASE_CD_NM 
+		             FROM   TB_SYSTEM_COMMON_CODE D 
+		             WHERE  D.BASE_GROUP_CD = '038' 
+		                    AND D.BASE_CD = B.INSPCT_ITEM5_DTL2), 1), ',', 
+		       LEFT((SELECT BASE_CD_NM 
+		             FROM   TB_SYSTEM_COMMON_CODE D 
+		             WHERE  D.BASE_GROUP_CD = '038' 
+		                    AND D.BASE_CD = B.INSPCT_ITEM5_DTL3), 1)) INSPCT_ITEM5_NM, 
+		       LEFT((SELECT BASE_CD_NM 
+		             FROM   TB_SYSTEM_COMMON_CODE D 
+		             WHERE  D.BASE_GROUP_CD = '038' 
+		                    AND D.BASE_CD = B.INSPCT_ITEM6_DTL1), 1)  INSPCT_ITEM6_NM, 
+		       CONCAT(LEFT((SELECT BASE_CD_NM 
+		                    FROM   TB_SYSTEM_COMMON_CODE D 
+		                    WHERE  D.BASE_GROUP_CD = '038' 
+		                           AND D.BASE_CD = B.INSPCT_ITEM7_DTL1), 1), ',', 
+		       LEFT((SELECT BASE_CD_NM 
+		             FROM   TB_SYSTEM_COMMON_CODE D 
+		             WHERE  D.BASE_GROUP_CD = '038' 
+		                    AND D.BASE_CD = B.INSPCT_ITEM7_DTL2), 1)) INSPCT_ITEM7_NM, 
+		       CONCAT(LEFT((SELECT BASE_CD_NM 
+		                    FROM   TB_SYSTEM_COMMON_CODE D 
+		                    WHERE  D.BASE_GROUP_CD = '038' 
+		                           AND D.BASE_CD = B.INSPCT_ITEM8_DTL1), 1), ',', 
+		       LEFT((SELECT BASE_CD_NM 
+		             FROM   TB_SYSTEM_COMMON_CODE D 
+		             WHERE  D.BASE_GROUP_CD = '038' 
+		                    AND D.BASE_CD = B.INSPCT_ITEM8_DTL2), 1), ',', 
+		       LEFT((SELECT BASE_CD_NM 
+		             FROM   TB_SYSTEM_COMMON_CODE D 
+		             WHERE  D.BASE_GROUP_CD = '038' 
+		                    AND D.BASE_CD = B.INSPCT_ITEM8_DTL3), 1), ',', 
+		       LEFT((SELECT BASE_CD_NM 
+		             FROM   TB_SYSTEM_COMMON_CODE D 
+		             WHERE  D.BASE_GROUP_CD = '038' 
+		                    AND D.BASE_CD = B.INSPCT_ITEM8_DTL4), 1)) INSPCT_ITEM8_NM, 
+		       REG_ID, 
+		       REG_DATE, 
+		       UPD_ID, 
+		       UPD_DATE 
+		FROM   
+		  (
+			SELECT 
+			 EQUIP_CD
+			 ,EQUIP_NM
+			 ,INSPCT_MONTH
+			 ,INSPCT_DAY
+			 FROM (	 
+			SELECT 
+				#{equipCd} EQUIP_CD
+				,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM WHERE EQUIP_CD = #{equipCd}) EQUIP_NM 
+				,#{inspctMonth} INSPCT_MONTH
+				,ROW_NUMBER() OVER(ORDER BY BASE_CD DESC) AS INSPCT_DAY
+				FROM TB_SYSTEM_COMMON_CODE) A WHERE A.INSPCT_DAY <= CONVERT(INT,SUBSTRING(CONVERT(CHAR(8),DATEADD(M,1,#{inspctMonth}+'01')-1, 112),7,2))) A
+			LEFT OUTER JOIN TB_EQUIP_PRDC_INSPCT_ADM B
+		ON A.EQUIP_CD = B.EQUIP_CD
+		AND B.EQUIP_CD = #{equipCd}
+		AND B.INSPCT_MONTH = #{inspctMonth}
+		AND A.INSPCT_MONTH = B.INSPCT_MONTH  
+		AND A.INSPCT_DAY = B.INSPCT_DAY
+	]]>		
+	</select> -->
+	
+	<select id="listAll" resultMap="EquipPrdcInspctAdmVo">
+	<![CDATA[
+		SELECT A.EQUIP_CD, 
+		       (SELECT EQUIP_NM 
+		        FROM   TB_EQUIP_CODE_ADM B 
+		        WHERE  B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM, 
+		       A.INSPCT_MONTH, 
+		       A.INSPCT_DAY, 
+		       INSPCT_REG_DATE, 
+		       INSPCT_ITEM1_DTL1, 
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM1_DTL1) INSPCT_ITEM1_DTL1_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM1_DTL2) INSPCT_ITEM1_DTL2_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM2_DTL1) INSPCT_ITEM2_DTL1_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM2_DTL2) INSPCT_ITEM2_DTL2_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM3_DTL1) INSPCT_ITEM3_DTL1_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM3_DTL2) INSPCT_ITEM3_DTL2_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM4_DTL1) INSPCT_ITEM4_DTL1_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM4_DTL2) INSPCT_ITEM4_DTL2_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM5_DTL1) INSPCT_ITEM5_DTL1_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM5_DTL2) INSPCT_ITEM5_DTL2_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM5_DTL3) INSPCT_ITEM5_DTL3_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM6_DTL1) INSPCT_ITEM6_DTL1_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM7_DTL1) INSPCT_ITEM7_DTL1_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM7_DTL2) INSPCT_ITEM7_DTL2_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM8_DTL1) INSPCT_ITEM8_DTL1_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM8_DTL2) INSPCT_ITEM8_DTL2_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM8_DTL3) INSPCT_ITEM8_DTL3_NM,
+		       (SELECT BASE_CD_NM  FROM   TB_SYSTEM_COMMON_CODE D   WHERE  D.BASE_GROUP_CD = '038'AND D.BASE_CD = B.INSPCT_ITEM8_DTL4) INSPCT_ITEM8_DTL4_NM,		       
+		       INSPCT_ITEM1_DTL2, 
+		       INSPCT_ITEM2_DTL1, 
+		       INSPCT_ITEM2_DTL2, 
+		       INSPCT_ITEM3_DTL1, 
+		       INSPCT_ITEM3_DTL2, 
+		       INSPCT_ITEM4_DTL1, 
+		       INSPCT_ITEM4_DTL2, 
+		       INSPCT_ITEM5_DTL1, 
+		       INSPCT_ITEM5_DTL2, 
+		       INSPCT_ITEM5_DTL3, 
+		       INSPCT_ITEM6_DTL1, 
+		       INSPCT_ITEM7_DTL1, 
+		       INSPCT_ITEM7_DTL2, 
+		       INSPCT_ITEM8_DTL1, 
+		       INSPCT_ITEM8_DTL2, 
+		       INSPCT_ITEM8_DTL3, 
+		       INSPCT_ITEM8_DTL4, 		      
+		       REG_ID, 
+		       REG_DATE, 
+		       UPD_ID, 
+		       UPD_DATE 
+FROM   
+		  (
+			SELECT 
+			 EQUIP_CD
+			 ,EQUIP_NM
+			 ,INSPCT_MONTH
+			 ,INSPCT_DAY
+			 FROM (	 
+			SELECT 
+				#{equipCd} EQUIP_CD
+				,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM WHERE EQUIP_CD = #{equipCd}) EQUIP_NM 
+				,#{inspctMonth} INSPCT_MONTH
+				,ROW_NUMBER() OVER(ORDER BY BASE_CD DESC) AS INSPCT_DAY
+				FROM TB_SYSTEM_COMMON_CODE) A WHERE A.INSPCT_DAY <= CONVERT(INT,SUBSTRING(CONVERT(CHAR(8),DATEADD(M,1,#{inspctMonth}+'01')-1, 112),7,2))) A
+			LEFT OUTER JOIN TB_EQUIP_PRDC_INSPCT_ADM B
+		ON A.EQUIP_CD = B.EQUIP_CD
+		AND B.EQUIP_CD = #{equipCd}
+		AND B.INSPCT_MONTH = #{inspctMonth}
+		AND A.INSPCT_MONTH = B.INSPCT_MONTH  
+		AND A.INSPCT_DAY = B.INSPCT_DAY
+
+		ORDER BY INSPCT_DAY ASC
+			 
+	]]>		
+	</select>
+	<select id="read" resultMap="EquipPrdcInspctAdmVo">
+		<![CDATA[
+		SELECT	EQUIP_CD 
+			,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+			,INSPCT_MONTH 
+			,INSPCT_DAY
+			,INSPCT_REG_DATE 
+			,INSPCT_ITEM1_DTL1
+			,INSPCT_ITEM1_DTL2
+			,INSPCT_ITEM2_DTL1
+			,INSPCT_ITEM2_DTL2
+			,INSPCT_ITEM3_DTL1
+			,INSPCT_ITEM3_DTL2
+			,INSPCT_ITEM4_DTL1
+			,INSPCT_ITEM4_DTL2
+			,INSPCT_ITEM5_DTL1
+			,INSPCT_ITEM5_DTL2
+			,INSPCT_ITEM5_DTL3
+			,INSPCT_ITEM6_DTL1
+			,INSPCT_ITEM7_DTL1
+			,INSPCT_ITEM7_DTL2
+			,INSPCT_ITEM8_DTL1
+			,INSPCT_ITEM8_DTL2
+			,INSPCT_ITEM8_DTL3
+			,INSPCT_ITEM8_DTL4		
+			,REG_ID 
+			,REG_DATE
+			,UPD_ID
+			,UPD_DATE
+		FROM	TB_EQUIP_PRDC_INSPCT_ADM A	
+		WHERE	EQUIP_CD = #{equipCd}		
+				AND INSPCT_REG_DATE = #{inspctRegDate}			
+		]]>
+		</select>
+	
+	<insert id="create">
+		<![CDATA[
+			INSERT INTO TB_EQUIP_PRDC_INSPCT_ADM(
+				EQUIP_CD
+				,INSPCT_MONTH
+				,INSPCT_DAY
+				,INSPCT_REG_DATE
+				,INSPCT_ITEM1_DTL1
+				,INSPCT_ITEM1_DTL2
+				,INSPCT_ITEM2_DTL1
+				,INSPCT_ITEM2_DTL2
+				,INSPCT_ITEM3_DTL1
+				,INSPCT_ITEM3_DTL2
+				,INSPCT_ITEM4_DTL1
+				,INSPCT_ITEM4_DTL2
+				,INSPCT_ITEM5_DTL1
+				,INSPCT_ITEM5_DTL2
+				,INSPCT_ITEM5_DTL3
+				,INSPCT_ITEM6_DTL1
+				,INSPCT_ITEM7_DTL1
+				,INSPCT_ITEM7_DTL2
+				,INSPCT_ITEM8_DTL1
+				,INSPCT_ITEM8_DTL2
+				,INSPCT_ITEM8_DTL3
+				,INSPCT_ITEM8_DTL4
+				,REG_ID
+				,REG_DATE
+				
+			) 
+			VALUES(
+				#{equipCd}
+				,#{inspctMonth}
+				,#{inspctDay}
+				,#{inspctRegDate}
+				,#{inspctItem1Dtl1}
+				,#{inspctItem1Dtl2}
+				,#{inspctItem2Dtl1}
+				,#{inspctItem2Dtl2}
+				,#{inspctItem3Dtl1}
+				,#{inspctItem3Dtl2}
+				,#{inspctItem4Dtl1}
+				,#{inspctItem4Dtl2}
+				,#{inspctItem5Dtl1}
+				,#{inspctItem5Dtl2}
+				,#{inspctItem5Dtl3}
+				,#{inspctItem6Dtl1}
+				,#{inspctItem7Dtl1}
+				,#{inspctItem7Dtl2}
+				,#{inspctItem8Dtl1}
+				,#{inspctItem8Dtl2}
+				,#{inspctItem8Dtl3}
+				,#{inspctItem8Dtl4}
+				,#{regId}
+				,GETDATE()
+				
+			)
+		]]>
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM TB_EQUIP_PRDC_INSPCT_ADM
+     	WHERE	EQUIP_CD = #{equipCd} 
+     			AND INSPCT_REG_DATE = #{inspctRegDate}
+	</delete>
+	
+	
+</mapper>

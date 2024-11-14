@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.bm.threeTrayManageMapper">
+
+	<resultMap id="ThreeTrayManageVo" type="mes.domain.bm.ThreeTrayManageVo">
+		<result property="idx"					column="IDX"					/>
+		<result property="baseCd"				column="BASE_CD"				/>
+		<result property="trayWeightDate"		column="TRAY_WEIGHT_DATE"		/>
+		<result property="oldTrayWeightDate"	column="OLD_TRAY_WEIGHT_DATE"	/>
+		<result property="gijongCd"				column="GIJONG_CD"				/>
+		<result property="gijongNm"				column="GIJONG_NM"				/>
+		<result property="qutyCd"				column="QUTY_CD"				/>
+		<result property="qutyNm"				column="QUTY_NM"				/>
+		<result property="referenceValue"		column="REFERENCE_VALUE"		/>
+		<result property="referencePlus"		column="REFERENCE_PLUS"			/>
+		<result property="referenceMinus"		column="REFERENCE_MINUS"		/>
+		<result property="useYnCd"				column="USE_YN_CD"				/>
+		<result property="useYnNm"				column="USE_YN_NM"				/>		
+		<result property="regId"				column="REG_ID"					/>
+		<result property="regDate"				column="REG_DATE"				/>
+		<result property="updId"				column="UPD_ID"					/>
+		<result property="updDate"				column="UPD_DATE"				/>
+		
+		<!-- 추가 -->
+		<result property="maxTrayWeightDate"	column="MAX_TRAY_WEIGHT_DATE"	/>
+		<result property="goodsCd"				column="GOODS_CD"				/>
+	</resultMap>
+	
+	
+	<!-- 3트레이관리 전제 조회 -->
+	<select id="threeTrayManageList" resultMap="ThreeTrayManageVo">
+			SELECT
+				IDX
+				, BASE_CD
+				, TRAY_WEIGHT_DATE
+				, GIJONG_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '080' AND X.BASE_CD = A.GIJONG_CD) AS GIJONG_NM
+				, QUTY_CD
+				, ( CASE WHEN QUTY_CD = 'A' THEN 'AL' ELSE 'NC' END ) AS QUTY_NM
+				, REFERENCE_VALUE
+				, REFERENCE_PLUS
+				, REFERENCE_MINUS
+				, USE_YN_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '024' AND X.BASE_CD = A.USE_YN_CD) AS USE_YN_NM
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM TB_THREE_TRAY_MANAGE A
+			<if test="trayWeightDate != null and trayWeightDate != ''">
+				WHERE TRAY_WEIGHT_DATE = #{trayWeightDate}
+			</if>
+	</select>
+	
+	
+	<!-- 3트레이관리 특정 조회 -->
+	<select id="threeTrayManageRead" resultMap="ThreeTrayManageVo">
+			SELECT
+				IDX
+				, BASE_CD
+				, TRAY_WEIGHT_DATE
+				, GIJONG_CD
+				, QUTY_CD
+				, REFERENCE_VALUE
+				, REFERENCE_PLUS
+				, REFERENCE_MINUS
+				, USE_YN_CD
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM TB_THREE_TRAY_MANAGE
+			WHERE TRAY_WEIGHT_DATE = #{trayWeightDate}
+			AND BASE_CD = #{baseCd}
+	</select>
+
+	<!-- 3트레이관리 생성 -->
+	<insert id="threeTrayManageCreate" parameterType="mes.domain.bm.ThreeTrayManageVo">
+		<![CDATA[
+			INSERT INTO TB_THREE_TRAY_MANAGE
+			(
+				BASE_CD
+				, TRAY_WEIGHT_DATE
+				, GIJONG_CD
+				, QUTY_CD
+				, REFERENCE_VALUE
+				, REFERENCE_PLUS
+				, REFERENCE_MINUS
+				, USE_YN_CD
+				, REG_ID
+				, REG_DATE
+			) 
+			VALUES
+			(
+				#{baseCd}
+				, #{trayWeightDate}
+				, #{gijongCd}
+				, #{qutyCd}
+				, #{referenceValue}
+				, #{referencePlus}
+				, #{referenceMinus}
+				, #{useYnCd}
+				, #{regId}
+				, getdate()
+			)
+		]]>
+	</insert>
+	
+	<!-- 3트레이관리일괄 생성 -->
+	<insert id="threeTrayManageBatchCreate" parameterType="mes.domain.bm.ThreeTrayManageVo">
+		<![CDATA[
+			INSERT INTO TB_THREE_TRAY_MANAGE
+			(
+				BASE_CD
+				, TRAY_WEIGHT_DATE
+				, GIJONG_CD
+				, QUTY_CD
+				, REFERENCE_VALUE
+				, REFERENCE_PLUS
+				, REFERENCE_MINUS
+				, USE_YN_CD
+				, REG_ID
+				, REG_DATE
+			) 
+			SELECT
+				BASE_CD
+				, #{trayWeightDate}	--지정한 날짜
+				, GIJONG_CD
+				, QUTY_CD
+				, REFERENCE_VALUE
+				, REFERENCE_PLUS
+				, REFERENCE_MINUS
+				, USE_YN_CD
+				, REG_ID
+				, GETDATE()
+			FROM TB_THREE_TRAY_MANAGE
+			WHERE TRAY_WEIGHT_DATE = #{oldTrayWeightDate}	--불러올 날짜
+		]]>
+	</insert>
+
+	<!-- 3트레이관리 수정 -->
+	<update id="threeTrayManageUpdate">
+			UPDATE	TB_THREE_TRAY_MANAGE
+			SET
+				UPD_DATE = getdate()
+				<if test="updId != null and updId != ''">
+				, UPD_ID = #{updId}
+			</if>
+				<if test="trayWeightDate != null and trayWeightDate != ''">
+					, TRAY_WEIGHT_DATE = #{trayWeightDate} 
+				</if>
+				<if test="gijongCd != null and gijongCd != ''">
+					, GIJONG_CD = #{gijongCd}       
+				</if>
+				<if test="qutyCd != null and qutyCd != ''">
+					, QUTY_CD = #{qutyCd}         
+				</if>
+				<if test="referenceValue != null and referenceValue != ''">
+					, REFERENCE_VALUE = #{referenceValue} 
+				</if>
+				<if test="referencePlus != null and referencePlus != ''">
+					, REFERENCE_PLUS = #{referencePlus}  
+				</if>
+				<if test="referenceMinus != null and referenceMinus != ''">
+					, REFERENCE_MINUS = #{referenceMinus} 
+				</if>
+				<if test="useYnCd != null and useYnCd != ''">
+					, USE_YN_CD = #{useYnCd}
+				</if>
+			WHERE TRAY_WEIGHT_DATE = #{oldTrayWeightDate}
+			AND BASE_CD = #{baseCd}
+	</update>
+	
+	
+	<!-- 3트레이관리 SEQ(baseCd) -->
+	<select id="threeTrayManageBaseCdSeq" resultMap="ThreeTrayManageVo">
+		<![CDATA[
+			SELECT
+				ISNULL(RIGHT('000' + CAST( (CASE ISNUMERIC(MAX(BASE_CD)) WHEN 1 THEN MAX(BASE_CD) ELSE 0 END) +1 AS NVARCHAR),3), '001') BASE_CD
+			FROM TB_THREE_TRAY_MANAGE
+			WHERE TRAY_WEIGHT_DATE = #{trayWeightDate};
+		]]>
+	</select>
+	
+	<!-- 날짜 검색조건 조회 -->
+	<select id="threeTrayWeightDate" resultMap="ThreeTrayManageVo">
+		<![CDATA[
+			SELECT
+			    TRAY_WEIGHT_DATE
+			    , (SELECT MAX(TRAY_WEIGHT_DATE) FROM TB_THREE_TRAY_MANAGE) AS MAX_TRAY_WEIGHT_DATE
+			FROM
+			    TB_THREE_TRAY_MANAGE
+			GROUP BY
+			    TRAY_WEIGHT_DATE;
+
+		]]>
+	</select>
+	
+		<!-- 3Tray 판정 -->
+	<select id="threeTrayInspection" resultMap="ThreeTrayManageVo">
+			SELECT
+				A.GOODS_CD
+				, TRAY_WEIGHT_DATE
+				, B.REFERENCE_VALUE
+				, B.REFERENCE_PLUS
+				, B.REFERENCE_MINUS
+			FROM TB_GOODS_CODE_ADM A
+			LEFT OUTER JOIN
+			(
+				SELECT
+					GIJONG_CD
+					, TRAY_WEIGHT_DATE
+					, REFERENCE_VALUE
+					, QUTY_CD
+					, CONVERT(NUMERIC(10,3), REFERENCE_VALUE) + CONVERT(NUMERIC(10,3), REFERENCE_PLUS) AS REFERENCE_PLUS
+					, CONVERT(NUMERIC(10,3), REFERENCE_VALUE) - CONVERT(NUMERIC(10,3), REFERENCE_MINUS) AS REFERENCE_MINUS
+				FROM TB_THREE_TRAY_MANAGE
+				WHERE USE_YN_CD = '001'
+			) AS B
+			ON LEFT(A.GOODS_CD, 1) = B.QUTY_CD
+			AND A.GIJONG_CD = B.GIJONG_CD
+			
+			WHERE 1=1
+			AND GOODS_CD = #{goodsCd}
+			AND TRAY_WEIGHT_DATE = #{trayWeightDate}
+	</select>
+	
+	
+</mapper>

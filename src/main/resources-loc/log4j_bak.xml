@@ -13,7 +13,11 @@
 	 <!-- By Date Log File Create(All) -->
     <appender name="rollingFile" class="org.apache.log4j.DailyRollingFileAppender">
     	<!-- Local or Real Windows  -->
-        <param name="File" value="C:/LOG/dalim/all.log"/>
+        <param name="File" value="D:/LOG/mtp/all.log"/>
+        
+        <!-- dev Linux  -->
+		<!-- <param name="File" value="/var/lib/tomcat2/all.log"/> -->
+        
         <param name="Append" value="true"/>
         <!-- param name="MaxFileSize" value="100MB"/ -->
         <!-- param name="MaxBackupIndex" value="2"></param -->
@@ -26,7 +30,11 @@
     <!-- By Date Log File Create(Spring) --> 
     <appender name="springFile" class="org.apache.log4j.DailyRollingFileAppender">
     	<!-- Local or Real Windows  -->
-        <param name="File" value="C:/LOG/dalim/spring.log"/>
+        <param name="File" value="D:/LOG/mtp/spring.log"/>
+        
+        <!-- dev Linux  -->
+        <!--  <param name="File" value="/var/lib/tomcat2/spring.log"/> -->
+        
         <param name="Append" value="true"/>
         <!-- param name="MaxFileSize" value="100MB"/ -->
         <!-- param name="MaxBackupIndex" value="2"></param -->
@@ -41,7 +49,11 @@
         <param name="Threshold" value="ERROR"/>
         
         <!-- Local or Real Windows  -->
-        <param name="File" value="C:/LOG/dalim/error.log"/>
+        <param name="File" value="D:/LOG/mtp/error.log"/>
+        
+         <!-- dev Linux  -->
+     	<!--   <param name="File" value="/var/lib/tomcat2/error.log"/> -->
+     	
         <param name="Append" value="true"/>
         <!-- param name="MaxFileSize" value="100MB"/ -->
         <!-- param name="MaxBackupIndex" value="2"></param -->
@@ -52,47 +64,37 @@
     </appender>
      
     <logger name="org.apache.ibatis">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
     <logger name="org.springframework">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
         <appender-ref ref="springFile" />
     </logger>
-    <!-- 
-    	log4j slf4j 21-01-28-
-    -->
-    <logger name="java.sql">
-        <level value="DEBUG"/>
+    <logger name="java.sql">D
+        <level value="INFO"/>
     </logger>
     
 	<logger name="jdbc.sqlonly">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
-
 	<logger name="jdbc.sqltiming">
-		<level value="OFF" />
+		<level value="OFF" />F
 	</logger>
-
 	<logger name="jdbc.audit">
 		<level value="OFF" />
 	</logger>
-
 	<logger name="jdbc.resultset">
 		<level value="ERROR" />
 	</logger>
-
-	<logger name="jdbc.resultsettable">
-		<level value="DEBUG" />
-	</logger>
-
 	<logger name="jdbc.connection">
-		<level value="ERROR" />
+    	<level value="OFF" />
 	</logger>
-    <!-- 
-    	log4j slf4j 21-01-28-
-    -->
+	<logger name="jdbc.resultsettable">
+    	<level value="INFO" />
+	</logger>
+    
     <root>
-        <level value="DEBUG" />
+        <level value="INFO" />
         <appender-ref ref="console" />
         <appender-ref ref="errFile"/>
         <appender-ref ref="rollingFile"/>

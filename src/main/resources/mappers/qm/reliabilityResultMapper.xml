@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.mappers.qm.reliabilityResultMapper">
+
+	<resultMap id="ReliabilityResultVo" type="mes.domain.qm.ReliabilityResultVo">
+		<!-- 신뢰성 결과 -->		
+		<result property="lotNo"				column="LOT_NO"					/>
+		<result property="trustGubun"			column="TRUST_GUBUN"			/>
+		<result property="trustSeq"				column="TRUST_SEQ"				/>
+		<result property="testDate"				column="TEST_DATE"				/>
+		<result property="testDateDN"			column="TEST_DATE_DN"			/>
+		<result property="data1"				column="DATA1"					/>
+		<result property="data2"				column="DATA2"					/>
+		<result property="data3"				column="DATA3"					/>
+		<result property="data4"				column="DATA4"					/>
+		<result property="data5"				column="DATA5"					/>
+		<result property="data6"				column="DATA6"					/>
+		<result property="data7"				column="DATA7"					/>
+		<result property="data8"				column="DATA8"					/>
+		<result property="data9"				column="DATA9"					/>
+		<result property="data10"				column="DATA10"					/>
+		<result property="trustDesc"			column="TRUST_DESC"				/>
+		<result property="regId"				column="REG_ID"					/>
+		<result property="regDate"				column="REG_DATE"				/>
+		<result property="updId"				column="UPD_ID"					/>
+		<result property="updDate"				column="UPD_DATE"				/>
+		
+		<!-- 신뢰선 사진 -->
+		<result property="trustPhotoSeq"		column="TRUST_PHOTO_SEQ"		/>
+		<result property="imageFileNm"			column="IMAGE_FILE_NM"			/>
+		<result property="imageChangeFileNm"	column="IMAGE_CHANGE_FILE_NM"	/>
+		<result property="imageFile"			column="IMAGE_FILE"				/>
+		<result property="imageFileSize"		column="IMAGE_FILE_SIZE"		/>
+		
+		<result property="addYear"				column="ADD_YEAR"				/>
+		<result property="shillingResult"		column="SHILLING_RESULT"		/>
+		<result property="shillingGubun"		column="SHILLING_GUBUN"			/>
+		<result property="teamCd"				column="TEAM_CD"				/>
+		<result property="productDate"			column="PRODUCT_DATE"			/>
+		<result property="productDateDN"		column="PRODUCT_DATE_DN"		/>
+		<result property="workerNm"				column="WORKER_NM"				/>
+		<result property="gijongNm"				column="GIJONG_NM"				/>
+		<result property="qutyNm"				column="QUTY_NM"				/>
+		<result property="equipNm"				column="EQUIP_NM"				/>
+		<result property="changeM"				column="CHANGE_M"				/>
+		<result property="metalLotNo"			column="METAL_LOT_NO"			/>
+		<result property="bottomVal"			column="BOTTOM_VAL"				/>
+		<result property="topVal"				column="TOP_VAL"				/>
+		<result property="sideLeft"				column="SIDE_LEFT"				/>
+		<result property="sideRight"			column="SIDE_RIGHT"				/>
+		<result property="afterBottom"			column="AFTER_BOTTOM"			/>
+		<result property="afterTop"				column="AFTER_TOP"				/>
+		<result property="insertList"			column="INSERT_LIST"			/>
+		<result property="deleteList"			column="DELETE_LIST"			/>
+		<result property="dateGubun"			column="DATE_GUBUN"			/>
+		<result property="resultNg"			column="RESULT_NG"			/>
+		
+		<!-- 추가한 값 -->
+		<result property="chooseDateFrom"		column="CHOOSE_DATE_FROM"		/>
+		<result property="chooseDateTo"			column="CHOOSE_DATE_TO"			/>
+	</resultMap>
+	
+	<!-- 신뢰성 결과 전체 목록 조회 -->
+	<select id="reliabilityResultList" resultMap="ReliabilityResultVo">		
+			SELECT	DISTINCT LOT_NO
+			FROM TB_WORK_ORDER_OUTPUT_SUB A
+			WHERE 1=1
+			AND SUB_WORK_STATUS_CD IN ('C', 'E', 'A')
+			AND A.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+	</select>
+	
+	<!-- 신뢰성 실링 전체 목록 조회 -->
+	<select id="reliabilityResultShillingList" resultMap="ReliabilityResultVo">		
+		SELECT	IDX,
+				SHILLING_GUBUN,
+				SHILLING_RESULT,
+				TEAM_CD,
+				PRODUCT_DATE,
+				PRODUCT_DATE_DN,
+				TEST_DATE,
+				TEST_DATE_DN,
+				WORKER_NM,
+				GIJONG_NM,
+				QUTY_NM,
+				EQUIP_NM,
+				CHANGE_M,
+				METAL_LOT_NO,
+				BOTTOM_VAL,
+				TOP_VAL,
+				SIDE_LEFT,
+				SIDE_RIGHT,
+				AFTER_BOTTOM,
+				AFTER_TOP,
+				REG_ID,
+				REG_DATE
+		FROM TB_RELIABILITY_CHECK_SHILLING A
+		WHERE 1=1
+		<if test="chooseDateFrom != null and chooseDateFrom != '' and chooseDateTo != null and chooseDateTo != '' "> 
+        	<if test="dateGubun.equals('001')">
+	            AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+            </if>
+            <if test="dateGubun.equals('002')">
+	  			AND TEST_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+            </if>
+        </if>
+		<if test="equipNm != null and equipNm != '' and !equipNm.equals('전체')">
+	        AND EQUIP_NM = #{equipNm}
+		</if>        
+		<if test="gijongNm != null and gijongNm != '' and !gijongNm.equals('전체')">
+			AND GIJONG_NM = #{gijongNm}
+		</if>   
+		<if test="metalLotNo != null and metalLotNo != ''">
+			AND METAL_LOT_NO LIKE #{metalLotNo}
+		</if>      
+		<if test='resultNg.equals("N")'>
+	    	AND SHILLING_RESULT = 'OK'
+        </if>
+		AND SHILLING_GUBUN = #{shillingGubun}
+
+	</select>
+	
+	<!-- 신뢰성 결과 특정 Read(List) -->
+	<select id="reliabilityResultSelectList" resultMap="ReliabilityResultVo">		
+			SELECT
+				LOT_NO
+				, TRUST_GUBUN
+				, TRUST_SEQ	
+				, TEST_DATE	
+				, DATA1		
+				, DATA2		
+				, DATA3		
+				, DATA4		
+				, DATA5		
+				, DATA6		
+				, DATA7		
+				, DATA8		
+				, DATA9		
+				, DATA10
+				, TRUST_DESC	
+				, REG_ID	
+				, REG_DATE	
+				, UPD_ID	
+				, UPD_DATE
+			FROM TB_RELIABILITY_RESULT
+			WHERE 1=1
+			AND LOT_NO 		= #{lotNo}
+			AND TRUST_GUBUN = #{trustGubun}
+	</select>
+	
+	<!-- 신뢰성 결과 전체 등록 -->
+	<insert id="reliabilityResultCreate" parameterType="mes.domain.qm.ReliabilityResultVo">
+		<![CDATA[
+			INSERT INTO TB_RELIABILITY_RESULT (
+				LOT_NO
+				, TRUST_GUBUN
+				, TRUST_SEQ	
+				, TEST_DATE	
+				, DATA1		
+				, DATA2		
+				, DATA3		
+				, DATA4		
+				, DATA5		
+				, DATA6		
+				, DATA7		
+				, DATA8		
+				, DATA9		
+				, DATA10
+				, TRUST_DESC	
+				, REG_ID	
+				, REG_DATE
+			) VALUES (
+				#{lotNo}
+				, #{trustGubun}
+				, #{trustSeq}	
+				, #{testDate}	
+				, #{data1}		
+				, #{data2}		
+				, #{data3}		
+				, #{data4}		
+				, #{data5}		
+				, #{data6}		
+				, #{data7}		
+				, #{data8}		
+				, #{data9}		
+				, #{data10}
+				, #{trustDesc}
+				, #{regId}
+				, GETDATE()
+			)		  
+		  ]]>
+	</insert>
+	
+	<!-- 신뢰성 (실링) 전체 등록 -->
+	<insert id="reliabilityResultShillingCreate" parameterType="mes.domain.qm.ReliabilityResultVo">
+		<![CDATA[
+			INSERT INTO TB_RELIABILITY_CHECK_SHILLING (
+				TEAM_CD,
+				SHILLING_GUBUN,
+				SHILLING_RESULT,
+				PRODUCT_DATE,
+				PRODUCT_DATE_DN,
+				TEST_DATE,
+				TEST_DATE_DN,
+				WORKER_NM,
+				GIJONG_NM,
+				QUTY_NM,
+				EQUIP_NM,
+				CHANGE_M,
+				METAL_LOT_NO,
+				BOTTOM_VAL,
+				TOP_VAL,
+				SIDE_LEFT,
+				SIDE_RIGHT,
+				AFTER_BOTTOM,
+				AFTER_TOP,
+				REG_ID,
+				REG_DATE
+			) SELECT
+				teamCd,
+				shillingGubun,
+				shillingResult,
+				productDate,
+				productDateDN,
+				testDate,
+				testDateDN,
+				workerNm,
+				gijongNm,
+				qutyNm,
+				equipNm,
+				changeM,
+				metalLotNo,
+				bottomVal,
+				topVal,
+				sideLeft,
+				sideRight,
+				afterBottom,
+				afterTop,
+				#{regId} REG_ID,
+				GETDATE() REG_DATE
+			FROM OPENJSON(#{insertList})
+			WITH (
+				teamCd nvarchar(100),
+				shillingGubun nvarchar(100),
+				shillingResult nvarchar(100),
+				productDate nvarchar(100),
+				productDateDN nvarchar(100),
+				testDate nvarchar(100),
+				testDateDN nvarchar(100),
+				workerNm nvarchar(100),
+				gijongNm nvarchar(100),
+				qutyNm nvarchar(100),
+				equipNm nvarchar(100),
+				changeM nvarchar(100),
+				metalLotNo nvarchar(100),
+				bottomVal nvarchar(100),
+				topVal nvarchar(100),
+				sideLeft nvarchar(100),
+				sideRight nvarchar(100),
+				afterBottom nvarchar(100),
+				afterTop nvarchar(100),
+				regId nvarchar(100),
+				regDate nvarchar(100)
+			)
+		  ]]>
+	</insert>
+	
+	<!-- 신뢰성 (실링) 삭제 -->
+	<delete id="reliabilityResultShillingDelete">
+		<![CDATA[
+			DELETE FROM TB_RELIABILITY_CHECK_SHILLING 
+			WHERE 1=1
+			AND PRODUCT_DATE IN (${deleteList})
+
+		]]>
+	</delete>
+	
+	<!-- 신뢰성 결과 전체 수정 -->
+	<update id="reliabilityResultUpdate" parameterType="mes.domain.qm.ReliabilityResultVo">
+	<![CDATA[
+		UPDATE	
+			TB_RELIABILITY_RESULT 
+		SET	
+			LOT_NO 			= #{lotNo}
+			, TRUST_GUBUN	= #{trustGubun}
+			, TRUST_SEQ	    = #{trustSeq}	
+			, TEST_DATE	    = #{testDate}	
+			, DATA1		    = #{data1}		
+			, DATA2		    = #{data2}		
+			, DATA3		    = #{data3}		
+			, DATA4		    = #{data4}		
+			, DATA5		    = #{data5}		
+			, DATA6		    = #{data6}		
+			, DATA7		    = #{data7}		
+			, DATA8		    = #{data8}		
+			, DATA9		    = #{data9}		
+			, DATA10        = #{data10}    
+			, TRUST_DESC    = #{trustDesc} 
+		WHERE 1=1
+		AND LOT_NO 		= #{lotNo}
+		AND	TRUST_GUBUN	= #{trustGubun}
+		AND	TRUST_SEQ 	= #{trustSeq}
+	]]>
+	</update>
+	
+	<!-- 신뢰성 결과 삭제 -->
+	<delete id="reliabilityResultDelete">
+		<![CDATA[
+			DELETE FROM TB_RELIABILITY_RESULT 
+			WHERE 1=1
+			AND LOT_NO	 	= #{lotNo}
+			AND	TRUST_GUBUN = #{trustGubun}
+			AND	TRUST_SEQ 	= #{trustSeq}
+		]]>
+	</delete>
+	
+	<!-- 신뢰성 시퀀스 생성 -->
+	<select id="getTrustSeq" resultType="String">
+		SELECT ISNULL(RIGHT('000' + CAST(MAX(RIGHT(TRUST_SEQ,3))+1 AS NVARCHAR),3), '001') FROM TB_RELIABILITY_RESULT WHERE SUBSTRING(TRUST_SEQ,0,7) = #{date}
+	</select>
+	
+	
+	<!-- 신뢰성 결과 특정 사진 Read(List) -->
+	<select id="reliabilityPhotoSelectList" resultMap="ReliabilityResultVo">		
+			SELECT
+				LOT_NO
+				, TRUST_GUBUN
+				, TRUST_PHOTO_SEQ	
+				, IMAGE_FILE_NM
+				, IMAGE_CHANGE_FILE_NM
+				, IMAGE_FILE
+				, IMAGE_FILE_SIZE
+			FROM TB_RELIABILITY_PHOTO
+			WHERE 1=1
+			AND LOT_NO 		= #{lotNo}
+			AND TRUST_GUBUN = #{trustGubun}
+	</select>
+	
+	<!-- 신뢰성 결과 특정 사진 Read -->
+	<select id="reliabilityPhotoRead" resultMap="ReliabilityResultVo">		
+			SELECT
+				LOT_NO
+				, TRUST_GUBUN
+				, TRUST_PHOTO_SEQ	
+				, IMAGE_FILE_NM
+				, IMAGE_CHANGE_FILE_NM
+				, IMAGE_FILE
+				, IMAGE_FILE_SIZE
+			FROM TB_RELIABILITY_PHOTO
+			WHERE 1=1
+			AND LOT_NO 			= #{lotNo}
+			AND TRUST_GUBUN		= #{trustGubun}
+			AND TRUST_PHOTO_SEQ = #{trustPhotoSeq}
+	</select>
+	
+	<!-- 신뢰성 결과 사진 등록 -->
+	<insert id="reliabilityPhotoCreate" parameterType="mes.domain.qm.ReliabilityResultVo">
+		<![CDATA[
+			INSERT INTO TB_RELIABILITY_PHOTO (
+				LOT_NO
+				, TRUST_GUBUN
+				, TRUST_PHOTO_SEQ	
+				, IMAGE_FILE_NM
+				, IMAGE_CHANGE_FILE_NM
+				, IMAGE_FILE
+				, IMAGE_FILE_SIZE		
+			) VALUES (
+				#{lotNo}
+				, #{trustGubun}
+				, #{trustPhotoSeq}	
+				, #{imageFileNm}
+				, #{imageChangeFileNm}	
+				, #{imageFile}
+				, #{imageFileSize}
+			)		  
+		  ]]>
+	</insert>
+	
+	<!-- 신뢰성 결과 사진 수정 -->
+	<insert id="reliabilityPhotoUpdate" parameterType="mes.domain.qm.ReliabilityResultVo">
+		<![CDATA[
+			UPDATE	
+				TB_RELIABILITY_PHOTO 
+			SET	
+				LOT_NO 					= #{lotNo}
+				, TRUST_GUBUN       	= #{trustGubun}
+				, TRUST_PHOTO_SEQ  	 	= #{trustPhotoSeq}
+				, IMAGE_FILE_NM	   	 	= #{imageFileNm}
+				, IMAGE_CHANGE_FILE_NM	= #{imageChangeFileNm}
+				, IMAGE_FILE        	= #{imageFile}
+				, IMAGE_FILE_SIZE   	= #{imageFileSize}
+			WHERE 1=1
+			AND LOT_NO 			= #{lotNo}
+			AND	TRUST_GUBUN 	= #{trustGubun}
+			AND	TRUST_PHOTO_SEQ	= #{trustPhotoSeq}
+		  ]]>
+	</insert>
+	
+	<!-- 신뢰성 결과 공백 사진 삭제시 SEQ 다시 채번 -->
+	<insert id="trustPhotoSeqUpdate" parameterType="mes.domain.qm.ReliabilityResultVo">
+		<![CDATA[
+			UPDATE	
+				TB_RELIABILITY_PHOTO
+			SET
+				TRUST_PHOTO_SEQ = B.SEQ
+				
+				FROM TB_RELIABILITY_PHOTO AS A,
+				(SELECT
+					RANK() OVER (ORDER BY X.TRUST_PHOTO_SEQ)SEQ
+					, X.LOT_NO
+					, X.TRUST_GUBUN
+					, X.TRUST_PHOTO_SEQ
+				FROM TB_RELIABILITY_PHOTO X
+				WHERE LOT_NO = #{lotNo}
+				AND TRUST_GUBUN = '001') AS B
+			WHERE 1=1
+			AND A.LOT_NO	 		= B.LOT_NO
+			AND A.TRUST_GUBUN 		= B.TRUST_GUBUN
+			AND A.TRUST_PHOTO_SEQ 	= B.TRUST_PHOTO_SEQ
+			
+			AND A.LOT_NO 		= #{lotNo}
+			AND A.TRUST_GUBUN	= #{trustGubun}
+		  ]]>
+	</insert>
+	
+	<!-- 신뢰성 결과 사진 삭제 -->
+	<delete id="reliabilityPhotoDelete">
+		<![CDATA[
+			DELETE FROM TB_RELIABILITY_PHOTO 
+			WHERE 1=1
+			AND LOT_NO 			= #{lotNo}
+			AND	TRUST_GUBUN		= #{trustGubun}
+		]]>
+		<if test="trustPhotoSeq != null">
+			AND	TRUST_PHOTO_SEQ = #{trustPhotoSeq}
+		</if>
+	</delete>
+	
+	<!-- 신뢰성 사진 시퀀스 생성 -->
+	<select id="getTrustPhotoSeq" resultType="String">
+<!-- 		SELECT ISNULL(RIGHT('000' + CAST(MAX(RIGHT(TRUST_PHOTO_SEQ,3))+1 AS NVARCHAR),3), '001') FROM TB_RELIABILITY_PHOTO WHERE SUBSTRING(TRUST_PHOTO_SEQ,0,7) = #{date} -->
+		SELECT ISNULL(MAX(TRUST_PHOTO_SEQ)+1, '1') FROM TB_RELIABILITY_PHOTO WHERE LOT_NO = LEFT(#{searchCondition}, LEN(#{searchCondition})-3) AND TRUST_GUBUN = RIGHT(#{searchCondition},3)
+	</select>
+	
+</mapper>

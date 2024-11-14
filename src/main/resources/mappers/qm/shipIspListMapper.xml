@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.qm.shipIspListMapper">
+
+	<resultMap id="ShipIspListVo" type="mes.domain.qm.ShipIspListVo">
+		<result property="idx"    	          			column="IDX"						/>
+		<result property="trayNo"    	          		column="TRAY_NO"					/>
+		<result property="trayNo1"    	          		column="TARY_NO1"					/>
+		<result property="trayNo2"    	          		column="TARY_NO2"					/>
+		<result property="seq"    	         			column="SEQ"						/>
+		<result property="workOrdNo"    	          	column="WORK_ORD_NO"				/>
+		<result property="matrlLotNo"    	          	column="MATRL_LOT_NO"				/>
+		<result property="filmLotNo"    	          	column="FILM_LOT_NO"				/>
+		<result property="inspStatus"    	          	column="INSP_STATUS"				/>
+		<result property="reInspStatus"    	          	column="RE_INSP_STATUS"				/>
+		<result property="disStatus"    	          	column="DIS_STATUS"					/>
+		<result property="inspDate"    	          		column="INSP_DATE"					/>
+		<result property="productDate"    	          	column="PRODUCT_DATE"				/>
+		<result property="faultyCnt"    	          	column="FAULTY_CNT"					/>
+		<result property="faultyTrayNo"    	          	column="FAULTY_TRAY_NO"				/>
+		<result property="inspChargr"    	          	column="INSP_CHARGR"				/>
+		<result property="dayNightCd"    	          	column="DAY_NIGHT_CD"				/>
+		<result property="faultyGubun"    	         	column="FAULTY_GUBUN"				/>
+		<result property="nextGubun"    	          	column="NEXT_GUBUN"					/>
+		<result property="inspDesc"    	          		column="INSP_DESC"					/>
+		<result property="sampleCnt"    	          	column="SAMPLE_CNT"					/>
+		<result property="inspGubun"    	          	column="INSP_GUBUN"					/>
+		<result property="regId"    	          		column="REG_ID"						/>
+		<result property="regDate"    	          		column="REG_DATE"					/>
+		<result property="updId"    	          		column="UPD_ID"						/>
+		<result property="updDate"    	          		column="UPD_DATE"					/>
+
+		<result property="inspChargrNm"    	          	column="INSP_CHARGR_NM"				/>
+		<result property="inspStatusNm"    	        	column="INSP_STATUS_NM"				/>
+		<result property="reInspStatusNm"    	    	column="RE_INSP_STATUS_NM"			/>
+		<result property="dayNightCdNm"    	        	column="DAY_NIGHT_CD_NM"			/>
+	</resultMap>
+	
+	 <!-- 출하검사 트레이 리스트  -->
+	<select id="shipIspListList" resultMap="ShipIspListVo">
+		SELECT	
+			A.IDX
+			, A.TRAY_NO
+			, A.TRAY_NO1
+			, A.TRAY_NO2
+			, A.SEQ
+			, A.WORK_ORD_NO
+			, A.MATRL_LOT_NO
+			, A.FILM_LOT_NO
+			, A.INSP_STATUS
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '066' AND A.INSP_STATUS = X.BASE_CD) INSP_STATUS_NM
+			, A.RE_INSP_STATUS
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '110' AND A.RE_INSP_STATUS = X.BASE_CD) RE_INSP_STATUS_NM
+			, A.DIS_STATUS
+			, A.INSP_DATE
+			, A.PRODUCT_DATE
+			, A.FAULTY_CNT
+			, A.FAULTY_TRAY_NO
+			, A.INSP_CHARGR
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.INSP_CHARGR) INSP_CHARGR_NM
+			, A.DAY_NIGHT_CD
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD = '028' AND A.DAY_NIGHT_CD = X.BASE_CD) DAY_NIGHT_CD_NM
+			, A.FAULTY_GUBUN
+			, A.NEXT_GUBUN
+			, A.INSP_DESC
+			, A.SAMPLE_CNT
+			, A.INSP_GUBUN
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM	TB_SHIP_INSPECT_ADM A
+		WHERE	1=1
+		<if test="dateCheck != null and dateCheck.equals('001')">
+		AND A.PRODUCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		</if>
+		<if test="dateCheck != null and dateCheck.equals('002')">
+		AND A.INSP_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		</if>
+		<if test="inspStatus != null and !inspStatus.equals('')">
+		AND A.INSP_STATUS = #{inspStatus}
+		</if>
+	</select>
+	
+</mapper>

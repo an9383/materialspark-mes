@@ -31,40 +31,6 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
-	
-    <!-- 
-    	log4j slf4j 21-01-28-
-    -->
-    <logger name="java.sql">
-        <level value="DEBUG"/>
-    </logger>
-    
-	<logger name="jdbc.sqlonly">
-		<level value="DEBUG" />
-	</logger>
-
-	<logger name="jdbc.sqltiming">
-		<level value="OFF" />
-	</logger>
-
-	<logger name="jdbc.audit">
-		<level value="OFF" />
-	</logger>
-
-	<logger name="jdbc.resultset">
-		<level value="ERROR" />
-	</logger>
-
-	<logger name="jdbc.resultsettable">
-		<level value="DEBUG" />
-	</logger>
-
-	<logger name="jdbc.connection">
-		<level value="ERROR" />
-	</logger>
-    <!-- 
-    	log4j slf4j 21-01-28-
-    -->
 
 	<!-- Root Logger -->
 	<root>

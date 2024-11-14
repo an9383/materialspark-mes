@@ -134,24 +134,24 @@ public class DateUtil {
     */
     public static String getWeekToDay(String yyyymm, int week, String pattern) {
 
-	  Calendar cal = Calendar.getInstance(Locale.FRANCE);
-	
-	  int new_yy = Integer.parseInt(yyyymm.substring(0,4));
-	  int new_mm = Integer.parseInt(yyyymm.substring(4,6));
-	  int new_dd = 1;
-	
-	  cal.set(new_yy,new_mm-1,new_dd);
-	 
-	  // 임시 코드
-	  if (cal.get(cal.DAY_OF_WEEK) == cal.SUNDAY) {
-	  week = week - 1;
-	  } 
-	 
-	  cal.add(Calendar.DATE, (week-1)*7+(cal.getFirstDayOfWeek()-cal.get(Calendar.DAY_OF_WEEK)));
+  Calendar cal = Calendar.getInstance(Locale.FRANCE);
 
-      SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.FRANCE);
+  int new_yy = Integer.parseInt(yyyymm.substring(0,4));
+  int new_mm = Integer.parseInt(yyyymm.substring(4,6));
+  int new_dd = 1;
+
+  cal.set(new_yy,new_mm-1,new_dd);
+ 
+  // 임시 코드
+  if (cal.get(cal.DAY_OF_WEEK) == cal.SUNDAY) {
+  week = week - 1;
+  } 
+ 
+  cal.add(Calendar.DATE, (week-1)*7+(cal.getFirstDayOfWeek()-cal.get(Calendar.DAY_OF_WEEK)));
+
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.FRANCE);
        
-      return formatter.format(cal.getTime());
+        return formatter.format(cal.getTime());
        
     }
 
@@ -357,11 +357,16 @@ public class DateUtil {
 	            sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 	            return sdf.format(cal.getTime());
 	        }
+	        if(type.toLowerCase().equals("yyyy-mm-dd hh:mm:ss"))
+	        {
+	            sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	            return sdf.format(cal.getTime());
+	        }	        
 	        if(type.toLowerCase().equals("yyyy-mm-dd hh:mm:ss:ms"))
 	        {
 	            sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 	            return sdf.format(cal.getTime());
-	        }	        
+	        }
 	        else
 	        {
 	          sdf = new SimpleDateFormat(type);
@@ -371,6 +376,83 @@ public class DateUtil {
             return "[ ERROR ]: parameter must be 'YYYYMMDD', 'YYYYMMDDHH', 'YYYYMMDDHHSS'or 'YYYYMMDDHHSSMS'";
         }
     }
+    
+    /**
+    * <p>날짜정보를 입력된 type, gubun(날짜,시간,분,초)과 현재날자 기준으로 더하거나 뺀 날자로  반환합니다.
+    *
+    * @param type, gubun, sValue
+    * @return String
+    * @see java.text.DateFormat
+    * <p><pre>
+    *  - 사용 예
+    *  gubun : date(날짜), hour(시간), min(분), sec(초)
+    * String date = DateUtil.getDay2("yyyymmddhhmmss", "date", 1)
+    * </pre>
+    */   
+    public static String getDay2(String type, String gubun, int sValue)
+    {
+        Date date = new Date();
+        SimpleDateFormat sdf = null;
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        if("date".equals(gubun)) {
+        	cal.add(Calendar.DATE, sValue);
+        } else if("hour".equals(gubun)) {
+        	cal.add(Calendar.HOUR, sValue);
+        } else if("min".equals(gubun) ) {
+        	cal.add(Calendar.MINUTE, sValue);
+        } else if("sec".equals(gubun) ) {
+        	cal.add(Calendar.SECOND, sValue);
+        } else {
+        	cal.add(Calendar.DATE, sValue);        	
+        }
+        
+        try{
+	        if(type.toLowerCase().equals("yyyymmdd"))
+	        {
+	            sdf = new SimpleDateFormat("yyyyMMdd");
+	            return sdf.format(cal.getTime());
+	        }
+	        if(type.toLowerCase().equals("yyyy-mm-dd"))
+	        {
+	            sdf = new SimpleDateFormat("yyyy-MM-dd");
+	            return sdf.format(cal.getTime());
+	        }          
+	        if(type.toLowerCase().equals("yyyymmddhh"))
+	        {
+	            sdf = new SimpleDateFormat("yyyyMMddHH");
+	            return sdf.format(cal.getTime());
+	        }
+	        if(type.toLowerCase().equals("yyyymmddhhmm"))
+	        {
+	            sdf = new SimpleDateFormat("yyyyMMddHHmm");
+	            return sdf.format(cal.getTime());
+	        }
+	        if(type.toLowerCase().equals("yyyymmddhhmmss"))
+	        {
+	            sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+	            return sdf.format(cal.getTime());
+	        }
+	        if(type.toLowerCase().equals("yyyymmddhhmmssms"))
+	        {
+	            sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+	            return sdf.format(cal.getTime());
+	        }
+	        if(type.toLowerCase().equals("yyyy-mm-dd hh:mm:ss"))
+	        {
+	            sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	            return sdf.format(cal.getTime());
+	        }		        
+	        else
+	        {
+	          sdf = new SimpleDateFormat(type);
+	            return sdf.format(cal.getTime());
+	        }
+        }catch(Exception e){
+            return "[ ERROR ]: parameter must be 'YYYYMMDD', 'YYYYMMDDHH', 'YYYYMMDDHHSS'or 'YYYYMMDDHHSSMS'";
+        }
+    }   
     
     /**
     * <p>날짜정보를 입력된 type으로  반환합니다.
@@ -411,6 +493,16 @@ public class DateUtil {
     return rtnDate;
    
     }
+ 
+	public static String changeDateFormat2(String yyyymmdd) {
+		String rtnDate = null;
+		String yyyy = yyyymmdd.substring(0, 4);
+		String mm = yyyymmdd.substring(4, 6);
+		String dd = yyyymmdd.substring(6, 8);
+		rtnDate = yyyy + "-" + mm + "-" + dd;
+
+		return rtnDate;
+	}
  
     /**
     * <p>두 날짜간의 날짜수를 반환(윤년을 감안함)
@@ -515,32 +607,6 @@ public class DateUtil {
             retCal.set(year, month, date);
       }
       return retCal;
-    }
-    
-    
-    /**
-     * <p>해당 p_date날짜에 1년전,한달전,하루전 일자를 계산한다.
-     *
-   * @param p_date
-   * @return Calendar
-     * @see java.util.Calendar
-     * <p><pre>
-     *  - 사용 예
-     * Calendar cal = DateUtil.getCustomDate(DateUtil.getCurrentYyyymmdd())
-     * </pre>
-     */
-    public static String getCustomDate(String p_date) {
-        int year  = Integer.parseInt(p_date.substring(0, 4));
-        int month = Integer.parseInt(p_date.substring(4, 6));
-        int date  = Integer.parseInt(p_date.substring(6, 8));
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(year, month - 1, date);
-        cal.add(Calendar.MONTH, -1);    // 한달 전
-
-        
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyyMMdd");
-        return dateFormatter.format(cal.getTime());
     }
 
 }

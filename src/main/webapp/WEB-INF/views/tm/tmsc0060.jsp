@@ -4,765 +4,1697 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
-<%@include file="../layout/top.jsp" %>
-<style>
- body{
-  overflow:hidden;
- }
-</style>
-<!-- .app -->
-<div class="app pda_mo_wrap" style="display: flex;flex-direction: column;height: 100%;">
-	<header class="pda_mo_hd">
-		<a href="<c:url value="tmsc0200"/>" class="float-left"><img class="p-2" src="/resources/assets/images/mo_home_wh.png"></a> <a href="/tmsc0060"><p class="mo_main_title">자재입고</p></a>
+<%@include file="../layout/body-top.jsp" %>
+
+<div class="page-wrapper" id="page-wrapper">
+<!--header ============================================================== -->
+	<header class="page-title-bar row">
+		<nav aria-label="breadcrumb" class="breadcrumb-padding">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">재고관리</a></li>
+				<li class="breadcrumb-item active">제품(초기재고)</li>
+			</ol>
+		</nav>
 	</header>
-	<!--====-sortbox-->
-	<div class="mo_sortbox">
-				<div class="col-12 row p-1">
-					<div class="col-3 mo_sort_title">입고일</div>
-					<div class="form-group input-sub col-9 m-0 p-0">
-						<input class="form-control-md" type="text" id="inWhsDate" disabled />
-						<button onclick="fnPopUpCalendar(inWhsDate,inWhsDate,'yyyy-mm-dd');" class="btn btn-secondary input-sub-search-md" type="button" id="btnCalendar">
-							<span class="oi oi-calendar" style="font-size: 13px;"></span>
-						</button>
+	<!-- #main============================================================== -->
+          <div class="container-fluid" id="main">
+              <div class="row table-wrap-hid">	
+                  <!--======================== .left-list ========================-->
+                  <div class="left-list left-sidebar" id="left-list" style="width:61%;">
+                      <div class="card">
+                        <div class="open-arrow" id="arrowLeft">
+                            <button  id="left-width-btn" onclick="openrNav();openrNav2After()"  class="btn btn-primary input-sub-search" type="button">
+                            <i class="mdi mdi-arrow-left"></i>
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+		                    <table id="preGoodsInventoryTable" class="table table-bordered">
+		                        <thead class="thead-light">
+			                        <tr>
+			                        	<th>재고년월</th>
+			                            <th>구분</th>	                        
+			                            <th>제품명</th>
+			                            <th>모델NO</th>
+			                            <th>재질</th>
+			                            <th>규격</th>
+			                            <th>BOX</th>
+			                            <th>EA</th>
+			                        </tr>
+		                        </thead>
+		                        <tfoot>
+									<tr>
+										<td colspan="6" style="text-align: center">합계</td>
+										<td id="sumBox" style="text-align: right">0</td>
+										<td id="sumEa" style="text-align: right">0</td>
+									</tr>
+								</tfoot>
+		                    </table>
+                        </div>
+                      </div>
+                  </div><!-- /.left-list -->
+                  <!--======================== .right-sidebar 등록,수정 ========================-->
+                  <div class="right-list right-sidebar" id="myrSidenav" style="width:38%;">
+					<div id="formBox">
+                   		<!--오른쪽 등록 부분 상단 버튼 영역-->
+                        <div class="card-body col-sm-12">
+                              <div class="rightsidebar-close">
+                                   <a href="javascript:void(0)"  id="left-expand" class="closebtn float-right" onclick="closerNav();closerNav2After()"><i class="mdi mdi-close"></i></a>
+                              </div>
+                            <!-- <button type="button" class="btn btn-primary float-right" id="btnForword">마감</button>  -->                             
+                            <button type="button" class="btn btn-danger float-right mr-1" id="btnMinus" disabled>삭제</button>
+                            <button type="button" class="btn btn-warning float-right mr-1" id="btnPlus" disabled>추가</button>
+                            <button type="button" class="btn btn-primary float-left mr-1" id="btnPrint" disabled>인쇄</button>
+                            <button type="button" class="btn btn-primary float-right mr-1" id="btnAdd">등록</button>
+                        </div>	
+                   		<!--/오른쪽 등록 부분 상단 버튼 영역-->
+                        <form id="form">
+							<div class="table-responsive">
+	                            <table class="table table-bordered">
+	                            <colgroup>
+		                            <col width="20%">
+		                            <col width="30%">
+		                            <col width="20%">
+		                            <col width="30%">	                            
+		                        </colgroup>
+		                        <tr>
+		                            <th>*재고년월</th>
+		                            <!-- <td><input type="month" class="form-control" id=invntryNo name="invntryNo" ></td> -->
+		                        	<td><input class="form-control" type="text" id="invntryNo" disabled></td>
+		                        	<th>*구분</th>
+		                            <td><select class="custom-select" id="orderGubunCd" ></select></td>
+		                        </tr>
+		                        <tr>
+		                            <th>제품코드</th>
+		                            <td><input type="text" class="form-control" id="goodsCd"  name="goodsCd"></td>
+		                            <th>모델NO</th>
+		                            <td ><input type="text" class="form-control" id="modelNo" name="modelNo"></td>
+		                        </tr>
+		                        <tr>
+		                         	<th>*제품명</th>
+		                            <td>
+		                            	<div class="input-sub m-0">
+			                            	<input type="text" class="form-control" id="goodsNm"  name="goodsNm">
+			                            	<button type="button" class="btn btn-primary input-sub-search" id="btnSelGoods" onClick="selectGoodsCode()">
+										          <span class="oi oi-magnifying-glass"></span>
+									        </button>
+								        </div> 
+		                            </td>	                        
+		                            <th>규격</th>
+		                            <td ><input type="text" class="form-control" id="model" name="model"></td>
+		                        </tr>
+		                        <tr>
+		                         	<th>재질</th>
+		                         	<input type="hidden" class="form-control" id="qutyCd"  name="qutyCd">
+		                            <td><input type="text" class="form-control" id="qutyNm"  name="qutyNm"></td>	                        
+		                            <th>포장 수량</th>
+		                            <td ><input type="text" class="form-control" id="packCnt" name="packCnt"></td>
+		                        </tr>
+		                        <tr>
+		                         	<th>*BOX 수량</th>
+		                            <td><input type="number" max="5000" min="0" maxlength="5" step="1" class="form-control number-float0" id="inputBoxCnt"  name="inputBoxCnt" onpaste="return false;" oncopy="return false;"></td>	                        
+		                            <th>*거래처</th>
+		                            <input type="hidden" class="form-control" id="dealCorpCd"  name="dealCorpCd">
+		                            <td>
+		                            	<div class="input-sub m-0">
+			                            	<input type="text" class="form-control" id="dealCorpNm"  name="dealCorpNm" disabled>
+			                            	<button type="button" class="btn btn-primary input-sub-search" id="btnSelDeal" onClick="selectDealCorp()">
+										          <span class="oi oi-magnifying-glass"></span>
+									        </button>
+								        </div> 
+		                            </td>
+		                        </tr>	                        	                        	                        
+	                            <!--==========/table 내용 추가==========-->
+	                            </table>
+							</div>
+						</form>
 					</div>
-				</div>
-				<div class="col-12 row p-1">
-					<div class="col-3 mo_sort_title">Location No</div>
-					<div class="form-group input-sub col-9 m-0 p-0">
-						<input type="text" class="form-control-md" id="locationNo" style="min-width:100%;"  placeholder="스캐너만 입력">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 row p-1">
-						<div class="col-3 mo_sort_title">구역</div>
-						<div class="form-group input-sub col-4 m-0 p-0">
-							<input type="hidden" class="form-control" id="locationCd" style="min-width:100%;">
-							<input type="hidden" class="form-control" id="areaCd" style="min-width:100%;">
-							<input type="text" class="form-control-md" id="areaNm" readonly>
+					<div class="row">
+						<div class="col-sm-6">
+<!-- 							<div class="row float-left alert-primary d-none" id="addForm"> -->
+<!-- 								<h6 class="p-1 mr-3 mb-0">추가 생성</h6> -->
+<!-- 								<input class="form-control number-float0" min="0" max="5000" step="1" type="text" id="boxPlus" style="width:150px;"> -->
+<!-- 							</div> -->
+							<p class="d-none" id="deleteLabel">*삭제시 해당제품 입출고내역도 같이삭제됩니다!</p>
 						</div>
-						<div class="col-1 mo_sort_title" style="text-align:center;">위치</div>
-						<div class="form-group input-sub col-4 m-0 p-0">
-							<input type="hidden" class="form-control" id="floorCd" style="min-width:100%;">
-							<input type="text" class="form-control-md" id="floorNm" readonly>
-						</div>
+						<div class="col-sm-6">
+	                    	<button type="button" class="btn btn-primary d-none float-right" id="btnSave">저장</button>
+	                    	<button type="button" class="btn btn-primary d-none float-right mr-2" id="btnReset">초기화</button>
+	                    	
+	                    	<button type="button" class="btn btn-primary d-none float-right mr-2 d-none" id="btnSaveEa">개별단위 추가</button>
+	                    	<button type="button" class="btn btn-primary d-none float-right mr-2 d-none" id="btnBundle">묶음단위 추가</button>
+	                    </div>
 					</div>
-					<div class="col-12 row p-1">
-						<div class="col-3 mo_sort_title">Barcode NO</div>
-						<div class="form-group input-sub col-9 m-0 p-0">
-							<input type="text" class="form-control-md" id="barcodeNo" inputmode="none" placeholder="스캐너만 입력">
-						</div>
+					<!--
+					<div>
+	                    <button type="button" class="btn btn-primary float-right" id="btnCheck">확인</button>
 					</div>
-				</div>
-	</div>
-	<!--==버튼영역-->
-	<div class="mo_btnbox pl-2 pr-2">
-				<div class="float-left">
-					<button type="button" class="btn btn-danger float-right" id="btnLineClear" disabled>라인삭제</button>
-					<button type="button" class="btn btn-danger float-right mr-2" id="btnAllClear" disabled>전체삭제</button>
-				</div>
-				<div class="float-right">
-					<button type="button" class="btn btn-secondary float-right" id="btnCancel">취소</button>
-					<button type="button" class="btn btn-secondary float-right d-none" id="btnNew">새로 등록</button>
-					<button type="button" class="btn btn-primary float-right mr-2" id="btnSave" disabled>저장</button>
-				</div>
+					-->
+					<div class="table-responsive"> <!-- style="max-height:490px;" -->
+						<table id="preGoodsInventoryDtlTable" class="table table-bordered">
+							<colgroup><col width="7%"></colgroup>
+							<%-- <colgroup><col width="10%"></colgroup> --%>
+							<colgroup><col width="20%"></colgroup>
+							<colgroup><col width="11%"></colgroup>
+							<colgroup><col width="11%"></colgroup>
+							<colgroup><col width="16%"></colgroup>
+							<colgroup><col width="10%"></colgroup>
+							<colgroup><col width="10%"></colgroup>
+							<colgroup><col width="15%"></colgroup>
+							<thead class="thead-light">
+								<tr>
+									<th>순번</th>
+									<!-- <th>삭제<input type="checkbox" id="chkAll" name="chkAll"></th> -->
+									<th>Box No</th>
+									<th>포장 수량</th>
+									<th>잔여 수량</th>
+									<th>입고일</th>
+									<th>제품 상태</th>
+									<th>불량 상태</th>
+									<th>비고</th>
+								</tr>
+							</thead>
+							<!-- 
+							<tfoot>
+								<tr>
+									<td colspan="3" style="text-align: center">합계</td>
+									<td id="sumEaDtl" style="text-align: right">0</td>
+									<td colspan="2" style="text-align: center"></td>
+								</tr>
+							</tfoot>
+							 -->
+						</table>
+					</div>
+				</div><!-- ===/.right-sidebar 등록,수정===  -->
+			</div><!-- /.row -->
+	</div><!-- / #main  -->
+</div><!-- /.page-wrapper -->
+<!-- 식별표(1)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+<div class="modal fade" id="firstInventoryModal" tabindex="-1" aria-labelledby="firstInventoryModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content" style="/*overflow:auto;*/">
+			<div class="modal-header">
+				<h5 class="modal-title" id="firstInventoryModalLabel">초기재고 인쇄 준비중입니다. 잠시만 기다려주세요...</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
-			<br>
-			<!--==end==버튼영역-->
-	<!--==end==-sortbox-->
-	<main style="height: calc(100vh - 50px);overflow:auto;">
-		<div class="container-fluid bg_wh" id="main" style="height: 100%;display: flex;flex-direction: column;">
-			<!--table-->
-			<!-- .table-responsive -->
-			<div class="card" style="OVERFLOW-Y:auto; width:100%;">
-				<div class="table-responsive">
-					<table id="barcodeDtlTable" class="table table-bordered table-td-center">
-						<thead class="thead-light">
-							<tr>
-								<th style="min-width: 20px">순번</th>
-								<th style="min-width: 90px">Barcode NO</th>
-								<th style="min-width: 80px">CODE</th>
-								<th style="min-width: 40px">REV</th>
-								<th style="min-width: 100px">ITEM</th>
-								<th style="min-width: 220px">SPEC</th>
-								<th style="min-width: 40px">단위</th>
-								<th style="min-width: 40px">입고량</th>
-							</tr>
-						</thead>
-					</table>
-				</div>
-				<!-- /.table-responsive -->
-			</div>
-			<!--==end==card-->
-			<!--==end==table-->
-		</div>
-		<!-- 창고정보 모달 시작-->
-		<div class="modal fade" id="locationPopupModal" tabindex="-1" role="dialog" aria-labelledby="locationPopupLabel" aria-hidden="true">
-			<div class="modal-dialog modal-xl" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="locationPopupLabel">창고정보조회</h5>	
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="table-responsive" style="height:490px">
-							<table class="table table-sm table-bordered">
+			<div class="modal-body" id="printFirstInventoryModal">
+				<div class="container" style="padding:0px;">
+					<div class="row" style="padding:0px;">
+						<div class="col" style="height:100%;">
+							<table class="" style="border: 8px solid black; width:100%; max-width:100%; margin-bottom:1rem; background-color:transparent; text-indent:initial; border-spacing:2px; border-collapse:collapse;">
 								<colgroup>
 									<col width="20%">
 									<col width="30%">
 									<col width="20%">
 									<col width="30%">
 								</colgroup>
-								<tr>
-									<th>창고</th>
-									<td>
-										<select class="custom-select" id="selectLocationCd" style="max-width:100%;" onchange="changeAreaCd()"></select>
-									</td>
-									<th>구역</th>
-									<td>
-										<select class="custom-select" id="selectAreaCd" style="max-width:100%;" onchange="changeFloorCd()">
-											<option value="">창고를 선택해주세요.</option>
-										</select>
-									</td>
+								<tr style="border: 2px solid black;">
+									<td class="text-center-td" colspan='4' style="font-size:50px; font-weight: bold; border: 2px solid black; text-align:center;">초 기 재 고 목 록</td>
+								</tr>
+								<tr style="border: 2px solid black; font-size:40px;">
+									<td class="text-center-td"	style="min-width:20%; font-size:25px; height:50px; border: 2px solid black; text-align:center;">재고년월</td>
+									<td id="invntryNoPrt" 		style="min-width:30%; font-size:25px; height:50px; border: 2px solid black; text-align:center;"></td>
+									<td class="text-center-td"	style="min-width:20%; font-size:25px; height:50px; border: 2px solid black; text-align:center;">구분</td>
+									<td id="orderGubunCdPrt"	style="min-width:30%; font-size:25px; height:50px; border: 2px solid black; text-align:center;"></td>
+								</tr>
+								<tr style="border: 2px solid black; font-size:40px;">
+									<td class="text-center-td"	style="min-width:20%; font-size:25px; height:50px; border: 2px solid black; text-align:center;">제품코드</td>
+									<td id="goodsCdPrt"			style="min-width:30%; font-size:25px; height:50px; border: 2px solid black; text-align:center;"></td>
+									<td class="text-center-td"	style="min-width:20%; font-size:25px; height:50px; border: 2px solid black; text-align:center;">모델NO</td>
+									<td id="modelNoPrt"			style="min-width:30%; font-size:25px; height:50px; border: 2px solid black; text-align:center;"></td>
+								</tr>
+								<tr style="border: 2px solid black; font-size:40px;">
+									<td class="text-center-td"	style="min-width:20%; font-size:25px; height:50px; border: 2px solid black; text-align:center;">제품명</td>
+									<td id="goodsNmPrt"			style="min-width:30%; font-size:25px; height:50px; border: 2px solid black; text-align:center;"></td>
+									<td class="text-center-td"	style="min-width:20%; font-size:25px; height:50px; border: 2px solid black; text-align:center;">규격</td>
+									<td id="modelPrt"			style="min-width:30%; font-size:25px; height:50px; border: 2px solid black; text-align:center;"></td>
+								</tr>
+								<tr style="border: 2px solid black; font-size:40px;">
+									<td class="text-center-td"	style="min-width:20%; font-size:25px; height:50px; border: 2px solid black; text-align:center;">재질</td>
+									<td id="qutyNmPrt"			style="min-width:30%; font-size:25px; height:50px; border: 2px solid black; text-align:center;"></td>
+									<td class="text-center-td"	style="min-width:20%; font-size:25px; height:50px; border: 2px solid black; text-align:center;">수량</td>
+									<td id="packCntPrt"			style="min-width:30%; font-size:25px; height:50px; border: 2px solid black; text-align:center;"></td>
+								</tr>
+								<tr style="border: 2px solid black; font-size:40px;">
+									<td class="text-center-td"	style="min-width:20%; font-size:25px; height:50px; border: 2px solid black; text-align:center;">BOX</td>
+									<td id="inputBoxCntPrt"		style="min-width:30%; font-size:25px; height:50px; border: 2px solid black; text-align:center;"></td>
+									<td class="text-center-td"	style="min-width:20%; font-size:25px; height:50px; border: 2px solid black; text-align:center;">거래처</td>
+									<td id="dealCorpNmPrt"		style="min-width:30%; font-size:25px; height:50px; border: 2px solid black; text-align:center;"></td>
 								</tr>
 							</table>
-							<table id="locationPopupTable" class="table table-sm table-bordered">
-								<colgroup>
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
-								</colgroup>
-								<thead>
-									<tr>
-										<th>창고명</th>
-										<th>구역명</th>
-										<th>위치명</th>
-										<th>비고</th>
-										<th>사용여부</th>
-									</tr>
-								</thead>
-							</table>
 						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-primary"data-dismiss="modal">닫기</button>
-						</div>
+					</div>
+					<div class="row" style="padding:10px; min-width:100%;">
+					</div>
+					<div class="col" style="/*min-width:100%; height:375px;*/">
+						<table class="" id="firstInventoryList" style="border: 8px solid black; width:100%; max-width: 100%; margin-bottom: 1rem; background-color: transparent;    text-indent: initial;
+   																		border-spacing: 2px; border-collapse:collapse; font-size: 20px">
+							<colgroup>
+								<col width="10%">
+								<col width="20%">
+								<col width="10%">
+								<col width="10%">
+								<col width="50%">
+							</colgroup>
+							<tr style="min-width:100%; border: 2px solid black; font-size:40px; text-align:center;">
+								<td class="" style="min-width:10%; height:50px; border: 3px solid black; text-align:center;">순번</td>
+								<td class="" style="min-width:20%; height:50px; border: 3px solid black; text-align:center;">Box No</td>
+								<td class="" style="min-width:10%; height:50px; border: 3px solid black; text-align:center;">수량</td>
+								<td class="" style="min-width:10%; height:50px; border: 3px solid black; text-align:center;">잔여수량</td>
+								<td class="" style="min-width:50%; height:50px; border: 3px solid black; text-align:center;">Barcode</td>
+							</tr>
+						</table>
 					</div>
 				</div>
 			</div>
+			<!-- 
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="A4Print();">Save changes</button>
+			</div>
+			 -->
 		</div>
-		<!-- 창고정보 모달 종료-->
-	</main>
-	<footer class="p-2" style="margin-top: auto;">
-			<div class="mo_sumbox">
-				<button type="button" class="btn btn-warning float-left" id="btnKeyboard">자판 Off</button>
-				<div class="row float-right">
-					<div class="mo_roll mr-4">
-						<!-- <label>합계</label><span class="mo_sum_font_lg" id="rowCount">0</span> <label>Roll</label> -->
-					</div>
-					<div class="mo_kg">
-						<span class="mo_sum_font_lg" id="count">0</span> <label>개수</label>
-					</div>
-				</div>
-			</div>	
-	</footer>
+	</div>
 </div>
-<!-- /.app -->
-<script type="text/javascript" src="/resources/assets/javascript/pages/calendar.js"></script>
-
-<%@include file="../layout/script.jsp" %>
+<!-- 묶음단위 추가 모달 시작 -->
+<div class="modal fade" id="bundlePopupModal" tabindex="-1" role="dialog" aria-labelledby="bundlePopupModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="bundlePopupModalLabel">묶음단위 추가</h5>				
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<table class="table table-bordered">
+						<colgroup>
+						    <col width="30%">
+						    <col width="30%">
+						    <col width="40%">			                                           
+						</colgroup>
+						<tr>
+						    <th>묶음개수</th>
+						    <th>입고일</th>	
+							<th>비고</th>		                          
+						</tr>
+						<tr>
+							<td><input class="form-control number-float0" min="0" max="5000" step="1" type="text" id="boxPlus" style="width:150px;"></td>
+						    <td><input class="form-control" min="0" type="date" id="bundleDate"  name="bundleDate" style="min-width:100%"></td>
+						    <td><input class="form-control" min="0" type="text" id="bundleDateDesc"  name="bundleDateDesc" style="min-width:100%"></td>	                         
+						</tr>
+		            </table>
+				</div>				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="btnSaveBundle" data-dismiss="modal" style="min-width: 70px;">저장</button>
+				<button type="button" class="btn btn btn-secondary" id="btnCancelBundle" data-dismiss="modal" style="min-width: 70px;">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 묶음단위 추가 모달 끝 -->
+<!-- 개별단위 추가 모달 시작 -->
+<div class="modal fade" id="saveEaPopupModal" tabindex="-1" role="dialog" aria-labelledby="saveEaPopupModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="saveEaPopupModalLabel">개별단위 추가</h5>				
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<table class="table table-bordered">
+						<colgroup>
+						    <col width="25%">
+						    <col width="25%">
+						    <col width="25%">
+						    <col width="25%">
+						</colgroup>
+						<tr>
+						    <th>무게(KG)</th>
+							<th>개수</th>	
+							<th>입고일</th>	
+							<th>비고</th>		                          
+						</tr>
+						<tr>
+						    <td><input class="form-control text-right " min="0" type="text" max="100" id="gram"  name="gram" style="min-width:100%"></td>		                         
+						    <td ><input type="text" class="form-control text-right " min="0" max="100000"  id="ea" name="ea" style="min-width:100%"></td>
+						    <td><input class="form-control" min="0" type="date" id="pieceEaDate"  name="pieceEaDate" style="min-width:100%"></td>
+						    <td><input class="form-control" min="0" type="text" id="pieceEaDesc"  name="pieceEaDesc" style="min-width:100%"></td>	
+						</tr>
+		            </table>
+				</div>				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="btnSaveEaCheck" data-dismiss="modal" style="min-width: 70px;">저장</button>
+				<button type="button" class="btn btn btn-secondary" id="btnSaveCancel" data-dismiss="modal" style="min-width: 70px;">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 개별단위 추가 모달 끝 -->
+<!-- <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<식별표(1) -->
+<!-- 재고 등록 확인 모달 시작 -->
+<!-- 
+<div class="modal fade" id="workOrdEndCheckPopupModal" tabindex="-1" role="dialog" aria-labelledby="workOrdEndCheckPopupModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="saveBtnModalLabel">저장 확인</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<h6 id="goodsProductCheck1"></h6>
+					&nbsp<h6> - </h6>&nbsp
+					<h6 id="goodsProductCheck2"></h6>
+				</div>
+				<p>*등록시 해당제품의 입력 수량만큼 BoxNo가 채번되며 취소/삭제가 불가능 합니다.<br>다시한번 확인해주세요!</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="btnSaveCheck" data-dismiss="modal" style="min-width: 70px;">저장</button>
+				<button type="button" class="btn btn btn-secondary" id="btnSaveCancel" data-dismiss="modal" style="min-width: 70px;">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+-->
+<!-- 재고 등록 확인 모달 끝 -->
+ 
+<%@include file="../layout/bottom.jsp" %>
 
 <script>
 
-	$(document).attr("title","자재입고");
+	$("#left-width-btn").click(function() {
+		{
+			$("#left-list").animate({
+				width : "66%"
+			}, 200);
+			$("#arrow-left").animate({
+				display : "none"
+			}, 200);
+		}
+		state = !state;
+	});
+
 	let menuAuth = 'tmsc0060';
-	var serverDate = "${serverDate}"
-	var barcodeNo = null;
-	var partCd = null;
-	var partRev = null;
-	var partNm = null;
-	var partSpec = null;
-	var inWhsQty = null;
-	var baseInfoCd = null;
-	var etc3 = null;
-	var areaCd = null;
-	var count = 0;
-	
-	$('#inWhsDate').val(serverDate);
-	$('#btnSelEquipCode').focus();
+	let currentHref = 'tmsc0060';
+	let currentPage = $('.'+currentHref).attr('id');
+	$('#'+currentPage).closest('.has-child','li').addClass('has-open has-active');
+	$('#'+currentPage).closest('.menu-item').addClass('has-active');
+	$(document).attr("title","제품(초기재고)");
+    let sideView = 'add';
 
-	//공통코드 처리 시작	
- 	var locationCdCode = new Array(); 
-	<c:forEach items="${locationCd}" var="info">
-	var json = new Object();
-	json.baseCd = "${info.locationCd}";
-	json.baseNm = "${info.locationNm}";
-	locationCdCode.push(json);
-	</c:forEach> 
-	//공통코드 처리 끝
+    var invntryNo = null;
+    var goodsCd = null;
+    var model = null;
+    var modelNo = null;
+    var qutyCd = null;
+    var dealCorpCd = null;
+    var orderGubunCd = null;
+    var inputBoxCnt = null;
+    var packCnt = null;
+    var gravity = 0;
+    var secondView = null;
+  	//공통코드 처리 시작
+    var orderGubunCode=new Array();
+    <c:forEach items="${orderGubunCd}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseCdNm="${info.baseCdNm}";
+		orderGubunCode.push(json);
+    </c:forEach>
+	//공통코드 처리 종료
 
-	selectBoxAppend(locationCdCode , "selectLocationCd",'', "2");
+  	uiInitProc(true);
+	uiProc(true);
+	var serverToday =  "${serverDate}";
 	
-	$.fn.dataTable.ext.errMode = 'none';
-	let barcodeDtlTable = $('#barcodeDtlTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+    // 목록
+    $.fn.dataTable.ext.errMode = 'none';
+	let preGoodsInventoryTable = $('#preGoodsInventoryTable').on( 'error.dt', function ( e, settings, techNote, message ) {
 		if(techNote == 7) {
 			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
 			location.href = "/";
 		}
 	}).DataTable({
-	    language: lang_kor,
-	    paging: false,
-	    info: false,
-	    ordering: false,
-	    processing: true,
-	    autoWidth: false,
-	    scrollX : false,
-	    lengthChange: false,
-	    searching: false,
-	    pageLength: 20,            
-		ajax : {
-			url : '<c:url value="io/inOutWhsAdmRead"/>',
-			type : 'GET',
-			data : {
-				'menuAuth'	: menuAuth,
-				'barcodeNo' : function(){ return barcodeNo; },
-			},
-		},
-	    rowId: '',
-	    columns: [
-	    	{
-	    		render: function(data, type, row, meta) {
-	    			var rowNo = meta.row + meta.settings._iDisplayStart + 1;
-	    			if(rowNo == 1) {
-	    				$('#btnSave').attr('disabled', false);
-			    	}
-					return meta.row + meta.settings._iDisplayStart + 1 ;
-				}
-	    	},
-	    	{data : 'barcodeNo',
-				render: function(data, type, row, meta) {	
-					if(data!=null){
-	    				return '<input type="text" class="form-control" name="barcodeNo" value="'+data+'" style="max-width:100%;text-align:center;" disabled>';	
-					} else{
-						return '<input type="text" class="form-control" name="barcodeNo" value="'+barcodeNo+'" style="max-width:100%;text-align:center;" disabled>' ;	
-					}		    			
-	    		}
-			}, {data : 'partCd',
-				render: function(data, type, row, meta) {	
-					if(data!=null){
-						return '<input type="text" class="form-control" name="partCd" value="'+data+'" style="max-width:100%;text-align:center;" disabled>';		
-					} else{
-						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partCd" value="'+partCd+'" disabled>';	
-					}		    			
-	    		}
-			}, {data : 'partRev',
-				render: function(data, type, row, meta) {	
-					if(data!=null){
-						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partRev" value="'+data+'" disabled>';		
-					} else{
-						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partRev" value="'+partRev+'" disabled>';	
-					}		
-    			}
-			}, {data : 'partNm',
-				render: function(data, type, row, meta) {	
-					if(data!=null){
-						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partNm" value="'+data+'" disabled>';			
-					} else{
-						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partNm" value="'+partNm+'" disabled>';	
-					}			    			
-	    		}
-			}, {data : 'partSpec',
-				render: function(data, type, row, meta) {	
-					if(data!=null){
-						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partSpec" value="'+data+'" disabled>';			
-					} else{
-						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partSpec" value="'+partSpec+'" disabled>';	
-					}		
-				},
-			}, {data : 'partUnit',
-				render: function(data, type, row, meta) {	
-					if(data!=null){
-						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partUnit" value="'+data+'" disabled>';			
-					} else{
-						return '<input type="text" class="form-control" style="max-width:100%; text-align:center;" name="partUnit" value="'+partUnit+'" disabled>';	
-					}		
-				},
-			}, {data : 'inWhsQty',
-				render: function(data, type, row, meta) {	
-					if(data!=null){
-						return '<input type="text" class="form-control" style="max-width:100%; text-align:right;" name="inWhsQty" value="'+addCommas(data)+'" disabled>';			
-					} else{
-						return '<input type="text" class="form-control" style="max-width:100%; text-align:right;" name="inWhsQty" value="'+addCommas(inWhsQty)+'" disabled>';	
-					}				
-	    		}
-			}, 
-	    ],
-	    columnDefs: [
-	    	{"className": "text-center", "targets": "_all"}
-	    ],
-	    order: [
-	        [ 0, 'desc' ]
-	    ],
-	    buttons: [
-	    ],
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+		"<'row'<'col-sm-12'tr>>" +
+		"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",        
+        language: lang_kor,
+        paging: true,
+        info: true,
+        ordering: true,
+        processing: true,
+        autoWidth: false,
+        lengthChange: false,
+        pageLength: 20,
+        ajax: {
+            url: '<c:url value="/tm/preGoodsInventoryDataList"/>',
+            type: 'GET',
+            data: {
+            	'menuAuth'	 	: 		menuAuth,
+            },
+            /*
+            success : function(res) {
+                console.log(res);
+            }
+            */
+        },
+        rowId: 'invntryNo',
+        columns: [
+        	{ data: 'invntryNo',
+        		render: function(data, type, row) {
+        			return data.substring(0,4) + "-" + data.substring(4,6);
+        		}
+        	},
+			{ data: 'orderGubunNm' },
+			{ data: 'goodsNm' },
+			{ data: 'modelNo' },
+			{ data: 'qutyNm' },
+			{ data: 'model' },
+			{ data: 'invntryBoxCnt' },
+			{ data: 'invntryAllCnt' },
+        ],
+        columnDefs: [
+           	{ targets: [6,7] , render: $.fn.dataTable.render.number( ',' ) },
+           	{ targets: [6,7],  className: 'text-right-td'},
+        	{ targets: [0,1,2,3,4],  className: "text-center"},
+        ],
+        order: [
+            [ 0, 'desc' ],
+            [ 2, 'asc' ],
+        ],
+        buttons: [
+            {
+                extend: 'copy',
+                title: '초기재고관리-제품',
+            },
+            {
+                extend: 'excel',
+                title: '초기재고관리-제품',
+            },
+            {
+                extend: 'print',
+                title: '초기재고관리-제품',
+            },
+        ],
 		drawCallback: function () {
-			 //$('.mo_card tbody').css('font-size','10px');
-		},
-	});
+			var sumBox = $('#preGoodsInventoryTable').DataTable().column(6,{ page: 'all'} ).data().sum();
+			var sumEa = $('#preGoodsInventoryTable').DataTable().column(7,{ page: 'all'} ).data().sum();
+			$('#sumBox').text(addCommas(sumBox));
+			$('#sumEa').text(addCommas(sumEa));
+		}
+    });
 
-	var lineCheck = false;
-    $('#barcodeDtlTable tbody').on('click', 'tr', function () {
+    // 보기
+    $('#preGoodsInventoryTable tbody').on('click', 'tr', function () {
+    	$('#deleteLabel').addClass('d-none');
+    	$('#btnPrint').attr('disabled', true);
         if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-            lineCheck = false;
-        }	
+           $(this).removeClass('selected');
+        }
         else {
-        	$('#barcodeDtlTable').DataTable().$('tr.selected').removeClass('selected');
+        	$('#preGoodsInventoryTable').DataTable().$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
-            lineCheck = true;
+
+            invntryNo = preGoodsInventoryTable.row( this ).data().invntryNo;
+            goodsCd = preGoodsInventoryTable.row( this ).data().goodsCd;
+            orderGubunCd = preGoodsInventoryTable.row( this ).data().orderGubunCd;
+            gravity = preGoodsInventoryTable.row( this ).data().gravity;
+            //lastYn = preGoodsInventoryTable.row( this ).data().lastYn;
+            $('#btnSave').addClass('d-none');
+            $('#btnReset').addClass('d-none');
+            $('#addForm').addClass("d-none");
+            $('#btnSaveEa').addClass('d-none');
+            $('#btnBundle').addClass('d-none');
+            //console.log("goodsCd = " + goodsCd);
+           
+            $.ajax({
+                url: '<c:url value="/tm/preGoodsInventoryData"/>',
+                type: 'GET',
+                async: false,
+                data: {
+                	'menuAuth'	 	:	menuAuth,
+                    'invntryNo'		:	invntryNo,
+                    'goodsCd'		:	goodsCd,
+                    'orderGubunCd'	:	orderGubunCd,
+                    //'lastYn': lastYn
+                },
+                success: function (res) {
+                    let data = res.data;
+
+                    if ( res.result == "ok" ){
+                    	sideView = 'edit';
+                        invntryNoTmp = data.invntryNo.substring(0,4) + "-" + data.invntryNo.substring(4,6);
+                        // 보기
+                        $('#goodsCd').val(data.goodsCd);
+                        $('#goodsNm').val(data.goodsNm);
+                        $('#model').val(data.model);
+                        $('#modelNo').val(data.modelNo);
+                        $('#qutyCd').val(data.qutyCd);
+                        $('#qutyNm').val(data.qutyNm);
+                        $('#dealCorpNm').val(data.dealCorpNm);
+                        $('#dealCorpCd').val(data.dealCorpCd);                                                               
+                        $('#invntryNo').val(invntryNoTmp);
+                        $('#inputBoxCnt').val(data.invntryBoxCnt);               
+                        $('#packCnt').val(data.packCnt);
+
+                        //인쇄 데이터 입력
+                        $('#goodsCdPrt').text(data.goodsCd);
+                        $('#goodsNmPrt').text(data.goodsNm);
+                        $('#modelPrt').text(data.model);
+                        $('#modelNoPrt').text(data.modelNo);
+                        $('#qutyCdPrt').text(data.qutyCd);
+                        $('#qutyNmPrt').text(data.qutyNm);
+                        $('#dealCorpNmPrt').text(data.dealCorpNm);
+                        $('#dealCorpCdPrt').text(data.dealCorpCd);                                                               
+                        $('#invntryNoPrt').text(invntryNoTmp);
+                        $('#inputBoxCntPrt').text(data.invntryBoxCnt);               
+                        $('#packCntPrt').text(data.packCnt);
+                        
+        				//화면처리
+                        uiProc(true);
+                        $('#chkAll').attr('disabled', true);
+                        $("#chkAll").prop("checked", false);
+                        
+                        //선택박스 처리
+                        selectBoxAppend(orderGubunCode, "orderGubunCd", data.orderGubunCd , "");
+                        $('#preGoodsInventoryDtlTable').DataTable().ajax.reload( function () {
+                        	$('#btnPrint').attr('disabled', false); // 인쇄버튼
+                        	$("#btnPlus").attr("disabled", false);
+                        	$("#btnMinus").attr("disabled", false);
+                        	//$("input[type=checkbox]").attr('disabled', true);
+                        });
+
+                        if(openrNav2Flag) {
+		    				$('#completTable1').DataTable().ajax.reload( function () {});
+		    			} else {
+		    				sideViewFlag = true;
+		    			}
+    				} else {
+    					toastr.error(res.message, '', {timeOut: 5000});
+    				}
+                },
+	            complete:function(){
+		            
+	            }
+            });
         }
     });
 
- 	// 창고바코드입력
-	$('#locationNo').keypress(function(e){
-		var check2=true;  	
-		if(e.keyCode == 13){
-			if(!$.trim($('#locationNo').val())){
-				toastr.warning('창고 바코드를 스캔해주세요.');
-				$('#locationNo').focus();
-				check2 = false;
-				return false;
-			}
+    // 등록폼
+    $('#btnAdd').on('click', function() {
+        sideView = 'add';
+        secondView ='';
+        $('#form').each(function(){
+            this.reset();
+        });
+		$('#invntryNo').val(serverToday.substring(0,7));
 
-// 			if($('#locationNo').val().length != 12) {
-// 				toastr.warning('잘못된 창고 바코드 입니다. 확인해주세요.');
-// 				$('#locationNo').focus();
-// 				$('#locationNo').select();
-// 				check=false;
-// 				return false;
-// 			}
+		//화면처리
+		uiProc(false);
+		$('#inputBoxCnt').val('0');
+		$('#preGoodsInventoryTable').find('tr.selected').removeClass('selected');
+		$('#preGoodsInventoryDtlTable').DataTable().clear().draw();
+		//선택박스 처리
+		selectBoxAppend(orderGubunCode, "orderGubunCd", "" , "2");
+		$('#deleteLabel').addClass('d-none');
+		$('#btnSave').removeClass('d-none');	// 등록버튼
+		$('#btnReset').addClass('d-none');
+		$('#addForm').addClass('d-none');
+		$('#btnSaveEa').addClass('d-none');
+		$('#btnBundle').addClass('d-none');
+		$('#btnPrint').attr('disabled', true);	// 인쇄버튼
+		$("#btnPlus").attr("disabled", true);
+		$('#btnMinus').attr('disabled', true);
+		$('#chkAll').attr('disabled', true);
+		$("#chkAll").prop("chked", false);
+    });
+
+    //Box 추가
+    $('#btnPlus').on('click', function() {
+        if(sideView != 'edit') {
+        	toastr.warning("수정할 목록을 선택해 주세요!");
+            return false;
+        }
+        secondView = 'plus';
+		uiProc2(false);
+		$('#deleteLabel').addClass('d-none');
+		$('#boxPlus').val("0");
+		$('#btnPlus').removeClass('d-none');
+// 		$('#btnSave').removeClass('d-none');
+		$('#btnSave').addClass('d-none');
+		$('#addForm').removeClass('d-none');
+		$('#btnSaveEa').removeClass('d-none');
+		$('#btnBundle').removeClass('d-none');
+		$('#btnReset').addClass('d-none');
+		$('#btnPrint').attr('disabled', true); // 인쇄버튼
+		$('#boxPlus').attr('disabled', false); // 인쇄버튼
+		//$("input[type=checkbox]").prop("checked", false);
+		//$("input[type=checkbox]").attr('disabled', true);
+    });
+
+    //Box 삭제
+	$('#btnMinus').on('click', function() {
+	    if(sideView != 'edit') {
+	    	toastr.warning("수정할 목록을 선택해 주세요!");
+	        return false;
+	    }
+	    secondView = 'minus';
+	    $('#preGoodsInventoryDtlTable tbody tr').each(function(){
+	    	$(this).removeClass("selected");
+	    });
+		uiProc2(false);
+		$('#deleteLabel').removeClass('d-none');
+	    $('#btnSave').removeClass('d-none');
+	    $('#btnReset').removeClass('d-none');
+	    $('#addForm').addClass('d-none');
+	    $('#btnSaveEa').addClass('d-none');
+	    $('#btnBundle').addClass('d-none');
+	    $("#btnSave").attr("disabled", true);
+	    $('#btnPrint').attr('disabled', true); // 인쇄버튼
+	    //$("input[type=checkbox]").prop("checked", false);
+	    //$("input[type=checkbox]").attr('disabled', false);
+	});
+
+	//개별단위 추가
+	$('#btnSaveEa').on('click', function() {
+		$('#ea').val("0");
+		$('#gram').val("0");
+		$('#pieceEaDate').val(serverToday);
+		$('#pieceEaDesc').val('');
+		$('#saveEaPopupModal').modal('show');
+	});
+	
+	//묶음단위 추가
+	$('#btnBundle').on('click', function() {
+		$('#boxPlus').val("0");
+		$('#bundleDate').val(serverToday);
+		$('#bundleDateDesc').val('');
+		$('#bundlePopupModal').modal('show');
+	});
+
+	/* 
+    //저장 모달 확인
+    $('#btnSave').on('click', function() {
+        if ( !$.trim($('#invntryNo').val()) ) {
+            toastr.warning('재고년월을 선택해 주세요.');
+            $('#invntryNo').focus();
+            return false;
+        }
+        if ( $("#orderGubunCd option:selected").val() == "" ) {
+            toastr.warning('구분을 선택해 주세요.');
+            $('#orderGubunCd').focus();
+            return false;
+        }
+        if ( !$.trim($('#goodsNm').val()) ) {
+            toastr.warning('제품명을 선택해 주세요.');
+            $('#btnSelGoods').focus();
+            return false;
+        }
+        //if ( !$.trim($('#model').val()) ) {
+        //    toastr.warning('규격을 입력해 주세요.');
+        //    $('#model').focus();
+        //    return false;
+        //}
+        //if ( !$.trim($('#modelNo').val()) ) {
+        //    toastr.warning('모델번호를 입력해 주세요.');
+        //    $('#modelNo').focus();
+        //    return false;
+        //}
+        if ( !$.trim($('#inputBoxCnt').val()) || $('#inputBoxCnt').val()==0) {
+            toastr.warning('Box 수량을 입력해주세요.');
+            $('#inputBoxCnt').select();
+            return false;
+        }
+        if ( !$.trim($('#dealCorpCd').val()) ) {
+            toastr.warning('거래처를 선택해주세요.');
+            $('#btnSelDeal').focus();
+            return false;
+        }
+        
+    	$('#goodsProductCheck1').text( $('#invntryNo').val() + ' / ' + $('#goodsNm').val());
+    	$('#goodsProductCheck2').text( $('#inputBoxCnt').val() + '개(Box) 등록하시겠습니까?');
+    	$('#workOrdEndCheckPopupModal').modal('show');
+    });
+	*/
+
+	$('#btnReset').on('click', function() {
+        $('#preGoodsInventoryDtlTable > tbody > tr').each(function(index, tr) {
+        	$(this).removeClass('selected');
+		});
+	});
+	
+	
+    //등록&수정 처리
+    $('#btnSave').on('click', function() {
+        if ( !$.trim($('#invntryNo').val()) ) {
+            toastr.warning('재고년월을 선택해 주세요.');
+            $('#invntryNo').focus();
+            return false;
+        }
+        if ( $("#orderGubunCd option:selected").val() == "" ) {
+            toastr.warning('구분을 선택해 주세요.');
+            $('#orderGubunCd').focus();
+            return false;
+        }
+        if ( !$.trim($('#goodsNm').val()) ) {
+            toastr.warning('제품명을 선택해 주세요.');
+            $('#btnSelGoods').focus();
+            return false;
+        }
+        //if ( !$.trim($('#model').val()) ) {
+        //    toastr.warning('규격을 입력해 주세요.');
+        //    $('#model').focus();
+        //    return false;
+        //}
+        //if ( !$.trim($('#modelNo').val()) ) {
+        //    toastr.warning('모델번호를 입력해 주세요.');
+        //    $('#modelNo').focus();
+        //    return false;
+        //}
+        if ( sideView == 'add' ){
+        	if ( $('#inputBoxCnt').val() == "" || $('#inputBoxCnt').val() == "0" ) {
+                toastr.warning('Box 수량을 입력해주세요.');
+                $('#inputBoxCnt').select();
+                return false;
+            }
+		}
+        if ( !$.trim($('#dealCorpCd').val()) ) {
+            toastr.warning('거래처를 선택해주세요.');
+            $('#btnSelDeal').focus();
+            return false;
+        }
+        if ( secondView == 'plus' ){
+        	if ( !$.trim($('#boxPlus').val()) || $('#boxPlus').val()==0) {
+                toastr.warning('Box 수량을 입력해주세요.');
+                $('#boxPlus').select();
+                return false;
+            }
+		}
+        
+        let url = null;
+
+        $('#my-spinner').show();
+
+        invntryNo 		= $('#invntryNo').val().replace(/-/g, '');
+        goodsCd 		= $('#goodsCd').val();
+        model 			= $('#model').val();
+        modelNo 		= $('#modelNo').val();
+        qutyCd 			= $('#qutyCd').val();
+        dealCorpCd 		= $('#dealCorpCd').val();
+        orderGubunCd	= $("#orderGubunCd option:selected").val();
+        inputBoxCnt 	= $('#inputBoxCnt').val();
+        packCnt 		= $('#packCnt').val();
+        
+        //재고ADM 등록 & Box채번
+		if( sideView == "add" ) {
+	        url = '/tm/preGoodsInventoryCreate';
+	        $.ajax({
+	            url: url,
+	            type: 'POST',
+	            data: {
+	            	'menuAuth'	 	:		menuAuth,
+	            	'invntryNo'   	:		function() { return invntryNo; 		},
+	            	'goodsCd'   	:		function() { return goodsCd; 		},
+		            'model'      	:		function() { return model; 			},
+		            'modelNo'   	:		function() { return modelNo; 		},
+		            'qutyCd'      	:		function() { return qutyCd; 		},
+		            'dealCorpCd'    :		function() { return dealCorpCd; 	},
+		            'orderGubunCd'  :		function() { return orderGubunCd; 	},
+		            'inputBoxCnt'  	:		function() { return inputBoxCnt; 	},
+		            'packCnt'   	:		function() { return packCnt; 		},
+	            },
+	            beforeSend: function() {
+	              //  $('#btnAddConfirm').addClass('d-none');
+	            },
+	            success: function (res) {
+	                let data = res.data;
+	                if (res.result == 'ok' || res.result == 'fail') {
+						// 보기
+						$('#goodsCd').val(data.goodsCd);
+						$('#preGoodsInventoryTable').DataTable().ajax.reload( function () {});
+						$('#preGoodsInventoryDtlTable').DataTable().ajax.reload( function () {
+							//$("input[type=checkbox]").attr('disabled', true);
+						});
+						uiProc(true);
+						$('#btnSave').addClass('d-none');
+						if (res.result == 'ok'){
+							toastr.success(res.message);
+						} else if (res.result == 'fail'){
+							toastr.warning(res.message, '', {timeOut: 5000});
+						}
+	                   	sideView = 'edit';
+	                   	$("#btnPlus").attr("disabled", false);
+                    	$("#btnMinus").attr("disabled", false);
+	                } else if(res.result == 'exist') {
+	                	toastr.warning('이미 해당 제품 재고정보가 등록 되어 있습니다.<br/> 재고정보를 확인해 주세요.');
+	                } else {
+	                	toastr.error(res.message, '', {timeOut: 5000});
+	                }
+	            },
+	            complete:function(){
+	            	$('#my-spinner').hide();
+	            	$('#btnPrint').attr('disabled',false); // 인쇄버튼
+	            }
+	        });
 			
-			if(check2 == true){
-			 	$.ajax({
-	            	url: '/io/getLocInfo',
-	                type: 'GET',
-	                data: {
-	                	'locationNo'  :  $('#locationNo').val(),
-	                	'status' 		: 'part'             
-	                },
-	                success: function (res) {
-	                    let data = res.data;
-	                    
-	                    if (res.result == 'ok') {
-		                    
-		                   $('#locationCd').val(data.locationCd);
-		                   $('#locationNm').val(data.locationNm);
-		                   $('#areaCd').val(data.areaCd);
-		                   $('#areaNm').val(data.areaNm);
-		                   $('#floorNm').val(data.floorNm);
-
-		                   $('#barcodeNo').focus();
-		                   toastr.success("창고정보 추가되었습니다.");
-		                   
-	                    }else if(res.result == 'empty') {	
-	                    	toastr.warning("등록되지 않은 창고 바코드입니다. 확인해주세요.");
-	                    	$('#locationNo').select();
-	                    }else if(res.result == 'notPartLocCd') {
-	                    	toastr.warning("원자재 창고 바코드가 아닙니다. 확인해주세요.");
-	                    }else if(res.result == 'error') {
-	                    	toastr.error(res.message, '', {timeOut: 5000});
-	                    }    
-		             },
-		             complete:function(){
-		                    //$('#btnAddConfirm').removeClass('d-none');
-		                    //$('#btnAddConfirmLoading').addClass('d-none');
-		             }
+		//수정 처리
+		} else if( sideView == "edit" ) {
+			//재고ADM 수정 & BoxNo 채번
+			if ( secondView == 'plus') {
+				url = '/tm/preGoodsInventoryPlus'
+				$.ajax({
+		            url: url,
+		            type: 'POST',
+		            data: {
+		            	'menuAuth'	 	:		menuAuth,
+		            	'invntryNo'   	:		function() { return invntryNo; },
+		            	'goodsCd'   	:		function() { return goodsCd; },
+		            	'orderGubunCd'  :		function() { return orderGubunCd; },
+			            'packCnt'   	:		function() { return packCnt; },
+			            'boxPlus'   	:		function() { return $('#boxPlus').val(); }, 
+		            },
+		            beforeSend: function() {
+		              //  $('#btnAddConfirm').addClass('d-none');
+		            },
+		            success: function (res) {
+		                let data = res.data;
+		                if (res.result == 'ok' || res.result == 'fail') {
+							$('#inputBoxCnt').val(data.inputBoxCnt);
+							$('#preGoodsInventoryTable').DataTable().ajax.reload( function () {});
+							$('#preGoodsInventoryDtlTable').DataTable().ajax.reload( function () {
+								//$("input[type=checkbox]").attr('disabled', true);
+							});
+							uiProc(true);
+							$('#btnSave').addClass('d-none');
+							$('#btnSaveEa').addClass('d-none');
+							$('#btnBundle').addClass('d-none');
+							if (res.result == 'ok'){
+								toastr.success(res.message);
+							} else if (res.result == 'fail'){
+								toastr.warning(res.message, '', {timeOut: 5000});
+							}
+		                   	sideView = 'edit';
+		                   	$("#btnPlus").attr("disabled", false);
+	                    	$("#btnMinus").attr("disabled", false);
+	                    	$("#boxPlus").attr("disabled", true);
+		                } else {
+		                	toastr.error(res.message, '', {timeOut: 5000});
+		                }
+		            },
+		            complete:function(){
+		            	$('#btnPrint').attr('disabled',false); // 인쇄버튼
+		            	$('#my-spinner').hide();
+		            }
 		        });
+			
+			//재고ADM 수정 & Box삭제
+			} else if ( secondView == 'minus' ){
+				if ( boxArray == "" ){
+					toastr.warning("삭제할 BoxNo를 선택해 주세요.");
+					$('#my-spinner').hide();
+				} else {
+					url = '/tm/preGoodsInventoryMinus'
+						
+					$.ajax({
+			            url: url,
+			            type: 'POST',
+			            data: {
+			            	'menuAuth'	 	:		menuAuth,
+			            	'invntryNo'   	:		function() { return invntryNo; },
+			            	'goodsCd'   	:		function() { return goodsCd; },
+			            	'orderGubunCd'  :		function() { return orderGubunCd; },
+				            'boxMinus'   	:		function() { return boxArray; },	//삭제할 BoxNo묶음
+			            },
+			            beforeSend: function() {
+			              //  $('#btnAddConfirm').addClass('d-none');
+			            },
+			            success: function (res) {
+			                let data = res.data;
+			                if (res.result == 'ok') {
+			                	$('#inputBoxCnt').val(data.inputBoxCnt);
+								uiProc(true);
+								$('#btnReset').addClass('d-none');
+								$('#btnSave').addClass('d-none');
+								toastr.success('삭제되었습니다.');
+			                   	sideView = 'edit';
+			                   	$("#btnPlus").attr("disabled", false);
+		                    	$("#btnMinus").attr("disabled", false);
+		                    	$("#boxPlus").attr("disabled", true);
+			                } else if (res.result == 'fail'){
+			                	toastr.warning(res.message, '', {timeOut: 5000});
+			                } else {
+			                	toastr.error(res.message, '', {timeOut: 5000});
+			                }
+			            },
+			            complete:function() {
+			            	$('#preGoodsInventoryTable').DataTable().ajax.reload( function () {});
+							$('#preGoodsInventoryDtlTable').DataTable().ajax.reload( function () {
+								//$("input[type=checkbox]").prop("checked", false);
+								//$("input[type=checkbox]").attr('disabled', true);
+								boxArray = "";
+							});
+			            	$('#btnPrint').attr('disabled',false); // 인쇄버튼
+			            	$('#deleteLabel').addClass('d-none');
+			            	$('#my-spinner').hide();
+						},
+					});
+				}
 			}
 		}
-	});
+    });
 
-	
-	//바코드 스캔시
-	$("#barcodeNo").keypress(function (e) {
+	//개별 저장버튼 클릭 시
+    $('#btnSaveEaCheck').on('click',function(){
+
+    	var url = '/tm/preGoodsInventoryPlusEa';
+
+    	if($('#gram').val() == 0 && $('#ea').val() == 0){
+			toastr.warning("무게나 개수를 입력해주세요.")
+			return false;			
+		}
+    	if ( !$.trim($('#pieceEaDate').val()) || $('#pieceEaDate').val()==0) {
+            toastr.warning('입고일을 선택해주세요.');
+            $('#pieceEaDate').select();
+            return false;
+        }
+		packCnt = $('#packCnt').val();
 		
-	    if (e.which == 13){
-	    	
-	    	if(!$.trim($('#barcodeNo').val())){
-				toastr.warning('바코드를 스캔해주세요.');
-				$('#barcodeNo').focus();
-				check2 = false;
-				return false;
-			}
+    	$.ajax({
+            url: '<c:url value="/tm/preGoodsInventoryPlusEa"/>',
+            type: 'POST',
+            data: {
+            	'menuAuth'	 	:	menuAuth,
+            	'invntryNo'   	:	function() { return invntryNo; 							},
+            	'goodsCd'   	:	function() { return goodsCd; 							},
+            	'orderGubunCd'  :	function() { return orderGubunCd; 						},
+	            'packCnt'   	:	function() { return packCnt;							},
+	            'boxPlus'   	:	function() { return $('#ea').val().replace(/,/g,"");	},
+	            'goodsInDate'  	:	function() { return $('#pieceEaDate').val().replace(/-/g,"");	}, 
+	            'inventoryDesc'	:	function() { return $('#pieceEaDesc').val();		}, 
+            },
+            beforeSend: function() {
+            	$('#my-spinner').show();
+            },
+            success: function (res) {
+                let data = res.data;
+                if (res.result == 'ok' || res.result == 'fail') {
+					$('#inputBoxCnt').val(data.inputBoxCnt);
+					$('#preGoodsInventoryTable').DataTable().ajax.reload( function () {});
+					$('#preGoodsInventoryDtlTable').DataTable().ajax.reload( function () {
+						//$("input[type=checkbox]").attr('disabled', true);
+					});
+					uiProc(true);
+					$('#saveEaPopupModal').modal('hide');
+					$('#btnSave').addClass('d-none');
+					if (res.result == 'ok'){
+						toastr.success(res.message);
+					} else if (res.result == 'fail'){
+						toastr.warning(res.message, '', {timeOut: 5000});
+					}
+                   	sideView = 'edit';
+                   	$("#btnPlus").attr("disabled", false);
+                	$("#btnMinus").attr("disabled", false);
+                	$("#boxPlus").attr("disabled", true);
+                	$('#btnSaveEa').addClass('d-none');
+                	$('#btnBundle').addClass('d-none');
+                } else {
+                	toastr.error(res.message, '', {timeOut: 5000});
+                }
+            },
+            complete:function(){
+            	$('#btnPrint').attr('disabled',false); // 인쇄버튼
+            	$('#my-spinner').hide();
+            }
+        });
+    });
 
-			/* if($('#barcodeNo').val().length != 21) {
-				toastr.warning('잘못된 바코드 입니다. 확인해주세요.');
-				$('#barcodeNo').focus()
-				$('#barcodeNo').select();
-				check=false;
-				return false;
-			} */
-			
-			$('#barcodeDtlTable tbody tr').each(function(index, item) {
-				if($(this).find('td input[name=barcodeNo]').val()==$('#barcodeNo').val()){
-					toastr.warning("이미 추가된 바코드입니다. 확인해주세요.");
-					$('#barcodeNo').focus();
-					$('#barcodeNo').select();
-					check2 = false;
-					return false;
+    //묶음 저장버튼 클릭 시
+    $('#btnSaveBundle').on('click', function(){
+    	if ( !$.trim($('#boxPlus').val()) || $('#boxPlus').val()==0) {
+            toastr.warning('Box 수량을 입력해주세요.');
+            $('#boxPlus').select();
+            return false;
+        }
+    	if ( !$.trim($('#bundleDate').val()) || $('#bundleDate').val()==0) {
+            toastr.warning('입고일을 선택해주세요.');
+            $('#bundleDate').select();
+            return false;
+        }
+    	packCnt = $('#packCnt').val();
+		$.ajax({
+            url: '<c:url value="/tm/preGoodsInventoryPlus"/>',
+            type: 'POST',
+            data: {
+            	'menuAuth'	 	:	menuAuth,
+            	'invntryNo'   	:	function() { return invntryNo; 					},
+            	'goodsCd'   	:	function() { return goodsCd; 					},
+            	'orderGubunCd'  :	function() { return orderGubunCd; 				},
+	            'packCnt'   	:	function() { return packCnt; 					},
+	            'boxPlus'   	:	function() { return $('#boxPlus').val();		}, 
+	            'goodsInDate'  	:	function() { return $('#bundleDate').val().replace(/-/g,"");;		}, 
+	            'inventoryDesc'	:	function() { return $('#bundleDateDesc').val();	}, 
+            },
+            beforeSend: function() {
+              //  $('#btnAddConfirm').addClass('d-none');
+            },
+            success: function (res) {
+                let data = res.data;
+                if (res.result == 'ok' || res.result == 'fail') {
+					$('#inputBoxCnt').val(data.inputBoxCnt);
+					$('#preGoodsInventoryTable').DataTable().ajax.reload( function () {});
+					$('#preGoodsInventoryDtlTable').DataTable().ajax.reload( function () {
+						//$("input[type=checkbox]").attr('disabled', true);
+					});
+					uiProc(true);
+					$('#btnSave').addClass('d-none');
+					$('#btnSaveEa').addClass('d-none');
+					$('#btnBundle').addClass('d-none');
+					if (res.result == 'ok'){
+						toastr.success(res.message);
+					} else if (res.result == 'fail'){
+						toastr.warning(res.message, '', {timeOut: 5000});
+					}
+                   	sideView = 'edit';
+                   	$("#btnPlus").attr("disabled", false);
+                   	$("#btnMinus").attr("disabled", false);
+                   	$("#boxPlus").attr("disabled", true);
+                } else {
+                	toastr.error(res.message, '', {timeOut: 5000});
+                }
+            },
+            complete:function(){
+            	$('#btnPrint').attr('disabled',false); // 인쇄버튼
+            	$('#my-spinner').hide();
+            }
+        });
+	});
+    
+	// 목록
+    $.fn.dataTable.ext.errMode = 'none';
+	let preGoodsInventoryDtlTable = $('#preGoodsInventoryDtlTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+		if(techNote == 7) {
+			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+			location.href = "/";
+		}
+	}).DataTable({
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+		"<'row'<'col-sm-12'tr>>" +
+		"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",        
+        language: lang_kor,
+        paging: false,
+        info: true,
+        ordering: true,
+        processing: true,
+        autoWidth: false,
+        lengthChange: false,
+        searching: false,
+		//header 고정
+		scrollY: '42vh',
+		scrollX: true,
+        select: {
+			style: 'os',
+			info: false,
+			toggleable : true,	//false시 초기화 후 선택안됨
+        },
+        ajax: {
+            url: '<c:url value="/tm/preGoodsInventoryDtlList"/>',
+            type: 'GET',
+            data: {
+            	'menuAuth'	 	:		menuAuth,
+            	'invntryNo'   	:		function() { return invntryNo; 		},
+            	'goodsCd'   	:		function() { return goodsCd; 		},
+            	'orderGubunCd'  :		function() { return orderGubunCd; 	},
+            },
+            /*
+            success : function(res) {
+                console.log(res);
+            }
+            */
+        },
+        columns: [
+        	{
+	    		render: function(data, type, row, meta) {
+	    			var rowNo = meta.row + 1;
+	    			if(rowNo == 1) {
+	    				$('#btnSave').attr('disabled', false);
+			    	}
+					return meta.row + 1;
 				}
+	    	},
+	    	//{ 
+	    	//	render: function(data, type, row, meta) {
+	    	//		return '<input type="checkbox" id="chk-' + meta.row + '" name="chk" style="width:15px; height:15px;">' ;
+		    		//if( row['packCnt'] == row['remainCnt'] ){
+		    		//	return '<input type="checkbox" id="chk-' + meta.row + '" name="chk">' ;
+			    	//} else {
+			    	//	return '<input type="checkbox" id="chk-' + meta.row + '" name="chk" disabled>' ;
+				    //}
+	    	//	}
+			//},
+			{ data: 'boxNo' 			},
+			{ data: 'packCnt'	 		},
+			{ data: 'remainCnt' 		},
+			{ data: 'goodsInDate',
+				render: function(data, type, row) {					
+						return moment(data).format("YYYY-MM-DD");
+                } 
+			},
+			{ data: 'goodsStatusNm' 	},
+			{ data: 'faultyStatusNm'	},
+			{ data: 'inventoryDesc'		},
+        ],
+        columnDefs: [
+        	{ targets: [0,1,4,5,6,7],  className: "text-center"},
+        	{ targets: [2,3],  className: 'text-right-td'},
+           	{ targets: [2,3] , render: $.fn.dataTable.render.number( ',' ) },
+        ],
+        order: [
+            [ 0, 'asc' ]
+        ],
+        buttons: [
+            {
+                extend: 'copy',
+                title: '초기재고관리-제품상세',
+            },
+            {
+                extend: 'excel',
+                title: '초기재고관리-제품상세',
+            },
+            {
+                extend: 'print',
+                title: '초기재고관리-제품상세',
+            },
+		],
+        //drawCallback : function( settings ) {
+		//	var sumEaDtl = $('#preGoodsInventoryDtlTable').DataTable().column(3,{ page: 'all'} ).data().sum();
+		//	$('#sumEaDtl').text(addCommas(sumEaDtl));
+       	//} 
+    });
 
-			});
+	// Dtl 클릭이벤트
+	$('#preGoodsInventoryDtlTable tbody').on('click', 'tr', function () {
 
-	    	var check2 = true;  	
-			$('#barcodeDtlTable tbody tr').each(function(index, item) {
-				if($(this).find('td input[name=barcodeNo]').val()==$('#barcodeNo').val()){
-					$('#barcodeNo').focus();
-					$('#barcodeNo').select();
-					toastr.warning("이미 추가된 바코드입니다. 확인해주세요.");
-					check2 = false;
-					return false;
-				}
-			});
+		if (secondView == 'minus') {
+			$("#btnSave").attr("disabled", true);
+			$('#my-spinner').show();
+			setTimeout(function() {
+				boxArray = "";
+				$('#preGoodsInventoryDtlTable tbody tr').each(function(){
+				 	if ( $(this).hasClass("selected") ){
+						if( $(this).children().eq(2).text() != $(this).children().eq(3).text() ){
+							$(this).removeClass("selected");
+							toastr.warning($(this).children().eq(1).text() + "는 출하된 제품이라 선택 해제되었습니다.");
+						} else {
+							boxArray += "/" + $(this).children().eq(1).text();
+						}
+						$("#btnSave").attr("disabled", false);
+						//console.log(boxArray);
+					 }
+				});
+			}, 700);
 			
-	        if(check2 == true){
-			 	$.ajax({
-	            	url: '/io/inOutWhsAdmRead',
-	                type: 'GET',
-	                data: {
-	                	'menuAuth'	 	: 	menuAuth,
-	                	'barcodeNo'  	:  	$('#barcodeNo').val(),
-	                },
-	                success: function (res) {
-	                    let data = res.data;
-	                    if (res.result == 'ok') {
-		                    barcodeNo = data.barcodeNo;
-		                    partCd = data.partCd;
-		                    partNm = data.partNm;
-		                    partRev = data.partRev;
-		                    partSpec = data.partSpec;
-		                    partUnit = data.partUnit;
-		                    inWhsQty = data.inspectYn=='001'?Math.floor(data.pairCnt):Math.floor(data.preInWhsQty);
-		                    areaCd = data.areaCd==null?"-":data.areaCd;
-	                    	$('#barcodeDtlTable').DataTable().row.add({}).draw(false);
-	                    	$('#btnLocationCd').attr('disabled', true);
-							$('#btnCalendar').attr('disabled', true);
-							$('#btnAllClear').attr('disabled', false);
-							$('#btnLineClear').attr('disabled', false);
-							$('#btnSave').attr('disabled', false);
-							$('#barcodeNo').select();
-							$('#btnSave').removeClass('d-none');
-							count += 1;
-							$('#count').text(count);
-	                        toastr.success("추가되었습니다.");
-	                    } else{
-	                    	if(res.result == 'empty') {
-		                    	toastr.warning("등록되지 않은 바코드입니다. 확인해주세요.");
-		                    } else if(res.result == 'notApproval') {
-		                    	toastr.warning("승인된 바코드가 아닙니다. 확인해주세요.");
-		                    } else if(res.result == 'notInspect') {
-		                    	toastr.warning("수입검사된 바코드가 아닙니다. 확인해주세요.");
-		                    } else if(res.result == 'notRemain') {
-		                    	toastr.warning("남은수량이 없습니다. 확인해주세요.");
-		                    } else if(res.result == 'error') {
-		                    	toastr.warning(res.message, '', {timeOut: 5000});
-		                    }    
+			$('#my-spinner').hide();
+		}
+    });
+    
+	/*
+    $('#btnCheck').on('click', function() {
+    	if ( !$.trim($('#invntryNo').val()) ) {
+            toastr.warning('재고년월을 선택해 주세요.');
+            $('#invntryNo').focus();
+            return false;
+        }
+        if ( $("#orderGubunCd option:selected").val() == "" ) {
+            toastr.warning('구분을 선택해 주세요.');
+            $('#orderGubunCd').focus();
+            return false;
+        }
+        if ( !$.trim($('#goodsNm').val()) ) {
+            toastr.warning('제품명을 선택해 주세요.');
+            $('#btnSelGoods').focus();
+            return false;
+        }
+        //if ( !$.trim($('#model').val()) ) {
+        //    toastr.warning('규격을 입력해 주세요.');
+        //    $('#model').focus();
+        //    return false;
+        //}
+        //if ( !$.trim($('#modelNo').val()) ) {
+        //    toastr.warning('모델번호를 입력해 주세요.');
+        //    $('#modelNo').focus();
+        //    return false;
+        //}
+        if ( !$.trim($('#inputBoxCnt').val()) ) {
+            toastr.warning('Box 수량을 입력해주세요.');
+            $('#inputBoxCnt').focus();
+            return false;
+        }
+        if ( !$.trim($('#dealCorpCd').val()) ) {
+            toastr.warning('거래처를 선택해주세요.');
+            $('#btnSelDeal').focus();
+            return false;
+        }
+        
+	    $.ajax({
+	        url: '<c:url value="/tm/preGoodsInventoryDtlCheck"/>',
+	        type: 'GET',
+	        data: {
+            	'menuAuth'	 	:		menuAuth,
+            	'invntryNo'   	:		$('#invntryNo').val().replace(/-/g, ''), 
+            	'goodsCd'   	:		$('#goodsCd').val(),                
+	            'orderGubunCd'  :		$("#orderGubunCd option:selected").val(),
+				'inputBoxCnt'  	:		$('#inputBoxCnt').val(),	
+	            'packCnt'   	:		$('#packCnt').val(),	            
+	        },
+	        success: function (res) {
+	            let data = res.data;
+	            if ( res.result == "ok" ){
+	            	sideView = 'edit';
+	                // 보기
+	                $('#goodsCd').val(data.goodsCd);
 
-	                    	$('#barcodeNo').select();
-		                }
-	                    
-		             },
-		             complete:function(){
-		                    //$('#btnAddConfirmLoading').addClass('d-none');
-		             }
-		        });
+				} else {
+					toastr.error(res.message, '', {timeOut: 5000});
+				}
 	        }
-	    }
+		});
+    });
+	*/
+    
+   	function uiProc(flag)
+   	{
+        //$("#invntryNo").attr("disabled",flag);                
+        $("#inputBoxCnt").attr("disabled",flag);
+        $("#btnSelGoods").attr("disabled",flag);
+        $("#orderGubunCd").attr("disabled",flag);
+        $("#btnSelDeal").attr("disabled",flag);
+   	}
+
+   	function uiProc2(flag)
+   	{
+        //$("#inputBoxCnt").attr("disabled",flag);
+   	}
+   	   	
+   	function uiInitProc(flag)
+   	{
+        $("#goodsCd").attr("disabled",flag);
+        $("#goodsNm").attr("disabled",flag);
+        $("#model").attr("disabled",flag);                
+        $("#modelNo").attr("disabled",flag);               
+        $("#qutyNm").attr("disabled",flag); 
+        $("#packCnt").attr("disabled",flag);                          
+   	}   	
+
+   	//제품코드조회 팝업 시작
+   	var goodsCdPopUpTable;
+   	function selectGoodsCode(qutyType)
+   	{
+		if(goodsCdPopUpTable == null || goodsCdPopUpTable == undefined)	{
+			goodsCdPopUpTable = $('#goodsCdPopUpTable').DataTable({
+		        language: lang_kor,
+		        lengthChange : false,
+		        paging: true,
+		        info: true,
+		        ordering: true,
+		        processing: true,
+		        autoWidth: false,
+		        ajax: {
+		            url: '<c:url value="/bm/goodsCodeDataList"/>',
+		            type: 'GET',
+		            data: {
+		            	'menuAuth'	 	: 		menuAuth,
+		            },
+		            /*
+		            success : function(res) {
+		                console.log(res);
+		            }
+		            */
+		        },
+		        rowId: 'goodsCd',
+		        columns: [
+		            { data: 'goodsCd' },
+		            { data: 'goodsNm' },
+		            { data: 'model' },
+		            { data: 'modelNo' },
+		            { data: 'alnicuMatrlNm' },
+		            { data: 'alnicuMatrlCd' },
+		            { data: 'filmMatrlCd' },
+		        ],
+		        columnDefs: [
+		        	{ "targets": [0], "visible" : true },
+		        	{ "targets": [0,1,2,3,4,5,6],  "className": "text-center"}
+		        ],
+		        order: [
+		            [ 0, 'desc' ]
+		        ],
+		        buttons: [
+		            
+		        ],
+		    });
+
+		    $('#goodsCdPopUpTable tbody').on('click', 'tr', function () {
+		    	var data = goodsCdPopUpTable.row( this ).data();
+                $('#goodsCd').val(data.goodsCd);
+                $('#goodsNm').val(data.goodsNm);
+                $('#model').val(data.model);
+                $('#modelNo').val(data.modelNo);
+                $('#dealCorpNm').val(data.dealCorpNm);
+                $('#dealCorpCd').val(data.dealCorpCd);
+                $('#qutyNm').val(data.qutyNm);
+                $('#qutyCd').val(data.qutyCd);
+                $('#packCnt').val(data.packUnitNm);
+                $('#goodsPopUpModal').modal('hide');
+		    });
+		} else{
+			$('#goodsCdPopUpTable').DataTable().ajax.reload();
+		}
+		
+		$('#goodsPopUpModal').modal('show');		
+   	}
+  	//제품코드조회 팝업 종료
+  	
+  	//거래처정보조회 팝업 시작
+   	var dealCorpPopUpTable;
+   	function selectDealCorp()
+   	{
+		if(dealCorpPopUpTable == null || dealCorpPopUpTable == undefined)	{
+			dealCorpPopUpTable = $('#dealCorpPopUpTable').DataTable({
+		        language: lang_kor,
+		        lengthChange : false,
+		        paging: true,
+		        info: true,
+		        ordering: true,
+		        processing: true,
+		        autoWidth: false,
+		        ajax: {
+		            url: '<c:url value="/bm/dealCorpDataList"/>',
+		            type: 'GET',
+		            data: {
+		            	'menuAuth'	 	: 		menuAuth,
+		            },
+		            /*
+		            success : function(res) {
+		                console.log(res);
+		            }
+		            */
+		        },
+		        rowId: 'dealCorpCd',
+		        columns: [
+		            { data: 'dealCorpCd' },
+		            { data: 'dealCorpNm' },
+		            { data: 'initial' },
+		            { data: 'presidentNm' },
+		            { data: 'country' },
+		            { data: 'corpNo' },
+		        ],
+		        columnDefs: [
+	            	{"className": "text-center", "targets": "_all"},
+		        ],
+		        order: [
+		            [ 0, 'asc' ]
+		        ],
+		        buttons: [
+		            'copy', 'excel', 'pdf', 'print'
+		        ],
+		    });
+		    
+		    $('#dealCorpPopUpTable tbody').on('click', 'tr', function () {
+		    	var data = dealCorpPopUpTable.row( this ).data();
+				$('#dealCorpCd').val(data.dealCorpCd);
+				$('#dealCorpNm').val(data.dealCorpNm);
+                $('#dealCorpPopUpModal').modal('hide');
+		    });
+		} else{
+			$('#dealCorpPopUpTable').DataTable().ajax.reload();
+		}
+		
+		$('#dealCorpPopUpModal').modal('show');		
+   	}   	
+	//거래처정보조회 팝업 종료  
+	
+	//yyyy-mm 달력
+	$('#invntryNo').monthpicker({pattern: 'yyyy-mm', 
+	    selectedYear: 2020,
+	    startYear: 1900,
+	    finalYear: 2212
 	});
 
+	function firstInventoryTableMaker(index, boxNo, boxCnt, remainCnt) {
+		var FIThtml = '<tr style="min-width:100%; border: 3px solid black; font-size:20px;">'+
+							'<td class="" style="min-width:10%; height:100px; border: 2px solid black; text-align:center;">' + index +'</td>'+
+							'<td class="" style="min-width:20%; height:100px; border: 2px solid black; text-align:center;">' + boxNo +'</td>'+
+							'<td class="" style="min-width:10%; height:100px; border: 2px solid black; text-align:center;">' + boxCnt +'</td>'+
+							'<td class="" style="min-width:10%; height:100px; border: 2px solid black; text-align:center;">' + remainCnt + '</td>'+
+							'<td class="" style="min-width:50%; height:100px; border: 2px solid black; text-align:center;">' +
+								'<svg id="barcode-'+index+'"></svg>'+
+							'</td>'+
+						'</tr>';
+		return FIThtml;
+	}
 
-	// 저장 처리
-	$('#btnSave').on('click',function() {
-		var dataArray = new Array();
-		var check=true;
+	//초기재고목록표 인쇄 click
+	$('#btnPrint').on('click',function() {
+		$('#btnPrint').attr('disabled', true);
+		$('#firstInventoryModal').modal('show');
+		$('#my-spinner').show();
+		$('#orderGubunCdPrt').text($('#orderGubunCd option:selected').text());
+		$('#firstInventoryList').empty();
 
-		if(!$.trim($('#locationNo').val())){
-			toastr.warning('창고 바코드를 스캔해주세요.');
-			$('#locationNo').focus();
+		for(var i=0;i<preGoodsInventoryDtlTable.data().count();i++) {
+			$('#firstInventoryList').append(firstInventoryTableMaker(i+1,
+																	preGoodsInventoryDtlTable.row(i).data().boxNo,
+																	preGoodsInventoryDtlTable.row(i).data().packCnt,
+																	preGoodsInventoryDtlTable.row(i).data().remainCnt));
+			
+			JsBarcode("#barcode-"+(i+1), preGoodsInventoryDtlTable.row(i).data().boxNo, {
+				width		: 2,
+				height		: 20,
+				textMargin	: 1,
+				fontSize	: 10,
+				margin		: 1
+			});
+		}
+		
+		setTimeout(function() {
+			$('#printFirstInventoryModal').print();
+			$('#my-spinner').hide();
+			$('#firstInventoryModal').modal('hide');
+			$('#btnPrint').attr('disabled', false);
+		}, preGoodsInventoryDtlTable.data().count() * 20);
+	});
+
+	//$('#chkAll').on('click', function(){
+	//	if($("#chkAll").prop("checked")) {
+	//		$("input[type=checkbox]").prop("checked", true);
+	//	} else {
+	//		$("input[type=checkbox]").prop("checked", false);
+	//	}
+	//});
+
+	var boxArray = "";
+	//$(document).ready(function () {
+	//    $(document).on('change', 'input[name="chk"]', function (e) {
+	//    	var tr = $(this).parent().parent().eq(0);
+	//		var td = tr.children();
+	//    	if ( $(this).is(":checked") ) {
+	//			//포장수량이랑 잔여수량이 일치하지 않다면
+	//			if ( td.eq(3).text() != td.eq(4).text() ) {
+	//				$(this).prop("checked", false);
+	//				toastr.warning("출하된 제품은 삭제하실 수 없습니다.");
+	//				return false;
+	//			}
+	//			boxArray += "/" + td.eq(2).text();
+	//	    } else {
+	//	    	boxArray = boxArray.replace("/" + td.eq(2).text(), "");
+	//		}
+	//    });
+	//});
+
+	var viewTemp = true;	//Dtl Celar 판단
+   	var openrNav2Flag = true;
+   	var sideViewFlag = true;
+	function openrNav2After() 
+	{
+		//같은항목 열었다 닫았다 반복시 Dtl Clear 판단
+		if ( viewTemp ){
+			$('#preGoodsInventoryDtlTable').DataTable().clear().draw(false);
+		}
+
+    	if (sideView == "edit" && sideViewFlag == true) {
+			$('#preGoodsInventoryDtlTable').DataTable().ajax.reload( function () {});
+    	}
+    	openrNav2Flag = true;
+	}
+
+	function closerNav2After()
+	{
+		openrNav2Flag = false;
+		sideViewFlag = false;
+	}
+
+	$(document).on('keyup',"input[name=ea]",function(evt) {  // 콤마 추가
+        //입력 정규식 0~9 .
+    	reg = /[^0-9.]/gi;
+    	let poQty = $(this).val().replace(/,/g, '');
+    	if (reg.test(poQty)) {
+    		poQty = poQty.replace(reg, '');
+    		$(this).val(   addCommas(poQty) );
+    		return false;
+    	}	
+    	
+    	$('#gram').val(parseFloat(poQty*gravity/ 1000).toFixed(3));
+		
+    });
+
+	$(document).on('keyup',"input[name=gram]",function(evt) {  // 콤마 추가
+        //입력 정규식 0~9 .
+    	reg = /[^0-9.]/gi;
+    	let poQty = $(this).val().replace(/,/g, '');
+    	if (reg.test(poQty)) {
+    		poQty = poQty.replace(reg, '');
+    		$(this).val(   addCommas(poQty) );
+    		return false;
+    	}	
+    	
+    	$('#ea').val(addCommas(parseInt(parseFloat(poQty/gravity)* 1000)));
+		
+    });
+
+	$('#ea').keyup(function (event) {
+ 		if ( !(	(event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) || (event.which >= 37 && event.which <= 40) || event.which == 8 || event.which == 9 || event.which == 13 || event.which == 16 || event.which == 46 || event.which == 109)	) {
+			//$('.number-float0').on("blur keyup", function() {
+			//	$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ) );
+			//});
+			
+			toastr.warning('양수(+)만 입력해주세요.');
+			$(this).val("");
+			$('#gram').val("0");
+			$(this).val("0");
+ 			$(this).select();
+			event.preventDefault();
 			return false;
 		}
-		//처리중..
-		$('#my-spinner').show();
+ 		if ($(this).val() == "00" || $(this).val() == "") {
+			$(this).val("0");
+			$('#gram').val("0");
+			$(this).select();
+			return false;
+		}
+
+ 		var temp = $(this).val();
+ 		temp = removeCommas(temp);
 		
-		$('#barcodeDtlTable tbody tr').each(function(index, item){
-			var rowData = new Object();
-			rowData.inWhsDate= $('#inWhsDate').val().replace(/-/g,'');
-			
-			rowData.barcodeNo= $(this).find('td input[name=barcodeNo]').val();	
-			rowData.inWhsQty= $(this).find('td input[name=inWhsQty]').val().replace(/,/g,'');	
-			
-			rowData.partCd= $(this).find('td input[name=partCd]').val();	
-			rowData.partRev= $(this).find('td input[name=partRev]').val();	
-			
-			rowData.locationNo = $('#locationNo').val();
-			rowData.locationCd = $('#locationCd').val();
-			rowData.areaCd = $('#areaCd').val();
-			rowData.floorNm = $('#floorNm').val();
-			//rowData.floorCd = $('#floorCd option:selected').val();
-	        dataArray.push(rowData);
-		});
+ 		if ($(this).attr("maxlength") < temp.length) {
+			toastr.warning('최대 입력 글자를 초과하였습니다.');
+			$(this).val("0");
+			$('#gram').val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("max")) < parseFloat(temp)) {
+ 			toastr.warning('최대 크기를 초과하였습니다.');
+ 			$(this).val("0");
+ 			$('#gram').val("0");
+ 			$(this).select();
+ 			return false;
+		}
+ 		if ( parseFloat($(this).attr("min")) > parseFloat(temp)) {
+ 			toastr.warning('최소 크기를 초과하였습니다.');
+ 			$(this).val("0");
+ 			$('#gram').val("0");
+ 			$(this).select();
+ 			return false;
+		}
+		if ( event.which == 110 || event.which == 190 ) {
+			toastr.warning('정수만 입력 가능합니다.');
+			$(this).val("0");
+			$('#gram').val("0");
+ 			$(this).select();
+			return false;
+		}
+		// .개수 세기
+		if ( $(this).val().split('.').length > 1  ) {
+			toastr.warning('소수점은 한번만 입력해주세요.');
+			$(this).val("0");
+			$('#gram').val("0");
+			$(this).select();
+			return false;
+		}
+		var _pattern2 = /^\d*[.]\d{1}$/;
+        if (_pattern2.test( temp)) {
+        	toastr.warning("정수만 입력 가능합니다.");
+        	$(this).val("0");
+        	$('#gram').val("0");
+ 			$(this).select();
+            return false;
+		}
+
+        //$(this).val() = addCommas(temp);
+	});
+
+	$('#gram').keyup(function (event) {
+ 		if ( !(	(event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) || (event.which >= 37 && event.which <= 40) || event.which == 8 || event.which == 9 || event.which == 13 || event.which == 16 || event.which == 46 || event.which == 109 || event.which == 110 || event.which == 190)	) {
+			//$('.number-float3').on("blur keyup", function() {
+			//	$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ) );
+			//});
+			toastr.warning('양수(+)만 입력해주세요.');
+			event.preventDefault();			
+			$('#ea').val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ($(this).val() == "00" || $(this).val() == "") {
+			$(this).val("0");
+			$('#ea').val("0");
+			$(this).select();
+			return false;
+		}
+ 		if ($(this).attr("maxlength") < $(this).val().length) {
+			toastr.warning('최대 입력 글자를 초과하였습니다.');
+			$(this).val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("max")) < parseFloat($(this).val())) {
+			toastr.warning('최대 크기를 초과하였습니다.');
+			$(this).val("0");
+			$('#ea').val("0");
+ 			$(this).select();
+			return false;
+		}
+ 		if ( parseFloat($(this).attr("min")) > parseFloat($(this).val())) {
+			toastr.warning('최소 크기를 초과하였습니다.');
+			$(this).val("0");
+			$('#ea').val("0");
+ 			$(this).select();
+			return false;
+		}
+
+		// .개수 세기
+		if ( $(this).val().split('.').length > 2  ) {
+			toastr.warning('소수점은 한번만 입력해주세요.');
+			$(this).val("0");
+			$('#ea').val("0");
+			$(this).select();
+			return false;
+		}
 		
-		if(check == true){
-			$.ajax({
-				url : '<c:url value="io/inOutWhsAdmCreate"/>',
-				type : 'POST',
-				datatype: 'json',
-				data: JSON.stringify(dataArray),
-				contentType : "application/json; charset=UTF-8",
-				beforeSend : function() {
-					// $('#btnAddConfirm').addClass('d-none');
-				},
-				success : function(res) {				
-					if (res.result == 'ok') {
-						$('#btnAllClear').attr('disabled', true);
-	                	$('#btnLineClear').attr('disabled', true);
-	                	$('#btnSave').attr('disabled', true);                    
-	                    $('#barcodeNo').attr('disabled', true);
-						$('#btnCancel').addClass('d-none');
-						$('#btnNew').removeClass('d-none');
-						
-						/* $('#locationCd').val("");
-						$('#locationNm').val("");
-						$('#areaCd').val("");
-						$('#areaNm').val("");
-						$('#floorCd').val("");
-						$('#floorNm').val("");
-						$('#locationNo').val(""); */
-						//$('#barcodeNo').val("");
-						//$('#barcodeNo').focus();
-						
-						//$('#barcodeDtlTable').DataTable().clear().draw();
-						
-						toastr.success('자재입고 저장되었습니다.');
-					}else {
-						toastr.error(res.message);
-					}
-				},
-				complete : function() {
-					//처리완료..
-					$('#my-spinner').hide();
-				}
-			});
+ 		var _pattern3 = /^\d*[.]\d{4}$/;	//누르고있는 키는 예외처리 안됨
+        if (_pattern3.test( $(this).val())) {
+        	toastr.warning("소수점 셋째 자리까지 입력 가능합니다.");
+        	$(this).val("0");
+        	$('#ea').val("0");
+ 			$(this).select();
+            return false;
 		}
 	});
 
-	var barcodeNoList;
-	function createBarcodeNo() {
-		barcodeNoList = new Array();
-		var idx = 0;
-		$('#barcodeDtlTable tbody tr').each(function(){
-		 	var barcodeNo= $(this).find('td').eq(1).html();
-		 	var equipCd = $("#equipCd").val();
-			var goodsCd = $("#goodsCd").val();
-		 	var inWhsDate = $("#inWhsDate").val().replace(/-/g, '');
-		 	var rowData = new Object();
-		 	rowData.menuAuth = menuAuth;
-			rowData.barcodeNo = barcodeNo;
-			rowData.preOutGoodsCd = goodsCd;
-			rowData.preOutEquipCd = equipCd;
-			rowData.preOutWhsDate = inWhsDate;
-			rowData.preOutQty = preOutQty;
-			barcodeNoList.push(rowData);
-		});
-		console.log(barcodeNoList);
-		return idx;
-	}
-	
-	//전체 삭제
-	$('#btnAllClear').on('click', function() {
-		$('#barcodeDtlTable').DataTable().clear().draw();
-		$('#btnAllClear').attr('disabled', true);
-		$('#btnLineClear').attr('disabled', true);
-		$('#btnSave').attr('disabled', true);
-		$('#barcodeNo').val('');
-		$('#barcodeNo').focus();
-		count = 0;
-		$('#count').text(count);
-	});
 
-	//라인 삭제
-	$('#btnLineClear').on('click', function() {
-		if ( lineCheck == true) {
-	    	$('#barcodeDtlTable').DataTable().rows('.selected').remove().draw();
-	    	$("#barcodeNo").val("");
-	    	$("#barcodeNo").focus();
-	    	var rowCnt = $('#barcodeDtlTable').DataTable().data().count(); 
-	    	if(rowCnt == 0) {
-	    		$('#btnSave').attr('disabled', true);
-	    		$('#btnAllClear').attr('disabled', true);
-	    		$('#btnLineClear').attr('disabled', true);
-	    	}
-    		count -= 1;
-    		$('#count').text(count);
-		} else {
-	    	toastr.warning('삭제할 라인을 선택하세요.');
-		}
-	});
-	
-	//취소 버튼
-	$('#btnCancel').on('click', function() {
-		$('#btnCalendar').attr('disabled', false);
-		$('#btnLocationCd').attr('disabled', false);
-		$('#btnSave').attr('disabled', true);
-		$('#btnAllClear').attr('disabled', true);
-		$('#btnLineClear').attr('disabled', true);
-		$('#barcodeDtlTable').DataTable().clear().draw();
-		$('#locationNo').val('');
-		$('#locationCd').val('');
-		$('#locationNm').val('');
-		$('#areaCd').val('');
-		$('#areaNm').val('');
-		$('#floorNm').val('');
-		$('#floorCd').val('');
-		$('#barcodeNo').val('');
-		$('#btnSelEquipCode').focus();
-		$('#inWhsDate').val(serverDate);
-		count = 0;
-		$('#count').text(count);
-	});
-
-	//저장 완료 후 새로등록
-	$('#btnNew').on('click', function() {
-		$('#btnCalendar').attr('disabled', false);
-		$('#barcodeNo').attr('disabled', false);
-		$('#btnLocationCd').attr('disabled', false);
-		$('#barcodeDtlTable').DataTable().clear().draw();
-		$('#inWhsDate').val(serverDate);
-		$('#btnNew').addClass('d-none');
-		$('#btnCancel').removeClass('d-none');
-
-		$('#locationCd').val("");
-		$('#locationNm').val("");
-		$('#areaCd').val("");
-		$('#areaNm').val("");
-		$('#floorCd').val("");
-		$('#floorNm').val("");
-		$('#locationNo').val("");
-		$('#barcodeNo').val("");
-		$('#barcodeNo').focus();
-		
-		count = 0;
-		$('#count').text(count);
-	});
-	
-	//창고정보조회 팝업 시작
-	var locationPopupTable;
-	function selectLocationCd() {
-		if (locationPopupTable == null || locationPopupTable == undefined) {
-			locationPopupTable = $('#locationPopupTable').DataTable({
-				language : lang_kor,
-				lengthChange : false,
-				paging : true,
-				searching:false,
-				info : true,
-				ordering : true,
-				processing : true,
-				autoWidth : false,
-				pageLength : 13,
-				ajax : {
-					url : 'bm/baseInfoWhList',
-					type : 'GET',
-					data : {
-						'baseInfoCd' : function(){return baseInfoCd;},
-						'etc3' : function(){return etc3;}
-					}
-				},
-				columns : [ {
-					data : 'baseInfoNm'
-				}, {
-					data : 'areaNm'
-				}, {
-					data : 'etc2'
-				}, {
-					data : 'baseInfoDesc'
-				}, {
-					data : 'useYnNm'
-				},  ],
-				columnDefs : [ {
-					"targets" : '_all',"className" : "text-center"
-				} ],
-				order : [ [ 0, 'asc' ] ],
-			});
-			$('#locationPopupTable tbody').on('click', 'tr', function() {
-				var data = locationPopupTable.row(this).data();
-
-				//창고정보
-				$('#locationNm').val(data.baseInfoNm);
-				$('#locationCd').val(data.baseInfoCd);
-				//구역정보
-				$('#areaNm').val(data.areaNm);
-				$('#areaCd').val(data.areaCd);
-				//위치정보
-				$('#floorCd').val(data.etc2);
-				$('#barcodeNo').focus();
-				$('#locationPopupModal').modal('hide');
-			});
-		} else {
-			$('#locationPopupTable').DataTable().ajax.reload(function() {});
-		}
-
-		$('#locationPopupModal').modal('show');
-		selectBoxAppend(locationCdCode , "locationCd",'', "2");
-	}
-
-	// 구역목록
-	function changeAreaCd(){
-		$.ajax({
-			url : '<c:url value="io/getAreaCd" />',
-			type : 'GET',
-			data : {
-				'locationCd' : $('#selectLocationCd option:selected').val()
-			},
-			success : function(res){
-				if(res.result == "ok"){
-				 	var areaCdCode = new Array(); 
-				 	for(var i=0; i<res.data.length; i++){
-				 		var json = new Object();
-						json.baseCd = res.data[i].areaCd;
-						json.baseNm = res.data[i].areaNm;
-						areaCdCode.push(json);
-					 }
-				}
-				selectBoxAppend(areaCdCode , 'selectAreaCd','', '2');
-				baseInfoCd = $('#selectLocationCd option:selected').val();
-				$('#locationPopupTable').DataTable().ajax.reload( function () {});
-			}
-		})
-	}
-
-	// 위치목록
-	function changeFloorCd(){
-		etc3 = $('#selectAreaCd option:selected').val()
-		$('#locationPopupTable').DataTable().ajax.reload( function () {});
-	}
-	
-  	//모바일 자판 On/Off
-	$('#btnKeyboard').on('click', function() {
-		var inputmode = $('#barcodeNo').attr('inputmode');
-		if ( inputmode == 'none') {
-			$('#btnKeyboard').text("자판 On");
-			$('#barcodeNo').attr('inputmode', 'text');
-		} else if ( inputmode == 'text' ) {
-			$('#btnKeyboard').text("자판 Off");
-			$('#barcodeNo').attr('inputmode', 'none');
-		}
-	});
-	
 </script>
 
 </body>
-<
-
-/html>
+</html>

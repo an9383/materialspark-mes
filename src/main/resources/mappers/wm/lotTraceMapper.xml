@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.wm.lotTraceMapper">
+
+	<resultMap id="LotTraceVo" type="mes.domain.wm.LotTraceVo">
+		<result property="workOrdNo"				column="WORK_ORD_NO"		/>
+		<result property="ordLotNo"					column="ORD_LOT_NO"			/>
+		<result property="equipCd"					column="EQUIP_CD"			/>
+		<result property="equipNm"					column="EQUIP_NM"			/>		
+		<result property="goodsCd"					column="GOODS_CD"			/>
+		<result property="goodsNm"					column="GOODS_NM"			/>
+		<result property="gubun"					column="GUBUN"				/>
+		<result property="gubunNm"					column="GUBUN_NM"			/>
+		<result property="ordGubun"					column="ORD_GUBUN"			/>
+		<result property="ordGubunNm"				column="ORD_GUBUN_NM"		/>		
+		<result property="ordDate"					column="ORD_DATE"			/>
+		<result property="equipCondSeq"				column="EQUIP_COND_SEQ"		/>		
+		<result property="workStatusCd"				column="WORK_STATUS_CD"		/>
+		<result property="workStatusNm"				column="WORK_STATUS_NM"		/>		
+		<result property="workTeamCd"				column="WORK_TEAM_CD"		/>
+		<result property="workTeamNm"				column="WORK_TEAM_NM"		/>		
+		<result property="mainWorkChargr"			column="MAIN_WORK_CHARGR"	/>
+		<result property="mainWorkChargrNm"			column="MAIN_WORK_CHARGR_NM"	/>		
+		<result property="subWorkChargr"			column="SUB_WORK_CHARGR"	/>
+		<result property="subWorkChargrNm"			column="SUB_WORK_CHARGR_NM"	/>		
+		<result property="targetWeight"				column="TARGET_WEIGHT"		/>
+		<result property="outputWeight1"			column="OUTPUT_WEIGHT1"		/>
+		<result property="outputWeight2"			column="OUTPUT_WEIGHT2"		/>
+		<result property="targetCnt"				column="TARGET_CNT"			/>
+		<result property="outputCnt"				column="OUTPUT_CNT"			/>
+		<result property="dealCorpCd"				column="DEAL_CORP_CD"		/>
+		<result property="dealCorpNm"				column="DEAL_CORP_NM"		/>	
+		<result property="edgeOutputCnt"			column="EDGE_OUTPUT_CNT"	/>			
+		<result property="edgeSampleCnt"			column="EDGE_SAMPLE_CNT"	/>
+		<result property="edgeFaultyCnt"			column="EDGE_FAULTY_CNT"	/>
+		<result property="edgeInspctCharger"		column="EDGE_INSPCT_CHARGER"/>
+		<result property="edgeInspctChargerNm"		column="EDGE_INSPCT_CHARGER_NM"/>		
+		<result property="edgeInspctDate"			column="EDGE_INSPCT_DATE"	/>
+		<result property="appearOutputCnt"			column="APPEAR_OUTPUT_CNT"	/>		
+		<result property="appearAbrfCnt"			column="APPEAR_ABRF_CNT"	/>
+		<result property="appearAbrsCnt"			column="APPEAR_ABRS_CNT"	/>
+		<result property="appearDmsCnt"				column="APPEAR_DMS_CNT"		/>
+		<result property="appearFaultyCnt"			column="APPEAR_FAULTY_CNT"	/>
+		<result property="appearInspctCharger"		column="APPEAR_INSPCT_CHARGER"/>
+		<result property="appearInspctChargerNm"	column="APPEAR_INSPCT_CHARGER_NM"/>		
+		<result property="appearInspctDate"			column="APPEAR_INSPCT_DATE"	/>
+		<result property="workStartTime"			column="WORK_START_TIME"	/>
+		<result property="workEndTime"				column="WORK_END_TIME"		/>
+		<result property="workTime"					column="WORK_TIME"			/>						
+		<result property="statusCd"					column="STATUS_CD"			/>		
+		<result property="regId"					column="REG_ID"				/>
+		<result property="regDate"					column="REG_DATE"			/>
+		<result property="updId"					column="UPD_ID"				/>
+		<result property="updDate"					column="UPD_DATE"			/>
+		<result property="surfaceTrtmtCd"			column="SURFACE_TRTMT_CD"	/>
+		<result property="surfaceTrtmtNm"			column="SURFACE_TRTMT_NM"	/>	
+		<result property="alnicuMatrlCd"			column="ALNICU_MATRL_CD"	/>
+		<result property="filmMatrlCd"				column="FILM_MATRL_CD"		/>
+		<result property="lotNo"					column="LOT_NO"				/>	
+		<result property="srLot"					column="SR_LOT"				/>		
+		<result property="barcodeNo"				column="BARCODE_NO"			/>							
+		<result property="matrlCd"					column="MATRL_CD"			/><!-- 자재 코드 -->
+		<result property="matrlNm"					column="MATRL_NM"			/><!-- 자재 명 -->
+		<result property="model"					column="MODEL"				/><!-- 제품 규격 -->
+		<result property="qutyCd"					column="QUTY_CD"			/><!-- 재질 코드 -->
+		<result property="qutyNm"					column="QUTY_NM"			/><!-- 재질 명 -->
+		<result property="inWhsQty"					column="IN_WHS_QTY"			/>
+		<result property="inspectQty"				column="INSPECT_QTY"		/>
+		<result property="packUnitCd"				column="PACK_UNIT_CD"		/>	
+		<result property="packUnitNm"				column="PACK_UNIT_NM"		/>	
+		<result property="packCnt"					column="PACK_CNT"			/>			
+		<result property="packYn"					column="PACK_YN"			/>	
+		<result property="inWhsDate"				column="IN_WHS_DATE"		/>		
+		<result property="boxNo"					column="BOX_NO"			 	/>	
+		<result property="prcssNm"					column="PRCSS_NM"			/>	
+		<result property="inPackCnt"				column="IN_PACK_CNT"		/>	
+		<result property="outPackCnt"				column="OUT_PACK_CNT"		/>		
+		<result property="lotDesc"					column="LOT_DESC"			/>
+		
+		<result property="matrlBarcodeNo"			column="MATRL_BARCODE_NO"	/>
+		<result property="remakeYn"					column="REMAKE_YN"			/>
+		
+	</resultMap>
+	
+	<!-- 포장별 작지투입 자재정보 조회 -->
+	<select id="workOrdMatrlList" resultMap="LotTraceVo">
+		SELECT
+			C.IN_WHS_DATE
+			, C.MATRL_CD
+			, E.MATRL_NM
+			, C.LOT_NO
+			, C.INSPECT_QTY
+			, C.SPPLY_DEAL_CORP_CD
+			, D.DEAL_CORP_NM
+			, A.WORK_ORD_NO
+			, A.ORD_LOT_NO
+			, B.GUBUN
+			, F.REMAKE_YN
+		FROM TB_GOODS_PRODUCT_INFO_DTL A
+			, TB_WORK_ORDER_OUTPUT_SUB B
+			, TB_IN_OUT_WHS_ADM C
+			, TB_DEAL_CORP_ADM D
+			, TB_MATRL_CODE_ADM E
+			, TB_WORK_ORDER_DTL F
+		WHERE A.ORD_LOT_NO = B.ORD_LOT_NO
+		AND C.LOT_NO = B.LOT_NO
+		AND C.SPPLY_DEAL_CORP_CD = D.DEAL_CORP_CD
+		AND C.MATRL_CD = E.MATRL_CD
+		AND B.LOT_NO = F.LOT_NO
+		AND B.WORK_ORD_NO = F.WORK_ORD_NO
+		AND A.BOX_NO = #{boxNo}
+		
+		UNION ALL
+		
+		SELECT
+			C.IN_WHS_DATE
+			, C.MATRL_CD
+			, E.MATRL_NM
+			, C.LOT_NO
+			, C.INSPECT_QTY
+			, C.SPPLY_DEAL_CORP_CD
+			, D.DEAL_CORP_NM
+			, A.WORK_ORD_NO
+			, '' ORD_LOT_NO
+			, '' GUBUN
+			, F.REMAKE_YN
+		FROM TB_WORK_ORDER A
+			, TB_WORK_ORDER_DTL B
+			, TB_IN_OUT_WHS_ADM C
+			, TB_DEAL_CORP_ADM D
+			, TB_MATRL_CODE_ADM E
+			, TB_WORK_ORDER_DTL F
+		WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND LEFT(B.MATRL_CD, 1) = 'F'
+		AND B.LOT_NO = C.LOT_NO
+		AND C.SPPLY_DEAL_CORP_CD = D.DEAL_CORP_CD
+		AND C.MATRL_CD = E.MATRL_CD
+		AND B.LOT_NO = F.LOT_NO
+		AND B.WORK_ORD_NO = F.WORK_ORD_NO
+		AND A.WORK_ORD_NO IN (SELECT WORK_ORD_NO
+							FROM TB_GOODS_PRODUCT_INFO_DTL A
+							WHERE A.BOX_NO = #{boxNo})
+	</select>
+	
+	<!-- 작지별 자재정보 조회 -->
+	<select id="matrlByWorkOrdList" resultMap="LotTraceVo">
+		SELECT
+			DISTINCT '' BOX_NO
+			, B.WORK_ORD_NO
+			, A.ORD_LOT_NO
+			, A.GUBUN
+			, D.LOT_NO
+			, D.INSPECT_QTY
+			, D.BARCODE_NO
+			, D.SPPLY_DEAL_CORP_CD DEAL_CORP_CD
+			, F.DEAL_CORP_NM
+			, D.IN_WHS_DATE 
+			, D.MATRL_CD
+			, E.MATRL_NM
+			, C.REMAKE_YN
+		FROM TB_WORK_ORDER_OUTPUT_SUB A
+			, TB_WORK_ORDER B
+			, TB_WORK_ORDER_DTL C
+			, TB_IN_OUT_WHS_ADM D
+			, TB_MATRL_CODE_ADM E
+			, TB_DEAL_CORP_ADM F
+		WHERE 1=1
+		AND A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND B.WORK_ORD_NO = C.WORK_ORD_NO
+		AND A.LOT_NO = D.LOT_NO
+		AND D.MATRL_CD = E.MATRL_CD
+		AND D.SPPLY_DEAL_CORP_CD = F.DEAL_CORP_CD
+		AND (LEFT(C.MATRL_CD, 1) = 'A' OR LEFT(C.MATRL_CD, 1) = 'N')
+	<if test="workOrdNo != null and workOrdNo != ''"> 
+  		AND B.WORK_ORD_NO = #{workOrdNo}
+	</if>
+	<if test="ordLotNo != null and ordLotNo != ''"> 
+  		AND A.ORD_LOT_NO = #{ordLotNo}
+	</if>
+		
+		UNION ALL
+		
+		SELECT
+			DISTINCT '' BOX_NO
+			, B.WORK_ORD_NO
+			, '' ORD_LOT_NO
+	  		, '' GUBUN
+			, D.LOT_NO
+			, D.INSPECT_QTY
+			, D.BARCODE_NO
+			, D.SPPLY_DEAL_CORP_CD DEAL_CORP_CD
+			, F.DEAL_CORP_NM
+			, D.IN_WHS_DATE 
+			, D.MATRL_CD
+			, E.MATRL_NM
+			, C.REMAKE_YN
+		FROM TB_WORK_ORDER B
+			, TB_WORK_ORDER_DTL C
+			, TB_IN_OUT_WHS_ADM D
+			, TB_MATRL_CODE_ADM E
+			, TB_DEAL_CORP_ADM F
+		<if test="ordLotNo != null and ordLotNo != ''"> 
+			, TB_WORK_ORDER_OUTPUT_SUB A
+		</if>
+		WHERE 1=1
+		AND B.WORK_ORD_NO = C.WORK_ORD_NO
+		AND C.LOT_NO = D.LOT_NO
+		AND D.MATRL_CD = E.MATRL_CD
+		AND D.SPPLY_DEAL_CORP_CD = F.DEAL_CORP_CD
+		AND LEFT(C.MATRL_CD, 1) = 'F'
+	<if test="workOrdNo != null and workOrdNo != ''"> 
+  		AND B.WORK_ORD_NO = #{workOrdNo}
+	</if>
+	<if test="ordLotNo != null and ordLotNo != ''"> 
+		AND A.WORK_ORD_NO = B.WORK_ORD_NO
+  		AND A.ORD_LOT_NO = #{ordLotNo}
+	</if>
+		
+		<!-- 
+		SELECT DISTINCT
+			 '' BOX_NO
+			,B.WORK_ORD_NO
+			,D.LOT_NO
+			,D.INSPECT_QTY
+			,D.BARCODE_NO
+			,D.SPPLY_DEAL_CORP_CD DEAL_CORP_CD
+			,F.DEAL_CORP_NM
+			,D.IN_WHS_DATE 
+			,D.MATRL_CD
+			,E.MATRL_NM
+			,C.REMAKE_YN
+		FROM 
+			TB_WORK_ORDER B,
+			TB_WORK_ORDER_DTL C,
+			TB_IN_OUT_WHS_ADM D,
+			TB_MATRL_CODE_ADM E,
+			TB_DEAL_CORP_ADM F
+		WHERE B.WORK_ORD_NO = #{workOrdNo}
+		AND B.WORK_ORD_NO = C.WORK_ORD_NO
+		AND C.LOT_NO = D.LOT_NO
+		AND C.MATRL_CD = E.MATRL_CD
+		AND D.SPPLY_DEAL_CORP_CD = F.DEAL_CORP_CD
+		 -->
+	</select>
+	
+	<!-- 자재 Barcode No별 작지투입 자재정보 조회 -->
+	<select id="workOrdMatrlBarcodeNoList" resultMap="LotTraceVo">
+		SELECT
+			C.IN_WHS_DATE
+			, C.MATRL_CD
+			, E.MATRL_NM
+			, A.LOT_NO
+			, C.INSPECT_QTY
+			, C.SPPLY_DEAL_CORP_CD
+			, D.DEAL_CORP_NM
+			, A.WORK_ORD_NO
+			, B.ORD_LOT_NO
+			, B.GUBUN
+			, A.REMAKE_YN
+		FROM TB_WORK_ORDER_DTL A, TB_WORK_ORDER_OUTPUT_SUB B, TB_IN_OUT_WHS_ADM C, TB_DEAL_CORP_ADM D, TB_MATRL_CODE_ADM E
+		WHERE A.LOT_NO = #{lotNo}
+		AND A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND A.LOT_NO = B.LOT_NO
+		AND A.LOT_NO = C.LOT_NO
+		AND C.SPPLY_DEAL_CORP_CD = D.DEAL_CORP_CD
+		AND A.MATRL_CD = E.MATRL_CD
+		
+		UNION ALL
+		
+		SELECT
+			C.IN_WHS_DATE
+			, C.MATRL_CD
+			, E.MATRL_NM
+			, A.LOT_NO
+			, C.INSPECT_QTY
+			, C.SPPLY_DEAL_CORP_CD
+			, D.DEAL_CORP_NM
+			, A.WORK_ORD_NO
+			, '' LOT_NO
+			, '' GUBUN
+			, A.REMAKE_YN
+		FROM TB_WORK_ORDER_DTL A, TB_IN_OUT_WHS_ADM C, TB_DEAL_CORP_ADM D, TB_MATRL_CODE_ADM E
+		WHERE A.LOT_NO = #{lotNo}
+		AND A.LOT_NO = C.LOT_NO
+		AND A.MATRL_CD = E.MATRL_CD
+		AND C.SPPLY_DEAL_CORP_CD = D.DEAL_CORP_CD
+		AND LEFT(A.MATRL_CD, 1) = 'F'
+	</select>
+	
+		
+	<!-- 작지 자재투입 생산진행 상세내역 조회 -->
+	<select id="workOrdMatrlDtlList" resultMap="LotTraceVo">
+		SELECT
+			A.WORK_ORD_NO
+			, '투입' PRCSS_NM
+			, A.EQUIP_CD
+			, G.EQUIP_NM
+			, H.MAIN_WORK_CHARGR
+		    , (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = H.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			--, A.WORK_TEAM_CD
+		    --, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+			, A.DEAL_CORP_CD
+			, E.DEAL_CORP_NM
+			, A.GOODS_CD
+			, F.GOODS_NM
+			, F.MODEL
+			, B.LOT_NO
+			, C.SR_LOT
+			, C.INSPECT_QTY
+			, '0' OUTPUT_CNT
+			, '0' EDGE_OUTPUT_CNT
+			, '0' EDGE_FAULTY_CNT 
+			, '0' APPEAR_OUTPUT_CNT
+			, '0' APPEAR_FAULTY_CNT
+			, '0' IN_PACK_CNT
+			, '0' OUT_PACK_CNT
+			, '' LOT_DESC
+			, C.IN_WHS_DATE ORD_DATE
+		    , H.EDGE_INSPCT_CHARGER
+			, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = H.EDGE_INSPCT_CHARGER) EDGE_INSPCT_CHARGER_NM
+		    , H.EDGE_INSPCT_DATE
+		    , H.APPEAR_INSPCT_CHARGER
+		    , (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = H.APPEAR_INSPCT_CHARGER) APPEAR_INSPCT_CHARGER_NM
+		    , H.APPEAR_INSPCT_DATE
+		FROM TB_WORK_ORDER A
+			, TB_WORK_ORDER_DTL B
+			, TB_IN_OUT_WHS_ADM C
+			, TB_MATRL_CODE_ADM D
+			, TB_DEAL_CORP_ADM E
+			, TB_GOODS_CODE_ADM F
+			, TB_EQUIP_CODE_ADM G
+			, TB_WORK_ORDER_OUTPUT_SUB H
+		WHERE H.WORK_ORD_NO = A.WORK_ORD_NO
+		AND H.WORK_ORD_NO = #{workOrdNo}
+		AND H.ORD_LOT_NO = #{ordLotNo}
+		AND B.LOT_NO = #{lotNo}
+		AND B.WORK_ORD_NO = A.WORK_ORD_NO
+		AND B.LOT_NO = C.LOT_NO
+		AND C.MATRL_CD = D.MATRL_CD
+		AND A.DEAL_CORP_CD = E.DEAL_CORP_CD
+		AND A.GOODS_CD = F.GOODS_CD
+		AND A.EQUIP_CD = G.EQUIP_CD
+		
+		UNION ALL
+		
+		SELECT
+			A.WORK_ORD_NO
+			, '생산' PRCSS_NM
+			, A.EQUIP_CD
+			, G.EQUIP_NM
+			, H.MAIN_WORK_CHARGR
+		    , (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = H.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			--, A.WORK_TEAM_CD
+		    --, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+			, A.DEAL_CORP_CD
+			, E.DEAL_CORP_NM
+			, A.GOODS_CD
+			, F.GOODS_NM
+			, F.MODEL
+			, B.LOT_NO
+			, C.SR_LOT
+			, CAST(TARGET_CNT AS NVARCHAR) INSPECT_QTY
+			, (H.OUTPUT_CNT + H.VISION_EDGE_CNT) OUTPUT_CNT
+			, '0' EDGE_OUTPUT_CNT
+			, '0' EDGE_FAULTY_CNT 
+			, '0' APPEAR_OUTPUT_CNT
+			, '0' APPEAR_FAULTY_CNT
+			, '0' IN_PACK_CNT
+			, '0' OUT_PACK_CNT
+			, '' LOT_DESC
+			, H.WORK_ORD_DATE ORD_DATE
+		    , H.EDGE_INSPCT_CHARGER
+			, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.EDGE_INSPCT_CHARGER) EDGE_INSPCT_CHARGER_NM
+		    , A.EDGE_INSPCT_DATE
+		    , A.APPEAR_INSPCT_CHARGER
+		    , (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.APPEAR_INSPCT_CHARGER) APPEAR_INSPCT_CHARGER_NM
+		    , A.APPEAR_INSPCT_DATE
+		FROM TB_WORK_ORDER A
+			, TB_WORK_ORDER_DTL B
+			, TB_IN_OUT_WHS_ADM C
+			, TB_MATRL_CODE_ADM D
+			, TB_DEAL_CORP_ADM E
+			, TB_GOODS_CODE_ADM F
+			, TB_EQUIP_CODE_ADM G
+			, TB_WORK_ORDER_OUTPUT_SUB H
+		WHERE H.WORK_ORD_NO = A.WORK_ORD_NO
+		AND H.WORK_ORD_NO = #{workOrdNo}
+		AND H.ORD_LOT_NO = #{ordLotNo}
+		AND B.LOT_NO = #{lotNo}
+		AND B.WORK_ORD_NO = A.WORK_ORD_NO
+		AND B.LOT_NO = C.LOT_NO
+		AND C.MATRL_CD = D.MATRL_CD
+		AND A.DEAL_CORP_CD = E.DEAL_CORP_CD
+		AND A.GOODS_CD = F.GOODS_CD
+		AND A.EQUIP_CD = G.EQUIP_CD
+		
+		UNION ALL
+		
+		SELECT
+			A.WORK_ORD_NO
+			, '엣지검사' PRCSS_NM
+			, A.EQUIP_CD
+			, G.EQUIP_NM
+			, H.EDGE_INSPCT_CHARGER MAIN_WORK_CHARGR_NM
+		    , (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = H.EDGE_INSPCT_CHARGER) MAIN_WORK_CHARGR_NM
+			--, A.WORK_TEAM_CD
+		    --, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+			, A.DEAL_CORP_CD
+			, E.DEAL_CORP_NM
+			, A.GOODS_CD
+			, F.GOODS_NM
+			, F.MODEL
+			, B.LOT_NO
+			, C.SR_LOT
+			, '0' INSPECT_QTY
+			--, CAST(A.OUTPUT_CNT AS NVARCHAR) INSPECT_QTY
+			, (H.OUTPUT_CNT + H.VISION_EDGE_CNT) OUTPUT_CNT
+			, '0' EDGE_OUTPUT_CNT
+			, '0' EDGE_FAULTY_CNT
+			, H.EDGE_OUTPUT_CNT APPEAR_OUTPUT_CNT
+			, H.EDGE_FAULTY_CNT APPEAR_FAULTY_CNT
+			, '0' IN_PACK_CNT
+			, '0' OUT_PACK_CNT
+			,'' LOT_DESC
+			, H.EDGE_INSPCT_DATE ORD_DATE
+		    , H.EDGE_INSPCT_CHARGER
+			, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = H.EDGE_INSPCT_CHARGER) EDGE_INSPCT_CHARGER_NM
+		    , H.EDGE_INSPCT_DATE
+		    , H.APPEAR_INSPCT_CHARGER
+		    , (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = H.APPEAR_INSPCT_CHARGER) APPEAR_INSPCT_CHARGER_NM
+		    , H.APPEAR_INSPCT_DATE
+		FROM TB_WORK_ORDER A
+			, TB_WORK_ORDER_DTL B
+			, TB_IN_OUT_WHS_ADM C
+			, TB_MATRL_CODE_ADM D
+			, TB_DEAL_CORP_ADM E
+			, TB_GOODS_CODE_ADM F
+			, TB_EQUIP_CODE_ADM G
+			, TB_WORK_ORDER_OUTPUT_SUB H
+		WHERE H.WORK_ORD_NO = A.WORK_ORD_NO
+		AND H.WORK_ORD_NO = #{workOrdNo}
+		AND H.ORD_LOT_NO = #{ordLotNo}
+		AND B.LOT_NO = #{lotNo}
+		AND B.WORK_ORD_NO = A.WORK_ORD_NO
+		AND B.LOT_NO = C.LOT_NO
+		AND C.MATRL_CD = D.MATRL_CD
+		AND A.DEAL_CORP_CD = E.DEAL_CORP_CD
+		AND A.GOODS_CD = F.GOODS_CD
+		AND A.EQUIP_CD = G.EQUIP_CD
+		
+		UNION ALL
+		
+		SELECT
+			A.WORK_ORD_NO
+			, '외관검사' PRCSS_NM
+			, A.EQUIP_CD
+			, G.EQUIP_NM
+			, H.APPEAR_INSPCT_CHARGER MAIN_WORK_CHARGR_NM
+		    , (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = H.APPEAR_INSPCT_CHARGER) MAIN_WORK_CHARGR_NM
+			--, A.WORK_TEAM_CD
+		    --, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+			, A.DEAL_CORP_CD
+			, E.DEAL_CORP_NM
+			, A.GOODS_CD
+			, F.GOODS_NM
+			, F.MODEL
+			, B.LOT_NO
+			, C.SR_LOT
+			, '0' INSPECT_QTY
+			--, CAST(A.EDGE_OUTPUT_CNT AS NVARCHAR) INSPECT_QTY
+			, H.EDGE_OUTPUT_CNT OUTPUT_CNT
+			, H.OUTPUT_CNT EDGE_OUTPUT_CNT
+			, H.EDGE_FAULTY_CNT 
+			, H.APPEAR_OUTPUT_CNT
+			, H.APPEAR_FAULTY_CNT
+			, '0' IN_PACK_CNT
+			, '0' OUT_PACK_CNT
+			, '' LOT_DESC
+			, H.APPEAR_INSPCT_DATE ORD_DATE
+		    , H.EDGE_INSPCT_CHARGER
+			, (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = H.EDGE_INSPCT_CHARGER) EDGE_INSPCT_CHARGER_NM
+		    , H.EDGE_INSPCT_DATE
+		    , H.APPEAR_INSPCT_CHARGER
+		    , (SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = H.APPEAR_INSPCT_CHARGER) APPEAR_INSPCT_CHARGER_NM
+		    , H.APPEAR_INSPCT_DATE
+		FROM TB_WORK_ORDER A
+			, TB_WORK_ORDER_DTL B
+			, TB_IN_OUT_WHS_ADM C
+			, TB_MATRL_CODE_ADM D
+			, TB_DEAL_CORP_ADM E
+			, TB_GOODS_CODE_ADM F
+			, TB_EQUIP_CODE_ADM G
+			, TB_WORK_ORDER_OUTPUT_SUB H
+		WHERE H.WORK_ORD_NO = A.WORK_ORD_NO
+		AND H.WORK_ORD_NO = #{workOrdNo}
+		AND H.ORD_LOT_NO = #{ordLotNo}
+		AND B.LOT_NO = #{lotNo}
+		AND B.WORK_ORD_NO = A.WORK_ORD_NO
+		AND B.LOT_NO = C.LOT_NO
+		AND C.MATRL_CD = D.MATRL_CD
+		AND A.DEAL_CORP_CD = E.DEAL_CORP_CD
+		AND A.GOODS_CD = F.GOODS_CD
+		AND A.EQUIP_CD = G.EQUIP_CD
+		
+		UNION ALL
+		
+		SELECT
+			MAX(WORK_ORD_NO) WORK_ORD_NO
+			, '제품입고' 	PRCSS_NM
+			, '' EQUIP_CD
+			, '' EQUIP_NM
+			, '' MAIN_WORK_CHARGR
+		    , '' MAIN_WORK_CHARGR_NM
+			--, '' WORK_TEAM_CD
+		    --, '' WORK_TEAM_NM
+			, '' DEAL_CORP_CD
+			, '' DEAL_CORP_NM
+			, MAX(A.GOODS_CD) GOODS_CD
+			, MAX(B.GOODS_NM) GOODS_NM
+		    , MAX(B.MODEL) MODEL
+			, '' LOT_NO
+			, '' SR_LOT
+			, '0' INSPECT_QTY
+			, '0' OUTPUT_CNT
+			, '0' EDGE_OUTPUT_CNT
+			, '0' EDGE_FAULTY_CNT 
+			, '0' APPEAR_OUTPUT_CNT
+			, '0' APPEAR_FAULTY_CNT
+			, SUM(PACK_DTL_CNT) IN_PACK_CNT
+			, '0' OUT_PACK_CNT
+			, '' LOT_DESC
+			, C.GOODS_IN_DATE ORD_DATE
+		    , '' EDGE_INSPCT_CHARGER
+			, '' EDGE_INSPCT_CHARGER_NM
+		    , '' EDGE_INSPCT_DATE
+		    , '' APPEAR_INSPCT_CHARGER
+		    , '' APPEAR_INSPCT_CHARGER_NM
+		    , '' APPEAR_INSPCT_DATE
+		FROM TB_GOODS_PRODUCT_INFO_DTL A
+			, TB_GOODS_CODE_ADM B
+			, TB_GOODS_PRODUCT_INFO_ADM C
+		WHERE A.WORK_ORD_NO = #{workOrdNo}
+		AND A.ORD_LOT_NO = #{ordLotNo}
+		AND A.GOODS_CD = B.GOODS_CD
+		AND A.BOX_NO = C.BOX_NO
+		AND C.GOODS_STATUS != '001'
+		AND C.FAULTY_STATUS = '001'
+		GROUP BY C.GOODS_IN_DATE
+		
+		UNION ALL
+		
+		SELECT
+			WORK_ORD_NO
+			, PRCSS_NM
+			, EQUIP_CD
+			, EQUIP_NM
+			, MAIN_WORK_CHARGR
+			, MAIN_WORK_CHARGR_NM
+			--, WORK_TEAM_CD
+			--, WORK_TEAM_NM
+			, DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			, GOODS_CD
+			, GOODS_NM
+			, MODEL
+			, LOT_NO
+			, SR_LOT
+			, INSPECT_QTY
+			, OUTPUT_CNT
+			, EDGE_OUTPUT_CNT			
+			, EDGE_FAULTY_CNT 
+			, APPEAR_OUTPUT_CNT
+			, APPEAR_FAULTY_CNT
+			, IN_PACK_CNT
+			, OUT_PACK_CNT
+			, LOT_DESC
+			, ORD_DATE
+			, EDGE_INSPCT_CHARGER
+			, EDGE_INSPCT_CHARGER_NM
+			, EDGE_INSPCT_DATE
+			, APPEAR_INSPCT_CHARGER
+			, APPEAR_INSPCT_CHARGER_NM
+			, APPEAR_INSPCT_DATE
+		FROM (
+			SELECT
+				MAX(A.WORK_ORD_NO) WORK_ORD_NO
+				, '제품출고' PRCSS_NM
+				, '' EQUIP_CD
+				, '' EQUIP_NM
+				, '' MAIN_WORK_CHARGR
+				, '' MAIN_WORK_CHARGR_NM
+				--, '' WORK_TEAM_CD
+				--, '' WORK_TEAM_NM
+				, MAX(C.DELIVERY_DEAL_CORP_CD) DEAL_CORP_CD
+				, '' DEAL_CORP_NM
+				, MAX(A.GOODS_CD) GOODS_CD
+				, MAX(D.GOODS_NM) GOODS_NM
+				, MAX(D.MODEL) MODEL
+				, '' LOT_NO
+				, '' SR_LOT
+				, '0' INSPECT_QTY
+				, 0 OUTPUT_CNT
+				, 0 EDGE_OUTPUT_CNT			
+				, 0 EDGE_FAULTY_CNT 
+				, 0 APPEAR_OUTPUT_CNT
+				, 0 APPEAR_FAULTY_CNT
+				, 0 IN_PACK_CNT
+				, SUM(A.PACK_DTL_CNT) OUT_PACK_CNT
+				, '' LOT_DESC
+				, E.PO_DATE ORD_DATE
+			    , '' EDGE_INSPCT_CHARGER
+				, '' EDGE_INSPCT_CHARGER_NM
+			    , '' EDGE_INSPCT_DATE
+			    , '' APPEAR_INSPCT_CHARGER
+			    , '' APPEAR_INSPCT_CHARGER_NM
+			    , '' APPEAR_INSPCT_DATE
+			FROM TB_GOODS_PRODUCT_INFO_DTL A
+				, TB_GOODS_PRODUCT_INFO_ADM B
+				, TB_PURCHASE_ORDER_ADM C
+				, TB_GOODS_CODE_ADM D
+				, TB_PURCHASE_ORDER_DTL E
+			WHERE 1=1
+			AND A.WORK_ORD_NO = #{workOrdNo}
+			AND A.ORD_LOT_NO = #{ordLotNo}
+			AND A.BOX_NO = B.BOX_NO
+			AND A.BOX_NO = E.BOX_NO
+			AND C.PO_SEQ = E.PO_SEQ
+			AND B.GOODS_STATUS = '003'
+			AND A.GOODS_CD = D.GOODS_CD
+			GROUP BY E.PO_DATE
+		) A
+		WHERE OUT_PACK_CNT > 0
+	</select>
+	
+</mapper>

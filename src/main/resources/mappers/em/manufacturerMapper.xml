@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.em.manufacturerMapper">
+
+	<resultMap id="ManufacturerVo" type="mes.domain.em.ManufacturerVo">
+		<result property="goodsCd"				column="GOODS_CD"		/>
+		<result property="goodsNm"				column="GOODS_NM"		/>
+		<result property="alnicuMatrlCd"		column="ALNICU_MATRL_CD"/>
+		<result property="filmMatrlCd"			column="FILM_MATRL_CD"/>				
+		<result property="model"				column="MODEL"			/>
+		<result property="qutyCd"				column="QUTY_CD"		/>
+		<result property="qutyNm"				column="QUTY_NM"		/>		
+		<result property="alniQutyNm"			column="ALNI_QUTY_NM"	/>
+		<result property="alniThickness"		column="ALNI_THICKNESS"	/>
+		<result property="alniWidth"			column="ALNI_WIDTH"		/>
+		<result property="alniLength"			column="ALNI_LENGTH"	/>
+		<result property="alniPitch"			column="ALNI_PITCH"		/>
+		<result property="filmQutyNm"			column="FILM_QUTY_NM"	/>				
+		<result property="filmThickness"		column="FILM_THICKNESS"	/>
+		<result property="filmDepth"			column="FILM_DEPTH"		/>
+		<result property="surfaceTrtmtCd"		column="SURFACE_TRTMT_CD"/>
+		<result property="surfaceTrtmtNm"		column="SURFACE_TRTMT_NM"/>
+		
+		<result property="equipCondSeq"			column="EQUIP_COND_SEQ"	/>
+		<result property="condRegDate"			column="COND_REG_DATE"	/>
+		<result property="alniDepth"			column="ALNI_DEPTH"		/>
+		<result property="filmMatrlDesc"		column="FILM_MATRL_DESC"/>
+		<result property="equipCd"				column="EQUIP_CD"/>
+		<result property="equipNm"				column="EQUIP_NM"/>
+		<result property="fpUseYn"				column="FP_USE_YN"			/>
+		<result property="fpMainGubun"			column="FP_MAIN_GUBUN"		/>
+	</resultMap>
+	
+	<resultMap id="EquipCondCommonAdmVo" type="mes.domain.em.EquipCondCommonAdmVo">
+		<result property="equipCondSeq"		column="EQUIP_COND_SEQ"		/>
+		<result property="equipCd"			column="EQUIP_CD"			/>
+		<result property="goodsCd"			column="GOODS_CD"			/>
+		<result property="goodsNm"			column="GOODS_NM"			/>		
+		<result property="condRegDate"		column="COND_REG_DATE"		/>
+		<result property="useYnCd"			column="USE_YN_CD"			/>
+		<result property="regId"			column="REG_ID"				/>
+		<result property="regDate"			column="REG_DATE"			/>
+		<result property="updId"			column="UPD_ID"				/>
+		<result property="updDate"			column="UPD_DATE"			/>
+		
+		<result property="goodsNm"			column="GOODS_NM"			/>
+		<result property="model"			column="MODEL"				/>
+		<result property="modelNo"			column="MODEL_NO"			/>
+		<result property="alnicuMatrlCd"	column="ALNICU_MATRL_CD"	/>
+		<result property="filmMatrlCd"		column="FILM_MATRL_CD"		/>
+		<result property="gravity"			column="GRAVITY"			/>
+		<result property="qutyCd"			column="QUTY_CD"		/>
+		<result property="qutyNm"			column="QUTY_NM"		/>			
+		<result property="dealCorpCd"		column="DEAL_CORP_CD"		/>
+		<result property="tmUnitCd"			column="TM_UNIT_CD"			/>
+		<result property="packUnitCd"		column="PACK_UNIT_CD"		/>
+		<result property="etc1"				column="ETC1"				/>
+		<result property="goodsDesc"		column="GOODS_DESC"			/>
+		<result property="equipNm"			column="EQUIP_NM"			/>
+		<result property="surfaceTrtmtCd"	column="SURFACE_TRTMT_CD"	/>
+		<result property="surfaceTrtmtNm"	column="SURFACE_TRTMT_NM"	/>
+		<result property="fpUseYn"			column="FP_USE_YN"			/>
+		<result property="fpMainGubun"		column="FP_MAIN_GUBUN"		/>
+	</resultMap>
+	
+	 
+	<!-- 제조조건관리 설비 클릭시 계획 목록 조회 -->
+	<select id="listAll" resultMap="ManufacturerVo">
+		<![CDATA[
+			SELECT 
+				 A.GOODS_CD
+				 ,A.GOODS_NM
+				 ,A.ALNICU_MATRL_CD
+				 ,A.FILM_MATRL_CD				 
+				 ,A.MODEL
+				 ,B.QUTY_CD
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = B.QUTY_CD) ALNI_QUTY_NM
+				 ,B.THICKNESS ALNI_THICKNESS
+				 ,B.DEPTH ALNI_DEPTH
+				 ,B.WIDTH ALNI_WIDTH
+				 ,B.LENGTH ALNI_LENGTH
+				 ,B.PITCH  ALNI_PITCH
+				 ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = C.QUTY_CD) FILM_QUTY_NM
+				 ,C.THICKNESS FILM_THICKNESS
+				 ,C.DEPTH FILM_DEPTH
+				
+			FROM TB_GOODS_CODE_ADM A,
+				TB_MATRL_CODE_ADM B,
+				TB_MATRL_CODE_ADM C
+			WHERE A.GOODS_CD = #{goodsCd}
+				AND A.ALNICU_MATRL_CD = B.MATRL_CD
+				AND A.FILM_MATRL_CD = C.MATRL_CD
+		]]>
+	</select>
+	
+	<select id="selectEquipCondSeq" resultType="String">
+		<!-- SELECT ISNULL(RIGHT('00000' + CAST(MAX(SUBSTRING(EQUIP_COND_SEQ,2,6))+1 AS NVARCHAR),5), '00001') FROM TB_EQUIP_COND_COMMON_ADM -->
+		
+		DECLARE @A VARCHAR(10);
+		DECLARE @B VARCHAR(10);
+		
+		SET @A = (SELECT ISNULL(RIGHT('00000' + CAST(MAX(SUBSTRING(EQUIP_COND_SEQ,2,6))+1 AS NVARCHAR),5), '00001') FROM TB_EQUIP_COND_COMMON_ADM);
+		SET @B = ( SELECT ISNULL(RIGHT('00000' + CAST(MAX(SUBSTRING(EQUIP_COND_SEQ,2,6))+1 AS NVARCHAR),5), '00001') FROM TB_EQUIP_COND_COMMON_SIX_FLOOR_ADM );
+		
+		SELECT ( CASE WHEN (@A > @B) THEN @A ELSE @B END);
+		
+	</select>
+	
+	<select id="selectEquipCondSixFloorSeq" resultType="String">
+		SELECT ISNULL(RIGHT('00000' + CAST(MAX(SUBSTRING(EQUIP_COND_SEQ,2,6))+1 AS NVARCHAR),5), '00001') FROM TB_EQUIP_COND_COMMON_SIX_FLOOR_ADM
+	</select>
+	
+	<!-- 특정 설비 계획 목록 조회 -->
+	<select id="listRead" resultMap="ManufacturerVo">
+		SELECT 
+			 E.COND_REG_DATE
+			 , E.EQUIP_COND_SEQ
+			 , A.GOODS_CD
+			 , A.GOODS_NM
+			 , A.ALNICU_MATRL_CD
+			 , A.FILM_MATRL_CD
+			 , A.MODEL
+			 , B.QUTY_CD
+			 , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = B.QUTY_CD) ALNI_QUTY_NM
+			 , B.THICKNESS ALNI_THICKNESS
+			 , B.DEPTH ALNI_DEPTH
+			 , B.WIDTH ALNI_WIDTH
+			 , B.LENGTH ALNI_LENGTH
+			 , B.PITCH  ALNI_PITCH
+			 , B.SURFACE_TRTMT_CD
+			 , ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='021' AND D.BASE_CD = B.SURFACE_TRTMT_CD),'') SURFACE_TRTMT_NM
+			 , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = C.QUTY_CD) FILM_QUTY_NM
+			 , C.THICKNESS FILM_THICKNESS
+			 , C.DEPTH FILM_DEPTH
+			 , C.MATRL_DESC AS FILM_MATRL_DESC
+			 , F.EQUIP_CD
+			 , F.EQUIP_NM
+			 , E.FP_USE_YN
+			 , E.FP_MAIN_GUBUN
+		FROM TB_GOODS_CODE_ADM A,
+			TB_MATRL_CODE_ADM B,
+			TB_MATRL_CODE_ADM C,
+			<if test="lineGubun == null or lineGubun ==''">
+				TB_EQUIP_COND_COMMON_ADM E,
+			</if>
+			<if test="lineGubun != null and lineGubun !='' and lineGubun == '4Line' ">
+				TB_EQUIP_COND_COMMON_SIX_FLOOR_ADM E,
+			</if>
+			TB_EQUIP_CODE_ADM F
+		WHERE A.GOODS_CD = E.GOODS_CD
+			AND A.ALNICU_MATRL_CD = B.MATRL_CD
+			AND A.FILM_MATRL_CD = C.MATRL_CD
+			AND E.EQUIP_CD = F.EQUIP_CD
+			AND A.USE_YN_CD = '001'
+			AND E.EQUIP_CD = #{equipCd}
+		ORDER BY COND_REG_DATE DESC, EQUIP_COND_SEQ DESC
+	</select>
+
+	<!-- 제품코드 조회 팝업의 목록에서 특정 제품 클릭 시 제품코드에 대한 재질,규격,두께등을 가져옴 -->
+	<select id="read" resultMap="ManufacturerVo">
+		<![CDATA[
+			SELECT 
+				 A.GOODS_CD
+		 		 , A.GOODS_NM
+				 , A.MODEL
+				 , B.QUTY_CD
+				 , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = B.QUTY_CD) ALNI_QUTY_NM
+				 , B.THICKNESS ALNI_THICKNESS
+				 , B.DEPTH ALNI_DEPTH
+				 , B.WIDTH ALNI_WIDTH
+				 , B.LENGTH ALNI_LENGTH
+				 , B.PITCH  ALNI_PITCH
+				 , B.SURFACE_TRTMT_CD
+				 , ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='021' AND D.BASE_CD = B.SURFACE_TRTMT_CD),'') SURFACE_TRTMT_NM
+				 , (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='007' AND D.BASE_CD = C.QUTY_CD) FILM_QUTY_NM
+				 , C.THICKNESS FILM_THICKNESS
+				 , C.DEPTH FILM_DEPTH
+				 , C.MATRL_DESC AS FILM_MATRL_DESC
+			FROM
+				TB_GOODS_CODE_ADM A,
+				TB_MATRL_CODE_ADM B,
+				TB_MATRL_CODE_ADM C
+			WHERE A.GOODS_CD = #{goodsCd}
+			AND A.ALNICU_MATRL_CD = B.MATRL_CD
+			AND A.FILM_MATRL_CD = C.MATRL_CD
+		]]>
+	</select>
+
+ 	
+	<insert id="equipCondCommonAdmcreate">
+		<![CDATA[
+			INSERT INTO TB_EQUIP_COND_COMMON_ADM (
+				EQUIP_COND_SEQ
+				, EQUIP_CD
+				, GOODS_CD
+				, COND_REG_DATE
+				, USE_YN_CD
+				, FP_USE_YN
+				, FP_MAIN_GUBUN
+				, REG_ID
+				, REG_DATE
+			) 
+			VALUES(
+				#{equipCondSeq}
+				, #{equipCd}
+				, #{goodsCd}
+				, CONVERT(CHAR(8),getDate(),112)
+				, #{useYnCd}
+				, #{fpUseYn}
+				, #{fpMainGubun}
+				, #{regId}
+				, getDate()
+			)
+		]]>
+	</insert>
+	
+	<insert id="equipCondCommonSixFloorAdmCreate">
+		INSERT INTO TB_EQUIP_COND_COMMON_SIX_FLOOR_ADM (
+			EQUIP_COND_SEQ
+			, EQUIP_CD
+			, GOODS_CD
+			, COND_REG_DATE
+			, USE_YN_CD
+			, FP_USE_YN
+			, FP_MAIN_GUBUN
+			, REG_ID
+			, REG_DATE
+		) VALUES(
+			#{equipCondSeq}
+			, #{equipCd}
+			, #{goodsCd}
+			, CONVERT(CHAR(8),getDate(),112)
+			, #{useYnCd}
+			, #{fpUseYn}
+			, #{fpMainGubun}
+			, #{regId}
+			, getDate()
+		)
+	</insert>
+	
+	<update id="equipCondCommonAdmUpdate">
+		<![CDATA[
+			UPDATE TB_EQUIP_COND_COMMON_ADM		
+			SET			
+				 FP_USE_YN = #{fpUseYn}
+				, FP_MAIN_GUBUN = #{fpMainGubun}
+				, UPD_ID = #{updId}
+				, UPD_DATE = getDate()
+			WHERE 1=1
+			AND EQUIP_COND_SEQ = #{equipCondSeq}			
+		]]>
+	</update>
+	
+	<update id="equipCondCommonSixFloorAdmUpdate">
+		UPDATE TB_EQUIP_COND_COMMON_SIX_FLOOR_ADM		
+		SET			
+			 FP_USE_YN = #{fpUseYn}
+			, FP_MAIN_GUBUN = #{fpMainGubun}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE 1=1
+		AND EQUIP_COND_SEQ = #{equipCondSeq}			
+	</update>
+	
+	<!-- Fp 메인구분 전체 삭제 -->
+	<update id="deleteFpMainGubun">
+		
+			UPDATE TB_EQUIP_COND_COMMON_ADM		
+			SET	
+				FP_MAIN_GUBUN = '002'
+			WHERE 1=1
+			<if test="factoryCode != null and factoryCode =='003'">
+				AND LEFT(EQUIP_CD,10) = LEFT(#{equipCd},10)
+			</if>
+			<if test="factoryCode != null and factoryCode =='002'">
+				AND LEFT(EQUIP_CD,11) = LEFT(#{equipCd},11)
+			</if>
+			<if test="factoryCode != null and factoryCode == '001'">
+				AND LEFT(EQUIP_CD,11) = LEFT(#{equipCd},11)
+			</if>
+			
+			AND FP_MAIN_GUBUN = '001'
+	
+	</update>
+	
+
+</mapper>

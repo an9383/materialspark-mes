@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.qm.reportMgmtMapper">
+
+	<resultMap id="ReportMgmtVo" type="mes.domain.qm.ReportMgmtVo">
+		<result property="idx"					column="IDX"					/>
+		<result property="qutyCd"				column="QUTY_CD"				/>
+		<result property="qutyNm"				column="QUTY_NM"				/>	
+		<result property="gubunCd"				column="GUBUN_CD"				/>
+		<result property="gubunNm"				column="GUBUN_NM"				/>		
+		<result property="buyDealCorpCd"		column="BUY_DEAL_CORP_CD"		/>
+		<result property="buyDealCorpNm"		column="BUY_DEAL_CORP_NM"		/>		
+		<result property="validDate"			column="VALID_DATE"				/>	
+		<result property="documentSeq"			column="DOCUMENT_SEQ"			/>	
+		<result property="documentTitle"		column="DOCUMENT_TITLE"			/>	
+		<result property="documentContents"		column="DOCUMENT_CONTENTS"		/>
+		<result property="tabGubunCd"			column="TAB_GUBUN_CD"			/>
+		<result property="userAdd"				column="USER_ADD"				/>
+		<result property="userAddNm"			column="USER_ADD_NM"			/>
+		<result property="regId"				column="REG_ID"					/>
+		<result property="regNm"				column="REG_NM"					/>
+		<result property="regDate"				column="REG_DATE"				/>
+		<result property="updId"				column="UPD_ID"					/>
+		<result property="updDate"				column="UPD_DATE"				/>
+		
+		<!-- 추가함목 -->
+		<result property="startDate"			column="START_DATE"				/>
+		<result property="endDate"				column="END_DATE"				/>
+	</resultMap>
+	
+	<!-- 성적서관리_Adm -->
+	<!-- 성적서관리_Adm 목로조회 -->
+	<select id="reportMgmtAdmList" resultMap="ReportMgmtVo">
+		SELECT
+			IDX
+			, A.QUTY_CD
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE BASE_GROUP_CD='007' AND X.BASE_CD = A.QUTY_CD) AS QUTY_NM
+			, A.GUBUN_CD
+			, (SELECT X.BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE BASE_GROUP_CD='019' AND X.BASE_CD = A.GUBUN_CD) AS GUBUN_NM
+			, A.BUY_DEAL_CORP_CD
+			, (SELECT X.DEAL_CORP_NM FROM TB_DEAL_CORP_ADM X WHERE X.DEAL_CORP_CD = A.BUY_DEAL_CORP_CD) AS BUY_DEAL_CORP_NM
+			, A.VALID_DATE
+			, A.TAB_GUBUN_CD
+			, A.USER_ADD
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.USER_ADD)USER_ADD_NM
+			, A.REG_ID
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.REG_ID)REG_NM
+			, A.REG_DATE
+		FROM TB_REPORT_MGMT_ADM A
+		WHERE 1=1
+		<!-- 날짜검색 -->
+		<if test="startDate != null and endDate != null and !startDate.equals('') and !endDate.equals('')">
+			<![CDATA[
+				AND A.REG_DATE BETWEEN #{startDate} AND #{endDate}
+			]]>
+		</if>
+		<!-- 재질 검색 -->
+		<if test="qutyCd != null and !qutyCd.equals('')">
+			<![CDATA[
+				AND A.QUTY_CD = #{qutyCd}
+			]]>
+		</if>
+		<!-- 매입업체 검색 -->
+		<if test="buyDealCorpCd != null and !buyDealCorpCd.equals('')">
+			<![CDATA[
+				AND A.BUY_DEAL_CORP_CD = #{buyDealCorpCd}
+			]]>
+		</if>
+		<!-- 탭 구분 검색 -->
+		<if test="tabGubunCd != null and !tabGubunCd.equals('')">
+			<![CDATA[
+				AND A.TAB_GUBUN_CD = #{tabGubunCd}
+			]]>
+		</if>
+	</select>
+	
+	<!-- 성적서관리_Adm 상세조회 -->
+	<select id="reportMgmtAdmRead" resultMap="ReportMgmtVo">
+		<![CDATA[
+			SELECT
+				IDX
+				, QUTY_CD
+				, GUBUN_CD
+				, BUY_DEAL_CORP_CD
+				, (SELECT X.DEAL_CORP_NM FROM TB_DEAL_CORP_ADM X WHERE X.DEAL_CORP_CD = A.BUY_DEAL_CORP_CD) AS BUY_DEAL_CORP_NM
+				, VALID_DATE
+				, TAB_GUBUN_CD
+				, A.USER_ADD
+				, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.USER_ADD)USER_ADD_NM
+				, REG_ID
+				, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.REG_ID)REG_NM
+				, REG_DATE
+			FROM TB_REPORT_MGMT_ADM A
+			WHERE 1=1
+			AND IDX = #{idx}
+		]]>
+	</select>
+	
+	<!-- 성적서관리_Adm 등록 -->
+	<insert id="reportMgmtAdmCreate" parameterType="mes.domain.qm.ReportMgmtVo">
+		<![CDATA[
+			INSERT INTO TB_REPORT_MGMT_ADM(
+				IDX
+				, QUTY_CD
+				, GUBUN_CD
+				, BUY_DEAL_CORP_CD
+				, VALID_DATE
+				, TAB_GUBUN_CD
+				, A.USER_ADD
+				, REG_ID
+				, REG_DATE
+			) 
+			VALUES(
+				#{idx}
+				, #{qutyCd}
+				, #{gubunCd}
+				, #{buyDealCorpCd}
+				, #{validDate}
+				, #{tabGubunCd}
+				, #{userAdd}
+				, #{regId}
+				, getDate()
+			)
+		]]>
+	</insert>
+	<!-- 성적서관리_Adm 수정 -->
+	<update id="reportMgmtAdmUpdate">
+		UPDATE	TB_REPORT_MGMT_ADM
+		SET
+			IDX					= #{idx}
+			, QUTY_CD 			= #{qutyCd}
+			, GUBUN_CD 			= #{gubunCd}
+			, BUY_DEAL_CORP_CD 	= #{buyDealCorpCd}
+			, VALID_DATE 		= #{validDate}
+			, TAB_GUBUN_CD 		= #{tabGubunCd}
+			, USER_ADD 			= #{userAdd}
+			, UPD_ID 			= #{updId}
+			, UPD_DATE 			= getDate()
+		WHERE 1=1
+		AND IDX	= #{idx}
+	</update>
+	
+	<!-- 성적서관리_Adm 삭제 -->
+	<delete id="reportMgmtAdmDelete">
+		DELETE 
+		FROM TB_REPORT_MGMT_ADM							 
+		WHERE 1=1
+		AND IDX	= #{idx}
+		AND TAB_GUBUN_CD	= #{tabGubunCd}
+	</delete>
+	
+	<!-- 성적서관리_Adm 인덱스 지정 -->
+	<select id="reportMgmtAdmIdx" resultType="int">
+		SELECT ISNULL(MAX(SUBSTRING(IDX, 5, LEN(IDX)+1))+1, '1') FROM TB_REPORT_MGMT_ADM WHERE TAB_GUBUN_CD =#{TabGubunCd}
+	</select>
+	
+	
+	<!-- 성적서관리_Dtl -->
+	<!-- 성적서관리_Dtl목로조회 -->
+	<select id="reportMgmtDtlList" resultMap="ReportMgmtVo">
+		SELECT
+			IDX
+			, DOCUMENT_SEQ
+			, DOCUMENT_TITLE
+			, DOCUMENT_CONTENTS
+			, TAB_GUBUN_CD
+			, REG_ID
+			, REG_DATE
+		FROM TB_REPORT_MGMT_DTL
+		WHERE 1=1
+		AND IDX = #{idx}
+		AND TAB_GUBUN_CD = #{tabGubunCd}
+	</select>
+	
+	<!-- 성적서관리_Dtl 등록 -->
+	<insert id="reportMgmtDtlCreate" parameterType="mes.domain.qm.ReportMgmtVo">
+		<![CDATA[
+			INSERT INTO TB_REPORT_MGMT_DTL(
+				IDX
+				, DOCUMENT_SEQ
+				, DOCUMENT_TITLE
+				, DOCUMENT_CONTENTS
+				, TAB_GUBUN_CD
+				, REG_ID
+				, REG_DATE
+			) 
+			VALUES(
+				#{idx}
+				, #{documentSeq}
+				, #{documentTitle}
+				, #{documentContents}
+				, #{tabGubunCd}
+				, #{regId}
+				, getDate()
+			)
+		]]>
+	</insert>
+	
+	<!-- 성적서관리_Dtl 수정 -->
+	<update id="reportMgmtDtlUpdate">
+			UPDATE	TB_REPORT_MGMT_DTL							 
+			SET
+				IDX= #{idx}
+				<if test="documentSeq != null">
+					, DOCUMENT_SEQ = #{documentSeq}
+				</if>
+				<if test="documentTitle != null">
+					, DOCUMENT_TITLE = #{documentTitle}
+				</if>
+				<if test="documentContents != null">
+					, DOCUMENT_CONTENTS = #{documentContents}
+				</if>
+				<if test="tabGubunCd != null">
+					, TAB_GUBUN_CD = #{tabGubunCd}
+				</if>
+				<if test="updId != null">
+					, UPD_ID = #{updId}
+				</if>
+				, UPD_DATE = getDate()
+			WHERE 1=1
+			AND IDX	= #{idx}
+			AND DOCUMENT_SEQ = #{documentSeq}
+	</update>
+	
+	<!-- 성적서관리_Dtl 삭제 -->
+	<delete id="reportMgmtDtlDelete">
+		DELETE 
+		FROM TB_REPORT_MGMT_DTL							 
+		WHERE 1=1
+		AND IDX	= #{idx}
+		AND DOCUMENT_SEQ = #{documentSeq}
+	</delete>
+	
+	<!-- 성적서관리_Dtl 시퀀스 지정 -->
+	<select id="reportMgmtDtlSeq" resultType="int">
+		SELECT ISNULL(MAX(DOCUMENT_SEQ)+1, '1') FROM TB_REPORT_MGMT_DTL WHERE IDX = #{idx}
+	</select>
+	
+</mapper>

@@ -11,9 +11,12 @@
 		<java-version>1.8</java-version>
 		<org.springframework-version>4.3.26.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
+		
 		<log4j.version>2.15.0</log4j.version>
 		<org.slf4j-version>1.7.32</org.slf4j-version>
-		<lombok-version>1.18.12</lombok-version>
+		<!-- <org.slf4j-version>1.6.6</org.slf4j-version> -->
+		
+		<lombok-version>1.16.10</lombok-version>
 		<jsonwebtoken-version>0.11.0</jsonwebtoken-version>
 		<commons-codec-version>1.10</commons-codec-version>
 		<commons-io-version>2.5</commons-io-version>
@@ -26,7 +29,7 @@
 		<jsoup-version>1.10.2</jsoup-version>
 		<poi-version>3.11</poi-version>
 	</properties>
-	
+
 	<!-- repositories -->
 	<repositories>
 		<repository>
@@ -57,7 +60,7 @@
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
-				 </exclusion>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -79,6 +82,7 @@
 		</dependency>
 
 		<!-- Logging -->
+		<!-- 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -90,13 +94,13 @@
 			<version>${org.slf4j-version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${org.slf4j-version}</version>
 			<scope>runtime</scope>
-		</dependency> -->
-		<!-- <dependency>
+		</dependency>
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.15</version>
@@ -119,14 +123,13 @@
 				</exclusion>
 			</exclusions>
 			<scope>runtime</scope>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>org.bgee.log4jdbc-log4j2</groupId>
 			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
 			<version>1.16</version>
 		</dependency>
-
-		<!-- Logging2 -->
+		 -->
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-api</artifactId>
@@ -147,8 +150,6 @@
 		    <artifactId>log4j-slf4j-impl</artifactId>
 		    <version>${log4j.version}</version>
 		</dependency>
-	
-	
 		<dependency>
 		    <groupId>org.slf4j</groupId>
 		    <artifactId>slf4j-api</artifactId>
@@ -165,7 +166,8 @@
 		    <artifactId>log4jdbc-log4j2-jdbc4</artifactId>
 		    <version>1.16</version>
 		</dependency>
-	
+		
+		
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -230,22 +232,9 @@
 			<version>${jsonwebtoken-version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>${poi-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>${poi-version}</version>
-		</dependency>
-		
-		<!--
-		Uncomment this next dependency if you are using JDK 10 or earlier and you also want to use
-     	RSASSA-PSS (PS256, PS384, PS512) algorithms.  JDK 11 or later does not require it for those algorithms:
-     	-->
+		<!-- Uncomment this next dependency if you are using JDK 10 or earlier 
+			and you also want to use RSASSA-PSS (PS256, PS384, PS512) algorithms. JDK 
+			11 or later does not require it for those algorithms: -->
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk15on</artifactId>
@@ -319,13 +308,13 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		<!--// 데이터베이스 -->
-		
+
 		<!-- MSSQL DB -->
 		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
 		<dependency>
-		    <groupId>com.microsoft.sqlserver</groupId>
-		    <artifactId>mssql-jdbc</artifactId>
-		    <version>7.2.2.jre8</version>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>7.2.2.jre8</version>
 		</dependency>
 		<!-- MSSQL DB -->
 
@@ -343,175 +332,203 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi-version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.8</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl -->
-      <dependency>
-          <groupId>net.sourceforge.jexcelapi</groupId>
-          <artifactId>jxl</artifactId>
-          <version>2.6.12</version>
-      </dependency>
-      
-      <!-- https://mvnrepository.com/artifact/org.jxls/jxls -->
-      <dependency>
-          <groupId>org.jxls</groupId>
-          <artifactId>jxls</artifactId>
-          <version>2.8.1</version>
-      </dependency>
-      
-      <!-- https://mvnrepository.com/artifact/org.jxls/jxls-poi -->
-      <dependency>
-          <groupId>org.jxls</groupId>
-          <artifactId>jxls-poi</artifactId>
-          <version>2.8.1</version>
-      </dependency>
-      
-      <!-- https://mvnrepository.com/artifact/org.jxls/jxls-jexcel -->
-      <dependency>
-          <groupId>org.jxls</groupId>
-          <artifactId>jxls-jexcel</artifactId>
-          <version>1.0.9</version>
-      </dependency>
-      
-      <!-- https://mvnrepository.com/artifact/org.jxls/jxls-reader -->
-      <dependency>
-          <groupId>org.jxls</groupId>
-          <artifactId>jxls-reader</artifactId>
-          <version>2.0.6</version>
-      </dependency>
-      
-      <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-jexl -->
-      <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-jexl</artifactId>
-          <version>2.1.1</version>
-      </dependency>
-      
-      <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
-      <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-collections4</artifactId>
-          <version>4.1</version>
-      </dependency>
-            
-      <dependency>
-         <groupId>com.fasterxml.jackson.core</groupId>
-         <artifactId>jackson-databind</artifactId>
-         <version>2.9.8</version>
-      </dependency>
-      
-	<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
-	<dependency>
-	    <groupId>org.apache.poi</groupId>
-	    <artifactId>poi</artifactId>
-	    <version>4.1.1</version>
-	</dependency>
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>2.6.12</version>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.jxls/jxls -->
+		<dependency>
+			<groupId>org.jxls</groupId>
+			<artifactId>jxls</artifactId>
+			<version>2.8.1</version>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.jxls/jxls-poi -->
+		<dependency>
+			<groupId>org.jxls</groupId>
+			<artifactId>jxls-poi</artifactId>
+			<version>2.8.1</version>
+		</dependency>
 
-	<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
-	<dependency>
-	    <groupId>org.apache.poi</groupId>
-	    <artifactId>poi-ooxml</artifactId>
-	    <version>4.1.1</version>
-	</dependency>
-	
+		<!-- https://mvnrepository.com/artifact/org.jxls/jxls-jexcel -->
+		<dependency>
+			<groupId>org.jxls</groupId>
+			<artifactId>jxls-jexcel</artifactId>
+			<version>1.0.9</version>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.jxls/jxls-reader -->
+		<dependency>
+			<groupId>org.jxls</groupId>
+			<artifactId>jxls-reader</artifactId>
+			<version>2.0.6</version>
+		</dependency>
 
-	<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
-	<dependency>
-	    <groupId>org.apache.poi</groupId>
-	    <artifactId>poi-ooxml-schemas</artifactId>
-	    <version>4.1.1</version>
-	</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-jexl -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-jexl</artifactId>
+			<version>2.1.1</version>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.1</version>
+		</dependency>
 
-	
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.8</version>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>4.1.2</version>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+
+		<!-- Redis(메모리DB) 사용하기 -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.9.0</version>
+		</dependency>
 	</dependencies>
 
 	<profiles>
-	    <profile>
-	        <id>loc</id>
-	        <activation>
-	            <activeByDefault>true</activeByDefault>
-	         </activation>
-	      <properties>
-	          <env>loc</env>
-	      </properties>
-	    </profile>	
-	    <profile>
-	        <id>dev</id>
-	      <properties>
-	          <env>dev</env>
-	      </properties>
-	    </profile>
-	    <profile>
-	        <id>real</id>
-	        <properties>
-	            <env>real</env>
-	        </properties>
-	    </profile>
-	    <profile>
-	        <id>rdev</id>
-	        <properties>
-	            <env>rdev</env>
-	        </properties>
-	    </profile>
-	    <profile>
-	        <id>prod</id>
-	        <properties>
-	            <env>prod</env>
-	        </properties>
-	    </profile>
-	</profiles>	
-		
+		<profile>
+			<id>loc</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<env>loc</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>mtp_dev_F1</id>
+			<properties>
+				<env>mtp_dev_F1</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>mtp_real_F1</id>
+			<properties>
+				<env>mtp_real_F1</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>mtp_real_dev_F1</id>
+			<properties>
+				<env>mtp_real_dev_F1</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>mtp_dev_F2</id>
+			<properties>
+				<env>mtp_dev_F2</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>mtp_real_F2</id>
+			<properties>
+				<env>mtp_real_F2</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>sld_dev_F3</id>
+			<properties>
+				<env>sld_dev_F3</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>sld_real_F3</id>
+			<properties>
+				<env>sld_real_F3</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>sld_real_test_F3</id>
+			<properties>
+				<env>sld_real_test_F3</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>mtp_test_F1</id>
+			<properties>
+				<env>mtp_test_F1</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>mtp_test_F2</id>
+			<properties>
+				<env>mtp_test_F2</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>sld_test_F3</id>
+			<properties>
+				<env>sld_test_F3</env>
+			</properties>
+		</profile>
+
+	</profiles>
+
 	<build>
 		<finalName>ROOT</finalName>
 		<plugins>
-            <plugin>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <additionalProjectnatures>
-                        <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
-                    </additionalProjectnatures>
-                    <additionalBuildcommands>
-                        <buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
-                    </additionalBuildcommands>
-                    <downloadSources>true</downloadSources>
-                    <downloadJavadocs>true</downloadJavadocs>
-                </configuration>
-            </plugin>
-  	     	<plugin>
-		        <artifactId>maven-resources-plugin</artifactId>
-		        <version>3.1.0</version>
-		        <executions>
-		          <execution>
-		            <id>copy-resources</id>
-		            <!-- here the phase you need -->
-		            <phase>validate</phase>
-		            <goals>
-		              <goal>copy-resources</goal>
-		            </goals>
-		            <configuration>
-		              <outputDirectory>${basedir}/target/classes</outputDirectory>
-		              <resources>          
-		                <resource>
-		                  <directory>src/main/resources-${env}</directory>
-		                  <filtering>true</filtering>
-		                </resource>
-		              </resources>              
-		            </configuration>            
-		          </execution>
-		        </executions>
-		    </plugin>
-          
-            <plugin>
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<additionalProjectnatures>
+						<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+					</additionalProjectnatures>
+					<additionalBuildcommands>
+						<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+					</additionalBuildcommands>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
+			</plugin>
+			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
@@ -523,14 +540,151 @@
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <configuration>
-                    <mainClass>org.test.int1.Main</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/classes</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources-${env}</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.coderplus.maven.plugins</groupId>
+				<artifactId>copy-rename-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<!-- 작업지시 엑셀다운 -->
+					<execution>
+						<id>copy-file</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>src/main/java/mes/web/po/workOrderTemplateVer9.xlsx</sourceFile>
+							<destinationFile>${basedir}/target/classes/mes/web/po/workOrderTemplateVer9.xlsx</destinationFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-file5</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>src/main/java/mes/web/po/workOrderTemplate_MTP2_F2.xlsx</sourceFile>
+							<destinationFile>${basedir}/target/classes/mes/web/po/workOrderTemplate_MTP2_F2.xlsx</destinationFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-file6</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>src/main/java/mes/web/po/workOrderTemplate_SLD_F3.xlsx</sourceFile>
+							<destinationFile>${basedir}/target/classes/mes/web/po/workOrderTemplate_SLD_F3.xlsx</destinationFile>
+						</configuration>
+					</execution>
+					<!-- DGS 게더링 데이터 엑셀다운 -->
+					<execution>
+						<id>copy-file2</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>src/main/java/mes/web/po/AgtData.xlsx</sourceFile>
+							<destinationFile>${basedir}/target/classes/mes/web/po/AgtData.xlsx</destinationFile>
+						</configuration>
+					</execution>
+					<!-- 자재 재고 엑셀다운 -->
+					<execution>
+						<id>copy-file3</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>src/main/java/mes/web/tm/matrlInventory.xlsx</sourceFile>
+							<destinationFile>${basedir}/target/classes/mes/web/tm/matrlInventory.xlsx</destinationFile>
+						</configuration>
+					</execution>
+					<!-- 제품 월별&일별 재고 엑셀다운 -->
+					<execution>
+						<id>copy-file4</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>src/main/java/mes/web/tm/goodsProductAdm.xlsx</sourceFile>
+							<destinationFile>${basedir}/target/classes/mes/web/tm/goodsProductAdm.xlsx</destinationFile>
+						</configuration>
+					</execution>
+					
+					<execution>
+						<id>copy-file7</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>src/main/java/mes/web/po/AgtData_nF2.xlsx</sourceFile>
+							<destinationFile>${basedir}/target/classes/mes/web/po/AgtData_nF2.xlsx</destinationFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-file8</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>src/main/java/mes/web/po/AgtData_nF3.xlsx</sourceFile>
+							<destinationFile>${basedir}/target/classes/mes/web/po/AgtData_nF3.xlsx</destinationFile>
+						</configuration>
+					</execution>
+					
+					<execution>
+						<id>copy-file9</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>src/main/java/mes/web/io/ShipReport(MP).xlsx</sourceFile>
+							<destinationFile>${basedir}/target/classes/mes/web/io/ShipReport(MP).xlsx</destinationFile>
+						</configuration>
+					</execution>
+					
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<configuration>
+					<mainClass>org.test.int1.Main</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

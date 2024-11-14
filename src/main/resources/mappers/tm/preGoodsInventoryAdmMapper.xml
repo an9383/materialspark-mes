@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.tm.PreGoodsInventoryAdmMapper">
+
+	<resultMap id="PreGoodsInventoryAdmVo" type="mes.domain.tm.PreGoodsInventoryAdmVo">
+		<result property="invntryNo"			    column="INVNTRY_NO"				/>
+		<result property="slipNo"			        column="SLIP_NO"				/>
+		<result property="slipSeq"			        column="SLIP_SEQ"				/>
+		<result property="goodsCd"			        column="GOODS_CD"				/>
+		<result property="goodsNm"			    	column="GOODS_NM"				/>
+		<result property="orderGubunCd"				column="ORDER_GUBUN_CD"			/>
+		<result property="orderGubunNm"				column="ORDER_GUBUN_NM"			/>
+		<result property="ordGubunCd"				column="ORD_GUBUN_CD"			/>
+		<result property="ordGubunNm"				column="ORD_GUBUN_NM"			/>
+		<result property="model"			        column="MODEL"					/>
+		<result property="modelNo"			        column="MODEL_NO"				/>
+		<result property="customerModelNo"			column="CUSTOMER_MODEL_NO"		/>
+		<result property="forwordBoxCnt"			column="FORWORD_BOX_CNT"		/>
+		<result property="inputBoxCnt"			    column="INPUT_BOX_CNT"			/>
+		<result property="invntryBoxCnt"			column="INVNTRY_BOX_CNT"		/>
+		<result property="invntryAllCnt"			column="INVNTRY_ALL_CNT"		/>
+		<result property="outputBoxCnt"				column="OUTPUT_BOX_CNT"			/>
+		<result property="outputAllCnt"				column="OUTPUT_ALL_CNT"			/>
+		<result property="packCnt"			        column="PACK_CNT"				/>
+		<result property="packUnitCd"			    column="PACK_UNIT_CD"			/>
+		<result property="packUnitNm"			    column="PACK_UNIT_NM"			/>
+		<result property="packDate"			        column="PACK_DATE"				/>
+		<result property="goodsInDate"			    column="GOODS_IN_DATE"			/>
+		<result property="qutyCd"			        column="QUTY_CD"				/>
+		<result property="qutyNm"			        column="QUTY_NM"				/>
+		<result property="dealCorpCd"			    column="DEAL_CORP_CD"			/>
+		<result property="dealCorpNm"			    column="DEAL_CORP_NM"			/>
+		<result property="invntryDesc"			    column="INVNTRY_DESC"			/>
+		<result property="lastYn"			        column="LAST_YN"				/>
+		<result property="inventoryDesc"			column="INVENTORY_DESC"			/>
+		<result property="regId"			        column="REG_ID"					/>
+		<result property="regDate"			        column="REG_DATE"				/>
+		<result property="updId"			        column="UPD_ID"					/>
+		<result property="updDate"			        column="UPD_DATE"				/>
+		<result property="faultyStatus"				column="FAULTY_STATUS"			/>
+		<result property="faultyStatusNm"			column="FAULTY_STATUS_NM"		/>
+		<result property="faultyDate"				column="FAULTY_DATE"			/>
+		<result property="faultyType"				column="FAULTY_TYPE"			/>
+		<result property="faultyDesc"				column="FAULTY_DESC"			/>
+		<result property="boxNo"					column="BOX_NO"					/>
+		<result property="remainCnt"				column="REMAIN_CNT"				/>
+		<result property="goodsStatus"				column="GOODS_STATUS"			/>
+		<result property="goodsStatusNm"			column="GOODS_STATUS_NM"		/>
+		<result property="gravity"					column="GRAVITY"				/>
+	</resultMap>
+	
+	
+	<!-- 선처리재고관리정보 목록조회 -->
+	<select id="listPreInvntryAll" resultMap="PreGoodsInventoryAdmVo">
+		SELECT	
+		    INVNTRY_NO
+			,GOODS_CD
+		    ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.GOODS_CD) GOODS_NM
+			,ORDER_GUBUN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.ORDER_GUBUN_CD) ORDER_GUBUN_NM
+			,(SELECT GRAVITY FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.GOODS_CD) GRAVITY
+			,MODEL
+			,MODEL_NO
+			,CUSTOMER_MODEL_NO
+			,FORWORD_BOX_CNT
+			,INPUT_BOX_CNT
+			,INVNTRY_BOX_CNT
+			,(SELECT SUM(B.REMAIN_CNT) INVNTRY_ALL_CNT FROM TB_PRE_GOODS_INVENTORY_DTL B WHERE A.INVNTRY_NO = B.INVNTRY_NO AND A.GOODS_CD = B.GOODS_CD GROUP BY INVNTRY_NO, GOODS_CD ) INVNTRY_ALL_CNT
+			,OUTPUT_BOX_CNT
+			,PACK_CNT
+			,QUTY_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_NM
+			,DEAL_CORP_CD
+			,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			,INVNTRY_DESC
+			<!-- ,LAST_YN -->
+			,REG_ID
+			,REG_DATE
+			,UPD_ID
+			,UPD_DATE
+		FROM	TB_PRE_GOODS_INVENTORY_ADM A
+			WHERE 1=1
+			<if test="invntryNo != '' and invntryNo != null"> 
+			 	AND INVNTRY_NO = #{invntryNo}
+			</if>
+			<if test="goodsCd != '' and goodsCd != null"> 
+			 	AND GOODS_CD = #{goodsCd}
+			</if>
+			<if test="orderGubunCd != '' and orderGubunCd != null"> 
+			 	AND ORDER_GUBUN_CD = #{orderGubunCd}
+			</if>
+			<if test="qutyCd != '' and qutyCd != null"> 
+			 	AND A.QUTY_CD = #{qutyCd}
+			</if>
+			<!-- 
+			<if test="lastYn != '' and lastYn != null"> 
+			 	AND A.LAST_YN = #{lastYn}
+			</if>
+			 -->
+	</select>
+	
+	<!-- 선처리재고관리정보 상세조회 -->
+	<select id="preRead" resultMap="PreGoodsInventoryAdmVo">
+		SELECT	
+		    INVNTRY_NO
+			,GOODS_CD
+		    ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.GOODS_CD) GOODS_NM
+			,ORDER_GUBUN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.ORDER_GUBUN_CD) ORDER_GUBUN_NM
+			,MODEL
+			,MODEL_NO
+			,CUSTOMER_MODEL_NO
+			,FORWORD_BOX_CNT
+			,INPUT_BOX_CNT
+			,INVNTRY_BOX_CNT
+			,(INVNTRY_BOX_CNT*PACK_CNT) INVNTRY_ALL_CNT
+			,OUTPUT_BOX_CNT
+			,PACK_CNT
+			,QUTY_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_NM
+			,DEAL_CORP_CD
+			,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			,INVNTRY_DESC
+			,LAST_YN
+			,REG_ID
+			,REG_DATE
+			,UPD_ID
+			,UPD_DATE
+		FROM	TB_PRE_GOODS_INVENTORY_ADM A
+			WHERE 1=1
+			 AND A.INVNTRY_NO = #{invntryNo}
+			 AND A.GOODS_CD = #{goodsCd}
+			 AND A.ORDER_GUBUN_CD = #{orderGubunCd}
+			 <!-- AND A.LAST_YN = #{lastYn} -->
+	</select>
+	
+
+	<!-- 선처리재고관리정보 등록 -->	
+	<insert id="preCreate" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		INSERT INTO TB_PRE_GOODS_INVENTORY_ADM(
+			INVNTRY_NO
+			,GOODS_CD
+			,ORDER_GUBUN_CD
+			,MODEL
+			,MODEL_NO
+			,CUSTOMER_MODEL_NO
+			,FORWORD_BOX_CNT
+			,INPUT_BOX_CNT
+			,INVNTRY_BOX_CNT
+			,OUTPUT_BOX_CNT
+			,PACK_CNT
+			,QUTY_CD
+			,DEAL_CORP_CD
+			,INVNTRY_DESC
+			<!-- ,LAST_YN -->
+			,REG_ID
+			,REG_DATE
+		) 
+		VALUES(
+			#{invntryNo}
+			,#{goodsCd}
+			,#{orderGubunCd}
+			,#{model}
+			,#{modelNo}
+			,#{customerModelNo}
+			,#{forwordBoxCnt}
+			,#{inputBoxCnt}
+			,#{invntryBoxCnt}
+			,#{outputBoxCnt}
+			,#{packCnt}
+			,#{qutyCd}
+			,#{dealCorpCd}
+			,#{invntryDesc}
+			<!-- ,#{lastYn} -->
+			,#{regId}
+			,getDate()
+		)
+	</insert>
+	
+	<!-- 재고관리-제품(초기재고) BOX 추가 생성 후 ADM 수정 -->	
+	<update id="preUpdate" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		UPDATE	TB_PRE_GOODS_INVENTORY_ADM 
+		SET	
+			<!--
+			MODEL = #{model}
+			,MODEL_NO = #{modelNo}
+			,CUSTOMER_MODEL_NO = #{customerModelNo}
+			,FORWORD_BOX_CNT = #{forwordBoxCnt}
+			-->
+			INPUT_BOX_CNT = #{inputBoxCnt}
+			,INVNTRY_BOX_CNT = #{invntryBoxCnt}
+			<!--
+			,OUTPUT_BOX_CNT = #{outputBoxCnt}
+			,PACK_CNT = #{packCnt}
+			,QUTY_CD = #{qutyCd}
+			,DEAL_CORP_CD = #{dealCorpCd}
+			,INVNTRY_DESC = #{invntryDesc}
+			,LAST_YN = #{lastYn}
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+			-->
+		WHERE	INVNTRY_NO = #{invntryNo}
+			AND	GOODS_CD = #{goodsCd}
+			AND	ORDER_GUBUN_CD = #{orderGubunCd}
+			<!-- AND	LAST_YN = #{lastYn} -->
+	</update>
+	
+	<delete id="preDtlDelete" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		DELETE	TB_PRE_GOODS_INVENTORY_DTL 
+		WHERE	BOX_NO = #{boxNo}
+	</delete>
+	
+	<!-- 선처리재고관리정보 출고전문시퀀스 -->	
+	<select id="selectSlipSeq" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo" resultType="String">
+		SELECT 
+			#{outputHistDate} + '-' + ISNULL(RIGHT('000' + CAST(MAX(SUBSTRING(SLIP_NO,10,13))+1 AS NVARCHAR),3), '001') 
+		FROM TB_PRE_GOODS_OUTPUT_HIST 
+		WHERE OUTPUT_HIST_DATE = #{outputHistDate}
+	</select>
+	
+	<!-- 선처리재고관리정보 출고이력목록조회 -->
+	<select id="listInvntryOutputHist" resultMap="PreGoodsInventoryAdmVo">
+		SELECT 
+		    SLIP_NO
+		    ,GOODS_CD
+		    ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.GOODS_CD) GOODS_NM
+		    ,ORDER_GUBUN_CD
+		    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.ORDER_GUBUN_CD) ORDER_GUBUN_NM
+		    ,MODEL
+		    ,MODEL_NO
+		    ,CUSTOMER_MODEL_NO
+		    ,OUTPUT_BOX_CNT
+		    ,PACK_CNT
+		    ,OUTPUT_ALL_CNT
+		    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_CD
+		    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_NM
+		    ,DEAL_CORP_CD
+		    ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+		    ,OUTPUT_HIST_DATE
+		    ,REG_ID
+		    ,REG_DATE
+		    ,UPD_ID
+		    ,UPD_DATE
+		FROM TB_PRE_GOODS_OUTPUT_HIST A
+		WHERE 1=1
+		<if test="outputHistDate != '' and outputHistDate != null">  
+		 	AND OUTPUT_HIST_DATE = #{outputHistDate}
+		</if> 	
+
+	</select>	
+
+	<!-- 선처리재고관리정보 출고이력상세조회 -->
+	<select id="preReadOutputHist" resultMap="PreGoodsInventoryAdmVo">
+		SELECT 
+		    SLIP_NO
+		    ,GOODS_CD
+		    ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.GOODS_CD) GOODS_NM
+		    ,ORDER_GUBUN_CD
+		    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.ORDER_GUBUN_CD) ORDER_GUBUN_NM
+		    ,MODEL
+		    ,MODEL_NO
+		    ,CUSTOMER_MODEL_NO
+		    ,OUTPUT_BOX_CNT
+		    ,PACK_CNT
+		    ,OUTPUT_ALL_CNT
+		    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_CD
+		    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_NM
+		    ,DEAL_CORP_CD
+		    ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+		    ,OUTPUT_HIST_DATE
+		    ,REG_ID
+		    ,REG_DATE
+		    ,UPD_ID
+		    ,UPD_DATE
+		FROM TB_PRE_GOODS_OUTPUT_HIST A
+		WHERE 1=1
+		 	AND SLIP_NO = #{slipNo}
+	</select>	
+
+	<!-- 선처리재고관리정보 출고이력등록 -->
+	<insert id="preOutputHistCreate" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		INSERT INTO TB_PRE_GOODS_OUTPUT_HIST(
+			SLIP_NO
+			,GOODS_CD
+			,ORDER_GUBUN_CD
+			,MODEL
+			,MODEL_NO
+			,CUSTOMER_MODEL_NO
+			,OUTPUT_BOX_CNT
+			,PACK_CNT
+			,OUTPUT_ALL_CNT
+			,QUTY_CD
+			,DEAL_CORP_CD
+			,OUTPUT_HIST_DATE
+			,REG_ID
+			,REG_DATE
+		) 
+		VALUES(
+			#{slipNo}
+			,#{goodsCd}
+			,#{orderGubunCd}
+			,#{model}
+			,#{modelNo}
+			,#{customerModelNo}
+			,#{outputBoxCnt}
+			,#{packCnt}
+			,#{outputAllCnt}
+			,#{qutyCd}
+			,#{dealCorpCd}
+			,#{outputHistDate}
+			,#{regId}
+			,getDate()
+		)
+	</insert>
+
+	<!-- 선처리재고관리정보 출고이력수정 -->			
+	<update id="preOutputHistUpdate" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		UPDATE	TB_PRE_GOODS_OUTPUT_HIST 
+		SET	
+			,GOODS_CD = #{goodsCd}
+			,ORDER_GUBUN_CD = #{orderGubunCd}
+			,MODEL = #{model}
+			,MODEL_NO = #{modelNo}
+			,CUSTOMER_MODEL_NO = #{customerModelNo}
+			,OUTPUT_BOX_CNT = #{outputBoxCnt}
+			,PACK_CNT = #{packCnt}
+			,OUTPUT_ALL_CNT = #{outputAllCnt}
+			,QUTY_CD = #{qutyCd}
+			,DEAL_CORP_CD = #{dealCorpCd}
+			,OUTPUT_HIST_DATE = #{outputHistDate}
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		WHERE	SLIP_NO = #{slipNo}
+	</update>	
+	
+	<!-- 선처리재고관리정보 제품재고정보목록조회 -->
+	<select id="listGoodsInvntryInfo" resultMap="PreGoodsInventoryAdmVo">
+		SELECT	
+		    INVNTRY_NO
+			,GOODS_CD
+		    ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.GOODS_CD) GOODS_NM
+			,ORDER_GUBUN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.ORDER_GUBUN_CD) ORDER_GUBUN_NM
+			,MODEL
+			,MODEL_NO
+			,CUSTOMER_MODEL_NO
+			,(FORWORD_BOX_CNT*PACK_CNT) FORWORD_BOX_CNT
+			,(INPUT_BOX_CNT*PACK_CNT) INPUT_BOX_CNT
+			,INVNTRY_BOX_CNT
+			,(INVNTRY_BOX_CNT*PACK_CNT) INVNTRY_ALL_CNT
+			,(OUTPUT_BOX_CNT*PACK_CNT) OUTPUT_BOX_CNT
+			,PACK_CNT
+			,QUTY_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_NM
+			,DEAL_CORP_CD
+			,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			,INVNTRY_DESC
+			,LAST_YN
+			,REG_ID
+			,REG_DATE
+			,UPD_ID
+			,UPD_DATE
+		FROM	TB_PRE_GOODS_INVENTORY_ADM A
+			WHERE 1=1
+			<if test="invntryNo != '' and invntryNo != null"> 
+			 	AND INVNTRY_NO = #{invntryNo}
+			</if>
+			<if test="goodsCd != '' and goodsCd != null"> 
+			 	AND GOODS_CD = #{goodsCd}
+			</if>
+			<if test="orderGubunCd != '' and orderGubunCd != null"> 
+			 	AND ORDER_GUBUN_CD = #{orderGubunCd}
+			</if>
+			<if test="qutyCd != '' and qutyCd != null"> 
+			 	AND A.QUTY_CD = #{qutyCd}
+			</if>				
+			<if test="lastYn != '' and lastYn != null"> 
+			 	AND A.LAST_YN = #{lastYn}
+			</if>									 			
+	</select>
+	
+	<!-- 선처리재고관리정보 출고에 따른 재고정보 수정  -->	
+	<update id="preOutputUpdate" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		UPDATE	TB_PRE_GOODS_INVENTORY_ADM 
+		SET	
+			INVNTRY_BOX_CNT = INVNTRY_BOX_CNT - #{outputBoxCnt}
+			,OUTPUT_BOX_CNT = OUTPUT_BOX_CNT + #{outputBoxCnt}
+		WHERE	INVNTRY_NO = #{invntryNo}
+			AND	GOODS_CD = #{goodsCd}
+			AND	ORDER_GUBUN_CD = #{orderGubunCd}
+			AND	LAST_YN = 'Y'
+	</update>
+	
+	<!-- 선처리재고관리정보 출고이력 상세조회 -->
+	<select id="listInvntryOutputDtl" resultMap="PreGoodsInventoryAdmVo">
+		SELECT 
+		    SLIP_NO
+		    ,SLIP_SEQ
+		    ,GOODS_CD
+		    ,(SELECT GOODS_NM FROM TB_GOODS_CODE_ADM B WHERE B.GOODS_CD = A.GOODS_CD) GOODS_NM
+		    ,ORDER_GUBUN_CD
+		    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.ORDER_GUBUN_CD) ORDER_GUBUN_NM
+		    ,MODEL
+		    ,MODEL_NO
+		    ,CUSTOMER_MODEL_NO
+		    ,PACK_CNT
+		    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_CD
+		    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_NM
+		    ,DEAL_CORP_CD
+		    ,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+		    ,OUTPUT_DTL_DATE
+		    ,REG_ID
+		    ,REG_DATE
+		    ,UPD_ID
+		    ,UPD_DATE
+		FROM TB_PRE_GOODS_OUTPUT_DTL A
+		WHERE 1=1
+		 	AND SLIP_NO = #{slipNo}
+	</select>
+	
+	<!-- 선처리재고관리정보 출고이력 상세등록 -->
+	<insert id="preOutputDtlCreate" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		INSERT INTO TB_PRE_GOODS_OUTPUT_DTL(
+			SLIP_NO
+			,SLIP_SEQ
+			,GOODS_CD
+			,ORDER_GUBUN_CD
+			,MODEL
+			,MODEL_NO
+			,CUSTOMER_MODEL_NO
+			,PACK_CNT
+			,QUTY_CD
+			,DEAL_CORP_CD
+			,OUTPUT_DTL_DATE
+			,REG_ID
+			,REG_DATE
+		) 
+		VALUES(
+			#{slipNo}
+			,#{slipSeq}
+			,#{goodsCd}
+			,#{orderGubunCd}
+			,#{model}
+			,#{modelNo}
+			,#{customerModelNo}
+			,#{packCnt}
+			,#{qutyCd}
+			,#{dealCorpCd}
+			,#{outputDtlDate}
+			,#{regId}
+			,getDate()
+		)
+	</insert>
+
+
+	<!-- 초기재고관리 Al제품 시퀀스 조회-->
+	<select id="selectPreGoodsPackSeqAl" resultType="int">
+		SELECT ISNULL(MAX(SUBSTRING(BOX_NO,11,4))+1,1) FROM TB_PRE_GOODS_INVENTORY_DTL
+		WHERE BOX_NO LIKE #{boxNo}+'%'
+		AND SUBSTRING(BOX_NO,11,4) BETWEEN 1 AND 4999
+	</select>
+	
+	<!-- 초기재고관리 Nicu제품 시퀀스 조회-->
+	<select id="selectPreGoodsPackSeqNicu" resultType="int">
+		SELECT ISNULL(MAX(SUBSTRING(BOX_NO,11,4))+1,1) FROM TB_PRE_GOODS_INVENTORY_DTL
+		WHERE BOX_NO LIKE #{boxNo}+'%'
+		AND SUBSTRING(BOX_NO,11,4) BETWEEN 5001 AND 9999
+	</select>
+	
+	<!-- 초기재고관리 제품 등록 -->
+	<insert id="preGoodsPackDtlCreate" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		INSERT INTO TB_PRE_GOODS_INVENTORY_DTL(
+			INVNTRY_NO
+			, GOODS_CD
+			, ORDER_GUBUN_CD
+			, BOX_NO
+			, PACK_CNT
+			, GOODS_IN_DATE
+			, REMAIN_CNT
+			, GOODS_STATUS
+			, FAULTY_STATUS
+			, INVENTORY_DESC
+			, REG_ID
+			, REG_DATE
+		)
+		VALUES(
+			#{invntryNo}
+			, #{goodsCd}
+			, #{orderGubunCd}
+			, #{boxNo}
+			, #{packCnt}
+<!-- 			, CONVERT(CHAR(8), getDate(), 112) -->
+			, #{goodsInDate}
+			, #{remainCnt}
+			, '002'
+			, '001'
+			, #{inventoryDesc}
+			, #{regId}
+			, getDate()
+		)
+	</insert>
+	
+	<!-- 초기재고관리 제품 삭제 -->
+	<insert id="preGoodsPackDtlDelete" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		DELETE FROM TB_PRE_GOODS_INVENTORY_DTL
+		WHERE 1=1
+		AND INVNTRY_NO = #{invntryNo}
+		AND GOODS_CD = #{goodsCd}
+		AND ORDER_GUBUN_CD = #{orderGubunCd}
+	</insert>
+	
+	<!-- 재고제품Dtl 목록조회 -->
+	<select id="preGoodsInventoryDtlList" resultMap="PreGoodsInventoryAdmVo">
+		SELECT
+			INVNTRY_NO
+			, BOX_NO
+			, GOODS_CD
+			, ORDER_GUBUN_CD
+			, PACK_CNT
+			, GOODS_IN_DATE
+			, CASE WHEN REMAIN_CNT IS NULL THEN PACK_CNT ELSE REMAIN_CNT END REMAIN_CNT
+			, GOODS_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='036' AND H.BASE_CD = GOODS_STATUS) GOODS_STATUS_NM
+			, FAULTY_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE H WHERE H.BASE_GROUP_CD='051' AND H.BASE_CD = FAULTY_STATUS) FAULTY_STATUS_NM
+			, INVENTORY_DESC
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_PRE_GOODS_INVENTORY_DTL
+		WHERE 1=1
+		AND INVNTRY_NO = #{invntryNo}
+		AND GOODS_CD = #{goodsCd}
+		AND ORDER_GUBUN_CD = #{orderGubunCd}
+		ORDER BY BOX_NO
+	</select>
+	
+	<!-- boxNo로 재고제품 조회-->
+	<select id="tracePurchaseBoxNo" resultMap="PreGoodsInventoryAdmVo">
+		SELECT
+			A.INVNTRY_NO
+			, A.GOODS_CD
+			, C.GOODS_NM
+			, A.ORDER_GUBUN_CD AS ORD_BUGUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.ORDER_GUBUN_CD) AS ORD_GUBUN_NM
+			, A.MODEL
+			, A.MODEL_NO
+			, A.CUSTOMER_MODEL_NO
+			, A.FORWORD_BOX_CNT
+			, A.INPUT_BOX_CNT
+			, A.INVNTRY_BOX_CNT
+			, A.OUTPUT_BOX_CNT
+			, A.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_NM
+			, A.DEAL_CORP_CD
+			, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			, A.INVNTRY_DESC
+			, A.LAST_YN
+			, C.PACK_UNIT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='031' AND B.BASE_CD = C.PACK_UNIT_CD) PACK_UNIT_NM
+			, B.BOX_NO
+			, B.GOODS_IN_DATE AS PACK_DATE
+			, B.GOODS_IN_DATE
+			, B.REMAIN_CNT
+			, B.GOODS_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE F WHERE F.BASE_GROUP_CD='036' AND F.BASE_CD = B.GOODS_STATUS) GOODS_STATUS_NM
+			, B.FAULTY_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE F WHERE F.BASE_GROUP_CD='051' AND F.BASE_CD = B.FAULTY_STATUS) FAULTY_STATUS_NM
+			, '-' WORK_ORD_NO
+		FROM TB_PRE_GOODS_INVENTORY_ADM A, TB_PRE_GOODS_INVENTORY_DTL B, TB_GOODS_CODE_ADM C
+		WHERE A.INVNTRY_NO = B.INVNTRY_NO
+		AND A.GOODS_CD = B.GOODS_CD
+		AND A.ORDER_GUBUN_CD = B.ORDER_GUBUN_CD
+		AND A.GOODS_CD = C.GOODS_CD
+		AND B.BOX_NO = #{boxNo}
+	</select>
+	
+	<!-- 재고제품 불량상태 변경 -->
+	<insert id="changePreGoodsProductFaultyType" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		UPDATE TB_PRE_GOODS_INVENTORY_DTL
+		SET FAULTY_STATUS = #{faultyStatus}
+			, FAULTY_DATE = #{faultyDate}
+			, FAULTY_TYPE = #{faultyType}
+			, FAULTY_DESC = #{faultyDesc}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE BOX_NO = #{boxNo}
+	</insert>
+	
+	<!-- 재고제품 Hist 생성-->
+	<insert id="insertPreGoodsProductHist" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		INSERT INTO TB_GOODS_PRODUCT_INFO_ADM_HIST (
+			BOX_NO
+			, SEL_BOX_NO1
+			, SEL_BOX_NO2
+			, MERGE_YN
+			, GOODS_CD
+			, ORD_GUBUN
+			, PACK_CNT
+			, PACK_DATE
+			, LOCATION_CD
+			, GOODS_IN_DATE
+			, PO_SEQ
+			, PO_GROUP
+			, REMAIN_CNT
+			, GOODS_OUT_DATE
+			, GOODS_STATUS
+			, FAULTY_STATUS
+			, FAULTY_DATE
+			, FAULTY_TYPE
+			, FAULTY_DESC
+			, DISUSE_YN
+			, DIVISION_YN
+			, PRINT_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, HIST_ID
+			, HIST_DATE
+		)
+		SELECT
+			BOX_NO
+			, NULL SEL_BOX_NO1
+			, NULL SEL_BOX_NO2
+			, NULL MERGE_YN
+			, GOODS_CD
+			, ORDER_GUBUN_CD AS ORD_GUBUN
+			, PACK_CNT
+			, GOODS_IN_DATE AS PACK_DATE
+			, NULL AS LOCATION_CD
+			, GOODS_IN_DATE
+			, PO_SEQ
+			, PO_GROUP
+			, REMAIN_CNT
+			, GOODS_OUT_DATE
+			, GOODS_STATUS
+			, FAULTY_STATUS
+			, FAULTY_DATE
+			, FAULTY_TYPE
+			, FAULTY_DESC
+			, 'N' DIVISION_YN
+			, 'N' DISUSE_YN
+			, NULL PRINT_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, #{histId} HIST_ID
+			, getDate() HIST_DATE
+		FROM TB_PRE_GOODS_INVENTORY_DTL
+		WHERE BOX_NO = #{boxNo}
+	</insert>
+	
+		<!-- 재고제품 Hist 생성-->
+	<delete id="deletePreGoodsProductHist" parameterType="mes.domain.tm.PreGoodsInventoryAdmVo">
+		DELETE TB_GOODS_PRODUCT_INFO_ADM_HIST
+		WHERE BOX_NO = #{boxNo}
+	</delete>
+	
+</mapper>

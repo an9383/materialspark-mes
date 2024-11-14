@@ -17,57 +17,42 @@ public class EquipRepairHistAdmDAOImpl implements EquipRepairHistAdmDAO{
 	
 	private static String namespace = "mes.mappers.em.equipRepairHistAdmMapper";
 
-	//전체 리스트
 	@Override
-	public List<EquipRepairHistAdmVo> EquipRepairHistAdmList(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {		
-		return session.selectList(namespace + ".equipRepairHistAdmList", equipRepairHistAdmVo);
+	public List<EquipRepairHistAdmVo> listAll(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {		
+		return session.selectList(namespace + ".listAll", equipRepairHistAdmVo);
 	}
 
-	//수리이력관리 등록
 	@Override
-	public void EquipRepairHistAdmCreate(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {
-		session.insert(namespace + ".equipRepairHistAdmCreate",equipRepairHistAdmVo);
+	public void create(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {
+		session.insert(namespace + ".create",equipRepairHistAdmVo);
 	}
 
-	//수리이력관리 읽기
 	@Override
-	public EquipRepairHistAdmVo EquipRepairHistAdmRead(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {		
-		return session.selectOne(namespace + ".equipRepairHistAdmRead",equipRepairHistAdmVo);
+	public EquipRepairHistAdmVo read(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {		
+		return session.selectOne(namespace + ".read",equipRepairHistAdmVo);
 	}
 
-	//수리이력관리 수정
 	@Override
-	public void EquipRepairHistAdmUpdate(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {
-		session.update(namespace + ".equipRepairHistAdmUpdate", equipRepairHistAdmVo);		
-	}
-	
-	//수리이력관리 삭제
-	@Override
-	public void equipRepairHistAdmDelete(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {
-		session.delete(namespace + ".equipRepairHistAdmDelete", equipRepairHistAdmVo);		
+	public void update(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {
+		session.update(namespace + ".update", equipRepairHistAdmVo);		
 	}
 	
 	//등록번호 시퀀스
 	@Override
-	public String EquipRepairHistAdmSeq() throws Exception{
-		return session.selectOne(namespace + ".equipRepairHistAdmSeq");
-	}
-
-	@Override
-	public EquipRepairHistAdmVo EquipRepairHistAdmImgUpload(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {
-		return session.selectOne(namespace + ".equipRepairHistAdmImgUpload", equipRepairHistAdmVo);
-	}
-	
-	@Override
-	public EquipRepairHistAdmVo EquipRepairHistAdmImgRead(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {
-		return session.selectOne(namespace + ".equipRepairHistAdmImgRead", equipRepairHistAdmVo);
+	public String seq() throws Exception{
+		return session.selectOne(namespace + ".selectRepairNoSeq");
 	}
 
 	//등록일자 시퀀스
-	/*
 	@Override
 	public String regSeq(String time) throws Exception{
 		return session.selectOne(namespace + ".repairRegDateCreate", time);
-	}*/
+	}
+
+	//memsInfo_조회
+	@Override
+	public List<EquipRepairHistAdmVo> memsInfoList(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {		
+		return session.selectList(namespace + ".memsInfoList", equipRepairHistAdmVo);
+	}
 	
 }

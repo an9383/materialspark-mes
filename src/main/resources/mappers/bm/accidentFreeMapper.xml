@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.bm.accidentFreeMapper">
+
+	<resultMap id="AccidentFreeVo" type="mes.domain.bm.AccidentFreeVo">
+	
+		<result property="startDate"			column="START_DATE"				/>
+		<result property="targetDate"			column="TARGET_DATE"			/>
+		<result property="posted"				column="POSTED"					/>
+		<result property="postTime"				column="POST_TIME"				/>
+		<result property="idx"					column="IDX"					/>	
+		<result property="regId"				column="REG_ID"					/>
+		<result property="regDate"				column="REG_DATE"				/>
+		<result property="updId"				column="UPD_ID"					/>
+		<result property="updDate"				column="UPD_DATE"				/>	
+		<result property="userNm"				column="USER_NM"				/>
+		<result property="postedNm"				column="POSTED_NM"				/>	
+		<result property="img"					column="IMG"					/>
+		<result property="imgNm"				column="IMG_NM"					/>
+
+	</resultMap>
+	
+	
+	<!-- 시스템공통그룹 전체조회 -->
+	<select id="listAll" resultMap="AccidentFreeVo">
+		SELECT 
+			IDX
+			,START_DATE
+			,TARGET_DATE
+			,POSTED
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='082' AND B.BASE_CD = A.POSTED) POSTED_NM
+			,POST_TIME
+			,REG_ID
+			,(SELECT USER_NM FROM TB_USER B WHERE B.USER_ID = A.REG_ID) USER_NM
+			,REG_DATE
+			,UPD_ID
+			,UPD_DATE
+		FROM TB_ACCIDENT_FREE A
+		WHERE 1=1
+				
+	</select>
+	
+	
+	<select id="read" resultMap="AccidentFreeVo">
+		<![CDATA[
+			SELECT 
+				IDX
+				,START_DATE
+				,TARGET_DATE
+				,POSTED
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='082' AND B.BASE_CD = A.POSTED) POSTED_NM
+				,POST_TIME
+				,REG_ID
+				,(SELECT USER_NM FROM TB_USER B WHERE B.USER_ID = A.REG_ID) USER_NM
+				,POST_TIME				
+				,REG_DATE
+				,UPD_ID
+				,UPD_DATE
+			FROM TB_ACCIDENT_FREE A
+			WHERE IDX = #{idx} 
+				
+		]]>
+	</select>
+
+	<select id="selectIdx" resultType="String">
+		SELECT ISNULL(CAST(MAX(IDX)+1 AS NVARCHAR), 1) IDX FROM TB_ACCIDENT_FREE
+	</select>	
+	
+	<insert id="create" parameterType="mes.domain.bm.AccidentFreeVo">
+		<![CDATA[
+			INSERT INTO TB_ACCIDENT_FREE
+           (
+           IDX
+           ,START_DATE
+           ,TARGET_DATE
+           ,POSTED
+           ,POST_TIME
+           ,REG_ID
+           ,REG_DATE         
+           )
+     VALUES (
+     		#{idx}
+     		,#{startDate}
+     		,#{targetDate}
+     		,#{posted}
+     		,#{postTime}
+     		,#{regId}
+     		,GETDATE() 	
+           )
+		]]>
+	</insert>
+	
+	<update id="update" parameterType="mes.domain.bm.AccidentFreeVo">
+		<![CDATA[
+			UPDATE TB_ACCIDENT_FREE
+			 SET 
+			      START_DATE =  #{startDate}
+			      ,TARGET_DATE = #{targetDate}
+			      ,POSTED =  #{posted}
+			      ,POST_TIME = #{postTime}			      
+			      ,UPD_ID = #{updId}
+			      ,UPD_DATE = GETDATE()
+			 WHERE IDX = #{idx}
+		]]>
+	</update>
+	
+	
+	<insert id="createImg" parameterType="mes.domain.bm.AccidentFreeVo">
+		<![CDATA[
+			INSERT INTO TB_ACCIDENT_FREE_IMG
+           (
+           IDX
+           ,IMG
+           ,IMG_NM
+           ,REG_ID
+           ,REG_DATE         
+           )
+     VALUES (
+     		#{idx}
+     		,#{img}
+     		,#{imgNm}
+     		,#{regId}
+     		,GETDATE() 	
+           )
+		]]>
+	</insert>
+	
+	<delete id="deleteImg" parameterType="mes.domain.bm.AccidentFreeVo">
+		<![CDATA[
+			DELETE FROM TB_ACCIDENT_FREE_IMG WHERE IDX = #{idx}
+		]]>
+	</delete>
+	
+	
+	<select id="selectIdxImg" resultType="String">
+		SELECT ISNULL(CAST(MAX(IDX)+1 AS NVARCHAR), 1) IDX FROM TB_ACCIDENT_FREE_IMG
+	</select>	
+	
+	<select id="listImg" resultMap="AccidentFreeVo">
+		SELECT IDX, IMG_NM FROM TB_ACCIDENT_FREE_IMG
+	</select>	
+	
+</mapper>

@@ -1,0 +1,1651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.mappers.po.workOrdOutputSubMapper">
+
+	<resultMap id="WorkOrdOutputSubVo" type="mes.domain.po.WorkOrdOutputSubVo">
+		<result property="equipCd"					column="EQUIP_CD"				/>
+		<result property="equipNm"					column="EQUIP_NM"				/>
+		<result property="workOrdNo"				column="WORK_ORD_NO"			/>
+		<result property="workOrdLotNo"				column="WORK_ORD_LOT_NO"		/>
+		<result property="ordLotNo"					column="ORD_LOT_NO"				/>
+		<result property="lotNo"					column="LOT_NO"					/>
+		<result property="subWorkStatusCd"			column="SUB_WORK_STATUS_CD"		/>
+		<result property="subWorkStatusNm"			column="SUB_WORK_STATUS_NM"		/>
+		<result property="workOrdSeq"				column="WORK_ORD_SEQ"			/>
+		<result property="outputWeight"				column="OUTPUT_WEIGHT"			/>
+		<result property="outputCnt"				column="OUTPUT_CNT"				/>
+		<result property="outputTotalCnt"			column="OUTPUT_TOTAL_CNT"		/>
+		<result property="visionEdgeWeight"			column="VISION_EDGE_WEIGHT"		/>
+		<result property="visionEdgeCnt"			column="VISION_EDGE_CNT"		/>
+		<result property="totalCnt"					column="TOTAL_CNT"				/>
+		<result property="totalWeight"				column="TOTAL_WEIGHT"			/>
+		<result property="countLotOutputSub"		column="COUNT_LOT_OUTPUT_SUB"	/>
+		<result property="gubun"					column="GUBUN"					/>
+		<result property="gubunNm"					column="GUBUN_NM"				/>
+		<result property="workOrdDate"				column="WORK_ORD_DATE"			/>
+		<result property="mainWorkChargr"			column="MAIN_WORK_CHARGR"		/>
+		<result property="mainWorkChargrNm"			column="MAIN_WORK_CHARGR_NM"	/>
+		<result property="mainWorkChargrNm2"		column="MAIN_WORK_CHARGR_NM2"	/>
+		<result property="teamCd"					column="TEAM_CD"				/>
+		<result property="teamNm"					column="TEAM_NM"				/>
+		<result property="inspctCharger"			column="INSPCT_CHARGER"			/>
+		<result property="inspctChargerNm"			column="INSPCT_CHARGER_NM"		/>
+		<result property="edgeOutputCnt"			column="EDGE_OUTPUT_CNT"		/>
+		<result property="edgeFaultyCnt"			column="EDGE_FAULTY_CNT"		/>
+		<result property="edgeSampleCnt"			column="EDGE_SAMPLE_CNT"		/>
+		<result property="edgeRollFaultySize"		column="EDGE_ROLL_FAULTY_SIZE"	/>
+		<result property="edgeSymbolFaultySize"		column="EDGE_SYMBOL_FAULTY_SIZE"/>
+		<result property="edgeBurFaultySize"		column="EDGE_BUR_FAULTY_SIZE"	/>
+		<result property="edgeInspctCharger"		column="EDGE_INSPCT_CHARGER"	/>
+		<result property="edgeInspctChargerNm"		column="EDGE_INSPCT_CHARGER_NM"	/>
+		<result property="edgeInspctDate"			column="EDGE_INSPCT_DATE"		/>
+		<result property="appearOutputCnt"			column="APPEAR_OUTPUT_CNT"		/>
+		<result property="appearFaultyCnt"			column="APPEAR_FAULTY_CNT"		/>
+		<result property="appearInspctCharger"		column="APPEAR_INSPCT_CHARGER"	/>
+		<result property="appearInspctChargerNm"	column="APPEAR_INSPCT_CHARGER_NM"/>
+		<result property="appearInspctDate"			column="APPEAR_INSPCT_DATE"		/>
+		<result property="userOutputCnt"			column="USER_OUTPUT_CNT"		/>
+		<result property="appearAbrfCnt"			column="APPEAR_ABRF_CNT"		/>
+		<result property="appearAbrsCnt"			column="APPEAR_ABRS_CNT"		/>
+		<result property="appearDmsCnt"				column="APPEAR_DMS_CNT"			/>
+		<result property="packYn"					column="PACK_YN"				/>
+		<result property="regId"					column="REG_ID"					/>
+		<result property="regDate"					column="REG_DATE"				/>
+		<result property="updId"					column="UPD_ID"					/>
+		<result property="updDate"					column="UPD_DATE"				/>
+		<result property="userId"					column="USER_ID"				/>
+		<result property="userNm"					column="USER_NM"				/>
+		<result property="ipAddress"				column="IP_ADDRESS"				/>
+		<result property="dltId"					column="DLT_ID"					/>
+		<result property="dltDate"					column="DLT_DATE"				/>
+		
+		<result property="workOrdSeqCount"			column="WORK_ORD_SEQ_COUNT"		/>
+		
+		<result property="appearOutputRatio"		column="APPEAR_OUTPUT_RATIO"	/>	<!-- 양품률 -->
+		<result property="appearFaultyRatio"		column="APPEAR_FAULTY_RATIO"	/>	<!-- 불량률 -->
+		
+		
+		<result property="workerId"					column="WORKER_ID"				/>
+		<result property="workerIdNm"				column="WORKER_ID_NM"			/>
+		<result property="workTeamCd"				column="WORK_TEAM_CD"			/>
+		<result property="workTeamNm"				column="WORK_TEAM_NM"			/>
+		<result property="seq"           			column="SEQ"					/>
+		<result property="inspctChargr"  			column="INSPCT_CHARGR"			/>
+		<result property="inspctChargrNm"			column="INSPCT_CHARGR_NM"		/>
+		<result property="faultyCntSum"   			column="FAULTY_CNT_SUM"			/>
+		<result property="faultyRegDate"   			column="FAULTY_REG_DATE"		/>
+		<result property="dayNightCd"    			column="DAY_NIGHT_CD"			/>
+		<result property="dayNightNm"    			column="DAY_NIGHT_NM"			/>
+		
+		<result property="inspctChargerNm"    		column="INSPCT_CHARGER_NM"		/>
+		<result property="mainWorkChargrNm"    		column="MAIN_WORK_CHARGR_NM"	/>
+		<result property="changeUserNumber"    		column="CHANGE_USER_NUMBER"	/>
+		<result property="subOrdLotNo"    			column="SUB_ORD_LOT_NO"	/>
+		<result property="productionperFormanceRegDate"    		column="PRODUCTIONPER_FORMANCE_REG_DATE"	/>
+		<result property="workOrdEndTime"			column="WORK_END_TIME"				/>
+	
+	</resultMap>
+	
+	<resultMap id="GoodsFaultyAdmVo" type="mes.domain.qm.GoodsFaultyAdmVo">
+		<result property="workOrdNo"			column="WORK_ORD_NO"		/>
+		<result property="userInputInspctCnt"	column="USER_INPUT_INSPCT_CNT"/>
+		<result property="ordLotNo"				column="ORD_LOT_NO"			/>
+		<result property="equipCd"				column="EQUIP_CD"			/>
+		<result property="equipNm"				column="EQUIP_NM"			/>
+		<result property="metalMmb"				column="METAL_MMB"			/>
+		<result property="metalMms"				column="METAL_MMS"			/>
+		<result property="metalPms"				column="METAL_PMS"			/>
+		<result property="metalFstab"			column="METAL_FSTAB"		/>
+		<result property="metalPstab"			column="METAL_PSTAB"		/>
+		<result property="metalAliensbst"		column="METAL_ALIENSBST"	/>
+		<result property="metalBreak"			column="METAL_BREAK"		/>
+		<result property="metalPolutn"			column="METAL_POLUTN"		/>
+		<result property="metalBrowning"		column="METAL_BROWNING"		/>
+		<result property="metalPpolutn"			column="METAL_PPOLUTN"		/>
+		<result property="metalGilt"			column="METAL_GILT"			/>
+		<result property="metalThickness"		column="METAL_THICKNESS"	/>
+		<result property="metalEtc"				column="METAL_ETC"			/>
+		<result property="filmPfs"				column="FILM_PFS"			/>
+		<result property="filmBreak"			column="FILM_BREAK"			/>
+		<result property="filmTornout"			column="FILM_TORNOUT"		/>
+		<result property="filmSurfceBb"			column="FILM_SURFCE_BB"		/>
+		<result property="filmEdgeBb"			column="FILM_EDGE_BB"		/>
+		<result property="filmTeflon"			column="FILM_TEFLON"		/>
+		<result property="filmAliensbst"		column="FILM_ALIENSBST"		/>
+		<result property="filmPolutn"			column="FILM_POLUTN"		/>
+		<result property="filmAgglomt"			column="FILM_AGGLOMT"		/>
+		<result property="filmOverlap"			column="FILM_OVERLAP"		/>
+		<result property="filmUnjinjeop"		column="FILM_UNJINJEOP"		/>
+		<result property="filmUnattch"			column="FILM_UNATTCH"		/>
+		<result property="filmMf"				column="FILM_MF"			/>
+		<result property="filmWing"				column="FILM_WING"			/>
+		<result property="filmEtc"				column="FILM_ETC"			/>
+		<result property="etcSize"				column="ETC_SIZE"			/>
+		<result property="etcCutting"			column="ETC_CUTTING"		/>
+		<result property="etcFilmPress"			column="ETC_FILM_PRESS"		/>
+		<result property="etcFilmDepth"			column="ETC_FILM_DEPTH"		/>
+		<result property="etcLayer"				column="ETC_LAYER"			/>
+		<result property="etcEtc"				column="ETC_ETC"			/>
+		<result property="etcWashboard"			column="ETC_WASHBOARD"		/>
+		<result property="etcWhitetape"			column="ETC_WHITETAPE"		/>
+		<result property="etcPattem"			column="ETC_PATTEM"			/>
+		<result property="etcStabbed"			column="ETC_STABBED"		/>
+		<result property="etcHaze"				column="ETC_HAZE"			/>
+		<result property="etcSurface"			column="ETC_SURFACE"		/>
+		<result property="etcSwelling"			column="ETC_SWELLING"		/>
+		<result property="etcFeeding"			column="ETC_FEEDING"		/>
+		<result property="etcFilm"				column="ETC_FILM"			/>
+		<result property="etcSlash"				column="ETC_SLASH"			/>
+		<result property="etcJinjeop"			column="ETC_JINJEOP"		/>
+		<result property="etcCrack"				column="ETC_CRACK"			/>
+		<result property="etcCrease"			column="ETC_CREASE"			/>
+		
+		<result property="faultyRegDate"		column="FAULTY_REG_DATE"	/>
+		<result property="regId"				column="REG_ID"				/>
+		<result property="regDate"				column="REG_DATE"			/>
+		<result property="updId"				column="UPD_ID"				/>
+		<result property="updDate"				column="UPD_DATE"			/>
+		
+		<result property="appearInspctDate"		column="APPEAR_INSPCT_DATE"	/>
+		<result property="goodsCd"				column="GOODS_CD"			/>
+		<result property="goodsNm"				column="GOODS_NM"			/>
+		<result property="outputCnt"			column="OUTPUT_CNT"			/>
+		<result property="appearOutputCnt"		column="APPEAR_OUTPUT_CNT"	/>
+		<result property="faultSum"				column="FAULT_SUM"			/>
+		<result property="faultPercent"			column="FAULT_PERCENT"		/>		
+		<result property="edgeFaultyCnt"		column="EDGE_FAULTY_CNT"	/>
+		<result property="chooseDateFrom"		column="CHOOSE_DATE_FROM"	/>		
+		<result property="chooseDate"			column="CHOOSE_DATE"		/>
+		
+		<result property="totalOutputCnt"		column="TOTAL_OUTPUT_CNT"	/>
+		<result property="totalEdgeFaultyCnt"	column="TOTAL_EDGE_FAULTY_CNT"/>
+		<result property="edgeFaultyPercent"	column="EDGE_FAULTY_PERCENT"/>
+		<result property="sumSurfaceFaulty"		column="SUM_SURFACE_FAULTY"	/>
+		<result property="surfaceFaultyPercent"	column="SURFACE_FAULTY_PERCENT"/>
+		<result property="sumMetal"				column="SUM_METAL"			/>
+		<result property="metalPercent"			column="METAL_PERCENT"		/>
+		<result property="sumFillm"				column="SUM_FILM"			/>
+		<result property="filmPercent"			column="FILM_PERCENT"		/>
+		<result property="sumEtc"				column="SUM_ETC"			/>
+		<result property="etcPercent"			column="ETC_PERCENT"		/>
+		
+		<result property="majorCd"       		column="MAJOR_CD"			/>
+		<result property="minorCd"       		column="MINOR_CD"			/>		
+		<result property="faultyCnt"     		column="FAULTY_CNT"			/>
+		<result property="seq"           		column="SEQ"				/>
+		<result property="inspctChargr"  		column="INSPCT_CHARGR"		/>
+		<result property="inspctChargrNm"		column="INSPCT_CHARGR_NM"	/>
+		<result property="dayNightCd"    		column="DAY_NIGHT_CD"		/>
+		<result property="dayNightNm"    		column="DAY_NIGHT_NM"		/>
+		<result property="workOrdDate"   		column="WORK_ORD_DATE"		/>
+		
+		<result property="quarter1"   			column="QUARTER1"			/>
+		<result property="quarter2"   			column="QUARTER2"			/>
+		<result property="quarter3"   			column="QUARTER3"			/>
+		<result property="month1"   			column="MONTH1"				/>
+		<result property="month2"   			column="MONTH2"				/>
+		<result property="month3"   			column="MONTH3"				/>
+		<result property="week1"   				column="WEEK1"				/>
+		<result property="week2"   				column="WEEK2"				/>
+		<result property="week3"   				column="WEEK3"				/>
+		<result property="day1"   				column="DAY1"				/>
+		<result property="day2"   				column="DAY2"				/>
+		<result property="day3"   				column="DAY3"				/>
+		<result property="day4"   				column="DAY4"				/>
+		<result property="day5"   				column="DAY5"				/>
+		<result property="day6"   				column="DAY6"				/>
+		<result property="day7"   				column="DAY7"				/>
+		<result property="day8"   				column="DAY8"				/>
+		<result property="day9"   				column="DAY9"				/>
+		<result property="day10"   				column="DAY10"				/>
+		<result property="day11"   				column="DAY11"				/>
+		<result property="day12"   				column="DAY12"				/>
+		<result property="day13"   				column="DAY13"				/>
+		<result property="day14"   				column="DAY14"				/>
+		<result property="headerGubun"			column="HEADER_GUBUN"		/>
+		<result property="headerType"			column="HEADER_TYPE"		/>
+		<result property="headerDate"			column="HEADER_DATE"		/>
+		<result property="headerMonth"			column="HEADER_MONTH"		/>
+		<result property="headerDay"			column="HEADER_DAY"			/>
+		<result property="headerIsoWeek"		column="HEADER_ISO_WEEK"	/>
+		<result property="headerQuarter"		column="HEADER_QUARTER"		/>
+		<result property="headerDayOfWeek"		column="HEADER_DAY_OF_WEEK"	/>
+		<result property="model"				column="MODEL"				/>
+		<result property="qutyCd"				column="QUTY_CD"			/>
+		<result property="qutyNm"				column="QUTY_NM"			/>
+		<result property="itemNm"				column="ITEM_NM"			/>
+		<result property="no"					column="NO"					/>
+		
+		
+		<result property="filmSurfaceAgglomeration"		    column="FILM_SURFACE_AGGLOMERATION"        />
+		<result property="visionFilmSurfaceAgglomeration"	column="VISION_FILM_SURFACE_AGGLOMERATION" />
+		<result property="filmPpollution"					column="FILM_PPOLLUTION"                   />
+		<result property="visionFilmPpollution"				column="VISION_FILM_PPOLLUTION"            />
+		<result property="filmWingAgglomeration"			column="FILM_WING_AGGLOMERAION"			   />
+		<result property="visionFilmWingAgglomeration"		column="VISION_FILM_WING_AGGLOMERATION"	   />
+		<result property="filmMFS"					        column="FILM_MFS"					       />
+		<result property="visionFilmMFS"					column="VISION_FILM_MFS"				   />
+		<result property="filmWingPressed"					column="FILM_WING_PRESSED"			       />
+		<result property="visionFilmWingPressed"			column="VISION_FILM_WING_PRESSED"		   />
+		<result property="filmSurfacePressed"				column="FILM_SURFACE_PRESSED"			   />
+		<result property="visionFilmSurfacePressed"			column="VISION_FILM_SURFACE_PRESSED"	   />
+		<result property="filmEdgePressed"					column="FILM_EDGE_PRESSED"				   />
+		<result property="visionFilmEdgePressed"			column="VISION_FILM_EDGE_PRESSED"		   />
+		
+		<result property="edgeFaultySum001"					column="EDGE_FAULTY_SUM001"					/>
+		<result property="edgeFaultySum002"					column="EDGE_FAULTY_SUM001"					/>
+		<result property="totalEdgeFaultySum"				column="TOTAL_EDGE_FAULTY_SUM"				/>
+		<result property="appearFaultySum001"				column="APPEAR_FAULTY_SUM001"				/>
+		<result property="appearFaultySum002"				column="APPEAR_FAULTY_SUM002"				/>
+		<result property="appearFaultySum003"				column="APPEAR_FAULTY_SUM003"				/>
+		<result property="appearFaultySum004"				column="APPEAR_FAULTY_SUM004"				/>
+		<result property="totalAppearSum1"					column="TOTAL_APPEAR_SUM1"					/>
+		<result property="totalAppearSum2"					column="TOTAL_APPEAR_SUM2"					/>
+	</resultMap>
+	
+	<!-- 메인리스트 조회  -->
+	<select id="workOrdOutputSubList" resultMap="WorkOrdOutputSubVo">
+		SELECT
+			A.WORK_ORD_NO
+			, WORK_ORD_LOT_NO
+			, A.WORK_ORD_SEQ
+			, A.ORD_LOT_NO
+			, A.LOT_NO
+			, A.SUB_WORK_STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD = '034' AND B.BASE_CD = A.SUB_WORK_STATUS_CD) SUB_WORK_STATUS_NM
+			, A.OUTPUT_WEIGHT
+			, A.OUTPUT_CNT
+			, A.VISION_EDGE_WEIGHT
+			, A.VISION_EDGE_CNT
+			, CONVERT(FLOAT, A.OUTPUT_WEIGHT) + CONVERT(FLOAT, A.VISION_EDGE_WEIGHT) TOTAL_WEIGHT
+			, A.OUTPUT_CNT  + A.VISION_EDGE_CNT TOTAL_CNT
+			, A.GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD = '028' AND B.BASE_CD = A.GUBUN) GUBUN_NM
+			, A.WORK_ORD_DATE
+			, A.MAIN_WORK_CHARGR
+			, A.TEAM_CD
+			, A.EDGE_OUTPUT_CNT
+			, A.EDGE_FAULTY_CNT
+			, A.EDGE_SAMPLE_CNT
+			, A.EDGE_ROLL_FAULTY_SIZE
+			, A.EDGE_SYMBOL_FAULTY_SIZE
+			, A.EDGE_BUR_FAULTY_SIZE
+			, A.EDGE_INSPCT_CHARGER
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.EDGE_INSPCT_CHARGER) EDGE_INSPCT_CHARGER_NM	
+			, A.EDGE_INSPCT_DATE
+			, A.APPEAR_OUTPUT_CNT
+			, A.APPEAR_FAULTY_CNT
+			, A.APPEAR_INSPCT_CHARGER
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.APPEAR_INSPCT_CHARGER) APPEAR_INSPCT_CHARGER_NM	
+			, A.APPEAR_INSPCT_DATE
+			, A.USER_OUTPUT_CNT
+			, A.APPEAR_ABRF_CNT
+			, A.APPEAR_ABRS_CNT
+			, A.APPEAR_DMS_CNT
+			, A.PACK_YN
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+			, B.USER_NM
+		FROM TB_WORK_ORDER_OUTPUT_SUB A, TB_USER B
+		WHERE 1=1
+		AND A.MAIN_WORK_CHARGR = B.USER_NUMBER
+		AND WORK_ORD_NO = #{workOrdNo}
+	<if test="workOrdLotNo != null and workOrdLotNo != ''">
+		AND WORK_ORDLOT_NO = #{workOrdLotNo}
+	</if>
+	<if test="ordLotNo != null and ordLotNo != ''">
+		AND ORD_LOT_NO = #{ordLotNo}
+	</if>
+	<if test="lotNo != null and lotNo != ''">
+		AND LOT_NO = #{lotNo}
+	</if>
+		ORDER BY WORK_ORD_SEQ
+	</select>
+	
+	<!-- 상세 조회  -->
+	<select id="workOrdOutputSubRead" resultMap="WorkOrdOutputSubVo">
+		SELECT
+			WORK_ORD_NO
+			, WORK_ORD_SEQ
+			, ORD_LOT_NO
+			, LOT_NO
+			, SUB_WORK_STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD = '034' AND B.BASE_CD = A.SUB_WORK_STATUS_CD) SUB_WORK_STATUS_NM
+			, OUTPUT_WEIGHT
+			, OUTPUT_CNT
+			, (SELECT SUM(OUTPUT_CNT) FROM TB_WORK_ORDER_OUTPUT_SUB WHERE 1=1 AND WORK_ORD_NO = #{workOrdNo} ) AS OUTPUT_TOTAL_CNT
+			, VISION_EDGE_WEIGHT
+			, VISION_EDGE_CNT
+			, GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='028' AND B.BASE_CD = A.GUBUN) GUBUN_NM
+			, WORK_ORD_DATE
+			, MAIN_WORK_CHARGR
+			, TEAM_CD
+			, EDGE_OUTPUT_CNT
+			, EDGE_FAULTY_CNT
+			, EDGE_SAMPLE_CNT
+			, EDGE_ROLL_FAULTY_SIZE
+			, EDGE_SYMBOL_FAULTY_SIZE
+			, EDGE_BUR_FAULTY_SIZE
+			, EDGE_INSPCT_CHARGER
+			, EDGE_INSPCT_DATE
+			, APPEAR_OUTPUT_CNT
+			, APPEAR_FAULTY_CNT
+			, APPEAR_INSPCT_CHARGER
+			, APPEAR_INSPCT_DATE
+			, USER_OUTPUT_CNT
+			, APPEAR_ABRF_CNT
+			, APPEAR_ABRS_CNT
+			, APPEAR_DMS_CNT
+			, PACK_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_WORK_ORDER_OUTPUT_SUB A
+		WHERE 1=1
+		<if test="workOrdNo != null and workOrdNo != ''"> 
+		AND WORK_ORD_NO = #{workOrdNo} 
+		</if>
+		<if test="lotNo != null and lotNo != ''">
+		AND LOT_NO = #{lotNo}
+		</if>
+		<if test="workOrdSeq != null and workOrdSeq != ''">
+		AND WORK_ORD_SEQ = #{workOrdSeq}
+		</if>
+	</select>
+	
+	<!-- 시퀀스 불러오기 -->
+	<select id="workOrdOutputSubSeq" resultType="String">
+		SELECT ISNULL(MAX(WORK_ORD_SEQ) + 1, 1) WORK_ORD_SEQ FROM TB_WORK_ORDER_OUTPUT_SUB WHERE WORK_ORD_NO = #{workOrdNo}
+	</select>
+
+	<!-- workOrdLotNo 등록되어 있는지 확인  -->
+	<select id="checkWorkOrdLotNo" resultMap="WorkOrdOutputSubVo">
+		SELECT 
+			WORK_ORD_NO
+			, WORK_ORD_LOT_NO
+			, ORD_LOT_NO
+			, LOT_NO
+			, SUB_WORK_STATUS_CD
+			, OUTPUT_WEIGHT
+			, OUTPUT_CNT
+			, VISION_EDGE_WEIGHT
+			, VISION_EDGE_CNT
+			, GUBUN
+			, WORK_ORD_DATE
+			, MAIN_WORK_CHARGR
+			, TEAM_CD
+			, EDGE_OUTPUT_CNT
+			, EDGE_FAULTY_CNT
+			, EDGE_SAMPLE_CNT
+			, EDGE_ROLL_FAULTY_SIZE
+			, EDGE_SYMBOL_FAULTY_SIZE
+			, EDGE_BUR_FAULTY_SIZE
+			, EDGE_INSPCT_CHARGER
+			, EDGE_INSPCT_DATE
+			, APPEAR_OUTPUT_CNT
+			, APPEAR_FAULTY_CNT
+			, APPEAR_INSPCT_CHARGER
+			, APPEAR_INSPCT_DATE
+			, USER_OUTPUT_CNT
+			, APPEAR_ABRF_CNT
+			, APPEAR_ABRS_CNT
+			, APPEAR_DMS_CNT
+			, PACK_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE 1=1
+		<if test="workOrdNo != null and workOrdNo != ''">
+		AND WORK_ORD_NO = #{workOrdNo}
+		</if>
+		<if test="lotNo != null and lotNo != ''">
+		AND LOT_NO = #{lotNo}
+		</if>
+	<choose>
+		<when test="checkWorkOrdLotNoOption == '001'">
+			AND GUBUN = #{gubun}
+		</when>
+		<when test="checkWorkOrdLotNoOption == '002'">
+		
+		</when>
+		<otherwise>
+		
+		</otherwise>
+	</choose>
+	</select>
+	
+	<!-- 생산LotNo(workOrdLotNo) 몸통 채번 -->
+	<select id="createWorkOrdLotNoBody" resultType="String">
+		SELECT
+			CONCAT(REPLACE(#{equipNm}, '-', '')
+			, (CASE WHEN SUBSTRING(#{mainMatrlCd}, 1, 1) = 'A' THEN 'AL' ELSE 'NC' END)
+			, '-'
+			, SUBSTRING(#{ordDate}, 3, 6)
+			, #{gubun}
+		) AS WORK_ORD_LOT_NO
+	</select>
+	
+	<!-- 생산LotNo(workOrdLotNo) 끝 숫자 채번 -->
+	<select id="createWorkOrdLotNoCount" resultType="int">
+		SELECT
+			COUNT(DISTINCT A.WORK_ORD_LOT_NO)
+		FROM TB_WORK_ORDER_OUTPUT_SUB A, TB_WORK_ORDER B
+		WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND B.EQUIP_CD = '${equipCd}'
+		AND B.ORD_DATE = '${ordDate}'
+		AND SUBSTRING(A.WORK_ORD_LOT_NO, ${bodyLength}, 1) = '${gubun}'
+	</select>
+	
+	<!-- 생산LotNo(workOrdLotNo) 몸통 채번 -->
+	<select id="createOrdLotNoBody" resultType="String">
+		SELECT
+			CONCAT(REPLACE(#{equipNm}, '-', '')
+			, (CASE WHEN SUBSTRING(#{mainMatrlCd}, 1, 1) = 'A' THEN 'AL' ELSE 'NC' END)
+			, '-'
+			, SUBSTRING(#{workOrdDate}, 3, 6)
+			, #{gubun}
+		) AS WORK_ORD_LOT_NO
+	</select>
+	
+	<!-- 생산전표번호(ordLotNo) 숫자 채번 -->
+	<select id="createOrdLotNoCount" resultType="int">
+		SELECT
+			COUNT(DISTINCT SUBSTRING(A.ORD_LOT_NO, 0, ${bodyLength}))
+		FROM TB_WORK_ORDER_OUTPUT_SUB A, TB_WORK_ORDER B
+		WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND B.EQUIP_CD = '${equipCd}'
+		AND A.WORK_ORD_DATE = '${workOrdDate}'
+		AND A.GUBUN = '${gubun}'
+		<!-- AND SUBSTRING(A.ORD_LOT_NO, 14, 1) = '${gubun}' -->
+	</select>
+	
+	<!-- 생산LotNo(workOrdLotNo) 끝 숫자 채번 -->
+	<select id="createOrdLotNoLastCount" resultType="int">
+		SELECT COUNT(ORD_LOT_NO) + 1 FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE ORD_LOT_NO LIKE #{ordLotNo} + '%'
+	</select>
+	
+	<!-- 해당 주야&전표일자&작업자로 등록된 작지LotNo가 있는지 확인  -->
+	<select id="checkOrdLotNo" resultMap="WorkOrdOutputSubVo">
+		SELECT
+			WORK_ORD_NO
+			, WORK_ORD_LOT_NO
+			, ORD_LOT_NO
+			, LOT_NO
+			, SUB_WORK_STATUS_CD
+			, OUTPUT_WEIGHT
+			, OUTPUT_CNT
+			, VISION_EDGE_WEIGHT
+			, VISION_EDGE_CNT
+			, GUBUN
+			, WORK_ORD_DATE
+			, MAIN_WORK_CHARGR
+			, TEAM_CD
+			, EDGE_OUTPUT_CNT
+			, EDGE_FAULTY_CNT
+			, EDGE_SAMPLE_CNT
+			, EDGE_ROLL_FAULTY_SIZE
+			, EDGE_SYMBOL_FAULTY_SIZE
+			, EDGE_BUR_FAULTY_SIZE
+			, EDGE_INSPCT_CHARGER
+			, EDGE_INSPCT_DATE
+			, APPEAR_OUTPUT_CNT
+			, APPEAR_FAULTY_CNT
+			, APPEAR_INSPCT_CHARGER
+			, APPEAR_INSPCT_DATE
+			, USER_OUTPUT_CNT
+			, APPEAR_ABRF_CNT
+			, APPEAR_ABRS_CNT
+			, APPEAR_DMS_CNT
+			, PACK_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{lotNo}
+		AND GUBUN = #{gubun}
+		AND WORK_ORD_DATE = ${workOrdDate}
+	</select>
+	
+	<!-- 생산수량 생성 -->
+	<insert id="workOrdOutputSubCreate">
+		INSERT INTO TB_WORK_ORDER_OUTPUT_SUB
+		(
+			WORK_ORD_NO
+			, WORK_ORD_LOT_NO
+			, ORD_LOT_NO
+			, LOT_NO
+			, WORK_ORD_SEQ
+			, SUB_WORK_STATUS_CD
+			, OUTPUT_WEIGHT
+			, OUTPUT_CNT
+			, VISION_EDGE_WEIGHT
+			, VISION_EDGE_CNT
+			, GUBUN
+			, WORK_ORD_DATE
+			, MAIN_WORK_CHARGR
+			, TEAM_CD
+			
+			, USER_INPUT_INSPCT_CNT
+			, EDGE_OUTPUT_CNT 
+			, EDGE_FAULTY_CNT
+			, EDGE_INSPCT_CHARGER
+			, EDGE_INSPCT_DATE
+			, APPEAR_OUTPUT_CNT
+			, APPEAR_FAULTY_CNT
+			, APPEAR_INSPCT_CHARGER
+			, APPEAR_INSPCT_DATE
+			
+			, REG_ID
+			, REG_DATE
+		)
+		VALUES
+		(
+			#{workOrdNo}
+			, #{workOrdLotNo}
+			, #{ordLotNo}
+			, #{lotNo}
+			, #{workOrdSeq}
+			, #{subWorkStatusCd}
+			, #{outputWeight}
+			, #{outputCnt}
+			, #{visionEdgeWeight}
+			, #{visionEdgeCnt}
+			, #{gubun}
+			, #{workOrdDate}
+			, #{mainWorkChargr}
+			, #{teamCd}
+			, #{userInputInspctCnt}
+			, #{edgeOutputCnt}
+			, #{edgeFaultyCnt}
+			, #{edgeInspctCharger}
+			, #{edgeInspctDate}
+			, #{appearOutputCnt}
+			, #{appearFaultyCnt}
+			, #{appearInspctCharger}
+			, #{appearInspctDate}
+			, #{regId}
+			, GETDATE()
+		)
+	</insert>
+	
+	<!-- 생산수량 삭제기록 생성 -->
+	<insert id="workOrdOutputSubCreateTemp">
+		INSERT INTO TB_WORK_ORDER_OUTPUT_SUB_TEMP
+		(
+			WORK_ORD_NO
+			, WORK_ORD_LOT_NO
+			, WORK_ORD_SEQ
+			, ORD_LOT_NO
+			, LOT_NO
+			, SUB_WORK_STATUS_CD
+			, OUTPUT_WEIGHT
+			, OUTPUT_CNT
+			, VISION_EDGE_WEIGHT
+			, VISION_EDGE_CNT
+			, GUBUN
+			, WORK_ORD_DATE
+			, MAIN_WORK_CHARGR
+			, TEAM_CD
+			, EDGE_OUTPUT_CNT
+			, EDGE_FAULTY_CNT
+			, EDGE_SAMPLE_CNT
+			, EDGE_ROLL_FAULTY_SIZE
+			, EDGE_SYMBOL_FAULTY_SIZE
+			, EDGE_BUR_FAULTY_SIZE
+			, EDGE_INSPCT_CHARGER
+			, EDGE_INSPCT_DATE
+			, APPEAR_OUTPUT_CNT
+			, APPEAR_FAULTY_CNT
+			, APPEAR_INSPCT_CHARGER
+			, APPEAR_INSPCT_DATE
+			, USER_OUTPUT_CNT
+			, APPEAR_ABRF_CNT
+			, APPEAR_ABRS_CNT
+			, APPEAR_DMS_CNT
+			, PACK_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, IP_ADDRESS
+			, DLT_ID
+			, DLT_DATE
+		)
+		VALUES (
+			#{workOrdNo}
+			, #{workOrdLotNo}
+			, #{workOrdSeq}
+			, #{ordLotNo}
+			, #{lotNo}
+			, #{subWorkStatusCd}
+			, #{outputWeight}
+			, #{outputCnt}
+			, #{visionEdgeWeight}
+			, #{visionEdgeCnt}
+			, #{gubun}
+			, #{workOrdDate}
+			, #{mainWorkChargr}
+			, #{teamCd}
+			, #{edgeOutputCnt}
+			, #{edgeFaultyCnt}
+			, #{edgeSampleCnt}
+			, #{edgeRollFaultySize}
+			, #{edgeSymbolFaultySize}
+			, #{edgeBurFaultySize}
+			, #{edgeInspctCharger}
+			, #{edgeInspctDate}
+			, #{appearOutputCnt}
+			, #{appearFaultyCnt}
+			, #{appearInspctCharger}
+			, #{appearInspctDate}
+			, #{userOutputCnt}
+			, #{appearAbrfCnt}
+			, #{appearAbrsCnt}
+			, #{appearDmsCnt}
+			, #{packYn}
+			, #{regId}
+			, #{regDate}
+			, #{updId}
+			, #{updDate}
+			, #{ipAddress}
+			, #{dltId}
+			, GETDATE()
+		)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="workOrdOutputSubUpdate">
+		UPDATE TB_WORK_ORDER_OUTPUT_SUB 
+		SET
+			OUTPUT_WEIGHT = #{outputWeight}
+			, OUTPUT_CNT = #{outputCnt}
+			, VISION_EDGE_WEIGHT = #{visionEdgeWeight}
+			, VISION_EDGE_CNT = #{visionEdgeCnt}
+			, GUBUN = #{gubun}			
+			, WORK_ORD_DATE = #{workOrdDate}
+			, UPD_ID = #{updId}
+			, UPD_DATE = GETDATE()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{lotNo}
+		AND	WORK_ORD_SEQ = #{workOrdSeq}
+	</update>
+	
+	<!-- 트레이 외관 검사 관련  생산 실적 수정 -->
+	<update id="workOrdOutputSubTrayFaultyRelatedUpdate" parameterType="mes.domain.po.WorkOrdOutputSubVo">
+		UPDATE TB_WORK_ORDER_OUTPUT_SUB 
+		SET
+			UPD_ID = #{updId}
+			, UPD_DATE = GETDATE()
+			<if test="faultyTrayCheckNum == '001'">
+				, APPEAR_OUTPUT_CNT = (SELECT SUM(PRODUCT_QTY) FROM TB_PRODUCTION_PERF_TRAY WHERE WORK_ORD_NO = #{workOrdNo} AND PRODUCT_STATUS != '001')
+				, USER_INPUT_INSPCT_CNT	= ( (SELECT SUM(PRODUCT_QTY) FROM TB_PRODUCTION_PERF_TRAY WHERE WORK_ORD_NO = #{workOrdNo} AND PRODUCT_STATUS != '001') + ISNULL(#{appearFaultyCnt}, 0)  + ISNULL(#{edgeFaultyCnt}, 0) )
+				<if test="edgeOutputCnt != null and edgeOutputCnt != ''">
+				, EDGE_OUTPUT_CNT = #{edgeOutputCnt} 
+				</if>
+				<if test="edgeFaultyCnt != null and edgeFaultyCnt != ''">
+				, EDGE_FAULTY_CNT = #{edgeFaultyCnt}
+				</if>
+				<if test="edgeInspctCharger != null and edgeInspctCharger != ''">
+				, EDGE_INSPCT_CHARGER = #{edgeInspctCharger}
+				</if>
+				<if test="edgeInspctDate != null and edgeInspctDate != ''">
+				, EDGE_INSPCT_DATE = #{edgeInspctDate}
+				</if>
+				<if test="appearFaultyCnt != null and appearFaultyCnt != ''">
+				, APPEAR_FAULTY_CNT	= #{appearFaultyCnt}
+				</if>
+				<if test="appearInspctCharger != null and appearInspctCharger != ''">
+				, APPEAR_INSPCT_CHARGER = #{appearInspctCharger}
+				</if>
+				<if test="appearInspctDate != null and appearInspctDate != ''">
+				, APPEAR_INSPCT_DATE = #{appearInspctDate}
+				</if>
+			</if>
+			<if test="faultyTrayCheckNum == '002'">
+				, EDGE_OUTPUT_CNT		= NULL 
+				, EDGE_FAULTY_CNT		= NULL
+				, EDGE_INSPCT_CHARGER	= NULL
+				, EDGE_INSPCT_DATE		= NULL
+				, USER_INPUT_INSPCT_CNT = ( SELECT SUM(USER_INPUT_INSPCT_CNT) - SUM(EDGE_FAULTY_CNT) FROM TB_WORK_ORDER_OUTPUT_SUB WHERE WORK_ORD_NO = #{workOrdNo} AND GUBUN = #{dayNightCd})
+			</if>
+			<if test="faultyTrayCheckNum == '003'">
+				, APPEAR_OUTPUT_CNT		= NULL
+				, APPEAR_FAULTY_CNT		= NULL
+				, APPEAR_INSPCT_CHARGER = NULL
+				, APPEAR_INSPCT_DATE	= NULL
+				, USER_INPUT_INSPCT_CNT = ( SELECT SUM(USER_INPUT_INSPCT_CNT) - SUM(APPEAR_FAULTY_CNT) FROM TB_WORK_ORDER_OUTPUT_SUB WHERE WORK_ORD_NO = #{workOrdNo}  AND GUBUN = #{dayNightCd} )
+			</if>
+		WHERE 1=1
+		AND WORK_ORD_NO = #{workOrdNo}
+		<if test="workOrdSeq != null and !workOrdSeq.equals('')">
+		AND	WORK_ORD_SEQ = #{workOrdSeq}
+		</if>
+		<if test="ordLotNo != null and !ordLotNo.equals('')">
+		AND	ORD_LOT_NO = #{ordLotNo}
+		</if>
+		<if test="dayNightCd != null and !dayNightCd.equals('')">
+		AND	GUBUN = #{dayNightCd}
+		</if>
+	</update>
+	
+	<!-- 메인 작지테이블 생산수량 업데이트 -->
+	<update id="updateMainWorkOrdOutput">
+		UPDATE TB_WORK_ORDER
+		SET
+			OUTPUT_CNT = (SELECT SUM(OUTPUT_CNT + VISION_EDGE_CNT) FROM TB_WORK_ORDER_OUTPUT_SUB WHERE WORK_ORD_NO = #{workOrdNo})
+			, TARGET_CNT =#{targetCnt}
+			, UPD_ID = #{updId}
+			, UPD_DATE = GETDATE()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+	</update>
+	
+	<!-- 생산LotNo(workOrdLotNo) 끝 숫자 채번 -->
+	<select id="checkWorkOrdOutputSubCount" resultType="int">
+		SELECT COUNT(ORD_LOT_NO)
+		FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE WORK_ORD_NO = #{workOrdNo}
+	</select>
+	
+	<!-- 삭제 -->
+	<delete id="workOrdOutputSubDelete">
+		DELETE FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{lotNo}
+		AND	WORK_ORD_SEQ = #{workOrdSeq}
+	</delete>
+	
+	<!-- 작업지시 인쇄시 대상 ordLotNO 목록 조회 -->
+	<select id="workOrdExcelDownOrdLotNoList" resultMap="WorkOrdOutputSubVo">
+		<!--
+		SELECT
+			A.ORD_LOT_NO
+			, A.LOT_NO
+			, SUM(CONVERT(FLOAT, A.OUTPUT_WEIGHT)) OUTPUT_WEIGHT
+			, SUM(A.OUTPUT_CNT) OUTPUT_CNT
+			, SUM(CONVERT(FLOAT, A.VISION_EDGE_WEIGHT)) VISION_EDGE_WEIGHT
+			, SUM(A.VISION_EDGE_CNT) VISION_EDGE_CNT
+			, SUM(CONVERT(FLOAT, A.OUTPUT_WEIGHT) + CONVERT(FLOAT, A.VISION_EDGE_WEIGHT)) TOTAL_WEIGHT
+			, SUM(A.OUTPUT_CNT  + A.VISION_EDGE_CNT) TOTAL_CNT
+			, A.GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD = '028' AND B.BASE_CD = A.GUBUN) GUBUN_NM
+			, A.WORK_ORD_DATE
+			, A.MAIN_WORK_CHARGR
+			, B.USER_NM
+		FROM TB_WORK_ORDER_OUTPUT_SUB A, TB_USER B
+		WHERE A.MAIN_WORK_CHARGR = B.USER_NUMBER
+		AND WORK_ORD_NO = #{workOrdNo}
+		GROUP BY ORD_LOT_NO, LOT_NO, GUBUN, WORK_ORD_DATE, MAIN_WORK_CHARGR, USER_NM
+		ORDER BY WORK_ORD_DATE, ORD_LOT_NO
+		-->
+	</select>
+	
+	<!-- 솔브레인SLD 작지인쇄 목록 -->
+	<select id="workOrdExcelDownOrdLotNoList_F3" resultMap="WorkOrdOutputSubVo"> 
+		SELECT
+			A.WORK_ORD_NO
+			, WORK_ORD_LOT_NO
+			, A.WORK_ORD_SEQ
+			, A.ORD_LOT_NO
+			, A.LOT_NO
+			, A.SUB_WORK_STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD = '034' AND B.BASE_CD = A.SUB_WORK_STATUS_CD) SUB_WORK_STATUS_NM
+			, A.OUTPUT_WEIGHT
+			, A.OUTPUT_CNT
+			, A.VISION_EDGE_WEIGHT
+			, A.VISION_EDGE_CNT
+			, CONVERT(FLOAT, A.OUTPUT_WEIGHT) + CONVERT(FLOAT, A.VISION_EDGE_WEIGHT) TOTAL_WEIGHT
+			, A.OUTPUT_CNT  + A.VISION_EDGE_CNT TOTAL_CNT
+			, A.GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD = '028' AND B.BASE_CD = A.GUBUN) GUBUN_NM
+			, A.WORK_ORD_DATE
+			, A.MAIN_WORK_CHARGR
+			, A.TEAM_CD
+			, A.EDGE_OUTPUT_CNT
+			, A.EDGE_FAULTY_CNT
+			, A.EDGE_SAMPLE_CNT
+			, A.EDGE_ROLL_FAULTY_SIZE
+			, A.EDGE_SYMBOL_FAULTY_SIZE
+			, A.EDGE_BUR_FAULTY_SIZE
+			, A.EDGE_INSPCT_CHARGER
+			, A.EDGE_INSPCT_DATE
+			, A.APPEAR_OUTPUT_CNT
+			, A.APPEAR_FAULTY_CNT
+			, A.APPEAR_INSPCT_CHARGER
+			, A.APPEAR_INSPCT_DATE
+			, A.USER_OUTPUT_CNT
+			, A.APPEAR_ABRF_CNT
+			, A.APPEAR_ABRS_CNT
+			, A.APPEAR_DMS_CNT
+			, A.PACK_YN
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+			
+		   , (SELECT USER_NM FROM TB_USER X WHERE X.USER_NUMBER = MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+		   , (	CASE	WHEN SUB_WORK_STATUS_CD = 'A' THEN (SELECT USER_NM FROM TB_USER X WHERE X.USER_NUMBER = APPEAR_INSPCT_CHARGER)	+ ' (외관)'
+						WHEN SUB_WORK_STATUS_CD = 'E' THEN (SELECT USER_NM FROM TB_USER X WHERE X.USER_NUMBER = EDGE_INSPCT_CHARGER)	+ ' (엣지)'
+						ELSE ''
+				END
+			 ) AS INSPCT_CHARGER_NM
+			, ( SELECT DISTINCT CONVERT(VARCHAR, X.WORK_END_TIME, 120) FROM TB_WORK_ORDER X WHERE X.WORK_ORD_NO = A.WORK_ORD_NO ) AS WORK_END_TIME
+		FROM TB_WORK_ORDER_OUTPUT_SUB A
+		WHERE 1=1
+		AND WORK_ORD_NO = #{workOrdNo}
+	<if test="lotNo != null and lotNo != ''">
+		AND LOT_NO = #{lotNo}
+	</if>
+	<if test="ordLotNo != null and ordLotNo != ''">
+		AND ORD_LOT_NO = #{ordLotNo}
+	</if>
+		ORDER BY WORK_ORD_SEQ
+	</select>
+	
+	<!-- 작지 완료시 각 주자재별로 생산실적이 최소 1개이상 입력되어있는지 체크  -->
+	<select id="checkLotNoOutputSub" resultMap="WorkOrdOutputSubVo">
+		SELECT
+			A.LOT_NO
+			, ISNULL(B.COUNT_LOT_OUTPUT_SUB, 0) AS COUNT_LOT_OUTPUT_SUB
+			, ISNULL(C.COUNT_LOT_FAULTY_ADM, 0) AS countLotFaultyAdm
+	   		, ISNULL(D.COUNT_LOT_AGT, 0) 		AS countLotAgt
+	   		, ISNULL(E.COUNT_TRAY, 0) 			AS countTray
+		FROM (
+			SELECT
+				LOT_NO
+			FROM TB_WORK_ORDER_DTL
+			WHERE WORK_ORD_NO = #{workOrdNo}
+			AND (LEFT(MATRL_CD, 1) = 'A' OR LEFT(MATRL_CD, 1) = 'N')
+		) AS A
+		, (
+			SELECT
+				COUNT(LOT_NO) COUNT_LOT_OUTPUT_SUB
+				FROM TB_WORK_ORDER_OUTPUT_SUB
+				WHERE WORK_ORD_NO = #{workOrdNo}
+		) AS B
+		, (
+			SELECT
+				COUNT(LOT_NO) COUNT_LOT_FAULTY_ADM
+			FROM TB_ALL_FAULTY_ADM
+			WHERE  WORK_ORD_NO = #{workOrdNo}
+		) AS C
+		, (
+			SELECT
+				COUNT(LOT_NO) COUNT_LOT_AGT
+			FROM TB_AGT_TEMPATUR_STEP_TEMP
+			WHERE  WORK_ORD_NO = #{workOrdNo}
+		) AS D
+		, (
+			SELECT
+				COUNT(*) COUNT_TRAY
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE  WORK_ORD_NO = #{workOrdNo}
+			AND PRODUCT_STATUS IN ('002', '003')
+		) AS E
+	</select>
+	
+	<!-- 작지 진행취소 시 생산실적이 입력되어있는지 확인 -->
+	<select id="checkWorkOrdOutputSub" resultType="int">
+		<!-- 
+		SELECT COUNT(*) FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		 -->
+	</select>
+	
+	<!-- 생산전표번호 등록 시 초,중물 판단 -->
+	<select id="countLotNoOutput" resultType="int">
+		SELECT
+			COUNT(ORD_LOT_NO) COUNT
+		FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND LOT_NO = #{lotNo}
+	</select>
+	
+	<!-- 제품 라벨발행 입력수량 임시저장 -->
+	<update id="updateWorkOrdAppearCnt" parameterType="mes.domain.po.WorkOrdOutputSubVo">
+		UPDATE	TB_WORK_ORDER_OUTPUT_SUB 
+		SET	
+			USER_OUTPUT_CNT = #{userOutputCnt}
+			, APPEAR_ABRF_CNT = #{appearAbrfCnt}
+			, APPEAR_ABRS_CNT = #{appearAbrsCnt}
+			, APPEAR_DMS_CNT = #{appearDmsCnt}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND ORD_LOT_NO = #{ordLotNo}
+	</update>
+	
+	<!-- 생산실적 포장 완료상태로 변경 -->
+	<update id="updateWorkOrdPublish" parameterType="mes.domain.po.WorkOrdOutputSubVo">
+		UPDATE	TB_WORK_ORDER_OUTPUT_SUB		
+		SET	
+			PACK_YN = #{packYn}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		AND ORD_LOT_NO = #{ordLotNo}
+	</update>
+	
+		
+	<!-- 해당 생산LotNo 들 중 포장된 생산실적 외관검사 종료시점으로 복구 -->
+	<update id="updateWorkOrdLotNoUnpack" parameterType="mes.domain.po.WorkOrdOutputSubVo">
+		UPDATE TB_WORK_ORDER_OUTPUT_SUB
+		SET PACK_YN = 'N'
+			, USER_OUTPUT_CNT = NULL
+			, PACK_NUMBER = NULL
+			, PACK_ORD_LOT_NO_LIST = NULL
+			, PACK_TOTAL_CNT = NULL
+		WHERE WORK_ORD_LOT_NO = #{workOrdLotNo}
+		AND PACK_YN = 'Y'
+	</update>
+	
+	
+	
+	<!-- MTP2동 비전불량수량 시퀀스 채번 -->
+	<select id="visionFaultyAdmSeq" resultType="String">
+		SELECT ISNULL(MAX(SEQ) + 1, 1) SEQ FROM TB_VISION_FAULTY_ADM WHERE WORK_ORD_NO = #{workOrdNo}
+	</select>
+
+	<!-- MTP2동 생산 비전불량ADM 목록  -->
+	<select id="readVisionFaultyAdmList_F2" resultMap="WorkOrdOutputSubVo">
+		SELECT
+			A.WORK_ORD_NO
+			, A.LOT_NO
+			, A.SEQ
+			, A.FAULTY_CNT_SUM
+			, A.INSPCT_CHARGER
+			, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = A.INSPCT_CHARGER) INSPCT_CHARGER_NM
+			, A.DAY_NIGHT_CD
+			, A.FAULTY_REG_DATE
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM TB_VISION_FAULTY_ADM A
+		WHERE A.WORK_ORD_NO = #{workOrdNo}
+	</select>
+	
+	<!-- MTP2동 생산 비전불량ADM 조회  -->
+	<select id="readVisionFaultyAdm_F2" resultMap="WorkOrdOutputSubVo">
+		SELECT
+			A.WORK_ORD_NO
+			, A.LOT_NO
+			, A.SEQ
+			, A.FAULTY_CNT_SUM
+			, A.INSPCT_CHARGER
+			, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = A.INSPCT_CHARGER) INSPCT_CHARGER_NM
+			, A.DAY_NIGHT_CD
+			, A.FAULTY_REG_DATE
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM TB_VISION_FAULTY_ADM A
+		WHERE A.WORK_ORD_NO = #{workOrdNo}
+		AND A.SEQ = #{seq}
+	</select>
+		
+	<!-- MTP2동 생산 비전불량ADM 등록 -->
+	<insert id="visionFaultyAdmInsert_F2">
+		INSERT INTO TB_VISION_FAULTY_ADM (
+			WORK_ORD_NO
+			, LOT_NO
+			, SEQ
+			, FAULTY_CNT_SUM
+			, INSPCT_CHARGER
+			, DAY_NIGHT_CD
+			, FAULTY_REG_DATE
+			, REG_ID
+			, REG_DATE
+		) 
+		VALUES(
+			#{workOrdNo}
+			, #{lotNo}
+			, #{seq}
+			, #{faultyCntSum}
+			, #{inspctCharger}
+			, #{dayNightCd}
+			, #{faultyRegDate}
+			, #{regId}
+			, getDate()
+		)
+	</insert>
+	
+	<!-- MTP2동 생산 비전불량ADM 수정 -->
+	<update id="visionFaultyAdmUpdate_F2">
+		UPDATE	TB_VISION_FAULTY_ADM
+		SET
+			FAULTY_CNT_SUM = #{faultyCntSum}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE	WORK_ORD_NO = #{workOrdNo}
+		AND		SEQ = #{seq}
+	</update>
+	
+	<!-- MTP2동 생산 비전불량ADM 삭제 -->
+	<delete id="visionFaultyAdmDelete_F2">
+		DELETE TB_VISION_FAULTY_ADM
+		WHERE	WORK_ORD_NO = #{workOrdNo}
+		AND		SEQ = #{seq}
+	</delete>
+	
+	
+	
+	
+	
+	
+	<!-- 솔브레인SLD 엣지검사 목록  -->
+	<select id="edgeCheckList_F3" resultMap="WorkOrdOutputSubVo">
+		SELECT
+			A.WORK_ORD_NO
+			, A.WORK_ORD_LOT_NO
+			, A.WORK_ORD_SEQ
+			, A.ORD_LOT_NO
+			, A.LOT_NO
+			, A.SUB_WORK_STATUS_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD = '034' AND B.BASE_CD = A.SUB_WORK_STATUS_CD) SUB_WORK_STATUS_NM
+			, A.OUTPUT_WEIGHT
+			, A.OUTPUT_CNT
+			, A.VISION_EDGE_WEIGHT
+			, A.VISION_EDGE_CNT
+			, CONVERT(FLOAT, A.OUTPUT_WEIGHT) + CONVERT(FLOAT, A.VISION_EDGE_WEIGHT) TOTAL_WEIGHT
+			, A.OUTPUT_CNT  + A.VISION_EDGE_CNT TOTAL_CNT
+			, A.GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD = '028' AND B.BASE_CD = A.GUBUN) GUBUN_NM
+			, A.WORK_ORD_DATE
+			, A.MAIN_WORK_CHARGR
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+			, A.TEAM_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '016' AND BASE_CD = A.TEAM_CD) AS TEAM_NM
+			, A.EDGE_OUTPUT_CNT
+			, A.EDGE_FAULTY_CNT
+			, A.EDGE_SAMPLE_CNT
+			, A.EDGE_ROLL_FAULTY_SIZE
+			, A.EDGE_SYMBOL_FAULTY_SIZE
+			, A.EDGE_BUR_FAULTY_SIZE
+			, A.EDGE_INSPCT_CHARGER
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.EDGE_INSPCT_CHARGER) EDGE_INSPCT_CHARGER_NM
+			, A.EDGE_INSPCT_DATE
+			, A.APPEAR_OUTPUT_CNT
+			, A.APPEAR_FAULTY_CNT
+			, A.APPEAR_INSPCT_CHARGER
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.USER_NUMBER = A.APPEAR_INSPCT_CHARGER) APPEAR_INSPCT_CHARGER_NM
+			, A.APPEAR_INSPCT_DATE
+			, A.USER_OUTPUT_CNT
+			, A.APPEAR_ABRF_CNT
+			, A.APPEAR_ABRS_CNT
+			, A.APPEAR_DMS_CNT
+			, A.PACK_YN
+			, A.PACK_NUMBER
+			, A.PACK_ORD_LOT_NO_LIST
+			, A.PACK_TOTAL_CNT
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+			, ROUND( (CONVERT(float, APPEAR_FAULTY_CNT) /  CONVERT(float, OUTPUT_CNT) * 100) ,2) AS APPEAR_FAULTY_RATIO
+			, ROUND( (CONVERT(float, (APPEAR_OUTPUT_CNT - APPEAR_FAULTY_CNT)) /  CONVERT(float, OUTPUT_CNT) * 100) ,2) AS APPEAR_OUTPUT_RATIO
+			, A.MAIN_WORK_CHARGR
+			, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = A.MAIN_WORK_CHARGR) AS MAIN_WORK_CHARGR_NM
+			, (SELECT USER_NM FROM TB_USER WHERE USER_NUMBER = A.MAIN_WORK_CHARGR) AS MAIN_WORK_CHARGR_NM2
+			, A.TEAM_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '016' AND BASE_CD = A.TEAM_CD) AS TEAM_NM
+			
+		FROM TB_WORK_ORDER_OUTPUT_SUB A
+		WHERE SUB_WORK_STATUS_CD = #{subWorkStatusCd}
+		AND WORK_ORD_NO = #{workOrdNo}
+		ORDER BY WORK_ORD_SEQ
+	</select>
+	
+	<!-- 솔브레인SLD 엣지검사 등록 -->
+	<insert id="edgeCheckInsert_F3">
+		INSERT INTO TB_WORK_ORDER_OUTPUT_SUB
+		(
+			WORK_ORD_NO
+			, WORK_ORD_LOT_NO
+			, WORK_ORD_SEQ
+			, ORD_LOT_NO
+			, LOT_NO
+			, SUB_WORK_STATUS_CD
+			, USER_INPUT_INSPCT_CNT
+			, OUTPUT_WEIGHT
+			, OUTPUT_CNT
+			, VISION_EDGE_WEIGHT
+			, VISION_EDGE_CNT
+			, GUBUN
+			, WORK_ORD_DATE
+			, MAIN_WORK_CHARGR
+			, TEAM_CD
+			, EDGE_FAULTY_CNT
+			, EDGE_SAMPLE_CNT
+			, EDGE_ROLL_FAULTY_SIZE
+			, EDGE_SYMBOL_FAULTY_SIZE
+			, EDGE_BUR_FAULTY_SIZE
+			, EDGE_INSPCT_DATE
+			, EDGE_INSPCT_CHARGER
+			, REG_ID
+			, REG_DATE
+		)
+		VALUES
+		(
+			#{workOrdNo}
+			, #{workOrdLotNo}
+			, #{workOrdSeq}
+			, #{ordLotNo}
+			, #{lotNo}
+			, #{subWorkStatusCd}
+			, #{userInputInspctCnt}
+			, #{outputWeight}
+			, #{outputCnt}
+			, #{visionEdgeWeight}
+			, #{visionEdgeCnt}
+			, #{gubun}
+			, #{workOrdDate}
+			, #{mainWorkChargr}
+			, #{teamCd}
+			, #{edgeFaultyCnt}
+			, #{edgeSampleCnt}
+			, #{edgeRollFaultySize}
+			, #{edgeSymbolFaultySize}
+			, #{edgeBurFaultySize}
+			, #{edgeInspctDate}
+			, #{edgeInspctCharger}
+			, #{regId}
+			, GETDATE()
+		)
+	</insert>
+	
+	<!-- 솔브레인SLD 엣지검사 수정 -->
+	<update id="edgeCheckUpdate_F3">
+		UPDATE TB_WORK_ORDER_OUTPUT_SUB
+		SET
+			USER_INPUT_INSPCT_CNT = #{userInputInspctCnt}
+			, EDGE_INSPCT_CHARGER = #{edgeInspctCharger}
+			, EDGE_FAULTY_CNT = #{edgeFaultyCnt}
+			, EDGE_SAMPLE_CNT = #{edgeSampleCnt}
+			, EDGE_ROLL_FAULTY_SIZE = #{edgeRollFaultySize}
+			, EDGE_SYMBOL_FAULTY_SIZE = #{edgeSymbolFaultySize}
+			, EDGE_BUR_FAULTY_SIZE = #{edgeBurFaultySize}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE	ORD_LOT_NO = #{ordLotNo}
+	</update>
+	
+	<!-- 솔브레인SLD 외관검사 전표번호 등록 -->
+	<insert id="appearCheckInsert_F3">
+		INSERT INTO TB_WORK_ORDER_OUTPUT_SUB
+		(
+			WORK_ORD_NO
+			, WORK_ORD_LOT_NO
+			, WORK_ORD_SEQ
+			, ORD_LOT_NO
+			, LOT_NO
+			, SUB_WORK_STATUS_CD
+			, USER_INPUT_INSPCT_CNT
+			, OUTPUT_WEIGHT
+			, OUTPUT_CNT
+			, VISION_EDGE_WEIGHT
+			, VISION_EDGE_CNT
+			, GUBUN
+			, WORK_ORD_DATE
+			, MAIN_WORK_CHARGR
+			, TEAM_CD
+			, APPEAR_OUTPUT_CNT
+			, APPEAR_FAULTY_CNT
+			, APPEAR_INSPCT_CHARGER
+			, APPEAR_INSPCT_DATE
+			, REG_ID
+			, REG_DATE
+		)
+		VALUES
+		(
+			#{workOrdNo}
+			, #{workOrdLotNo}
+			, #{workOrdSeq}
+			, #{ordLotNo}
+			, #{lotNo}
+			, #{subWorkStatusCd}
+			, #{userInputInspctCnt}
+			, #{outputWeight}
+			, #{outputCnt}
+			, #{visionEdgeWeight}
+			, #{visionEdgeCnt}
+			, #{gubun}
+			, #{workOrdDate}
+			, #{mainWorkChargr}
+			, #{teamCd}
+			, #{appearOutputCnt}
+			, #{appearFaultyCnt}
+			, #{appearInspctCharger}
+			, #{appearInspctDate}
+			, #{regId}
+			, GETDATE()
+		)
+	</insert>
+	
+	<!-- 솔브레인SLD 외관검사 전표번호 수정 -->
+	<update id="appearCheckUpdate_F3">
+		UPDATE TB_WORK_ORDER_OUTPUT_SUB
+		SET
+			OUTPUT_WEIGHT = #{outputWeight}
+			, USER_INPUT_INSPCT_CNT = #{userInputInspctCnt}
+			, OUTPUT_CNT = #{outputCnt}
+			, VISION_EDGE_WEIGHT = #{visionEdgeWeight}
+			, VISION_EDGE_CNT = #{visionEdgeCnt}
+			, APPEAR_OUTPUT_CNT = #{appearOutputCnt}
+			, APPEAR_FAULTY_CNT = #{appearFaultyCnt}
+			, APPEAR_INSPCT_CHARGER = #{appearInspctCharger}
+			, APPEAR_INSPCT_DATE = #{appearInspctDate}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE	ORD_LOT_NO = #{ordLotNo}
+	</update>
+	
+	<!-- 솔브레인SLD 외관검사 생산수량 삭제 -->
+	<delete id="appearAndEdgeCheckDelete_F3">
+		DELETE FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE 1=1
+		AND WORK_ORD_NO  = #{workOrdNo}
+		AND ORD_LOT_NO = #{ordLotNo}
+	</delete>
+	
+	<!-- 솔브레인SLD 외관검사 생산수량 삭제 -->
+	<select id="appearCheckWorkOrdLotNo_F3" resultMap="WorkOrdOutputSubVo">
+		SELECT * FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE WORK_ORD_NO LIKE '${splitWorkOrdNo}' + '%'
+		AND WORK_ORD_LOT_NO > '${workOrdLotNo}'
+		AND WORK_ORD_LOT_NO LIKE '${splitWorkOrdLotNo}' + '%'
+	</select>
+	
+	<!-- 삭제할 전표번호의 생산LotNo이후 채번된 생산LotNo가 존재하는지 확인 -->
+	<delete id="appearCheckGoodsFaultyAdmCodeDelete_F3"> 
+		DELETE FROM TB_GOODS_FAULTY_ADM_CODE
+		WHERE 1=1
+		AND WORK_ORD_NO  = #{workOrdNo}
+		AND ORD_LOT_NO = #{ordLotNo}
+	</delete>
+	
+	<!-- 솔브레인SLD 엣지검사 코드화 삭제 -->
+	<delete id="edgeCheckGoodsFaultyAdmCodeDelete_F3"> 
+		DELETE FROM TB_EDGE_GOODS_FAULTY_ADM_CODE
+		WHERE 1=1
+		AND WORK_ORD_NO  = #{workOrdNo}
+		AND ORD_LOT_NO = #{ordLotNo}
+	</delete>
+	
+	<!-- Seq 순서대로 삭제할 수 있게 검사 -->
+	<select id="appearCheckSeqCount_F3" resultMap="WorkOrdOutputSubVo">
+		<![CDATA[
+			SELECT COUNT(DISTINCT A.WORK_ORD_SEQ) AS WORK_ORD_SEQ_COUNT
+			, (SELECT X.ORD_LOT_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_NO = #{workOrdNo} AND X.WORK_ORD_SEQ = MAX(A.WORK_ORD_SEQ) AND X.ORD_LOT_NO  != #{ordLotNo}) AS ORD_LOT_NO
+			, (SELECT X.SUB_WORK_STATUS_CD FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_NO = #{workOrdNo} AND X.WORK_ORD_SEQ = MAX(A.WORK_ORD_SEQ) AND X.ORD_LOT_NO  != #{ordLotNo}) AS SUB_WORK_STATUS_CD
+			FROM TB_WORK_ORDER_OUTPUT_SUB A
+			WHERE A.WORK_ORD_NO = #{workOrdNo}
+			AND A.ORD_LOT_NO  != #{ordLotNo}
+			AND A.WORK_ORD_SEQ  > #{workOrdSeq}
+		]]>
+	</select>
+	
+	
+	<!-- 엑셀 작지 외관검사 코드화 조회 -->
+	<select id="excelGoodsFaultyAdmCodeList" resultMap="GoodsFaultyAdmVo">
+		SELECT 
+		
+			SUM( ISNULL(A.[002], 0) ) AS metalMms
+			, SUM( ISNULL(A.[003], 0) ) AS metalPms
+			
+			, SUM( ISNULL(A.[004], 0) ) AS metalFstab
+			, SUM( ISNULL(A.[005], 0) ) AS metalPstab
+			
+			, SUM( ISNULL(A.[006], 0) ) AS metalAliensbst
+			, SUM( ISNULL(A.[007], 0) ) AS metalBreak
+			, SUM( ISNULL(A.[009], 0) ) AS metalPolutn
+			, SUM( ISNULL(A.[010], 0) ) AS metalOxidation
+			, SUM( ISNULL(A.[013], 0) ) AS metalGilt
+			
+			, SUM( ISNULL(A.[047], 0) ) AS etcFeeding
+			, SUM( ISNULL(A.[019], 0) ) AS filmPfs
+			, SUM( ISNULL(A.[020], 0) ) AS filmBreak
+			, SUM( ISNULL(A.[021], 0) ) AS filmTornout
+			, SUM( ISNULL(A.[022], 0) ) AS filmSurfceBb
+			, SUM( ISNULL(A.[024], 0) ) AS filmEdgeBb
+			
+			
+			
+			
+			, SUM( ISNULL(A.[060], 0) ) AS visionMetalMms
+			, SUM( ISNULL(A.[061], 0) ) AS visionMetalPms
+			                                     
+			, SUM( ISNULL(A.[062], 0) ) AS visionMetalFstab
+			, SUM( ISNULL(A.[063], 0) ) AS visionMetalPstab
+			
+			, SUM( ISNULL(A.[064], 0) ) AS visionMetalAliensbst
+			, SUM( ISNULL(A.[065], 0) ) AS visionMetalBreak
+			, SUM( ISNULL(A.[067], 0) ) AS visionMetalPolutn
+			, SUM( ISNULL(A.[068], 0) ) AS visionMetalOxidation
+			, SUM( ISNULL(A.[071], 0) ) AS visionMetalGilt
+			
+			, SUM( ISNULL(A.[105], 0) ) AS visionEtcFeeding
+			, SUM( ISNULL(A.[058], 0) ) AS visionFilmPfs
+			, SUM( ISNULL(A.[078], 0) ) AS visionFilmBreak
+			, SUM( ISNULL(A.[079], 0) ) AS visionFilmTornout
+			, SUM( ISNULL(A.[080], 0) ) AS visionFilmSurfceBb
+			, SUM( ISNULL(A.[082], 0) ) AS visionFilmEdgeBb
+			
+			
+			
+			
+			, SUM( ISNULL(A.[025], 0) ) AS filmTeflon
+			, SUM( ISNULL(A.[027], 0) ) AS filmAliensbst
+			
+			
+			, SUM( ISNULL(A.[031], 0) ) AS filmOverlap
+			, SUM( ISNULL(A.[050], 0) ) AS filmJinjae
+			, SUM( ISNULL(A.[033], 0) ) AS filmUnattch
+			, SUM( ISNULL(A.[034], 0) ) AS filmHalfAttch
+			, SUM( ISNULL(A.[036], 0) ) AS filMwingDroop
+			, SUM( ISNULL(A.[037], 0) ) AS etcSize
+			
+			, SUM( ISNULL(A.[042], 0) ) AS etcLayer
+			, SUM( ISNULL(A.[054], 0) ) AS filmEtc
+			
+			
+			
+			
+			, SUM( ISNULL(A.[083], 0) ) AS visionFilmTeflon
+			, SUM( ISNULL(A.[085], 0) ) AS visionFilmAliensbst
+			
+			
+			, SUM( ISNULL(A.[089], 0) ) AS visionFilmOverlap
+			, SUM( ISNULL(A.[108], 0) ) AS visionFilmJinjae
+			, SUM( ISNULL(A.[091], 0) ) AS visionFilmUnattch
+			, SUM( ISNULL(A.[092], 0) ) AS visionFilmHalfAttch
+			, SUM( ISNULL(A.[094], 0) ) AS visionFilMwingDroop
+			, SUM( ISNULL(A.[095], 0) ) AS visionEtcSize
+			 
+			, SUM( ISNULL(A.[100], 0) ) AS visionEtcLayer
+			, SUM( ISNULL(A.[112], 0) ) AS visionFilmEtc
+			
+			, SUM( ISNULL(A.[030], 0) ) AS filmSurfaceAgglomeration
+			, SUM( ISNULL(A.[088], 0) ) AS visionFilmSurfaceAgglomeration
+			, SUM( ISNULL(A.[012], 0) ) AS filmPpollution
+			, SUM( ISNULL(A.[070], 0) ) AS visionFilmPpollution
+			, SUM( ISNULL(A.[028], 0) ) AS filmWingAgglomeration
+			, SUM( ISNULL(A.[086], 0) ) AS visionFilmWingAgglomeration
+			, SUM( ISNULL(A.[049], 0) ) AS filmMFS
+			, SUM( ISNULL(A.[107], 0) ) AS visionFilmMFS
+			, SUM( ISNULL(A.[039], 0) ) AS filmWingPressed
+			, SUM( ISNULL(A.[097], 0) ) AS visionFilmWingPressed
+			, SUM( ISNULL(A.[040], 0) ) AS filmSurfacePressed
+			, SUM( ISNULL(A.[098], 0) ) AS visionFilmSurfacePressed
+			, SUM( ISNULL(A.[041], 0) ) AS filmEdgePressed
+			, SUM( ISNULL(A.[099], 0) ) AS visionFilmEdgePressed
+			
+		FROM (
+	
+			SELECT 
+				WORK_ORD_NO
+				, MAJOR_CD
+				, MINOR_CD
+				, SUM(FAULTY_CNT) AS FAULTY_CNT
+	
+				, CASE WHEN MINOR_CD = '001' THEN SUM(FAULTY_CNT) END AS '001'
+				, CASE WHEN MINOR_CD = '002' THEN SUM(FAULTY_CNT) END AS '002'
+				, CASE WHEN MINOR_CD = '003' THEN SUM(FAULTY_CNT) END AS '003'
+				, CASE WHEN MINOR_CD = '004' THEN SUM(FAULTY_CNT) END AS '004'
+				, CASE WHEN MINOR_CD = '005' THEN SUM(FAULTY_CNT) END AS '005'
+				, CASE WHEN MINOR_CD = '006' THEN SUM(FAULTY_CNT) END AS '006'
+				, CASE WHEN MINOR_CD = '007' THEN SUM(FAULTY_CNT) END AS '007'
+				, CASE WHEN MINOR_CD = '008' THEN SUM(FAULTY_CNT) END AS '008'
+				, CASE WHEN MINOR_CD = '009' THEN SUM(FAULTY_CNT) END AS '009'
+				
+				, CASE WHEN MINOR_CD = '010' THEN SUM(FAULTY_CNT) END AS '010'
+				, CASE WHEN MINOR_CD = '011' THEN SUM(FAULTY_CNT) END AS '011'
+				, CASE WHEN MINOR_CD = '012' THEN SUM(FAULTY_CNT) END AS '012'
+				, CASE WHEN MINOR_CD = '013' THEN SUM(FAULTY_CNT) END AS '013'
+				, CASE WHEN MINOR_CD = '014' THEN SUM(FAULTY_CNT) END AS '014'
+				, CASE WHEN MINOR_CD = '015' THEN SUM(FAULTY_CNT) END AS '015'
+				, CASE WHEN MINOR_CD = '016' THEN SUM(FAULTY_CNT) END AS '016'
+				, CASE WHEN MINOR_CD = '017' THEN SUM(FAULTY_CNT) END AS '017'
+				, CASE WHEN MINOR_CD = '018' THEN SUM(FAULTY_CNT) END AS '018'
+				, CASE WHEN MINOR_CD = '019' THEN SUM(FAULTY_CNT) END AS '019'
+				
+				, CASE WHEN MINOR_CD = '020' THEN SUM(FAULTY_CNT) END AS '020'
+				, CASE WHEN MINOR_CD = '021' THEN SUM(FAULTY_CNT) END AS '021'
+				, CASE WHEN MINOR_CD = '022' THEN SUM(FAULTY_CNT) END AS '022'
+				, CASE WHEN MINOR_CD = '023' THEN SUM(FAULTY_CNT) END AS '023'
+				, CASE WHEN MINOR_CD = '024' THEN SUM(FAULTY_CNT) END AS '024'
+				, CASE WHEN MINOR_CD = '025' THEN SUM(FAULTY_CNT) END AS '025'
+				, CASE WHEN MINOR_CD = '026' THEN SUM(FAULTY_CNT) END AS '026'
+				, CASE WHEN MINOR_CD = '027' THEN SUM(FAULTY_CNT) END AS '027'
+				, CASE WHEN MINOR_CD = '028' THEN SUM(FAULTY_CNT) END AS '028'
+				, CASE WHEN MINOR_CD = '029' THEN SUM(FAULTY_CNT) END AS '029'
+				
+				, CASE WHEN MINOR_CD = '030' THEN SUM(FAULTY_CNT) END AS '030'
+				, CASE WHEN MINOR_CD = '031' THEN SUM(FAULTY_CNT) END AS '031'
+				, CASE WHEN MINOR_CD = '032' THEN SUM(FAULTY_CNT) END AS '032'
+				, CASE WHEN MINOR_CD = '033' THEN SUM(FAULTY_CNT) END AS '033'
+				, CASE WHEN MINOR_CD = '034' THEN SUM(FAULTY_CNT) END AS '034'
+				, CASE WHEN MINOR_CD = '035' THEN SUM(FAULTY_CNT) END AS '035'
+				, CASE WHEN MINOR_CD = '036' THEN SUM(FAULTY_CNT) END AS '036'
+				, CASE WHEN MINOR_CD = '037' THEN SUM(FAULTY_CNT) END AS '037'
+				, CASE WHEN MINOR_CD = '038' THEN SUM(FAULTY_CNT) END AS '038'
+				, CASE WHEN MINOR_CD = '039' THEN SUM(FAULTY_CNT) END AS '039'
+				
+				, CASE WHEN MINOR_CD = '040' THEN SUM(FAULTY_CNT) END AS '040'
+				, CASE WHEN MINOR_CD = '041' THEN SUM(FAULTY_CNT) END AS '041'
+				, CASE WHEN MINOR_CD = '042' THEN SUM(FAULTY_CNT) END AS '042'
+				, CASE WHEN MINOR_CD = '043' THEN SUM(FAULTY_CNT) END AS '043'
+				, CASE WHEN MINOR_CD = '044' THEN SUM(FAULTY_CNT) END AS '044'
+				, CASE WHEN MINOR_CD = '045' THEN SUM(FAULTY_CNT) END AS '045'
+				, CASE WHEN MINOR_CD = '046' THEN SUM(FAULTY_CNT) END AS '046'
+				, CASE WHEN MINOR_CD = '047' THEN SUM(FAULTY_CNT) END AS '047'
+				, CASE WHEN MINOR_CD = '048' THEN SUM(FAULTY_CNT) END AS '048'
+				, CASE WHEN MINOR_CD = '049' THEN SUM(FAULTY_CNT) END AS '049'
+				
+				, CASE WHEN MINOR_CD = '050' THEN SUM(FAULTY_CNT) END AS '050'
+				, CASE WHEN MINOR_CD = '051' THEN SUM(FAULTY_CNT) END AS '051'
+				, CASE WHEN MINOR_CD = '052' THEN SUM(FAULTY_CNT) END AS '052'
+				, CASE WHEN MINOR_CD = '053' THEN SUM(FAULTY_CNT) END AS '053'
+				, CASE WHEN MINOR_CD = '054' THEN SUM(FAULTY_CNT) END AS '054'
+				, CASE WHEN MINOR_CD = '055' THEN SUM(FAULTY_CNT) END AS '055'
+				, CASE WHEN MINOR_CD = '056' THEN SUM(FAULTY_CNT) END AS '056'
+				, CASE WHEN MINOR_CD = '057' THEN SUM(FAULTY_CNT) END AS '057'
+				, CASE WHEN MINOR_CD = '058' THEN SUM(FAULTY_CNT) END AS '058'
+				, CASE WHEN MINOR_CD = '059' THEN SUM(FAULTY_CNT) END AS '059'
+				
+				, CASE WHEN MINOR_CD = '060' THEN SUM(FAULTY_CNT) END AS '060'
+				, CASE WHEN MINOR_CD = '061' THEN SUM(FAULTY_CNT) END AS '061'
+				, CASE WHEN MINOR_CD = '062' THEN SUM(FAULTY_CNT) END AS '062'
+				, CASE WHEN MINOR_CD = '063' THEN SUM(FAULTY_CNT) END AS '063'
+				, CASE WHEN MINOR_CD = '064' THEN SUM(FAULTY_CNT) END AS '064'
+				, CASE WHEN MINOR_CD = '065' THEN SUM(FAULTY_CNT) END AS '065'
+				, CASE WHEN MINOR_CD = '066' THEN SUM(FAULTY_CNT) END AS '066'
+				, CASE WHEN MINOR_CD = '067' THEN SUM(FAULTY_CNT) END AS '067'
+				, CASE WHEN MINOR_CD = '068' THEN SUM(FAULTY_CNT) END AS '068'
+				, CASE WHEN MINOR_CD = '069' THEN SUM(FAULTY_CNT) END AS '069'
+				
+				, CASE WHEN MINOR_CD = '070' THEN SUM(FAULTY_CNT) END AS '070'
+				, CASE WHEN MINOR_CD = '071' THEN SUM(FAULTY_CNT) END AS '071'
+				, CASE WHEN MINOR_CD = '072' THEN SUM(FAULTY_CNT) END AS '072'
+				, CASE WHEN MINOR_CD = '073' THEN SUM(FAULTY_CNT) END AS '073'
+				, CASE WHEN MINOR_CD = '074' THEN SUM(FAULTY_CNT) END AS '074'
+				, CASE WHEN MINOR_CD = '075' THEN SUM(FAULTY_CNT) END AS '075'
+				, CASE WHEN MINOR_CD = '076' THEN SUM(FAULTY_CNT) END AS '076'
+				, CASE WHEN MINOR_CD = '077' THEN SUM(FAULTY_CNT) END AS '077'
+				, CASE WHEN MINOR_CD = '078' THEN SUM(FAULTY_CNT) END AS '078'
+				, CASE WHEN MINOR_CD = '079' THEN SUM(FAULTY_CNT) END AS '079'
+				
+				, CASE WHEN MINOR_CD = '080' THEN SUM(FAULTY_CNT) END AS '080'
+				, CASE WHEN MINOR_CD = '081' THEN SUM(FAULTY_CNT) END AS '081'
+				, CASE WHEN MINOR_CD = '082' THEN SUM(FAULTY_CNT) END AS '082'
+				, CASE WHEN MINOR_CD = '083' THEN SUM(FAULTY_CNT) END AS '083'
+				, CASE WHEN MINOR_CD = '084' THEN SUM(FAULTY_CNT) END AS '084'
+				, CASE WHEN MINOR_CD = '085' THEN SUM(FAULTY_CNT) END AS '085'
+				, CASE WHEN MINOR_CD = '086' THEN SUM(FAULTY_CNT) END AS '086'
+				, CASE WHEN MINOR_CD = '087' THEN SUM(FAULTY_CNT) END AS '087'
+				, CASE WHEN MINOR_CD = '088' THEN SUM(FAULTY_CNT) END AS '088'
+				, CASE WHEN MINOR_CD = '089' THEN SUM(FAULTY_CNT) END AS '089'
+				
+				, CASE WHEN MINOR_CD = '090' THEN SUM(FAULTY_CNT) END AS '090'
+				, CASE WHEN MINOR_CD = '091' THEN SUM(FAULTY_CNT) END AS '091'
+				, CASE WHEN MINOR_CD = '092' THEN SUM(FAULTY_CNT) END AS '092'
+				, CASE WHEN MINOR_CD = '093' THEN SUM(FAULTY_CNT) END AS '093'
+				, CASE WHEN MINOR_CD = '094' THEN SUM(FAULTY_CNT) END AS '094'
+				, CASE WHEN MINOR_CD = '095' THEN SUM(FAULTY_CNT) END AS '095'
+				, CASE WHEN MINOR_CD = '096' THEN SUM(FAULTY_CNT) END AS '096'
+				, CASE WHEN MINOR_CD = '097' THEN SUM(FAULTY_CNT) END AS '097'
+				, CASE WHEN MINOR_CD = '098' THEN SUM(FAULTY_CNT) END AS '098'
+				, CASE WHEN MINOR_CD = '099' THEN SUM(FAULTY_CNT) END AS '099'
+				
+				, CASE WHEN MINOR_CD = '100' THEN SUM(FAULTY_CNT) END AS '100'
+				, CASE WHEN MINOR_CD = '101' THEN SUM(FAULTY_CNT) END AS '101'
+				, CASE WHEN MINOR_CD = '102' THEN SUM(FAULTY_CNT) END AS '102'
+				, CASE WHEN MINOR_CD = '103' THEN SUM(FAULTY_CNT) END AS '103'
+				, CASE WHEN MINOR_CD = '104' THEN SUM(FAULTY_CNT) END AS '104'
+				, CASE WHEN MINOR_CD = '105' THEN SUM(FAULTY_CNT) END AS '105'
+				, CASE WHEN MINOR_CD = '106' THEN SUM(FAULTY_CNT) END AS '106'
+				, CASE WHEN MINOR_CD = '107' THEN SUM(FAULTY_CNT) END AS '107'
+				, CASE WHEN MINOR_CD = '108' THEN SUM(FAULTY_CNT) END AS '108'
+				, CASE WHEN MINOR_CD = '109' THEN SUM(FAULTY_CNT) END AS '109'
+				
+				, CASE WHEN MINOR_CD = '110' THEN SUM(FAULTY_CNT) END AS '110'
+				, CASE WHEN MINOR_CD = '111' THEN SUM(FAULTY_CNT) END AS '111'
+				, CASE WHEN MINOR_CD = '112' THEN SUM(FAULTY_CNT) END AS '112'
+				, CASE WHEN MINOR_CD = '113' THEN SUM(FAULTY_CNT) END AS '113'
+				, CASE WHEN MINOR_CD = '114' THEN SUM(FAULTY_CNT) END AS '114'
+				, CASE WHEN MINOR_CD = '115' THEN SUM(FAULTY_CNT) END AS '115'
+				, CASE WHEN MINOR_CD = '116' THEN SUM(FAULTY_CNT) END AS '116'
+				, CASE WHEN MINOR_CD = '117' THEN SUM(FAULTY_CNT) END AS '117'
+				, CASE WHEN MINOR_CD = '118' THEN SUM(FAULTY_CNT) END AS '118'
+				, CASE WHEN MINOR_CD = '119' THEN SUM(FAULTY_CNT) END AS '119'
+				
+				, CASE WHEN MINOR_CD = '120' THEN SUM(FAULTY_CNT) END AS '120'
+				, CASE WHEN MINOR_CD = '121' THEN SUM(FAULTY_CNT) END AS '121'
+				, CASE WHEN MINOR_CD = '122' THEN SUM(FAULTY_CNT) END AS '122'
+				, CASE WHEN MINOR_CD = '123' THEN SUM(FAULTY_CNT) END AS '123'
+				, CASE WHEN MINOR_CD = '124' THEN SUM(FAULTY_CNT) END AS '124'
+				, CASE WHEN MINOR_CD = '125' THEN SUM(FAULTY_CNT) END AS '125'
+				, CASE WHEN MINOR_CD = '126' THEN SUM(FAULTY_CNT) END AS '126'
+				, CASE WHEN MINOR_CD = '127' THEN SUM(FAULTY_CNT) END AS '127'
+				, CASE WHEN MINOR_CD = '128' THEN SUM(FAULTY_CNT) END AS '128'
+				, CASE WHEN MINOR_CD = '129' THEN SUM(FAULTY_CNT) END AS '129'
+				
+				, CASE WHEN MINOR_CD = '130' THEN SUM(FAULTY_CNT) END AS '130'
+				, CASE WHEN MINOR_CD = '131' THEN SUM(FAULTY_CNT) END AS '131'
+				, CASE WHEN MINOR_CD = '132' THEN SUM(FAULTY_CNT) END AS '132'
+				, CASE WHEN MINOR_CD = '133' THEN SUM(FAULTY_CNT) END AS '133'
+				, CASE WHEN MINOR_CD = '134' THEN SUM(FAULTY_CNT) END AS '134'
+				, CASE WHEN MINOR_CD = '135' THEN SUM(FAULTY_CNT) END AS '135'
+				, CASE WHEN MINOR_CD = '136' THEN SUM(FAULTY_CNT) END AS '136'
+				, CASE WHEN MINOR_CD = '137' THEN SUM(FAULTY_CNT) END AS '137'
+				, CASE WHEN MINOR_CD = '138' THEN SUM(FAULTY_CNT) END AS '138'
+				, CASE WHEN MINOR_CD = '139' THEN SUM(FAULTY_CNT) END AS '139'
+				
+				, CASE WHEN MINOR_CD = '140' THEN SUM(FAULTY_CNT) END AS '140'
+				, CASE WHEN MINOR_CD = '141' THEN SUM(FAULTY_CNT) END AS '141'
+				, CASE WHEN MINOR_CD = '142' THEN SUM(FAULTY_CNT) END AS '142'
+				, CASE WHEN MINOR_CD = '143' THEN SUM(FAULTY_CNT) END AS '143'
+				, CASE WHEN MINOR_CD = '144' THEN SUM(FAULTY_CNT) END AS '144'
+				, CASE WHEN MINOR_CD = '145' THEN SUM(FAULTY_CNT) END AS '145'
+				, CASE WHEN MINOR_CD = '146' THEN SUM(FAULTY_CNT) END AS '146'
+				, CASE WHEN MINOR_CD = '147' THEN SUM(FAULTY_CNT) END AS '147'
+				, CASE WHEN MINOR_CD = '148' THEN SUM(FAULTY_CNT) END AS '148'
+				, CASE WHEN MINOR_CD = '149' THEN SUM(FAULTY_CNT) END AS '149'
+	
+				FROM TB_GOODS_FAULTY_ADM_CODE A
+				WHERE 1=1
+				AND	WORK_ORD_NO	= #{workOrdNo}
+	
+				GROUP BY 
+					WORK_ORD_NO
+					, MAJOR_CD
+					, MINOR_CD
+		)A
+		WHERE 1=1
+	</select>
+	
+	<!-- 불량항목별 합계  -->
+	<select id="sumFaultyType" resultMap="GoodsFaultyAdmVo">
+		SELECT
+			A.EDGE_FAULTY_SUM001
+			, B.EDGE_FAULTY_SUM002
+			, A.EDGE_FAULTY_SUM001 + B.EDGE_FAULTY_SUM002 AS TOTAL_EDGE_FAULTY_SUM
+			, C.APPEAR_FAULTY_SUM001
+			, D.APPEAR_FAULTY_SUM002
+			, C.APPEAR_FAULTY_SUM001 + D.APPEAR_FAULTY_SUM002 AS TOTAL_APPEAR_SUM1
+			, E.APPEAR_FAULTY_SUM004
+			, F.APPEAR_FAULTY_SUM005
+			, E.APPEAR_FAULTY_SUM004 + F.APPEAR_FAULTY_SUM005 AS TOTAL_APPEAR_SUM2
+		FROM
+			(SELECT ISNULL(SUM(FAULTY_CNT), 0) EDGE_FAULTY_SUM001 FROM TB_EDGE_GOODS_FAULTY_ADM_CODE WHERE  MAJOR_CD = '001' AND WORK_ORD_NO = #{workOrdNo}) A
+			, (SELECT ISNULL(SUM(FAULTY_CNT), 0) EDGE_FAULTY_SUM002 FROM TB_EDGE_GOODS_FAULTY_ADM_CODE WHERE  MAJOR_CD = '002' AND WORK_ORD_NO = #{workOrdNo}) B
+			, (SELECT ISNULL(SUM(FAULTY_CNT), 0) APPEAR_FAULTY_SUM001 FROM TB_GOODS_FAULTY_ADM_CODE WHERE  MAJOR_CD = '001' AND WORK_ORD_NO = #{workOrdNo}) C
+			, (SELECT ISNULL(SUM(FAULTY_CNT), 0) APPEAR_FAULTY_SUM002 FROM TB_GOODS_FAULTY_ADM_CODE WHERE  MAJOR_CD = '002' AND WORK_ORD_NO = #{workOrdNo}) D
+			, (SELECT ISNULL(SUM(FAULTY_CNT), 0) APPEAR_FAULTY_SUM004 FROM TB_GOODS_FAULTY_ADM_CODE WHERE  MAJOR_CD = '004' AND WORK_ORD_NO = #{workOrdNo}) E
+			, (SELECT ISNULL(SUM(FAULTY_CNT), 0) APPEAR_FAULTY_SUM005 FROM TB_GOODS_FAULTY_ADM_CODE WHERE  MAJOR_CD = '005' AND WORK_ORD_NO = #{workOrdNo}) F
+	</select>
+	
+	<!-- 생산실적 등록자 업데이트 -->
+	<update id="registrantChange">
+		UPDATE TB_WORK_ORDER_OUTPUT_SUB
+		SET 
+			MAIN_WORK_CHARGR = #{changeUserNumber}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getdate()
+		WHERE ORD_LOT_NO = #{ordLotNo}
+	</update>
+	<!-- 생산실적 등록자 업데이트 전 생산전표번호, 등록일자로 확인  -->
+	<select id="checkChangeOrdLotNo_F1F2" resultMap="WorkOrdOutputSubVo">
+		SELECT WORK_ORD_NO
+			, WORK_ORD_LOT_NO
+			, WORK_ORD_SEQ
+			, ORD_LOT_NO
+			, LOT_NO
+			, SUB_WORK_STATUS_CD
+			, OUTPUT_WEIGHT
+			, OUTPUT_CNT
+			, VISION_EDGE_WEIGHT
+			, VISION_EDGE_CNT
+			, GUBUN
+			, WORK_ORD_DATE
+			, MAIN_WORK_CHARGR
+			, TEAM_CD
+			, USER_INPUT_INSPCT_CNT
+			, EDGE_OUTPUT_CNT
+			, EDGE_FAULTY_CNT
+			, EDGE_SAMPLE_CNT
+			, EDGE_ROLL_FAULTY_SIZE
+			, EDGE_SYMBOL_FAULTY_SIZE
+			, EDGE_BUR_FAULTY_SIZE
+			, EDGE_INSPCT_CHARGER
+			, EDGE_INSPCT_DATE
+			, APPEAR_OUTPUT_CNT
+			, APPEAR_FAULTY_CNT
+			, APPEAR_INSPCT_CHARGER
+			, APPEAR_INSPCT_DATE
+			, USER_OUTPUT_CNT
+			, APPEAR_ABRF_CNT
+			, APPEAR_ABRS_CNT
+			, APPEAR_DMS_CNT
+			, PACK_YN
+			, PACK_NUMBER
+			, PACK_ORD_LOT_NO_LIST
+			, PACK_TOTAL_CNT
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_WORK_ORDER_OUTPUT_SUB
+		WHERE ORD_LOT_NO = #{subOrdLotNo}
+		AND REG_DATE = #{productionperFormanceRegDate}
+	</select>
+</mapper>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.sm.menuInfoAdmMapper">
+
+<resultMap id="MenuInfoAdmVo" type="mes.domain.sm.MenuInfoAdmVo">
+	
+	<result property="menuId"			column="MENU_ID"		/>
+	<result property="idx"				column="IDX"			/>
+	<result property="upperMenuId"		column="UPPER_MENU_ID"	/>
+	<result property="menuNm"			column="MENU_NM"		/>
+	<result property="menuPath"			column="MENU_PATH"		/>
+	<result property="regId"			column="REG_ID"			/>
+	<result property="regDate"			column="REG_DATE"		/>
+	<result property="updId"			column="UPD_ID"			/>
+	<result property="updDate"			column="UPD_DATE"		/>	
+	<result property="depthFullPath"	column="DEPTH_FULLPATH" />		
+	<result property="userNumber"		column="USER_NUMBER" 	/>	
+	
+	<result property="baseCd"		column="BASE_CD" 	/>	
+	<result property="baseCdNm"		column="BASE_CD_NM" 	/>	
+	<result property="baseGroupCd"		column="BASE_GROUP_CD" 	/>
+	<result property="etc1"		column="ETC1" 	/>		
+	<result property="userAuthCode"		column="USER_AUTH_CODE" 	/>	
+	<result property="userAuthCodeName"		column="USER_AUTH_CODE_NAME" 	/>	
+			
+</resultMap>
+
+	<select id="listAll" resultMap="MenuInfoAdmVo">
+  		SELECT
+  			MENU_ID
+			, UPPER_MENU_ID
+			, MENU_NM
+			, MENU_PATH
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_MENU_INFO_ADM 
+	</select>
+	
+	<select id="readUpperMenu" resultMap="MenuInfoAdmVo">
+  		SELECT	
+  			MENU_ID
+  			, IDX
+			, UPPER_MENU_ID
+			, MENU_NM
+			, MENU_PATH
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_MENU_INFO_ADM 
+		WHERE UPPER_MENU_ID is null
+		
+		ORDER BY UPPER_MENU_ID ASC, IDX ASC
+	</select>
+	
+	<select id="readUpperAuth_F1F2F3" resultMap="MenuInfoAdmVo">
+  		SELECT BASE_CD
+			, BASE_CD_NM
+			, BASE_GROUP_CD
+		FROM TB_SYSTEM_COMMON_CODE 
+		WHERE BASE_GROUP_CD = '098'
+		ORDER BY BASE_CD ASC
+	</select>
+	
+	<select id="readSubMenu" resultMap="MenuInfoAdmVo">
+  		SELECT
+  			MENU_ID
+  			, IDX
+			, UPPER_MENU_ID
+			, MENU_NM
+			, MENU_PATH
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_MENU_INFO_ADM 
+		WHERE UPPER_MENU_ID = #{upperMenuId}
+	</select>
+	
+	<select id="subMenu" resultMap="MenuInfoAdmVo">
+  		SELECT	MENU_ID
+  			, IDX
+			, UPPER_MENU_ID
+			, MENU_NM
+			, MENU_PATH
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM	TB_MENU_INFO_ADM 
+		WHERE UPPER_MENU_ID is not null
+		
+		ORDER BY UPPER_MENU_ID ASC, IDX ASC
+	</select>
+	
+	<select id="subAuth_F1F2F3" resultMap="MenuInfoAdmVo">
+  		SELECT BASE_CD
+			, BASE_CD_NM
+			, BASE_GROUP_CD
+			, ETC1
+		FROM TB_SYSTEM_COMMON_CODE 
+		WHERE BASE_GROUP_CD = '099'
+		ORDER BY BASE_CD ASC
+	</select>
+	
+	<select id="read" resultMap="MenuInfoAdmVo">
+  		SELECT	MENU_ID
+			,UPPER_MENU_ID
+			,MENU_NM
+			,MENU_PATH
+			,REG_ID
+			,REG_DATE
+			,UPD_ID
+			,UPD_DATE
+		FROM	TB_MENU_INFO_ADM 
+		WHERE MENU_ID= #{menuId}
+			
+	</select>
+	
+	<insert id="create">
+		INSERT INTO TB_MENU_INFO_ADM(
+			MENU_ID
+			, IDX
+			, UPPER_MENU_ID
+			, MENU_NM
+			, MENU_PATH
+			, REG_ID
+			, REG_DATE
+		) 
+		VALUES(
+			#{menuId}
+			, (SELECT MAX(IDX)+1 FROM TB_MENU_INFO_ADM)
+			, #{upperMenuId}
+			, #{menuNm}
+			, #{menuPath}
+			, #{regId}
+			, GETDATE()
+		)
+	</insert>
+	
+	<select id="update">
+		UPDATE	TB_MENU_INFO_ADM 
+		SET	MENU_ID = #{menuId}
+			,UPPER_MENU_ID = #{upperMenuId}
+			,MENU_NM = #{menuNm}
+			,MENU_PATH = #{menuPath}		
+			,UPD_ID = #{updId}
+			,UPD_DATE = getdate()
+		WHERE	MENU_ID = #{menuId}
+	</select>
+	
+	<select id="selectMenuIdSeq" resultType="String">
+		SELECT 'M' + ISNULL(RIGHT('00000' + CAST(MAX(SUBSTRING(MENU_ID,2,6))+1 AS NVARCHAR),5), '00001') FROM TB_MENU_INFO_ADM
+	</select>
+	
+	
+	<select id="menuInfo" resultMap="MenuInfoAdmVo">
+		WITH TREE_QUERY 
+			AS (
+					SELECT
+						A.MENU_ID
+			     		, A.IDX 
+						, A.UPPER_MENU_ID 
+						, A.MENU_NM
+			            , CONVERT(VARCHAR(255), A.MENU_ID)   SORT
+			            , CONVERT(VARCHAR(255), A.MENU_NM) DEPTH_FULLPATH 
+			            , A.MENU_PATH
+			         FROM TB_MENU_INFO_ADM A
+			         WHERE  A.MENU_ID IN (	SELECT
+			         							DISTINCT A.UPPER_MENU_ID
+			             					FROM TB_MENU_INFO_ADM A, TB_MENU_AUTH B
+			             					WHERE 1=1
+											AND  (B.DEPARTMENT_CD = #{departmentCd} OR B.USER_NUMBER = #{userNumber})
+								            AND A.MENU_ID = B.MENU_ID
+											AND A.UPPER_MENU_ID IS NOT NULL
+										 )
+					UNION ALL
+			         
+					SELECT
+						B.MENU_ID
+			         	, B.IDX 
+						, B.UPPER_MENU_ID 
+						, B.MENU_NM
+						, CONVERT(VARCHAR(255), CONVERT(NVARCHAR, C.SORT) + ' > ' + CONVERT(VARCHAR(255), B.MENU_ID)) AS SORT 
+						, CONVERT(VARCHAR(255), CONVERT(NVARCHAR, C.DEPTH_FULLPATH) + ' > ' + CONVERT(VARCHAR(255), B.MENU_NM)) AS DEPTH_FULLPATH
+			            , B.MENU_PATH 
+					FROM (	SELECT
+			         			A.MENU_ID
+			         			, A.IDX
+			               		, A.UPPER_MENU_ID
+			               		, A.MENU_NM
+			               		, A.MENU_PATH
+							FROM   TB_MENU_INFO_ADM A, TB_MENU_AUTH B
+			             	WHERE 1=1 
+			               	AND  (B.DEPARTMENT_CD = #{departmentCd} OR B.USER_NUMBER = #{userNumber})
+			               	AND A.MENU_ID = B.MENU_ID
+					) B 
+			        , TREE_QUERY C 
+					WHERE  B.UPPER_MENU_ID = C.MENU_ID
+		        ) 
+		SELECT
+			DISTINCT MENU_ID 
+			, IDX
+			, UPPER_MENU_ID 
+		    , MENU_NM
+		    , DEPTH_FULLPATH
+		    , MENU_NM
+			, MENU_PATH 
+		FROM TREE_QUERY 
+		
+		ORDER BY UPPER_MENU_ID ASC, IDX ASC
+	
+	</select>
+	
+	
+	
+	<!-- 메인메뉴 목록 순서 변경 -->
+	<update id="menuIndexUpdate">
+		UPDATE	TB_MENU_INFO_ADM 
+		SET
+			IDX = #{idx}	
+			, UPD_ID = #{updId}
+			, UPD_DATE = getdate()
+		WHERE MENU_ID = #{menuId}
+	</update>
+	
+</mapper>

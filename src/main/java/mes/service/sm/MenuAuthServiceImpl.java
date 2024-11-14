@@ -34,11 +34,23 @@ public class MenuAuthServiceImpl implements MenuAuthService{
 		return dao.readAll(menuAuthVo);
 	}
 	
+	//사용자권한 전체 조회
+	@Override
+	public List<MenuAuthVo> readUserAuthAll_F1F2F3(MenuAuthVo menuAuthVo) throws Exception{
+		return dao.readUserAuthAll_F1F2F3(menuAuthVo);
+	}
+		
 	//권한 등록
 	@Override
-	public void create(List<MenuAuthVo> menuAuthVo) throws Exception{
+	public void create(MenuAuthVo menuAuthVo) throws Exception{
 		dao.create(menuAuthVo);
-	}				
+	}		
+	
+	//사용자권한 등록
+	@Override
+	public void createUserAuth_F1F2F3(MenuAuthVo menuAuthVo) throws Exception{
+		dao.createUserAuth_F1F2F3(menuAuthVo);
+	}	
 	
 	//권한 수정
 	@Override
@@ -52,6 +64,24 @@ public class MenuAuthServiceImpl implements MenuAuthService{
 		dao.delete(menuAuthVo);
 	}
 	
+	//사용자 전체 조회(목록용)
+	@Override
+	public List<MenuAuthVo> userList_F1F2F3(MenuAuthVo menuAuthVo) throws Exception{
+		return dao.userList_F1F2F3(menuAuthVo);
+	}
+		
+	//사용자권한 전체 조회(목록용)
+	@Override
+	public List<MenuAuthVo> userAuthList_F1F2F3(MenuAuthVo menuAuthVo) throws Exception{
+		return dao.userAuthList_F1F2F3(menuAuthVo);
+	}
+		
+	//사용자권한 삭제
+	@Override
+	public void deleteUserAuth_F1F2F3(MenuAuthVo menuAuthVo) throws Exception{
+		dao.deleteUserAuth_F1F2F3(menuAuthVo);
+	}
+		
 	//중복 체크
 	@Override
 	public MenuAuthVo check(MenuAuthVo menuAuthVo) throws Exception{
@@ -64,15 +94,15 @@ public class MenuAuthServiceImpl implements MenuAuthService{
 		return dao.menuAuthPath(menuAuthVo);
 	}	
 	
-
 	//user권한 검색
 	public MenuAuthVo readCheck(MenuAuthVo menuAuthVo) throws Exception{
 		return dao.readCheck(menuAuthVo);
 	}
-
-	//메뉴 권한 패스 조회
+	
+	//사용자권한사용 로그 등록
 	@Override
-	public String menuAuthPathAdmin(MenuAuthVo menuAuthVo) throws Exception{
-		return dao.menuAuthPathAdmin(menuAuthVo);
-	}
+	public void userAuthUseHist_F1F2F3(MenuAuthVo menuAuthVo) throws Exception{
+		dao.userAuthUseHist_F1F2F3(menuAuthVo);
+	}		
+		
 }

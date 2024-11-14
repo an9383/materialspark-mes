@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
-<%@include file="../layout/body-top.jsp"%>
+<%@include file="../layout/body-top.jsp" %>
 
 <div class="page-wrapper" id="page-wrapper">
 	<!--header ============================================================== -->
@@ -12,7 +12,7 @@
 		<nav aria-label="breadcrumb" class="breadcrumb-padding">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">시스템관리</a></li>
-				<li class="breadcrumb-item active">IP접근제어관리</li>
+				<li class="breadcrumb-item active">시스템로그관리</li>
 			</ol>
 		</nav>
 	</header>
@@ -20,94 +20,44 @@
 	<div class="container-fluid" id="main">
 		<div class="row table-wrap-hid">
 			<!--======================== .left-list ========================-->
-			<div class="left-list left-sidebar" id="left-list" style="width: 49%;">
-				<div class="card">
-					<div class="open-arrow" id="arrowLeft">
-						<button id="left-width-btn" onclick="openrNav()" class="btn btn-primary input-sub-search" type="button">
-							<i class="mdi mdi-arrow-left"></i>
-						</button>
-					</div>
-					<!-- .table-responsive -->
-					<div class="table-responsive">
-						<table id="ipAccessControlAdmTable" class="table table-bordered">
+			<div class="left-list left-60" id="left-60" style="width: 99%; padding-bottom: 0px;">
+				<div class="card-header card-tab" style="margin-bottom: 7px;">
+					<ul class="nav nav-tabs card-header-tabs">
+						<li class="nav-item"><a class="nav-link active show" data-toggle="tab" id="tab1">로그인기록관리</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab" id="tab2">페이지접속기록관리</a></li>
+					</ul>
+				</div>
+				<div class="table-responsive" style="padding-bottom:5px;">
+					<div id="tabContent1">
+						<table id="outputTable1" class="table table-bordered">
 							<thead class="thead-light">
 								<tr>
-									<th>No.</th>
-									<th>IP주소</th>
-									<th>변경이력</th>
-									<th>비고</th>
-									<th>사용유무</th>
+									<th>아이디</th>
+									<th>성명</th>
+									<th>접속/종료 일시</th>
+									<th>구분(접속,로그아웃)</th>
+									<th>IP</th>
 								</tr>
 							</thead>
 						</table>
 					</div>
-					<!-- /.table-responsive -->
-				</div>
-				<!-- <button type="button" class="btn btn-success float-right">Excel</button> -->
-			</div>
-			<!-- /.left-list -->
-			<!--======================== .right-sidebar 등록,수정 ========================-->
-			<div class="right-list right-sidebar" id="myrSidenav" style="width: 50%;">
-				<div class="card" id="formBox">
-					<!--오른쪽 등록 부분 상단 버튼 영역-->
-					<div class="card-body col-sm-12">
-						<div class="rightsidebar-close">
-							<a href="javascript:void(0)" id="left-expand" class="closebtn float-right" onclick="closerNav()"> <i class="mdi mdi-close"></i></a>
-						</div>
-						<button type="button" class="btn btn-primary float-right" id="btnEdit">수정</button>
-						<button type="button" class="btn btn-primary float-right mr-1" id="btnAdd">등록</button>
+					<div id="tabContent2" class="d-none">
+						<table id="outputTable2" class="table table-bordered">
+							<thead class="thead-light">
+								<tr>
+									<th>아이디</th>
+									<th>성명</th>
+									<th>부서</th>
+									<th>메뉴명</th>
+									<th>메뉴경로</th>
+									<th>접속일</th>
+								</tr>
+							</thead>
+						</table>
 					</div>
-					<!--/오른쪽 등록 부분 상단 버튼 영역-->
-					<form id="form">
-						<div class="table-responsive">
-							<table class="table table-bordered">
-								<colgroup>
-									<col width="10%">
-									<col width="25%">
-									<col width="10%">
-									<col width="25%">
-									<col width="10%">
-									<col width="20%">
-								</colgroup>
-								<tr>
-									<th>*IP주소</th>
-									<td>
-										<input type="text" class="form-control" id="ipAddr" name="ipAddr">
-									</td>
-									<th>저장일</th>
-									<td>
-										<div class="form-group input-sub m-0">
-											<input class="form-control" type="text" id="ipRegDate" name="ipRegDate" disabled />
-											<button onclick="fnPopUpCalendar(ipRegDate,ipRegDate,'yyyy-mm-dd')" class="btn btn-secondary input-sub-search" id="ipRegDateCalendar" type="button" disabled>
-												<span class="oi oi-calendar"></span>
-											</button>
-										</div>
-									</td>
-									<th>사용유무</th>
-									<td>
-										<select class="custom-select" id="useYn"></select>
-									</td>
-								</tr>
-								<tr>
-									<th>비고</th>
-									<td colspan="5">
-										<input type="text" class="form-control" id="ipDesc" name="ipDesc" style="min-width:100%">
-									</td>
-								</tr>
-							</table>
-						</div>
-					</form>
-				</div>
-				<div class="mt-2">
-					<button type="button" class="btn btn-primary d-none float-right" id="btnSave">저장</button>
-					<button class="btn btn-primary d-none" id="btnAddConfirmLoading" type="button" disabled>
-						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 처리중
-					</button>
 				</div>
 			</div>
-			<!-- ===/.right-sidebar 등록,수정===  -->
 		</div>
-		<!-- /.row -->
 	</div>
 	<!-- / #main  -->
 </div>
@@ -116,290 +66,377 @@
 <%@include file="../layout/bottom.jsp" %>
 
 <script>
-
-	$("#left-width-btn").click(function() {
-		{
-			$("#left-list").animate({
-				width : "49%"
-			}, 200);
-			$("#arrow-left").animate({
-				display : "none"
-			}, 200);
-		}
-	
-		state = !state;
-	});
-
-
-	menuAuth = 'smsc0060';
+	let getParam = "<c:out value="${param.id}" />";
+	let menuAuth = 'smsc0060';
 	let currentHref = 'smsc0060';
-	let currentPage = $('.' + currentHref).attr('id');
+	let currentPage = $('.'+currentHref).attr('id');
+	if(getParam != ""){
+		currentPage = $('#${param.id}').attr('id');
+	}
 	$('#'+currentPage).closest('.has-child','li').addClass('has-open has-active');
-	$('#'+currentPage).closest('.menu-item').addClass('has-active');  
-	$(document).attr("title","IP접근제어관리");
-	
-	let sideView = 'add';
-	var ipNoVal = null;
-	var ipRegDateCal =  "${serverDate}";
-	
-	$('#ipRegDate').val(ipRegDateCal);
-	
-	
-	uiProc(true);
+	$('#'+currentPage).closest('.menu-item').addClass('has-active');	
+	$(document).attr("title","시스템로그관리");
 
-	//공통코드 처리 시작
-	var useYnCode = new Array(); // 부서
-	<c:forEach items="${useYn}" var="info">
-	var json = new Object();
-	json.baseCd = "${info.baseCd}";
-	json.baseNm = "${info.baseNm}";
-	useYnCode.push(json);
-	</c:forEach>
-	//공통코드 처리 종료  
+	var serverDateFrom = "${serverDateFrom}";
+	var serverDate = "${serverDate}";
+	var chooseDateFrom = serverDateFrom;
+	var chooseDateTo = serverDate;
 
-	selectBoxAppend(useYnCode, "useYn", "", "");
-
-
-    $('#saveBtnModalY').on('click',function() {
-    	uiProc(true);
-    	$('#btnSave').addClass('d-none');  //저장버튼
-    	$('#btnEdit').attr('disabled',false);  // 수정버튼
-    });
-
-	
-	// 목록
-	let ipAccessControlAdmTable = $('#ipAccessControlAdmTable').DataTable({
-		 dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-			"<'row'<'col-sm-12'tr>>" +
-			"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-		language : lang_kor,
-		paging : true,
-		info : true,
-		ordering : true,
-		processing : true,
-		autoWidth : false,
-		lengthChange: false,
-        pageLength: 20,
-		ajax : {
-			url : '<c:url value="/sm/list"/>',
-			type : 'GET',
-			data : {
-			},
-		/*
-		success : function(res) {
-		    console.log(res);
+	let tabTemp = 1;
+    
+    //로그인기록관리
+	$.fn.dataTable.ext.errMode = 'none';
+	let outputTable1 = $('#outputTable1').on( 'error.dt', function ( e, settings, techNote, message ) {
+		if(techNote == 7) {
+			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+			location.href = "/";
 		}
-		 */
-		},
-		rowId : 'ipNo',
-		columns : [
-				
-				{ 
-					render : function(data,type,row,meta){
-						return meta.row+1;
-					}
-				},
-				{ data : 'ipAddr' },
-				{ data : 'ipRegDate' ,
-					render : function(data,type,row,meta){
-						return moment(data).format('YYYY-MM-DD');
-					}
-				},
-				{ data : 'ipDesc' },
-				{ data : 'useYn' },
-			],
-		columnDefs : [ {
-			"defaultContent": "-", "targets": "_all",	"className": "text-center"
-		}],
-		order : [ [ 0, 'asc' ] ],
-        buttons: [
+	}).DataTable({
+		dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+		"<'row'<'col-sm-12'tr>>" +
+		"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>B",
+    	language: lang_kor,
+        paging: true,
+        info: true,
+        ordering: true,
+        processing: true,
+        autoWidth: false,
+        lengthChange: true,
+        scrollY : "56vh",
+        scrollCollapse: true,
+        pageLength: -1,
+        ajax: {
+            url: '<c:url value="sm/systemLogAdmList"/>',
+            type: 'GET',
+            data: {
+            	'chooseDate1'	:	function() { return chooseDateFrom.replace(/-/g, ''); },
+            	'chooseDate2'	:	function() { return chooseDateTo.replace(/-/g, ''); },
+            },
+        },
+		columns: [
+			{ data: 'userId' },
+			{ data: 'userNm' },
+			{ data: 'logDate' },
+			{ data: 'gubun' },
+			{ data: 'ipAddress' },
+		],
+        columnDefs: [
+        	
+        ],
+		order: [
+			[ 2, 'desc' ],
+		],
+		buttons: [
             {
                 extend: 'copy',
-                title: 'IP접근제어관리',
+                title: '시스템로그관리 - 로그인기록관리',
             },
             {
                 extend: 'excel',
-                title: 'IP접근제어관리',
+                title: '시스템로그관리 - 로그인기록관리',
             },
             {
                 extend: 'print',
-                title: 'IP접근제어관리',
-            }
+                title: '시스템로그관리 - 로그인기록관리',
+            },
         ],
+		drawCallback: function () {
+			
+		},
 	});
 
-	// 보기
-	$('#ipAccessControlAdmTable tbody').on('click', 'tr', function() {
-		
-		if($('#btnSave').attr('class') == 'btn btn-primary float-right') {
-    		$('#saveBtnModal').modal('show');
-    		console.log("등록중입니다.");
-    		return false;
-    	}
-
-		if($(this).hasClass('selected')) {
-			$(this).removeClass('selected');
-		} else {
-			$('#ipAccessControlAdmTable').DataTable().$('tr.selected').removeClass('selected');
-			$(this).addClass('selected');
+	var html1 = '<div class="row"><div class="form-group input-sub m-0 row">';
+		html1 += '&nbsp;<label class="input-label-sm">접속/종료 일시</label><input class="form-control" style="width:97px;" type="text" id="chooseDateFromCal1"/>';
+		html1 += '<button onclick="fnPopUpCalendar(chooseDateFromCal1,chooseDateFromCal1,\'yyyy-mm-dd\')" class="btn btn-secondary input-sub-search" id="chooseDateFromCalendar1" type="button">';
+		html1 += '<span class="oi oi-calendar"></span>';
+		html1 += '</button>';
+		html1 += '</div>';
+		html1 += '&nbsp;&nbsp;&nbsp;<label class="input-label-sm">~</label>';
+		html1 += '<div class="form-group input-sub m-0 row">';
+		html1 += '<input class="form-control" style="width:97px;" type="text" id="chooseDateToCal1"/>';
+		html1 += '<button onclick="fnPopUpCalendar(chooseDateToCal1,chooseDateToCal1,\'yyyy-mm-dd\')" class="btn btn-secondary input-sub-search" id="chooseDateToCalendar1" type="button">';
+		html1 += '<span class="oi oi-calendar"></span>';
+		html1 += '</button>';
+		html1 += '</div>';
+//		html1 += '<div>';
+// 		html1 += '&nbsp;&nbsp; <button type="button" class="btn btn-primary" id="btnTerm1">기간선택</button>';
+		html1 += '&nbsp;&nbsp;<button type="button" class="btn btn-primary" id="btnRetv1">조회</button>';
+		html1 += '&nbsp;&nbsp;<button type="button" class="btn btn-secondary" id="btnLogSend">로그전송</button>';	
+		html1 += '</div>';
+	$('#outputTable1_length').html(html1);
+	$('#chooseDateFromCal1').val(chooseDateFrom);
+	$('#chooseDateToCal1').val(chooseDateTo);
+	
+	//페이지접속기록관리 테이블
+	$.fn.dataTable.ext.errMode = 'none';
+	let outputTable2 = $('#outputTable2').on( 'error.dt', function ( e, settings, techNote, message ) {
+		if(techNote == 7) {
+			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+			location.href = "/";
 		}
-    	
-		ipNoVal = ipAccessControlAdmTable.row(this).data().ipNo;
-		
-		$('#btnSave').addClass('d-none'); // 저장버튼
-		
-		$.ajax({
-			url : '<c:url value="/sm/read"/>',
-			type : 'GET',
-			data : {
-				'ipNo' : ipNoVal
-			},
-			success : function(res) {
-				let data = res.data;
+	}).DataTable({
+		dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+		"<'row'<'col-sm-12'tr>>" +
+		"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>B",
+    	language: lang_kor,
+        paging: true,
+        info: true,
+        ordering: true,
+        processing: true,
+        autoWidth: false,
+        lengthChange: true,
+        scrollY : "56vh",
+        scrollCollapse: true,
+        pageLength: -1,
+        ajax: {
+            url: '<c:url value="sm/pageLogAdmList"/>',
+            type: 'GET',
+            data: {
+//             	'chooseDate1'	:	function() { return chooseDateFrom.replace(/-/g, ''); },
+            	'chooseDate2'	:	function() { return chooseDateTo.replace(/-/g, ''); },
+            },
+        },
+		columns: [
+			{ data: 'userId' },
+			{ data: 'userNm' },
+			{ data: 'departmentCdNm' },
+			{ data: 'menuPathNm' },
+			{ data: 'menuPath' },
+			{ data: 'accessDate' },
+		],
+        columnDefs: [
+        	
+        ],
+		order: [
+			[ 5, 'desc' ],
+		],
+		buttons: [
+            {
+                extend: 'copy',
+                title: '시스템로그관리 - 페이지접속기록관리',
+            },
+            {
+                extend: 'excel',
+                title: '시스템로그관리 - 페이지접속기록관리',
+            },
+            {
+                extend: 'print',
+                title: '시스템로그관리 - 페이지접속기록관리',
+            },
+        ],
+		drawCallback: function () {
+			
+		},
+	});
 
-				if(res.result == "ok"){
-					sideView = 'edit';
-					
-					// 보기
-					$('#ipAddr').val(data.ipAddr);
-					$('#ipRegDate').val(moment(data.ipRegDate).format('YYYY-MM-DD'));
-					$('#ipDesc').val(data.ipDesc);
-					
-					//화면처리
-					uiProc(true);
-					
-					//선택박스 처리
-					selectBoxAppend(useYnCode, "useYn", data.useYn, "");
-				} else {
-					toastr.error(res.message);
-				}
+	var html2 = '<div class="row"><div class="form-group input-sub m-0 row">';
+		html2 += '&nbsp;<label class="input-label-sm">접속일</label><input class="form-control d-none" style="width:97px;" type="text" id="chooseDateFromCal2"/>';
+		html2 += '<button onclick="fnPopUpCalendar(chooseDateFromCal2,chooseDateFromCal2,\'yyyy-mm-dd\')" class="btn btn-secondary input-sub-search d-none" id="chooseDateFromCalendar2" type="button">';
+		html2 += '<span class="oi oi-calendar"></span>';
+		html2 += '</button>';
+		html2 += '</div>';
+		html2 += '<label class="input-label-sm d-none">~</label>';
+		html2 += '<div class="form-group input-sub m-0 row">';
+		html2 += '<input class="form-control" style="width:97px;" type="text" id="chooseDateToCal2"/>';
+		html2 += '<button onclick="fnPopUpCalendar(chooseDateToCal2,chooseDateToCal2,\'yyyy-mm-dd\')" class="btn btn-secondary input-sub-search" id="chooseDateToCalendar2" type="button">';
+		html2 += '<span class="oi oi-calendar"></span>';
+		html2 += '</button>';
+		html2 += '</div>';
+		html1 += '&nbsp;&nbsp; <button type="button" class="btn btn-primary" id="btnTerm2">기간선택</button>';
+		html2 += '&nbsp;&nbsp;<button type="button" class="btn btn-primary" id="btnRetv2">조회</button></div>';
+	$('#outputTable2_length').html(html2);
+	$('#chooseDateFromCal2').val(chooseDateFrom);
+	$('#chooseDateToCal2').val(chooseDateTo);
+	
+	$('#tab1, #tab2').on('click', function() { 
+		let dateFrom = '';
+		let dateTo = '';
+		if (tabTemp == 1) {
+			dateFrom = new Date($('#chooseDateFromCal1').val());
+			dateTo = new Date($('#chooseDateToCal1').val());
+		} else if (tabTemp == 2) {
+			dateFrom = new Date($('#chooseDateFromCal2').val());
+			dateTo = new Date($('#chooseDateToCal2').val());
+		}
+		
+		let dateDiff = Math.ceil((dateTo.getTime()-dateFrom.getTime())/(1000*3600*24));
+		dateDiff++;		//선택 날짜의 차이 + 1 이 선택 기간의 일자수임
+		if (isNaN(dateDiff)) {
+			toastr.warning("검색기간이 YYYY-MM-DD 형식인지 확인해주세요!");
+			if (tabTemp == 1) {
+				$('#chooseDateFromCal1').focus();
+			} else if (tabTemp == 2) {
+				$('#chooseDateFromCal2').focus();
 			}
-		});
-	});
-
-	// 등록폼
-	$('#btnAdd').on('click', function() {
-		sideView = 'add';
-		
-		$('#form').each(function() {
-			this.reset();
-		});
-		
-		//화면처리        
-		uiProc(false);
-		$('#btnEdit').attr('disabled',true);
-		$('#btnSave').removeClass('d-none');
-		$('#ipRegDate').val(ipRegDateCal);
-		
-		//선택박스처리
-		selectBoxAppend(useYnCode, "useYn", "", "");
-		
-	});
-
-
-	// 수정폼
-	$('#btnEdit').on('click', function() {
-		if (sideView != 'edit') {
-			toastr.warning("수정할 항목을 선택해주세요.");
 			return false;
 		}
-		uiProc(false);
-		sideView = 'edit';
+		if (tabTemp == 1 && dateDiff <= 0) {
+			toastr.warning("기간을 잘못 선택하였습니다.<br>다시 선택해 주세요!");
+			if (tabTemp == 1) {
+				$('#chooseDateFromCal1').focus();
+			} else if (tabTemp == 2) {
+				$('#chooseDateFromCal2').focus();
+			}
+			return false;
+		}
+		if (tabTemp == 1 && dateDiff > 31) {
+			toastr.warning("검색 가능 기간은 최대 한달입니다!");
+			if (tabTemp == 1) {
+				$('#chooseDateFromCal1').focus();
+			} else if (tabTemp == 2) {
+				$('#chooseDateFromCal2').focus();
+			}
+			return false;
+		}
 		
-		$('#btnSave').removeClass('d-none');
+		if ( 1 == right($(this).attr('id'), 1)) {
+			chooseDateFrom = $('#chooseDateFromCal' + tabTemp).val();
+			chooseDateTo = $('#chooseDateToCal' + tabTemp).val();
+			tabTemp = 1;
+// 			$('#chooseDateFromCal' + tabTemp).val(chooseDateFrom);
+// 			$('#chooseDateToCal' + tabTemp).val(chooseDateTo);
+			$("#btnRetv1").trigger("click");
+			$('#tabContent1').removeClass('d-none');
+			$('#tabContent2').addClass('d-none');
+			$('#tabContent3').addClass('d-none');
+			$('#tabContent4').addClass('d-none');
+		} else if ( 2 == right($(this).attr('id'), 1)) {
+			chooseDateFrom = $('#chooseDateFromCal' + tabTemp).val();
+			chooseDateTo = $('#chooseDateToCal' + tabTemp).val();
+			tabTemp = 2;
+// 			$('#chooseDateFromCal' + tabTemp).val(chooseDateFrom);
+// 			$('#chooseDateToCal' + tabTemp).val(chooseDateTo);
+			$("#btnRetv2").trigger("click");
+			$('#tabContent1').addClass('d-none');
+			$('#tabContent2').removeClass('d-none');
+			$('#tabContent3').addClass('d-none');
+			$('#tabContent4').addClass('d-none');
+		}
+		
+    });
 
+	$('#btnRetv1, #btnRetv2').on('click', function() {
+		let dateFrom = '';
+		let dateTo = '';
+		if (tabTemp == 1) {
+			dateFrom = new Date($('#chooseDateFromCal1').val());
+			dateTo = new Date($('#chooseDateToCal1').val());
+		} else if (tabTemp == 2) {
+			dateFrom = new Date($('#chooseDateFromCal2').val());
+			dateTo = new Date($('#chooseDateToCal2').val());
+		}
+		
+		let dateDiff = Math.ceil((dateTo.getTime()-dateFrom.getTime())/(1000*3600*24));
+		dateDiff++;		//선택 날짜의 차이 + 1 이 선택 기간의 일자수임
+		if (isNaN(dateDiff)) {
+			toastr.warning("검색기간이 YYYY-MM-DD 형식인지 확인해주세요!");
+			if (tabTemp == 1) {
+				$('#chooseDateFromCal1').focus();
+			} else if (tabTemp == 2) {
+				$('#chooseDateFromCal2').focus();
+			}
+			return false;
+		}
+		if (tabTemp == 1 && dateDiff <= 0) {
+			toastr.warning("기간을 잘못 선택하였습니다.<br>다시 선택해 주세요!");
+			if (tabTemp == 1) {
+				$('#chooseDateFromCal1').focus();
+			} else if (tabTemp == 2) {
+				$('#chooseDateFromCal2').focus();
+			}
+			return false;
+		}
+		if (tabTemp == 1 && dateDiff > 31) {
+			toastr.warning("검색 가능 기간은 최대 한달입니다!");
+			if (tabTemp == 1) {
+				$('#chooseDateFromCal1').focus();
+			} else if (tabTemp == 2) {
+				$('#chooseDateFromCal2').focus();
+			}
+			return false;
+		}
+
+		chooseDateFrom = $('#chooseDateFromCal' + tabTemp).val();
+		chooseDateTo = $('#chooseDateToCal' + tabTemp).val();
+		
+		$('#outputTable' + tabTemp).DataTable().ajax.reload();
+	});
+
+	
+    $('#outputTable1 tbody').on('click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            //$(this).removeClass('selected');
+        }
+        else {
+        	$('#outputTable1').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+
+    $('#outputTable2 tbody').on('click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            //$(this).removeClass('selected');
+        }
+        else {
+        	$('#outputTable2').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+    
+    //기간조회~
+// 	$('#btnTerm1, #btnTerm2').on('click',function() {
+// 		datePickFun();
+// 	});
+
+	
+// 	$('#datePick').on('click',function() {
+// 		var id ='';
+		
+// 		$.each($('.calender ul li'), function(){
+// 			if( $(this).hasClass('clicked') ){
+// 				id = $(this).attr('id');
+// 			}
+// 		});			
+// 		datePick(id, 'chooseDateFromCal1', 'chooseDateToCal1',  $('#select-year').val());
+// 		datePick(id, 'chooseDateFromCal2', 'chooseDateToCal2',  $('#select-year').val());
+// 	});
+
+
+	outputTable1.on('draw.dt', function(){
+		outputTable1.columns.adjust();
 	});
 	
-	// 저장 처리
-	$('#btnSave').on('click', function() {
-		if (!$.trim($('#ipAddr').val())) {
-			toastr.warning('IP주소를 입력해 주세요.');
-			$('#ipAddr').focus();
-			return false;
-		}
-		
-		var url = '/sm/create';
-		if (sideView == "edit") {
-			url = '/sm/update'
-		}
+	outputTable2.on('draw.dt', function(){
+		outputTable2.columns.adjust();
+	});
 
+	$('#btnLogSend').on('click', function() {
+		let dateFrom = '';
+		let dateTo = '';
+		//alert("btnLogSend");
 		$.ajax({
-			url : url,
+			url : '<c:url value="/sm/systemLogSend"/>',
 			type : 'POST',
 			data : {
-				'ipNo'			:	ipNoVal,
-				'ipAddr'		:	$('#ipAddr').val(),
-				'ipRegDate'		:	$('#ipRegDate').val().replace(/-/g,''),
-				'useYn'			:	$('#useYn option:selected').val(),
-				'ipDesc'		:	$('#ipDesc').val(),
+				'menuAuth' 			: menuAuth,
+            	'chooseDate1'	:	function() { return chooseDateTo.replace(/-/g, ''); },
+            	'chooseDate2'	:	function() { return chooseDateTo.replace(/-/g, ''); },				
+ 			},
+			beforeSend : function() {
 			},
 			success : function(res) {
 				let data = res.data;
 
 				if (res.result == 'ok') {
-
-					uiProc(true);
-					$('#btnSave').addClass('d-none');
-					$('#btnEdit').attr('disabled',false);
-					$('#ipAccessControlAdmTable').DataTable().ajax.reload(function(){});
-					
-					if (sideView == "edit") {
-						toastr.success('수정되었습니다.');
-					} else {
-						toastr.success('등록되었습니다.');
-					}					
-				} else if (res.result == 'exist') {
-					toastr.warning(res.message);
+					toastr.success('로그정보가 정상 전송 되었습니다.');
 				} else {
-					toastr.error(res.message);
+					toastr.error(res.message, '', {timeOut: 5000});
 				}
 			},
 			complete : function() {
-				$('#btnAddConfirm').removeClass('d-none');
-				$('#btnAddConfirmLoading').addClass('d-none');
 			}
-		});
-	});
-
-
-
-	function uiProc(flag) {
-		$("#ipAddr").attr("disabled", flag);
-		$("#ipRegDateCalendar").attr("disabled", flag);
-		$("#useYn").attr("disabled", flag);
-		$("#ipDesc").attr("disabled", flag);
-	}
-	
-	function KeyString(elm)
-	{			
-	    var pattern = /^[a-zA-Z0-9+]{4,20}$/;
-		var match = pattern.exec(elm);
-		var matchStatus = Boolean(match);
-		
-	    if(!matchStatus)
-	    {	        
-	        elm='';
-	    }
-	    
-	    return !matchStatus;
-	}
-	
-	function PassString(elm)
-	{			
-	    var pattern =  /^(?=.*[a-z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{4,20}$/;
-		var match = pattern.exec(elm);
-		var matchStatus = Boolean(match);
-		
-	    if(!matchStatus)
-	    {	        
-	        elm='';
-	    }
-	    
-	    return !matchStatus;
-	}
-	
-	
+		});		
+	}); 
 </script>
-
 </body>
 </html>

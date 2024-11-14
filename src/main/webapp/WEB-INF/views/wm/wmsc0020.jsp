@@ -12,852 +12,207 @@
 		<nav aria-label="breadcrumb" class="breadcrumb-padding">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">생산관리</a></li>
-				<li class="breadcrumb-item active">작업시간관리</li>
+				<li class="breadcrumb-item active">생산실적관리</li>
 			</ol>
 		</nav>
 	</header>
 	<!-- #main============================================================== -->
 	<div class="container-fluid" id="main">
-		<div class="row table-wrap-hid">
+		<div class="row table-wrap-hid">	
 			<!--======================== .left-list ========================-->
-			<div class="left-list" id="left-list">
-				<div class="card-body">
-					<div class="row">
-						<div class="col-sm-3"></div>
-						<div class="col-sm-9">
-							<div class="form-group float-right">
-								<label class="col-form-label pt-0 pb-0" style="font-size: 15px;">상태
-									:&nbsp;&nbsp;&nbsp;&nbsp;</label> <label
-									class="col-form-label pt-0 pb-0"
-									style="color: #CCCCCC; font-size: 15px;">대기</label> <label
-									class="col-form-label pt-0 pb-0"
-									style="color: #CCCCCC; font-size: 15px;">●&nbsp;&nbsp;&nbsp;&nbsp;</label>
-								<label class="col-form-label pt-0 pb-0"
-									style="color: black; font-size: 15px;">미결</label> <label
-									class="col-form-label pt-0 pb-0"
-									style="color: black; font-size: 15px;">●&nbsp;&nbsp;&nbsp;&nbsp;</label>
-								<label class="col-form-label pt-0 pb-0"
-									style="color: blue; font-size: 15px;">진행</label> <label
-									class="col-form-label pt-0 pb-0"
-									style="color: blue; font-size: 15px;">●&nbsp;&nbsp;&nbsp;&nbsp;</label>
-								<label class="col-form-label pt-0 pb-0"
-									style="color: red; font-size: 15px;">완료</label> <label
-									class="col-form-label pt-0 pb-0"
-									style="color: red; font-size: 15px;">●&nbsp;&nbsp;&nbsp;&nbsp;</label>
-								<label class="col-form-label pt-0 pb-0"
-									style="color: brown; font-size: 15px;">비가동</label> <label
-									class="col-form-label pt-0 pb-0"
-									style="color: brown; font-size: 15px;">●&nbsp;&nbsp;&nbsp;&nbsp;</label>
-							</div>
-						</div>
+			<div class="left-list left-60" id="left-60" style="width:99%;">
+				<div class="card">
+				<!-- .table-responsive -->
+					<div class="table-responsive">
+						<table id="equipCodeAdmTable" class="table table-bordered">
+							<thead class="thead-light">
+								<tr>
+									<th style="min-width:50px" class="text-center">생산일</th>
+									<th style="min-width:25px" class="text-center">주야</th>
+									<th style="min-width:40px" class="text-center">설비명</th>
+									<th style="min-width:40px" class="text-center">제품</th>
+									<th style="min-width:40px" class="text-center">재질</th>
+									<th style="min-width:110px"class="text-center">규격</th>
+									<th style="min-width:55px" class="text-center">목표 수량</th>
+									<th style="min-width:65px" class="text-center">생산팀 생산량</th>
+									<th style="min-width:65px" class="text-center">달성률(%)</th>
+									<th style="min-width:60px" class="text-center">면취(압연)</th>
+									<th style="min-width:85px" class="text-center">구분(연질,경질)</th>
+<!-- 									<th style="min-width:50px" class="text-center">작업조</th> -->
+<!-- 									<th style="min-width:40px" class="text-center">작업자</th> -->
+								</tr>
+							</thead>
+							<tfoot>
+							<tr>
+								<td colspan="6" style="text-align: center">합계</td>																		
+								<td id="sumTargetCnt" style="text-align: right">0</td>	
+								<td id="sumOutputCnt" style="text-align: right">0</td>	
+								<td id="sumPercent" style="text-align: right">0</td>	
+								<td colspan="2"></td>
+							</tr>
+						</tfoot>
+						</table>
 					</div>
-					<br>
-					<ul class="nav nav-tabs card-header-tabs m-0">
-						<c:forEach items="${bomList}" var="info" varStatus="status">
-							<c:if test="${status.index eq 0}">
-								<li class="nav-item"><a class="nav-link active show"
-									id="tab<c:out value="${status.index}" />Nav" data-toggle="tab"
-									href="#tab1"><c:out value="${info.bomNm}" /></a></li>
-							</c:if>
-							<c:if test="${status.index != 0}">
-								<li class="nav-item"><a class="nav-link"
-									id="tab<c:out value="${status.index}" />Nav" data-toggle="tab"
-									href="#tab<c:out value="${status.count}" />"><c:out
-											value="${info.bomNm}" /></a></li>
-							</c:if>
-						</c:forEach>
-					</ul>
-					<!-- /.nav-tabs -->
-					<div id="myTabContent" class="tab-content">
-						<div class="tab-pane fade active show" id="tab1">
-							<div class="table-responsive">
-								<table class="table table-bordered" id="workHistSmallListTable">
-									<thead class="thead-light" style="font-size: 11px;">
-										<tr>
-											<th class="text-center">순번</th>
-											<th class="text-center">작지번호</th>
-											<th class="text-center">거래처명</th>
-											<th class="text-center">품명(type)</th>
-											<c:forEach items="${bomList_B00001}" var="info"
-												varStatus="status">
-												<th class="text-center"><c:out value="${info.prcssNm}" /></th>
-											</c:forEach>
-										</tr>
-									</thead>
-								</table>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="tab2">
-							<div class="table-responsive">
-								<table class="table table-bordered" id="workHistMiddleListTable">
-									<thead class="thead-light" style="font-size: 11px;">
-										<tr>
-											<th class="text-center">순번</th>
-											<th class="text-center">작지번호</th>
-											<th class="text-center">거래처명</th>
-											<th class="text-center">품명(type)</th>
-											<c:forEach items="${bomList_B00002}" var="info2"
-												varStatus="status">
-												<th class="text-center"><c:out value="${info2.prcssNm}" /></th>
-											</c:forEach>
-										</tr>
-									</thead>
-								</table>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="tab3"></div>
-					</div>
+					<!-- /.table-responsive -->
 				</div>
-			</div>
-			<!-- /.left-list -->
-		</div>
-		<!-- /.row -->
-	</div>
-	<!-- / #main  -->
-</div>
-<!-- /.page-wrapper -->
-<div id="popoverContent">
-	<table class="table table-bordered d-none mh-100" id="minorPrcssTable"
-		style="width: 500px; min-height: 100%">
-		<colgroup>
-			<col width="30%">
-			<col width="10%">
-			<col width="20%">
-			<col width="20%">
-			<col width="20%">
-		</colgroup>
-		<thead class="thead-light">
-			<tr>
-				<th class="text-center-th">소공정</th>
-				<th class="text-center-th">상태</th>
-				<th class="text-center-th">투입수량</th>
-				<th class="text-center-th">생산수량</th>
-				<th class="text-center-th">불량수량</th>
-			</tr>
-		</thead>
-	</table>
-</div>
+			</div><!-- /.left-list -->
+		</div><!-- /.row -->
+	</div><!-- / #main  -->
+</div><!-- /.page-wrapper -->
 
 <%@include file="../layout/bottom.jsp" %>
 
 <script>
 
-	menutAuth = "wmsc0020";
-	let currentHref = "wmsc0020";
-	let currentPage = $('.' + currentHref).attr('id');
-	$('#' + currentPage).closest('.has-child', 'li').addClass('has-open has-active');
-	$('#' + currentPage).closest('.menu-item').addClass('has-active');
+	let menuAuth = 'wmsc0020';
+	let currentHref = 'wmsc0020';
+	let currentPage = $('.'+currentHref).attr('id');
+	$('#'+currentPage).closest('.has-child','li').addClass('has-open has-active');
+	$('#'+currentPage).closest('.menu-item').addClass('has-active');
+	$(document).attr("title","생산실적관리");
 
-	let startDateVal = moment().subtract(7, 'd').format('YYYY-MM-DD');
-	let endDateVal = moment().format('YYYY-MM-DD');
+	var serverDate =  "${serverDate}";
+	var preInWhsDate =  serverDate;
 
-	$(document).attr("title","작업시간관리");
-
-	let workOrdNoVal = '';
-	let middlePrcssCdVal = '';
-
-	//소공정별 목록조회
-	let minorPrcssTable = $('#minorPrcssTable').DataTable({
-	    dom: "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4'f>>" +
+	//공통코드 시작
+    var dayNightCode=new Array();
+    <c:forEach items="${dayNightCd}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseCdNm="${info.baseCdNm}";
+		dayNightCode.push(json);
+    </c:forEach>
+  	//공통코드 종료
+  	
+    // 목록
+    $.fn.dataTable.ext.errMode = 'none';
+	let equipCodeAdmTable = $('#equipCodeAdmTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+		if(techNote == 7) {
+			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+			location.href = "/";
+		}
+	}).DataTable({
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
 		"<'row'<'col-sm-12'tr>>" +
-		"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-		language: lang_kor,
-		paging: false,
-		info: false,
-		searching: false,
-		ordering: false,
-		processing: false,
-		autoWidth: false,
-		lengthChange: false,
-		pageLength: 10,
-		select: {
-		    style: 'single',
-		    toggleable: false,
-		    items: 'row'
-		},
-		ajax: {
-		    url: '<c:url value="/mm/workOrdStatusDtlList"/>',
-		    type: 'POST',
-		    data: {
-		    	'workOrdNo'			:	function() { return workOrdNoVal; },
-		    	'middlePrcssCd'		:	function() { return middlePrcssCdVal; },
-		    }
-		},
-		columns: [
-			{ data: 'minorPrcssNm' },
-			{ data: 'workStatus',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="m-0" style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="m-0" style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="m-0" style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="m-0" style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="m-0" style="color:brown; font-size:15px;">●</p>';
-					}
+		"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",  
+    	language: lang_kor,
+        paging: true,
+        info: true,
+        ordering: true,
+        processing: true,
+        autoWidth: false,
+        scrollX : false,
+        lengthChange: true,
+        pageLength: 20,
+        ajax: {
+            url: '<c:url value="/wm/readActualOutputDataList"/>',
+            type: 'GET',
+            data: {
+				'menuAuth'		:		menuAuth,
+				'ordDate'		:		function() { return preInWhsDate.replace(/-/g, ''); },
+				'ordGubun'		:		function() { return $('#dayNightCd').val(); },
+            },
+        },
+        //rowId: 'workOrdNo',
+        columns: [
+			{
+				render: function(data, type, row) {
+					return moment(row['ordDate']).format('YYYY-MM-DD');
 				}
 			},
-			{ data: 'targetQty' },
-			{ data: 'outputQty' },
-			{ data: 'faultyQty' }
-		],
-		columnDefs: [
-			{ targets: [0,1], className: 'text-center-td' },
-			{ targets: [2,3,4], className: 'text-right-td', render: $.fn.dataTable.render.number( ',' ) }
-		],
-		order: [
-		],
-		buttons: [
-		],
+			{ data: 'ordGubun',
+	    		render: function(data, type, row, meta) {	
+	    			if(data == "D") {
+	    				return "주간";
+	    			} else if(data == "N") {
+						return "야간";
+	    			}
+	    		}
+	    	},
+        	{ data: 'equipNm' 		},	//설비명
+        	{ data: 'goodsNm' 		},	//제품명
+        	{ data: 'qutyNm' 		},	//재질
+        	{ data: 'model' 		},	//규격
+        	{ data: 'targetCnt' 	},	//목표수량
+        	{ data: 'sumOutputCnt'	},	//생산팀 생산수량
+        	{ data: 'sumOutputCnt',		//달성률
+	    		render: function(data, type, row, meta) {
+		    		return ((parseFloat(data)/parseFloat(row['targetCnt']))*100).toFixed(2) + " %";
+	    		}
+	    	},
+        	{ data: 'chamferYnNm'},		//면취
+        	{ data: 'gubunNm'},			//구분
+//         	{ data: 'workTeamNm'},		//작업조
+//         	{ data: 'userNm'},			//작업자
+        ],
+        columnDefs: [
+        	{ targets: [6,7,8], render: $.fn.dataTable.render.number( ',' ) },
+        	{ targets: [6,7,8], className: 'text-right' },
+        	{ targets: "_all", "defaultContent": "-" }
+        ],
+        buttons: [
+            {
+                extend: 'copy',
+                title: '생산실적관리',
+            },
+            {
+                extend: 'excel',
+                title: '생산실적관리',
+            },
+            {
+                extend: 'print',
+                title: '생산실적관리',
+            },
+        ],
+		drawCallback: function () {
+			var sumTargetCnt = $('#equipCodeAdmTable').DataTable().column(6,{ page: 'all'} ).data().sum();
+			var sumOutputCnt = $('#equipCodeAdmTable').DataTable().column(7,{ page: 'all'} ).data().sum();
+			var sumPercent = (sumOutputCnt/sumTargetCnt)*100;
+			$('#sumTargetCnt').text(addCommas(sumTargetCnt));
+			$('#sumOutputCnt').text(addCommas(sumOutputCnt));
+			$('#sumPercent').text(sumPercent.toFixed(2) + " %");
+        },
+    });
+
+	var html1 = '<div class="row"><div class="form-group input-sub m-0 row">';
+	html1 += '<label class="input-label-sm">&nbsp;전표일자</label><input class="form-control" style="width:97px;" type="text" id="chooseDate" name="preInWhsDate" />';
+	html1 += '<button onclick="fnPopUpCalendar(chooseDate,chooseDate,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="chooseDateCalendar" type="button">';
+	html1 += '<span class="oi oi-calendar"></span>';
+	html1 += '</button>'; 
+	html1 += '</div>';
+	html1 += '&nbsp;&nbsp;&nbsp;<label class="input-label-sm">주야구분</label><select  class="custom-select" id="dayNightCd" ></select>&nbsp;  <button type="button" class="btn btn-primary" id="btnRetv">조회</button></div>';
+
+	$('#equipCodeAdmTable_length').html(html1);
+	$('#chooseDate').val(serverDate);
+	selectBoxAppend(dayNightCode, "dayNightCd", "", "1");
+  	//달력 값 변경 시 자동검색
+  	//$('#preInWhsDate').bind('input', function() {
+  	//	preInWhsDate = $('#preInWhsDate').val();
+	//	$('#equipCodeAdmTable').DataTable().ajax.reload();
+  	//});
+  	
+  	$('#btnRetv').on('click', function() {
+  	  	preInWhsDate = $('#chooseDate').val();
+  		$('#equipCodeAdmTable').DataTable().ajax.reload();
 	});
 
+  	$('#dayNightCd').change(function() {
+  		$('#btnRetv').trigger('click');
+    });
+  	
+  	$('#equipCodeAdmTable tbody').on('click', 'tr', function () {
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+		} else {
+			$('#equipCodeAdmTable').DataTable().$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+  	});
 
-
+	function calculatorDay(date){ 
+		return date.replace(/-/g, '');
+	}
 	
-
-	// 소형일반 목록조회
-	let workHistSmallListTable = $('#workHistSmallListTable').DataTable({
-		language : lang_kor,		
-		paging : true,
-		searching : true,
-		info : false,
-		ordering : true,
-		processing : false,
-		autoWidth : false,
-		lengthChange : false,
-		pageLength : 20,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'cell',
-            selector: 'td:nth-child(5), td:nth-child(6), td:nth-child(7), td:nth-child(8), td:nth-child(9), td:nth-child(10), td:nth-child(11), td:nth-child(12), td:nth-child(13), td:nth-child(14), td:nth-child(15), td:nth-child(16), td:nth-child(17)'
-        },
-		ajax : {
-			url : '<c:url value="/mm/workOrdStatusList"/>',
-			type : 'POST',
-			data : {
-					'bomCd'		:	'B00001'
-			}
-		},	
-		rowId : 'workOrdNo',
-		columns : [
-			{
-				render : function(data, type, row, meta) {
-					return meta.row+1;
-				}
-			},
-			{data : 'workOrdNo'},
-			{
-				render : function(data, type, row, meta) {
-					return '-';
-				}
-			},
-			{
-				render : function(data, type, row, meta) {
-					return '-';
-				}
-			},
-			{ data : 'm00001',
-				render : function(data, type, row, meta) {
-					if(data==null || data=='') {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00001"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00001"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00001"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00001"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00001"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00002',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00002"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00002"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00002"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00002"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00002"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00003',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00003"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00003"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00003"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00003"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00003"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00004',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00004"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00004"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00004"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00004"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00004"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00005',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00005"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00005"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00005"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00005"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00005"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00006',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00006"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00006"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00006"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00006"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00006"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00007',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00007"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00007"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00007"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00007"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00007"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00008',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00008"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00008"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00008"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00008"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00008"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00009',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00009"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00009"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00009"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00009"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00009"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00010',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00010"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00010"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00010"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00010"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00010"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00011',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00011"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00011"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00011"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00011"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00011"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00012',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00012"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00012"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00012"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00012"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00012"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00013',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00013" style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00013" style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00013" style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00013" style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00013" style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-		],
-		columnDefs: [
-			{ targets: [4,5,6,7,8,9,10,11,12,13,14,15,16], className: 'p-0' }
-		],
-	    order: [
-	        [ 0, 'asc' ]
-	    ],
-	    drawCallback: function() {
-	    	$(".minorPrcssPopover").hunterPopup({
-	    		title:'소공정별 목록조회',
-	    		content: $('#popoverContent'),
-	    		placement:'left',
-	    		width: '100%'
-	    	});
-
-	    	$('.minorPrcssPopover').on('click',function() {
-		    	$('#minorPrcssTable').removeClass('d-none');
-	    		workHistSmallListTable.cell($(this).parent()).select();
-	    		
-	    		var row = workHistSmallListTable.cell($(this).parent()).index().row;
-	    		var col = workHistSmallListTable.cell($(this).parent()).index().column;
-
-		    	workOrdNoVal = workHistSmallListTable.row(row).data().workOrdNo;
-		    	middlePrcssCdVal = $(this).attr('id');
-
-		    	$('#minorPrcssTable').DataTable().ajax.reload( function () {});
-
-		    	if(col > 11) {
-			    	$('.Hunter-pop-up').css('left',parseInt($('.Hunter-pop-up').css('left'))-400);
-			    	$('body').append('<style>.Hunter-pop-up:after{left:400px;}</style>');
-			    	$('body').append('<style>.Hunter-pop-up:before{left:400px;}</style>');
-			    } else {
-			    	$('body').append('<style>.Hunter-pop-up:after{left:20px;}</style>');
-			    	$('body').append('<style>.Hunter-pop-up:before{left:20px;}</style>');
-				}
-
-
-				console.log($(this).offset());
-				console.log($(this).outerHeight());
-		    })
-		}
-	});
-
-
-	// 마우스 스크롤 event
-	$("#left-list").on('scroll',function(e){ 
-		//popup창 이동
-		$('#Hunter-pop-up').css('top',$('#workHistSmallListTable tbody .selected').offset().top+$('#workHistSmallListTable tbody .selected').outerHeight()+15);
-	});
-
-
-
-
-	// 소형일반 목록조회
-	let workHistMiddleListTable = $('#workHistMiddleListTable').DataTable({
-		language : lang_kor,		
-		paging : false,
-		searching : true,
-		info : false,
-		ordering : true,
-		processing : false,
-		autoWidth : false,
-		lengthChange : false,
-		pageLength : 100,
-		select: {
-            style: 'single',
-            toggleable: false,
-            items: 'cell',
-            selector: 'td:nth-child(5), td:nth-child(6), td:nth-child(7), td:nth-child(8), td:nth-child(9), td:nth-child(10), td:nth-child(11), td:nth-child(12), td:nth-child(13), td:nth-child(14), td:nth-child(15), td:nth-child(16), td:nth-child(17), td:nth-child(18)'
-        },
-		ajax : {
-			url : '<c:url value="/mm/workOrdStatusList"/>',
-			type : 'POST',
-			data : {
-					'bomCd'		:	'B00002'
-			}
-		},	
-		rowId : 'workOrdNo',
-		columns : [
-			{
-				render : function(data, type, row, meta) {
-					return meta.row+1;
-				}
-			},
-			{data : 'workOrdNo'},
-			{
-				render : function(data, type, row, meta) {
-					return '-';
-				}
-			},
-			{
-				render : function(data, type, row, meta) {
-					return '-';
-				}
-			},
-			{ data : 'm00014',
-				render : function(data, type, row, meta) {
-					if(data==null || data=='') {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00014"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00014"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00014"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00014"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00014"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00015',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00015"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00015"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00015"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00015"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00015"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00016',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00016"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00016"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00016"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00016"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00016"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00017',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00017"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00017"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00017"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00017"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00017"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00018',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00018"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00018"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00018"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00018"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00018"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00019',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00019"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00019"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00019"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00019"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00019"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00020',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00020"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00020"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00020"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00020"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00020"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00021',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00021"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00021"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00021"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00021"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00021"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00022',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00022"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00022"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00022"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00022"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00022"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00023',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00023"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00023"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00023"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00023"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00023"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00024',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00024"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00024"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00024"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00024"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00024"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00025',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00025"  style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00025"  style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00025"  style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00025"  style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00025"  style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00026',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00026" style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00026" style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00026" style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00026" style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00026" style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-			{ data : 'm00027',
-				render : function(data, type, row, meta) {
-					if(data==null) {
-						return '';
-					} else if(data == 'PD') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00027" style="color:black; font-size:15px;">●</p>';
-					} else if(data == 'WI') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00027" style="color:blue; font-size:15px;">●</p>';
-					} else if(data == 'WC') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00027" style="color:red; font-size:15px;">●</p>';
-					} else if(data == 'EX') {
-						return '<p class="mb-0 minorPrcssPopover" id="M00027" style="color:#CCCCCC; font-size:15px;">●</p>';
-					} else {
-						return '<p class="mb-0 minorPrcssPopover" id="M00027" style="color:brown; font-size:15px;">●</p>';
-					}
-				}
-			},
-		],
-		columnDefs: [
-			{ targets: [4,5,6,7,8,9,10,11,12,13,14,15,16,17], className: 'p-0' }
-		],
-	    order: [
-	        [ 0, 'asc' ]
-	    ],
-	    drawCallback: function() {
-	    	$(".minorPrcssPopover").hunterPopup({
-	    		title:'소공정별 목록조회',
-	    		content: $('#popoverContent'),
-	    		placement:'left',
-	    		width: '100%'
-	    	});
-
-	    	$('.minorPrcssPopover').on('click',function() {
-		    	$('#minorPrcssTable').removeClass('d-none');
-	    		workHistSmallListTable.cell($(this).parent()).select();
-	    		
-	    		var row = workHistSmallListTable.cell($(this).parent()).index().row;
-	    		var col = workHistSmallListTable.cell($(this).parent()).index().column;
-
-		    	workOrdNoVal = workHistSmallListTable.row(row).data().workOrdNo;
-		    	middlePrcssCdVal = $(this).attr('id');
-
-		    	$('#minorPrcssTable').DataTable().ajax.reload( function () {});
-
-		    	if(col > 11) {
-			    	$('.Hunter-pop-up').css('left',parseInt($('.Hunter-pop-up').css('left'))-400);
-			    	$('body').append('<style>.Hunter-pop-up:after{left:400px;}</style>');
-			    	$('body').append('<style>.Hunter-pop-up:before{left:400px;}</style>');
-			    } else {
-			    	$('body').append('<style>.Hunter-pop-up:after{left:20px;}</style>');
-			    	$('body').append('<style>.Hunter-pop-up:before{left:20px;}</style>');
-				}
-
-
-				console.log($(this).offset());
-				console.log($(this).outerHeight());
-		    })
-		}
-	});
 </script>
 </body>
 </html>

@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.mm.individualOrderAdmMapper">
+
+	<resultMap id="IndividualOrderAdmVo" type="mes.domain.mm.IndividualOrderAdmVo">
+		<result property="mrpNo"					column="MRP_NO"					/>
+		<result property="mrpSeq"					column="MRP_SEQ"				/>
+		<result property="contDtlNo"				column="CONT_DTL_NO"			/>
+		<result property="poNo"						column="PO_NO"					/>
+		<result property="dealCorpCd"		    	column="DEAL_CORP_CD"			/>
+		<result property="dealCorpNm"		    	column="DEAL_CORP_NM"			/>
+		<result property="poDate"		        	column="PO_DATE"				/>
+		<result property="mainChargr"				column="MAIN_CHARGR"			/>					
+		<result property="telNo"					column="TEL_NO"					/>
+		<result property="poRegChargr"				column="PO_REG_CHARGR"			/>
+		<result property="poRegChargrNm"			column="PO_REG_CHARGR_NM"		/>
+		<result property="finspectYn"				column="FINSPECT_YN"			/>	
+		<result property="finspectYnNm"				column="FINSPECT_YN_NM"			/>			
+		<result property="confirmYn"				column="CONFIRM_YN"				/>
+		<result property="confirmYnNm"				column="CONFIRM_YN_NM"			/>
+		<result property="receiptGubun"				column="RECEIPT_GUBUN"			/>
+		 
+		<result property="receiptGubunNm"			column="RECEIPT_GUBUN_NM"		/>
+		<result property="useYn"					column="USE_YN"					/>
+		<result property="useYnNm"					column="USE_YN_NM"				/>
+		<result property="poDesc"					column="PO_DESC"				/>
+		<result property="regId"					column="REG_ID"					/>
+		<result property="regDate"					column="REG_DATE"				/>
+		<result property="updId"					column="UPD_ID"					/>				
+		<result property="updDate"					column="UPD_DATE"				/>
+		
+		<result property="poSeq"					column="PO_SEQ"					/>
+		<result property="partCd"					column="PART_CD"				/>
+		<result property="partNm"					column="PART_NM"				/>
+		<result property="partSpec"					column="PART_SPEC"				/>
+		<result property="partUnit"					column="PART_UNIT"				/>
+		<result property="partUnitNm"				column="PART_UNIT_NM"			/>
+		<result property="unitCost"					column="UNIT_COST"				/>	
+		<result property="inspectYn"				column="INSPECT_YN"				/>
+		<result property="partQty"					column="PART_QTY"				/>		
+		<result property="safyStockCnt"				column="SAFY_STOCK_CNT"			/>		
+		<result property="diffQty"					column="DIFF_QTY"				/>			
+		<result property="addQty"					column="ADD_QTY"				/>			
+		<result property="partUnitCost"				column="PART_UNIT_COST"			/>
+		<result property="partAmt"					column="PART_AMT"				/>
+		<result property="dlvDate"					column="DLV_DATE"				/>
+		<result property="dlvChangeDate"			column="DLV_CHANGE_DATE"		/>
+		<result property="partRev"  				column="PART_REV" 				/>
+		<result property="poStatus"					column="PO_STATUS"				/>
+		<result property="poStatusNm"				column="PO_STATUS_NM"			/>
+		<result property="poEndDate"				column="PO_END_DATE"			/>
+		<result property="barcodeNo"				column="BARCODE_NO"				/>
+		<result property="lotNo"					column="LOT_NO"					/>
+		<result property="ordCorpNm"				column="ORD_CORP_NM"			/>
+		<result property="ordCorpCd"				column="ORD_CORP_CD"			/>
+		<result property="today"					column="TODAY"					/>
+		
+		<result property="inWhsQty"					column="IN_WHS_QTY"				/>
+		<result property="preInWhsQty"				column="PRE_IN_WHS_QTY"			/>
+		<result property="preInWhsDate"				column="PRE_IN_WHS_DATE"		/>
+		<result property="inWhsDate"				column="IN_WHS_DATE"			/>
+		<result property="diffCnt"					column="DIFF_CNT"				/>
+		
+		<!-- 발주DTL(발주서 출력 수정)부분 추가 -->
+		<result property="documentSubmitted"		column="DOCUMENT_SUBMITTED"		/>
+		<result property="paymentWay"				column="PAYMENT_WAY"			/>
+		<result property="deliveryPlace"			column="DELIVERY_PLACE"			/>
+		<result property="reference"				column="REFERENCE"				/>
+		<result property="runDate"					column="RUN_DATE"				/>
+		<result property="reception"				column="RECEPTION"				/>
+		<result property="designation"				column="DESIGNATION"			/>
+		<result property="title"					column="TITLE"					/>
+		<result property="cooperationDepartment"	column="COOPERATION_DEPARTMENT"	/>
+		<result property="purchaseHistory"			column="PURCHASE_HISTORY"		/>
+		<result property="printWhether"				column="PRINT_WHETHER"			/>
+		<result property="tmQty"					column="TM_QTY"					/>
+		<result property="itemNm"					column="ITEM_NM"				/>
+		<result property="dtlOrdCnt"				column="DTL_ORD_CNT"			/>
+		<result property="faxNo"					column="FAX_NO"					/>
+		<result property="officeCharger"			column="OFFICE_CHARGER"			/>
+		<result property="poNoGubun"				column="PO_NO_GUBUN"			/>
+		<result property="itemCd"					column="ITEM_CD"				/>
+		<result property="itemRev"					column="ITEM_REV"				/>
+		<result property="preOrderQty"				column="PRE_ORDER_QTY"			/>
+		<result property="orderQty"					column="ORDER_QTY"				/>
+		<result property="unOrderQty"				column="UN_ORDER_QTY"			/>
+		<result property="minContDtlNo"				column="MIN_CONT_DTL_NO"		/>
+		<result property="maxContDtlNo"				column="MAX_CONT_DTL_NO"		/>
+		<result property="poStatusOption"			column="PO_STATUS_OPTION"		/>
+		<result property="notQty"					column="NOT_QTY"				/>
+	</resultMap>
+	
+	<!-- 발주 목록조회 -->
+	<select id="individualOrderAdmList" resultMap="IndividualOrderAdmVo">
+		SELECT
+			PO_NO
+	      , DEAL_CORP_CD
+	      , (SELECT X.DEAL_CORP_NM FROM TB_DEAL_CORP_ADM X WHERE 1=1 AND X.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+	      , PO_DATE
+	      , MAIN_CHARGR
+	      , TEL_NO
+	      , PO_REG_CHARGR
+	      , FINSPECT_YN
+	      , CONFIRM_YN
+	      , RECEIPT_GUBUN
+	      , USE_YN
+	      , PO_DESC
+	      , DOCUMENT_SUBMITTED
+	      , PAYMENT_WAY
+	      , DELIVERY_PLACE
+	      , REFERENCE
+	      , RUN_DATE
+	      , RECEPTION
+	      , DESIGNATION
+	      , TITLE
+	      , COOPERATION_DEPARTMENT
+	      , PURCHASE_HISTORY
+	      , PRINT_WHETHER
+	      , REG_ID
+	      , REG_DATE
+	      , UPD_ID
+	      , UPD_DATE
+		FROM TB_INDIVIDUAL_ORDER_ADM A
+		WHERE 1=1
+		<if test="chooseDateFrom != null and chooseDateFrom != '' and chooseDateTo != null and chooseDateTo != ''">
+			AND PO_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+	  	</if>
+	</select>
+	
+	<!-- 발주상세 목록조회 -->
+	<select id="individualOrderDtlList" resultMap="IndividualOrderAdmVo">
+		<![CDATA[
+			SELECT 
+				A.PO_NO
+				, A.PO_SEQ
+				, A.CONT_DTL_NO
+				, A.PART_CD
+				, A.PART_REV
+				, (SELECT PART_NM FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV )PART_NM
+				, (SELECT PART_SPEC FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV)PART_SPEC
+				, A.DLV_DATE
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_CD=(SELECT PART_UNIT FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV  ) AND X.BASE_GROUP_CD='072') PART_UNIT
+				, A.PART_QTY
+				, (SELECT UNIT_COST FROM TB_ITEM_PART_ADM X WHERE X.PART_CD=A.PART_CD AND X.PART_REV=A.PART_REV)UNIT_COST
+				, (SELECT UNIT_COST FROM TB_ITEM_PART_ADM WHERE PART_CD=A.PART_CD AND PART_REV=A.PART_REV )PART_UNIT_COST
+				, A.PART_AMT
+				, A.ORD_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM X WHERE X.DEAL_CORP_CD=A.ORD_CORP_CD)ORD_CORP_NM
+				, ISNULL(SUM(B.PRE_IN_WHS_QTY), 0)PRE_IN_WHS_QTY
+				, ISNULL(A.PART_QTY - SUM(B.PRE_IN_WHS_QTY), A.PART_QTY)NOT_QTY
+			FROM TB_INDIVIDUAL_ORDER_DTL A
+			LEFT OUTER JOIN TB_IN_WHS_ADM B
+			ON A.PO_NO = B.PO_NO
+			AND A.PO_SEQ = B.PO_SEQ
+			WHERE 1=1
+			AND A.PO_NO = #{poNo}
+			
+			GROUP BY
+				A.PO_NO
+				, A.PO_SEQ
+				, A.CONT_DTL_NO
+				, A.PART_CD
+				, A.PART_REV
+				, A.DLV_DATE
+				, A.PART_QTY
+				, A.PART_AMT
+				, A.ORD_CORP_CD
+		]]>
+	</select>
+	
+	<!-- 발주 등록 -->
+	<insert id="individualOrderAdmCreate">
+		<![CDATA[
+			INSERT INTO TB_INDIVIDUAL_ORDER_ADM	(
+				PO_NO,
+				DEAL_CORP_CD,
+				PO_DATE,
+				MAIN_CHARGR,
+				TEL_NO,
+				PO_REG_CHARGR,
+				FINSPECT_YN,
+				CONFIRM_YN,
+				RECEIPT_GUBUN,
+				USE_YN,
+				PO_DESC,
+				REG_ID,
+				REG_DATE
+			) 
+			VALUES(
+				#{poNo},
+				#{dealCorpCd},
+				#{poDate},
+				#{mainChargr},
+				#{telNo},
+				#{poRegChargr},
+				#{finspectYn},
+				#{confirmYn},
+				#{receiptGubun},
+				#{useYn},
+				#{poDesc},
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+	
+	<!-- 발주상세 등록 -->
+	<insert id="purchaseOrderDtlCreate">
+		<![CDATA[
+			INSERT INTO TB_INDIVIDUAL_ORDER_DTL(
+				CONT_DTL_NO,
+				PO_NO,
+				PO_SEQ,
+				MRP_NO,
+				PART_CD,
+				PART_REV,
+				PART_QTY,
+				SAFY_STOCK_CNT,
+				PART_UNIT_COST,
+				PART_AMT,
+				DLV_DATE,
+				PO_STATUS,
+				REG_ID,
+				REG_DATE
+			) 
+			VALUES(
+				#{contDtlNo},
+				#{poNo},
+				#{poSeq},
+				#{mrpNo},
+				#{partCd},
+				#{partRev},
+				#{partQty},
+				#{safyStockCnt},
+				#{partUnitCost},
+				#{partAmt},
+				#{dlvDate},
+				#{poStatus},
+				#{regId},
+				getDate()
+			)
+		]]>
+	</insert>
+	
+	<!-- 발주금액 수정 -->
+	<update id="partAmtUpdate">
+	  UPDATE TB_INDIVIDUAL_ORDER_DTL 
+	  SET PART_AMT = (PART_QTY+SAFY_STOCK_CNT) * PART_UNIT_COST 
+	  WHERE	PO_NO = #{poNo}
+	  AND PO_SEQ = #{poSeq}
+	</update>
+	
+	<!-- 발주상세 삭제 -->
+	<delete id="individualOrderDtlDelete">
+		<![CDATA[
+			DELETE FROM TB_INDIVIDUAL_ORDER_DTL WHERE PO_NO = #{poNo} AND PO_SEQ = #{poSeq}
+		]]>
+	</delete>
+	
+	<!--발주번호 생성 -->
+	<select id="getPoNo" resultType="String">
+		SELECT ISNULL(RIGHT('000' + CAST(MAX(RIGHT(PO_NO,3))+1 AS NVARCHAR),3), '001') 
+		FROM TB_INDIVIDUAL_ORDER_DTL 
+		WHERE SUBSTRING(PO_NO,2,6) = #{today}
+	</select>
+	
+	<!--발주번호 시퀀스 생성 -->
+	<select id="getPoSeq" resultType="Integer">
+		SELECT ISNULL(MAX(PO_SEQ)+1,0) FROM TB_INDIVIDUAL_ORDER_DTL WHERE PO_NO=#{poNo}
+	</select>
+	
+	<!-- 발주예정수량과 발주수량 비교 -->
+	<select id="compareOrderQty" resultMap="IndividualOrderAdmVo">
+		SELECT
+			A.PRE_ORDER_QTY,
+			ISNULL(B.ORDER_QTY,0) ORDER_QTY
+		FROM (
+			SELECT 
+				MRP_NO,
+				CONT_DTL_NO,
+				PART_CD,
+				PART_REV,
+				ISNULL(PART_CNT,0) + ISNULL(SAFY_STOCK_CNT,0) PRE_ORDER_QTY
+			FROM TB_BIZ_ORDER_CONSUMPT A
+			
+		)A LEFT OUTER JOIN
+		(
+			SELECT 
+				MRP_NO,
+				CONT_DTL_NO,
+				PART_CD,
+				PART_REV,
+				ISNULL(SUM(PART_QTY),0) + ISNULL(SUM(SAFY_STOCK_CNT),0) ORDER_QTY
+			FROM TB_INDIVIDUAL_ORDER_DTL A
+			GROUP BY MRP_NO, CONT_DTL_NO, PART_CD, PART_REV
+		)B
+		ON 1=1
+		AND A.MRP_NO=B.MRP_NO
+		AND A.CONT_DTL_NO=B.CONT_DTL_NO
+		AND A.PART_CD=B.PART_CD
+		AND A.PART_REV=B.PART_REV
+		WHERE 1=1
+		AND A.MRP_NO=#{mrpNo}
+		AND A.CONT_DTL_NO=#{contDtlNo}
+		AND A.PART_CD=#{partCd}
+		AND A.PART_REV=#{partRev}
+	</select>
+	
+	<!-- 발주상태 수정(발주예정일<=발주수량) -->
+	<update id="poStatusYUpdate">
+		UPDATE TB_INDIVIDUAL_ORDER_DTL
+		SET PO_STATUS='002'
+		WHERE MRP_NO=#{mrpNo}
+		AND CONT_DTL_NO=#{contDtlNo}
+		AND PART_CD=#{partCd}
+		AND PART_REV=#{partRev}
+	</update>
+	
+</mapper>

@@ -1,0 +1,1343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.wm.visionDataMapper">
+	<resultMap id="VisionDataVo" type="mes.domain.wm.VisionDataVo">
+
+		<result property="closeTime"         column="CLOSE_TIME"			/>
+		<result property="workOrdNo"         column="WORK_ORD_NO"			/>
+		<result property="fairCnt"           column="FAIR_CNT"				/>
+		<result property="etcSize"           column="ETC_SIZE"				/>
+		<result property="filmOverlap"       column="FILM_OVERLAP"			/>
+		<result property="filmAliensbst"     column="FILM_ALIENSBST"		/>
+		<result property="filmScratch"       column="FILML_SCRATCH"			/>
+		<result property="filmTornout"       column="FILM_TORNOUT"			/>
+		<result property="filmUnjinjeop"     column="FILM_UNJINJEOP"		/>
+		<result property="filmTeflon"        column="FILM_TEFLON"			/>
+		<result property="filmSurfceBb"      column="FILM_SURFCE_BB"		/>
+		<result property="filmBurrAliensbst" column="FILM_BURR_ALIENSBST"	/>
+		<result property="filmEdgeBb"        column="FILM_EDGE_BB"			/>
+		<result property="filmMismatch"      column="FILM_MISMATCH"			/>
+		<result property="filmSum"           column="FILM_SUM"				/>
+		<result property="metalFstab"        column="METAL_FSTAB"			/>
+		<result property="metalSum"          column="METAL_SUM"				/>
+		<result property="metalPolutn"       column="METAL_POLUTN"			/>
+		<result property="metalScratch"      column="METAL_SCRATCH"			/>
+		<result property="metalTransform"    column="METAL_TRANSFORM"		/>
+		<result property="totalFaulty"    	 column="TOTAL_FAULTY"		/>
+		<result property="visionGubun"    	 column="VISION_GUBUN"		/>
+		<result property="lotNo"    		 column="LOT_NO"		/>
+		<result property="faultyCnt"    		 column="FAULTY_CNT"		/>
+		<result property="exceptCnt"			column="EXCEPT_CNT"			/>
+	
+		
+
+		<result property="equipCd"			column="EQUIP_CD"		/>
+		<result property="equipNm"			column="EQUIP_NM"		/>
+		<result property="goodsCd"			column="GOODS_CD"		/>
+		<result property="goodsNm"			column="GOODS_NM"		/>
+		<result property="workGubunCd"		column="WORK_GUBUN_CD"	/>
+		<result property="workGubunNm"		column="WORK_GUBUN_NM"	/>
+		<result property="planRegDate"		column="PLAN_REG_DATE"	/>
+		<result property="regId"			column="REG_ID"			/>
+		<result property="regDate"			column="REG_DATE"		/>
+		<result property="updId"			column="UPD_ID"			/>
+		<result property="updDate"			column="UPD_DATE"		/>
+		<result property="equipCondSeq"		column="EQUIP_COND_SEQ"	/>		
+		<result property="model"			column="MODEL"			/>
+		<result property="modelNo"			column="MODEL_NO"		/>
+		<result property="qutyCd"			column="QUTY_CD"		/>
+		<result property="qutyNm"			column="QUTY_NM"		/>
+		<result property="chamferYnNm"		column="CHAMFER_YN_NM"	/>
+		<result property="surfaceTrtmtCd"	column="SURFACE_TRTMT_CD"/>
+		<result property="surfaceTrtmtNm"	column="SURFACE_TRTMT_NM"/>
+		<result property="alnicuMatrlCd"	column="ALNICU_MATRL_CD"/>
+		<result property="alnicuMatrlNm"	column="ALNICU_MATRL_NM"/>
+		<result property="filmMatrlCd"		column="FILM_MATRL_CD"	/>
+		<result property="filmMatrlNm"		column="FILM_MATRL_NM"	/>
+		<result property="dealCorpCd"		column="DEAL_CORP_CD"	/>
+		<result property="dealCorpNm"		column="DEAL_CORP_NM"	/>
+		
+		<result property="workChargr"		column="WORK_CHARGR"	/>
+		<result property="workChargrNm"		column="WORK_CHARGR_NM"	/>
+		<result property="dayNightGubun"	column="DAY_NIGHT_GUBUN"	/>
+		<result property="insertDate"		column="INSERT_DATE"	/>
+		<result property="workerId"			column="WORKER_ID"	/>
+		<result property="diff"				column="DIFF"	/>
+		<result property="outputCnt"		column="OUTPUT_CNT"	/>
+		
+		<result property="visionTotal"       		column="VISION_TOTAL"	/>
+		<result property="appearFaultyCnt"   		column="APPEAR_FAULTY_CNT"	/>
+		<result property="eFaultyCnt"        		column="E_FAULTY_CNT"	/>
+		<result property="appearOutputCnt"    		column="APPEAR_OUTPUT_CNT"	/>
+		<result property="shipFaultyCnt"      		column="SHIP_FAULTY_CNT"	/>
+		<result property="reShipFaultyCnt"    		column="RE_SHIP_FAULTY_CNT"	/>
+		<result property="visionFaulty"       		column="VISION_FAULTY"	/>
+		<result property="faultyTotal"				column="FAULTY_TOTAL" />
+		
+		
+		
+		<result property="reserved1"			column="RESERVED1"	/>
+		<result property="reserved2"            column="RESERVED2"	/>
+		<result property="reserved3"            column="RESERVED3"	/>
+		<result property="reserved4"            column="RESERVED4"	/>
+		<result property="reserved5"            column="RESERVED5"	/>
+		<result property="reserved6"            column="RESERVED6"	/>
+		<result property="reserved7"            column="RESERVED7"	/>
+		<result property="reserved8"            column="RESERVED8"	/>
+		<result property="reserved9"            column="RESERVED9"	/>
+		<result property="reserved10"           column="RESERVED10"	/>
+		<result property="reserved11"           column="RESERVED11"	/>
+		<result property="reserved12"           column="RESERVED12"	/>
+		<result property="reserved13"           column="RESERVED13"	/>
+		<result property="reserved14"           column="RESERVED14"	/>
+		<result property="reserved15"           column="RESERVED15"	/>
+		<result property="reserved16"           column="RESERVED16"	/>
+		<result property="reserved17"           column="RESERVED17"	/>
+		<result property="reserved18"           column="RESERVED18"	/>
+		<result property="reserved19"           column="RESERVED19"	/>
+		<result property="reserved20"           column="RESERVED20"	/>
+		<result property="reserved21"           column="RESERVED21"	/>
+		<result property="reserved22"           column="RESERVED22"	/>
+		<result property="reserved23"           column="RESERVED23"	/>
+		<result property="reserved24"           column="RESERVED24"	/>
+		<result property="reserved25"           column="RESERVED25"	/>
+		<result property="reserved26"           column="RESERVED26"	/>
+		<result property="reserved27"           column="RESERVED27"	/>
+		<result property="reserved28"           column="RESERVED28"	/>
+		<result property="reserved29"           column="RESERVED29"	/>
+		<result property="reserved30"           column="RESERVED30"	/>
+		<result property="reserved31"           column="RESERVED31"	/>
+		<result property="reserved32"           column="RESERVED32"	/>
+		<result property="reserved33"           column="RESERVED33"	/>
+		<result property="reserved34"           column="RESERVED34"	/>
+		<result property="reserved35"           column="RESERVED35"	/>
+		<result property="reserved36"           column="RESERVED36"	/>
+		<result property="reserved37"           column="RESERVED37"	/>
+		<result property="reserved38"           column="RESERVED38"	/>
+		<result property="reserved39"           column="RESERVED39"	/>
+		<result property="reserved40"           column="RESERVED40"	/>
+
+	</resultMap>
+
+
+	<!-- 비전 데이터 조회 -->
+	<select id="list" resultMap="VisionDataVo">
+		SELECT 
+			A.CLOSE_TIME
+			,A.WORK_ORD_NO
+			,A.FAIR_CNT
+			,A.DAY_NIGHT_GUBUN
+			,A.WORK_CHARGR
+			,(SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.WORK_CHARGR) WORK_CHARGR_NM		
+			,A.INSERT_DATE
+			,A.EQUIP_CD
+			,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM	
+			, D.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+			, C.MODEL
+			, D.SURFACE_TRTMT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='021' AND X.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+			, E.GOODS_CD
+			, C.GOODS_NM
+			, VISION_GUBUN
+			, F.LOT_NO
+			, RESERVED1
+			, RESERVED2
+			, RESERVED3
+			, RESERVED4
+			, RESERVED5
+			, RESERVED6
+			, RESERVED7
+			, RESERVED8
+			, RESERVED9
+			, RESERVED10
+			, RESERVED11
+			, RESERVED12
+			, RESERVED13
+			, RESERVED14
+			, RESERVED15
+			, RESERVED16
+			, RESERVED17
+			, RESERVED18
+			, RESERVED19
+			, RESERVED20
+			, RESERVED21
+			, RESERVED22
+			, RESERVED23
+			, RESERVED24
+			, RESERVED25
+			, RESERVED26
+			, RESERVED27
+			, RESERVED28
+			, RESERVED29
+			, RESERVED30
+			, RESERVED31
+			, RESERVED32
+			, RESERVED33
+			, RESERVED34
+			, RESERVED35
+			, RESERVED36
+			, RESERVED37
+			, RESERVED38
+			, RESERVED39
+			, RESERVED40	
+			, (ISNULL(RESERVED1,0)
+			+ ISNULL(RESERVED2,0)
+			+ ISNULL(RESERVED3,0)
+			+ ISNULL(RESERVED4,0)
+			+ ISNULL(RESERVED5,0)
+			+ ISNULL(RESERVED6,0)
+			+ ISNULL(RESERVED7,0)
+			+ ISNULL(RESERVED8,0)
+			+ ISNULL(RESERVED9,0)
+			+ ISNULL(RESERVED10,0)
+			+ ISNULL(RESERVED11,0)
+			+ ISNULL(RESERVED12,0)
+			+ ISNULL(RESERVED13,0)
+			+ ISNULL(RESERVED14,0)
+			+ ISNULL(RESERVED15,0)
+			+ ISNULL(RESERVED16,0)
+			+ ISNULL(RESERVED17,0)
+			+ ISNULL(RESERVED18,0)
+			+ ISNULL(RESERVED19,0)
+			+ ISNULL(RESERVED20,0)
+			+ ISNULL(RESERVED21,0)
+			+ ISNULL(RESERVED22,0)
+			+ ISNULL(RESERVED23,0)
+			+ ISNULL(RESERVED24,0)
+			+ ISNULL(RESERVED25,0)
+			+ ISNULL(RESERVED26,0)
+			+ ISNULL(RESERVED27,0)
+			+ ISNULL(RESERVED28,0)
+			+ ISNULL(RESERVED29,0)
+			+ ISNULL(RESERVED30,0)
+			+ ISNULL(RESERVED31,0)
+			+ ISNULL(RESERVED32,0)
+			+ ISNULL(RESERVED33,0)
+			+ ISNULL(RESERVED34,0)
+			+ ISNULL(RESERVED35,0)
+			+ ISNULL(RESERVED36,0)
+			+ ISNULL(RESERVED37,0)
+			+ ISNULL(RESERVED38,0)
+			+ ISNULL(RESERVED39,0)
+			+ ISNULL(RESERVED40,0))TOTAL_FAULTY		
+			,A.REG_ID
+			,A.REG_DATE
+			,A.UPD_ID
+			,A.UPD_DATE
+			
+		FROM TB_VISION_DATA_ADM A
+		LEFT OUTER JOIN
+			 TB_WORK_ORDER E
+		ON  A.WORK_ORD_NO = E.WORK_ORD_NO
+		LEFT OUTER JOIN
+			TB_WORK_ORDER_DTL F
+		ON A.WORK_ORD_NO = F.WORK_ORD_NO
+		AND LEFT(F.MATRL_CD,1) != 'F'		
+		LEFT OUTER JOIN 
+			TB_GOODS_CODE_ADM C
+		ON  E.GOODS_CD = C.GOODS_CD
+		LEFT OUTER JOIN 
+			TB_MATRL_CODE_ADM D
+		ON  C.ALNICU_MATRL_CD = D.MATRL_CD
+		
+		WHERE 1=1		
+		AND INSERT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		<if test="equipCd != null and equipCd != ''">
+			AND A.EQUIP_CD = #{equipCd}
+		 </if>
+		 <if test="visionGubun != null and visionGubun != ''">
+			AND A.VISION_GUBUN = #{visionGubun}
+		 </if>
+	</select>
+	
+	<!-- 비전 데이터 날짜별집계 조회 -->
+	<select id="listTotal" resultMap="VisionDataVo">
+		SELECT 
+			A.EQUIP_CD
+			,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM	
+			,INSERT_DATE
+			,DAY_NIGHT_GUBUN
+			, E.GOODS_CD
+			, C.GOODS_NM
+
+			
+			, D.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = D.QUTY_CD) QUTY_NM
+			, C.MODEL
+			, D.SURFACE_TRTMT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='021' AND X.BASE_CD = D.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+			, SUM(A.FAIR_CNT) FAIR_CNT 	
+			,(ISNULL(SUM(RESERVED1 ),0)  
+				+ ISNULL(SUM(RESERVED2 ),0)
+				+ ISNULL(SUM(RESERVED3 ),0)
+				+ ISNULL(SUM(RESERVED4 ),0)
+				+ ISNULL(SUM(RESERVED5 ),0)
+				+ ISNULL(SUM(RESERVED6 ),0)
+				+ ISNULL(SUM(RESERVED7 ),0)
+				+ ISNULL(SUM(RESERVED8 ),0)
+				+ ISNULL(SUM(RESERVED9 ),0)
+				+ ISNULL(SUM(RESERVED10),0)
+				+ ISNULL(SUM(RESERVED11),0)
+				+ ISNULL(SUM(RESERVED12),0)
+				+ ISNULL(SUM(RESERVED13),0)
+				+ ISNULL(SUM(RESERVED14),0)
+				+ ISNULL(SUM(RESERVED15),0)
+				+ ISNULL(SUM(RESERVED16),0)
+				+ ISNULL(SUM(RESERVED17),0)
+				+ ISNULL(SUM(RESERVED18),0)
+				+ ISNULL(SUM(RESERVED19),0)
+				+ ISNULL(SUM(RESERVED20),0)
+				+ ISNULL(SUM(RESERVED21),0)
+				+ ISNULL(SUM(RESERVED22),0)
+				+ ISNULL(SUM(RESERVED23),0)
+				+ ISNULL(SUM(RESERVED24),0)
+				+ ISNULL(SUM(RESERVED25),0)
+				+ ISNULL(SUM(RESERVED26),0)
+				+ ISNULL(SUM(RESERVED27),0)
+				+ ISNULL(SUM(RESERVED28),0)
+				+ ISNULL(SUM(RESERVED29),0)
+				+ ISNULL(SUM(RESERVED30),0)
+				+ ISNULL(SUM(RESERVED31),0)
+				+ ISNULL(SUM(RESERVED32),0)
+				+ ISNULL(SUM(RESERVED33),0)
+				+ ISNULL(SUM(RESERVED34),0)
+				+ ISNULL(SUM(RESERVED35),0)
+				+ ISNULL(SUM(RESERVED36),0)
+				+ ISNULL(SUM(RESERVED37),0)
+				+ ISNULL(SUM(RESERVED38),0)
+				+ ISNULL(SUM(RESERVED39),0)
+				+ ISNULL(SUM(RESERVED40),0) ) TOTAL_FAULTY
+				
+			,(ISNULL(SUM(RESERVED2 ),0)
+				+ ISNULL(SUM(RESERVED3 ),0)
+				+ ISNULL(SUM(RESERVED4 ),0)
+				+ ISNULL(SUM(RESERVED5 ),0)
+				+ ISNULL(SUM(RESERVED6 ),0)
+				+ ISNULL(SUM(RESERVED7 ),0)
+				+ ISNULL(SUM(RESERVED8 ),0)
+				+ ISNULL(SUM(RESERVED9 ),0)
+				+ ISNULL(SUM(RESERVED11),0)
+				+ ISNULL(SUM(RESERVED12),0)
+				+ ISNULL(SUM(RESERVED13),0)
+				+ ISNULL(SUM(RESERVED14),0)
+				+ ISNULL(SUM(RESERVED15),0)
+				+ ISNULL(SUM(RESERVED16),0)
+				+ ISNULL(SUM(RESERVED17),0)
+				+ ISNULL(SUM(RESERVED18),0)
+				+ ISNULL(SUM(RESERVED19),0)
+				+ ISNULL(SUM(RESERVED20),0)
+				+ ISNULL(SUM(RESERVED21),0)
+				+ ISNULL(SUM(RESERVED22),0)
+				+ ISNULL(SUM(RESERVED23),0)
+				+ ISNULL(SUM(RESERVED24),0)
+				+ ISNULL(SUM(RESERVED25),0)
+				+ ISNULL(SUM(RESERVED26),0)
+				+ ISNULL(SUM(RESERVED27),0)
+				+ ISNULL(SUM(RESERVED28),0)
+				+ ISNULL(SUM(RESERVED29),0)
+				+ ISNULL(SUM(RESERVED30),0)
+				+ ISNULL(SUM(RESERVED31),0)
+				+ ISNULL(SUM(RESERVED32),0)
+				+ ISNULL(SUM(RESERVED33),0)
+				+ ISNULL(SUM(RESERVED34),0)
+				+ ISNULL(SUM(RESERVED35),0)
+				+ ISNULL(SUM(RESERVED36),0)
+				+ ISNULL(SUM(RESERVED37),0)
+				+ ISNULL(SUM(RESERVED38),0)
+				+ ISNULL(SUM(RESERVED39),0)
+				+ ISNULL(SUM(RESERVED40),0) ) EXCEPT_CNT
+				
+			, (SELECT 
+					SUM(F.FAULTY_CNT)FAULTY_CNT  
+				FROM TB_GOODS_FAULTY_ADM_CODE F 
+				WHERE SUBSTRING(F.WORK_ORD_NO, 0, 12) = (SUBSTRING((SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD),0,3)+SUBSTRING((SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD),4,3)+SUBSTRING(INSERT_DATE, 3,8)) 
+				AND F.DAY_NIGHT_CD = A.DAY_NIGHT_GUBUN 
+				AND MAJOR_CD BETWEEN '004' AND '005' 
+				AND NOT E.GOODS_CD IS NULL 
+				AND F.SEQ = (SELECT
+								MAX(SEQ)
+							FROM TB_GOODS_FAULTY_ADM_CODE
+							WHERE MAJOR_CD BETWEEN '004' AND '005'
+							AND WORK_ORD_NO = F.WORK_ORD_NO
+							)
+				) FAULTY_CNT
+			
+			, ISNULL(SUM(RESERVED1 ),0)  RESERVED1 
+			, ISNULL(SUM(RESERVED2 ),0)  RESERVED2 
+			, ISNULL(SUM(RESERVED3 ),0)  RESERVED3 
+			, ISNULL(SUM(RESERVED4 ),0)  RESERVED4 
+			, ISNULL(SUM(RESERVED5 ),0)  RESERVED5 
+			, ISNULL(SUM(RESERVED6 ),0)  RESERVED6 
+			, ISNULL(SUM(RESERVED7 ),0)  RESERVED7 
+			, ISNULL(SUM(RESERVED8 ),0)  RESERVED8 
+			, ISNULL(SUM(RESERVED9 ),0)  RESERVED9 
+			, ISNULL(SUM(RESERVED10),0)  RESERVED10
+			, ISNULL(SUM(RESERVED11),0)  RESERVED11
+			, ISNULL(SUM(RESERVED12),0)  RESERVED12
+			, ISNULL(SUM(RESERVED13),0)  RESERVED13
+			, ISNULL(SUM(RESERVED14),0)  RESERVED14
+			, ISNULL(SUM(RESERVED15),0)  RESERVED15
+			, ISNULL(SUM(RESERVED16),0)  RESERVED16
+			, ISNULL(SUM(RESERVED17),0)  RESERVED17
+			, ISNULL(SUM(RESERVED18),0)  RESERVED18
+			, ISNULL(SUM(RESERVED19),0)  RESERVED19
+			, ISNULL(SUM(RESERVED20),0)  RESERVED20
+			, ISNULL(SUM(RESERVED21),0)  RESERVED21
+			, ISNULL(SUM(RESERVED22),0)  RESERVED22
+			, ISNULL(SUM(RESERVED23),0)  RESERVED23
+			, ISNULL(SUM(RESERVED24),0)  RESERVED24
+			, ISNULL(SUM(RESERVED25),0)  RESERVED25
+			, ISNULL(SUM(RESERVED26),0)  RESERVED26
+			, ISNULL(SUM(RESERVED27),0)  RESERVED27
+			, ISNULL(SUM(RESERVED28),0)  RESERVED28
+			, ISNULL(SUM(RESERVED29),0)  RESERVED29
+			, ISNULL(SUM(RESERVED30),0)  RESERVED30
+			, ISNULL(SUM(RESERVED31),0)  RESERVED31
+			, ISNULL(SUM(RESERVED32),0)  RESERVED32
+			, ISNULL(SUM(RESERVED33),0)  RESERVED33
+			, ISNULL(SUM(RESERVED34),0)  RESERVED34
+			, ISNULL(SUM(RESERVED35),0)  RESERVED35
+			, ISNULL(SUM(RESERVED36),0)  RESERVED36
+			, ISNULL(SUM(RESERVED37),0)  RESERVED37
+			, ISNULL(SUM(RESERVED38),0)  RESERVED38
+			, ISNULL(SUM(RESERVED39),0)  RESERVED39
+			, ISNULL(SUM(RESERVED40),0)	 RESERVED40
+			FROM TB_VISION_DATA_ADM A
+		LEFT OUTER JOIN
+			 TB_WORK_ORDER E
+		ON  A.WORK_ORD_NO = E.WORK_ORD_NO
+		LEFT OUTER JOIN 
+			TB_GOODS_CODE_ADM C
+		ON  E.GOODS_CD = C.GOODS_CD
+		LEFT OUTER JOIN 
+			TB_MATRL_CODE_ADM D
+		ON  C.ALNICU_MATRL_CD = D.MATRL_CD
+		
+		WHERE 1=1		
+		AND INSERT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		GROUP BY A.EQUIP_CD,INSERT_DATE,DAY_NIGHT_GUBUN,D.QUTY_CD,C.MODEL,D.SURFACE_TRTMT_CD,E.GOODS_CD,C.GOODS_NM
+		ORDER BY INSERT_DATE,EQUIP_CD
+	</select>
+	
+		<!-- 비전 데이터 로트별집계 조회 -->
+	<select id="listLot" resultMap="VisionDataVo">
+		SELECT 
+			F.LOT_NO
+			, SUM(A.FAIR_CNT) FAIR_CNT 	
+			,(ISNULL(SUM(RESERVED1 ),0)  
+				+ ISNULL(SUM(RESERVED2 ),0)
+				+ ISNULL(SUM(RESERVED3 ),0)
+				+ ISNULL(SUM(RESERVED4 ),0)
+				+ ISNULL(SUM(RESERVED5 ),0)
+				+ ISNULL(SUM(RESERVED6 ),0)
+				+ ISNULL(SUM(RESERVED7 ),0)
+				+ ISNULL(SUM(RESERVED8 ),0)
+				+ ISNULL(SUM(RESERVED9 ),0)
+				+ ISNULL(SUM(RESERVED10),0)
+				+ ISNULL(SUM(RESERVED11),0)
+				+ ISNULL(SUM(RESERVED12),0)
+				+ ISNULL(SUM(RESERVED13),0)
+				+ ISNULL(SUM(RESERVED14),0)
+				+ ISNULL(SUM(RESERVED15),0)
+				+ ISNULL(SUM(RESERVED16),0)
+				+ ISNULL(SUM(RESERVED17),0)
+				+ ISNULL(SUM(RESERVED18),0)
+				+ ISNULL(SUM(RESERVED19),0)
+				+ ISNULL(SUM(RESERVED20),0)
+				+ ISNULL(SUM(RESERVED21),0)
+				+ ISNULL(SUM(RESERVED22),0)
+				+ ISNULL(SUM(RESERVED23),0)
+				+ ISNULL(SUM(RESERVED24),0)
+				+ ISNULL(SUM(RESERVED25),0)
+				+ ISNULL(SUM(RESERVED26),0)
+				+ ISNULL(SUM(RESERVED27),0)
+				+ ISNULL(SUM(RESERVED28),0)
+				+ ISNULL(SUM(RESERVED29),0)
+				+ ISNULL(SUM(RESERVED30),0)
+				+ ISNULL(SUM(RESERVED31),0)
+				+ ISNULL(SUM(RESERVED32),0)
+				+ ISNULL(SUM(RESERVED33),0)
+				+ ISNULL(SUM(RESERVED34),0)
+				+ ISNULL(SUM(RESERVED35),0)
+				+ ISNULL(SUM(RESERVED36),0)
+				+ ISNULL(SUM(RESERVED37),0)
+				+ ISNULL(SUM(RESERVED38),0)
+				+ ISNULL(SUM(RESERVED39),0)
+				+ ISNULL(SUM(RESERVED40),0) ) TOTAL_FAULTY
+				
+			,(ISNULL(SUM(RESERVED2 ),0)
+				+ ISNULL(SUM(RESERVED3 ),0)
+				+ ISNULL(SUM(RESERVED4 ),0)
+				+ ISNULL(SUM(RESERVED5 ),0)
+				+ ISNULL(SUM(RESERVED6 ),0)
+				+ ISNULL(SUM(RESERVED7 ),0)
+				+ ISNULL(SUM(RESERVED8 ),0)
+				+ ISNULL(SUM(RESERVED9 ),0)
+				+ ISNULL(SUM(RESERVED11),0)
+				+ ISNULL(SUM(RESERVED12),0)
+				+ ISNULL(SUM(RESERVED13),0)
+				+ ISNULL(SUM(RESERVED14),0)
+				+ ISNULL(SUM(RESERVED15),0)
+				+ ISNULL(SUM(RESERVED16),0)
+				+ ISNULL(SUM(RESERVED17),0)
+				+ ISNULL(SUM(RESERVED18),0)
+				+ ISNULL(SUM(RESERVED19),0)
+				+ ISNULL(SUM(RESERVED20),0)
+				+ ISNULL(SUM(RESERVED21),0)
+				+ ISNULL(SUM(RESERVED22),0)
+				+ ISNULL(SUM(RESERVED23),0)
+				+ ISNULL(SUM(RESERVED24),0)
+				+ ISNULL(SUM(RESERVED25),0)
+				+ ISNULL(SUM(RESERVED26),0)
+				+ ISNULL(SUM(RESERVED27),0)
+				+ ISNULL(SUM(RESERVED28),0)
+				+ ISNULL(SUM(RESERVED29),0)
+				+ ISNULL(SUM(RESERVED30),0)
+				+ ISNULL(SUM(RESERVED31),0)
+				+ ISNULL(SUM(RESERVED32),0)
+				+ ISNULL(SUM(RESERVED33),0)
+				+ ISNULL(SUM(RESERVED34),0)
+				+ ISNULL(SUM(RESERVED35),0)
+				+ ISNULL(SUM(RESERVED36),0)
+				+ ISNULL(SUM(RESERVED37),0)
+				+ ISNULL(SUM(RESERVED38),0)
+				+ ISNULL(SUM(RESERVED39),0)
+				+ ISNULL(SUM(RESERVED40),0) ) EXCEPT_CNT
+
+			, ISNULL((SELECT SUM(RR.FAULTY_CNT) FROM(SELECT DISTINCT GFAC.P_IDX,
+					GFAC.FAULTY_CNT--SUM(FAULTY_CNT)
+				FROM TB_GOODS_FAULTY_ADM_CODE GFAC, TB_VISION_DATA_ADM VDA LEFT OUTER JOIN TB_WORK_ORDER_DTL WOD
+						ON VDA.WORK_ORD_NO = WOD.WORK_ORD_NO
+						AND LEFT(WOD.MATRL_CD ,1) != 'F'
+				WHERE 
+				GFAC.WORK_ORD_NO = VDA.WORK_ORD_NO
+				AND SUBSTRING(VDA.INSERT_DATE, 3, 6) = SUBSTRING(GFAC.WORK_ORD_NO, 6,6)
+				AND WOD.LOT_NO = F.LOT_NO
+				AND MAJOR_CD BETWEEN '004' AND '005'
+				AND SUBSTRING(GFAC.WORK_ORD_NO,6,6) BETWEEN SUBSTRING(#{chooseDateFrom},3,6) AND SUBSTRING(#{chooseDateTo},3,6)
+				AND SEQ = (SELECT
+								MAX(SEQ)
+							FROM TB_GOODS_FAULTY_ADM_CODE
+							WHERE MAJOR_CD BETWEEN '004' AND '005'
+							AND WORK_ORD_NO = GFAC.WORK_ORD_NO
+							)) RR),0) FAULTY_CNT
+
+			, ISNULL(SUM(RESERVED1 ),0)  RESERVED1 
+			, ISNULL(SUM(RESERVED2 ),0)  RESERVED2 
+			, ISNULL(SUM(RESERVED3 ),0)  RESERVED3 
+			, ISNULL(SUM(RESERVED4 ),0)  RESERVED4 
+			, ISNULL(SUM(RESERVED5 ),0)  RESERVED5 
+			, ISNULL(SUM(RESERVED6 ),0)  RESERVED6 
+			, ISNULL(SUM(RESERVED7 ),0)  RESERVED7 
+			, ISNULL(SUM(RESERVED8 ),0)  RESERVED8 
+			, ISNULL(SUM(RESERVED9 ),0)  RESERVED9 
+			, ISNULL(SUM(RESERVED10),0)  RESERVED10
+			, ISNULL(SUM(RESERVED11),0)  RESERVED11
+			, ISNULL(SUM(RESERVED12),0)  RESERVED12
+			, ISNULL(SUM(RESERVED13),0)  RESERVED13
+			, ISNULL(SUM(RESERVED14),0)  RESERVED14
+			, ISNULL(SUM(RESERVED15),0)  RESERVED15
+			, ISNULL(SUM(RESERVED16),0)  RESERVED16
+			, ISNULL(SUM(RESERVED17),0)  RESERVED17
+			, ISNULL(SUM(RESERVED18),0)  RESERVED18
+			, ISNULL(SUM(RESERVED19),0)  RESERVED19
+			, ISNULL(SUM(RESERVED20),0)  RESERVED20
+			, ISNULL(SUM(RESERVED21),0)  RESERVED21
+			, ISNULL(SUM(RESERVED22),0)  RESERVED22
+			, ISNULL(SUM(RESERVED23),0)  RESERVED23
+			, ISNULL(SUM(RESERVED24),0)  RESERVED24
+			, ISNULL(SUM(RESERVED25),0)  RESERVED25
+			, ISNULL(SUM(RESERVED26),0)  RESERVED26
+			, ISNULL(SUM(RESERVED27),0)  RESERVED27
+			, ISNULL(SUM(RESERVED28),0)  RESERVED28
+			, ISNULL(SUM(RESERVED29),0)  RESERVED29
+			, ISNULL(SUM(RESERVED30),0)  RESERVED30
+			, ISNULL(SUM(RESERVED31),0)  RESERVED31
+			, ISNULL(SUM(RESERVED32),0)  RESERVED32
+			, ISNULL(SUM(RESERVED33),0)  RESERVED33
+			, ISNULL(SUM(RESERVED34),0)  RESERVED34
+			, ISNULL(SUM(RESERVED35),0)  RESERVED35
+			, ISNULL(SUM(RESERVED36),0)  RESERVED36
+			, ISNULL(SUM(RESERVED37),0)  RESERVED37
+			, ISNULL(SUM(RESERVED38),0)  RESERVED38
+			, ISNULL(SUM(RESERVED39),0)  RESERVED39
+			, ISNULL(SUM(RESERVED40),0)	 RESERVED40
+			FROM TB_VISION_DATA_ADM A	
+		LEFT OUTER JOIN
+			TB_WORK_ORDER_DTL F
+		ON A.WORK_ORD_NO = F.WORK_ORD_NO
+		AND LEFT(F.MATRL_CD ,1) != 'F'
+		WHERE 1=1		
+		AND INSERT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		
+		GROUP BY F.LOT_NO
+	</select>
+	
+	<!-- 비전 데이터 날짜별집계 조회 -->
+	<select id="listDay" resultMap="VisionDataVo">
+		SELECT 
+			A.EQUIP_CD
+			, A.EQUIP_NM	
+			, A.INSERT_DATE
+			, WO.GOODS_CD
+			, GCA.GOODS_NM
+
+			, MCA.QUTY_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = MCA.QUTY_CD) QUTY_NM
+			, GCA.MODEL
+			, MCA.SURFACE_TRTMT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='021' AND X.BASE_CD = MCA.SURFACE_TRTMT_CD) SURFACE_TRTMT_NM
+
+			, A.FAIR_CNT 	
+			, A.TOTAL_FAULTY
+				
+			, A.EXCEPT_CNT
+				
+			, ISNULL(A.FAULTY_CNT,0) FAULTY_CNT
+			
+			, A.RESERVED1 
+			, A.RESERVED2 
+			, A.RESERVED3 
+			, A.RESERVED4 
+			, A.RESERVED5 
+			, A.RESERVED6 
+			, A.RESERVED7 
+			, A.RESERVED8 
+			, A.RESERVED9 
+			, A.RESERVED10
+			, A.RESERVED11
+			, A.RESERVED12
+			, A.RESERVED13
+			, A.RESERVED14
+			, A.RESERVED15
+			, A.RESERVED16
+			, A.RESERVED17
+			, A.RESERVED18
+			, A.RESERVED19
+			, A.RESERVED20
+			, A.RESERVED21
+			, A.RESERVED22
+			, A.RESERVED23
+			, A.RESERVED24
+			, A.RESERVED25
+			, A.RESERVED26
+			, A.RESERVED27
+			, A.RESERVED28
+			, A.RESERVED29
+			, A.RESERVED30
+			, A.RESERVED31
+			, A.RESERVED32
+			, A.RESERVED33
+			, A.RESERVED34
+			, A.RESERVED35
+			, A.RESERVED36
+			, A.RESERVED37
+			, A.RESERVED38
+			, A.RESERVED39
+			, A.RESERVED40
+			
+			FROM (SELECT 
+						A.EQUIP_CD
+						,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM	
+						,INSERT_DATE
+			
+						, SUM(A.FAIR_CNT) FAIR_CNT 	
+						,(ISNULL(SUM(RESERVED1 ),0)  
+							+ ISNULL(SUM(RESERVED2 ),0)
+							+ ISNULL(SUM(RESERVED3 ),0)
+							+ ISNULL(SUM(RESERVED4 ),0)
+							+ ISNULL(SUM(RESERVED5 ),0)
+							+ ISNULL(SUM(RESERVED6 ),0)
+							+ ISNULL(SUM(RESERVED7 ),0)
+							+ ISNULL(SUM(RESERVED8 ),0)
+							+ ISNULL(SUM(RESERVED9 ),0)
+							+ ISNULL(SUM(RESERVED10),0)
+							+ ISNULL(SUM(RESERVED11),0)
+							+ ISNULL(SUM(RESERVED12),0)
+							+ ISNULL(SUM(RESERVED13),0)
+							+ ISNULL(SUM(RESERVED14),0)
+							+ ISNULL(SUM(RESERVED15),0)
+							+ ISNULL(SUM(RESERVED16),0)
+							+ ISNULL(SUM(RESERVED17),0)
+							+ ISNULL(SUM(RESERVED18),0)
+							+ ISNULL(SUM(RESERVED19),0)
+							+ ISNULL(SUM(RESERVED20),0)
+							+ ISNULL(SUM(RESERVED21),0)
+							+ ISNULL(SUM(RESERVED22),0)
+							+ ISNULL(SUM(RESERVED23),0)
+							+ ISNULL(SUM(RESERVED24),0)
+							+ ISNULL(SUM(RESERVED25),0)
+							+ ISNULL(SUM(RESERVED26),0)
+							+ ISNULL(SUM(RESERVED27),0)
+							+ ISNULL(SUM(RESERVED28),0)
+							+ ISNULL(SUM(RESERVED29),0)
+							+ ISNULL(SUM(RESERVED30),0)
+							+ ISNULL(SUM(RESERVED31),0)
+							+ ISNULL(SUM(RESERVED32),0)
+							+ ISNULL(SUM(RESERVED33),0)
+							+ ISNULL(SUM(RESERVED34),0)
+							+ ISNULL(SUM(RESERVED35),0)
+							+ ISNULL(SUM(RESERVED36),0)
+							+ ISNULL(SUM(RESERVED37),0)
+							+ ISNULL(SUM(RESERVED38),0)
+							+ ISNULL(SUM(RESERVED39),0)
+							+ ISNULL(SUM(RESERVED40),0) ) TOTAL_FAULTY
+							
+						,(ISNULL(SUM(RESERVED2 ),0)
+							+ ISNULL(SUM(RESERVED3 ),0)
+							+ ISNULL(SUM(RESERVED4 ),0)
+							+ ISNULL(SUM(RESERVED5 ),0)
+							+ ISNULL(SUM(RESERVED6 ),0)
+							+ ISNULL(SUM(RESERVED7 ),0)
+							+ ISNULL(SUM(RESERVED8 ),0)
+							+ ISNULL(SUM(RESERVED9 ),0)
+							+ ISNULL(SUM(RESERVED11),0)
+							+ ISNULL(SUM(RESERVED12),0)
+							+ ISNULL(SUM(RESERVED13),0)
+							+ ISNULL(SUM(RESERVED14),0)
+							+ ISNULL(SUM(RESERVED15),0)
+							+ ISNULL(SUM(RESERVED16),0)
+							+ ISNULL(SUM(RESERVED17),0)
+							+ ISNULL(SUM(RESERVED18),0)
+							+ ISNULL(SUM(RESERVED19),0)
+							+ ISNULL(SUM(RESERVED20),0)
+							+ ISNULL(SUM(RESERVED21),0)
+							+ ISNULL(SUM(RESERVED22),0)
+							+ ISNULL(SUM(RESERVED23),0)
+							+ ISNULL(SUM(RESERVED24),0)
+							+ ISNULL(SUM(RESERVED25),0)
+							+ ISNULL(SUM(RESERVED26),0)
+							+ ISNULL(SUM(RESERVED27),0)
+							+ ISNULL(SUM(RESERVED28),0)
+							+ ISNULL(SUM(RESERVED29),0)
+							+ ISNULL(SUM(RESERVED30),0)
+							+ ISNULL(SUM(RESERVED31),0)
+							+ ISNULL(SUM(RESERVED32),0)
+							+ ISNULL(SUM(RESERVED33),0)
+							+ ISNULL(SUM(RESERVED34),0)
+							+ ISNULL(SUM(RESERVED35),0)
+							+ ISNULL(SUM(RESERVED36),0)
+							+ ISNULL(SUM(RESERVED37),0)
+							+ ISNULL(SUM(RESERVED38),0)
+							+ ISNULL(SUM(RESERVED39),0)
+							+ ISNULL(SUM(RESERVED40),0) ) EXCEPT_CNT
+							
+						, (SELECT 
+								SUM(F.FAULTY_CNT)FAULTY_CNT  
+							FROM TB_GOODS_FAULTY_ADM_CODE F 
+							WHERE SUBSTRING(F.WORK_ORD_NO, 0, 12) = (SUBSTRING((SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD),0,3)+SUBSTRING((SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD),4,3)+SUBSTRING(INSERT_DATE, 3,8)) 
+							AND MAJOR_CD BETWEEN '004' AND '005' 
+							AND F.SEQ = (SELECT
+											MAX(SEQ)
+										FROM TB_GOODS_FAULTY_ADM_CODE
+										WHERE MAJOR_CD BETWEEN '004' AND '005'
+										AND WORK_ORD_NO = F.WORK_ORD_NO
+										)
+							) FAULTY_CNT
+						, ISNULL(SUM(RESERVED1 ),0)  RESERVED1 
+						, ISNULL(SUM(RESERVED2 ),0)  RESERVED2 
+						, ISNULL(SUM(RESERVED3 ),0)  RESERVED3 
+						, ISNULL(SUM(RESERVED4 ),0)  RESERVED4 
+						, ISNULL(SUM(RESERVED5 ),0)  RESERVED5 
+						, ISNULL(SUM(RESERVED6 ),0)  RESERVED6 
+						, ISNULL(SUM(RESERVED7 ),0)  RESERVED7 
+						, ISNULL(SUM(RESERVED8 ),0)  RESERVED8 
+						, ISNULL(SUM(RESERVED9 ),0)  RESERVED9 
+						, ISNULL(SUM(RESERVED10),0)  RESERVED10
+						, ISNULL(SUM(RESERVED11),0)  RESERVED11
+						, ISNULL(SUM(RESERVED12),0)  RESERVED12
+						, ISNULL(SUM(RESERVED13),0)  RESERVED13
+						, ISNULL(SUM(RESERVED14),0)  RESERVED14
+						, ISNULL(SUM(RESERVED15),0)  RESERVED15
+						, ISNULL(SUM(RESERVED16),0)  RESERVED16
+						, ISNULL(SUM(RESERVED17),0)  RESERVED17
+						, ISNULL(SUM(RESERVED18),0)  RESERVED18
+						, ISNULL(SUM(RESERVED19),0)  RESERVED19
+						, ISNULL(SUM(RESERVED20),0)  RESERVED20
+						, ISNULL(SUM(RESERVED21),0)  RESERVED21
+						, ISNULL(SUM(RESERVED22),0)  RESERVED22
+						, ISNULL(SUM(RESERVED23),0)  RESERVED23
+						, ISNULL(SUM(RESERVED24),0)  RESERVED24
+						, ISNULL(SUM(RESERVED25),0)  RESERVED25
+						, ISNULL(SUM(RESERVED26),0)  RESERVED26
+						, ISNULL(SUM(RESERVED27),0)  RESERVED27
+						, ISNULL(SUM(RESERVED28),0)  RESERVED28
+						, ISNULL(SUM(RESERVED29),0)  RESERVED29
+						, ISNULL(SUM(RESERVED30),0)  RESERVED30
+						, ISNULL(SUM(RESERVED31),0)  RESERVED31
+						, ISNULL(SUM(RESERVED32),0)  RESERVED32
+						, ISNULL(SUM(RESERVED33),0)  RESERVED33
+						, ISNULL(SUM(RESERVED34),0)  RESERVED34
+						, ISNULL(SUM(RESERVED35),0)  RESERVED35
+						, ISNULL(SUM(RESERVED36),0)  RESERVED36
+						, ISNULL(SUM(RESERVED37),0)  RESERVED37
+						, ISNULL(SUM(RESERVED38),0)  RESERVED38
+						, ISNULL(SUM(RESERVED39),0)  RESERVED39
+						, ISNULL(SUM(RESERVED40),0)	 RESERVED40
+						FROM TB_VISION_DATA_ADM A
+					
+					WHERE 1=1		
+					AND INSERT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+					GROUP BY A.EQUIP_CD,INSERT_DATE
+			) A
+			LEFT OUTER JOIN (SELECT DISTINCT EQUIP_CD, GOODS_CD FROM TB_WORK_ORDER) WO
+			ON A.EQUIP_CD = WO.EQUIP_CD
+			LEFT OUTER JOIN (SELECT GOODS_CD, GOODS_NM, MODEL, ALNICU_MATRL_CD FROM TB_GOODS_CODE_ADM) GCA
+			ON GCA.GOODS_CD = WO.GOODS_CD
+			LEFT OUTER JOIN (SELECT MATRL_CD, QUTY_CD, SURFACE_TRTMT_CD FROM TB_MATRL_CODE_ADM) MCA
+			ON MCA.MATRL_CD = GCA.ALNICU_MATRL_CD
+			ORDER BY A.EQUIP_CD, A.INSERT_DATE
+	</select>
+	
+	<!-- 비전 데이터 조회 -->
+	<insert id="create">
+		INSERT INTO TB_VISION_DATA_ADM
+		( 
+			CLOSE_TIME
+			,WORK_ORD_NO
+			,FAIR_CNT
+			,DAY_NIGHT_GUBUN
+			,WORK_CHARGR
+			,INSERT_DATE
+			,EQUIP_CD
+			,VISION_GUBUN
+			,RESERVED1
+			,RESERVED2
+			,RESERVED3
+			,RESERVED4
+			,RESERVED5
+			,RESERVED6
+			,RESERVED7
+			,RESERVED8
+			,RESERVED9
+			,RESERVED10
+			,RESERVED11
+			,RESERVED12
+			,RESERVED13
+			,RESERVED14
+			,RESERVED15
+			,RESERVED16
+			,RESERVED17
+			,RESERVED18
+			,RESERVED19
+			,RESERVED20
+			,RESERVED21
+			,RESERVED22
+			,RESERVED23
+			,RESERVED24
+			,RESERVED25
+			,RESERVED26
+			,RESERVED27
+			,RESERVED28
+			,RESERVED29
+			,RESERVED30
+			,RESERVED31
+			,RESERVED32
+			,RESERVED33
+			,RESERVED34
+			,RESERVED35
+			,RESERVED36
+			,RESERVED37
+			,RESERVED38
+			,RESERVED39
+			,RESERVED40						
+			,REG_ID
+			,REG_DATE
+		) VALUES
+		(
+			#{closeTime}
+			,#{workOrdNo}
+			,#{fairCnt}
+			,#{dayNightGubun}
+			,#{workChargr}			
+			,#{insertDate}
+			,#{equipCd}
+			,#{visionGubun}
+			,#{reserved1}
+			,#{reserved2}
+			,#{reserved3}
+			,#{reserved4}
+			,#{reserved5}
+			,#{reserved6}
+			,#{reserved7}
+			,#{reserved8}
+			,#{reserved9}
+			,#{reserved10}
+			,#{reserved11}
+			,#{reserved12}
+			,#{reserved13}
+			,#{reserved14}
+			,#{reserved15}
+			,#{reserved16}
+			,#{reserved17}
+			,#{reserved18}
+			,#{reserved19}
+			,#{reserved20}
+			,#{reserved21}
+			,#{reserved22}
+			,#{reserved23}
+			,#{reserved24}
+			,#{reserved25}
+			,#{reserved26}
+			,#{reserved27}
+			,#{reserved28}
+			,#{reserved29}
+			,#{reserved30}
+			,#{reserved31}
+			,#{reserved32}
+			,#{reserved33}
+			,#{reserved34}
+			,#{reserved35}
+			,#{reserved36}
+			,#{reserved37}
+			,#{reserved38}
+			,#{reserved39}
+			,#{reserved40}
+			,#{regId}
+			,getDate()		
+		)
+
+			
+		
+	</insert>
+	
+	<!-- 진행중인 작지 조회 -->
+	<select id="visionDataSet" resultMap="VisionDataVo">
+		SELECT
+		  MAX(A.WORK_ORD_NO) WORK_ORD_NO,
+		  A.EQUIP_CD,
+		  (SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = A.EQUIP_CD ) EQUIP_NM,
+		  B.WORKER_ID
+		FROM TB_WORK_ORDER A , TB_WORKER_CHANGE B
+		WHERE A.WORK_STATUS_CD = 'S' 
+			AND A.WORK_ORD_NO = B.WORK_ORD_NO
+		GROUP BY A.EQUIP_CD, B.WORKER_ID
+
+	</select>
+	
+	<!-- MES VISION 데이터 비교 조회 -->
+	<select id="mesVisionDataRead" resultMap="VisionDataVo">
+		
+			<!-- SELECT 
+				X.EQUIP_CD
+				,X.EQUIP_NM
+				,DATE INSERT_DATE
+				,ISNULL(OUTPUT_CNT,0) OUTPUT_CNT
+				,ISNULL(FAIR_CNT,0) FAIR_CNT
+				,ISNULL(FAIR_CNT,0)-ISNULL(OUTPUT_CNT,0) DIFF
+			FROM 
+			(SELECT A.EQUIP_CD,A.EQUIP_NM,B.DATE FROM TB_EQUIP_CODE_ADM A,CALENDAR B
+				WHERE USE_YN_CD = '001' 
+				AND ETC1 = ''
+				AND DATE >= #{chooseDateFrom}
+				AND DATE <= #{chooseDateTo}
+			) X
+			LEFT OUTER JOIN
+			(
+				SELECT B.EQUIP_CD,WORK_ORD_DATE,SUM(A.OUTPUT_CNT) OUTPUT_CNT
+				FROM TB_WORK_ORDER_OUTPUT_SUB A, TB_WORK_ORDER B
+				WHERE 1=1
+				AND WORK_ORD_DATE >= #{chooseDateFrom}
+				AND WORK_ORD_DATE <= #{chooseDateTo}
+				AND A.WORK_ORD_NO = B.WORK_ORD_NO
+				GROUP BY B.EQUIP_CD,WORK_ORD_DATE
+			) A
+			ON 1=1
+			AND X.EQUIP_CD = A.EQUIP_CD
+			AND X.DATE = A.WORK_ORD_DATE
+			LEFT OUTER JOIN
+			(
+				SELECT EQUIP_CD,INSERT_DATE,SUM(FAIR_CNT) FAIR_CNT
+				FROM TB_VISION_DATA_ADM
+				WHERE 1=1
+				AND INSERT_DATE >= #{chooseDateFrom} 
+				AND INSERT_DATE <= #{chooseDateTo}
+				GROUP BY EQUIP_CD,INSERT_DATE
+			) B
+			ON 1=1
+			AND X.EQUIP_CD = B.EQUIP_CD
+			AND X.DATE = B.INSERT_DATE
+			WHERE 1=1 -->
+		<![CDATA[
+		
+			SELECT 
+				X.EQUIP_CD
+				,X.EQUIP_NM
+				,DATE INSERT_DATE
+				,ISNULL(OUTPUT_CNT,0) OUTPUT_CNT
+				,ISNULL(APPEAR_FAULTY_CNT,0) AS APPEAR_FAULTY_CNT
+				,ISNULL(E_FAULTY_CNT,0) AS E_FAULTY_CNT
+				,ISNULL(APPEAR_OUTPUT_CNT,0) AS APPEAR_OUTPUT_CNT
+				,ISNULL(SHIP_FAULTY_CNT,0)  AS SHIP_FAULTY_CNT
+				,ISNULL(RE_SHIP_FAULTY_CNT,0)  AS RE_SHIP_FAULTY_CNT
+				,ISNULL(FAULTY_TOTAL,0) FAULTY_TOTAL
+				,ISNULL(FAIR_CNT,0) FAIR_CNT
+				,ISNULL(VISION_FAULTY,0) VISION_FAULTY
+				,ISNULL(FAIR_CNT,0) + ISNULL(VISION_FAULTY,0) VISION_TOTAL
+				,(ISNULL(FAIR_CNT,0) + ISNULL(VISION_FAULTY,0)) - ISNULL(OUTPUT_CNT,0) DIFF
+			FROM 
+			(SELECT A.EQUIP_CD,A.EQUIP_NM,B.DATE FROM TB_EQUIP_CODE_ADM A,CALENDAR B
+				WHERE USE_YN_CD = '001' 
+				AND ETC1 = ''
+				AND DATE >= #{chooseDateFrom}
+				AND DATE <= #{chooseDateTo}
+			) X
+			LEFT OUTER JOIN
+			(
+				SELECT ISNULL(BB.EQUIP_CD,AA.EQUIP_CD) EQUIP_CD
+					  ,ISNULL(BB.ETC1,AA.EQUIP_NM) EQUIP_NM
+   					  , ISNULL(BB.INSERT_DATE,AA.INSERT_DATE) WORK_ORD_DATE
+					  ,ISNULL(AA.OUTPUT_CNT,0) + ISNULL(BB.OUTPUT_CNT,0) OUTPUT_CNT
+					  ,ISNULL(AA.APPEAR_FAULTY_CNT,0)  + ISNULL(BB.APPEAR_FAULTY_CNT,0)  AS APPEAR_FAULTY_CNT
+					  ,ISNULL(AA.E_FAULTY_CNT,0)		 + ISNULL(BB.E_FAULTY_CNT,0)	 	 AS E_FAULTY_CNT
+					  ,ISNULL(AA.APPEAR_OUTPUT_CNT,0)  + ISNULL(BB.APPEAR_OUTPUT_CNT,0)  AS APPEAR_OUTPUT_CNT
+					  ,ISNULL(AA.SHIP_FAULTY_CNT,0)    + ISNULL(BB.SHIP_FAULTY_CNT,0)    AS SHIP_FAULTY_CNT
+					  ,ISNULL(AA.RE_SHIP_FAULTY_CNT,0) + ISNULL(BB.RE_SHIP_FAULTY_CNT,0) AS RE_SHIP_FAULTY_CNT
+					  ,ISNULL(AA.FAULTY_TOTAL,0)	   + ISNULL(BB.FAULTY_TOTAL,0)	 	 AS FAULTY_TOTAL
+				
+				FROM
+
+			(SELECT 
+				X.EQUIP_CD
+				,X.EQUIP_NM
+				,DATE INSERT_DATE
+				,ISNULL(OUTPUT_CNT,0) OUTPUT_CNT
+				,ISNULL(APPEAR_FAULTY_CNT,0) AS APPEAR_FAULTY_CNT
+				,ISNULL(E_FAULTY_CNT,0) AS E_FAULTY_CNT
+				,ISNULL(APPEAR_OUTPUT_CNT,0) AS APPEAR_OUTPUT_CNT
+				,ISNULL(SHIP_FAULTY_CNT,0)  AS SHIP_FAULTY_CNT
+				,ISNULL(RE_SHIP_FAULTY_CNT,0)  AS RE_SHIP_FAULTY_CNT
+				,ISNULL(FAULTY_TOTAL,0)  AS FAULTY_TOTAL
+
+				FROM
+				(SELECT A.EQUIP_CD,A.EQUIP_NM,B.DATE FROM TB_EQUIP_CODE_ADM A,CALENDAR B
+								WHERE USE_YN_CD = '001' 		
+								AND ETC1 = ''
+								AND DATE >= #{chooseDateFrom}
+								AND DATE <= #{chooseDateTo}
+				) X
+			LEFT OUTER JOIN
+			(
+					SELECT 							
+								ISNULL(AA.EQUIP_CD,'') EQUIP_CD
+								,ISNULL( AA.WORK_ORD_DATE,'') WORK_ORD_DATE														
+								,SUM(AA.APPEAR_FAULTY_CNT) + SUM(E_FAULTY_CNT) + SUM(APPEAR_OUTPUT_CNT) + SUM(SHIP_FAULTY_CNT) +  SUM(RE_SHIP_FAULTY_CNT) AS OUTPUT_CNT
+								,SUM(AA.APPEAR_FAULTY_CNT) + SUM(E_FAULTY_CNT) + SUM(SHIP_FAULTY_CNT) +  SUM(RE_SHIP_FAULTY_CNT) AS FAULTY_TOTAL
+								,SUM(AA.APPEAR_FAULTY_CNT) AS APPEAR_FAULTY_CNT
+								,SUM(E_FAULTY_CNT) AS E_FAULTY_CNT
+								,SUM(APPEAR_OUTPUT_CNT) AS APPEAR_OUTPUT_CNT
+								,SUM(SHIP_FAULTY_CNT)  AS SHIP_FAULTY_CNT
+								,SUM(RE_SHIP_FAULTY_CNT)  AS RE_SHIP_FAULTY_CNT
+                
+							FROM
+							(
+								SELECT
+									 EQUIP_CD
+									, A.WORK_ORD_NO                     
+									, ISNULL(CC.FAULTY_CNT,0) AS APPEAR_FAULTY_CNT
+									, ISNULL(A.APPEAR_OUTPUT_CNT,0) AS APPEAR_OUTPUT_CNT
+									, ISNULL(CC.FAULTY_CNT,0) + ISNULL(A.APPEAR_OUTPUT_CNT,0) AS USER_INPUT_INSPCT_CNT
+									, ISNULL(B.E_FAULTY_CNT,0) AS E_FAULTY_CNT
+									, ISNULL(D.SHIP_FAULTY_CNT,0) AS SHIP_FAULTY_CNT
+									, ISNULL(E.RE_SHIP_FAULTY_CNT,0) AS RE_SHIP_FAULTY_CNT
+					
+									, WORK_ORD_DATE
+								FROM 
+								(
+									SELECT
+									B.EQUIP_CD
+									, A.WORK_ORD_NO                      
+										                       
+									, SUM(A.OUTPUT_CNT) AS APPEAR_OUTPUT_CNT						 
+							
+									, WORK_ORD_DATE
+									FROM  (SELECT DISTINCT SUM(OUTPUT_CNT) OUTPUT_CNT,WORK_ORD_NO,WORK_ORD_DATE FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo} GROUP BY WORK_ORD_NO,WORK_ORD_DATE) A, TB_WORK_ORDER B
+									WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+									GROUP BY A.WORK_ORD_NO, B.EQUIP_CD,WORK_ORD_DATE
+								) A 
+								LEFT OUTER JOIN
+							(SELECT
+									X.WORK_ORD_NO
+									, SUM(ISNULL(FAULTY_CNT,0)) FAULTY_CNT						
+				
+								FROM TB_GOODS_FAULTY_ADM_CODE Z, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+								WHERE 1=1 
+								AND X.WORK_ORD_NO = Z.WORK_ORD_NO				
+			
+								GROUP BY X.WORK_ORD_NO) CC
+							ON CC.WORK_ORD_NO = A.WORK_ORD_NO
+
+								LEFT OUTER JOIN 
+								(
+									SELECT                      
+										X.WORK_ORD_NO
+									, SUM(A.FAULTY_CNT) E_FAULTY_CNT
+                        
+									FROM TB_EDGE_GOODS_FAULTY_ADM_CODE A, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+									WHERE A.WORK_ORD_NO = X.WORK_ORD_NO
+									GROUP BY X.WORK_ORD_NO
+								) B
+								ON A.WORK_ORD_NO = B.WORK_ORD_NO
+
+								LEFT OUTER JOIN 
+								(
+									SELECT
+										B.WORK_ORD_NO					
+										, SUM(B.FAULTY_CNT) SHIP_FAULTY_CNT					
+									FROM TB_WORK_ORDER A
+										, (SELECT
+											X.WORK_ORD_NO
+											, SUM(FAULTY_CNT) FAULTY_CNT					
+											FROM TB_SHIP_INSPECT_ADM A,(SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+											WHERE A.WORK_ORD_NO = X.WORK_ORD_NO
+											AND RE_INSP_STATUS != '002'
+											GROUP BY X.WORK_ORD_NO) B
+									WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+									GROUP BY B.WORK_ORD_NO
+								) D
+								ON A.WORK_ORD_NO = D.WORK_ORD_NO  
+
+								LEFT OUTER JOIN 
+								(
+									SELECT
+										B.WORK_ORD_NO					
+										, SUM(B.FAULTY_CNT) RE_SHIP_FAULTY_CNT					
+									FROM TB_WORK_ORDER A
+										, (SELECT
+											X.WORK_ORD_NO
+											, SUM(FAULTY_CNT) FAULTY_CNT					
+											FROM TB_SHIP_INSPECT_ADM A,(SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+											WHERE A.WORK_ORD_NO = X.WORK_ORD_NO
+											AND RE_INSP_STATUS = '002'
+											GROUP BY X.WORK_ORD_NO) B
+									WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+									GROUP BY B.WORK_ORD_NO
+								) E
+								ON A.WORK_ORD_NO = E.WORK_ORD_NO  
+				  
+									              
+							) AA
+							GROUP BY AA.EQUIP_CD,WORK_ORD_DATE	
+				) A
+				ON 1=1
+				AND X.EQUIP_CD = A.EQUIP_CD
+				AND X.DATE = A.WORK_ORD_DATE
+				) AA
+
+				FULL OUTER JOIN
+
+				(SELECT 
+					X.EQUIP_CD
+					,X.ETC1
+					,DATE INSERT_DATE
+					,ISNULL(OUTPUT_CNT,0) OUTPUT_CNT
+					,ISNULL(APPEAR_FAULTY_CNT,0) AS APPEAR_FAULTY_CNT
+					,ISNULL(E_FAULTY_CNT,0) AS E_FAULTY_CNT
+					,ISNULL(APPEAR_OUTPUT_CNT,0) AS APPEAR_OUTPUT_CNT
+					,ISNULL(SHIP_FAULTY_CNT,0)  AS SHIP_FAULTY_CNT
+					,ISNULL(RE_SHIP_FAULTY_CNT,0)  AS RE_SHIP_FAULTY_CNT
+					,ISNULL(FAULTY_TOTAL,0)  AS FAULTY_TOTAL
+
+					FROM
+
+				(SELECT A.EQUIP_CD,A.EQUIP_NM,B.DATE,ETC1 FROM TB_EQUIP_CODE_ADM A,CALENDAR B
+					WHERE USE_YN_CD = '001' 		
+					AND ETC1 != ''
+					AND DATE >= #{chooseDateFrom}
+					AND DATE <= #{chooseDateTo}
+				) X
+				LEFT OUTER JOIN
+				(
+					SELECT 							
+								ISNULL(AA.EQUIP_CD,'') EQUIP_CD
+								,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM WHERE AA.EQUIP_CD = EQUIP_CD) EQUIP_NM						
+								,ISNULL( AA.WORK_ORD_DATE,'') WORK_ORD_DATE														
+								,SUM(AA.APPEAR_FAULTY_CNT) + SUM(E_FAULTY_CNT) + SUM(APPEAR_OUTPUT_CNT) + SUM(SHIP_FAULTY_CNT) +  SUM(RE_SHIP_FAULTY_CNT) AS OUTPUT_CNT 	
+								,SUM(AA.APPEAR_FAULTY_CNT) + SUM(E_FAULTY_CNT) + SUM(SHIP_FAULTY_CNT) +  SUM(RE_SHIP_FAULTY_CNT) AS FAULTY_TOTAL 
+								,SUM(AA.APPEAR_FAULTY_CNT) AS APPEAR_FAULTY_CNT
+								,SUM(E_FAULTY_CNT) AS E_FAULTY_CNT
+								,SUM(APPEAR_OUTPUT_CNT) AS APPEAR_OUTPUT_CNT
+								,SUM(SHIP_FAULTY_CNT)  AS SHIP_FAULTY_CNT
+								,SUM(RE_SHIP_FAULTY_CNT)  AS RE_SHIP_FAULTY_CNT
+                
+							FROM
+							(
+								SELECT
+									 EQUIP_CD
+									, A.WORK_ORD_NO                     
+									, ISNULL(CC.FAULTY_CNT,0) AS APPEAR_FAULTY_CNT
+									, ISNULL(A.APPEAR_OUTPUT_CNT,0) AS APPEAR_OUTPUT_CNT
+									, ISNULL(CC.FAULTY_CNT,0) + ISNULL(A.APPEAR_OUTPUT_CNT,0) AS USER_INPUT_INSPCT_CNT
+									, ISNULL(B.E_FAULTY_CNT,0) AS E_FAULTY_CNT
+									, ISNULL(D.SHIP_FAULTY_CNT,0) AS SHIP_FAULTY_CNT
+									, ISNULL(E.RE_SHIP_FAULTY_CNT,0) AS RE_SHIP_FAULTY_CNT
+					
+									, WORK_ORD_DATE
+								FROM 
+								(
+									SELECT
+									B.EQUIP_CD
+									, A.WORK_ORD_NO                      
+										                       
+									, SUM(A.OUTPUT_CNT) AS APPEAR_OUTPUT_CNT						 
+							
+									, WORK_ORD_DATE
+									FROM  (SELECT DISTINCT SUM(OUTPUT_CNT) OUTPUT_CNT,WORK_ORD_NO,WORK_ORD_DATE FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo} GROUP BY WORK_ORD_NO,WORK_ORD_DATE) A, TB_WORK_ORDER B
+									WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+									GROUP BY A.WORK_ORD_NO, B.EQUIP_CD,WORK_ORD_DATE
+								) A 
+								LEFT OUTER JOIN
+							(SELECT
+									X.WORK_ORD_NO
+									, SUM(ISNULL(FAULTY_CNT,0)) FAULTY_CNT						
+				
+								FROM TB_GOODS_FAULTY_ADM_CODE Z, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+								WHERE 1=1 
+								AND X.WORK_ORD_NO = Z.WORK_ORD_NO				
+			
+								GROUP BY X.WORK_ORD_NO) CC
+							ON CC.WORK_ORD_NO = A.WORK_ORD_NO
+
+								LEFT OUTER JOIN 
+								(
+									SELECT                      
+										X.WORK_ORD_NO
+									, SUM(A.FAULTY_CNT) E_FAULTY_CNT
+                        
+									FROM TB_EDGE_GOODS_FAULTY_ADM_CODE A, (SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+									WHERE A.WORK_ORD_NO = X.WORK_ORD_NO
+									GROUP BY X.WORK_ORD_NO
+								) B
+								ON A.WORK_ORD_NO = B.WORK_ORD_NO         
+
+								LEFT OUTER JOIN 
+								(
+									SELECT
+										B.WORK_ORD_NO					
+										, SUM(B.FAULTY_CNT) SHIP_FAULTY_CNT					
+									FROM TB_WORK_ORDER A
+										, (SELECT
+											X.WORK_ORD_NO
+											, SUM(FAULTY_CNT) FAULTY_CNT					
+											FROM TB_SHIP_INSPECT_ADM A,(SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+											WHERE A.WORK_ORD_NO = X.WORK_ORD_NO
+											AND RE_INSP_STATUS != '002'
+											GROUP BY X.WORK_ORD_NO) B
+									WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+									GROUP BY B.WORK_ORD_NO
+								) D
+								ON A.WORK_ORD_NO = D.WORK_ORD_NO  
+
+								LEFT OUTER JOIN 
+								(
+									SELECT
+										B.WORK_ORD_NO					
+										, SUM(B.FAULTY_CNT) RE_SHIP_FAULTY_CNT					
+									FROM TB_WORK_ORDER A
+										, (SELECT
+											X.WORK_ORD_NO
+											, SUM(FAULTY_CNT) FAULTY_CNT					
+											FROM TB_SHIP_INSPECT_ADM A,(SELECT DISTINCT WORK_ORD_NO FROM TB_WORK_ORDER_OUTPUT_SUB X WHERE X.WORK_ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}) X
+											WHERE A.WORK_ORD_NO = X.WORK_ORD_NO
+											AND RE_INSP_STATUS = '002'
+											GROUP BY X.WORK_ORD_NO) B
+									WHERE A.WORK_ORD_NO = B.WORK_ORD_NO
+									GROUP BY B.WORK_ORD_NO
+								) E
+								ON A.WORK_ORD_NO = E.WORK_ORD_NO  
+				  
+									              
+							) AA
+							GROUP BY AA.EQUIP_CD,WORK_ORD_DATE	
+				) A
+				ON 1=1
+				AND X.EQUIP_CD = A.EQUIP_CD
+				AND X.DATE = A.WORK_ORD_DATE
+				) BB
+				ON 1=1
+				AND AA.EQUIP_NM = BB.ETC1
+				AND AA.INSERT_DATE = BB.INSERT_DATE
+			) A
+			ON 1=1
+			AND X.EQUIP_NM = A.EQUIP_NM
+			AND X.DATE = A.WORK_ORD_DATE
+			LEFT OUTER JOIN
+			(
+				SELECT EQUIP_CD
+				,INSERT_DATE
+				,SUM(FAIR_CNT) FAIR_CNT
+				,SUM(ISNULL(RESERVED1 ,0)+
+					ISNULL(RESERVED2 ,0)+
+					ISNULL(RESERVED3 ,0)+
+					ISNULL(RESERVED4 ,0)+
+					ISNULL(RESERVED5 ,0)+
+					ISNULL(RESERVED6 ,0)+
+					ISNULL(RESERVED7 ,0)+
+					ISNULL(RESERVED8 ,0)+
+					ISNULL(RESERVED9 ,0)+
+					ISNULL(RESERVED10,0)+
+					ISNULL(RESERVED11,0)+
+					ISNULL(RESERVED12,0)+
+					ISNULL(RESERVED13,0)+
+					ISNULL(RESERVED14,0)+
+					ISNULL(RESERVED15,0)+
+					ISNULL(RESERVED16,0)+
+					ISNULL(RESERVED17,0)+
+					ISNULL(RESERVED18,0)+
+					ISNULL(RESERVED19,0)+
+					ISNULL(RESERVED21,0)+
+					ISNULL(RESERVED22,0)+
+					ISNULL(RESERVED23,0)+
+					ISNULL(RESERVED24,0)+
+					ISNULL(RESERVED25,0)+
+					ISNULL(RESERVED26,0)+
+					ISNULL(RESERVED27,0)+
+					ISNULL(RESERVED28,0)+
+					ISNULL(RESERVED29,0)+
+					ISNULL(RESERVED31,0)+
+					ISNULL(RESERVED32,0)+
+					ISNULL(RESERVED33,0)+
+					ISNULL(RESERVED34,0)+
+					ISNULL(RESERVED35,0)+
+					ISNULL(RESERVED36,0)+
+					ISNULL(RESERVED37,0)+
+					ISNULL(RESERVED38,0)+
+					ISNULL(RESERVED39,0)+
+					ISNULL(RESERVED31,0)+
+					ISNULL(RESERVED32,0)+
+					ISNULL(RESERVED33,0)+
+					ISNULL(RESERVED34,0)+
+					ISNULL(RESERVED35,0)+
+					ISNULL(RESERVED36,0)+
+					ISNULL(RESERVED37,0)+
+					ISNULL(RESERVED38,0)+
+					ISNULL(RESERVED39,0)+
+					ISNULL(RESERVED40,0) ) VISION_FAULTY
+				FROM TB_VISION_DATA_ADM
+				WHERE 1=1
+				AND INSERT_DATE >= #{chooseDateFrom} 
+				AND INSERT_DATE <= #{chooseDateTo}
+				GROUP BY EQUIP_CD,INSERT_DATE
+			) B
+			ON 1=1
+			AND X.EQUIP_CD = B.EQUIP_CD
+			AND X.DATE = B.INSERT_DATE
+			WHERE 1=1	
+
+		]]>
+
+			<if test="visionGubun != null and visionGubun != ''">
+				AND ((-1000 > ((FAIR_CNT+VISION_FAULTY)-OUTPUT_CNT)) OR ( ((FAIR_CNT+VISION_FAULTY)-OUTPUT_CNT) > 1000)  )
+		 	</if>
+		 	<if test="equipCd != null and equipCd != ''">
+				AND X.EQUIP_CD = #{equipCd}
+		 	</if>
+			ORDER BY INSERT_DATE, EQUIP_CD
+			
+		
+	</select>
+
+
+</mapper>	

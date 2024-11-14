@@ -1,0 +1,1263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.pd.pdaMapper">
+
+	<!-- 제품생산 관리 -->
+	<resultMap id="GoodsProductInfoAdmVo" type="mes.domain.pd.GoodsProductInfoAdmVo">
+		<result property="boxNo"			column="BOX_NO"				/>
+		<result property="goodsCd"			column="GOODS_CD"			/>
+		<result property="ordGubun"			column="ORD_GUBUN"			/>
+		<result property="ordGubunNm"		column="ORD_GUBUN_NM"		/>
+		<result property="packCnt"			column="PACK_CNT"			/>
+		<result property="packDate"			column="PACK_DATE"			/>
+		<result property="remainCnt"		column="REMAIN_CNT"			/>
+		<result property="userOutputCnt"	column="USER_OUTPUT_CNT"	/>
+		<result property="locationCd"		column="LOCATION_CD"		/>
+		<result property="goodsInDate"		column="GOODS_IN_DATE"		/>
+		<result property="goodsStatus"		column="GOODS_STATUS"		/>
+		<result property="goodsStatusNm"	column="GOODS_STATUS_NM"	/>
+		<result property="disuseYn"			column="DISUSE_YN"			/>
+		<result property="disuseYnNm"		column="DISUSE_YN_NM"		/>
+		<result property="mergeYn"			column="MERGE_YN"			/>
+		<result property="mergeYnNm"		column="MERGE_YN_NM"		/>
+		
+		<result property="divisionYn"		column="DIVISION_YN"		/>
+		<result property="divisionYnNm"		column="DIVISION_YN_NM"		/>
+		<result property="faultyStatusDate"	column="FAULTY_STATUS_DATE"		/>
+		<result property="faultyStatus"		column="FAULTY_STATUS"		/>
+		<result property="faultyStatusNm"	column="FAULTY_STATUS_NM"	/>
+		<result property="completeYn"		column="COMPLETE_YN"		/>
+		
+		<result property="regId"			column="REG_ID"			/>
+		<result property="regDate"			column="REG_DATE"		/>
+		<result property="updId"			column="UPD_ID"			/>
+		<result property="updDate"			column="UPD_DATE"		/>
+		<result property="histId"			column="HIST_ID"		/>
+		<result property="histDate"			column="HIST_DATE"		/>
+		
+		<!-- join 시 사용 -->
+		<result property="goodsNm"			column="GOODS_NM"		/>
+		<result property="modelNo"			column="MODEL_NO"		/>
+		<result property="locationNm"		column="LOCATION_NM"	/>
+		
+		<result property="workOrdNo"		column="WORK_ORD_NO"		/>
+		<result property="sealing1"			column="SEALING1"			/>
+		<result property="sealing2"			column="SEALING2"			/>
+		<result property="filmFaultyCheck"	column="FILM_FAULTY_CHECK"	/>
+		<result property="sealingDate"		column="SEALING_DATE"		/>
+		
+		<result property="goodsFifoCount"	column="GOODS_FIFO_COUONT"	/>
+		<result property="customerLotNo"	column="CUSTOMER_LOT_NO"	/>
+		
+		<result property="matrlLotNo"		column="MATRL_LOT_NO"		/>
+		<result property="filmLotNo"		column="FILM_LOT_NO"		/>
+		
+		<result property="disposeGubun"		column="DISPOSE_GUBUN"		/>
+		<result property="appointDate"		column="APPOINT_DATE"		/>
+	</resultMap>
+	
+	<resultMap id="PreGoodsInventoryAdmVo" type="mes.domain.tm.PreGoodsInventoryAdmVo">
+		<result property="invntryNo"			    column="INVNTRY_NO"				/>
+		<result property="slipNo"			        column="SLIP_NO"				/>
+		<result property="slipSeq"			        column="SLIP_SEQ"				/>
+		<result property="goodsCd"			        column="GOODS_CD"				/>
+		<result property="goodsNm"			    	column="GOODS_NM"				/>
+		<result property="ordGubun"					column="ORDER_GUBUN"			/>	<!-- 생산제품 에서 사용 -->
+		<result property="orderGubunCd"				column="ORDER_GUBUN_CD"			/>	<!-- 재고제품 에서 사용 -->
+		<result property="orderGubunNm"				column="ORDER_GUBUN_NM"			/>	<!-- 재고제품 에서 사용 -->
+		<result property="model"			        column="MODEL"					/>
+		<result property="modelNo"			        column="MODEL_NO"				/>
+		<result property="customerModelNo"			column="CUSTOMER_MODEL_NO"		/>
+		<result property="forwordBoxCnt"			column="FORWORD_BOX_CNT"		/>
+		<result property="inputBoxCnt"			    column="INPUT_BOX_CNT"			/>
+		<result property="invntryBoxCnt"			column="INVNTRY_BOX_CNT"		/>
+		<result property="invntryAllCnt"			column="INVNTRY_ALL_CNT"		/>
+		<result property="outputBoxCnt"				column="OUTPUT_BOX_CNT"			/>
+		<result property="outputAllCnt"				column="OUTPUT_ALL_CNT"			/>
+		<result property="packCnt"			        column="PACK_CNT"				/>
+		<result property="qutyCd"			        column="QUTY_CD"				/>
+		<result property="qutyNm"			        column="QUTY_NM"				/>
+		<result property="dealCorpCd"			    column="DEAL_CORP_CD"			/>
+		<result property="dealCorpNm"			    column="DEAL_CORP_NM"			/>
+		<result property="invntryDesc"			    column="INVNTRY_DESC"			/>
+		<result property="lastYn"			        column="LAST_YN"				/>
+		<result property="regId"			        column="REG_ID"					/>
+		<result property="regDate"			        column="REG_DATE"				/>
+		<result property="updId"			        column="UPD_ID"					/>
+		<result property="updDate"			        column="UPD_DATE"				/>
+		<result property="faultyStatus"				column="FAULTY_STATUS"			/>
+		<result property="faultyStatusNm"			column="FAULTY_STATUS_NM"		/>
+		
+		<result property="boxNo"					column="BOX_NO"					/>
+		<result property="remainCnt"				column="REMAIN_CNT"				/>
+		<result property="userOutputCnt"			column="USER_OUTPUT_CNT"		/>
+		<result property="goodsStatus"				column="GOODS_STATUS"			/>
+		<result property="goodsStatusNm"			column="GOODS_STATUS_NM"		/>
+		<result property="goodsInDate"				column="GOODS_IN_DATE"			/>
+		<result property="goodsFifoCount"			column="GOODS_FIFO_COUONT"	/>
+		
+	</resultMap>
+	
+	<resultMap id="PurchaseOrderDtl" type="mes.domain.bs.PurchaseOrderAdmVo">
+		<result property="poSeq"				column="PO_SEQ"				/>
+		<result property="poGroup"				column="PO_GROUP"			/>
+		<result property="goodsCd"				column="GOODS_CD"			/>
+		<result property="boxNo"				column="BOX_NO"				/>
+		<result property="packCnt"				column="PACK_CNT"			/>
+		<result property="outputCnt"			column="OUTPUT_CNT"			/>
+		<result property="poDate"				column="PO_DATE"			/>
+		<result property="regId"				column="REG_ID"				/>
+		<result property="regDate"				column="REG_DATE"			/>
+		<result property="updId"				column="UPD_ID"				/>
+		<result property="updDate"				column="UPD_DATE"			/>
+		
+		<result property="poNoSeq"				column="PO_NO_SEQ"			/>
+		<result property="completeYn"			column="COMPLETE_YN"		/>
+		<result property="customerLotNo"		column="CUSTOMER_LOT_NO"	/>
+		<result property="goodsNm"				column="GOODS_NM"			/>
+		<result property="poNo"					column="PO_NO"				/>
+		<result property="goodsStatus"			column="GOODS_STATUS"		/>
+		<result property="disposeGubun"			column="DISPOSE_GUBUN"		/>
+		<result property="disposeGubunNm"		column="DISPOSE_GUBUN_NM"	/>
+		<result property="poGroupCount"			column="PO_GROUP_COUNT"		/>
+		<result property="factCheck"			column="FACT_CHECK"			/>
+		
+		<result property="dealCorpCd"			    column="DEAL_CORP_CD"			/>
+		
+		<result property="goodsStatus"			column="GOODS_STATUS"		/>
+		<result property="completeYn"			column="COMPLETE_YN"		/>
+		<result property="allCount"				column="ALL_COUNT"			/>
+		<result property="checkCount"			column="CHECK_COUNT"		/>
+		
+		<result property="customerLotNo1"		column="CUSTOMER_LOT_NO1"	/>
+		<result property="customerLotNo2"		column="CUSTOMER_LOT_NO2"	/>
+		<result property="customerLotNo3"		column="CUSTOMER_LOT_NO3"	/>
+	</resultMap>
+	
+	<!-- PDA 자재입고 Location Updqte -->
+	<update id="updatePdaLocation">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			LOCATION_CD = #{locationCd}			
+			<!-- , IN_WHS_DATE = #{inWhsDate} -->
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE
+			BARCODE_NO = #{barcodeNo}
+	</update>
+
+	<!-- PDA 자재츨고 Update -->
+	<update id="updatePda">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+			<if test="statusCd != null and statusCd != ''">
+			, STATUS_CD = #{statusCd}
+			</if>
+			<if test="preOutWhsDate != null and preOutWhsDate != ''">
+			, PRE_OUT_WHS_DATE = #{preOutWhsDate}
+			</if>
+			<if test="preOutEquipCd != null and preOutEquipCd != ''">
+			, PRE_OUT_EQUIP_CD = #{preOutEquipCd}
+			</if>
+			<if test="preOutGoodsCd != null and preOutGoodsCd != ''">
+			, PRE_OUT_GOODS_CD = #{preOutGoodsCd}
+			</if>
+			<if test="preOutQty != null and preOutQty != ''">
+			, PRE_OUT_QTY = #{preOutQty}
+			</if>
+			<if test="preWorkCharger != null and preWorkCharger != ''">
+			, PRE_WORK_CHARGER = #{preWorkCharger}			
+			</if>
+			<if test="floorGubun != null and floorGubun != ''">
+				,FLOOR_GUBUN = #{floorGubun}
+			</if>
+		WHERE
+			BARCODE_NO = #{barcodeNo}
+	</update>
+	
+	<!-- PDA 자재입고 조회 -->
+	<select id="readGoodsProductInfo" resultMap="GoodsProductInfoAdmVo">
+		SELECT
+			A.BOX_NO
+			, A.GOODS_CD
+			, B.GOODS_NM
+			, B.MODEL_NO
+			, A.ORD_GUBUN
+			, A.PACK_CNT
+			, A.PACK_DATE
+			, A.REMAIN_CNT
+			, A.LOCATION_CD
+			, A.GOODS_IN_DATE
+			, A.GOODS_STATUS
+			, A.DISUSE_YN
+			, A.DIVISION_YN
+			, A.FAULTY_STATUS
+			, A.MERGE_YN
+			, A.CUSTOMER_LOT_NO
+			, A.COMPLETE_YN
+			, A.DISPOSE_GUBUN
+			, A.APPOINT_DATE
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM	TB_GOODS_PRODUCT_INFO_ADM A, TB_GOODS_CODE_ADM B
+		WHERE A.GOODS_CD = B.GOODS_CD
+		AND BOX_NO = #{boxNo}
+	</select>
+	
+	<!-- PDA 자재입고 Location Update -->
+	<update id="updateProductLocation">
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET
+			UPD_DATE = getDate()
+			, UPD_ID = #{updId}
+			, FAULTY_STATUS_DATE = NULL
+			<if test="locationCd != null and locationCd != ''">
+				, LOCATION_CD = #{locationCd}
+			</if>
+			<if test="goodsInDate != null and goodsInDate != ''">
+				, GOODS_IN_DATE = #{goodsInDate}
+			</if>
+			<if test="goodsStatus != null and goodsStatus != ''">
+				, GOODS_STATUS = #{goodsStatus}
+			</if>
+			<if test="completeYn != null and completeYn != ''">
+				, COMPLETE_YN = #{completeYn}
+			</if>
+			<if test="customerLotNo != null and customerLotNo != ''">
+				, CUSTOMER_LOT_NO = #{customerLotNo}
+			</if>
+			
+		WHERE
+			BOX_NO = #{boxNo}
+	</update>
+	
+	<!-- PDA 제품 출하대기 Update -->
+	<update id="palletRelatedProductUpdate_F3">
+		
+		<!-- 제품생산정보관리	완료&미료  -->
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET
+			UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+<!-- 			<if test="locationCd != null and locationCd != ''"> -->
+			, LOCATION_CD = #{locationCd}
+<!-- 			</if> -->
+			<if test="goodsStatus != null and goodsStatus != ''">
+				, GOODS_STATUS = #{goodsStatus}
+			</if>
+			<if test="completeYn != null and completeYn != ''">
+				, COMPLETE_YN = #{completeYn}
+			</if>
+		WHERE 1=1
+		AND BOX_NO IN (
+			SELECT
+				BOX_NO
+			FROM TB_PURCHASE_ORDER_DTL
+			WHERE 1=1
+			AND PO_SEQ = #{poSeq}
+			AND PO_GROUP = #{poGroup}
+		)
+		
+		<!-- 제품 출하 내역 완료&미료  -->		
+		<if test="locationInputDate != null and locationInputDate != ''">
+			UPDATE TB_PURCHASE_ORDER_DTL
+			SET
+				LOCATION_INPUT_DATE
+				= (
+					CASE
+					WHEN ( SELECT TOP 1 ISNULL(LOCATION_INPUT_DATE, '') FROM TB_PURCHASE_ORDER_DTL WHERE PO_SEQ = #{poSeq} AND PO_GROUP = #{poGroup} ) = ''
+					THEN #{locationInputDate}
+					ELSE ( SELECT TOP 1 ISNULL(LOCATION_INPUT_DATE, '') FROM TB_PURCHASE_ORDER_DTL WHERE PO_SEQ = #{poSeq} AND PO_GROUP = #{poGroup} )
+					END
+				)
+				, UPD_ID = #{updId}
+				, UPD_DATE = getDate()
+			WHERE 1=1
+			AND PO_SEQ = #{poSeq}
+			AND PO_GROUP = #{poGroup}
+		</if>
+		
+
+		<!-- 제품 출하 내역 완료&미료  -->		
+		<if test="completeYn != null and completeYn != ''">
+			UPDATE TB_PURCHASE_ORDER_DTL
+			SET
+				 COMPLETE_YN = #{completeYn}
+				 <if test='completeYn == "N"'>
+					, LOCATION_INPUT_DATE = NULL 
+				</if>
+				, UPD_ID = #{updId}
+				, UPD_DATE = getDate()
+			WHERE 1=1
+			AND PO_SEQ = #{poSeq}
+			AND PO_GROUP = #{poGroup}
+		</if>
+		
+		<!-- 제품 출하 내역 완료_history 완료&미료  -->
+		<if test="completeYn != null and completeYn != ''">
+			 UPDATE TB_PURCHASE_ORDER_OUTPUT_HIST
+			SET
+				 COMPLETE_YN = #{completeYn}
+				, UPD_ID = #{updId}
+				, UPD_DATE = getDate()
+			WHERE 1=1
+			AND PO_SEQ = #{poSeq}
+			AND PO_GROUP = #{poGroup}
+		</if>
+	</update>
+	
+	<!-- PDA 제품출고 생산제품 조회 -->
+	<select id="readGoodsProductInfo2" resultMap="GoodsProductInfoAdmVo">
+		SELECT
+			A.BOX_NO
+			, A.GOODS_CD
+			, B.GOODS_NM
+			, A.ORD_GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.ORD_GUBUN) ORD_GUBUN_NM
+			, A.PACK_CNT
+			, A.PACK_DATE
+			, CASE WHEN A.REMAIN_CNT IS NULL THEN A.PACK_CNT ELSE A.REMAIN_CNT END REMAIN_CNT
+			, CASE WHEN A.REMAIN_CNT IS NULL THEN A.PACK_CNT ELSE A.REMAIN_CNT END USER_OUTPUT_CNT
+			, A.LOCATION_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='004' AND B.BASE_CD = A.LOCATION_CD) LOCATION_NM
+			, A.GOODS_IN_DATE
+			, A.GOODS_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='036' AND B.BASE_CD = A.GOODS_STATUS) GOODS_STATUS_NM
+			, A.DISUSE_YN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='058' AND B.BASE_CD = A.DISUSE_YN) DISUSE_YN_NM
+			, A.FAULTY_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='051' AND B.BASE_CD = A.FAULTY_STATUS) FAULTY_STATUS_NM
+			, A.DIVISION_YN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='057' AND B.BASE_CD = A.DIVISION_YN) DIVISION_YN_NM
+			, A.MERGE_YN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='056' AND B.BASE_CD = A.MERGE_YN) MERGE_YN_NM
+			, A.DISPOSE_GUBUN
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM	TB_GOODS_PRODUCT_INFO_ADM A, TB_GOODS_CODE_ADM B
+		WHERE A.GOODS_CD = B.GOODS_CD
+		AND A.BOX_NO = #{boxNo}
+		<if test="goodsStatus != null and goodsStatus != ''"> 
+			AND A.GOODS_STATUS = #{goodsStatus}
+		</if>
+		<if test="ordGubun != null and ordGubun != ''"> 
+			AND A.ORD_GUBUN = #{ordGubun}
+		</if>
+		<if test="goodsCd != null and goodsCd != ''"> 
+			AND A.GOODS_CD = #{goodsCd}
+		</if>
+	</select>
+	
+	<!-- PDA 제품출고 생산제품 조회 -->
+	<select id="readTrayBoxByWorkOrdNo" resultMap="GoodsProductInfoAdmVo">
+		SELECT
+			A.BOX_NO
+			, A.GOODS_CD
+			, B.GOODS_NM
+			, A.ORD_GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.ORD_GUBUN) ORD_GUBUN_NM
+			, A.PACK_CNT
+			, A.PACK_DATE
+			, CASE WHEN A.REMAIN_CNT IS NULL THEN A.PACK_CNT ELSE A.REMAIN_CNT END REMAIN_CNT
+			, CASE WHEN A.REMAIN_CNT IS NULL THEN A.PACK_CNT ELSE A.REMAIN_CNT END USER_OUTPUT_CNT
+			, A.LOCATION_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='004' AND B.BASE_CD = A.LOCATION_CD) LOCATION_NM
+			, A.GOODS_IN_DATE
+			, A.GOODS_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='036' AND B.BASE_CD = A.GOODS_STATUS) GOODS_STATUS_NM
+			, A.DISUSE_YN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='058' AND B.BASE_CD = A.DISUSE_YN) DISUSE_YN_NM
+			, A.FAULTY_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='051' AND B.BASE_CD = A.FAULTY_STATUS) FAULTY_STATUS_NM
+			, A.DIVISION_YN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='057' AND B.BASE_CD = A.DIVISION_YN) DIVISION_YN_NM
+			, A.MERGE_YN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='056' AND B.BASE_CD = A.MERGE_YN) MERGE_YN_NM
+			, C.WORK_ORD_NO
+			, A.MATRL_LOT_NO
+			, A.FILM_LOT_NO
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM	TB_GOODS_PRODUCT_INFO_ADM A, TB_GOODS_CODE_ADM B, TB_GOODS_PRODUCT_INFO_DTL C
+		WHERE A.GOODS_CD = B.GOODS_CD
+		AND A.BOX_NO = C.BOX_NO
+		AND A.BOX_NO = #{boxNo}
+	</select>
+	
+	<!-- PDA 출고 재고제품 조회 -->
+	<select id="readPreGoodsInventoryDtl" resultMap="PreGoodsInventoryAdmVo">
+		SELECT
+			A.INVNTRY_NO
+			, A.BOX_NO
+			, A.GOODS_CD
+			, B.GOODS_NM
+			, A.ORDER_GUBUN_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.ORDER_GUBUN_CD) ORDER_GUBUN_NM
+			, A.PACK_CNT
+			, CASE WHEN A.REMAIN_CNT IS NULL THEN A.PACK_CNT ELSE A.REMAIN_CNT END REMAIN_CNT
+			, CASE WHEN A.REMAIN_CNT IS NULL THEN A.PACK_CNT ELSE A.REMAIN_CNT END USER_OUTPUT_CNT
+			, A.GOODS_STATUS
+			, A.FAULTY_STATUS
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+			, A.FAULTY_STATUS
+			, A.GOODS_IN_DATE
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='051' AND B.BASE_CD = A.FAULTY_STATUS) FAULTY_STATUS_NM
+		FROM	TB_PRE_GOODS_INVENTORY_DTL A, TB_GOODS_CODE_ADM B
+		WHERE A.GOODS_CD = B.GOODS_CD
+		AND A.BOX_NO = #{boxNo}
+		<if test="goodsStatus != null and goodsStatus != ''"> 
+			AND A.GOODS_STATUS = #{goodsStatus}
+		</if>
+		<if test="orderGubunCd != null and orderGubunCd != ''"> 
+			AND A.ORDER_GUBUN_CD = #{orderGubunCd}
+		</if>
+		<if test="goodsCd != null and goodsCd != ''"> 
+			AND A.GOODS_CD = #{goodsCd}
+		</if>
+	</select>
+	
+	
+	
+	
+	<!-- PDA 파레트 관련 제품  조회 -->
+	<select id="palletRelatedProductList_F3" resultMap="PurchaseOrderDtl">
+		SELECT
+			A.GOODS_CD
+			, ( SELECT GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = A.GOODS_CD ) AS GOODS_NM
+			, A.BOX_NO
+			, A.OUTPUT_CNT
+			, A.PACK_CNT
+			, B.CUSTOMER_LOT_NO
+			, B.COMPLETE_YN
+			, B.DISPOSE_GUBUN
+			, B.FACT_CHECK
+		FROM TB_PURCHASE_ORDER_DTL A, TB_GOODS_PRODUCT_INFO_ADM B
+		WHERE 1=1
+		AND A.BOX_NO = B.BOX_NO
+		AND A.PO_SEQ = #{poSeq}
+		AND A.PO_GROUP = #{poGroup}
+	</select>
+	
+	
+	
+	<select id="selectPoGroup" resultType="String">
+		SELECT ISNULL(MAX(CONVERT(INT,PO_GROUP))+1, 1) FROM TB_PURCHASE_ORDER_OUTPUT_HIST WHERE PO_SEQ = #{poSeq}
+	</select>
+	
+	<!-- 솔브레인 파레트 채번시퀀스 -->
+	<select id="selectPoGroup_F3" resultMap="PurchaseOrderDtl">
+		SELECT
+			ISNULL(RIGHT('0' + CAST(MAX(RIGHT(PO_GROUP,2))+1 AS NVARCHAR), 2), '01') AS PO_GROUP
+		FROM TB_PURCHASE_ORDER_DTL
+		WHERE PO_SEQ = #{poSeq}
+	</select>
+	
+	<!-- PDA 제품출고 Update -->
+	<update id="updateBox">
+		UPDATE	TB_GOODS_PRODUCT_INFO_ADM 
+		SET
+			REMAIN_CNT = #{remainCnt}
+			<if test="goodsStatus != null and goodsStatus != ''"> 
+			, GOODS_STATUS = #{goodsStatus}	
+			</if>						
+			<if test="faultyStatus != null and faultyStatus != ''">
+			, FAULTY_STATUS = #{faultyStatus}
+				<if test="faultyStatus != '001'">
+				, FAULTY_DATE = CONVERT(VARCHAR(8), getDate(), 112)
+				</if> 
+			</if>
+			
+			<if test="customerLotNo != null and customerLotNo != ''"> 
+				, CUSTOMER_LOT_NO = #{customerLotNo}	
+			</if>
+			
+			<if test="goodsOutDate != null and goodsOutDate != ''"> 
+				, GOODS_OUT_DATE = #{goodsOutDate}	
+			</if>
+			<if test="completeYn != null and completeYn != ''"> 
+			, COMPLETE_YN = #{completeYn}	
+			</if>
+			
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE
+			BOX_NO = #{boxNo}
+	</update>
+	
+	<!-- PDA 재고 제품출고 Update -->
+	<update id="updatePreGoodsInventoryDtl">
+		UPDATE	TB_PRE_GOODS_INVENTORY_DTL 
+		SET  
+			REMAIN_CNT = #{remainCnt}
+			<if test="goodsStatus != null and goodsStatus != ''"> 
+			, GOODS_STATUS = #{goodsStatus}	
+			</if>	
+			<if test="faultyStatus != null and faultyStatus != ''"> 
+			, FAULTY_STATUS = #{faultyStatus}
+				<if test="faultyStatus != '001'">
+				, FAULTY_DATE = CONVERT(VARCHAR(8), getDate(), 112)
+				</if> 
+			</if>
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE
+			BOX_NO = #{boxNo}
+	</update>
+	
+	<!-- 재고실사(제품) 입고일&위치 목록 조회 -->
+	<select id="goodsProductInfoList" resultMap="GoodsProductInfoAdmVo">
+		SELECT
+			A.BOX_NO
+			, A.GOODS_CD
+			, B.GOODS_NM
+			, A.ORD_GUBUN 
+			, A.PACK_CNT
+			, A.REMAIN_CNT
+			, A.PACK_DATE
+			, A.LOCATION_CD
+			, A.GOODS_IN_DATE
+			, A.PO_SEQ
+			, A.PO_GROUP
+			, A.GOODS_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='036' AND B.BASE_CD = A.GOODS_STATUS) GOODS_STATUS_NM
+			, A.FAULTY_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='051' AND B.BASE_CD = A.FAULTY_STATUS) FAULTY_STATUS_NM
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM	TB_GOODS_PRODUCT_INFO_ADM A, TB_GOODS_CODE_ADM B 
+		WHERE	A.GOODS_CD = B.GOODS_CD
+		AND		LOCATION_CD = #{locationCd}
+		AND		GOODS_IN_DATE = #{chooseDate}
+		AND		GOODS_STATUS = '002'
+		AND		DISUSE_YN = 'N'
+	</select>
+
+	<!-- PDA 자재 불량&반품 처리 Update -->
+	<update id="updateMatrlApproval">
+		UPDATE	TB_IN_OUT_WHS_ADM 
+		SET
+			APPROVAL_CD = #{approvalCd}
+			<!-- STATUS_CD = #{statusCd} -->
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE
+			BARCODE_NO = #{barcodeNo}
+	</update>
+	
+	<!-- BoxNo에 포함된 작지번호목록 검색(입고시 실링검사에 사용) -->
+	<select id="goodsProductWorkOrdList" resultMap="GoodsProductInfoAdmVo">
+		SELECT
+			A.BOX_NO
+			, A.BOX_SEQ
+			, A.GOODS_CD
+			, B.GOODS_NM
+			, A.ORD_GUBUN
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='018' AND B.BASE_CD = A.ORD_GUBUN) ORD_GUBUN_NM
+			, C.GOODS_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='036' AND B.BASE_CD = C.GOODS_STATUS) GOODS_STATUS_NM
+			, C.FAULTY_STATUS
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='051' AND B.BASE_CD = C.FAULTY_STATUS) FAULTY_STATUS_NM
+			, A.WORK_ORD_NO
+			, A.PACK_DTL_CNT
+			, A.PACK_DATE
+			, A.REG_ID
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+			, D.WORK_ORD_NO
+			, D.SEALING1
+			, D.SEALING2
+			, D.FILM_FAULTY_CHECK
+			, D.SEALING_DATE
+		FROM	TB_GOODS_PRODUCT_INFO_DTL A, TB_GOODS_CODE_ADM B, TB_GOODS_PRODUCT_INFO_ADM C, TB_WORK_ORDER D
+		WHERE	1=1
+		AND	A.GOODS_CD = B.GOODS_CD
+		AND A.BOX_NO = C.BOX_NO
+		AND A.WORK_ORD_NO = D.WORK_ORD_NO
+		AND	A.BOX_NO = #{boxNo}
+		ORDER BY A.BOX_SEQ ASC
+	</select>
+	
+	<!-- 제품 상태변경시 기록쌓기 -->
+	<insert id="insertGoodsProductHist" parameterType="mes.domain.pd.GoodsProductInfoAdmVo">
+		INSERT INTO TB_GOODS_PRODUCT_INFO_ADM_HIST (
+			BOX_NO
+			, SEL_BOX_NO1
+			, SEL_BOX_NO2
+			, MERGE_YN
+			, GOODS_CD
+			, ORD_GUBUN
+			, PACK_CNT
+			, PACK_DATE
+			, LOCATION_CD
+			, GOODS_IN_DATE
+			, PO_SEQ
+			, PO_GROUP
+			, REMAIN_CNT
+			, GOODS_OUT_DATE
+			, GOODS_STATUS
+			, FAULTY_STATUS
+			, FAULTY_DATE
+			, FAULTY_TYPE
+			, FAULTY_DESC
+			, DISUSE_YN
+			, DIVISION_YN
+			, PRINT_YN
+			, CUSTOMER_LOT_NO
+			, COMPLETE_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, HIST_ID
+			, HIST_DATE
+		)
+		SELECT
+			BOX_NO
+			, SEL_BOX_NO1
+			, SEL_BOX_NO2
+			, MERGE_YN
+			, GOODS_CD
+			, ORD_GUBUN
+			, PACK_CNT
+			, PACK_DATE
+			, LOCATION_CD
+			, GOODS_IN_DATE
+			, PO_SEQ
+			, PO_GROUP
+			, REMAIN_CNT
+			, GOODS_OUT_DATE
+			, GOODS_STATUS
+			, FAULTY_STATUS
+			, FAULTY_DATE
+			, FAULTY_TYPE
+			, FAULTY_DESC
+			, DISUSE_YN
+			, DIVISION_YN
+			, PRINT_YN
+			, CUSTOMER_LOT_NO
+			, COMPLETE_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, #{histId}
+			, getDate()
+		FROM TB_GOODS_PRODUCT_INFO_ADM
+		WHERE BOX_NO = #{boxNo}
+	</insert>
+	
+	<!-- BoxNo에 포함된 작지번호목록 검색(입고시 실링검사에 사용) -->
+	<select id="goodsProductFifoCheck" resultMap="GoodsProductInfoAdmVo">
+		<![CDATA[
+			SELECT
+				ISNULL(MIN(BOX_NO), 'Y') BOX_NO
+				, COUNT(*) AS GOODS_FIFO_COUONT
+			FROM TB_GOODS_PRODUCT_INFO_ADM
+			WHERE GOODS_CD = #{goodsCd}
+			AND GOODS_STATUS = '002'
+			AND FAULTY_STATUS = '001'
+			AND DISUSE_YN = 'N'
+			AND DIVISION_YN = 'N'
+			AND GOODS_IN_DATE < #{goodsInDate}
+		]]>
+		<if test="exceptBoxNo != null and exceptBoxNo != ''">
+			AND BOX_NO NOT IN ('${exceptBoxNo}')
+		</if>
+	</select>
+	
+	<!-- BoxNo에 포함된 제품(초기재고) 검색 -->
+	<select id="preGoodsInventoryFifoCheck" resultMap="PreGoodsInventoryAdmVo">
+		<![CDATA[
+			SELECT
+				ISNULL(MIN(BOX_NO), 'Y') BOX_NO
+				, COUNT(*) AS GOODS_FIFO_COUONT
+			FROM TB_PRE_GOODS_INVENTORY_DTL
+
+			WHERE 1=1
+			AND GOODS_CD = #{goodsCd}
+			AND GOODS_STATUS = '002'
+			AND FAULTY_STATUS = '001'
+			AND GOODS_IN_DATE <  #{goodsInDate}
+		]]>
+		<if test="exceptBoxNo != null and exceptBoxNo != ''">
+			AND BOX_NO NOT IN ('${exceptBoxNo}')
+		</if>
+	</select>
+	
+	<!-- BoxNo에 포함된 제품(초기재고) 검색 목록-->
+	<select id="preGoodsInventoryFifoCheckList" resultMap="PreGoodsInventoryAdmVo">
+		<![CDATA[
+			SELECT
+				BOX_NO
+				, GOODS_CD
+				, GOODS_NM
+				, GOODS_IN_DATE
+				, REMAIN_CNT
+			FROM (
+				SELECT
+					A.BOX_NO
+					, A.GOODS_CD
+					, (SELECT X.GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = A.GOODS_CD) GOODS_NM
+					, A.GOODS_IN_DATE
+					, REMAIN_CNT
+				FROM TB_PRE_GOODS_INVENTORY_DTL A
+	
+				WHERE 1=1
+				AND GOODS_CD 		= #{goodsCd}
+				AND GOODS_STATUS 	= '002'
+				AND FAULTY_STATUS 	= '001'
+				AND GOODS_IN_DATE <  #{goodsInDate}
+			]]>
+			<if test="exceptBoxNo != null and exceptBoxNo != ''">
+				AND BOX_NO NOT IN ('${exceptBoxNo}')
+			</if>
+	
+			UNION 
+				
+			<![CDATA[
+				SELECT 
+					B.BOX_NO
+					, B.GOODS_CD
+					, (SELECT X.GOODS_NM FROM TB_GOODS_CODE_ADM X WHERE X.GOODS_CD = B.GOODS_CD) GOODS_NM
+					, B.GOODS_IN_DATE
+					, B.REMAIN_CNT
+				FROM TB_GOODS_PRODUCT_INFO_ADM B
+				WHERE 1=1
+				AND GOODS_CD = #{goodsCd}
+				AND GOODS_STATUS = '002'
+				AND FAULTY_STATUS = '001'
+				AND GOODS_IN_DATE <  #{goodsInDate}
+				AND DISUSE_YN = 'N'
+			    AND DIVISION_YN != 'D' AND DIVISION_YN != 'M'
+		    ]]>
+			<if test="exceptBoxNo != null and exceptBoxNo != ''">
+				AND BOX_NO NOT IN ('${exceptBoxNo}')
+			</if>
+		<![CDATA[
+			)A
+		]]>
+	</select>
+	
+	<!-- 파레트 번호로 PO정보 조회 -->
+	<select id="poSeqSerchRead" resultMap="PurchaseOrderDtl">
+		SELECT
+			DISTINCT A.PO_SEQ
+			, A.COMPLETE_YN
+			, B.PO_NO
+			, C.GOODS_STATUS
+		FROM TB_PURCHASE_ORDER_DTL A, TB_PURCHASE_ORDER_ADM B, TB_GOODS_PRODUCT_INFO_ADM C
+		WHERE 1=1
+		AND A.PO_SEQ = B.PO_SEQ
+		AND A.BOX_NO = C.BOX_NO
+		AND A.PO_GROUP = #{poGroup}
+		AND A.COMPLETE_YN IN (${completeYn})
+		AND C.GOODS_STATUS IN (${goodsStatus})
+	</select>
+	
+	<!-- 박스 정보 삭제됨에 따라 업데이트-->
+   <update id="palletBoxDelete_F3" parameterType="mes.domain.pd.GoodsProductInfoAdmVo">
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET
+			COMPLETE_YN = NULL
+			, GOODS_OUT_DATE = NULL
+			, GOODS_STATUS = '002'
+			, CUSTOMER_LOT_NO = NULL
+			, LOCATION_CD = NULL
+			, PRINT_YN = NULL
+			, FACT_CHECK = 'N'
+		WHERE BOX_NO IN
+		(
+			SELECT
+				BOX_NO
+			FROM TB_PURCHASE_ORDER_DTL
+			WHERE 1=1
+			AND PO_SEQ = #{poSeq}
+			AND PO_GROUP = #{poGroup}
+		)
+   </update>
+   
+   <!-- 출하 취소 제품 정보 업데이트-->
+   <update id="palletCancel_F3" parameterType="mes.domain.pd.GoodsProductInfoAdmVo">
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET
+			GOODS_STATUS = '004'
+			, REMAIN_CNT = PACK_CNT
+			, GOODS_OUT_DATE = NULL
+			, UPD_ID = #{updId}
+		WHERE BOX_NO IN
+		(
+			SELECT
+				BOX_NO
+			FROM TB_PURCHASE_ORDER_DTL
+			WHERE 1=1
+			AND PO_SEQ = #{poSeq}
+			AND PO_GROUP = #{poGroup}
+		)
+   </update>
+   
+   	<!-- 고객사LotNo 수정 -->
+   <update id="customerLotNoUpdate_F3" parameterType="mes.domain.pd.GoodsProductInfoAdmVo">
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET
+			CUSTOMER_LOT_NO = #{customerLotNo}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE BOX_NO = #{boxNo}
+		
+		
+		<!-- UPDATE TB_GOODS_PRODUCT_INFO_ADM_HIST
+		SET
+			CUSTOMER_LOT_NO = #{customerLotNo}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE BOX_NO = #{boxNo}
+		AND CUSTOMER_LOT_NO IS NOT NULL -->
+   </update>
+	
+	<!-- 박스 반품 처리 -->
+	<update id="boxReturnUpdate" parameterType="mes.domain.pd.GoodsProductInfoAdmVo">
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET GOODS_STATUS = #{goodsStatus}
+			, FAULTY_STATUS = #{faultyStatus}
+			, GOODS_OUT_DATE = NULL
+			, CUSTOMER_LOT_NO = NULL
+			, FAULTY_STATUS_DATE = #{faultyStatusDate}
+			, COMPLETE_YN = NULL
+			, LOCATION_CD = NULL
+			, PRINT_YN = NULL
+			, FACT_CHECK = 'N'
+			, REMAIN_CNT = #{remainCnt}
+			, UPD_ID = #{updId}
+			, UPD_DATE = GETDATE()
+		WHERE BOX_NO = #{boxNo}
+	</update>
+   	
+   	<!-- 제품 상태변경시 기록쌓기 -->
+	<insert id="insertGoodsProductHist_F3" parameterType="mes.domain.po.GoodsProductInfoAdmVo">
+		INSERT INTO TB_GOODS_PRODUCT_INFO_ADM_HIST (
+			BOX_NO
+			, SEL_BOX_NO1
+			, SEL_BOX_NO2
+			, MERGE_YN
+			, GOODS_CD
+			, ORD_GUBUN
+			, PACK_CNT
+			, PACK_DATE
+			, LOCATION_CD
+			, GOODS_IN_DATE
+			, PO_SEQ
+			, PO_GROUP
+			, REMAIN_CNT
+			, GOODS_OUT_DATE
+			, GOODS_STATUS
+			, FAULTY_STATUS_DATE
+			, FAULTY_STATUS
+			, FAULTY_DATE
+			, FAULTY_TYPE
+			, FAULTY_DESC
+			, DISUSE_YN
+			, DIVISION_YN
+			, PRINT_YN
+			, DISPOSE_GUBUN
+			, APPOINT_DATE
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, HIST_ID
+			, HIST_DATE
+		)
+		SELECT
+			BOX_NO
+			, SEL_BOX_NO1
+			, SEL_BOX_NO2
+			, MERGE_YN
+			, GOODS_CD
+			, ORD_GUBUN
+			, PACK_CNT
+			, PACK_DATE
+			, LOCATION_CD
+			, GOODS_IN_DATE
+			, PO_SEQ
+			, PO_GROUP
+			, REMAIN_CNT
+			, GOODS_OUT_DATE
+			, GOODS_STATUS
+			, FAULTY_STATUS_DATE
+			, FAULTY_STATUS
+			, FAULTY_DATE
+			, FAULTY_TYPE
+			, FAULTY_DESC
+			, DISUSE_YN
+			, DIVISION_YN
+			, PRINT_YN
+			, DISPOSE_GUBUN
+			, APPOINT_DATE
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, #{histId}
+			, getDate()
+		FROM TB_GOODS_PRODUCT_INFO_ADM
+		WHERE BOX_NO = #{boxNo}
+	</insert>
+	
+	<!-- 제품 상태변경시 기록쌓기 -->
+	<insert id="insertGoodsProductHist_F3_2" parameterType="mes.domain.po.GoodsProductInfoAdmVo">
+		INSERT INTO TB_GOODS_PRODUCT_INFO_ADM_HIST (
+			BOX_NO
+			, SEL_BOX_NO1
+			, SEL_BOX_NO2
+			, MERGE_YN
+			, GOODS_CD
+			, ORD_GUBUN
+			, PACK_CNT
+			, PACK_DATE
+			, LOCATION_CD
+			, GOODS_IN_DATE
+			, PO_SEQ
+			, PO_GROUP
+			, REMAIN_CNT
+			, GOODS_OUT_DATE
+			, GOODS_STATUS
+			, FAULTY_STATUS_DATE
+			, FAULTY_STATUS
+			, FAULTY_DATE
+			, FAULTY_TYPE
+			, FAULTY_DESC
+			, DISUSE_YN
+			, DIVISION_YN
+			, PRINT_YN
+			, CUSTOMER_LOT_NO
+			, COMPLETE_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, HIST_ID
+			, HIST_DATE
+		)
+		SELECT
+			BOX_NO
+			, SEL_BOX_NO1
+			, SEL_BOX_NO2
+			, MERGE_YN
+			, GOODS_CD
+			, ORD_GUBUN
+			, PACK_CNT
+			, PACK_DATE
+			, LOCATION_CD
+			, GOODS_IN_DATE
+			, PO_SEQ
+			, PO_GROUP
+			, REMAIN_CNT
+			, GOODS_OUT_DATE
+			, GOODS_STATUS
+			, FAULTY_STATUS_DATE
+			, FAULTY_STATUS
+			, FAULTY_DATE
+			, FAULTY_TYPE
+			, FAULTY_DESC
+			, DISUSE_YN
+			, DIVISION_YN
+			, PRINT_YN
+			, CUSTOMER_LOT_NO
+			, COMPLETE_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, #{histId}
+			, getDate()
+		FROM TB_GOODS_PRODUCT_INFO_ADM
+		WHERE BOX_NO IN
+		(
+			SELECT
+				BOX_NO
+			FROM TB_PURCHASE_ORDER_DTL
+			WHERE 1=1
+			AND PO_SEQ = #{poSeq}
+			AND PO_GROUP = #{poGroup}
+		)
+	</insert>
+	
+	<!-- 파레트라벨 매핑 등록 상세조회 -->
+	<select id="palletMappingRead" resultMap="PurchaseOrderDtl">
+		SELECT
+			COUNT(PO_GROUP) AS PO_GROUP_COUNT
+			, ( SELECT GOODS_STATUS FROM TB_GOODS_PRODUCT_INFO_ADM X WHERE X.BOX_NO = MAX(A.BOX_NO) GROUP BY X.GOODS_STATUS ) AS GOODS_STATUS
+			, ( SELECT COMPLETE_YN FROM TB_GOODS_PRODUCT_INFO_ADM X WHERE X.BOX_NO = MAX(A.BOX_NO) ) AS COMPLETE_YN
+			, ( SELECT COUNT(*)
+				FROM TB_PURCHASE_ORDER_DTL X
+				JOIN TB_GOODS_PRODUCT_INFO_ADM B ON X.BOX_NO = B.BOX_NO
+				WHERE X.PO_GROUP = A.PO_GROUP AND B.FACT_CHECK = 'Y'
+			) AS CHECK_COUNT
+			, ( SELECT X.DEAL_CORP_CD FROM TB_PURCHASE_ORDER_ADM X WHERE X.PO_SEQ = MAX(A.PO_SEQ) ) AS DEAL_CORP_CD
+		FROM TB_PURCHASE_ORDER_DTL AS A
+		WHERE PO_GROUP = #{poGroup}
+		GROUP BY PO_GROUP
+	</select>
+	<!-- 파레트라벨 매핑 등록 관련 -->
+
+	
+	<!-- 파레트 번호 매칭 수정 -->
+	<update id="palletMappingUpdate">
+		UPDATE TB_PURCHASE_ORDER_DTL
+		SET
+			CUSTOMER_PALLET_NO = #{customerPalletNo}			
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE
+			PO_GROUP = #{poGroup}
+	</update>
+	
+	<!-- 출하대기 박스 상세조회 -->
+	<select id="palletFactCheckRead" resultMap="PurchaseOrderDtl">
+		SELECT
+			*
+			, ( SELECT FACT_CHECK FROM TB_GOODS_PRODUCT_INFO_ADM X WHERE X.BOX_NO = A.BOX_NO ) AS FACT_CHECK
+		FROM TB_PURCHASE_ORDER_DTL A
+		WHERE PO_GROUP = #{poGroup}
+		AND BOX_NO = #{boxNo}
+	</select>
+	<!-- 파레트라벨 매핑 등록 관련 -->
+	
+	<!-- 출하대기체크 수정 -->
+	<update id="palletBoxFactCheckUpdate">
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET
+			FACT_CHECK = 'Y'
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE BOX_NO IN ( ${boxNo} )
+		
+		
+		<!-- 
+		출하검사 상태 값 업데이트 처리 진행
+		DECLARE @ALL_COUNT INT
+		, @CHECK_COUNT INT;
+	
+		SET @ALL_COUNT = (
+			SELECT COUNT(*) FROM TB_PURCHASE_ORDER_DTL X WHERE X.PO_GROUP = #{poGroup}
+		)
+		
+		SET @CHECK_COUNT = (
+			SELECT
+				COUNT(*)
+			FROM TB_PURCHASE_ORDER_DTL X
+			JOIN TB_GOODS_PRODUCT_INFO_ADM B ON X.BOX_NO = B.BOX_NO
+			WHERE X.PO_GROUP = #{poGroup} AND B.FACT_CHECK = 'Y'
+		)
+		
+		개수가 같은 경우 출하대기로 UPDATE 진행
+		IF ( @ALL_COUNT = @CHECK_COUNT )
+		BEGIN
+			UPDATE TB_GOODS_PRODUCT_INFO_ADM
+			SET
+				GOODS_STATUS = '004'
+			WHERE BOX_NO IN (
+				SELECT BOX_NO FROM TB_PURCHASE_ORDER_DTL
+				WHERE PO_GROUP = #{poGroup}
+			) 
+		END;
+		 -->
+	</update>
+	
+	
+	<!-- 출하대기 취소 처리 진행-->
+	<update id="palletBoxFactCheckCancelUpdate">
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET
+			FACT_CHECK = 'N'
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE BOX_NO IN (
+			SELECT BOX_NO FROM TB_PURCHASE_ORDER_DTL
+			WHERE PO_GROUP = #{poGroup}
+		) 
+	</update>
+	
+	<!-- 점검대기로 상태값 변경 -->
+	<update id="palletCheckStatusReplaceUpdate">
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET
+			GOODS_STATUS = '005'
+		FROM TB_GOODS_PRODUCT_INFO_ADM A
+		WHERE BOX_NO IN (
+			SELECT
+				BOX_NO
+			FROM TB_PURCHASE_ORDER_DTL X
+			WHERE X.PO_GROUP = #{poGroup} 
+		)
+	</update>
+	
+	
+	<select id="palletCustomerCheckRead" resultMap="PurchaseOrderDtl">
+		SELECT
+			B.CUSTOMER_LOT_NO
+			, A.BOX_NO
+			, (CASE WHEN CHARINDEX('/', B.CUSTOMER_LOT_NO) > 0 THEN SUBSTRING(B.CUSTOMER_LOT_NO, 0, CHARINDEX('/', B.CUSTOMER_LOT_NO)) ELSE B.CUSTOMER_LOT_NO END ) AS A
+			, REPLACE(REPLACE(REPLACE(B.CUSTOMER_LOT_NO, SUBSTRING(B.CUSTOMER_LOT_NO, LEN(B.CUSTOMER_LOT_NO) - CHARINDEX('/', REVERSE(B.CUSTOMER_LOT_NO))+2, LEN(B.CUSTOMER_LOT_NO)), ''), SUBSTRING(B.CUSTOMER_LOT_NO, 0, CHARINDEX('/', B.CUSTOMER_LOT_NO)), ''), '/', '') AS B
+			, SUBSTRING(B.CUSTOMER_LOT_NO, LEN(B.CUSTOMER_LOT_NO) - CHARINDEX('/', REVERSE(B.CUSTOMER_LOT_NO))+2, LEN(B.CUSTOMER_LOT_NO)) AS C
+			, B.FACT_CHECK
+		FROM TB_PURCHASE_ORDER_DTL AS A
+		JOIN TB_GOODS_PRODUCT_INFO_ADM AS B
+		ON A.BOX_NO = B.BOX_NO
+		WHERE A.PO_GROUP = #{poGroup}
+		<if test="customerLotNo1 != null and customerLotNo1 != ''">
+			AND (
+					#{customerLotNo1} = (CASE WHEN CHARINDEX('/', B.CUSTOMER_LOT_NO) > 0 THEN SUBSTRING(B.CUSTOMER_LOT_NO, 0, CHARINDEX('/', B.CUSTOMER_LOT_NO)) ELSE B.CUSTOMER_LOT_NO END )
+				OR	#{customerLotNo1} = REPLACE(REPLACE(REPLACE(B.CUSTOMER_LOT_NO, SUBSTRING(B.CUSTOMER_LOT_NO, LEN(B.CUSTOMER_LOT_NO) - CHARINDEX('/', REVERSE(B.CUSTOMER_LOT_NO))+2, LEN(B.CUSTOMER_LOT_NO)), ''), SUBSTRING(B.CUSTOMER_LOT_NO, 0, CHARINDEX('/', B.CUSTOMER_LOT_NO)), ''), '/', '')
+				OR	#{customerLotNo1} = SUBSTRING(B.CUSTOMER_LOT_NO, LEN(B.CUSTOMER_LOT_NO) - CHARINDEX('/', REVERSE(B.CUSTOMER_LOT_NO))+2, LEN(B.CUSTOMER_LOT_NO))
+			)
+		</if>
+		<if test="customerLotNo2 != null and customerLotNo2 != ''">
+			AND
+			(
+				(						 
+						#{customerLotNo2} = (CASE WHEN CHARINDEX('/', B.CUSTOMER_LOT_NO) > 0 THEN SUBSTRING(B.CUSTOMER_LOT_NO, 0, CHARINDEX('/', B.CUSTOMER_LOT_NO)) ELSE B.CUSTOMER_LOT_NO END )
+					OR	#{customerLotNo2} = REPLACE(REPLACE(REPLACE(B.CUSTOMER_LOT_NO, SUBSTRING(B.CUSTOMER_LOT_NO, LEN(B.CUSTOMER_LOT_NO) - CHARINDEX('/', REVERSE(B.CUSTOMER_LOT_NO))+2, LEN(B.CUSTOMER_LOT_NO)), ''), SUBSTRING(B.CUSTOMER_LOT_NO, 0, CHARINDEX('/', B.CUSTOMER_LOT_NO)), ''), '/', '')
+					OR	#{customerLotNo2} = SUBSTRING(B.CUSTOMER_LOT_NO, LEN(B.CUSTOMER_LOT_NO) - CHARINDEX('/', REVERSE(B.CUSTOMER_LOT_NO))+2, LEN(B.CUSTOMER_LOT_NO))
+				)
+				AND #{customerLotNo1} != #{customerLotNo2}
+			)
+		</if>
+		
+		<if test="customerLotNo3 != null and customerLotNo3 != ''">
+			AND
+			(
+				(						 
+						#{customerLotNo3} = (CASE WHEN CHARINDEX('/', B.CUSTOMER_LOT_NO) > 0 THEN SUBSTRING(B.CUSTOMER_LOT_NO, 0, CHARINDEX('/', B.CUSTOMER_LOT_NO)) ELSE B.CUSTOMER_LOT_NO END )
+					OR	#{customerLotNo3} = REPLACE(REPLACE(REPLACE(B.CUSTOMER_LOT_NO, SUBSTRING(B.CUSTOMER_LOT_NO, LEN(B.CUSTOMER_LOT_NO) - CHARINDEX('/', REVERSE(B.CUSTOMER_LOT_NO))+2, LEN(B.CUSTOMER_LOT_NO)), ''), SUBSTRING(B.CUSTOMER_LOT_NO, 0, CHARINDEX('/', B.CUSTOMER_LOT_NO)), ''), '/', '')
+					OR	#{customerLotNo3} = SUBSTRING(B.CUSTOMER_LOT_NO, LEN(B.CUSTOMER_LOT_NO) - CHARINDEX('/', REVERSE(B.CUSTOMER_LOT_NO))+2, LEN(B.CUSTOMER_LOT_NO))
+				)
+				AND #{customerLotNo1} != #{customerLotNo3}
+				AND #{customerLotNo2} != #{customerLotNo3}
+			)
+		</if>
+	</select>
+	
+	<!--
+	<select id="palletCustomerCheckRead" resultMap="PurchaseOrderDtl">
+		SELECT
+			B.CUSTOMER_LOT_NO
+			, A.BOX_NO
+			, SUBSTRING(B.CUSTOMER_LOT_NO, 0, CHARINDEX('/', B.CUSTOMER_LOT_NO)) AS A
+			, SUBSTRING(B.CUSTOMER_LOT_NO, CHARINDEX('/', B.CUSTOMER_LOT_NO)+1, LEN(B.CUSTOMER_LOT_NO) ) AS B
+			, B.FACT_CHECK
+		FROM TB_PURCHASE_ORDER_DTL AS A
+		JOIN TB_GOODS_PRODUCT_INFO_ADM AS B
+		ON A.BOX_NO = B.BOX_NO
+		WHERE A.PO_GROUP = #{poGroup}
+		AND (
+			#{customerLotNo1} = SUBSTRING(B.CUSTOMER_LOT_NO, 0, CHARINDEX('/', B.CUSTOMER_LOT_NO)) OR #{customerLotNo1} = SUBSTRING(B.CUSTOMER_LOT_NO, CHARINDEX('/', B.CUSTOMER_LOT_NO)+1, LEN(B.CUSTOMER_LOT_NO) )
+		)
+		<if test="customerLotNo2 != null and customerLotNo2 != ''">
+			AND (
+				(#{customerLotNo2} = SUBSTRING(B.CUSTOMER_LOT_NO, 0, CHARINDEX('/', B.CUSTOMER_LOT_NO)) OR #{customerLotNo2} = SUBSTRING(B.CUSTOMER_LOT_NO, CHARINDEX('/', B.CUSTOMER_LOT_NO)+1, LEN(B.CUSTOMER_LOT_NO) )) AND #{customerLotNo1} != #{customerLotNo2}
+			)
+		</if>
+	</select>
+	 -->
+	
+	
+	
+	<!-- 포장대기로 상태값 변경 -->
+	<update id="packingWaitingStatusUpdate">
+		UPDATE TB_GOODS_PRODUCT_INFO_ADM
+		SET
+			GOODS_STATUS = '007'
+			, IN_WHS_DATE = #{inWhsDate}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE BOX_NO IN ( ${boxNo} )
+		
+		INSERT INTO TB_GOODS_PRODUCT_INFO_ADM_HIST (
+			BOX_NO
+			, SEL_BOX_NO1
+			, SEL_BOX_NO2
+			, MERGE_YN
+			, GOODS_CD
+			, ORD_GUBUN
+			, PACK_CNT
+			, PACK_DATE
+			, LOCATION_CD
+			, GOODS_IN_DATE
+			, PO_SEQ
+			, PO_GROUP
+			, REMAIN_CNT
+			, GOODS_OUT_DATE
+			, GOODS_STATUS
+			, FAULTY_STATUS_DATE
+			, FAULTY_STATUS
+			, FAULTY_DATE
+			, FAULTY_TYPE
+			, FAULTY_DESC
+			, DISUSE_YN
+			, DIVISION_YN
+			, PRINT_YN
+			, CUSTOMER_LOT_NO
+			, COMPLETE_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, HIST_ID
+			, HIST_DATE
+		)
+		SELECT
+			BOX_NO
+			, SEL_BOX_NO1
+			, SEL_BOX_NO2
+			, MERGE_YN
+			, GOODS_CD
+			, ORD_GUBUN
+			, PACK_CNT
+			, PACK_DATE
+			, LOCATION_CD
+			, GOODS_IN_DATE
+			, PO_SEQ
+			, PO_GROUP
+			, REMAIN_CNT
+			, GOODS_OUT_DATE
+			, GOODS_STATUS
+			, FAULTY_STATUS_DATE
+			, FAULTY_STATUS
+			, FAULTY_DATE
+			, FAULTY_TYPE
+			, FAULTY_DESC
+			, DISUSE_YN
+			, DIVISION_YN
+			, PRINT_YN
+			, CUSTOMER_LOT_NO
+			, COMPLETE_YN
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+			, #{histId}
+			, getDate()
+		FROM TB_GOODS_PRODUCT_INFO_ADM
+		WHERE BOX_NO IN
+		(
+			${boxNo}
+		)
+	</update>
+	
+</mapper>

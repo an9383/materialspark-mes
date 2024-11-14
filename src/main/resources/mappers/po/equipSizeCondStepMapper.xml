@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.po.equipSizeCondStepMapper">
+
+	<resultMap id="EquipSizeCondStepVo" type="mes.domain.po.EquipSizeCondStepVo">
+		<result property="workOrdNo"				column="WORK_ORD_NO"			/>
+		<result property="ordLotNo"					column="ORD_LOT_NO"				/>
+		<result property="lotNo"					column="LOT_NO"					/>
+		<result property="stepCd"					column="STEP_CD"				/>
+		<result property="regTime"					column="REG_TIME"				/>
+		<result property="equipCd"					column="EQUIP_CD"				/>
+		<result property="wpLeftAlwnce"				column="WP_LEFT_ALWNCE"			/>
+		<result property="wpRightAlwnce"			column="WP_RIGHT_ALWNCE"		/>
+		<result property="pitchLeftAlwnce"			column="PITCH_LEFT_ALWNCE"		/>
+		<result property="pitchRightAlwnce"			column="PITCH_RIGHT_ALWNCE"		/>
+		<result property="ppfWingLeftAlwnce"		column="PPF_WING_LEFT_ALWNCE"	/>
+		<result property="ppfWingRightAlwnce"		column="PPF_WING_RIGHT_ALWNCE"	/>
+		<result property="ppfDepthLeftAlwnce"		column="PPF_DEPTH_LEFT_ALWNCE"	/>
+		<result property="ppfDepthRightAlwnce"		column="PPF_DEPTH_RIGHT_ALWNCE"	/>
+		<result property="filmAlwnce"				column="FILM_ALWNCE"			/>
+		<result property="metalDepthAlwnce"			column="METAL_DEPTH_ALWNCE"		/>
+		<result property="metalThicknessAlwnce"		column="METAL_THICKNESS_ALWNCE"	/>
+		<result property="thCenterAlwnce"			column="TH_CENTER_ALWNCE"		/>
+		<result property="thEdgeAlwncePlus"			column="TH_EDGE_ALWNCE_PLUS"	/>
+		<result property="thStepInput"			    column="TH_STEP_INPUT"	        />
+		<result property="thEdgeCnt"			    column="TH_EDGE_CNT"	        />
+		<result property="thEdgeResult"			    column="TH_EDGE_RESULT"	        />
+		<result property="burrMetalAlwnce"			column="BURR_METAL_ALWNCE"		/>
+		<result property="burrRcutAlwnce"			column="BURR_RCUT_ALWNCE"		/>
+		<result property="burrRedgeAlwnce"			column="BURR_REDGE_ALWNCE"		/>
+		<result property="bulgeLeftupHeight"		column="BULGE_LEFTUP_HEIGHT"	/>
+		<result property="bulgeLeftdownHeight"		column="BULGE_LEFTDOWN_HEIGHT"	/>
+		<result property="bulgeRightupHeight"		column="BULGE_RIGHTUP_HEIGHT"	/>
+		<result property="bulgeRightdownHeight"		column="BULGE_RIGHTDOWN_HEIGHT"	/>
+		<result property="bulgeLeftupWidth"			column="BULGE_LEFTUP_WIDTH"		/>
+		<result property="bulgeLeftdownWidth"		column="BULGE_LEFTDOWN_WIDTH"	/>
+		<result property="bulgeRightupWidth"		column="BULGE_RIGHTUP_WIDTH"	/>
+		<result property="bulgeRightdownWidth"		column="BULGE_RIGHTDOWN_WIDTH"	/>
+		<result property="gapOfLayer"				column="GAP_OF_LAYER"				/>		
+		<result property="ppfDepthCenterAlwnce"		column="PPF_DEPTH_CENTER_ALWNCE"	/>
+		<result property="wpCenterAlwnce"           column="WP_CENTER_ALWNCE"			/>
+		<result property="wpDeviationAlwnce"        column="WP_DEVIATION_ALWNCE"		/>
+		<result property="x1X2Alwnce"               column="X1_X2_ALWNCE"				/>
+		<result property="thEdgeRightAlwnce"        column="TH_EDGE_RIGHT_ALWNCE"		/>
+		<result property="bendingAlwnce"            column="BENDING_ALWNCE"				/>
+		<result property="regId"					column="REG_ID"					/>
+		<result property="regDate"					column="REG_DATE"				/>
+		<result property="updId"					column="UPD_ID"					/>
+		<result property="updDate"					column="UPD_DATE"				/>
+	</resultMap>
+	
+	<!-- 초중종물 검색-->
+	<select id="readEquipSizeCondStep" resultMap="EquipSizeCondStepVo">
+			SELECT
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, LOT_NO
+				, STEP_CD
+				, REG_TIME
+				, WP_LEFT_ALWNCE
+				, WP_RIGHT_ALWNCE
+				, PITCH_LEFT_ALWNCE
+				, PITCH_RIGHT_ALWNCE
+				, PPF_WING_LEFT_ALWNCE
+				, PPF_WING_RIGHT_ALWNCE
+				, PPF_DEPTH_LEFT_ALWNCE
+				, PPF_DEPTH_RIGHT_ALWNCE
+				, FILM_ALWNCE
+				, METAL_DEPTH_ALWNCE
+				, METAL_THICKNESS_ALWNCE
+				, TH_CENTER_ALWNCE
+				, TH_EDGE_ALWNCE_PLUS
+				, TH_STEP_INPUT
+				, BURR_METAL_ALWNCE
+				, BURR_RCUT_ALWNCE
+				, BURR_REDGE_ALWNCE
+				, BULGE_LEFTUP_HEIGHT
+				, BULGE_LEFTDOWN_HEIGHT
+				, BULGE_RIGHTUP_HEIGHT
+				, BULGE_RIGHTDOWN_HEIGHT
+				, BULGE_LEFTUP_WIDTH
+				, BULGE_LEFTDOWN_WIDTH
+				, BULGE_RIGHTUP_WIDTH
+				, BULGE_RIGHTDOWN_WIDTH
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM TB_EQUIP_SIZE_COND_STEP
+			WHERE WORK_ORD_NO = #{workOrdNo}
+		<if test="ordLotNo != null and ordLotNo != ''">
+			AND ORD_LOT_NO = #{ordLotNo}
+		</if>
+			AND LOT_NO = #{lotNo}
+			AND	STEP_CD = #{stepCd}
+	</select>
+	
+	<!-- 종물 입력 확인-->
+	<select id="readEquipSizeCondStepCount" resultMap="EquipSizeCondStepVo">
+			SELECT
+				COUNT(*) AS COUNT
+			FROM
+				TB_EQUIP_SIZE_COND_STEP
+			WHERE WORK_ORD_NO = #{workOrdNo}
+		<if test="ordLotNo != null and ordLotNo != ''">
+			AND ORD_LOT_NO = #{ordLotNo}
+		</if>
+			AND LOT_NO = #{lotNo}
+			AND	STEP_CD = #{stepCd}
+	</select>
+	
+
+	
+	<!-- 초중종물 등록 -->
+	<update id="insertEquipSizeCondStep" parameterType="mes.domain.po.EquipSizeCondStepVo">
+		<![CDATA[
+			INSERT INTO TB_EQUIP_SIZE_COND_STEP(
+				WORK_ORD_NO
+				, ORD_LOT_NO
+				, LOT_NO
+				, STEP_CD
+				, REG_TIME
+				, WP_LEFT_ALWNCE
+				, WP_RIGHT_ALWNCE
+				, PITCH_LEFT_ALWNCE
+				, PITCH_RIGHT_ALWNCE
+				, PPF_WING_LEFT_ALWNCE
+				, PPF_WING_RIGHT_ALWNCE
+				, PPF_DEPTH_LEFT_ALWNCE
+				, PPF_DEPTH_RIGHT_ALWNCE
+				, FILM_ALWNCE
+				, METAL_DEPTH_ALWNCE
+				, METAL_THICKNESS_ALWNCE
+				, TH_CENTER_ALWNCE
+				, TH_EDGE_ALWNCE_PLUS
+				, TH_STEP_INPUT
+				, BURR_METAL_ALWNCE
+				, BURR_RCUT_ALWNCE
+				, BURR_REDGE_ALWNCE
+				, BULGE_LEFTUP_HEIGHT
+				, BULGE_LEFTDOWN_HEIGHT
+				, BULGE_RIGHTUP_HEIGHT
+				, BULGE_RIGHTDOWN_HEIGHT
+				, BULGE_LEFTUP_WIDTH
+				, BULGE_LEFTDOWN_WIDTH
+				, BULGE_RIGHTUP_WIDTH
+				, BULGE_RIGHTDOWN_WIDTH
+				, REG_ID
+				, REG_DATE
+			) 
+			VALUES(
+				#{workOrdNo},
+				#{ordLotNo},
+				#{lotNo},
+				#{stepCd},
+				#{regTime},
+				#{wpLeftAlwnce},
+				#{wpRightAlwnce},
+				#{pitchLeftAlwnce},
+				#{pitchRightAlwnce},
+				#{ppfWingLeftAlwnce},
+				#{ppfWingRightAlwnce},
+				#{ppfDepthLeftAlwnce},
+				#{ppfDepthRightAlwnce},
+				#{filmAlwnce},
+				#{metalDepthAlwnce},
+				#{metalThicknessAlwnce},
+				#{thCenterAlwnce},
+				#{thEdgeAlwncePlus},
+				#{thStepInput},
+				#{burrMetalAlwnce},
+				#{burrRcutAlwnce},
+				#{burrRedgeAlwnce},
+				#{bulgeLeftupHeight},
+				#{bulgeLeftdownHeight},
+				#{bulgeRightupHeight},
+				#{bulgeRightdownHeight},
+				#{bulgeLeftupWidth},
+				#{bulgeLeftdownWidth},
+				#{bulgeRightupWidth},
+				#{bulgeRightdownWidth},
+				#{regId},
+				getDate()
+			)
+		]]>
+	</update>
+	
+	<!-- 초중종물 수정 -->
+	<insert id="updateEquipSizeCondStep" parameterType="mes.domain.po.EquipSizeCondStepVo">
+		<![CDATA[
+			UPDATE TB_EQUIP_SIZE_COND_STEP
+			SET
+				WORK_ORD_NO = #{workOrdNo},
+				STEP_CD = #{stepCd},
+				ORD_LOT_NO = #{ordLotNo},
+				LOT_NO = #{lotNo},
+				REG_TIME = #{regTime},
+				WP_LEFT_ALWNCE = #{wpLeftAlwnce},
+				WP_RIGHT_ALWNCE = #{wpRightAlwnce},
+				PITCH_LEFT_ALWNCE = #{pitchLeftAlwnce},
+				PITCH_RIGHT_ALWNCE = #{pitchRightAlwnce},
+				PPF_WING_LEFT_ALWNCE = #{ppfWingLeftAlwnce},
+				PPF_WING_RIGHT_ALWNCE = #{ppfWingRightAlwnce},
+				PPF_DEPTH_LEFT_ALWNCE = #{ppfDepthLeftAlwnce},
+				PPF_DEPTH_RIGHT_ALWNCE = #{ppfDepthRightAlwnce},
+				FILM_ALWNCE = #{filmAlwnce},
+				METAL_DEPTH_ALWNCE = #{metalDepthAlwnce},
+				METAL_THICKNESS_ALWNCE = #{metalThicknessAlwnce},
+				TH_CENTER_ALWNCE = #{thCenterAlwnce},
+				TH_EDGE_ALWNCE_PLUS = #{thEdgeAlwncePlus},
+				TH_STEP_INPUT = #{thStepInput},
+				BURR_METAL_ALWNCE = #{burrMetalAlwnce},
+				BURR_RCUT_ALWNCE = #{burrRcutAlwnce},
+				BURR_REDGE_ALWNCE = #{burrRedgeAlwnce},
+				BULGE_LEFTUP_HEIGHT = #{bulgeLeftupHeight},
+				BULGE_LEFTDOWN_HEIGHT = #{bulgeLeftdownHeight},
+				BULGE_RIGHTUP_HEIGHT = #{bulgeRightupHeight},
+				BULGE_RIGHTDOWN_HEIGHT = #{bulgeRightdownHeight},
+				BULGE_LEFTUP_WIDTH = #{bulgeLeftupWidth},
+				BULGE_LEFTDOWN_WIDTH = #{bulgeLeftdownWidth},
+				BULGE_RIGHTUP_WIDTH = #{bulgeRightupWidth},
+				BULGE_RIGHTDOWN_WIDTH = #{bulgeRightdownWidth},
+				UPD_ID = #{updId},
+				UPD_DATE = getDate()
+			WHERE WORK_ORD_NO = #{workOrdNo}
+			AND ORD_LOT_NO = #{oldOrdLotNo}
+			AND LOT_NO = #{lotNo}
+			AND STEP_CD = #{stepCd}
+		]]>
+	</insert>
+	
+	<!-- 초중종물 수정 -->
+	<insert id="updateAgtSizeCondStep_F1" parameterType="mes.domain.po.EquipSizeCondStepVo">
+		<![CDATA[
+			UPDATE TB_AGT_SIZE_STEP
+			SET
+				TH_STEP_INPUT = #{thStepInput},
+				UPD_ID = #{updId},
+				UPD_DATE = getDate()
+			WHERE WORK_ORD_NO = #{workOrdNo}
+			AND STEP_CD = #{stepCd}
+		]]>
+	</insert>
+	
+	<!-- 초중종물 검색-->
+	<select id="stepAverage" resultMap="EquipSizeCondStepVo">
+		SELECT
+			WORK_ORD_NO
+			, STEP_CD
+			, EQUIP_CD
+			, REG_DATE
+			, WP_LEFT_ALWNCE
+			, WP_RIGHT_ALWNCE
+			, PITCH_LEFT_ALWNCE
+			, PITCH_RIGHT_ALWNCE
+			, PPF_WING_LEFT_ALWNCE
+			, PPF_WING_RIGHT_ALWNCE
+			, PPF_DEPTH_LEFT_ALWNCE
+			, PPF_DEPTH_RIGHT_ALWNCE
+			, FILM_ALWNCE
+			, METAL_DEPTH_ALWNCE
+			, METAL_THICKNESS_ALWNCE
+			, TH_CENTER_ALWNCE
+			, TH_EDGE_ALWNCE_PLUS
+			, TH_STEP_INPUT
+			, TH_EDGE_CNT
+			, TH_EDGE_RESULT
+			, BULGE_LEFTUP_HEIGHT
+			, BULGE_LEFTDOWN_HEIGHT
+			, BULGE_RIGHTUP_HEIGHT
+			, BULGE_RIGHTDOWN_HEIGHT
+			, BULGE_LEFTUP_WIDTH
+			, BULGE_LEFTDOWN_WIDTH
+			, BULGE_RIGHTUP_WIDTH
+			, BULGE_RIGHTDOWN_WIDTH
+			, BURR_METAL_ALWNCE
+			, BURR_RCUT_ALWNCE
+			, BURR_REDGE_ALWNCE
+			, GAP_OF_LAYER
+			, PPF_DEPTH_CENTER_ALWNCE
+			, WP_CENTER_ALWNCE
+			, WP_DEVIATION_ALWNCE
+			, X1_X2_ALWNCE
+			, TH_EDGE_RIGHT_ALWNCE
+			, BENDING_ALWNCE
+		
+		FROM
+		<if test="lineGubun == null or lineGubun ==''">
+			TB_AGT_SIZE_STEP
+		</if>
+		<if test="lineGubun != null and lineGubun !='' and lineGubun == '4Line'">
+			TB_AGT_SIZE_STEP_SIX_FLOOR_TABLE
+		</if>
+		
+		WHERE WORK_ORD_NO = #{workOrdNo}
+		<if test="lotNo != null and lotNo != ''">
+		AND LOT_NO = #{lotNo}
+		</if>
+		
+		ORDER BY STEP_CD
+	</select>
+	
+			<!-- 초중종물 사용자입력 평균값 구할때 사용
+			SELECT
+				WORK_ORD_NO
+				, STEP_CD
+				, REG_TIME
+				, WP_LEFT_ALWNCE
+				, WP_RIGHT_ALWNCE
+				, PITCH_LEFT_ALWNCE
+				, PITCH_RIGHT_ALWNCE
+				, PPF_WING_LEFT_ALWNCE
+				, PPF_WING_RIGHT_ALWNCE
+				, PPF_DEPTH_LEFT_ALWNCE
+				, PPF_DEPTH_RIGHT_ALWNCE
+				, FILM_ALWNCE
+				, METAL_DEPTH_ALWNCE
+				, METAL_THICKNESS_ALWNCE
+				, TH_CENTER_ALWNCE
+				, TH_EDGE_ALWNCE_PLUS
+				, BURR_METAL_ALWNCE
+				, BURR_RCUT_ALWNCE
+				, BURR_REDGE_ALWNCE
+				, BULGE_LEFTUP_HEIGHT
+				, BULGE_LEFTDOWN_HEIGHT
+				, BULGE_RIGHTUP_HEIGHT
+				, BULGE_RIGHTDOWN_HEIGHT
+				, BULGE_LEFTUP_WIDTH
+				, BULGE_LEFTDOWN_WIDTH
+				, BULGE_RIGHTUP_WIDTH
+				, BULGE_RIGHTDOWN_WIDTH
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM
+				TB_EQUIP_SIZE_COND_STEP		 
+			WHERE
+				WORK_ORD_NO = #{workOrdNo}
+			 -->	
+	
+</mapper>

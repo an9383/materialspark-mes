@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.po.equipDowntimeAdmMapper">
+
+<resultMap id="EquipDowntimeAdmVo" type="mes.domain.po.EquipDowntimeAdmVo">
+		<result property="downtimeIdx"            	column="DOWNTIME_IDX"			/>
+		<result property="equipCd"            		column="EQUIP_CD"				/> 
+		<result property="equipCd"            		column="EQUIP_CD"				/>                      
+		<result property="equipNm"            		column="EQUIP_NM"				/>
+		<result property="workOrdNo"           		column="WORK_ORD_NO"			/>
+		<result property="downtimeCd"         		column="DOWNTIME_CD"			/>       
+		<result property="downtimeNm"         		column="DOWNTIME_NM"			/>   
+		<result property="dayNightCd"         		column="DAY_NIGHT_CD"			/> 		
+		<result property="dayNightNm"         		column="DAY_NIGHT_NM"			/> 		
+		<result property="startTime"          		column="START_TIME"				/> 		
+		<result property="endTime"            		column="END_TIME"				/> 		
+		<result property="stopTime"              	column="STOP_TIME"				/> 		
+		<result property="downtimeRegDate"    		column="DOWNTIME_REG_DATE"		/> 		
+		<result property="code1"              		column="CODE1"					/>
+		<result property="code1Nm"             		column="CODE1_NM"				/> 		
+		<result property="code2"              		column="CODE2"					/> 		
+		<result property="code3"              		column="CODE3"					/> 		
+		<result property="code4"              		column="CODE4"					/> 		
+		<result property="code5"              		column="CODE5"					/> 		
+		<result property="code6"              		column="CODE6"					/>  		
+		<result property="code7"              		column="CODE7"					/> 
+		<result property="code"              		column="CODE"					/>
+		<result property="equipStatus"              column="EQUIP_STATUS"			/>		
+		<result property="regId"              		column="REG_ID"					/> 		
+		<result property="regDate"            		column="REG_DATE"				/> 		
+		<result property="updId"              		column="UPD_ID"					/> 		
+		<result property="updDate"            		column="UPD_DATE"				/> 
+		<result property="workTeamCd"            	column="WORK_TEAM_CD"			/> 
+		<result property="workTeamNm"            	column="WORK_TEAM_NM"			/> 
+		<result property="mainWorkChargr"           column="MAIN_WORK_CHARGR"		/> 
+		<result property="mainWorkChargrNm"         column="MAIN_WORK_CHARGR_NM"	/> 
+		<result property="workStartTime"            column="WORK_START_TIME"		/> 
+		<result property="workEndTime"            	column="WORK_END_TIME"			/> 
+		<result property="workTime"            		column="WORK_TIME"				/> 
+		<result property="ordGubun"            		column="ORD_GUBUN"				/>
+		<result property="ordGubunNm"            	column="ORD_GUBUN_NM"			/>
+	
+</resultMap>
+
+	<select id="listAll" resultMap="EquipDowntimeAdmVo">
+		SELECT DOWNTIME_IDX
+			,EQUIP_CD
+			,(SELECt X.EQUIP_NM FROM TB_EQUIP_CODE_ADM X WHERE X.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+			,WORK_ORD_NO
+			,DOWNTIME_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE Z WHERE Z.BASE_GROUP_CD='011' AND Z.BASE_CD = A.DOWNTIME_CD) DOWNTIME_NM
+		    ,DAY_NIGHT_CD
+		    ,START_TIME
+		    ,END_TIME
+		    ,STOP_TIME
+		    ,DOWNTIME_REG_DATE
+		    ,CODE1
+		    ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE Z WHERE Z.BASE_GROUP_CD='012' AND Z.BASE_CD = A.CODE1) CODE1_NM
+		    ,CODE2
+		    ,CODE3
+		    ,CODE4
+		    ,CODE5
+		    ,CODE6
+		    ,CODE7
+		    ,REG_ID
+		    ,REG_DATE
+		    ,UPD_ID
+		    ,UPD_DATE
+		FROM TB_EQUIP_DOWNTIME_ADM A
+		WHERE 1=1 
+		<if test="downtimeIdx != '' and downtimeIdx != null">
+			AND DOWNTIME_IDX = #{downtimeIdx}
+		</if>
+		<if test="equipCd != '' and equipCd != null">
+			AND EQUIP_CD = #{equipCd}
+		</if>
+		<if test="workOrdNo != '' and workOrdNo != null">
+			AND WORK_ORD_NO = #{workOrdNo}
+		</if>
+		<if test="downtimeRegDate != '' and downtimeRegDate != null">
+			AND DOWNTIME_REG_DATE = #{downtimeRegDate}
+		</if>
+		<if test="dayNightCd != '' and dayNightCd != null">
+			AND DAY_NIGHT_CD = #{dayNightCd}
+		</if>
+		  ORDER BY DOWNTIME_CD ASC
+	</select>
+	
+	<select id="listChecked" resultMap="EquipDowntimeAdmVo">
+		SELECT DOWNTIME_IDX
+			,EQUIP_CD
+  			,WORK_ORD_NO
+		    ,DOWNTIME_CD
+		    ,DAY_NIGHT_CD
+		    ,START_TIME
+		    ,END_TIME
+		    ,STOP_TIME
+		    ,DOWNTIME_REG_DATE
+		    ,CODE1
+		    ,CODE2
+		    ,CODE3
+		    ,CODE4
+		    ,CODE5
+		    ,CODE6
+		    ,CODE7
+		    ,REG_ID
+		    ,REG_DATE
+		    ,UPD_ID
+		    ,UPD_DATE
+		FROM TB_EQUIP_DOWNTIME_ADM
+		WHERE 1=1
+	   	<if test="downtimeIdx != '' and downtimeIdx != null">
+			AND DOWNTIME_IDX = #{downtimeIdx}
+		</if>
+	   	<if test="equipCd != '' and equipCd != null">
+			AND EQUIP_CD = #{equipCd}
+		</if>
+		<if test="downtimeRegDate != '' and downtimeRegDate != null">
+	  		AND DOWNTIME_REG_DATE = #{downtimeRegDate}
+		</if>
+  		<if test="workOrdNo != '' and workOrdNo != null">
+			AND WORK_ORD_NO = #{workOrdNo}
+		</if>
+		  <if test="dayNightCd != '' and dayNightCd != null">
+		  	AND DAY_NIGHT_CD = #{dayNightCd}
+		  </if>
+		  <if test="downtimeCd != '' and downtimeCd != null">
+		  	AND DOWNTIME_Cd = #{downtimeCd}
+		  </if>
+		<if test="startTime != '' and startTime != null">
+			AND START_TIME = #{startTime}
+		</if>
+	</select>
+	
+	<select id="operationListAll" resultMap="EquipDowntimeAdmVo">
+  		SELECT EQUIP_CD
+  			  ,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM
+		      ,DOWNTIME_CD
+		      ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='011' AND B.BASE_CD = A.DOWNTIME_CD) DOWNTIME_NM
+		      ,DAY_NIGHT_CD
+		      ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='028' AND B.BASE_CD = A.DAY_NIGHT_CD) DAY_NIGHT_NM
+		      ,'' ORD_GUBUN
+		      ,'' ORD_GUBUN_NM 
+		      ,START_TIME
+		      ,END_TIME
+		      ,STOP_TIME
+		      ,null WORK_START_TIME
+		      ,null WORK_END_TIME
+		      ,null WORK_TIME
+		      ,DOWNTIME_REG_DATE
+		      ,'' MAIN_WORK_CHARGR
+		      ,'' MAIN_WORK_CHARGR_NM
+		      ,'' WORK_TEAM_CD
+		      ,'' WORK_TEAM_NM
+		      ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='037' AND B.BASE_CD = '002') EQUIP_STATUS
+		      ,CODE1
+		      ,CODE2
+		      ,CODE3
+		      ,CODE4
+		      ,CODE5
+		      ,CODE6
+		      ,CODE7
+		    
+	   FROM TB_EQUIP_DOWNTIME_ADM A
+	   WHERE DOWNTIME_REG_DATE = #{downtimeRegDate}		 
+		   
+	   UNION
+		   
+	   SELECT EQUIP_CD
+ 			  ,(SELECT EQUIP_NM FROM TB_EQUIP_CODE_ADM B WHERE B.EQUIP_CD = A.EQUIP_CD) EQUIP_NM	
+ 			  ,'' DOWNTIME_CD
+		      ,'' DOWNTIME_NM		   
+		      ,'' DAY_NIGHT_CD
+		      ,'' DAY_NIGHT_NM	
+		      ,ORD_GUBUN
+		      ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='028' AND B.BASE_CD = A.ORD_GUBUN) ORD_GUBUN_NM   
+		      ,null START_TIME
+		      ,null END_TIME
+		      ,null STOP_TIME
+		      ,WORK_START_TIME
+		      ,WORK_END_TIME
+		      ,WORK_TIME
+			  ,'' DOWNTIME_REG_DATE
+		      ,MAIN_WORK_CHARGR
+		      ,(SELECT USER_NM FROM TB_USER B WHERE B.USER_NUMBER = A.MAIN_WORK_CHARGR) MAIN_WORK_CHARGR_NM
+		      ,WORK_TEAM_CD
+		      ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='016' AND B.BASE_CD = A.WORK_TEAM_CD) WORK_TEAM_NM
+		      ,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='037' AND B.BASE_CD = '001') EQUIP_STATUS
+		      ,'' CODE1
+		      ,'' CODE2
+		      ,'' CODE3
+		      ,'' CODE4
+		      ,'' CODE5
+		      ,'' CODE6
+		      ,'' CODE7
+		      
+	  FROM TB_WORK_ORDER A
+	  WHERE ORD_DATE = #{downtimeRegDate}
+	   
+	</select>
+	
+	<insert id="create">
+		INSERT INTO TB_EQUIP_DOWNTIME_ADM(
+			DOWNTIME_IDX
+			,EQUIP_CD
+			,WORK_ORD_NO
+			,DOWNTIME_CD
+			,DAY_NIGHT_CD
+			,START_TIME
+			,END_TIME
+			,STOP_TIME
+			,DOWNTIME_REG_DATE
+			,CODE1
+			,CODE2
+			,CODE3
+			,CODE4
+			,CODE5
+			,CODE6
+			,CODE7
+			,REG_ID
+			,REG_DATE
+		) 
+		VALUES(
+			#{downtimeIdx}
+			,#{equipCd}
+			,#{workOrdNo}
+			,#{downtimeCd}
+			,#{dayNightCd}
+			,#{startTime}
+			,#{endTime}
+			,#{stopTime}
+			,#{downtimeRegDate}
+			,#{code1}
+			,#{code2}
+			,#{code3}
+			,#{code4}
+			,#{code5}
+			,#{code6}
+			,#{code7}
+			,#{regId}
+			,GETDATE()
+			
+		)
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			UPDATE	TB_EQUIP_DOWNTIME_ADM		 
+				SET	END_TIME 	= #{endTime}
+					, STOP_TIME	= #{stopTime}
+					, CODE2 	= #{code2}
+					, UPD_ID 	= #{updId}
+					, UPD_DATE	= getdate()
+			WHERE 1=1
+			]]>
+			<if test="downtimeIdx != '' and downtimeIdx != null">
+				AND DOWNTIME_IDX = #{downtimeIdx}
+			</if>
+			<if test="equipCd != '' and equipCd != null">
+				AND EQUIP_CD = #{equipCd}
+			</if>
+			<if test="downtimeRegDate != '' and downtimeRegDate != null">
+				AND DOWNTIME_REG_DATE = #{downtimeRegDate} 
+			</if>
+			<if test="startTime != '' and startTime != null">
+				AND START_TIME = #{startTime}
+			</if>
+			<if test="workOrdNo != '' and workOrdNo != null">
+				AND WORK_ORD_NO = #{workOrdNo}
+			</if>
+		
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM TB_EQUIP_DOWNTIME_ADM 
+		WHERE 1=1
+		<if test="downtimeIdx != '' and downtimeIdx != null">
+			AND DOWNTIME_IDX = #{downtimeIdx}
+		</if>
+		<if test="equipCd != '' and equipCd != null">
+			AND EQUIP_CD = #{equipCd}
+		</if>
+		<if test="downtimeRegDate != '' and downtimeRegDate != null">
+			AND DOWNTIME_REG_DATE = #{downtimeRegDate} 
+		</if>
+		<if test="dayNightCd != '' and dayNightCd != null">
+			AND DAY_NIGHT_CD = #{dayNightCd}
+		</if>
+		<if test="downtimeCd != '' and downtimeCd != null">
+			AND DOWNTIME_CD = #{downtimeCd}
+		</if>
+  		<if test="workOrdNo != '' and workOrdNo != null">
+			AND WORK_ORD_NO = #{workOrdNo}
+		</if>
+		<if test="startTime != '' and startTime != null">
+			AND START_TIME = #{startTime}
+		</if>
+	</delete>
+				
+	<select id="downtimeIdx" resultType="String">
+		SELECT ISNULL(RIGHT('000' + CAST(MAX(RIGHT(DOWNTIME_IDX,3))+1 AS NVARCHAR),3), '001') FROM TB_EQUIP_DOWNTIME_ADM WHERE SUBSTRING(DOWNTIME_IDX,0,7) = #{date}
+	</select>
+	
+	<select id="equipOperationBody" resultType="HashMap" parameterType="mes.domain.po.EquipDowntimeAdmVo" >
+		SELECT
+			(SELECT COUNT(*) FROM TB_EQUIP_CODE_ADM WHERE USE_YN_CD = '001') EQUIP_COUNT
+			, AAA.*
+		FROM
+			(SELECT
+				A.EQUIP_NM
+				, B.*
+			FROM
+				TB_EQUIP_CODE_ADM A LEFT JOIN
+				(SELECT * FROM (
+					SELECT
+						A.EQUIP_CD
+						, A.ORD_DATE
+						, CONVERT(NUMERIC(10, 2), SUM(DATEDIFF(SECOND, A.WORK_START_TIME, A.WORK_END_TIME)) / 60 / 60.0) AS SUM_DIFF
+					FROM TB_WORK_ORDER A
+					WHERE ORD_DATE LIKE #{planDate} + '%'
+					AND WORK_STATUS_CD = 'C'
+					GROUP BY A.EQUIP_CD, A.ORD_DATE
+						
+					UNION ALL
+		
+					SELECT
+						A. EQUIP_CD
+						, 'ORD_DATE_TOTAL' ORD_DATE
+						, CONVERT(NUMERIC(10, 2), SUM(DATEDIFF(SECOND, A.WORK_START_TIME, A.WORK_END_TIME)) / 60 / 60.0) AS SUM_DIFF
+					FROM TB_WORK_ORDER A
+					WHERE ORD_DATE LIKE #{planDate} + '%'
+					AND WORK_STATUS_CD = 'C'
+					GROUP BY A.EQUIP_CD
+				) AS RESULT
+			PIVOT (
+				SUM(SUM_DIFF) FOR ORD_DATE IN (${planDateList})
+			) AS PIVOT_RESULT) B ON A.EQUIP_CD = B.EQUIP_CD
+			
+			UNION ALL
+		
+			SELECT * FROM (
+					
+					SELECT
+						'A_TOTAL' EQUIP_CD
+						, 'A_TOTAL' EQUIP_NM
+						, A.ORD_DATE
+						, CONVERT(NUMERIC(10, 2), SUM(DATEDIFF(SECOND, A.WORK_START_TIME, A.WORK_END_TIME)) / 60 / 60.0) AS SUM_DIFF
+					FROM TB_WORK_ORDER A
+					WHERE ORD_DATE LIKE #{planDate} + '%'
+					AND WORK_STATUS_CD = 'C'
+					GROUP BY A.ORD_DATE
+		
+					UNION ALL
+		
+					SELECT
+						'A_TOTAL'  EQUIP_CD
+						, 'A_TOTAL' EQUIP_NM
+						, 'ORD_DATE_TOTAL' ORD_DATE
+						, CONVERT(NUMERIC(10, 2), SUM(DATEDIFF(SECOND, A.WORK_START_TIME, A.WORK_END_TIME)) / 60 / 60.0) AS SUM_DIFF
+					FROM TB_WORK_ORDER A
+					WHERE ORD_DATE LIKE #{planDate} + '%'
+					AND WORK_STATUS_CD = 'C'
+					GROUP BY A.EQUIP_CD
+		
+				) AS RESULT
+			PIVOT (
+				SUM(SUM_DIFF) FOR ORD_DATE IN (${planDateList})
+			) AS PIVOT_RESULT) AS AAA
+		ORDER BY AAA.EQUIP_NM
+	</select>
+	
+</mapper>

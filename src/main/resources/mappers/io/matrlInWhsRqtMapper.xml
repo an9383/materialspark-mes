@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.io.matrlInWhsRqtMapper">
+
+<resultMap id="MatrlInWhsRqtVo" type="mes.domain.io.MatrlInWhsRqtVo">
+		<result property="lotNo"				column="LOT_NO"					/>                      
+		<result property="srLot"				column="SR_LOT"					/>                       
+		<result property="inWhsGroupSeq"		column="IN_WHS_GROUP_SEQ"		/>       
+		<result property="matrlCd"				column="MATRL_CD"				/>   
+		<result property="matrlNm"				column="MATRL_NM"				/> 		                
+		<result property="preInWhsQty"			column="PRE_IN_WHS_QTY"			/>          
+		<result property="inWhsQty"				column="IN_WHS_QTY"				/> 
+		<result property="inspectQty"			column="INSPECT_QTY"			/>  
+		<result property="adjustQty"			column="ADJUST_QTY"				/>		               
+		<result property="diffQty"				column="DIFF_QTY"				/>
+		<result property="inWhsLength"			column="IN_WHS_LENGTH"			/>		                     
+		<result property="spplyDealCorpCd"		column="SPPLY_DEAL_CORP_CD"		/> 
+		<result property="spplyDealCorpNm"		column="SPPLY_DEAL_CORP_NM"		/> 		          
+		<result property="preInWhsDate"			column="PRE_IN_WHS_DATE"		/>         
+		<result property="inWhsDate"			column="IN_WHS_DATE"			/>               
+		<result property="inspctDate"			column="INSPCT_DATE"			/>    
+		<result property="barcodeNo"			column="BARCODE_NO"				/>  
+		<result property="approvalCd"			column="APPROVAL_CD"			/>	
+		<result property="approvalNm"			column="APPROVAL_NM"			/>				             
+		<result property="statusCd"				column="STATUS_CD"				/> 
+		<result property="statusNm"				column="STATUS_NM"				/>		                      
+		<result property="matrlChargr"			column="MATRL_CHARGR"			/>  
+		<result property="preOutEquipCd"		column="PRE_OUT_EQUIP_CD"		/>	
+		<result property="preOutEquipNm"		column="PRE_OUT_EQUIP_NM"		/>				         
+		<result property="preOutWhsDate"		column="PRE_OUT_WHS_DATE"		/>       
+		<result property="outEquipCd"			column="OUT_EQUIP_CD"			/> 
+		<result property="outEquipNm"			column="OUT_EQUIP_NM"			/> 		   		              
+		<result property="outWhsDate"			column="OUT_WHS_DATE"			/>           
+		<result property="locationCd"			column="LOCATION_CD"			/> 
+		<result property="locationNm"			column="LOCATION_NM"			/> 		              
+		<result property="inWhsDesc"			column="IN_WHS_DESC"			/>
+		<result property="fifoCheck"			column="FIFO_CHECK"				/>
+		
+		<result property="lifeTime"				column="LIFE_TIME"				/>
+		<result property="surfaceDate"			column="SURFACE_DATE"			/>
+		<result property="data1"				column="DATA1"					/>
+		<result property="data2"				column="DATA2"					/>
+		<result property="motherRollLot"		column="MOTHER_ROLL_LOT"		/>
+		<result property="motherRollLotNo"		column="MOTHER_ROLL_LOT_NO"		/>
+		<result property="standard"				column="STANDARD"				/>
+		<result property="rollcount"			column="ROLL_COUNT"				/>
+		            
+		<result property="regId"				column="REG_ID"					/>                        
+		<result property="regDate"				column="REG_DATE"				/>                    
+		<result property="updId"				column="UPD_ID"					/>                        
+		<result property="updDate"				column="UPD_DATE"				/>  
+		<result property="cnt"					column="CNT"					/>
+		<result property="remainQty"			column="REMAIN_QTY"				/>
+		<result property="paidGubun"			column="PAID_GUBUN"				/>
+		<result property="paidGubunNm"			column="PAID_GUBUN_NM"			/>
+		<result property="rollCnt"				column="ROLL_CNT"				/>
+		<result property="weightUnit"			column="WEIGHT_UNIT"			/>
+		<result property="inWhsTime"			column="IN_WHS_TIME"			/>
+</resultMap>
+
+
+	<select id="listAll" resultMap="MatrlInWhsRqtVo">
+  		SELECT LOT_NO
+			,SR_LOT
+			,IN_WHS_GROUP_SEQ
+			,MATRL_CD
+			,PRE_IN_WHS_QTY
+			,IN_WHS_QTY
+			,WEIGHT_UNIT
+			,ROLL_CNT
+			,INSPECT_QTY
+			,ADJUST_QTY				
+			,DIFF_QTY
+			,REMAIN_QTY
+			,IN_WHS_LENGTH
+			,SPPLY_DEAL_CORP_CD
+			,PRE_IN_WHS_DATE
+			,IN_WHS_DATE
+			,INSPCT_DATE
+			,BARCODE_NO
+			,APPROVAL_CD
+			,STATUS_CD
+			,MATRL_CHARGR
+			,PRE_OUT_WHS_DATE
+			,PRE_OUT_EQUIP_CD
+			,OUT_WHS_DATE
+			,OUT_EQUIP_CD
+			,LOCATION_CD
+			,IN_WHS_DESC
+			,PAID_GUBUN
+			,REG_ID
+			,REG_DATE
+			,UPD_ID              
+			,UPD_DATE            
+		FROM  TB_IN_OUT_WHS_ADM
+	</select>
+	
+	<select id="read" resultMap="MatrlInWhsRqtVo">
+  		SELECT	LOT_NO
+			,SR_LOT
+			,IN_WHS_GROUP_SEQ
+			,MATRL_CD
+			,PRE_IN_WHS_QTY
+			,IN_WHS_QTY
+			,WEIGHT_UNIT
+			,ROLL_CNT
+			,INSPECT_QTY
+			,ADJUST_QTY				
+			,DIFF_QTY
+			,REMAIN_QTY
+			,IN_WHS_LENGTH
+			,SPPLY_DEAL_CORP_CD
+			,PRE_IN_WHS_DATE
+			,IN_WHS_DATE
+			,INSPCT_DATE
+			,BARCODE_NO
+			,APPROVAL_CD
+			,STATUS_CD
+			,MATRL_CHARGR
+			,PRE_OUT_WHS_DATE
+			,PRE_OUT_EQUIP_CD
+			,OUT_WHS_DATE
+			,OUT_EQUIP_CD
+			,LOCATION_CD
+			,IN_WHS_DESC
+			,PAID_GUBUN
+			,REG_ID
+			,REG_DATE
+			,UPD_ID
+			,UPD_DATE
+		FROM TB_IN_OUT_WHS_ADM
+		WHERE LOT_NO= #{lotNo}
+			
+	</select>
+	
+	<insert id="create">
+		INSERT INTO TB_IN_OUT_WHS_ADM(
+			LOT_NO
+			,SR_LOT
+			,IN_WHS_GROUP_SEQ
+			,MATRL_CD
+			,PRE_IN_WHS_QTY
+			,IN_WHS_QTY
+			,WEIGHT_UNIT
+			,ROLL_CNT
+			,INSPECT_QTY
+			,ADJUST_QTY				
+			,DIFF_QTY
+			,REMAIN_QTY
+			,IN_WHS_LENGTH
+			,SPPLY_DEAL_CORP_CD
+			,PRE_IN_WHS_DATE
+			,IN_WHS_DATE
+			,INSPCT_DATE
+			,BARCODE_NO
+			,APPROVAL_CD
+			,STATUS_CD
+			,MATRL_CHARGR
+			,PRE_OUT_WHS_DATE
+			,PRE_OUT_EQUIP_CD
+			,OUT_WHS_DATE
+			,OUT_EQUIP_CD
+			,LOCATION_CD
+			,IN_WHS_DESC
+			,FIFO_CHECK
+			,LIFE_TIME
+			,SURFACE_DATE
+			,DATA1
+			,DATA2
+			,MOTHER_ROLL_LOT
+			,MOTHER_ROLL_LOT_NO
+			,STANDARD
+			,ROLL_COUNT
+			,PAID_GUBUN
+			,IN_WHS_TIME
+			,REG_ID
+			,REG_DATE
+		) 
+		VALUES(
+			#{lotNo}
+			,#{srLot}
+			,#{inWhsGroupSeq}
+			,#{matrlCd}
+			,#{preInWhsQty}
+			,#{inWhsQty}
+			,#{weightUnit}
+			,#{rollCnt}
+			,#{inspectQty}			
+			,#{adjustQty}			
+			,#{diffQty}
+			,#{remainQty}
+			,#{inWhsLength}
+			,#{spplyDealCorpCd}
+			,#{preInWhsDate}
+			,#{inWhsDate}
+			,#{inspctDate}
+			,#{barcodeNo}
+			,#{approvalCd}
+			,#{statusCd}
+			,#{matrlChargr}
+			,#{preOutWhsDate}
+			,#{preOutEquipCd}
+			,#{outWhsDate}
+			,#{outEquipCd}
+			,#{locationCd}
+			,#{inWhsDesc}
+			,#{fifoCheck}
+			,#{lifeTime}
+			,#{surfaceDate}
+			,#{data1}
+			,#{data2}
+			,#{motherRollLot}
+			,#{motherRollLotNo}
+			,#{standard}
+			,#{rollCount}
+			,#{paidGubun}
+			,#{inWhsTime}
+			,#{regId}
+			,GETDATE()
+		)	
+		
+	</insert>
+	
+		
+	<select id="update">
+		UPDATE	TB_IN_OUT_WHS_ADM
+		SET	LOT_NO = #{lotNo}
+			,SR_LOT = #{srLot}
+			,IN_WHS_GROUP_SEQ = #{inWhsGroupSeq}
+			,MATRL_CD = #{matrlCd}
+			,PRE_IN_WHS_QTY = #{preInWhsQty}
+			,IN_WHS_QTY = #{inspectQty}
+			,WEIGHT_UNIT = #{weightUnit}
+			,ROLL_CNT = #{rollCnt}
+       		,INSPECT_QTY = #{inspectQty}
+			,ADJUST_QTY = #{inWhsQty}				
+			,DIFF_QTY = CONVERT(float,#{preInWhsQty})-CONVERT(float,#{inspectQty})
+			,REMAIN_QTY = #{remainQty}
+			,IN_WHS_LENGTH = #{inWhsLength}
+			,SPPLY_DEAL_CORP_CD = #{spplyDealCorpCd}
+			,PRE_IN_WHS_DATE = #{preInWhsDate}
+			,IN_WHS_DATE = CONVERT(CHAR(8), getDate(), 112)
+			,INSPCT_DATE = CONVERT(CHAR(8), getDate(), 112)
+			,BARCODE_NO = #{barcodeNo}
+			,APPROVAL_CD = #{approvalCd}
+			,STATUS_CD = #{statusCd}
+			,MATRL_CHARGR = #{matrlChargr}
+			,PRE_OUT_WHS_DATE = #{preOutWhsDate}
+			,PRE_OUT_EQUIP_CD = #{preOutEquipCd}
+			,OUT_WHS_DATE = #{outWhsDate}
+			,OUT_EQUIP_CD = #{outEquipCd}
+			,LOCATION_CD = #{locationCd}
+			,IN_WHS_DESC = #{inWhsDesc}
+			,PAID_GUBUN = #{paidGubun}			
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		WHERE	LOT_NO = #{lotNo}
+	</select>
+		
+	<select id="selectInWhsGroupSeq" resultType="String">
+    	 SELECT ISNULL(MAX(IN_WHS_GROUP_SEQ)+1,'1000000000') FROM TB_IN_OUT_WHS_ADM
+    </select>
+    
+    <select id="barcodeCreate" resultType="String">
+    	select ISNULL(RIGHT('000' + CAST(MAX(SUBSTRING(BARCODE_NO,10,12))+1 AS NVARCHAR),3), '001') from TB_IN_OUT_WHS_ADM where PRE_IN_WHS_DATE = #{time} and MATRL_CD like 'F%' and BARCODE_NO like '20%';
+    </select>
+    
+    <select id="checkCode" resultType="String"> <!-- 유효성 검사 -->
+    	SELECT CASE COUNT(*) WHEN 1 THEN 'Y' ELSE MIN(STATUS) END STATUS FROM (
+    	<if test="srLot != null and srLot != ''"> 
+		  	SELECT CASE COUNT(*) WHEN 0 THEN 'Y' ELSE ('NS_LOT ' + #{srLot} + '가 이미 등록되어 있습니다.') END STATUS FROM TB_IN_OUT_WHS_ADM WHERE SR_LOT = #{srLot}
+			UNION
+		</if> 
+			SELECT CASE COUNT(*) WHEN 0 THEN 'Y' ELSE ('NLOT번호 ' + #{lotNo} + '가 이미 등록되어 있습니다.') END STATUS FROM TB_IN_OUT_WHS_ADM WHERE LOT_NO = #{lotNo}
+			UNION
+			SELECT CASE COUNT(*) WHEN 0 THEN ('N업체명 ' + #{spplyDealCorpCd} + '가 등록되어 있지 않습니다') ELSE 'Y' END STATUS FROM TB_DEAL_CORP_ADM WHERE DEAL_CORP_CD = #{spplyDealCorpCd}
+			UNION
+			SELECT CASE COUNT(*) WHEN 0 THEN 'Y' ELSE ('N바코드 ' + #{barcodeNo} + '가 이미 등록되어 있습니다.') END STATUS FROM TB_IN_OUT_WHS_ADM WHERE BARCODE_NO = #{barcodeNo}
+			UNION  
+			SELECT CASE COUNT(*) WHEN 0 THEN ('N자재코드 ' + #{matrlCd} + '가 등록되어 있지 않습니다.') ELSE 'Y' END STATUS FROM TB_MATRL_CODE_ADM WHERE MATRL_CD = #{matrlCd}
+		) A    
+    
+    </select>
+    
+    <select id="groupSeqCount" resultType="Integer">
+    	SELECT COUNT(*) FROM TB_IN_OUT_WHS_ADM WHERE LOT_NO = #{lotNo}
+    </select>
+    
+    <delete id="groupSeqDelete">
+    	DELETE TB_IN_OUT_WHS_ADM WHERE IN_WHS_GROUP_SEQ = #{inWhsGroupSeq}
+    </delete>
+	
+	
+</mapper>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.mappers.em.commonCodeMapper">
+	<resultMap id="CommonCodeAdmVo"
+		type="mes.domain.em.CommonCodeAdmVo">
+		<result property="baseGroupCd"    column="BASE_GROUP_CD" />
+		<result property="baseGroupCdNm"  column="BASE_GROUP_CD_NM" />
+		<result property="baseGroupType"  column="BASE_GROUP_TYPE" />
+		<result property="baseGroupAbbr"  column="BASE_GROUP_ABBR" />
+		<result property="baseGroupDesc"  column="BASE_GROUP_CD_DESC" />
+		<result property="baseCd"         column="BASE_CD" />
+		<result property="baseCdNm"       column="BASE_CD_NM" />
+		<result property="baseCdAbbr"     column="BASE_CD_ABBR" />
+		<result property="baseCdDesc"     column="BASE_CD_DESC" />
+		<result property="etc1"           column="ETC1" />
+		<result property="etc2" 		  column="ETC2" />
+		<result property="etc3" 		  column="ETC3" />
+<!-- 		<result property="etc4" 		  column="ETC4" /> -->
+<!-- 		<result property="etc5"           column="ETC5" /> -->
+<!-- 		<result property="etc6" 		  column="ETC6" /> -->
+<!-- 		<result property="etc7" 		  column="ETC7" /> -->
+<!-- 		<result property="etc8" 		  column="ETC8" /> -->
+<!-- 		<result property="etc9" 		  column="ETC9" /> -->
+<!-- 		<result property="etc10" 		  column="ETC10" /> -->
+		<result property="useYnCd" 		  column="USE_YN_CD" />
+		<result property="useYnNm"  	  column="USE_YN_NM" />
+		<result property="regId" 		  column="REG_ID" />
+		<result property="regDate" 		  column="REG_DATE" />
+		<result property="updId" 		  column="UPD_ID" />
+		<result property="updDate" 		  column="UPD_DATE" />
+		
+<!-- 		추가사항 -->
+		<result property="groupCheck" 	  column="GROUP_CHECK" />
+	</resultMap>
+
+
+	<!-- 시스템 공통그룹 목록조회 -->
+	<select id="CommonGroupList" resultMap="CommonCodeAdmVo">
+		<![CDATA[
+			SELECT
+				BASE_GROUP_CD
+				, BASE_GROUP_NM
+				, BASE_GROUP_TYPE
+				, USE_YN_CD
+				, (SELECT BASE_CD_NM FROM TB_COMMON_CODE_ADM B WHERE B.BASE_GROUP_CD='001' AND B.BASE_CD = A.USE_YN) USE_YN_NM
+				, BASE_GROUP_DESC
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM
+				TB_SYSTEM_COMMON_GROUP A
+			ORDER BY
+				BASE_GROUP_CD ASC
+		]]>
+	</select>
+
+	<!-- 시스템 공통그룹 특정 조회 -->
+	<select id="CommonGroupRead" resultMap="CommonCodeAdmVo">
+		<![CDATA[
+			SELECT
+				BASE_GROUP_CD
+				, BASE_GROUP_NM
+				, USE_YN_CD
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM
+				TB_SYSTEM_COMMON_GROUP A
+			WHERE
+				BASE_GROUP_CD=#{baseGroupCd}
+		]]>
+	</select>
+
+	<!-- 시스템 공통그룹 생성 -->
+	<insert id="CommonGroupCreate"
+		parameterType="mes.domain.em.CommonCodeAdmVo">
+		<![CDATA[
+			INSERT INTO	TB_SYSTEM_COMMON_GROUP	
+				( BASE_GROUP_CD
+				, BASE_GROUP_NM
+				, BASE_GROUP_TYPE
+				, USE_YN_CD
+				, REG_ID
+				, REG_DATE
+			) 
+			VALUES (
+				#{baseGroupCd}
+				, #{baseGroupCdNm}
+				, #{baseGroupType}
+				, #{useYnCd}
+				, #{regId}
+				, getDate() )
+		]]>
+	</insert>
+
+	<!-- 시스템 공통그룹 수정 -->
+	<update id="CommonGroupUpdate">
+		<![CDATA[
+			UPDATE
+				TB_SYSTEM_COMMON_GROUP		
+			SET	
+				BASE_GROUP_CD = #{baseGroupCd}
+				, BASE_GROUP_NM = #{baseGroupCdNm}
+				, BASE_GROUP_TYPE = #{baseGroupType}
+				, USE_YN_CD = #{useYnCd}
+				, UPD_ID = #{updId}
+				, UPD_DATE = getdate()
+			WHERE
+				BASE_GROUP_CD = #{baseGroupCd}
+		]]>
+	</update>
+
+	<!-- 시스템 공통그룹 특정 조회 -->
+	<select id="CommonGroupSeq" resultMap="CommonCodeAdmVo">
+		<![CDATA[
+			SELECT ISNULL(RIGHT('000' + CAST( (CASE ISNUMERIC(MAX(BASE_GROUP_CD)) WHEN 1 THEN MAX(BASE_GROUP_CD) ELSE 0 END) +1 AS NVARCHAR),3), '001') BASE_GROUP_CD
+				FROM
+					TB_SYSTEM_COMMON_GROUP	
+		]]>
+	</select>
+	<!-- 시스템 기초코드 전제 조회 -->
+	<select id="CommonCodeList" resultMap="CommonCodeAdmVo">
+			SELECT
+				BASE_CD
+				, BASE_CD_NM
+				, BASE_CD_ABBR
+				, BASE_GROUP_CD
+				, BASE_CD_DESC
+				, ETC1
+				, ETC2
+				, ETC3
+<!-- 				, ETC4 -->
+<!-- 				, ETC5 -->
+				, USE_YN_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='001' AND B.BASE_CD = A.USE_YN_CD) USE_YN_CD_NM
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM
+				TB_SYSTEM_COMMON_CODE A
+			WHERE
+				BASE_GROUP_CD = #{baseGroupCd}
+		<if test="startBaseCd != null and startBaseCd != ''">
+			AND BASE_CD BETWEEN #{startBaseCd} AND #{endBaseCd}
+		</if>
+		<if test="useYnCd != null and useYnCd != ''">
+			AND USE_YN_CD = #{useYnCd}
+		</if>
+		<if test="etc1 != null and etc1 != ''">
+			AND ETC1 = #{etc1}
+		</if>
+		<![CDATA[	
+			ORDER BY BASE_GROUP_CD ASC, BASE_CD ASC
+		]]>
+	</select>
+
+	<!-- 시스템 기초코드 특정 조회 -->
+	<select id="CommonCodeRead" resultMap="CommonCodeAdmVo">
+		SELECT
+			BASE_CD
+			, BASE_CD_NM
+			, BASE_CD_ABBR
+			, BASE_GROUP_CD
+			, BASE_CD_DESC
+			, ETC1
+			, ETC2
+			, ETC3
+<!-- 			, ETC4 -->
+<!-- 			, ETC5 -->
+			, USE_YN_CD
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM
+			TB_SYSTEM_COMMON_CODE
+		WHERE
+			BASE_GROUP_CD = #{baseGroupCd}
+		and 
+			BASE_CD=#{baseCd} 
+	</select>
+
+	<!-- 시스템 기초코드 생성 -->
+	<insert id="CommonCodeCreate"
+		parameterType="mes.domain.em.CommonCodeAdmVo">
+			INSERT INTO TB_SYSTEM_COMMON_CODE
+				( BASE_CD
+				, BASE_CD_NM
+				, BASE_CD_ABBR
+				, BASE_GROUP_CD
+				, BASE_CD_DESC
+				, ETC1
+				, ETC2
+				, ETC3
+				, USE_YN_CD
+				, REG_ID
+				, REG_DATE ) 
+			VALUES
+				( #{baseCd}
+				, #{baseCdNm}
+				, #{baseCdAbbr}
+				, #{baseGroupCd}
+				, #{baseCdDesc}
+				, #{etc1}
+				, #{etc2}
+				, #{etc3}
+				, #{useYnCd}
+				, #{regId}
+				, getdate()	)
+	</insert>
+
+	<!-- 시스템 기초코드 수정 -->
+	<update id="CommonCodeUpdate">
+		UPDATE	TB_SYSTEM_COMMON_CODE
+		SET
+			BASE_CD = #{baseCd}
+			, BASE_CD_NM = #{baseCdNm}
+			, BASE_CD_ABBR = #{baseCdAbbr}
+			, BASE_CD_DESC = #{baseCdDesc}
+			, ETC1 = #{etc1}
+			, ETC2 = #{etc2}
+			, ETC3 = #{etc3}
+<!-- 			, ETC4 = #{etc4} -->
+<!-- 			, ETC5 = #{etc5} -->
+			, USE_YN_CD = #{useYnCd}
+			, UPD_ID = #{updId}
+			, UPD_DATE = getdate()
+		WHERE
+			BASE_CD = #{baseCd}
+		AND
+			BASE_GROUP_CD = #{baseGroupCd}
+	</update>
+
+	<!-- 시스템공통코드 SEQ(baseCd) -->
+	<select id="CommonCodeSeq" resultMap="CommonCodeAdmVo">
+		<![CDATA[
+			SELECT ISNULL(RIGHT('000' + CAST( (CASE ISNUMERIC(MAX(BASE_CD)) WHEN 1 THEN MAX(BASE_CD) ELSE 0 END) +1 AS NVARCHAR),3), '001') BASE_CD
+				FROM
+					TB_SYSTEM_COMMON_CODE
+				WHERE
+					base_group_cd = #{baseGroupCd};
+		]]>
+	</select>
+	
+	<!-- 시스템공통코드 중복확인 -->
+	<select id="CommonCodeCdCheck" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		TB_SYSTEM_COMMON_CODE
+		WHERE BASE_GROUP_CD = #{baseGroupCd} 
+		AND BASE_CD = #{baseCd}		
+		
+	</select>
+	
+	
+	<!-- 시스템공통코드 공통그룹명 중복확인 -->
+	<select id="CommonCodeNmCheck" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		TB_SYSTEM_COMMON_CODE
+		WHERE BASE_GROUP_CD = #{baseGroupCd} 
+		AND BASE_CD_NM = #{baseCdNm}
+	</select>
+	
+	<!-- 시스템공통코드 항목명 중복확인 -->
+	<select id="CommonGroupNmCheck" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		TB_SYSTEM_COMMON_GROUP
+		WHERE BASE_GROUP_NM = #{baseGroupCdNm}
+	</select>
+	
+	<!-- delete -->
+	<delete id="commonGroupDelete">
+			DELETE
+			<choose>
+			<when test="groupCheck.equals('group')">
+			FROM TB_SYSTEM_COMMON_GROUP
+			</when>
+			<otherwise>
+			FROM TB_SYSTEM_COMMON_CODE
+			</otherwise>
+			</choose>
+			<choose>
+			<when test="groupCheck.equals('code')">
+			WHERE BASE_GROUP_CD = #{baseGroupCd}
+			AND BASE_CD = #{baseCd}
+			</when>
+			<otherwise>
+			WHERE BASE_GROUP_CD = #{baseGroupCd}
+			</otherwise>
+			</choose>
+			
+	</delete>
+
+
+
+</mapper>

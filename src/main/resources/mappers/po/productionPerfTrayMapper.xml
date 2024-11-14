@@ -1,0 +1,1634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.po.productionPerfTrayMapper">
+
+	<!-- 설비생산실적트레이 -->
+	<resultMap id="ProductionPerfTrayVo" type="mes.domain.po.ProductionPerfTrayVo">		
+		<result property="equipCd"       			column="EQUIP_CD"					/>		<!-- 설비코드 -->
+		<result property="equipNm"       			column="EQUIP_NM"					/>
+		<result property="workOrdNo"       			column="WORK_ORD_NO"				/>		<!-- 작지번호 -->
+		<result property="lastWorkOrdNo"       		column="LAST_WORK_ORD_NO"			/>		<!-- 전작지번호 -->
+		<result property="productDate"       		column="PRODUCT_DATE"				/>		<!-- 생산날짜 -->
+		<result property="dayNightCd"       		column="DAY_NIGHT_CD"				/>		<!-- 주야구분 -->
+		<result property="trayNo"       			column="TRAY_NO"					/>		<!-- 트레이번호 -->
+		<result property="workOrdSeq"       		column="WORK_ORD_SEQ"				/>		<!-- 작지순서 -->
+		<result property="matrlCd"       			column="MATRL_CD"					/>		<!-- 자재코드 -->
+		<result property="matrlLotNo"       		column="MATRL_LOT_NO"				/>		<!-- 자재로트 -->
+		<result property="filmLotNo"	       		column="FILM_LOT_NO"				/>		<!-- 부자재로트 -->
+		<result property="lastMatrlLotNo"       	column="LAST_MATRL_LOT_NO"			/>		<!-- 전자재로트 -->
+		<result property="labelLotNo"       		column="LABEL_LOT_NO"				/>		<!-- 라벨로트 -->
+		<result property="labelLotNoSeq"       		column="LABEL_LOT_NO_SEQ"			/>		<!-- 라벨로트시퀀스 -->
+		<result property="productStatus"       		column="PRODUCT_STATUS"				/>		<!-- 생산상태 -->
+		<result property="goodsCd"       			column="GOODS_CD"					/>		<!-- 제품코드 -->
+		<result property="goodsNm"       			column="GOODS_NM"					/>		<!-- 제품코드_NM -->
+		<result property="productQty"       		column="PRODUCT_QTY"				/>		<!-- 생산수량 -->
+		<result property="productPartQty"       	column="PRODUCT_PART_QTY"			/>		<!-- 부분생산수량 -->
+		<result property="productAllQty"       		column="PRODUCT_ALL_QTY"			/>		<!-- 전체생산수량 -->
+		<result property="incorporationGubun"   	column="INCORPORATION_GUBUN"		/>		<!-- 혼입구분 -->
+		<result property="incorporationVisonGubun" 	column="INCORPORATION_VISON_GUBUN"	/>		<!-- 혼입비전구분 -->
+		<result property="ordLotNo"       			column="ORD_LOT_NO"					/>		<!-- 생산전표번호 -->
+		<result property="trayWorkerId"       		column="TRAY_WORKER_ID"				/>		<!-- 작업자-->
+		<result property="turnNumber"      			column="TURN_NUMBER"				/>		<!-- 순번 -->
+		
+		<result property="lgesCode"      			column="LGES_CODE"					/>		<!-- LGES코드 -->
+		<result property="lgesGubun"      			column="LGES_GUBUN"					/>		<!-- LGES구분자 -->
+		<result property="regId"       				column="REG_ID"						/>		<!-- 등록자 -->
+		<result property="regDate"       			column="REG_DATE"					/>		<!-- 등록일 -->
+		<result property="updId"       				column="UPD_ID"						/>		<!-- 수정자 -->
+		<result property="updDate"       			column="UPD_DATE"					/>		<!-- 수정일 -->
+		
+		<!-- 추가 항목 -->
+		<result property="matrlGubunNm"      		column="MATRL_GUBUN_NM"				/>		<!-- 재질 -->
+		<result property="gijongCd"      			column="GIJONG_CD"					/>		<!-- 기종별 -->
+		<result property="gijongNm"      			column="GIJONG_NM"					/>		<!-- 기종별 -->
+		<result property="createGubun"      		column="CREATE_GUBUN"				/>		<!-- 뭐 뭘봐 -->
+		<result property="boxNo"      				column="BOX_NO"						/>		<!-- 박스 번호 -->
+		<result property="trayRank"    				column="TRAY_RANK"					/>		<!-- trayRank -->
+		
+		<result property="ordDate"    				column="ORD_DATE"					/>		<!-- trayRank -->
+		<result property="ordGubun"    				column="ORD_GUBUN"					/>		<!-- trayRank -->
+		<result property="workerId"    				column="WORKER_ID"					/>		<!-- trayRank -->
+		
+		<result property="eveLgesCode"    			column="EVE_LGES_CODE"				/>		<!-- 전날 LgesCode -->
+		<result property="printYn"    				column="PRINT_YN"					/>		<!-- 전날 LgesCode -->
+		<result property="trayReprintYn"    		column="TRAY_REPRINT_YN"			/>		<!-- 전날 LgesCode -->
+		<result property="cutOrdDate"    			column="CUT_ORD_DATE"				/>		<!-- 전날 LgesCode -->
+	</resultMap>
+	
+	<!-- 생산실적트레이 조회 --> 
+	<select id="productionPerfTrayList" resultMap="ProductionPerfTrayVo">
+		SELECT
+			EQUIP_CD
+			, WORK_ORD_NO
+			, LAST_WORK_ORD_NO
+			, PRODUCT_DATE
+			, DAY_NIGHT_CD
+			, TRAY_NO
+			, WORK_ORD_SEQ
+			, MATRL_CD
+			, MATRL_LOT_NO
+			, FILM_LOT_NO
+			, LAST_MATRL_LOT_NO
+			, LABEL_LOT_NO
+			, LABEL_LOT_NO_SEQ
+			, PRODUCT_STATUS
+			, GOODS_CD
+			, PRODUCT_QTY
+			, INCORPORATION_GUBUN
+			, INCORPORATION_VISON_GUBUN
+			, ORD_LOT_NO
+			, TRAY_WORKER_ID
+			, TURN_NUMBER
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_PRODUCTION_PERF_TRAY
+		WHERE 1=1
+		<if test="trayNo != null and !trayNo.equals('')">
+			AND TRAY_NO = #{trayNo}
+		</if>
+		<if test="equipCd != null and !equipCd.equals('')">
+			AND EQUIP_CD = #{equipCd}
+		</if>
+		<if test="workOrdNo != null and !workOrdNo.equals('')">
+			AND WORK_ORD_NO = #{workOrdNo}
+		</if>
+		<if test="labelLotNo != null and !labelLotNo.equals('')">
+			AND LABEL_LOT_NO = #{labelLotNo}
+		</if>
+		<if test="labelLotNoSeq != null and !labelLotNoSeq.equals('')">
+			AND LABEL_LOT_NO_SEQ = #{labelLotNoSeq}
+		</if>
+		ORDER BY
+			 WORK_ORD_SEQ, TURN_NUMBER ASC
+	</select>
+	
+	<!-- 생산실적트레이 이전 행&현재 행 조회 --> 
+	<select id="trayInfoBeforeAfterList" resultMap="ProductionPerfTrayVo">
+		<!-- SELECT 
+			AA.*
+		FROM (
+			SELECT
+				*
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND EQUIP_CD = #{equipCd}
+			AND WORK_ORD_NO = #{workOrdNo}
+			AND PRODUCT_STATUS IN( '002', '003' )
+		
+			UNION ALL
+		
+			SELECT
+				*
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND WORK_ORD_NO = (	SELECT 
+									DISTINCT LAST_WORK_ORD_NO
+								FROM TB_PRODUCTION_PERF_TRAY
+								WHERE 1=1
+								AND EQUIP_CD = #{equipCd}
+								AND WORK_ORD_NO = #{workOrdNo}
+							)
+			AND LABEL_LOT_NO IS NULL
+			AND PRODUCT_STATUS = '002'
+			
+			UNION
+		
+			SELECT
+				*
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND WORK_ORD_NO = (	SELECT 
+									DISTINCT LAST_WORK_ORD_NO
+								FROM TB_PRODUCTION_PERF_TRAY
+								WHERE 1=1
+								AND EQUIP_CD = #{equipCd}
+								AND WORK_ORD_NO = #{workOrdNo}
+							)
+			AND LABEL_LOT_NO IN (	SELECT 
+										DISTINCT LABEL_LOT_NO
+									FROM TB_PRODUCTION_PERF_TRAY
+									WHERE 1=1
+									AND EQUIP_CD = #{equipCd}
+									AND WORK_ORD_NO = #{workOrdNo}
+									AND LABEL_LOT_NO IS NOT NULL
+							)
+			AND PRODUCT_STATUS IN ( '002', '003' )
+		
+		) AA
+		ORDER BY
+			AA.WORK_ORD_SEQ, AA.TURN_NUMBER ASC  -->
+			
+			
+	<![CDATA[
+		SELECT
+			AA.*
+		FROM
+		(
+			SELECT
+				*
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND EQUIP_CD = #{equipCd}
+			AND PRODUCT_STATUS IN( '002', '003' ) 
+			AND LABEL_LOT_NO IN
+			(
+				SELECT
+					DISTINCT LABEL_LOT_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND EQUIP_CD = #{equipCd}
+				AND WORK_ORD_NO = #{workOrdNo}
+			)
+			AND WORK_ORD_SEQ <= (
+					SELECT
+						DISTINCT WORK_ORD_SEQ
+					FROM TB_PRODUCTION_PERF_TRAY
+					WHERE 1=1
+					AND EQUIP_CD = #{equipCd}
+					AND WORK_ORD_NO = #{workOrdNo}
+			)
+			AND (LGES_GUBUN != 'Y' OR  LGES_GUBUN IS NULL)
+		
+			UNION
+
+			SELECT
+				*
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND EQUIP_CD = #{equipCd}
+			AND PRODUCT_STATUS NOT IN('001', '003')
+			AND WORK_ORD_SEQ <= (
+					SELECT
+						DISTINCT WORK_ORD_SEQ
+					FROM TB_PRODUCTION_PERF_TRAY
+					WHERE 1=1
+					AND EQUIP_CD = #{equipCd}
+					AND WORK_ORD_NO = #{workOrdNo}
+			)
+			AND (LGES_GUBUN != 'Y' OR  LGES_GUBUN IS NULL)
+		) AS AA
+		ORDER BY
+			AA.WORK_ORD_SEQ, AA.TURN_NUMBER ASC
+	]]>	
+	</select>
+	
+	<!-- 생산실적트레이 상세 조회 --> 
+	<select id="productionPerfTrayRead" resultMap="ProductionPerfTrayVo">
+		SELECT
+			EQUIP_CD
+			, WORK_ORD_NO
+			, LAST_WORK_ORD_NO
+			, PRODUCT_DATE
+			, DAY_NIGHT_CD
+			, TRAY_NO
+			, WORK_ORD_SEQ
+			, MATRL_CD
+			, MATRL_LOT_NO
+			, FILM_LOT_NO
+			, LAST_MATRL_LOT_NO
+			, LABEL_LOT_NO
+			, LABEL_LOT_NO_SEQ
+			, PRODUCT_STATUS
+			, GOODS_CD
+			, PRODUCT_QTY
+			, INCORPORATION_GUBUN
+			, INCORPORATION_VISON_GUBUN
+			, ORD_LOT_NO
+			, TRAY_WORKER_ID
+			, TURN_NUMBER
+			, REG_ID
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_PRODUCTION_PERF_TRAY
+		WHERE 1=1
+		<if test="trayNo != null and !trayNo.equals('')">
+			AND TRAY_NO = #{trayNo}
+		</if>
+		<if test="equipCd != null and !equipCd.equals('')">
+			AND EQUIP_CD = #{equipCd}
+		</if>
+		<if test="workOrdNo != null and !workOrdNo.equals('')">
+			AND WORK_ORD_NO = #{workOrdNo}
+		</if>
+	</select>
+	
+	<!-- 생산실적트레이 등록 -->
+	<insert id="productionPerfTrayCreate" parameterType="mes.domain.po.ProductionPerfTrayVo">
+		INSERT INTO TB_PRODUCTION_PERF_TRAY (
+			EQUIP_CD
+			, WORK_ORD_NO
+			, LAST_WORK_ORD_NO
+			, PRODUCT_DATE
+			, DAY_NIGHT_CD
+			, TRAY_NO
+			, WORK_ORD_SEQ
+			, MATRL_CD
+			, MATRL_LOT_NO
+			, FILM_LOT_NO
+			, LAST_MATRL_LOT_NO
+			, LABEL_LOT_NO
+			, LABEL_LOT_NO_SEQ
+			, PRODUCT_STATUS
+			, GOODS_CD
+			, PRODUCT_QTY
+			, INCORPORATION_GUBUN
+			, INCORPORATION_VISON_GUBUN
+			, ORD_LOT_NO
+			, TRAY_WORKER_ID
+			, TURN_NUMBER
+			, LGES_GUBUN
+			, REG_ID
+			, REG_DATE
+		)
+		VALUES (
+			#{equipCd}
+			, #{workOrdNo}
+			, #{lastWorkOrdNo}
+			, #{productDate}
+			, #{dayNightCd}
+			, #{trayNo}
+			, #{workOrdSeq}
+			, #{matrlCd}
+			, #{matrlLotNo}
+			, #{filmLotNo}
+			, #{lastMatrlLotNo}
+			, #{labelLotNo}
+			, #{labelLotNoSeq}
+			, #{productStatus}
+			, #{goodsCd}
+			, #{productQty}
+			, #{incorporationGubun}
+			, #{incorporationVisonGubun}
+			, #{ordLotNo}
+			, #{trayWorkerId}
+			, #{turnNumber}
+			, #{lgesGubun}
+			, #{regId}
+			, getDate()
+		)
+	</insert>
+	
+	<!-- 생산실적트레이  수정  -->
+	<update id="productionPerfTrayUpdate" parameterType="mes.domain.po.ProductionPerfTrayVo">
+		UPDATE TB_PRODUCTION_PERF_TRAY 
+		SET
+			UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+			<if test="changeTrayNo!=null and !changeTrayNo.equals('')">
+				, TRAY_NO = #{changeTrayNo}
+			</if>
+			<if test="equipCd!=null and !equipCd.equals('')">
+				, EQUIP_CD = #{equipCd}
+			</if>	
+			<if test="workOrdNo!=null and !workOrdNo.equals('')">
+				, WORK_ORD_NO = #{workOrdNo}
+			</if>	
+			<if test="lastWorkOrdNo!=null and !lastWorkOrdNo.equals('')">
+				, LAST_WORK_ORD_NO = #{lastWorkOrdNo}
+			</if>	
+			<if test="productDate!=null and !productDate.equals('')">
+				, PRODUCT_DATE = #{productDate}
+			</if>	
+			<if test="dayNightCd!=null and !dayNightCd.equals('')">
+				, DAY_NIGHT_CD = #{dayNightCd}
+			</if>	
+			<if test="workOrdSeq!=null and !workOrdSeq.equals('') and workOrdSeq!=0">
+				, WORK_ORD_SEQ = #{workOrdSeq}
+			</if>	
+			<if test="matrlCd!=null and !matrlCd.equals('')">
+				, MATRL_CD = #{matrlCd}
+			</if>	
+			<if test="matrlLotNo!=null and !matrlLotNo.equals('')">
+				, MATRL_LOT_NO = #{matrlLotNo}
+			</if>
+			<if test="filmLotNo!=null and !filmLotNo.equals('')">
+				, FILM_LOT_NO = #{filmLotNo}
+			</if>	
+			<if test="lastMatrlLotNo!=null and !lastMatrlLotNo.equals('')">
+				, LAST_MATRL_LOT_NO = #{lastMatrlLotNo}
+			</if>	
+			<if test="labelLotNo!=null and !labelLotNo.equals('')">
+				, LABEL_LOT_NO = #{labelLotNo}
+			</if>
+			<if test="labelLotNoSeq!=null and !labelLotNoSeq.equals('')">
+				, LABEL_LOT_NO_SEQ = #{labelLotNoSeq}
+			</if>
+			<if test="productStatus!=null and !productStatus.equals('')">
+				, PRODUCT_STATUS = #{productStatus}
+			</if>	
+			<if test="goodsCd!=null and !goodsCd.equals('')">
+				, GOODS_CD = #{goodsCd}
+			</if>	
+			<if test="productQty!=null and !productQty.equals('') and productQty!=0">
+				, PRODUCT_QTY = #{productQty}
+			</if>	
+			<if test="incorporationGubun!=null and !incorporationGubun.equals('')">
+				, INCORPORATION_GUBUN = #{incorporationGubun}
+			</if>
+			<if test="incorporationVisonGubun!=null and !incorporationVisonGubun.equals('')">
+				, INCORPORATION_VISON_GUBUN = #{incorporationVisonGubun}
+			</if>
+			<if test="ordLotNo!=null and !ordLotNo.equals('')">
+				, ORD_LOT_NO = #{ordLotNo}
+			</if>
+			<if test="trayWorkerId!=null and !trayWorkerId.equals('')">
+				, TRAY_WORKER_ID = #{trayWorkerId}
+			</if>
+			<if test="turnNumber!=null and !turnNumber.equals('') and turnNumber!=0">
+				, TURN_NUMBER = #{turnNumber}
+			</if>
+			<if test="lgesCode!=null and !lgesCode.equals('')">
+				, LGES_CODE = #{lgesCode}
+			</if>
+		WHERE 1=1
+		AND TRAY_NO = #{trayNo}
+		
+		<!--비전 혼입 update 시 Key 값 update  -->
+		<if test="outputSubCheck!=null and !outputSubCheck.equals('Y')" >
+			<if test="changeTrayNo!=null and !changeTrayNo.equals('')">
+				<!-- 생산 실적 테이블 -->
+				<!-- UPDATE TB_WORK_ORDER_OUTPUT_SUB 
+				SET
+					UPD_ID = #{updId}
+					, UPD_DATE = getDate()
+					, ORD_LOT_NO = #{changeTrayNo}
+				WHERE 1=1
+				AND ORD_LOT_NO = #{trayNo} -->
+	
+				<!-- 무슨 테이블인지 이름 모름 -->			
+				<!-- UPDATE TB_SHIP_INSPECT_ADM 
+				SET
+					UPD_ID = #{updId}
+					, UPD_DATE = getDate()
+					, TRAY_NO = #{changeTrayNo}
+				WHERE 1=1
+				AND TRAY_NO = #{trayNo}
+				 -->
+			</if>
+		</if>
+	</update>
+	
+	<!-- 생산실적트레이  삭제해야할 라벨번호 수정  -->
+	<update id="productionPerfTrayFilmLotUpdate" parameterType="mes.domain.po.ProductionPerfTrayVo">
+		UPDATE TB_PRODUCTION_PERF_TRAY  
+		SET
+			UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+			, MATRL_LOT_NO = #{matrlLotNo}					
+			, FILM_LOT_NO = #{filmLotNo}
+		WHERE 1=1
+		AND WORK_ORD_NO = #{workOrdNo}
+	</update>
+
+	<!-- 생산실적트레이  삭제  -->
+	<delete id="productionPerfTrayDelete" parameterType="mes.domain.po.ProductionPerfTrayVo">
+		DELETE FROM	TB_PRODUCTION_PERF_TRAY
+		WHERE 1=1
+		AND EQUIP_CD = #{equipCd}
+		AND WORK_ORD_NO = #{workOrdNo}
+	</delete>
+	
+	<!-- 생산실적트레이 생산 개수-->
+	<select id="productionPerfTrayDeleteCheck" resultMap="ProductionPerfTrayVo">
+		<![CDATA[
+			SELECT
+				ISNULL(COUNT(*), 0) AS deleteCheck
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND EQUIP_CD = #{equipCd}
+			AND WORK_ORD_NO = #{workOrdNo}
+			AND PRODUCT_STATUS IN ('002', '003')
+		]]>
+	</select>
+	
+	<!-- 생산실적트레이  시퀀스 -->
+	<select id="productionPerfTraySeq" resultType="int">
+		<![CDATA[
+			SELECT
+				ISNULL(MAX(WORK_ORD_SEQ)+1 ,1)
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE EQUIP_CD = #{equipCd} 
+		]]>
+	</select>
+	
+	<!-- 생산실적트레이 (LABEL_LOT_NO) 시퀀스 -->
+	<select id="productionPerfTrayLabelSeq" resultMap="ProductionPerfTrayVo">
+		<!-- 머티 채번 기준 -->
+		<if test="factoryCode == '001' or factoryCode == '002'">
+			SELECT
+				CASE WHEN TRAY_MAX > BOX_MAX THEN TRAY_MAX ELSE BOX_MAX END AS BOX_NO
+			FROM
+			(
+				SELECT
+					ISNULL(RIGHT('0000' + CAST(MAX(RIGHT(LABEL_LOT_NO,4))+1 AS NVARCHAR),4), '0001') AS TRAY_MAX
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND LEFT(LABEL_LOT_NO,8) = #{productDate}
+			) AA, 
+			(
+				SELECT
+					ISNULL(RIGHT('0000' + CAST(MAX(SUBSTRING(BOX_NO, 10, 4)) + 1 AS NVARCHAR),4), '0001') AS BOX_MAX
+				FROM TB_GOODS_PRODUCT_INFO_ADM
+				WHERE LEFT(BOX_NO, 8) = #{productDate}
+			) BB
+		</if>
+		
+		<!-- 솔브레인 채번 기준_LABEL_LOT_NO만 -->
+		<if test="factoryCode.equals('003')">
+			SELECT
+				ISNULL(RIGHT('0' + CAST(MAX( SUBSTRING( SUBSTRING(LABEL_LOT_NO, CHARINDEX('-', LABEL_LOT_NO) + 2, LEN(LABEL_LOT_NO)), 8,  LEN(LABEL_LOT_NO) ) )+1 AS NVARCHAR), 2), '01') AS BOX_NO
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND LEFT( SUBSTRING(LABEL_LOT_NO, CHARINDEX('-', LABEL_LOT_NO) + 2, LEN(LABEL_LOT_NO)), 6 ) = #{productDate}
+			AND EQUIP_CD = #{equipCd}
+		</if>
+	</select>
+	
+	<!-- BOX번호 채번 규칙 변경 _솔브레인마 변경됨 머티는 동일하게 진행 -->
+	<!-- 생산실적트레이 (BOX_NO) 시퀀스 -->
+	<select id="goodsBoxNoTrayLabelSeq" resultMap="ProductionPerfTrayVo">
+		<!-- 머티 채번 기준 -->
+		<if test="factoryCode == '001' or factoryCode == '002'">
+			SELECT
+				CASE WHEN TRAY_MAX > BOX_MAX THEN TRAY_MAX ELSE BOX_MAX END AS BOX_NO
+			FROM
+			(
+				SELECT
+					ISNULL(RIGHT('0000' + CAST(MAX(RIGHT(LABEL_LOT_NO,4))+1 AS NVARCHAR),4), '0001') AS TRAY_MAX
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND LEFT(LABEL_LOT_NO,8) = #{productDate}
+			) AA, 
+			(
+				SELECT
+					ISNULL(RIGHT('0000' + CAST(MAX(SUBSTRING(BOX_NO, 10, 4)) + 1 AS NVARCHAR),4), '0001') AS BOX_MAX
+				FROM TB_GOODS_PRODUCT_INFO_ADM
+				WHERE LEFT(BOX_NO, 8) = #{productDate}
+			) BB
+		</if>
+		
+		<!-- 솔브레인 채번 기준_BOX_NO만 -->
+		<if test="factoryCode.equals('003')">
+			SELECT
+				ISNULL(RIGHT('0' + CAST(MAX( CONVERT ( INT, SUBSTRING( SUBSTRING(BOX_NO, CHARINDEX('-', BOX_NO) + 2, LEN(BOX_NO)), 8,  LEN(BOX_NO) ) ) )+1 AS NVARCHAR), 2), '01') AS BOX_NO
+			FROM TB_GOODS_PRODUCT_INFO_ADM
+			WHERE LEFT( SUBSTRING(BOX_NO, CHARINDEX('-', BOX_NO) + 2, LEN(BOX_NO)), 6 ) = #{productDate}
+		</if>
+	</select>
+	
+	<!-- 생산실적트레이 저장 시 이전 작지, Lot 불러오는 부분 -->
+	<select id="productionPerfTrayLastInfo" resultMap="ProductionPerfTrayVo">
+		<![CDATA[
+			SELECT
+				DISTINCT WORK_ORD_NO
+				, MATRL_LOT_NO
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND EQUIP_CD = #{equipCd}
+			AND WORK_ORD_SEQ = ( SELECT MAX(WORK_ORD_SEQ) FROM TB_PRODUCTION_PERF_TRAY WHERE EQUIP_CD = #{equipCd} AND PRODUCT_STATUS IN ('002', '003') )
+		]]>
+	</select>
+	
+	
+	<!-- 생산실적트레이 라벨 출력 목록 조회 -->
+	<select id="productionPerfTrayPrintList" resultMap="ProductionPerfTrayVo">
+		<if test="factoryCode == '002' ">
+			SELECT
+				*
+			FROM (
+				SELECT
+					TRAY_NO
+					, GOODS_CD
+					, (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = A.GOODS_CD) AS GOODS_NM
+					, ( SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '007' AND BASE_CD = (SELECT QUTY_CD FROM TB_MATRL_CODE_ADM WHERE MATRL_CD =  (SELECT ALNICU_MATRL_CD FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = A.GOODS_CD)) ) AS MATRL_GUBUN_NM
+					, ( SELECT SUM(PRODUCT_QTY) FROM TB_PRODUCTION_PERF_TRAY WHERE LABEL_LOT_NO = #{labelLotNo} AND LABEL_LOT_NO_SEQ = A.LABEL_LOT_NO_SEQ ) AS PRODUCT_PART_QTY
+					, ( SELECT SUM(PRODUCT_QTY) FROM TB_PRODUCTION_PERF_TRAY WHERE LABEL_LOT_NO = #{labelLotNo} ) AS PRODUCT_ALL_QTY
+					, LABEL_LOT_NO
+					, LABEL_LOT_NO_SEQ
+					, CONCAT( 'trayNo', RANK() OVER (ORDER BY EQUIP_CD, WORK_ORD_SEQ, TURN_NUMBER) )TRAY_RANK 
+				FROM TB_PRODUCTION_PERF_TRAY A
+				WHERE 1=1
+				AND LABEL_LOT_NO = #{labelLotNo}
+			) AA
+			PIVOT( MAX(AA.TRAY_NO) FOR AA.TRAY_RANK IN ( [trayNo1], [trayNo2], [trayNo3], [trayNo4], [trayNo5], [trayNo6]) ) AS PVT
+			ORDER BY LABEL_LOT_NO_SEQ ASC
+		</if>
+		<if test="factoryCode == '003' ">
+			SELECT TOP(3)
+				 GOODS_CD
+				, (SELECT GOODS_NM FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = A.GOODS_CD) AS GOODS_NM
+				, (SELECT GIJONG_CD FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = A.GOODS_CD) AS GIJONG_CD
+				, ( SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '080' AND BASE_CD = (SELECT GIJONG_CD FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = A.GOODS_CD) ) AS GIJONG_NM
+				, ( SELECT ETC1 FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '007' AND BASE_CD = (SELECT QUTY_CD FROM TB_MATRL_CODE_ADM WHERE MATRL_CD =  (SELECT ALNICU_MATRL_CD FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = A.GOODS_CD)) ) AS MATRL_GUBUN_NM
+				, ( SELECT PRODUCT_QTY FROM TB_GOODS_CODE_ADM WHERE GOODS_CD = A.GOODS_CD ) AS PRODUCT_QTY
+				, ( SELECT SUM(PRODUCT_QTY) FROM TB_PRODUCTION_PERF_TRAY WHERE LABEL_LOT_NO = #{labelLotNo} ) AS PRODUCT_ALL_QTY
+				, LABEL_LOT_NO
+			FROM TB_PRODUCTION_PERF_TRAY A
+			WHERE 1=1
+			AND LABEL_LOT_NO = #{labelLotNo}
+		</if>
+	</select>
+	
+	<!-- 제품입고 조회 트레이 라벨번호 조회 --> 
+	<select id="trayLabelSelect" resultMap="ProductionPerfTrayVo">
+		SELECT DISTINCT			
+			 LABEL_LOT_NO
+			, LABEL_LOT_NO_SEQ
+		
+		FROM TB_PRODUCTION_PERF_TRAY
+		WHERE 1=1	
+		 <if test="labelLotNo != null and !labelLotNo.equals('')">
+			AND LABEL_LOT_NO = #{labelLotNo}
+		</if>
+		<if test="labelLotNoSeq != null and !labelLotNoSeq.equals('')">
+			AND LABEL_LOT_NO_SEQ = #{labelLotNoSeq}
+		</if>
+		ORDER BY
+			 LABEL_LOT_NO_SEQ ASC
+	
+	</select>
+	
+		
+	<!-- 생산실적트레이 삭제해야할 라벨번호 조회 --> 
+	<select id="productionPerfTrayDeletedLabelRead" resultMap="ProductionPerfTrayVo">
+		SELECT DISTINCT
+			 LABEL_LOT_NO			
+			, PRODUCT_STATUS
+		FROM TB_PRODUCTION_PERF_TRAY
+		WHERE 1=1
+		AND LABEL_LOT_NO IS NOT NULL
+		AND PRODUCT_STATUS = '001'
+	</select>
+	
+	<!-- 생산실적트레이  삭제해야할 라벨번호 수정  -->
+	<update id="productionPerfTrayDeletedLabelUpdate" parameterType="mes.domain.po.ProductionPerfTrayVo">
+		UPDATE TB_PRODUCTION_PERF_TRAY  
+		SET
+			UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+			, LABEL_LOT_NO_SEQ = NULL
+			, LABEL_LOT_NO = NULL
+			, LGES_CODE = NULL
+			, TRAY_REPRINT_YN = NULL
+		WHERE 1=1
+		AND LABEL_LOT_NO = #{labelLotNo}
+
+		<!-- LGES_CODE_TABLE 발행된 라벨 정보 삭제 -->		
+		UPDATE TB_LGES_TRAY_PRINT_WHETHER
+		SET
+			LABEL_LOT_NO = NULL
+		WHERE LABEL_LOT_NO = #{labelLotNo}
+	</update>
+	
+	<!-- 생산실적트레이  삭제해야할 라벨번호 수정2  -->
+	<update id="productionPerfTrayDeletedLabelUpdate2" parameterType="mes.domain.po.ProductionPerfTrayVo">
+		UPDATE TB_PRODUCTION_PERF_TRAY 
+		SET
+			UPD_ID = #{updId}
+			, UPD_DATE = getDate()					
+			, PRODUCT_STATUS = '002'	
+	
+		WHERE 1=1
+		AND LABEL_LOT_NO IS NULL
+		AND PRODUCT_STATUS = '003'
+	</update>
+	
+			
+	<!-- 생산실적트레이 삭제할 트레이가 마지막 작지인지 확인 --> 
+	<select id="productionPerfTrayDeletedWorkOrdNoCheck" resultMap="ProductionPerfTrayVo">
+		SELECT TOP(1) WORK_ORD_NO		
+		FROM TB_PRODUCTION_PERF_TRAY
+		WHERE 1=1
+		AND EQUIP_CD = #{equipCd}
+		ORDER BY REG_DATE DESC
+	</select>
+	
+	
+	<!-- 생산실적트레이 삭제할 트레이가 제품생산정보관리에 등록되어있는지 확인 --> 
+	<select id="productionPerfTrayDeletedGoodsProductCheck" resultMap="ProductionPerfTrayVo">
+		SELECT
+			COUNT(*) AS deleteGoodsProsuctCheck
+		FROM TB_GOODS_PRODUCT_INFO_ADM A, TB_GOODS_PRODUCT_INFO_DTL B
+		WHERE A.BOX_NO = B.BOX_NO
+		AND A.GOODS_STATUS != '001'
+		AND B.WORK_ORD_NO = #{workOrdNo}
+		AND B.ORD_LOT_NO IN (
+			SELECT 
+				DISTINCT
+				<if test=" factoryCode == '001' || factoryCode == '002' ">
+					LABEL_LOT_NO_SEQ
+				</if>
+				<if test="factoryCode == '003' ">
+					LABEL_LOT_NO
+				</if>
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE LABEL_LOT_NO IN (
+				SELECT
+					DISTINCT LABEL_LOT_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND TRAY_NO IN (${trayNo})
+				AND LABEL_LOT_NO_SEQ IS NOT NULL
+			)
+		)
+	</select>
+	
+	<!-- 제품생산정보관리에 등록되어있는 데이터 삭제 -->
+	<delete id="deleteAllGoodsProduct" parameterType="mes.domain.po.ProductionPerfTrayVo">
+		<!-- 제품생산정보 삭제_ADM -->
+		DELETE TB_GOODS_PRODUCT_INFO_ADM
+		WHERE BOX_NO IN (
+			SELECT
+				DISTINCT
+				<if test=" factoryCode == '001' || factoryCode == '002' ">
+					LABEL_LOT_NO_SEQ
+				</if>
+				<if test="factoryCode == '003' ">
+					LABEL_LOT_NO
+				</if>
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE LABEL_LOT_NO IN (
+				SELECT
+					DISTINCT LABEL_LOT_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND TRAY_NO IN (${trayNo})
+				AND LABEL_LOT_NO_SEQ IS NOT NULL
+			)
+		)
+		
+		<!-- 제품생산정보 삭제_DTL -->
+		DELETE TB_GOODS_PRODUCT_INFO_DTL
+		WHERE BOX_NO IN (
+			SELECT 
+				DISTINCT
+				<if test=" factoryCode == '001' || factoryCode == '002' ">
+					LABEL_LOT_NO_SEQ
+				</if>
+				<if test="factoryCode == '003' ">
+					LABEL_LOT_NO
+				</if>
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE LABEL_LOT_NO IN (
+				SELECT
+					DISTINCT LABEL_LOT_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND TRAY_NO IN (${trayNo})
+				AND LABEL_LOT_NO_SEQ IS NOT NULL
+			)
+		)
+		
+		<!--DELETE TB_GOODS_PRODUCT_INFO_DTL
+		WHERE BOX_NO IN (
+			SELECT 
+				DISTINCT LABEL_LOT_NO_SEQ
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE LABEL_LOT_NO IN (
+				SELECT
+					DISTINCT LABEL_LOT_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND TRAY_NO IN (${trayNo})
+				AND LABEL_LOT_NO_SEQ IS NOT NULL
+			)
+		)
+		
+		DELETE TB_GOODS_PRODUCT_INFO_TMP
+		WHERE WORK_ORD_LOT_NO IN (
+			SELECT 
+				DISTINCT LABEL_LOT_NO_SEQ
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE LABEL_LOT_NO IN (
+				SELECT
+					DISTINCT LABEL_LOT_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND TRAY_NO IN (${trayNo})
+				AND LABEL_LOT_NO_SEQ IS NOT NULL
+			)
+		)
+		
+		DELETE TB_GOODS_PRODUCT_INFO_ADM_HIST
+		WHERE BOX_NO IN (
+			SELECT 
+				DISTINCT LABEL_LOT_NO_SEQ
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE LABEL_LOT_NO IN (
+				SELECT
+					DISTINCT LABEL_LOT_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND TRAY_NO IN (${trayNo})
+				AND LABEL_LOT_NO_SEQ IS NOT NULL
+			)
+		) -->
+		
+		<!-- 수불 삭제 -->
+		DELETE TB_STOCK_PAYMENT_ADM
+		WHERE LOT_NO IN (
+			SELECT 
+				DISTINCT
+				<if test=" factoryCode == '001' || factoryCode == '002' ">
+					LABEL_LOT_NO_SEQ
+				</if>
+				<if test="factoryCode == '003' ">
+					LABEL_LOT_NO
+				</if>
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE LABEL_LOT_NO IN (
+				SELECT
+					DISTINCT LABEL_LOT_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND TRAY_NO IN (${trayNo})
+				AND LABEL_LOT_NO_SEQ IS NOT NULL
+			)
+		)
+		 
+		<!-- 생산실적 삭제 -->
+		<!-- DELETE FROM TB_WORK_ORDER_OUTPUT_SUB
+		FROM TB_WORK_ORDER_OUTPUT_SUB A, TB_PRODUCTION_PERF_TRAY B
+		WHERE 1=1
+		AND B.TRAY_NO IN ( ${trayNo} )
+		AND A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND A.WORK_ORD_SEQ = B.TURN_NUMBER -->
+		
+		<!-- 출하검사_DTL 삭제 -->
+		DELETE TB_SHIP_INSPECT_DTL
+		WHERE SHIP_INSP_IDX IN
+		(
+			SELECT
+				IDX
+			FROM TB_SHIP_INSPECT_ADM
+			WHERE TRAY_NO IN
+			(
+				SELECT
+					DISTINCT LABEL_LOT_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND TRAY_NO IN (${trayNo})
+				AND LABEL_LOT_NO_SEQ IS NOT NULL
+			)
+		)
+		
+		<!-- 출하검사_ADM 삭제 -->
+		DELETE TB_SHIP_INSPECT_ADM
+		WHERE TRAY_NO IN (
+			SELECT
+				DISTINCT LABEL_LOT_NO
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND TRAY_NO IN (${trayNo})
+			AND LABEL_LOT_NO_SEQ IS NOT NULL
+		)
+	</delete>
+	
+	
+	<!-- 생산실적 서브 저장 시 트레이 생산데이터 조회 --> 
+	<select id="workOrderSubCreateTrayDataAssistant" resultMap="ProductionPerfTrayVo">
+		SELECT
+			WORK_ORD_NO
+			, PRODUCT_DATE
+			, DAY_NIGHT_CD
+			, SUM(PRODUCT_QTY) AS PRODUCT_QTY
+			, ( SELECT SUM(PRODUCT_QTY) FROM TB_PRODUCTION_PERF_TRAY WHERE WORK_ORD_NO = #{workOrdNo} AND PRODUCT_STATUS IN ( '002', '003' ) ) AS PRODUCT_ALL_QTY
+			, MATRL_LOT_NO
+			, TRAY_WORKER_ID
+			, MIN(TURN_NUMBER) AS TURN_NUMBER
+			, ( CASE 
+				WHEN MIN(TURN_NUMBER)
+				IN (
+					SELECT
+						MIN(TURN_NUMBER) AS TURN_NUMBER
+					FROM TB_PRODUCTION_PERF_TRAY
+					WHERE 1=1
+					AND WORK_ORD_NO = #{workOrdNo}
+					AND PRODUCT_STATUS IN ( '002', '003' )
+					GROUP BY WORK_ORD_NO, DAY_NIGHT_CD, MATRL_LOT_NO
+				)
+				THEN 'Y'
+				ELSE 'N'
+				END
+			) AS CREATE_GUBUN
+		FROM TB_PRODUCTION_PERF_TRAY
+		WHERE 1=1
+		AND WORK_ORD_NO = #{workOrdNo}
+		AND PRODUCT_STATUS IN ( '002', '003' )
+		GROUP BY WORK_ORD_NO, PRODUCT_DATE, DAY_NIGHT_CD, MATRL_LOT_NO, TRAY_WORKER_ID
+		ORDER BY MIN(TURN_NUMBER)
+	</select>
+	
+	
+	<!-- 생산실적트레이 생산수량 조회 조회 --> 
+	<select id="productionPerfTrayProductQtyList" resultMap="ProductionPerfTrayVo">
+		SELECT A.EQUIP_CD, 
+			B.EQUIP_NM,
+			A.WORK_ORD_NO,
+			A.GOODS_CD,
+			C.GOODS_NM,
+			SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			
+		FROM TB_PRODUCTION_PERF_TRAY A,
+			TB_EQUIP_CODE_ADM B,
+			TB_GOODS_CODE_ADM C
+			
+		WHERE PRODUCT_STATUS = '003'
+			AND A.EQUIP_CD = B.EQUIP_CD
+			AND A.GOODS_CD = C.GOODS_CD
+			AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		GROUP BY A.EQUIP_CD, 
+			B.EQUIP_NM,
+			A.WORK_ORD_NO,
+			A.GOODS_CD,
+			C.GOODS_NM
+			
+			
+		UNION ALL
+			
+		SELECT A.EQUIP_CD, 
+			B.EQUIP_NM,
+			'XX99999999-999' WORK_ORD_NO,
+			'' GOODS_CD,
+			'' GOODS_NM,
+			SUM(A.PRODUCT_QTY) PRODUCT_QTY
+			
+		FROM TB_PRODUCTION_PERF_TRAY A,
+			TB_EQUIP_CODE_ADM B
+			
+		WHERE PRODUCT_STATUS = '003'
+			AND A.EQUIP_CD = B.EQUIP_CD
+			AND PRODUCT_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		GROUP BY A.EQUIP_CD, 
+			B.EQUIP_NM
+			
+		ORDER BY EQUIP_CD, WORK_ORD_NO
+
+	</select>
+	
+	
+	<!-- 생산실적트레이_Rank  --> 
+	<select id="productionPerfTrayRankList" resultMap="ProductionPerfTrayVo">
+		SELECT
+			TRAY_NO
+			, RANK() OVER (ORDER BY EQUIP_CD, WORK_ORD_SEQ, TURN_NUMBER) AS TRAY_RANK
+			, INCORPORATION_GUBUN
+			, INCORPORATION_VISON_GUBUN
+			, TRAY_REPRINT_YN
+		FROM TB_PRODUCTION_PERF_TRAY
+		WHERE LABEL_LOT_NO = #{labelLotNo}
+	</select>
+	
+
+	<select id="productResultRead" resultMap="ProductionPerfTrayVo">
+		SELECT
+			A.WORK_ORD_NO
+			, ORD_DATE
+			, LOT_NO AS MATRL_LOT_NO
+			, (SELECT TOP 1 X.WORKER_ID FROM TB_WORKER_CHANGE X WHERE 1=1 AND X.EQUIP_CD = A.EQUIP_CD AND X.WORK_ORD_NO = A.WORK_ORD_NO ORDER BY X.REG_DATE DESC) AS WORKER_ID
+			, A.ORD_GUBUN
+		FROM TB_WORK_ORDER A
+		, TB_WORK_ORDER_DTL B
+		WHERE 1=1
+		AND A.WORK_ORD_NO = B.WORK_ORD_NO
+		AND A.WORK_ORD_NO = #{workOrdNo}
+		AND LEFT(B.LOT_NO,1) != 'F'
+	</select>
+	
+	
+	<!-- LGES_관련 코드 -->
+	
+	<!-- LGES_생산실적트레이 조회 -->
+	<select id="lgesProductionPerfTrayList" resultMap="ProductionPerfTrayVo">
+		<!-- A타입 : Tray42 -->
+		<!-- 
+		SELECT
+			*
+		FROM
+		(
+			A타입(현재 작지)
+			SELECT
+				*
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND EQUIP_CD = #{equipCd}
+			AND WORK_ORD_NO = #{workOrdNo}
+			AND LGES_GUBUN = 'Y'
+		
+			UNION
+		
+			A타입(이전 작지)
+			SELECT * FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND EQUIP_CD = #{equipCd}
+			AND WORK_ORD_NO != #{workOrdNo}
+			AnD PRODUCT_STATUS != '001'
+			AND CONCAT( '20' , RIGHT(LEFT(TRAY_NO, CHARINDEX('-', TRAY_NO)-1), 6) ) = #{productDate}
+			AND LGES_GUBUN = 'Y'
+		) AS AA
+		ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+		 -->
+		 
+		 <!-- 
+		현재 날짜 트레이 불런 오는 부분
+		WITH YESTERDAY_TRAY AS (
+		    SELECT
+				*
+		    FROM TB_PRODUCTION_PERF_TRAY
+		    WHERE EQUIP_CD = #{equipCd}
+		    AND PRODUCT_STATUS = '002'
+		    AND LGES_GUBUN = 'Y'
+		    AND WORK_ORD_NO != #{workOrdNo}
+		)
+		
+		, BEFORE_TRAY AS (
+			SELECT
+		        *
+		    FROM TB_PRODUCTION_PERF_TRAY
+		    WHERE EQUIP_CD = #{equipCd}
+		    AND WORK_ORD_NO != #{workOrdNo}
+			AND PRODUCT_DATE = #{productDate}
+			AND PRODUCT_STATUS IN ('002', '003')
+		    AND LGES_GUBUN = 'Y'
+		    ORDER BY WORK_ORD_SEQ, TURN_NUMBER DESC
+		)
+		
+		현재 작지 20개중에서 이전 작지에 포함안된 트레이만
+		, NOW_TRAY AS (
+		    SELECT
+				TOP (20 - (SELECT COUNT(*) FROM YESTERDAY_TRAY))
+		        *
+		    FROM TB_PRODUCTION_PERF_TRAY
+		    WHERE EQUIP_CD = #{equipCd}
+		    AND WORK_ORD_NO = #{workOrdNo}
+		    AND LGES_GUBUN = 'Y'
+		    ORDER BY WORK_ORD_SEQ, TURN_NUMBER DESC
+		)
+		, sudel AS (
+				SELECT
+					TOP 1
+					LABEL_LOT_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE EQUIP_CD = #{equipCd}
+				AND WORK_ORD_NO = #{workOrdNo}
+				AND LGES_GUBUN = 'Y'
+				AND PRODUCT_STATUS = '003'
+				GROUP BY LABEL_LOT_NO, TURN_NUMBER
+				HAVING COUNT(LABEL_LOT_NO) != 6
+				ORDER BY TURN_NUMBER ASC
+		)
+		
+		두 쿼리 확인하는 코드
+		SELECT * FROM BEFORE_TRAY
+		UNION ALL
+		SELECT * FROM NOW_TRAY
+		WHERE 1=1
+		AND
+		(
+			LABEL_LOT_NO NOT IN ( SELECT * FROM sudel )
+			AND LABEL_LOT_NO IS NOT NULL
+			OR LABEL_LOT_NO IS NULL
+		)
+		
+		ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+		 -->
+		 
+		 
+		--현재 날짜 트레이 불런 오는 부분
+		WITH BEFORE_TRAY AS (
+			SELECT
+			    *
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE EQUIP_CD = #{equipCd}
+			AND WORK_ORD_NO != #{workOrdNo}
+			<![CDATA[
+				AND WORK_ORD_SEQ < ( SELECT MAX(X.WORK_ORD_SEQ) FROM TB_PRODUCTION_PERF_TRAY X WHERE X.WORK_ORD_NO = #{workOrdNo} )
+			]]>
+			AND PRODUCT_DATE = #{productDate}
+			AND PRODUCT_STATUS IN ('002', '003')
+			AND LGES_GUBUN = 'Y'
+			AND TRAY_NO NOT IN ( ${notTrayNo} )
+		)
+		, NOT_LABEL_LOT AS (
+			SELECT
+				LABEL_LOT_NO
+			FROM BEFORE_TRAY
+			WHERE LABEL_LOT_NO IS NOT NULL
+			AND LABEL_LOT_NO  NOT IN ( SELECT DISTINCT LABEL_LOT_NO FROM TB_PRODUCTION_PERF_TRAY X WHERE X.WORK_ORD_NO = #{workOrdNo} AND LABEL_LOT_NO IS NOT NULL )
+			GROUP BY LABEL_LOT_NO
+			HAVING COUNT(LABEL_LOT_NO) != 6
+		)
+		--현재 작지 20개중에서 이전 작지에 포함안된 트레이만
+		, NOW_TRAY AS (
+			SELECT
+				*
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE EQUIP_CD = #{equipCd}
+			AND WORK_ORD_NO = #{workOrdNo}
+			AND LGES_GUBUN = 'Y'
+			AND TRAY_NO NOT IN ( ${notTrayNo} )
+		)
+			
+		--두 쿼리 확인하는 코드
+		SELECT * FROM BEFORE_TRAY
+		WHERE ( LABEL_LOT_NO IS NULL OR LABEL_LOT_NO NOT IN ( SELECT * FROM NOT_LABEL_LOT ) )
+		UNION ALL
+		SELECT * FROM NOW_TRAY
+			
+		ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+	</select>
+	
+	<!-- LGES_생산실적트레이 조회 -->
+	<select id="lgesEveProductionPerfTrayList" resultMap="ProductionPerfTrayVo">
+		<!-- B타입 : Tray6 -->
+		<!-- <![CDATA[
+			SELECT
+				TOP 6
+				*
+				, (
+					SELECT
+						 ISNULL(MAX( RIGHT(LGES_CODE, 1) )+1, '1')
+					FROM TB_PRODUCTION_PERF_TRAY X
+					WHERE 1=1
+					AND X.WORK_ORD_NO = A.WORK_ORD_NO
+					AND X.LGES_CODE IS NOT NULL
+					AND X.LGES_CODE != ''
+				) AS EVE_LGES_CODE
+			FROM TB_PRODUCTION_PERF_TRAY A
+			WHERE 1=1
+			AND WORK_ORD_SEQ < ( SELECT MAX(X.WORK_ORD_SEQ) FROM TB_PRODUCTION_PERF_TRAY X WHERE WORK_ORD_NO = #{workOrdNo} )
+			AND EQUIP_CD = #{equipCd}
+			AND PRODUCT_STATUS IN ('001', '002')
+			AND LGES_GUBUN = 'Y'
+			AND WORK_ORD_NO != #{workOrdNo}
+			AND CONCAT( '20' , RIGHT(LEFT(TRAY_NO, CHARINDEX('-', TRAY_NO)-1), 6) ) != #{productDate}
+			ORDER BY WORK_ORD_SEQ DESC, TURN_NUMBER ASC
+		]]> -->
+		<!-- 최종 -->
+		<!-- <![CDATA[
+			SELECT
+				TOP 6
+				(
+					SELECT
+						 ISNULL(MAX( RIGHT(LGES_CODE, 1) )+1, '1')
+					FROM TB_PRODUCTION_PERF_TRAY X
+					WHERE 1=1
+					AND X.WORK_ORD_NO = A.WORK_ORD_NO
+					AND X.LGES_CODE IS NOT NULL
+					AND X.LGES_CODE != ''
+				) AS LGES_CODE
+				, *
+			FROM TB_PRODUCTION_PERF_TRAY A
+			WHERE 1=1
+			AND WORK_ORD_NO = (
+				SELECT
+					DISTINCT WORK_ORD_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND EQUIP_CD = #{equipCd}
+				AND PRODUCT_STATUS = '002'
+				AND LGES_GUBUN = 'Y'
+				AND WORK_ORD_NO != #{workOrdNo}
+			)
+			AND PRODUCT_STATUS IN ('001', '002')
+			ORDER BY WORK_ORD_SEQ , TURN_NUMBER ASC
+		]]>-->
+		
+		<!-- 진짜 최종........... 또 바뀌면 나 안해먹엉..... -->
+		
+		<!-- 
+		이전 작지 트레이 불런 오는 부분
+		WITH YESTERDAY_TRAY AS (
+		    SELECT
+				*
+		    FROM TB_PRODUCTION_PERF_TRAY
+		    WHERE EQUIP_CD = #{equipCd}
+		    AND PRODUCT_STATUS = '002'
+		    AND LGES_GUBUN = 'Y'
+		    AND WORK_ORD_NO != #{workOrdNo}
+		),
+		현재 작지 6개중에서 이전 작지에서 뺀 나머지
+		NOW_TRAY AS (
+		    SELECT
+				TOP (6 - (SELECT COUNT(*) FROM YESTERDAY_TRAY))
+		        *
+		    FROM TB_PRODUCTION_PERF_TRAY
+		    WHERE EQUIP_CD = #{equipCd}
+		    AND WORK_ORD_NO = #{workOrdNo}
+		    AND LGES_GUBUN = 'Y'
+		    ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+		)
+		
+		두 쿼리 합치는 쿼리
+		SELECT * FROM YESTERDAY_TRAY
+		UNION ALL
+		SELECT * FROM NOW_TRAY
+		
+		ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+		 -->
+		 
+		 
+		 
+		 <!-- 이게 진짜 최종 최종 쿼리다............그만 바꿔 제발.. -->
+		 
+		 DECLARE
+		 	@BeforeTrayCount INT	--이전 날짜 진행중인 개수 
+			, @allCount INT		--이전 진행 + 현재 진행 개수
+			, @sudel VARCHAR(5);
+		
+		--이전 날짜에 진행중인 트레이 개수 확인
+		SET @BeforeTrayCount = (
+			SELECT
+				COUNT(*)
+		    FROM TB_PRODUCTION_PERF_TRAY
+		    WHERE EQUIP_CD = #{equipCd}
+		    AND PRODUCT_STATUS = '002'
+		    AND LGES_GUBUN = 'Y'
+		    AND WORK_ORD_NO != #{workOrdNo}
+		    <![CDATA[
+		    	AND WORK_ORD_SEQ < ( SELECT MAX(X.WORK_ORD_SEQ) FROM TB_PRODUCTION_PERF_TRAY X WHERE X.WORK_ORD_NO = #{workOrdNo} )
+		    ]]>
+		    AND CONCAT( '20' , RIGHT(LEFT(TRAY_NO, CHARINDEX('-', TRAY_NO)-1), 6) ) != #{productDate}
+		)
+		
+		--현재 진행중인 트레이 개수 확인
+		SET @allCount = (
+			
+			SELECT
+				COUNT(*)
+			FROM (
+				SELECT
+					TOP (6 - @BeforeTrayCount)
+					*
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE EQUIP_CD = #{equipCd}
+				AND WORK_ORD_NO = #{workOrdNo}
+				AND PRODUCT_STATUS = '002'
+				AND LGES_GUBUN = 'Y'
+			) AS A
+		    --ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+		)
+		
+		SET @allCount = (CASE WHEN @BeforeTrayCount = 0 THEN 0 ELSE @BeforeTrayCount + @allCount  END )
+		
+		SET @sudel = (
+			SELECT
+				( CASE
+					WHEN (SELECT DISTINCT WORK_ORD_SEQ FROM TB_PRODUCTION_PERF_TRAY WHERE WORK_ORD_NO = #{workOrdNo}) > MIN(WORK_ORD_SEQ) AND LEFT(MIN(WORK_ORD_NO), 11) != LEFT(#{workOrdNo}, 11)
+					THEN 'TRUE'
+					ELSE 'FALSE'
+					END
+				)
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE LABEL_LOT_NO = (
+				SELECT
+					TOP 1
+					LABEL_LOT_NO
+				FROM (
+					SELECT
+						LABEL_LOT_NO
+						, MIN(WORK_ORD_SEQ) AS WORK_ORD_SEQ
+						, MIN(TURN_NUMBER) AS TURN_NUMBER
+					FROM TB_PRODUCTION_PERF_TRAY
+					WHERE EQUIP_CD = #{equipCd}
+					AND WORK_ORD_NO = #{workOrdNo}
+					AND LGES_GUBUN = 'Y'
+					AND PRODUCT_STATUS = '003'
+					GROUP BY LABEL_LOT_NO --, TURN_NUMBER
+					HAVING COUNT(LABEL_LOT_NO) != 6
+				)AS A
+				ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+			)
+		)
+		
+		--SELECT @BeforeTrayCount
+		--SELECT @allCount
+		
+		
+		--0이 아닌 경우에 Lot가 진행임
+		IF (@allCount != 0) 
+		BEGIN
+		
+			WITH BEFORE_TRAY AS (
+				 SELECT
+					*
+					, (
+						SELECT
+							 ISNULL(MAX( RIGHT(LGES_CODE, 1) )+1, '1')
+						FROM TB_PRODUCTION_PERF_TRAY X
+						WHERE 1=1
+						AND X.WORK_ORD_NO = A.WORK_ORD_NO
+						AND X.LGES_CODE IS NOT NULL
+						AND X.LGES_CODE != ''
+						<!-- AND SUBSTRING(REVERSE(X.LGES_CODE), CHARINDEX('-', REVERSE(X.LGES_CODE))-1, 1 ) = #{dayNightCd} -->
+						AND SUBSTRING(REVERSE(X.LGES_CODE), CHARINDEX('-', REVERSE(X.LGES_CODE))-1, 1 ) = #{dayNightCd}
+						AND SUBSTRING(X.LGES_CODE, 8,6) = SUBSTRING (A.WORK_ORD_NO, 6, 6)
+					) AS EVE_LGES_CODE
+				FROM TB_PRODUCTION_PERF_TRAY A
+				WHERE EQUIP_CD = #{equipCd}
+				AND PRODUCT_STATUS = '002'
+				AND LGES_GUBUN = 'Y'
+				AND WORK_ORD_NO != #{workOrdNo}
+			),
+			--현재 작지 6개중에서 이전 작지에서 뺀 나머지
+			NOW_TRAY AS (
+				 SELECT
+					TOP (6 - @BeforeTrayCount)
+					--TOP (6 - (SELECT COUNT(*) FROM BEFORE_TRAY))
+					*
+					, (SELECT MIN(EVE_LGES_CODE) FROM BEFORE_TRAY ) AS EVE_LGES_CODE
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE EQUIP_CD = #{equipCd}
+				AND WORK_ORD_NO = #{workOrdNo}
+				AND LGES_GUBUN = 'Y'
+				ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+			)
+		
+			--두 쿼리 조회하는 코드
+			<!--
+			SELECT
+				*
+			FROM BEFORE_TRAY
+			UNION ALL
+			SELECT
+				*
+			FROM NOW_TRAY
+			ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+			 -->
+			
+			
+			SELECT
+				TOP 6
+				*
+			FROM
+			(
+				SELECT * FROM BEFORE_TRAY
+				UNION ALL
+				SELECT * FROM NOW_TRAY
+			) AS A
+			ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+	
+		END
+		ELSE
+		BEGIN
+			--진행 중인Lot가 없는 경우(빈 컬럼만 보내준다.)
+			IF (@sudel != 'TRUE') 
+			BEGIN
+				SELECT * FROM TB_PRODUCTION_PERF_TRAY WHERE TRAY_NO = 'sudel-empty'
+			END
+			ELSE
+			BEGIN
+			    SELECT
+			    	*
+			   	FROM TB_PRODUCTION_PERF_TRAY
+				WHERE LABEL_LOT_NO = (
+					
+					SELECT
+						TOP 1
+						LABEL_LOT_NO
+					FROM (
+						SELECT
+							LABEL_LOT_NO
+							, MIN(WORK_ORD_SEQ) AS WORK_ORD_SEQ
+							, MIN(TURN_NUMBER) AS TURN_NUMBER
+						FROM TB_PRODUCTION_PERF_TRAY
+						WHERE EQUIP_CD = #{equipCd}
+						AND WORK_ORD_NO = #{workOrdNo}
+						AND LGES_GUBUN = 'Y'
+						AND PRODUCT_STATUS = '003'
+						GROUP BY LABEL_LOT_NO --, TURN_NUMBER
+						HAVING COUNT(LABEL_LOT_NO) != 6
+					) AS A
+					ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+
+				)
+				ORDER BY WORK_ORD_SEQ, TURN_NUMBER ASC
+			END
+		END;
+	</select>
+	
+	
+	<!-- LGES_생산실적트레이 이전 행&현재 행 조회 --> 
+	<select id="lgesTrayInfoBeforeAfterList" resultMap="ProductionPerfTrayVo">
+		<!-- 
+		<![CDATA[
+			SELECT
+				AA.*
+			FROM
+			(
+				SELECT
+					*
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND EQUIP_CD = #{equipCd}
+				AND PRODUCT_STATUS IN( '002', '003' ) 
+				AND LABEL_LOT_NO IN
+				(
+					SELECT
+						DISTINCT LABEL_LOT_NO
+					FROM TB_PRODUCTION_PERF_TRAY
+					WHERE 1=1
+					AND EQUIP_CD = #{equipCd}
+					AND CONCAT( '20' , RIGHT(LEFT(TRAY_NO, CHARINDEX('-', TRAY_NO)-1), 6) ) = #{productDate}
+					AND WORK_ORD_NO = #{workOrdNo}
+					
+				)
+				AND WORK_ORD_SEQ <= (
+						SELECT
+							DISTINCT WORK_ORD_SEQ
+						FROM TB_PRODUCTION_PERF_TRAY
+						WHERE 1=1
+						AND EQUIP_CD = #{equipCd}
+						AND WORK_ORD_NO = #{workOrdNo}
+				)
+				AND LGES_GUBUN = 'Y'
+			
+				UNION
+	
+				SELECT
+					*
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND EQUIP_CD = #{equipCd}
+				AND PRODUCT_STATUS NOT IN('001', '003')
+				AND WORK_ORD_SEQ <= (
+						SELECT
+							DISTINCT WORK_ORD_SEQ
+						FROM TB_PRODUCTION_PERF_TRAY
+						WHERE 1=1
+						AND EQUIP_CD = #{equipCd}
+						AND WORK_ORD_NO = #{workOrdNo}
+				)
+				AND LGES_GUBUN = 'Y'
+			) AS AA
+			ORDER BY
+				AA.WORK_ORD_SEQ, AA.TURN_NUMBER ASC
+		]]>
+		-->
+		
+		<![CDATA[
+		WITH BEFORE_TRAY AS (
+			SELECT
+				*
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND EQUIP_CD = #{equipCd}
+			AND PRODUCT_STATUS IN( '002', '003' ) 
+			AND LABEL_LOT_NO IN
+			(
+				SELECT
+					DISTINCT LABEL_LOT_NO
+				FROM TB_PRODUCTION_PERF_TRAY
+				WHERE 1=1
+				AND EQUIP_CD = #{equipCd}
+				AND CONCAT( '20' , RIGHT(LEFT(TRAY_NO, CHARINDEX('-', TRAY_NO)-1), 6) ) = #{productDate}
+				AND WORK_ORD_NO = #{workOrdNo}
+					
+			)
+			AND WORK_ORD_SEQ <= (
+					SELECT
+						DISTINCT WORK_ORD_SEQ
+					FROM TB_PRODUCTION_PERF_TRAY
+					WHERE 1=1
+					AND EQUIP_CD = #{equipCd}
+					AND WORK_ORD_NO = #{workOrdNo}
+			)
+			AND LGES_GUBUN = 'Y'
+		),
+		SUDEL AS (
+			SELECT
+				*
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE LABEL_LOT_NO IN
+			(
+				(
+					SELECT
+						DISTINCT LABEL_LOT_NO
+					FROM TB_PRODUCTION_PERF_TRAY
+					WHERE 1=1
+					AND EQUIP_CD = #{equipCd}
+					AND CONCAT( '20' , RIGHT(LEFT(TRAY_NO, CHARINDEX('-', TRAY_NO)-1), 6) ) = #{productDate}
+					AND WORK_ORD_SEQ < ( SELECT MAX(X.WORK_ORD_SEQ) FROM TB_PRODUCTION_PERF_TRAY X WHERE X.WORK_ORD_NO = #{workOrdNo} )
+					GROUP BY LABEL_LOT_NO
+					HAVING COUNT(LABEL_LOT_NO) = 6
+				)
+			)
+			AND TRAY_NO NOT IN ( SELECT TRAY_NO FROM BEFORE_TRAY)
+		),
+		NOW_TRAY AS (
+			SELECT
+				*
+			FROM TB_PRODUCTION_PERF_TRAY
+			WHERE 1=1
+			AND EQUIP_CD = #{equipCd}
+			AND PRODUCT_STATUS NOT IN('001', '003')
+			AND WORK_ORD_SEQ <= (
+					SELECT
+						DISTINCT WORK_ORD_SEQ
+					FROM TB_PRODUCTION_PERF_TRAY
+					WHERE 1=1
+					AND EQUIP_CD = #{equipCd}
+					AND WORK_ORD_NO = #{workOrdNo}
+			)
+			AND LGES_GUBUN = 'Y'
+		)
+		
+		SELECT
+			*
+		FROM (
+			SELECT * FROM BEFORE_TRAY
+			UNION
+			SELECT * FROM SUDEL
+			UNION
+			SELECT * FROM NOW_TRAY
+		) AS AA
+		ORDER BY
+			AA.WORK_ORD_SEQ, AA.TURN_NUMBER ASC
+		]]>
+	</select>
+	
+	
+	<!-- LGES_생산실적트레이 (LGES_CODE) 시퀀스 -->
+	<select id="trayLgesCodeSeq" resultMap="ProductionPerfTrayVo">
+		SELECT
+			 ISNULL(MAX( RIGHT(LGES_CODE, 1) )+1, '1') AS LGES_CODE
+		FROM TB_PRODUCTION_PERF_TRAY
+		WHERE 1 = 1
+		AND WORK_ORD_NO = #{workOrdNo}
+		AND LGES_CODE IS NOT NULL
+		AND LGES_CODE != ''
+		<if test="cutOrdDate != null and !cutOrdDate.equals('')">
+			AND SUBSTRING(LGES_CODE, 8,6) = #{cutOrdDate}
+		</if>
+	</select>
+	
+	<!-- LGES_코드 출력 여부 확인 -->
+	<select id="lgesCodePrintCheck" resultMap="ProductionPerfTrayVo">
+		SELECT
+			LGES_CODE
+			, PRINT_YN
+			, DAY_NIGHT_CD
+			<!-- , ( SELECT ISNULL((MIN(WORK_ORD_SEQ) + MIN(TURN_NUMBER)), 0) FROM TB_PRODUCTION_PERF_TRAY X WHERE X.LABEL_LOT_NO = A.LABEL_LOT_NO ) AS SUDEL -->
+			<!-- , ( SELECT TOP 1 ( TURN_NUMBER + WORK_ORD_SEQ ) FROM TB_PRODUCTION_PERF_TRAY X WHERE X.LABEL_LOT_NO = A.LABEL_LOT_NO ORDER BY X.WORK_ORD_SEQ, X.TURN_NUMBER ) AS SUDEL -->
+			, ( SELECT TOP 1  WORK_ORD_SEQ FROM TB_PRODUCTION_PERF_TRAY X WHERE X.LABEL_LOT_NO = A.LABEL_LOT_NO ORDER BY X.WORK_ORD_SEQ, X.TURN_NUMBER ) AS SUDEL2
+			, ( SELECT TOP 1 TURN_NUMBER  FROM TB_PRODUCTION_PERF_TRAY X WHERE X.LABEL_LOT_NO = A.LABEL_LOT_NO ORDER BY X.WORK_ORD_SEQ, X.TURN_NUMBER ) AS SUDEL3
+		FROM TB_LGES_TRAY_PRINT_WHETHER AS A
+		WHERE EQUIP_CD = #{equipCd}
+		<if test="labelLotNoCheck != null and !labelLotNoCheck.equals('')">
+			AND LABEL_LOT_NO IS NULL
+		</if>
+		<if test="workOrdNo != null and !workOrdNo.equals('')">
+			AND ( WORK_ORD_NO IN ( ${workOrdNo} ) OR LABEL_LOT_NO IS NULL )
+		</if>
+		<if test="lgesCode != null and !lgesCode.equals('')">
+			AND LGES_CODE IN ( ${lgesCode} )
+		</if>
+		<if test="notLgesCode != null and !notLgesCode.equals('')">
+			<!-- AND (
+				(SELECT COUNT(*) FROM TB_PRODUCTION_PERF_TRAY X WHERE X.LABEL_LOT_NO = A.LABEL_LOT_NO AND X.TRAY_NO IN (${trayNo})) != 0
+				OR
+				LABEL_LOT_NO IS NULL
+			) -->
+			AND LGES_CODE != #{notLgesCode}
+		</if>
+		<if test="trayNo != null and !trayNo.equals('')">
+			AND(
+				SELECT
+					COUNT(*)
+				FROM TB_PRODUCTION_PERF_TRAY X
+				WHERE
+				(
+					X.LABEL_LOT_NO = A.LABEL_LOT_NO
+				) AND (
+					X.TRAY_NO IN (${trayNo})
+				)
+			) != 0
+		</if>
+		<if test="eveLgesCode != null and !eveLgesCode.equals('')">
+			AND RIGHT(LGES_CODE, 1) = #{eveLgesCode}
+		</if>
+		ORDER BY
+			( CASE WHEN LABEL_LOT_NO IS NULL THEN 1 ELSE 0 END ) ASC
+			, SUDEL2 ASC
+			, SUDEL3 ASC
+	</select>
+	
+	<!-- LGES_프린트 출력 여부 -->
+	<insert id="lgesPrintWhetherCreate" parameterType="mes.domain.po.ProductionPerfTrayVo">
+		DECLARE @codeCount INT;
+		SET @codeCount = ( SELECT COUNT(*) FROM TB_LGES_TRAY_PRINT_WHETHER WHERE LGES_CODE = #{lgesCode} );
+		
+		IF (@codeCount = 0) 
+		BEGIN
+			INSERT INTO TB_LGES_TRAY_PRINT_WHETHER
+			(
+				EQUIP_CD
+				, WORK_ORD_NO
+				, PRODUCT_DATE
+				, LGES_CODE
+				, PRINT_YN
+				, DAY_NIGHT_CD
+				, REG_ID
+				, REG_DATE
+			)
+			VALUES
+			(
+				#{equipCd}
+				, #{workOrdNo}
+				, #{productDate}
+				, #{lgesCode}
+				, 'Y'
+				, #{dayNightCd}
+				, #{regId}
+				, getDate()
+			)
+		END;
+	</insert>
+	
+	<!-- LGES_프린트 여부 수정 -->
+	<update id="lgesPrintWhetherUpdate" parameterType="mes.domain.po.ProductionPerfTrayVo">
+		UPDATE TB_LGES_TRAY_PRINT_WHETHER
+		SET
+			UPD_DATE = getDate()
+			<if test="updId != null and !updId.equals('')">
+				, UPD_ID = #{updId}
+			</if>
+			<if test="lgesCode != null and !lgesCode.equals('')">
+				, LGES_CODE = #{lgesCode}
+			</if>
+			<if test="labelLotNo != null and !labelLotNo.equals('')">
+				, LABEL_LOT_NO = #{labelLotNo}
+			</if>
+		WHERE EQUIP_CD = #{equipCd}
+		AND LGES_CODE = #{lgesCode}
+		<if test="workOrdNo != null and !workOrdNo.equals('')">
+			AND WORK_ORD_NO = #{workOrdNo}
+		</if>
+	</update>
+	
+	<!-- LGES_프린트 삭제 -->
+	<delete id="lgesPrintDelete" parameterType="mes.domain.po.ProductionPerfTrayVo">
+		DELETE FROM TB_LGES_TRAY_PRINT_WHETHER
+		WHERE EQUIP_CD = #{equipCd}
+		<if test="workOrdNo != null and !workOrdNo.equals('')">
+			AND WORK_ORD_NO = #{workOrdNo}
+		</if>
+		<if test="lgesCode != null and !lgesCode.equals('')">
+			AND LGES_CODE = #{lgesCode}
+		</if>
+	</delete>
+	
+	
+	<!-- 개별 트레이 출력 여부 수정 -->
+	<update id="trayReprintCheckUpdate" parameterType="mes.domain.po.ProductionPerfTrayVo">
+		UPDATE TB_PRODUCTION_PERF_TRAY
+		SET
+			TRAY_REPRINT_YN = #{trayReprintYn}
+		WHERE LABEL_LOT_NO = #{labelLotNo}
+	</update>
+	
+</mapper>

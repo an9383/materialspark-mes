@@ -9,7 +9,7 @@
 <!--
 <body data-spy="scroll" data-target="page" data-offset="76">
 -->
-<body style="overflow:hidden">
+<body>
 
 <!-- .app -->
 <div class="app" id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full" data-boxed-layout="full">

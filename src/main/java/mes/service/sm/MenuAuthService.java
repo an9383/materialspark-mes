@@ -15,14 +15,29 @@ public interface MenuAuthService {
 	//특정 부서 전체 조회
 	public List<MenuAuthVo> readAll(MenuAuthVo menuAuthVo) throws Exception;
 	
+	//사용자권한 전체 조회
+	public List<MenuAuthVo> readUserAuthAll_F1F2F3(MenuAuthVo menuAuthVo) throws Exception;
+		
 	//권한 등록
-	public void create(List<MenuAuthVo> menuAuthVo) throws Exception;
+	public void create(MenuAuthVo menuAuthVo) throws Exception;
 	
+	//사용자권한 등록
+	public void createUserAuth_F1F2F3(MenuAuthVo menuAuthVo) throws Exception;
+		
 	//권한 수정
 	public void update(MenuAuthVo menuAuthVo) throws Exception;
 	
 	//권한 삭제
 	public void delete(MenuAuthVo menuAuthVo) throws Exception;
+	
+	//사용자 전체 조회(목록용)
+	public List<MenuAuthVo> userList_F1F2F3(MenuAuthVo menuAuthVo) throws Exception;
+		
+	//사용자권한 전체 조회(목록용)
+	public List<MenuAuthVo> userAuthList_F1F2F3(MenuAuthVo menuAuthVo) throws Exception;
+		
+	//사용자권한 삭제
+	public void deleteUserAuth_F1F2F3(MenuAuthVo menuAuthVo) throws Exception;
 	
 	//중복 체크
 	public MenuAuthVo check(MenuAuthVo menuAuthVo) throws Exception;
@@ -31,9 +46,8 @@ public interface MenuAuthService {
 	public String menuAuthPath(MenuAuthVo menuAuthVo) throws Exception;		
 	
 	//user권한 검색
-	public MenuAuthVo readCheck(MenuAuthVo menuAuthVo) throws Exception;	
-
-	//메뉴 권한 패스 조회
-	public String menuAuthPathAdmin(MenuAuthVo menuAuthVo) throws Exception;
-
+	public MenuAuthVo readCheck(MenuAuthVo menuAuthVo) throws Exception;
+	
+	//사용자권한사용 로그 등록
+	public void userAuthUseHist_F1F2F3(MenuAuthVo menuAuthVo) throws Exception;
 }

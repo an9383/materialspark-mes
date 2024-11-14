@@ -4,107 +4,51 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
+
 <%@include file="../layout/body-top.jsp" %>
 
 <div class="page-wrapper" id="page-wrapper">
-	<!-- Modal Start-->
-	<div class="modal fade" id="userPopUpModal" tabindex="-1"
-		role="dialog" aria-labelledby="userPopUpLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="layerPopUpLabel">사용자승인등록</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<hr class="text-secondary">
-					<table class="table table-sm table-bordered" id="userPopUpTable" style="text-align: center">
-						<thead>
-							<tr>
-								<th colspan="2">승인명</th>
-								<th colspan="4"></th>
-							</tr>
-							<tr>
-								<th>NO</th>
-								<th>아이디</th>
-								<th>성명</th>
-								<th>부서</th>
-								<th>직위</th>
-								<th>비고</th>
-							</tr>
-						</thead>
-					</table>
-					<hr class="text-secondary">
-				</div>
-				<div class="modal-footer">
-					<input type="hidden" class="form-control" id="puFlag" name="puFlag">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-primary" id="btnPopUpSave">저장</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Modal End-->
-	<!--header ============================================================== -->
-	<header class="page-title-bar row">
-		<nav aria-label="breadcrumb" class="breadcrumb-padding">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item">
-					<a href="#">시스템관리</a>
-				</li>
-				<li class="breadcrumb-item active">사용자승인관리</li>
-			</ol>
-		</nav>
-	</header> 
-    
-	<div class="container-fluid" id="main">
+        <!--header ============================================================== -->
+             <header class="page-title-bar row">
+              <nav aria-label="breadcrumb" class="breadcrumb-padding">
+               <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="#">시스템관리</a>
+                </li>
+                <li class="breadcrumb-item active">사용자권한관리 </li>
+               </ol>
+              </nav>
+             </header> 
+          <!-- #main============================================================== -->
+		<div class="container-fluid" id="main">
     	<div class="row table-wrap-hid">	
-			<!--======================== .left-list ========================-->
-   			<div class="left-list left-30" id="left-30" style="width:25%;">
+    	   <!--======================== .left-list ========================-->
+   			<div class="left-list left-30" id="left-30" style="width:30%;">
             	<div class="card">                  
-                	<div class="table-responsive">
-	                	<table id="approvalAuthAdmTable" class="table table-bordered" style="text-align:center">
+	                <div class="table-responsive" id="userDiv">
+	                	<table id="userTable" class="table table-bordered" style="text-align:center">
 	                        <thead class="thead-light">
 		                        <tr>
-	                              <th style="max-width:100px;">승인코드</th> 
-	                              <th style="max-width:100px;">승인명</th>
-	                              <th style="max-width:100px;">사용여부</th>                            
+		                       	  <th> ID		 </th>	
+		                       	  <th> 사용자이름	</th>
+		                       	  <th> 부서명		 </th>                                            
+	                              <th> 직위 		</th>                         
 	                            </tr>
 	                        </thead>
 	                    </table>
 	                </div>
 	            </div>
 	        </div>
-	        <!-- /.page-section -->
-	  	
+	        <!-- /.page-section -->	  	
 	    	<!-- 사이드 페이지 -->
-			<div class="right-list right-70" id="myrSidenav" style="width:74%;">
-	        	<div class="card" id="formBox">
-					<div class="table-responsive">
-				    	<table id="subMenuTable" class="table table-bordered" style="text-align:center">
-				    		<colgroup>
-								<col width="3%">
-								<col width="10%">
-								<col width="8%">
-								<col width="8%">
-								<col width="7%">
-								<col width="7%">
-								<col width="15%">
-							</colgroup>
-							<thead class="thead-light">
-								<tr>
-								    <th>NO</th>
-								    <th>아이디</th>
-								    <th>성명</th>
-								    <th>부서</th>
-								    <th>직위</th>
-								    <th>상태</th>
-								    <th>비고</th>
-							    </tr>
-							</thead>
-						</table>      
+			<div class="right-list right-70" style="width:39%;">
+	        	<div class="card" id="formBox">  
+					<div id="menuTree" >
+					</div>
+					<div class="mt-2">
+					<button type="button" class="btn btn-primary d-none float-right" id="btnSave">저장</button>
+					<button type="button" class="btn btn-primary d-none float-right" id="btnDelete" style="margin-right: 5px;">초기화</button>
+					<button class="btn btn-primary d-none" id="btnAddConfirmLoading" type="button" disabled> </button>					
 					</div>
 				</div>
 			</div>
@@ -112,329 +56,396 @@
 	</div>
 </div>
 
+<!-- 권한 리스트목록 보기 -->
+<div class="modal fade bd-example-modal-lg" id="userPopUpListModal" tabindex="-1" role="dialog" aria-labelledby="userAuthPopUpModalLabel" aria-hidden="true">
+	<div class="row">
+	   <div class="modal-dialog modal-lg">
+	      <div class="modal-content" style="width: 100%; margin-left: 10%; margin-top: 0%;" id="userListPopUpContent">
+	         <div class="modal-header" style="padding-bottom:0px;">
+	            <h5 class="modal-title" id="userlistPopUpLabel">권한 목록 조회</h5>
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	               <span aria-hidden="true">&times;</span>
+	            </button>
+	         </div>
+	         <div class="modal-body">
+	            <hr class="text-secondary">
+	            <table id="userPopUpListTable" class="table table-bordered" style="padding-bottom: 0px; width: 60vh;">
+	               <thead class="thead-light">
+	                  <tr>
+	                     <th>성명</th>
+	                     <th>부서</th>
+	                     <th>직위</th>
+	                     <th>권한명</th>
+	                  </tr>
+	               </thead>
+	            </table>
+	            <hr class="text-secondary">
+	         </div>
+	         <div class="modal-footer">
+	            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+	         </div>
+	      </div>
+	   </div>
+	
+		<!-- 선택 유저 권한 조회이기는 하나 사용 X -->
+		<div class="modal-dialog modal-lg" style="width: 85vh; display: none;" id="userAuthModal">
+			<div class="modal-content" style="width: 60%; margin-top: 20%;" id="userAuthContent">
+				<div class="modal-header">
+					<h5 class="modal-title" id="">권한 정보 목록</h5>
+						<label style="font-size: 22px;font-weight: 300;line-height: 30px; margin-left: 20px;" id="workerHistoryLabel"></label> 
+				
+				</div>
+				
+				 <div class="modal-body">
+				 	<!-- 이전 작업자테이블 조회 -->
+				 	<table class="table table-sm table-bordered" id="userAuthPopUpTable">
+				 		<thead>
+				 			<tr>
+				 				<th>성명</th>
+				 				<th>부서</th>
+				 				<th>직위</th>
+				 				<th>권한명</th>
+				 			</tr>
+				 		</thead>
+				 	</table>	
+				 	<!-- 이전 작업자테이블 조회 -->
+				 </div>
+				 <hr>
+			</div>
+		</div>
+		<!-- 이전 작업자 조회 끝 -->
+
+	</div>
+</div>
+	
+
 <%@include file="../layout/bottom.jsp" %>
 
-<script>
-	menuAuth = 'smsc0050';
+<script>   
+    		
+	let menuAuth = 'smsc0050';
 	let currentHref = 'smsc0050';
-	let currentPage = $('.' + currentHref).attr('id');
+	let currentPage = $('.'+currentHref).attr('id');
 	$('#'+currentPage).closest('.has-child','li').addClass('has-open has-active');
 	$('#'+currentPage).closest('.menu-item').addClass('has-active');
-	$(document).attr("title", "사용자승인관리");
+	$(document).attr("title","사용자권한관리");
+	
+	//공통코드 처리 시작
+	let userAuthMainCategory = new Array(); // 사용자권한 대분류
+	<c:forEach items="${userAuthMainCategory}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseCdNm = "${info.baseCdNm}";
+	userAuthMainCategory.push(json);
+	</c:forEach>
 
-	var baseCd = '';
-	var baseAbbr = '';
-	var userId = '';
-	var apprCd = '';
-	var current = 'userId';		//중복처리
+	let userAuthSubCategory = new Array(); // 사용자권한 소분류
+	<c:forEach items="${userAuthSubCategory}" var="info">
+	var json = new Object();
+	json.baseCd = "${info.baseCd}";
+	json.baseCdNm = "${info.baseCdNm}";
+	userAuthSubCategory.push(json);
+	</c:forEach>
 	
-	//사용자승인관리 왼쪽 목록조회
-	let baseGroupCd = "083";
-	let approvalAuthAdmTable = $('#approvalAuthAdmTable') .DataTable( {
-		dom : "<'row'<'col-sm-12 col-md-4'><'col-sm-12 col-md-8'f>>"
-			+ "<'row'<'col-sm-12'tr>>"
-			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-		language : lang_kor,
-		paging : true,
-		info : true,
-		ordering : true,
-		processing : true,
-		autoWidth : false,
-		scrollX : false,
-		lengthChange : true,
-		pageLength : 20,
-		scrollY : '70vh',
-		ajax : {
-			url : '<c:url value="/bm/commonCodeList"/>',
-			type : 'GET',
-			data : {
-				'baseGroupCd' : function() { return baseGroupCd; }
-			},
-		},
-		//rowId: 'baseGroupCd', // id값 할당
-		columns : [
-			{ data : 'baseCd'	},	//승인코드
-			{ data : 'baseNm'	},	//승인명
-			{ data : 'useYnNm'	},	//사용여부
-		],
-		order: [
-			[ 0, 'asc' ],
-		],
-		buttons: [],
-	});
-	
-	
-	//사용자승인관리 왼쪽 테이블 클릭 시
-	$('#approvalAuthAdmTable tbody').on('click','tr',function() {
-		
-		if ($(this).hasClass('selected')) {
-// 			$(this).removeClass('selected');
-		} else {
-			$('#approvalAuthAdmTable').DataTable().$('tr.selected').removeClass('selected');
-			$(this).addClass('selected');
-		}
-		baseCd = approvalAuthAdmTable.row(this).data().baseCd;
-		baseAbbr = approvalAuthAdmTable.row(this).data().baseAbbr;
-		console.log(baseCd);
-		console.log(baseAbbr);
-		
-		$('#subMenuTable').DataTable().ajax.reload();
-	});
-	
-	
-	//사용자승인관리 오른쪽 목록조회
-	let subMenuTable = $('#subMenuTable').DataTable({
-		dom : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>"
-			+ "<'row'<'col-sm-12'tr>>"
-			+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-		language : lang_kor,
-		paging : true,
-		info : true,
-		ordering : true,
-		processing : true,
-		autoWidth : false,
-		scrollX : false,
-		lengthChange : true,
-		pageLength : 20,
-		scrollY : '70vh',
-		ajax : {
-			url : '<c:url value="sm/approvalAuthAdmList"/>',
-			type : 'GET',
-			data : {
-				'apprDesc' : function() { return baseAbbr; }
-			},
-		},
-// 		rowId: 'baseGroupCd'
-		columns : [
-			{//NO
-				render : function(data, type, row, meta) {
-					return meta.row
-							+ meta.settings._iDisplayStart
-							+ 1;
-				},
-				'className' : 'text-center'
-			},
-			{//아이디
-				data : 'userId'
-			},	
-			{//이름
-				data : 'userNm'
-			},	
-			{//부서
-				data : 'departmentNm'
-			},	
-			{//직위
-				data : 'postNm'
-			},	
-			{//상태
-				data : 'empNm'
-			},	
-			{//비고
-				data : 'userDesc'
-			},	
-		],
-		order: [
-			[ 0, 'asc' ],
-		],
-		buttons: [],
-	});
+	var userNumber = 'kkkk';
+	var departmentCd = 'kkk';
+    
+    $(document).ready(function (){
+    	 $.ajax({
+    	 		url: '<c:url value="/sm/authDataList"/>',
+    	  	 	type: 'POST',
+    	   		data: {
+    	   			'menuAuth'	 	: 		menuAuth,
+    	   		},
+    			success: function(result){
+    				if( result.result == "ok" ){
+        	      		$('#menuTree').jstree({
+        	      			core : { data: menuSelect(result)},
+        	      			checkbox : {
+        	      				"keep_selected_style" : false
+        	      			},
+        	      			plugins : ["themes", "html_data", "checkbox" ]
+        	      		});
+        			} else {
+            			toastr.error(result.message, '', {timeOut: 5000});
+            		}
+    	  		}
+    		});    		
+    });
 
-	//사용자승인관리 오른쪽 테이블 클릭 시
-	$('#subMenuTable tbody').on('click','tr',function() {
-		if ($(this).hasClass('selected')) {
-// 			$(this).removeClass('selected');
-		} else {
-			$('#subMenuTable').DataTable().$('tr.selected').removeClass('selected');
-			$(this).addClass('selected');
-		}
-		userId = subMenuTable.row(this).data().userId;
-		apprCd = subMenuTable.row(this).data().apprCd;
-		console.log(userId);
-		console.log(apprCd);
-	});
-	
-	let html1 = '<div class="row">';
-	html1 += '<button type="button" class="btn btn-primary float-left mr-1" id="btnAdd">등록</button>';
-	html1 += '<button type="button" class="btn btn-warning float-left" id="btnDel">삭제</button>';
-	html1 += '</div>';
-
-	$('#subMenuTable_length').html(html1);
-	
-	
-	//등록버튼 클릭 시
-	$('#btnAdd').on('click', function(){
-		if ($('#approvalAuthAdmTable tbody tr').hasClass('selected')=='') {
-			toastr.warning("등록할 목록을 선택해주세요.");
-			return false;
-		}
-		$('#userPopUpModal').modal('show');
-		$('#userPopUpTable').DataTable().ajax.reload(function(){}); 
-	});
-
-	
-	//삭제버튼 클릭 시
-	$('#btnDel').on('click', function(){
-		if ($('#subMenuTable tbody tr').hasClass('selected')=='') {
-			toastr.warning("삭제할 목록을 선택해주세요.");
-			return false;
-		}
-		$('#deleteModal').modal('show');
-	});
-
-	//모달 삭제 클릭 시
-	$('#btnDeleteConfirm').on('click', function(){
-		//삭제
-		$.ajax({
-			url : '<c:url value="sm/approvalAuthAdmDelete"/>',
-			type : 'POST',
-			data : {
-				'userId' 		: 	function(){return userId;},
-				'apprCd'  		: 	function(){return apprCd;}		
-				},
-			success : function(res) {
-				let data = res.data;
-				if (res.result == 'ok') {
-	                toastr.success('삭제되었습니다.');
-					$('#subMenuTable').DataTable().ajax.reload();
-					userId='';
-					apprCd='';
-					$('#deleteModal').modal('hide');
-				} else {
-					toastr.error(res.message);
-				}
-			},
-		});
-	});
-	
-	
-	//사용자 팝업테이블 목록조회
-	let userPopUpTable = $('#userPopUpTable').DataTable({
-		 dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-			"<'row'<'col-sm-12'tr>>" +
-			"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-		language : lang_kor,
-		paging : true,
-		info : true,
-		ordering : true,
-		processing : true,
-		autoWidth : false,
-		lengthChange: false,
-       	pageLength: 15,
-       	select: {
-            style: 'multi',
-            toggleable: true,
-            items: 'row'
-        },
-		ajax : {
+	// 사용자목록
+    let userTable = $('#userTable').DataTable({
+    	language: lang_kor,
+        paging: true,
+        info: true,
+        ordering: true,
+        processing: true,
+        autoWidth: false,
+        scrollX : false,
+        lengthChange : true,
+        pageLength: 20,
+        ajax : {
 			url : '<c:url value="/sm/matrlUserDataList"/>',
 			type : 'GET',
 			data : {
 				'menuAuth'	: 	menuAuth,
 			},
-		},
-		rowId : 'matrlUser',
-		columns : [
-				{
-					render : function(data, type, row, meta) {
-						return meta.row
-								+ meta.settings._iDisplayStart
-								+ 1;
-					},
-					'className' : 'text-center'
-				},
-				{ data : 'userId' 		},	//아이디
-				{ data : 'userNm' 		},	//이름
-				{ data : 'departmentNm' },	//부서
-				{ data : 'postNm' 		},	//직위
-				{ data : 'userDesc' 	},	//비고
-			],
-		columnDefs : [ {
-			"defaultContent": "-", "targets": "_all",	"className": "text-center"
-		}],
-		order : [0, 'asc'],
-       buttons: [],
-	});
-
 	
-	//저장버튼 클릭 시
-	$('#btnPopUpSave').on('click', function(){
-
-		var x = userPopUpTable.rows('.selected').data().length;
-
-		if (x == 0) {
-			toastr.warning("저장할 목록을 선택해주세요.");
-			return false;
-		}
-
-		var isCheck = false;
-		
-		if(['userId'].includes(current)){
-			for(var i=0;i<x;i++) {
-				$.ajax({
-					url : '<c:url value="sm/approvalAuthAdmList"/>',
-					type: 'GET',
-					dataType: 'json',
-					async: false,
-					data: {
-						'apprDesc' : function() { return baseAbbr;},
-						'userId' : $.trim(userPopUpTable.rows('.selected').data()[i].userId),
-					},
-					success: function(res) {
-// 						console.log(userPopUpTable.rows('.selected').data()[i].userId);
-// 						console.log(res.data.length);
-// 						console.log(res.data);
-						if (res.data.length != 0) {
-							var userNm = userPopUpTable.rows('.selected').data()[i].userNm;
-								toastr.warning(userNm+'님은 이미 등록 되었습니다.');
-								isCheck = true;
-								return false;
-						}
-					},
-				});
-			}
-		}
-			
-		if (isCheck == true)
-			return false;
-
-		var array = new Array();
-		for(var i=0;i<x;i++) {
+		},
+        columns: [
+           	{ data: 'userId' },
+            { data: 'userNm' },            
+            { data: 'departmentNm'},
+            { data: 'postNm'}
+            
+           
+        ],        
+        order: [
+            [ 0, 'asc' ]
+        ],       
+        buttons: [
+            'copy', 'excel', 'pdf'
+        ],
+        drawCallback: function () {
+          $('input[type=search]').attr("style","width:150px");
+        },
+    });
+    let html1 = '<div class="row">';
+	html1 += '<button type="button" class="btn btn-primary float-right ml-2" id="btnUserAuthList">사용자 권한 목록 보기</button>';
+	html1 += '</div>';
+	$('#userTable_length').html(html1);
+	// 사용자목록 상세 정보 보기
+	$('#userTable tbody').on('click', 'tr', function () {		
+        if ( $(this).hasClass('selected') ) { //select취소될때.
+            $(this).removeClass('selected');
+            $('#btnSave').addClass('d-none');
+            $('#btnDelete').addClass('d-none');
+            $ ('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));
+           
+        }
+        else { //select될때
+        	$('#userTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            $ ('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));
+          
+            departmentCd = 'kkk';
+            userNumber = userTable.row('.selected').data().userNumber;
+   		    $('#btnSave').removeClass('d-none');
+   			$('#btnDelete').removeClass('d-none');
+			$.ajax({
+		     		url: '<c:url value="/sm/authDataList"/>',
+		      	 	type: 'POST',
+		       		data: {
+		       			'menuAuth'	: 	menuAuth,
+		       			//'departmentCd' : function(){return departmentCd;},
+		       			'userNumber' : function(){return userNumber;}
+		       		},
+		    		success: function(result){
+	    				if( result.result == "ok" ){
+				      		$('#menuTree').jstree({
+				      			core : { data: menuSelect(result)},
+				      			checkbox : {
+				      				"keep_selected_style" : false
+				      			},
+				      			plugins : ["themes", "html_data", "checkbox" ]
+				      		});
+				      		$.each(result.check, function(idx, item){
+				      			
+				      			$('#menuTree').jstree('select_node', item.userAuthCode);
+				      			//console.log(item.menuId);
+				    		});
+	        			} else {
+	            			toastr.error(result.message);
+	        			}
+		      		}
+		    });
+        }
+   	});
+   	
+	$('#btnSave').on('click',function(){ //저장 버튼 클릭시
+		var baseCd = new Array();		
+		var baseCdNm = new Array();		
+		var dataArray = new Array();		
+		$('#my-spinner').show();
+		$.each($("#menuTree").jstree("get_checked",true),function(index){
+			//console.log($('#menuTree').jstree(true).get_parent(this));
+				
 			var rowData = new Object();
-
-			rowData.baseCd = baseCd		//메뉴ID
-			rowData.baseAbbr = baseAbbr	//메뉴패스
-			rowData.userId = userPopUpTable.rows('.selected').data()[i].userId	//사용자 ID
-
-			array.push(rowData);
-// 			console.log(array);
-		}
-		
-		 var data = JSON.stringify(array);
-		 
-		 var url = '<c:url value="sm/approvalAuthAdmCreate"/>';
+			baseCd[index] = this.id;	
+			rowData.baseCd = baseCd[index];
 			
-		$.ajax({
-			url : url,
-			type : 'POST',
-			data : {
-				'arrayData' : 	function(){return data;}
-			},
-			success: function (res) {
-				let data = res.data;
+			baseCdNm[index] = this.text;
+			rowData.baseCdNm = baseCdNm[index];
+			
+			//rowData.departmentCd = departmentCd;
+			rowData.userNumber = userNumber;
+			//rowData.useYnCd = 'Y';
+			
+			
+			dataArray.push(rowData);
+		});	
+		//console.log(dataArray);
+		$.ajax({		    	
+	        url: '<c:url value="/sm/userAuthSave"/>',
+	        type: 'POST',
+	        datatype: 'json',
+	        data: JSON.stringify(dataArray),
+	        contentType : "application/json; charset=UTF-8",
+	        success: function(result){
+	        	if(result.result == "ok"){
+	        		$('#my-spinner').hide();
+	        		toastr.success('저장 되었습니다.');       		
+	        	}
+	        	else{
+	        		$('#my-spinner').hide();
+	        		toastr.error(result.message, '', {timeOut: 5000});
+	        	}
+	        	
+	        }
+		});	   	
+	});	
+	
+	$('#btnDelete').on('click',function(){ //삭제 버튼 클릭시			
+		$.ajax({		    	
+	        url: '<c:url value="/sm/deleteUserAuth"/>',
+	        type: 'POST',
+	        datatype: 'json',
+	        data: {
+	        	'menuAuth'	: 	menuAuth,		        	
+	        	'userNumber' : userTable.row('.selected').data().userNumber
+	        },
+	        success: function(result){
+	        	if(result.result == "ok"){	        		
+	        		$('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));	      			
+	     			toastr.success('초기화 되었습니다.');
+	        	}
+	        	else{
+	        		toastr.error(result.message);
+	        	}
+	        }
+		});	 
 
-				if (res.result == 'ok') {
-						toastr.success('등록되었습니다.');
-				} else {
-					toastr.error(res.message);
-				}
-            },
-            complete : function() {
-            	$('#subMenuTable').DataTable().ajax.reload();
-            	$('#userPopUpModal').modal('hide');
-			}
+	});	
+    let userPopUpListTable = null;
+    let userAuthPopUpTable = null;
+	let authUserNumber = null;
+    let userAuthCode = null;
+	//유저권한 리스트
+	$('#btnUserAuthList').on('click',function(){		
+		userAuthCode = '';
+		$('#userAuthModal').attr('style','width: 85vh; display: none;');
+		$('#userListPopUpContent').attr('style','width: 100%; margin-left: 10%; margin-top: 0%;');
+		if(userPopUpListTable == null || userPopUpListTable == undefined)	{
+			userPopUpListTable = $('#userPopUpListTable').DataTable({
+				dom: "<'row'<'col-sm-12 col-md-7'l><'col-sm-12 col-md-3'f>>"
+				+ "<'row'<'col-sm-12'tr>>"
+				+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B", 
+				
+		        language: lang_kor,
+		        lengthChange: true,
+		        paging: true,
+		        info: true,
+		        ordering: true,
+		        processing: true,
+		        autoWidth: false,
+		        pageLength: 20,
+		        ajax: {
+		            url: '<c:url value="/sm/userAuthList"/>',
+		            type: 'GET',
+		            data: {
+			            'userAuthCode' : function(){ return userAuthCode;},
+		            },
+		        },
+		        rowId: '',
+		        columns: [
+		        	{ data : 'userName'		}, 
+					{ data : 'departmentNm'		},
+					{ data : 'spot'	}, 
+					{ data : 'userAuthCodeName' },
+		        ],
+		        columnDefs: [
+		        	{ "targets": [0,1,2,3],  "className": "text-center"}
+		        ],
+		        order: [	
+		            [ 0, 'asc' ]
+		        ],
+		        buttons: [],
+		    });
+		} else{
+			$('#userPopUpListTable').DataTable().ajax.reload();
+		}
+		$('#userPopUpListModal').modal('show');	
+		let html2 = '';
+		html2 += '<label class="input-label-sm ml-2 mr-2">권한명</label>';
+		html2 += '<select class="custom-select custom-select-sm" id="qutyCd" style="min-width:150px;">';
+		html2 += '<option value=>전체</option>';
+		for (var i=0; i<userAuthSubCategory.length; i++) {
+			html2 += '<option value="'+userAuthSubCategory[i].baseCd +'">'+userAuthSubCategory[i].baseCdNm+'</option>';
+		}
+		html2 += '</select>';
+		html2 += '<button type="button" class="btn btn-primary ml-2" id="btnRetv">조회</button>';
+		$('#userPopUpListTable_length').html(html2);
+		
+		$('#qutyCd').change(function(){
+	   		userAuthCode = $('#qutyCd').val();
+		});
+		$('#btnRetv').on('click',function(){
+  		 	$('#userPopUpListTable').DataTable().ajax.reload();
 		});
 	});
-   
+	
+	
+	function menuSelect(result){
+		 
+		var parentData = new Array();
+		var childData = new Array();
+		var data = new Array();
+		var index=0;
+		$.each(result.parent, function(idx, item){
+			parentData[idx] = {id:item.baseCd, parent: '#', text:item.baseCdNm, state: {
+	            opened: false,
+	            selected: false
+	        }};	
+			data[index] = parentData[idx];
+			index++;			
+		});
+		$.each(result.child, function(idx, item){
+			childData[idx] = {id:item.baseCd, parent: item.etc1, text:item.baseCdNm};		
+			data[index] = childData[idx];			
+			index++;
+		});		
+		
+		//console.log(data);
+		
+		return data;
+	}
+	
+	
+
+// 	function selectBoxAppend(obj, id, sVal, flag)
+// 	{
+// 		$('#'+ id).empty();
+
+// 		if(flag=='1') {
+// 			$('#'+ id).append($("<option>"+ "전체" +"</option>"));
+// 	   	} else if(flag=='2') {
+// 	   		$('#'+ id).append($("<option>"+ "선택" +"</option>"));
+// 	   	}
+	   		
+// 		for(key in obj) {
+// 			var option;
+// 			if(obj[key].baseCd == sVal ) {
+// 				option = $("<option value="+ obj[key].baseCd+ " selected>"+obj[key].baseCdNm+"</option>");
+// 			} else {
+// 				option = $("<option value="+obj[key].baseCd+">"+obj[key].baseCdNm+"</option>");
+// 			}	
+// 			$('#'+ id).append(option);
+// 		}
+
+// 	}
+   	   	
+   	
+   	
 </script>
 
 </body>

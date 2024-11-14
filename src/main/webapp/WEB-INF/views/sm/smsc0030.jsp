@@ -41,7 +41,7 @@
                 <li class="breadcrumb-item">
                   <a href="#">시스템관리</a>
                 </li>
-                <li class="breadcrumb-item active">사용자권한관리 </li>
+                <li class="breadcrumb-item active">메뉴권한관리 </li>
                </ol>
               </nav>
              </header> 
@@ -49,9 +49,9 @@
 		<div class="container-fluid" id="main">
     	<div class="row table-wrap-hid">	
     	   <!--======================== .left-list ========================-->
-   			<div class="left-list left-30" id="left-30" style="width:35%;">
+   			<div class="left-list left-30" id="left-30" style="width:30%;">
             	<div class="card">                  
-                	<div class="table-responsive d-none" id="deptDiv">
+                	<div class="table-responsive" id="deptDiv">
 	                	<table id="departmentTable" class="table table-bordered" style="text-align:center">
 	                        <thead class="thead-light">
 		                        <tr>
@@ -62,7 +62,7 @@
 	                        </thead>
 	                    </table>	                    
 	                </div>
-	                <div class="table-responsive" id="userDiv">
+	                <div class="table-responsive d-none" id="userDiv">
 	                	<table id="userTable" class="table table-bordered" style="text-align:center">
 	                        <thead class="thead-light">
 		                        <tr>
@@ -75,39 +75,18 @@
 	                    </table>
 	                </div>
 	            </div>
-	            <table class="table table-bordered mt-5" id="changeHisTable">
-					<colgroup>
-						<col width="20%">
-						<col width="30%">
-						<col width="20%">
-						<col width="30%">
-					</colgroup>
-					<thead class="thead-light">
-						<tr>
-							<th>변경내역</th>
-							<td colspan='3'>
-								<input type="text" class="form-control" style="max-width: 100%" id="changeHis" maxlength="20">
-							</td>
-						</tr>
-					</thead>
-				</table>
 	        </div>
-	       
 	        <!-- /.page-section -->	  	
-	    <!-- 사이드 페이지 -->
+	    	<!-- 사이드 페이지 -->
 			<div class="right-list right-70" style="width:39%;">
 	        	<div class="card" id="formBox">  
 					<div id="menuTree" >
-				    	     
-				    	
 					</div>
 					<div class="mt-2">
-					<button type="button" class="btn btn-primary d-none float-right mr-1" id="btnSave">저장</button>
-					<button type="button" class="btn btn-primary d-none float-right mr-1" id="btnDelete">초기화</button>
-					<button class="btn btn-primary d-none" id="btnAddConfirmLoading" type="button" disabled>
-						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 처리중
-					</button>					
-				</div>
+					<button type="button" class="btn btn-primary d-none float-right" id="btnSave">저장</button>
+					<button type="button" class="btn btn-primary d-none float-right" id="btnDelete" style="margin-right: 5px;">초기화</button>
+					<button class="btn btn-primary d-none" id="btnAddConfirmLoading" type="button" disabled> </button>					
+					</div>
 				</div>
 			</div>
 		</div>	
@@ -116,33 +95,36 @@
 
 <%@include file="../layout/bottom.jsp" %>
 
-<script>
-
-	menuAuth = 'smsc0030';
+<script>   
+    		
+	let menuAuth = 'smsc0030';
 	let currentHref = 'smsc0030';
-	let currentPage = $('.' + currentHref).attr('id');
+	let currentPage = $('.'+currentHref).attr('id');
 	$('#'+currentPage).closest('.has-child','li').addClass('has-open has-active');
-	$('#'+currentPage).closest('.menu-item').addClass('has-active');  
-	$(document).attr("title","사용자권한관리");
-
-	let userDepartCheck = "${userDepart}";
-	let userNumberCheck = "${userNumber}";
+	$('#'+currentPage).closest('.menu-item').addClass('has-active');
+	$(document).attr("title","메뉴권한관리");
 	
 	//공통코드 처리 시작
 	var authCode = new Array(); // 부서
 	<c:forEach items="${authCd}" var="info">
 	var json = new Object();
 	json.baseCd = "${info.baseCd}";
-	json.baseNm = "${info.baseNm}";
+	json.baseCdNm = "${info.baseCdNm}";
 	authCode.push(json);
 	</c:forEach>
+	var selectedValue = "001";
 	
 	var userNumber = 'kkkk';
 	var departmentCd = 'kkk';
-	let adminCheck = '';
 	
     // 부서목록
-    /* let departmentTable = $('#departmentTable').DataTable({
+    $.fn.dataTable.ext.errMode = 'none';
+	let departmentTable = $('#departmentTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+		if(techNote == 7) {
+			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+			location.href = "/";
+		}
+	}).DataTable({
     	language: lang_kor,
         paging: true,
         info: true,
@@ -151,16 +133,22 @@
         autoWidth: false,
         scrollX : false,
         searching : false,
+        pageLength: 20,
         'ajax': {
             url: '<c:url value="/sm/departmentDataList"/>',
             type: 'GET',
             data: {
-            	'menuAuth'	: 	menuAuth,
+            	'menuAuth'	 	: 		menuAuth,
             },
+            /*
+            success : function(res) {
+                console.log(res);
+            }
+            */
         },        
         columns: [
         	{ data: 'baseCd' },
-            { data: 'baseNm' },            
+            { data: 'baseCdNm' },            
             { data: 'useYnNm'}
             
            
@@ -172,8 +160,6 @@
             'copy', 'excel', 'pdf'
         ],
     });
-    
-
 
     var html1 = '<div class="row">';
     html1 += '&nbsp;<label class="input-label-sm">권한구분</label><div class="form-group input-sub m-0 row">';
@@ -182,9 +168,84 @@
     html1 += '</div>';
    
 	$('#departmentTable_length').html(html1);
-	selectBoxAppend(authCode, "authCd", "001", "");  */
+	selectBoxAppend(authCode, "authCd", "001", "");
+    
+    
+    $(document).ready(function (){
+    	 $.ajax({
+    	 		url: '<c:url value="/sm/menuDataList"/>',
+    	  	 	type: 'POST',
+    	   		data: {
+    	   			'menuAuth'	 	: 		menuAuth,
+    	   		},
+    			success: function(result){
+    				if( result.result == "ok" ){
+        	      		$('#menuTree').jstree({
+        	      			core : { data: menuSelect(result)},
+        	      			checkbox : {
+        	      				"keep_selected_style" : false
+        	      			},
+        	      			plugins : ["themes", "html_data", "checkbox" ]
+        	      		});
+        			} else {
+            			toastr.error(result.message, '', {timeOut: 5000});
+            		}
+    	  		}
+    		});    		
+    });
+   
+	
+	// 메인메뉴 상세 정보 보기
+	$('#departmentTable tbody').on('click', 'tr', function () {		
+		
+        if ( $(this).hasClass('selected') ) { //select취소될때.
+            $(this).removeClass('selected');
+            $('#btnSave').addClass('d-none');
+            $('#btnDelete').addClass('d-none');
+            $ ('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));
+           
+        }
+        else { //select될때
+        	$('#departmentTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            $ ('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));
+            departmentCd = departmentTable.row('.selected').data().baseCd;
+            userNumber = 'kkkk';
 
-    // 사용자목록
+   		    $('#btnSave').removeClass('d-none');
+   			$('#btnDelete').removeClass('d-none');
+			$.ajax({
+		     		url: '<c:url value="/sm/menuDataList"/>',
+		      	 	type: 'POST',
+		       		data: {
+		       			'menuAuth'	: 	menuAuth,
+		       			'departmentCd' : function(){return departmentCd;},
+		       			'userNumber' : function(){return userNumber;}
+		       		},
+		    		success: function(result){
+	    				if( result.result == "ok" ){
+				      		$('#menuTree').jstree({
+				      			core : { data: menuSelect(result)},
+				      			checkbox : {
+				      				"keep_selected_style" : false
+				      			},
+				      			plugins : ["themes", "html_data", "checkbox" ]
+				      		});
+				      		$.each(result.check, function(idx, item){
+				      			
+				      			$('#menuTree').jstree('select_node', item.menuId);
+				      			console.log(item.menuId);
+				    		});
+	        			} else {
+	            			toastr.error(result.message, '', {timeOut: 5000});
+	        			}
+		      		}
+		    });
+        }
+   	});
+
+
+	   // 사용자목록
     let userTable = $('#userTable').DataTable({
     	language: lang_kor,
         paging: true,
@@ -192,9 +253,8 @@
         ordering: true,
         processing: true,
         autoWidth: false,
-        scrollX : false,  
-        lengthChange: false,
-        pageLength : 20,     
+        scrollX : false,
+        pageLength: 20,
         ajax : {
 			url : '<c:url value="/sm/matrlUserDataList"/>',
 			type : 'GET',
@@ -217,63 +277,21 @@
         buttons: [
             'copy', 'excel', 'pdf'
         ],
+        drawCallback: function () {
+          $('input[type=search]').attr("style","width:150px");
+        },
     });
-    
 
-
-    /* var html2 = '<div class="row">';
+    var html2 = '<div class="row">';
     html2 += '&nbsp;<label class="input-label-sm">권한구분</label><div class="form-group input-sub m-0 row">';
     html2 += '<select id="authCd2" class="custom-select"></select> '
     html2 += '</div>';  
     html2 += '</div>';
    
 	$('#userTable_length').html(html2);
-	selectBoxAppend(authCode, "authCd2", "002", "");  */
+	selectBoxAppend(authCode, "authCd2", "002", "");
 
-    $(document).ready(function (){
-
-    	$.ajax({
-            url: '<c:url value="/sm/adminCheck"/>',
-            type: 'GET',
-            data: {
-            },
-            success : function(res) {
-                if(res.res.adminCheck == 'Y'){
-                	adminCheck = 'Y';
-                }else{
-					adminCheck = '';
-                }
-            },
-            complete : function(){
-            	 $.ajax({
-         	 		url: '<c:url value="/sm/menuDataList"/>',
-         	  	 	type: 'POST',
-         	   		data: {
-         	   			'menuAuth'	: 	menuAuth,
-         	   			'adminCheck' :  adminCheck
-         	   		},
-         			success: function(result){
-         				if( result.result == "ok" ){
-             	      		$('#menuTree').jstree({
-             	      			core : { data: menuSelect(result)},
-             	      			checkbox : {
-             	      				"keep_selected_style" : false
-             	      			},
-             	      			plugins : ["themes", "html_data", "checkbox" ]
-             	      		}); 
-             			} else {
-                 			toastr.error(result.message);
-                 		}
-         	  		}
-         		});    		
-            }
-		 });
-		 
-    	
-    });
-   
-
-	/* $('#authCd').on('change',function(){
+	$('#authCd').on('change',function(){
 		$('#deptDiv').addClass('d-none');
 		$('#userDiv').removeClass('d-none');
 		$(this).val("001");		
@@ -283,8 +301,9 @@
         $('#btnSave').addClass('d-none');
         $('#btnDelete').addClass('d-none');
         $ ('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));
+        selectedValue = "002";
        
-	}); 
+	});
 
 	$('#authCd2').on('change',function(){
 		$('#userDiv').addClass('d-none');
@@ -293,67 +312,12 @@
 		$('#userTable').DataTable().ajax.reload(function(){});	
 		userNumber = 'kkkk';
 		departmentCd = 'kkk'
+		selectedValue = "001";
         $('#btnSave').addClass('d-none');
         $('#btnDelete').addClass('d-none');
         $ ('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));
        
-	});*/
-
-	
-	// 메인메뉴 상세 정보 보기
-	/*$('#departmentTable tbody').on('click', 'tr', function () {		
-		
-        if ( $(this).hasClass('selected') ) { //select취소될때.
-            $(this).removeClass('selected');
-            $('#btnSave').addClass('d-none');
-            $('#btnDelete').addClass('d-none');
-            $ ('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));
-           
-        }
-        else { //select될때
-        	$('#departmentTable').DataTable().$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            $ ('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));
-          
-            departmentCd = departmentTable.row('.selected').data().baseCd;
-            userNumber = 'kkkk';
-            
-            //if(userDepartCheck == '관리부'){
-   		    	$('#btnSave').removeClass('d-none');
-   				$('#btnDelete').removeClass('d-none');
-            //} 
-            
-			$.ajax({
-		     		url: '<c:url value="/sm/menuDataList"/>',
-		      	 	type: 'POST',
-		       		data: {
-		       			'menuAuth'	: 	menuAuth,
-		       			'departmentCd' : function(){return departmentCd;},
-		       			'userNumber' : function(){return userNumber;},
-		       			'adminCheck' : adminCheck
-		       		},
-		    		success: function(result){
-	    				if( result.result == "ok" ){
-				      		$('#menuTree').jstree({
-				      			core : { data: menuSelect(result)},
-				      			checkbox : {
-				      				"keep_selected_style" : false
-				      			},
-				      			plugins : ["themes", "html_data", "checkbox" ]
-				      		});
-				      		$.each(result.check, function(idx, item){
-				      			
-				      			$('#menuTree').jstree('select_node', item.menuId);
-				      			console.log(item.menuId);
-				    		});
-				      		//$('#menuTree').jstree(true).refresh();
-	        			} else {
-	            			toastr.error(result.message);
-	        			}
-		      		}
-		    });
-        }
-   	});*/
+	});
 
 	// 메인메뉴 상세 정보 보기
 	$('#userTable tbody').on('click', 'tr', function () {		
@@ -370,28 +334,16 @@
             $(this).addClass('selected');
             $ ('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));
           
-            //departmentCd = 'kkk';
+            departmentCd = 'kkk';
             userNumber = userTable.row('.selected').data().userNumber;
-            
-            //if(userDepartCheck == '관리부'){
-   		    	$('#btnSave').removeClass('d-none');
-   				$('#btnDelete').removeClass('d-none');
-            /*}else{
-            	if(userNumberCheck == userNumber){
-            		$('#btnSave').removeClass('d-none');
-       				$('#btnDelete').removeClass('d-none');
-            	}else{
-            		$('#btnSave').addClass('d-none');
-                    $('#btnDelete').addClass('d-none');
-            	}
-            }*/
-            
+   		    $('#btnSave').removeClass('d-none');
+   			$('#btnDelete').removeClass('d-none');
 			$.ajax({
 		     		url: '<c:url value="/sm/menuDataList"/>',
 		      	 	type: 'POST',
 		       		data: {
 		       			'menuAuth'	: 	menuAuth,
-		       			//'departmentCd' : function(){return departmentCd;},
+		       			'departmentCd' : function(){return departmentCd;},
 		       			'userNumber' : function(){return userNumber;}
 		       		},
 		    		success: function(result){
@@ -415,100 +367,89 @@
 		    });
         }
    	});
-
-	
-	
+   	
 	$('#btnSave').on('click',function(){ //저장 버튼 클릭시
 		
 		var menuId = new Array();		
 		var dataArray = new Array();		
-		$('#my-spinner').show(function(){
-			$.each($("#menuTree").jstree("get_checked",true),function(index){
-				console.log($('#menuTree').jstree(true).get_parent(this));
-					
-				var rowData = new Object();
-				menuId[index] = this.id;	
-				rowData.menuId = menuId[index];
-				rowData.departmentCd = departmentCd;
-				rowData.userNumber = userNumber;
-				rowData.useYnCd = 'Y';
+		$('#my-spinner').show();
+		$.each($("#menuTree").jstree("get_checked",true),function(index){
+			console.log($('#menuTree').jstree(true).get_parent(this));
 				
-				dataArray.push(rowData);
-			});	
-		
-			$.ajax({		    	
-		        url: '<c:url value="/sm/authSave"/>',
-		        type: 'POST',
-		        async : false,
-		        datatype: 'json',
-		        data: JSON.stringify(dataArray),
-		        contentType : "application/json; charset=UTF-8",
-		        success: function(result){
-		        	if(result.result == "ok"){
-		        		$('#my-spinner').hide();
-		        		toastr.success('저장 되었습니다.');       		
-		        	}
-		        	else{
-		        		$('#my-spinner').hide();
-		        		toastr.error(result.message);
-		        	}
-		        	
-		        }
-			});	 
+			var rowData = new Object();
+			menuId[index] = this.id;	
+			rowData.menuId = menuId[index];
+			rowData.departmentCd = departmentCd;
+			rowData.userNumber = userNumber;
+			rowData.useYnCd = 'Y';
 			
-			if (!(!$.trim($('#changeHis').val()))) {
-				var url = '/sm/systemChangeLogCreate';
-
-				$.ajax({
-					url : url,
-					type : 'POST',
-					async : false,
-					data : {
-						'changeHis'  : $('#changeHis').val(),
-						'menuPath'  : currentHref,
-					},
-					success : function(res) {
-						let data = res.data;
-						if (res.result == 'ok') {
-							toastr.success('변경내역이 등록되었습니다.');
-							$('#changeHisTable').addClass('d-none');
-							$('#changeHis').val('');
-						} else {
-							toastr.error(res.message);
-						}
-					},
-					complete : function() {
-//							$('#btnAddConfirm').removeClass('d-none');
-//							$('#btnAddConfirmLoading').addClass('d-none');
-					}
-				});
-			}
-		});
+			dataArray.push(rowData);
+		});	
 		
-		
+		$.ajax({		    	
+	        url: '<c:url value="/sm/authSave"/>',
+	        type: 'POST',
+	        datatype: 'json',
+	        data: JSON.stringify(dataArray),
+	        contentType : "application/json; charset=UTF-8",
+	        success: function(result){
+	        	if(result.result == "ok"){
+	        		$('#my-spinner').hide();
+	        		toastr.success('저장 되었습니다.');       		
+	        	}
+	        	else{
+	        		$('#my-spinner').hide();
+	        		toastr.error(result.message, '', {timeOut: 5000});
+	        	}
+	        	
+	        }
+		});	   	
 	});	
 	
 	
 	$('#btnDelete').on('click',function(){ //삭제 버튼 클릭시			
-		
-		$.ajax({		    	
-	        url: '<c:url value="/sm/authDelete"/>',
-	        type: 'POST',
-	        datatype: 'json',
-	        data: {
-	        	'menuAuth'	: 	menuAuth,
-	        	'departmentCd' : departmentTable.row('.selected').data().baseCd
-	        },
-	        success: function(result){
-	        	if(result.result == "ok"){	        		
-	        		$('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));	      			
-	     			toastr.success('초기화 되었습니다.');
-	        	}
-	        	else{
-	        		toastr.error(result.message);
-	        	}
-	        }
-		});	   	
+		if(selectedValue == "001"){
+			$.ajax({		    	
+		        url: '<c:url value="/sm/authDelete"/>',
+		        type: 'POST',
+		        datatype: 'json',
+		        data: {
+		        	'menuAuth'	: 	menuAuth,
+		        	'departmentCd' : departmentTable.row('.selected').data().baseCd,
+		        	
+		        },
+		        success: function(result){
+		        	if(result.result == "ok"){	        		
+		        		$('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));	      			
+		     			toastr.success('초기화 되었습니다.');
+		        	}
+		        	else{
+		        		toastr.error(result.message);
+		        	}
+		        }
+			});	 
+           
+		} else{
+			$.ajax({		    	
+		        url: '<c:url value="/sm/authDelete"/>',
+		        type: 'POST',
+		        datatype: 'json',
+		        data: {
+		        	'menuAuth'	: 	menuAuth,		        	
+		        	'userNumber' : userTable.row('.selected').data().userNumber
+		        },
+		        success: function(result){
+		        	if(result.result == "ok"){	        		
+		        		$('#menuTree').jstree("uncheck_node", $('#menuTree').jstree("get_checked",true));	      			
+		     			toastr.success('초기화 되었습니다.');
+		        	}
+		        	else{
+		        		toastr.error(result.message);
+		        	}
+		        }
+			});	 
+
+		}  	
 	});	
 	
 

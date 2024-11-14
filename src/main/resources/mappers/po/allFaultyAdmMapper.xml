@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.po.allFaultyAdmMapper">
+
+	<!-- 설비공정불량 -->
+	<resultMap id="AllFaultyAdmVo" type="mes.domain.po.AllFaultyAdmVo">		
+		<result property="equipCd"       		column="EQUIP_CD"			/>
+		<result property="lotNo"	       		column="LOT_NO"				/>
+		<result property="faultyRegDate" 		column="FAULTY_REG_DATE"	/>
+		<result property="dayNightCd"    		column="DAY_NIGHT_CD"		/>
+		<result property="dayNightCdNm"        	column="DAY_NIGHT_CD_NM"	/>
+		<result property="regId"         		column="REG_ID"				/>
+		<result property="regNm"         		column="REG_NM"				/>
+		<result property="regDate"       		column="REG_DATE"			/>
+		<result property="updId"         		column="UPD_ID"				/>
+		<result property="updDate"       		column="UPD_DATE"			/>
+		<result property="equipNm"       		column="EQUIP_NM"			/>
+		<result property="dayNightNm"    		column="DAY_NIGHT_NM"		/>
+		<result property="faultyDateFrom"		column="FAULTY_DATE_FROM"	/>
+		<result property="faultyDateTo"			column="FAULTY_DATE_TO"		/>
+		<result property="prcsCnt"      		column="PRCS_CNT"			/>
+		<result property="prcsTotal"    		column="PRCS_TOTAL"			/>
+		<result property="faulty"        		column="FAULTY"				/>
+		<result property="faultyDatetime"		column="FAULTY_DATETIME"	/>
+		<result property="ordDate"				column="ORD_DATE"		    />
+		<result property="faultySeq"      		column="FAULTY_SEQ"			/>
+		<result property="faultyCount"        	column="FAULTY_COUNT"		/>
+		<result property="faultyDesc"    		column="FAULTY_DESC"		/>
+		<result property="systemCode"        	column="SYSTEM_CODE"		/>
+		<result property="systemCodeNm"        	column="SYSTEM_CODE_NM"		/>
+		<result property="workOrdNo"        	column="WORK_ORD_NO"		/>
+		<result property="gubunNm"        		column="GUBUN_NM"			/>
+		<result property="goodsCd"        		column="GOODS_CD"			/>
+		<result property="goodsNm"        		column="GOODS_NM"			/>
+		<result property="qutyCd"        		column="QUTY_CD"			/>
+		<result property="qutyNm"        		column="QUTY_NM"			/>
+		<result property="faultyDatetime2"		column="FAULTY_DATETIME2"	/>
+		<result property="oldFaultyRegDate"		column="OLD_FAULTY_REGDATE"	/>
+
+	</resultMap>
+	
+	<!-- 공정불량 조회 --> 
+	<select id="readPrcssFaulty" resultMap="AllFaultyAdmVo">
+
+			SELECT
+				EQUIP_CD
+				, LOT_NO
+				, FAULTY_REG_DATE
+				, ORD_DATE
+				, DAY_NIGHT_CD
+				, GUBUN
+				, SYSTEM_CODE
+				, FAULTY_SEQ
+				, WORK_ORD_NO
+				, PRCS_CNT
+				, PRCS_TOTAL
+				, FAULTY
+				, FAULTY_DATETIME
+				, FAULTY_DESC
+				, FAULTY_COUNT
+				, REG_ID
+				, ( SELECT USER_NM FROM TB_USER AS X WHERE X.USER_ID = A.REG_ID) AS REG_NM
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM	TB_ALL_FAULTY_ADM A
+			WHERE EQUIP_CD = #{equipCd}
+			AND LOT_NO = #{lotNo}
+			AND	FAULTY_REG_DATE = #{faultyRegDate}
+			AND	DAY_NIGHT_CD = #{dayNightCd}
+			AND GUBUN = #{gubun}
+			AND WORK_ORD_NO = #{workOrdNo}
+
+	</select>
+	
+	<!-- 공정불량 조회(업데이트용) --> 
+	<select id="readUpdPrcssFaulty" resultMap="AllFaultyAdmVo">
+		<![CDATA[
+			SELECT
+				EQUIP_CD
+				, LOT_NO
+				, FAULTY_REG_DATE
+				, ORD_DATE
+				, DAY_NIGHT_CD
+				, GUBUN
+				, SYSTEM_CODE
+				, FAULTY_SEQ
+				, WORK_ORD_NO
+				, PRCS_CNT
+				, PRCS_TOTAL
+				, FAULTY
+				, FAULTY_DATETIME
+				, FAULTY_DESC
+				, FAULTY_COUNT
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM	TB_ALL_FAULTY_ADM 
+			WHERE EQUIP_CD = #{equipCd}
+			AND LOT_NO = #{lotNo}
+			AND	FAULTY_REG_DATE = #{oldFaultyRegDate}
+			AND	DAY_NIGHT_CD = #{dayNightCd}
+			AND GUBUN = #{gubun}
+			AND WORK_ORD_NO = #{workOrdNo}
+ 		]]>
+	</select>
+	
+	<!-- 공정불량 상세 조회 --> 
+	<select id="readDtlPrcssFaulty" resultMap="AllFaultyAdmVo">
+		<![CDATA[
+			SELECT
+				EQUIP_CD
+				, LOT_NO
+				, FAULTY_REG_DATE
+				, ORD_DATE
+				, DAY_NIGHT_CD
+				, GUBUN
+				, SYSTEM_CODE
+				, FAULTY_SEQ
+				, WORK_ORD_NO
+				, PRCS_CNT
+				, PRCS_TOTAL
+				, FAULTY
+				, FAULTY_DATETIME
+				, FAULTY_DESC
+				, FAULTY_COUNT
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE				
+			FROM	TB_ALL_FAULTY_ADM 
+			WHERE EQUIP_CD = #{equipCd}
+			AND LOT_NO = #{lotNo}
+			AND	FAULTY_REG_DATE = #{faultyRegDate}
+			AND	DAY_NIGHT_CD = #{dayNightCd}
+			AND GUBUN = #{gubun}				
+			AND SYSTEM_CODE = #{systemCode}
+			AND FAULTY_SEQ = #{faultySeq}
+			AND WORK_ORD_NO = #{workOrdNo}
+ 		]]>
+	</select>
+	
+	<!-- 공정불량 상세 조회(업데이트) --> 
+	<select id="readUpdDtlPrcssFaulty" resultMap="AllFaultyAdmVo">
+		<![CDATA[
+			SELECT
+				EQUIP_CD
+				, LOT_NO
+				, FAULTY_REG_DATE
+				, ORD_DATE
+				, DAY_NIGHT_CD
+				, GUBUN
+				, SYSTEM_CODE
+				, FAULTY_SEQ
+				, WORK_ORD_NO
+				, PRCS_CNT
+				, PRCS_TOTAL
+				, FAULTY
+				, FAULTY_DATETIME
+				, FAULTY_DESC
+				, FAULTY_COUNT
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE				
+			FROM	TB_ALL_FAULTY_ADM 
+			WHERE EQUIP_CD = #{equipCd}
+			AND LOT_NO = #{lotNo}
+			AND	FAULTY_REG_DATE = #{oldFaultyRegDate}
+			AND	DAY_NIGHT_CD = #{dayNightCd}
+			AND GUBUN = #{gubun}				
+			AND SYSTEM_CODE = #{systemCode}
+			AND FAULTY_SEQ = #{faultySeq}
+			AND WORK_ORD_NO = #{workOrdNo}
+ 		]]>
+	</select>
+	
+	<!-- 테프론 상세 조회 --> 
+	<select id="readPtfeFaulty" resultMap="AllFaultyAdmVo">
+		<![CDATA[
+			SELECT
+				EQUIP_CD
+				, LOT_NO
+				, FAULTY_REG_DATE
+				, ORD_DATE
+				, DAY_NIGHT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='028' AND B.BASE_CD = A.DAY_NIGHT_CD) DAY_NIGHT_CD_NM
+				, GUBUN
+				, SYSTEM_CODE
+				, FAULTY_SEQ
+				, WORK_ORD_NO
+				, PRCS_CNT
+				, PRCS_TOTAL
+				, FAULTY
+				, FAULTY_DATETIME
+				, FAULTY_DESC
+				, FAULTY_COUNT
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE				
+			FROM TB_ALL_FAULTY_ADM  A
+			WHERE EQUIP_CD = #{equipCd}
+			AND LOT_NO = #{lotNo}
+	 		AND ORD_DATE = #{ordDate}
+			AND GUBUN = #{gubun}				
+			AND SYSTEM_CODE = #{systemCode}			
+			AND WORK_ORD_NO = #{workOrdNo}
+ 		]]>
+ 		<if test="dayNightCd != null and dayNightCd != ''"> 
+ 			AND DAY_NIGHT_CD = #{dayNightCd}
+ 		</if>
+ 			ORDER BY FAULTY_SEQ ASC
+	</select>
+	
+	
+	
+	<!-- 공정불량 등록 -->
+	<insert id="createFaultyAll" parameterType="mes.domain.po.AllFaultyAdmVo">
+		INSERT INTO TB_ALL_FAULTY_ADM (
+			EQUIP_CD
+			, WORK_ORD_NO
+			, LOT_NO
+			, FAULTY_REG_DATE
+			, ORD_DATE
+			, DAY_NIGHT_CD
+			, GUBUN
+			, SYSTEM_CODE
+			, FAULTY_SEQ
+			, FAULTY_COUNT
+			, PRCS_CNT
+			, PRCS_TOTAL
+			, FAULTY
+			, FAULTY_DATETIME
+			, FAULTY_DESC
+			, REG_ID
+			, REG_DATE
+		)
+		VALUES (
+			#{equipCd}
+			, #{workOrdNo}
+			, #{lotNo}
+			, #{ordDate} <!-- 수정일자 : 2022.04.19 불량일자를 작지일자로 저장하도록 변경 -->
+			, #{ordDate}
+			, #{dayNightCd}
+			, #{gubun}
+			, #{systemCode}
+			, #{faultySeq}
+			, #{faultyCount}
+			, #{prcsCnt}
+			, #{prcsTotal}
+			, #{faulty}
+			, #{faultyDatetime}
+			, #{faultyDesc}	
+			, #{regId}
+			, getDate()
+		)
+	</insert>
+	
+	<!-- 공정불량  수정  -->
+	<update id="updateFaultyAll" parameterType="mes.domain.po.AllFaultyAdmVo">
+		 
+		UPDATE	TB_ALL_FAULTY_ADM 
+		SET	
+			FAULTY = #{faulty}
+			, FAULTY_COUNT = #{faultyCount}
+			, FAULTY_DESC = #{faultyDesc}
+			<!-- , FAULTY_REG_DATE = #{faultyRegDate} -->
+			, FAULTY_DATETIME = #{faultyDatetime}
+			, PRCS_CNT = #{prcsCnt}
+			, PRCS_TOTAL = #{prcsTotal} 
+			, UPD_ID = #{updId}
+			, UPD_DATE = getDate()
+		WHERE EQUIP_CD = #{equipCd}
+		AND LOT_NO = #{lotNo}
+		AND	FAULTY_REG_DATE = #{oldFaultyRegDate}
+		AND	DAY_NIGHT_CD = #{dayNightCd}
+		AND GUBUN = #{gubun}
+		AND FAULTY_SEQ = #{faultySeq}
+		AND SYSTEM_CODE = #{systemCode}
+		AND WORK_ORD_NO = #{workOrdNo}
+	</update>
+
+	<!-- 공정불량  삭제  -->
+	<delete id="deleteFaultyAll" parameterType="mes.domain.po.AllFaultyAdmVo">
+		DELETE FROM	TB_ALL_FAULTY_ADM
+		WHERE EQUIP_CD = #{equipCd}
+		AND LOT_NO = #{lotNo}
+		AND	FAULTY_REG_DATE = #{faultyRegDate}
+		AND	DAY_NIGHT_CD = #{dayNightCd}
+		AND GUBUN = #{gubun}
+		AND WORK_ORD_NO = #{workOrdNo}
+	</delete>
+	
+	<!-- 테프론 삭제  -->
+	<delete id="deletePtfe" parameterType="mes.domain.po.AllFaultyAdmVo">
+		DELETE FROM	TB_ALL_FAULTY_ADM
+		WHERE EQUIP_CD = #{equipCd}
+		AND LOT_NO = #{lotNo}
+		AND	FAULTY_REG_DATE = #{faultyRegDate}
+		AND GUBUN = #{gubun}
+		AND WORK_ORD_NO = #{workOrdNo}
+		AND FAULTY_SEQ = #{faultySeq}
+		AND SYSTEM_CODE = #{systemCode}
+	</delete>
+	
+	
+	<!-- 테프론 시퀀스 -->
+	<select id="ptfeSeq" resultMap="AllFaultyAdmVo">
+		SELECT ISNULL((MAX(FAULTY_SEQ)+1), 1) FAULTY_SEQ
+		FROM	TB_ALL_FAULTY_ADM 
+		WHERE EQUIP_CD = #{equipCd}
+		AND LOT_NO = #{lotNo}
+		<!-- AND	FAULTY_REG_DATE = #{faultyRegDate}
+		AND	DAY_NIGHT_CD = #{dayNightCd} -->
+		AND GUBUN = #{gubun}
+		AND WORK_ORD_NO = #{workOrdNo}
+		AND SYSTEM_CODE = #{systemCode}		
+	</select>
+	
+	
+	<!-- 불량중량 -->
+	
+	<!-- 불량중량 조회 --> 
+	<select id="badWeightList" resultMap="AllFaultyAdmVo">
+		<![CDATA[
+			SELECT
+				A.EQUIP_CD
+				, B.EQUIP_NM
+				, C.GOODS_CD
+				, D.GOODS_NM
+				, A.WORK_ORD_NO
+				, A.LOT_NO
+				, E.QUTY_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='007' AND BASE_CD = E.QUTY_CD) QUTY_NM
+				, A.FAULTY_REG_DATE
+				, A.ORD_DATE
+				, A.DAY_NIGHT_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='028' AND B.BASE_CD = A.DAY_NIGHT_CD) DAY_NIGHT_CD_NM
+				, A.GUBUN
+				, (CASE WHEN GUBUN = '001' THEN (SELECT BASE_GROUP_CD_NM FROM TB_SYSTEM_COMMON_GROUP B WHERE B.BASE_GROUP_CD = '052')
+					WHEN GUBUN = '002' THEN (SELECT BASE_GROUP_CD_NM FROM TB_SYSTEM_COMMON_GROUP B WHERE B.BASE_GROUP_CD = '053')
+					WHEN GUBUN = '003' THEN (SELECT BASE_GROUP_CD_NM FROM TB_SYSTEM_COMMON_GROUP B WHERE B.BASE_GROUP_CD = '054')
+					WHEN GUBUN = '004' THEN (SELECT BASE_GROUP_CD_NM FROM TB_SYSTEM_COMMON_GROUP B WHERE B.BASE_GROUP_CD = '055')
+					
+					WHEN GUBUN = '005' THEN (SELECT BASE_GROUP_CD_NM FROM TB_SYSTEM_COMMON_GROUP B WHERE B.BASE_GROUP_CD = '114')
+					WHEN GUBUN = '006' THEN (SELECT BASE_GROUP_CD_NM FROM TB_SYSTEM_COMMON_GROUP B WHERE B.BASE_GROUP_CD = '115')
+					WHEN GUBUN = '007' THEN (SELECT BASE_GROUP_CD_NM FROM TB_SYSTEM_COMMON_GROUP B WHERE B.BASE_GROUP_CD = '116')
+					
+					END) AS GUBUN_NM
+				, A.SYSTEM_CODE
+				, (CASE WHEN GUBUN = '001' THEN (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='052' AND B.BASE_CD = A.SYSTEM_CODE)
+					WHEN GUBUN = '002' THEN (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='053' AND B.BASE_CD = A.SYSTEM_CODE)
+					WHEN GUBUN = '003' THEN (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='054' AND B.BASE_CD = A.SYSTEM_CODE)
+					WHEN GUBUN = '004' THEN (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='055' AND B.BASE_CD = A.SYSTEM_CODE)
+					
+					WHEN GUBUN = '005' THEN (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='114' AND B.BASE_CD = A.SYSTEM_CODE)
+					WHEN GUBUN = '006' THEN (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='115' AND B.BASE_CD = A.SYSTEM_CODE)
+					WHEN GUBUN = '007' THEN (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='116' AND B.BASE_CD = A.SYSTEM_CODE)
+					
+					END) AS SYSTEM_CODE_NM
+				, A.FAULTY_SEQ
+				, A.PRCS_CNT
+				, A.PRCS_TOTAL
+				, A.FAULTY_COUNT
+				, A.FAULTY
+				, A.FAULTY_DATETIME
+				, A.FAULTY_DESC
+			FROM TB_ALL_FAULTY_ADM A, TB_EQUIP_CODE_ADM B, TB_WORK_ORDER C, TB_GOODS_CODE_ADM D, TB_MATRL_CODE_ADM E
+			WHERE A.EQUIP_CD = B.EQUIP_CD
+			AND A.WORK_ORD_NO = C.WORK_ORD_NO
+			AND C.GOODS_CD = D.GOODS_CD
+			AND D.ALNICU_MATRL_CD = E.MATRL_CD
+ 		]]>
+ 		<if test="chooseDateFrom != null and chooseDateFrom != '' and chooseDateTo != null and chooseDateTo != ''"> 
+	  		AND A.ORD_DATE BETWEEN #{chooseDateFrom} AND #{chooseDateTo}
+		</if>
+		<if test="equipCd != null and equipCd != ''"> 
+	  		AND A.EQUIP_CD IN (${equipCd})
+		</if>
+		<if test="gubun != null and gubun != ''"> 
+	  		AND A.GUBUN = #{gubun}
+		</if>
+		<if test="systemCode != null and systemCode != ''"> 
+	  		AND A.SYSTEM_CODE = #{systemCode}
+		</if>
+		ORDER BY B.EQUIP_NM, GUBUN_NM, SYSTEM_CODE_NM, A.FAULTY_DATETIME
+	</select>
+	
+	<!-- 불량중량 조회 --> 
+	<select id="cancelWorkOrdTotalFaultyCheck" resultMap="AllFaultyAdmVo">
+		SELECT
+			DISTINCT FAULTY_REG_DATE
+		FROM TB_ALL_FAULTY_ADM A
+		WHERE EQUIP_CD = #{equipCd}
+		AND WORK_ORD_NO = #{workOrdNo}
+		ORDER BY FAULTY_REG_DATE
+	</select>
+	
+</mapper>

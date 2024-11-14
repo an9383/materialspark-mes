@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.bm.matrlCodeAdmMapper">
+
+<resultMap id="MatrlCodeAdmVo" type="mes.domain.bm.MatrlCodeAdmVo">
+		<result property="matrlSeq"			column="MATRL_SEQ"			/>
+		<result property="matrlCd"			column="MATRL_CD"			/>
+		<result property="matrlNm"			column="MATRL_NM"			/>
+		<result property="matrlGubunCd"		column="MATRL_GUBUN_CD"		/>
+		<result property="matrlGubunNm"		column="MATRL_GUBUN_NM"		/>
+		<result property="matrlInitial"		column="MATRL_INITIAL"		/>
+		<result property="qutyCd"			column="QUTY_CD"			/>
+		<result property="qutyNm"			column="QUTY_NM"			/>		
+		<result property="thickness"		column="THICKNESS"			/>
+		<result property="depth"			column="DEPTH"				/>
+		<result property="length"			column="LENGTH"				/>
+		<result property="width"			column="WIDTH"				/>
+		<result property="pitch"			column="PITCH"				/>
+		<result property="gubunCd"			column="GUBUN_CD"			/>
+		<result property="gubunNm"			column="GUBUN_NM"			/>		
+		<result property="chamferYnCd"		column="CHAMFER_YN_CD"		/>
+		<result property="chamferYnNm"		column="CHAMFER_YN_NM"		/>
+		<result property="surfaceTrtmtCd"	column="SURFACE_TRTMT_CD"	/>
+		<result property="surfaceTrtmtNm"	column="SURFACE_TRTMT_NM"	/>				
+		<result property="productUnitCd"	column="PRODUCT_UNIT_CD"	/>
+		<result property="productUnitNm"	column="PRODUCT_UNIT_NM"	/>		
+		<result property="tmUnitCd"			column="TM_UNIT_CD"			/>
+		<result property="tmUnitNm"			column="TM_UNIT_NM"			/>		
+		<result property="dealCorpCd"		column="DEAL_CORP_CD"		/>
+		<result property="dealCorpNm"		column="DEAL_CORP_NM"	 	/>		
+		<result property="lifeCycle"		column="LIFE_CYCLE"			/>
+		<result property="etc1"				column="ETC1"				/>
+		<result property="etc2"				column="ETC2"				/>
+		<result property="useYnCd"			column="USE_YN_CD"			/>
+		<result property="useYnNm"			column="USE_YN_NM"			/>		
+		<result property="matrlDesc"		column="MATRL_DESC"			/>
+		<result property="optimumStock"		column="OPTIMUM_STOCK"		/>
+		<result property="matrlSampleYn"	column="MATRL_SAMPLE_YN"	/>
+		<result property="matrlSelectYn"	column="MATRL_SELECT_YN"	/>
+		<result property="regId"			column="REG_ID"				/>
+		<result property="regDate"			column="REG_DATE"			/>
+		<result property="updId"			column="UPD_ID"				/>
+		<result property="updDate"			column="UPD_DATE"			/>
+		<result property="defectCd"			column="DEFECT_CD"			/>
+		<result property="defectNm"			column="DEFECT_NM"			/>		
+		<result property="model"			column="MODEL"				/> <!-- 작지 인쇄(다운)시 사용 -->
+		<result property="chamferY"			column="CHAMFER_Y"			/>
+		<result property="chamferN"			column="CHAMFER_N"			/>
+		<result property="rollGubun"		column="ROLL_GUBUN"		/>
+		<result property="rollGubunNm"		column="ROLL_GUBUN_NM"	/>
+		<result property="matrlFifoCheck"	column="MATRL_FIFO_CHECK"	/>
+		
+		<result property="dupliCheck"		column="DUPLI_CHECK"	/>
+</resultMap>
+
+
+	<select id="listAll" resultMap="MatrlCodeAdmVo">
+  		SELECT
+  			MATRL_SEQ	
+  			,MATRL_CD
+			,MATRL_NM
+			,MATRL_INITIAL
+			,MATRL_GUBUN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='009' AND B.BASE_CD = A.MATRL_GUBUN_CD) MATRL_GUBUN_NM
+			,QUTY_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_NM
+			,THICKNESS
+			,DEPTH
+			,LENGTH
+			,WIDTH
+			,PITCH
+			,GUBUN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='019' AND B.BASE_CD = A.GUBUN_CD) GUBUN_NM
+			,CHAMFER_YN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='020' AND B.BASE_CD = A.CHAMFER_YN_CD) CHAMFER_YN_NM
+			,SURFACE_TRTMT_CD
+			, ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='021' AND D.BASE_CD = SURFACE_TRTMT_CD),'') SURFACE_TRTMT_NM
+			,PRODUCT_UNIT_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='008' AND B.BASE_CD = A.PRODUCT_UNIT_CD) PRODUCT_UNIT_NM
+			,TM_UNIT_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='008' AND B.BASE_CD = A.TM_UNIT_CD) TM_UNIT_NM
+			,DEAL_CORP_CD
+			,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			,LIFE_CYCLE
+			,ETC1
+			,ETC2
+			,USE_YN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='024' AND B.BASE_CD = A.USE_YN_CD) USE_YN_NM
+			,MATRL_DESC
+			,OPTIMUM_STOCK
+			,MATRL_SAMPLE_YN
+			,MATRL_SELECT_YN
+			,DEFECT_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='097' AND B.BASE_CD = A.DEFECT_CD) DEFECT_NM
+			,ROLL_GUBUN
+			,REG_ID
+			,REG_DATE
+			,UPD_ID
+			,UPD_DATE
+		FROM TB_MATRL_CODE_ADM A
+		WHERE 1=1
+		<if test="useYnCd == null or useYnCd == ''"> 
+			AND A.USE_YN_CD = '001'
+		</if>
+		<if test="selectUseYn != null and !selectUseYn.equals('')"> 
+			AND A.USE_YN_CD = #{selectUseYn}
+		</if>
+		<if test="defectCd != null and defectCd.equals('004')"> 
+			AND A.DEFECT_CD != '003'
+		</if>
+		<if test="matrlGubunCd != null and !matrlGubunCd.equals('')">
+			AND A.MATRL_GUBUN_CD = #{matrlGubunCd}
+		</if>
+	</select>
+	
+	<!-- 자재코드&명 리스트 -->
+	<select id="matrlCdList" resultMap="MatrlCodeAdmVo">
+		SELECT
+	  		DISTINCT MATRL_CD
+			, MATRL_NM
+		FROM TB_MATRL_CODE_ADM A
+			WHERE 1=1
+			<if test="useYnCd == null or useYnCd == ''"> 
+				AND A.USE_YN_CD = '001'
+			</if>
+	</select>
+	
+	<select id="read" resultMap="MatrlCodeAdmVo">
+  		SELECT	
+			MATRL_SEQ
+  			,MATRL_CD
+			,MATRL_NM
+			,MATRL_INITIAL
+			,MATRL_GUBUN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='009' AND B.BASE_CD = A.MATRL_GUBUN_CD) MATRL_GUBUN_NM
+			,QUTY_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='007' AND B.BASE_CD = A.QUTY_CD) QUTY_NM
+			,THICKNESS
+			,DEPTH
+			,LENGTH
+			,WIDTH
+			,PITCH
+			,GUBUN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='019' AND B.BASE_CD = A.GUBUN_CD) GUBUN_NM
+			,CHAMFER_YN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='020' AND B.BASE_CD = A.CHAMFER_YN_CD) CHAMFER_YN_NM
+			,SURFACE_TRTMT_CD
+			, ISNULL((SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE D WHERE D.BASE_GROUP_CD='021' AND D.BASE_CD = SURFACE_TRTMT_CD),'') SURFACE_TRTMT_NM
+			,PRODUCT_UNIT_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='008' AND B.BASE_CD = A.PRODUCT_UNIT_CD) PRODUCT_UNIT_NM
+			,TM_UNIT_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='008' AND B.BASE_CD = A.TM_UNIT_CD) TM_UNIT_NM
+			,DEAL_CORP_CD
+			,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.DEAL_CORP_CD) DEAL_CORP_NM
+			,LIFE_CYCLE
+			,ETC1
+			,ETC2
+			,USE_YN_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='024' AND B.BASE_CD = A.USE_YN_CD) USE_YN_NM
+			,MATRL_DESC
+			,OPTIMUM_STOCK
+			,MATRL_SAMPLE_YN
+			,MATRL_SELECT_YN
+			,DEFECT_CD
+			,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='097' AND B.BASE_CD = A.DEFECT_CD) DEFECT_NM
+			,ROLL_GUBUN
+			,MATRL_FIFO_CHECK
+			,REG_ID
+			,REG_DATE
+			,UPD_ID
+			,UPD_DATE
+			
+			,(THICKNESS + 'X' + DEPTH + '-PP' + WIDTH + 'X' + LENGTH + '-' + PITCH +'P')  MODEL
+			,CHAMFER_YN_CD
+			
+		FROM TB_MATRL_CODE_ADM A
+		WHERE A.MATRL_SEQ = #{matrlSeq} OR A.MATRL_CD = #{matrlCd}
+			
+	</select>
+
+	<select id="selectMatrlSeqCd" resultType="String">
+		SELECT ISNULL(RIGHT('0000' + CAST(MAX(MATRL_SEQ)+1 AS NVARCHAR),5), '00001') FROM TB_MATRL_CODE_ADM
+		<!-- SELECT ISNULL(RIGHT('0000' + CAST(MAX( SUBSTRING(MATRL_CD, 2, LEN(MATRL_CD)) )+1 AS NVARCHAR),5), '00001') FROM TB_MATRL_CODE_ADM WHERE LEFT(MATRL_INITIAL, 1) = #{initial} -->
+	</select>
+<!-- 	원본백업
+	<select id="selectMatrlSeqCd" resultType="String">
+		SELECT ISNULL(RIGHT('00000' + CAST(MAX(SUBSTRING(MATRL_CD,2,6))+1 AS NVARCHAR),5), '00001') FROM TB_MATRL_CODE_ADM
+	</select>	
+			 -->
+	<insert id="create">
+		INSERT INTO TB_MATRL_CODE_ADM(
+			MATRL_SEQ
+			,MATRL_CD
+			,MATRL_NM
+			,MATRL_INITIAL
+			,MATRL_GUBUN_CD
+			,QUTY_CD
+			,THICKNESS
+			,DEPTH
+			,LENGTH
+			,WIDTH
+			,PITCH
+			,GUBUN_CD
+			,CHAMFER_YN_CD
+			,SURFACE_TRTMT_CD
+			,PRODUCT_UNIT_CD
+			,TM_UNIT_CD
+			,DEAL_CORP_CD
+			,LIFE_CYCLE
+			,ETC1
+			,ETC2
+			,USE_YN_CD
+			,MATRL_DESC
+			,OPTIMUM_STOCK
+			,MATRL_SAMPLE_YN
+			,MATRL_SELECT_YN
+			,DEFECT_CD
+			,ROLL_GUBUN
+			,MATRL_FIFO_CHECK
+			,REG_ID
+			,REG_DATE
+		) VALUES (
+			#{matrlSeq}
+			,#{matrlCd}			
+			,#{matrlNm}
+			,#{matrlInitial}
+			,#{matrlGubunCd}
+			,#{qutyCd}
+			,#{thickness}
+			,#{depth}
+			,#{length}
+			,#{width}
+			,#{pitch}
+			,#{gubunCd}
+			,#{chamferYnCd}
+			,#{surfaceTrtmtCd}
+			,#{productUnitCd}
+			,#{tmUnitCd}
+			,#{dealCorpCd}
+			,#{lifeCycle}
+			,#{etc1}
+			,#{etc2}
+			,#{useYnCd}
+			,#{matrlDesc}
+			,#{optimumStock}
+			,#{matrlSampleYn}
+			,#{matrlSelectYn}
+			,#{defectCd}
+			,#{rollGubun}
+			,#{matrlFifoCheck}
+			,#{regId}
+			,getDate()
+		)		
+	</insert>
+	
+		
+	<select id="update">
+		UPDATE	TB_MATRL_CODE_ADM 
+		SET	
+<!-- 			MATRL_CD = #{matrlCd} -->
+			MATRL_NM = #{matrlNm}
+			,MATRL_INITIAL = #{matrlInitial}
+			,MATRL_GUBUN_CD = #{matrlGubunCd}
+			,QUTY_CD = #{qutyCd}
+			,THICKNESS = #{thickness}
+			,DEPTH = #{depth}
+			,LENGTH = #{length}
+			,WIDTH = #{width}
+			,PITCH = #{pitch}
+			,GUBUN_CD = #{gubunCd}
+			,CHAMFER_YN_CD = #{chamferYnCd}
+			,SURFACE_TRTMT_CD = #{surfaceTrtmtCd}
+			,PRODUCT_UNIT_CD = #{productUnitCd}
+			,TM_UNIT_CD = #{tmUnitCd}
+			,DEAL_CORP_CD = #{dealCorpCd}
+			,LIFE_CYCLE = #{lifeCycle}
+			,ETC1 = #{etc1}
+			,ETC2 = #{etc2}
+			,USE_YN_CD = #{useYnCd}
+			,MATRL_DESC = #{matrlDesc}
+			,OPTIMUM_STOCK = #{optimumStock}
+			,MATRL_SAMPLE_YN = #{matrlSampleYn}
+			,MATRL_SELECT_YN = #{matrlSelectYn}
+			,DEFECT_CD = #{defectCd}
+			,ROLL_GUBUN = #{rollGubun}
+			,MATRL_FIFO_CHECK = #{matrlFifoCheck}
+			,UPD_ID = #{updId}
+			,UPD_DATE = getDate()
+		WHERE	MATRL_SEQ = #{matrlSeq}
+	</select>
+	
+	<!-- 자재코드 중복검사진행 -->
+	<select id="matrlCodeDupliCheck" resultMap="MatrlCodeAdmVo">
+		SELECT
+			COUNT(*) AS DUPLI_CHECK
+		FROM TB_MATRL_CODE_ADM
+		WHERE 1=1
+		AND MATRL_CD = #{matrlCd}
+	</select>
+	
+</mapper>

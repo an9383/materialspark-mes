@@ -9,11 +9,8 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/**" />
-			<exclude-mapping path="/auth/tmsc0370" />
-			<exclude-mapping path="/auth/loginPrcss" />
-			<exclude-mapping path="/auth/logoutPrcss" />
-			<exclude-mapping path="/auth/tmsc0110" />
 			<exclude-mapping path="/commingsoon" />
+			<exclude-mapping path="/auth/pdsc0080" />
 			<exclude-mapping path="/auth/login" />
 			<exclude-mapping path="/auth/login_ajax" />
 			<exclude-mapping path="/auth/logout" />

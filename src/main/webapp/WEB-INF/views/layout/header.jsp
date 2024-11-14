@@ -4,20 +4,51 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
-
 <header class="app-header app-header-dark">
     <!-- .top-bar -->
     <div class="top-bar">
           <!-- .top-bar-brand -->
           <div class="top-bar-brand">
             <!-- toggle aside menu -->
-            <button class="hamburger hamburger-squeeze mr-2" id="aside-menu" type="button" style="background:#30318b!important;" data-toggle="aside-menu" aria-label="toggle aside menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle aside menu -->
-            <a href="/main"><img src="/resources/assets/images/logo/daerim_logo.jpg" alt="homepage" class="dark-logo" style="width: auto; height: 30px;"/>
-             </a>
+            <button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu" aria-label="toggle aside menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle aside menu -->
+            <a href="<c:url value="/main"/>">
+            	<%
+            	String factoryCode3 = session.getAttribute("factoryCode").toString();
+					if(factoryCode3.equals("001")) {
+				%>
+						<img src="<c:url value="/resources/assets/images/materials_wh_001.png"/>" alt="homepage" class="dark-logo" />
+				<%	
+					} else if(factoryCode3.equals("002")) {
+				%>
+						<img src="<c:url value="/resources/assets/images/materials_wh_001.png"/>" alt="homepage" class="dark-logo" />
+				<%
+					} else if(factoryCode3.equals("003")) {
+				%>
+						<img src="<c:url value="/resources/assets/images/soul-logo-white.png"/>" alt="homepage" class="dark-logo" style="width: 123px; height: 26px;"/>
+				<%	
+					}
+				%>
+            </a>
           </div><!-- /.top-bar-brand -->
-
         <!-- .top-bar-list -->
         <div class="top-bar-list">
+        	<div class="ml-2">
+       			<%
+				if(factoryCode3.equals("001")) {
+				%>
+						<span>머티리얼즈파크 싱글</span>
+				<%	
+					} else if(factoryCode3.equals("002")) {
+				%>
+						<span>머티리얼즈파크 듀얼</span>
+				<%
+					} else if(factoryCode3.equals("003")) {
+				%>
+						<span>솔브레인(SLD)</span>
+				<%	
+					}
+				%>
+        	</div>
             <!-- .top-bar-item -->
             <div class="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
                 <!-- toggle menu -->
@@ -41,6 +72,7 @@
                 <!-- /.nav -->
                 
 				
+				
                 <!-- .btn-account -->
                 <div class="dropdown d-flex">
                     <button class="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,14 +80,14 @@
                             <%-- <img src="<c:url value='/resources/assets/images/avatars/profile.jpg'/>" alt=""> --%>
                         </span>
                         <span class="account-summary pr-lg-4 d-none d-lg-block">
-                            <span class="account-name" style="color:#000000;">${sessionScope.userNm}</span>
+                            <span class="account-name">${userNm}</span>
 <%--                             <span class="account-description">${sessionScope.rank}</span> --%>
                         </span>
                     </button>
                     <!-- .dropdown-menu -->
                     <div class="dropdown-menu">
                         <div class="dropdown-arrow ml-3"></div>
-                        <h6 class="dropdown-header d-none d-md-block d-lg-none">${sessionScope.name}</h6>
+                        <h6 class="dropdown-header d-none d-md-block d-lg-none">${userNm}</h6>
                         <!-- <a class="dropdown-item" href="#"><span class="dropdown-icon oi oi-envelope-closed"></span>쪽지</a> -->
                         <!-- <a class="dropdown-item" href="user-profile.html"><span class="dropdown-icon oi oi-person"></span> 사용자정보</a> -->
                         <a class="dropdown-item" href="#" id="info"><span class="dropdown-icon oi oi-person"></span> 사용자정보</a>

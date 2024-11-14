@@ -12,7 +12,7 @@
 		<nav aria-label="breadcrumb" class="breadcrumb-padding">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">재고관리</a></li>
-				<li class="breadcrumb-item active">현재고현황(사출)</li>
+				<li class="breadcrumb-item active">재고현황관리(자재)</li>
 			</ol>
 		</nav>
 	</header>
@@ -20,92 +20,168 @@
 	<div class="container-fluid" id="main">
 		<div class="row table-wrap-hid">
 			<!--======================== .left-list ========================-->
-			<div class="left-list left-sidebar" id="left-list" style="width: 50%;">
-				<div class="card">
+			<div class="left-list left-sidebar" id="left-list" style="width: 66%; padding-bottom:0px; padding-top:5px;">
+				<div class="card" style="margin-bottom: 0px;">
 					<div class="open-arrow" id="arrowLeft">
-						<button id="left-width-btn" onclick="openrNav()"
-							class="btn btn-primary input-sub-search" type="button">
+						<button id="left-width-btn" onclick="openrNav()" class="btn btn-primary input-sub-search" type="button">
 							<i class="mdi mdi-arrow-left"></i>
 						</button>
 					</div>
-					<div class="table-responsive">
-						<table class="table table-bordered" id="inventoryTable">
-							<colgroup>
-								<col width="10%">
-								<col width="10%">
-								<col width="20%">
-								<col width="30%">
-								<col width="10%">
-								<col width="10%">
-							</colgroup>
-							<thead class="thead-light">
-								<tr>
-									<th class="text-center">구분</th>
-									<th class="text-center">차종</th>
-									<th class="text-center">품번</th>
-									<th class="text-center">품명</th>
-									<th class="text-center">단위</th>
-									<th class="text-center">현재고</th>
-								</tr>
-							</thead>
-						</table>
+					<div class="card-body col-sm-12" style="padding:1px; margin-bottom:10px;">
+						<div class="card-header card-tab">
+							<ul class="nav nav-tabs card-header-tabs">
+								<li class="nav-item"><a class="nav-link active show" data-toggle="tab" id="tabAlnicuMatrlTable">AL/Nicu</a></li>
+								<li class="nav-item"><a class="nav-link" data-toggle="tab" id="tabFilmMatrlTable">Film</a></li>
+							</ul>
+						</div>
 					</div>
-					<!-- /.table-responsive -->
+					<div class="open-arrow" id="arrowLeft">
+						<button id="left-width-btn" onclick="openrNav()" class="btn btn-primary input-sub-search" type="button">
+							<i class="mdi mdi-arrow-left"></i>
+						</button>
+					</div>					
+					<div id="alnicuMatrlViewTable" >                    
+					<!-- .table-responsive -->
+						<div class="table-responsive">
+							<table id="alnicuMatrlInOutWhsViewTable" class="table table-bordered">
+								<colgroup>
+									<col width="5%">
+									<col width="19%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="8%">
+								</colgroup>
+								<thead class="thead-light">
+									<tr>
+										<th>순번</th>
+										<th>자재명</th>
+										<th>자재코드</th>
+										<th>재질</th>
+										<th>구분(연/경)</th>
+										<th>면취(압연)</th>
+										<th>표면처리</th>
+										<th>이월량</th>
+										<th>입고량</th>
+										<th>출고량</th>
+										<th>재고량</th>
+										<th id="mainInspectWaitQtyTitle">수입검수 대기</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<td colspan="7" style="text-align: center">합계</td>
+										<td id="sumMainPreInWhsQty" style="text-align: right">0</td>
+										<td id="sumMainInWhsQty" style="text-align: right">0</td>
+										<td id="sumMainPreOutQty" style="text-align: right">0</td>
+										<td id="sumMainDiffQty" style="text-align: right">0</td>
+										<td id="sumMainInspectWaitQty" style="text-align: right">0</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						<!-- /.table-responsive -->
+					</div>
+					<div id="filmMatrlViewTable" class="d-none" >                 
+				 	<!-- .table-responsive -->
+						 <div class="table-responsive">
+							<table id="filmMatrlInOutWhsViewTable" class="table table-bordered">
+								<colgroup>
+									<col width="5%">
+									<col width="19%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="7%">
+									<col width="8%">
+								</colgroup>
+								<thead class="thead-light">
+									<tr>
+										<th>순번</th>
+										<th>자재명</th>
+										<th>자재코드</th>
+										<th>재질</th>
+										<th>구분(연/경)</th>
+										<th>면취(압연)</th>
+										<th>표면처리</th>
+										<th>이월량</th>
+										<th>입고량</th>
+										<th>출고량</th>
+										<th>재고량</th>
+										<th id="subInspectWaitQtyTitle">수입검수 대기</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<td colspan="7" style="text-align: center">합계</td>
+										<td id="sumSubPreInWhsQty" style="text-align: right">0</td>
+										<td id="sumSubInWhsQty" style="text-align: right">0</td>
+										<td id="sumSubPreOutQty" style="text-align: right">0</td>
+										<td id="sumSubDiffQty" style="text-align: right">0</td>
+										<td id="sumSubInspectWaitQty" style="text-align: right">0</td>
+									</tr>
+								</tfoot>
+							 </table>
+						 </div>
+						 <!-- /.table-responsive -->
+					 </div>
 				</div>
 			</div>
 			<!-- /.left-list -->
 			<!--======================== .right-sidebar 등록,수정 ========================-->
-			<div class="right-list right-sidebar" id="myrSidenav" style="width: 49%;">
-				<div class="card" id="formBox">
-					<div class="table-responsive">
-						<table class="table table-lg table-bordered mb-2" id="barcodeListTable">
-							<colgroup>
-								<col width="5%">
-								<col width="15%">
-								<col width="25%">
-								<col width="10%">
-								<col width="15%">
-								<col width="15%">
-								<col width="15%">
-							</colgroup>
-							<thead class="thead-light">
-								<tr>
-									<th class="text-center-th"><input type="checkbox" class="form-control" id="checkAll" name="checkAll"></th>
-									<th class="text-center-th">입고일자</th>
-									<th class="text-center-th">바코드</th>
-									<th class="text-center-th">단위</th>
-									<th class="text-center-th">수량</th>
-									<th class="text-center-th">창고</th>
-									<th class="text-center-th">구역</th>
-								</tr>
-							</thead>
-						</table>
+			<div class="right-list right-sidebar" id="myrSidenav" style="width:33%; padding-top:5px;">
+				<div class="card mb-2" id="formBox">
+					<div class="rightsidebar-close" style="margin-top: 20px;">
+						<a href="javascript:void(0)" id="left-expand" class="closebtn float-right" onclick="closerNav()"><i class="mdi mdi-close"></i></a>
 					</div>
-					<hr>
-					<div class="table-responsive">
-						<table class="table table-lg table-bordered mb-2" id="inventoryDtlTable">
-							<colgroup>
-								<col width="5%">
-								<col width="10%">
-								<col width="15%">
-								<col width="25%">
-								<col width="15%">
-								<col width="15%">
-								<col width="15%">
-							</colgroup>
-							<thead class="thead-light">
-								<tr>
-									<th class="text-center-th">No.</th>
-									<th class="text-center-th">구분</th>
-									<th class="text-center-th">일자</th>
-									<th class="text-center-th">바코드</th>
-									<th class="text-center-th">수량</th>
-									<th class="text-center-th">창고</th>
-									<th class="text-center-th">구역</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
+					<!--/오른쪽 등록 부분 상단 버튼 영역-->
+					<form id="form">
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered mb-2" id ="matrlInOutWhsViewDtlTable" style="text-align:center;">
+								<colgroup>
+									<col width="10%">
+									<col width="20%">
+									<col width="15%">
+									<col width="25%">
+									<col width="15%">
+									<col width="15%">
+								</colgroup>
+								<thead class="thead-light">
+									<tr>
+										<th>순번</th>
+										<th>가입고일</th>
+										<th>표면처리</th>
+										<th>LOT</th>
+										<th>재고량</th>
+										<th>자재창고</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<td colspan="4" style="text-align: center">합계</td>
+										<td id="sumDtl" style="text-align: right">0</td>
+										<td colspan="" style="text-align: center"></td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</form>
+				</div>
+				<div class="mt-2">
+					<button type="button" class="btn btn-primary d-none float-right" id="btnSave">저장</button>
+					<button class="btn btn-primary d-none" id="btnAddConfirmLoading" type="button" disabled>
+					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>처리중</button>
 				</div>
 			</div>
 			<!-- ===/.right-sidebar 등록,수정===  -->
@@ -114,865 +190,636 @@
 	</div>
 	<!-- / #main  -->
 </div>
-<!-- /.page-wrapper -->
+<!-- Excel다운 확인모달 시작-->
+<div class="modal fade" id="excelDownPopupModal" tabindex="-1" role="dialog" aria-labelledby="excelDownPopupModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="excelDownPopupModalLabel">Excel 다운</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<h6 id="excelDownLabel"></h6>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success mr-2" id="btnMatrlDownTabCheck">Excel 다운</button>
+				<button type="button" class="btn btn btn-secondary" id="" data-dismiss="modal" style="min-width: 70px;">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Excel다운 확인모달 끝 -->
 
-<%@include file="../layout/bottom.jsp"%>
-
-<style>
-	.bg-1 {
-	  background-color: #F5DDAD !important;
-	}
-	.bg-2 {
-	  background-color: #F1BCAE !important;
-	}
-	.bg-3 {
-	  background-color: #C9DECF !important;
-	}
-	.bg-4 {
-	  background-color: #A9CBD7 !important;
-	}
-</style>
+<%@include file="../layout/bottom.jsp" %>
 
 <script>
+
 	$("#left-width-btn").click(function() {
 		{
 			$("#left-list").animate({
-				width : "55%"
+				width : "66%"
 			}, 200);
 			$("#arrow-left").animate({
 				display : "none"
 			}, 200);
 		}
-
+	
 		state = !state;
 	});
-
-	let currentHref = "tmsc0050";
-	let currentPage = $('.' + currentHref).attr('id');
-	$(document).attr("title", "현재고현황(사출)");
 	
-	$('#' + currentPage).closest('.has-child', 'li').addClass('has-open has-active');
-	$('#' + currentPage).closest('.menu-item').addClass('has-active');
-
-	let serverDateTo = "${serverDateTo}";
-	let serverDate = "${serverDateTo}";
-	let serverMonthTo = serverDate.substring(0, 7);
-
-	let sideView = "";
-	let spCd = null;
-	let spType = "";
-	let locationCd = '';
-	let dateRangeVal = "";
-	let itemCd = "";
-	let itemNm = "";
-	let itemCus = "";
-	let spUnit = "";
-	let selectSpType = "";
+	let menuAuth = 'tmsc0050';
+	let currentHref = 'tmsc0050';
+	let currentPage = $('.'+currentHref).attr('id');
+	$('#'+currentPage).closest('.has-child','li').addClass('has-open has-active');
+	$('#'+currentPage).closest('.menu-item').addClass('has-active');
+	$(document).attr("title","재고현황관리(자재)");
+	var serverDate =  "${serverDate}";	
+	var inWhsDateCal = serverDate.substring(0,7);
+	var matrlCd = 'empty';
+	var tapTemp = 0;
 	
-	//공통코드 처리 시작
-	let itemGubunList = new Array(); 
-	<c:forEach items="${itemGubunList}" var="info">
-	if ( "${info.baseCd}" != '002' ) {
-		var json = new Object();
-		json.baseCd = "${info.baseCd}";
-		json.baseNm = "${info.baseNm}";
-		itemGubunList.push(json);
-	}
-	</c:forEach>
-	
-	let locCdCode = new Array(); // 창고코드
-	<c:forEach items="${locCd}" var="info">
-	if ( "${info.etc1}" == '사출' ) {
-		var json = new Object();
-		json.baseCd = "${info.baseCd}";
-		json.baseNm = "${info.baseNm}";
-		locCdCode.push(json);
-	}
-	</c:forEach>
-	//공통코드 처리 끝
-
-	//재고현황 목록조회
-	let inventoryTable = $('#inventoryTable').DataTable({
-		dom : "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4'f>>"
-				+ "<'row'<'col-sm-12'tr>>"
-				+ "<'row mt-2'<'col-sm-12 col-md-9'i><'col-sm-12 col-md-3'B>>",
-		language : lang_kor,
-		paging : true,
-		info : true,
-		searching : true,
-		ordering : true,
-		processing : false,
-		autoWidth : false,
-		lengthChange : true,
-		pageLength : -1,
-		scrollY : "70vh",
-		rowId : 'poNo',
-		ajax : {
-			url : '<c:url value="tm/stockPaymentAdmList"/>',
-			type : 'GET',
-			data : {
-				'tmMon' : function(){ return serverMonthTo.replace(/-/g, ''); },
-				'tmDate' : function(){ return serverDateTo.replace(/-/g, ''); },
-				'mainGubun' : function(){ return '001'; },
-				'spType' : function(){ return spType; },
-				'realQtyOption' : function(){ return "Y"; },
-				'locationCd' : function(){ return locationCd; },
-				'realStockPage' : function(){ return 'Y';},
-			}
-		},
-		rowId : 'partCd',
-		columns : [ 
-			{//구분
-				data : 'spTypeNm'
-			},
-			{//차종
-				data : 'itemModelNm'
-			},
-			{//품번
-				data : 'spCd'
-			},
-			{//품명
-				data : 'spNm'
-			},
-			{//단위
-				data : 'spUnit'
-			},
-			{//현재고
-				data : 'realQty',
-				render : function(data, type, row, meta){
-					if ( data != null ) {
-						return rmDecimal(data);
-					} else {
-						return '';
-					}
-				},
-				"className" : "text-right"
-			},
-		],
-		order : [ [ 0, 'asc' ] ],
-		buttons : [ 'copy', 'excel', 'print' ],
-	});
-
-	// 세부 목록 보기
-	$('#inventoryTable tbody').on('click','tr',function() {
-		if ($(this).hasClass('selected')) {
- 			$(this).removeClass('selected');
- 			return false;
-		} else {
-			$('#inventoryTable').DataTable().$('tr.selected').removeClass('selected');
-			$(this).addClass('selected');
+    // 목록
+    $.fn.dataTable.ext.errMode = 'none';
+	let alnicuMatrlInOutWhsViewTable = $('#alnicuMatrlInOutWhsViewTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+		if(techNote == 7) {
+			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+			location.href = "/";
 		}
-		
-		$("#checkAll").prop("checked", false);
-
-		spCd = inventoryTable.row(this).data().itemSeq;
-		itemCd = inventoryTable.row(this).data().spCd;
-		itemNm = inventoryTable.row(this).data().spNm;
-		itemCus = inventoryTable.row(this).data().itemCus;
-		spUnit = inventoryTable.row(this).data().spUnit;
-		selectSpType = inventoryTable.row(this).data().spType; // 구분 (001 : 제품, 003 : 반제품, 004 : 원자재)
-		
-		sideView = "edit";
-		dateRangeVal = '';
-
-		$('#barcodeListTable').DataTable().ajax.reload(function(){
-			rowDateColorChange();
-		},true);
-		
-		$('#inventoryDtlTable').DataTable().ajax.reload(function(){});
-
-		if ( inventoryTable.row(this).data().spType == "004" || inventoryTable.row(this).data().spType == "005" ) {
-			$('#topDiv').removeClass('d-none');	//입고일자 범례표시
-			
-			let tr = $(this).closest('tr');
-			let row = inventoryTable.row( tr );
-			let idx = $.inArray( tr.attr('id'), detailRows );
-
-	        if ( row.child.isShown() ) {
-	            tr.removeClass( 'details' );
-	            row.child.hide();
-	 
-	            // Remove from the 'open' array
-	            detailRows.splice( idx, 1 );
-	        } else {
-	            tr.addClass( 'details' );
-	            row.child( format( row.data() ) ).show();
-	 
-	            // Add to the 'open' array
-	            if ( idx === -1 ) {
-	                detailRows.push( tr.attr('id') );
-	            }
-	        }
-		} else {
-			$('#topDiv').addClass('d-none');	//입고일자 범례표시
-		}
-	});
-
-	let html1 = '<div class="row">&nbsp;<label class="input-label-sm">기간 조회</label>';
-	html1 += '<input class="form-control mtz-monthpicker-widgetcontainer" type="text" id="demo-2" style="max-width:70px;">';
-	html1 += '&nbsp;&nbsp&nbsp;&nbsp<label class="input-label-sm">구분</label>';
-    html1 += '<select id="itemGubunSelect" class="custom-select custom-select-sm" style="max-width:70px;"></select>';
-    html1 += '&nbsp;&nbsp&nbsp;&nbsp<label class="input-label-sm">창고</label>';
-	html1 += '<div class="form-group input-sub m-0">';
-	html1 += '<select class="custom-select mr-1" id="locCdSelect">';
-	html1 += '</select></div>&nbsp;&nbsp;';
-    html1 += '<button type="button" class="btn btn-primary" id="btnRefresh">새로고침</button>'
-	html1 += '</div>';
-
-	$('#inventoryTable_length').html(html1);
-	$('#demo-2').val(serverMonthTo);
-	
-	selectBoxAppend(itemGubunList, "itemGubunSelect", "", "1");
-	selectBoxAppend(locCdCode, "locCdSelect", "", "1");
-	
-	//기간 조회 설정
-	let nowYear = serverDate.substr(0,4) * 1;
-	$('#demo-2').monthpicker({
-		pattern : 'yyyy-mm',
-		selectedYear : nowYear,
-		startYear : nowYear - 100,
-		finalYear : nowYear + 100,
-	});
-	
-	//기간조회 선택조건
-	$('#demo-2').on('change', function() {
-		serverMonthTo = $('#demo-2').val();
-		spCd = "";
-		$('#inventoryTable').DataTable().ajax.reload(function(){});
-		$('#barcodeListTable').DataTable().clear().draw();
-		$('#inventoryDtlTable').DataTable().clear().draw();
-	});
-
-	//구분,품목구분 선택조건
-	$('#itemGubunSelect, #locCdSelect').on('change', function() {
-		spType = $('#itemGubunSelect option:selected').val();
-		locationCd = $('#locCdSelect option:selected').val();
-		spCd = "";
-		$('#inventoryTable').DataTable().ajax.reload(function(){});
-		$('#barcodeListTable').DataTable().clear().draw();
-		$('#inventoryDtlTable').DataTable().clear().draw();
-    });
-
-	//새로고침 버튼
-	$('#btnRefresh').on('click',function(){
-		spCd = "";
-		$('#inventoryTable').DataTable().ajax.reload(function() {});
-		$('#barcodeListTable').DataTable().clear().draw();
-		$('#inventoryDtlTable').DataTable().clear().draw();
-	});
-
-	//창고 상세내역 시작
-	let detailRows = [];
-	function format (d) {
-		let locHtml = '';
-		$.ajax({
-			url : '<c:url value="tm/stockPaymentAdmLocList"/>',
-			type : 'GET',
-            async: false,
-			data : {
-				'tmMon' : function(){ return serverMonthTo.replace(/-/g, ''); },
-				'mainGubun' : function(){ return '001'; },
-				'realQtyOption' : function(){ return "Y"; },
-				'itemSeq' : function(){ return spCd },
-				'locationCd' : function(){ return locationCd; },
-				'realStockPage' : function(){ return 'Y';},
-			},
-            success: function (res) {
-                let data = res.data;
-                if ( res.result == 'ok' ) {
-                	locHtml	 = '<table class="table table-bordered">';
-                	locHtml	+= '	<thead class="thead-light">';
-                	locHtml	+= '		<tr>';
-        			locHtml	+= '			<th style="">창고</th>';
-        			locHtml	+= '			<th style="">현재고</th>';
-        			locHtml	+= '		</tr>';
-        			locHtml	+= '	</thead>';
-        			locHtml	+= '	<tbody>';
-                    for ( var i=0; i < data.length; i++ ) {
-                    	locHtml	+= '		<tr>';
-            			locHtml	+= '			<td class="text-center-td">'+data[i].locationNm+'</td>';
-            			locHtml	+= '			<td class="text-center-td">'+rmDecimal(data[i].realQty)+'</td>';
-            			locHtml	+= '		</tr>';
-                    }
-                    locHtml	+= '	</tbody>';
-                    locHtml	+= '</table>';
-                } else {
-                	toastr.error(res.message);
-                }
+	}).DataTable({
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+				"<'row'<'col-sm-12'tr>>" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",        
+        language: lang_kor,
+        paging: true,
+        info: true,
+        ordering: true,
+        processing: true,
+        autoWidth: false,
+        pageLength: 19,
+        ajax: {
+            url: '<c:url value="/tm/tmByMatrlInventoryList"/>',
+            type: 'GET',
+            data: {
+            	'menuAuth'	 	: 		menuAuth,
+	           	'inWhsDate': function() { return inWhsDateCal.replace(/-/g, '').substring(0,6); },
+	           	'qutyCd': 'A'	          
+            },
+            /*
+            success : function(res) {
+                console.log(res);
             }
-		});
-		return locHtml;
-	}
-	//창고 상세내역 끝
-	
-	//우측 상단 목록조회
-	let barcodeListTable = $('#barcodeListTable').DataTable({
-		dom : "<'row'<'col-sm-12 col-md-7'l><'col-sm-12 col-md-5'f>>"
-			+ "<'row'<'col-sm-12'tr>>"
-			+ "<'row mt-2'<'col-sm-12 col-md-9'i><'col-sm-12 col-md-3'B>>",
-		language : lang_kor,
-		paging : true,
-		info : true,
-		searching : true,
-		ordering : true,
-		processing : false,
-		autoWidth : false,
-		lengthChange : true,
-		pageLength : -1,
-		scrollY : "27vh",
-		ajax : {
-			url : '<c:url value="tm/stockPaymentAdmBarcodeList"/>',
-			type : 'GET',
-			data : {
-				'realQtyOption' : "Y",
-				'mainGubun' : function(){ return '001'; },
-				'tmMon' : function(){ return serverMonthTo.replace(/-/g, ''); },
-				'itemSeq' : function(){ return spCd; },
-				'locationCd' : function(){ return $('#locCdSelect option:selected').val(); },
-				'dateRange' : function(){ return dateRangeVal; },
-				'realStockPage' : function(){ return 'Y';},
-			},
-		},
-		rowId : 'rowId',
-		columns : [
-			{//체크박스
-				render : function(data, type, row, meta) {
-					return '<input class="form-control" type="checkbox" name="printList" id="'+meta.row+'"/>';
-				}
-			},
-			{//입고일자
-				data : 'inDate',
-				render : function(data, type, row, meta) {
-					if ( data != null && data != '' ) {
-						return moment(data).format('YYYY-MM-DD');
-					} else {
-						return '';
-					}
-				}
-			},
-			{//바코드
-				data : 'barcodeNo'
-			},
-			{//단위
-				data : 'spUnit',
-			}, 
-			{//수량
-				data : 'realQty',
-				render : function (data, type, row, meta) {
-					if ( data != null ) {
-						return rmDecimal(data);
-					} else {
-						return '';
-					}
-				},
-				"className" : "text-right"
-			},
-			{//창고
-				data : 'locationNm',
-			}, 
-			{//구역
-				data : 'areaNm',
-				render : function (data, type, row, meta) {
-					if ( data != null && data != '' ) {
-						return data + " / " + row['floorNm'];
-					} else {
-						return '';
-					}
-				}
-			},
-		],
-			columnDefs : [
-			{ targets : '_all', className : 'text-center'} 
-		],
-		order : [ [ 0, 'asc' ] ],
-		buttons : [ 'copy', 'excel', 'print' ],
-		drawCallback : function(){
-	    	let api = this.api();
-
-	    	/* //자재일경우 해당
-    		for ( var i = 0; i < api.data().count(); i++ ) {
-    			if ( api.row(i).data().spType == "004" || api.row(i).data().spType == "005" ) {
-			    	if ( api.row(i).data().inDate != null ) {
-				    	
-				    	let inDateVal = api.row(i).data().inDate;
-				    	console.log(inDateVal);
-				    	
-			    		if(moment().subtract('6','M').format('YYYYMMDD')<inDateVal){
-			    			$('#barcodeListTable tbody tr').eq(i).find('td').eq(1).css('background','white');
-						}else if(moment().subtract('12','M').format('YYYYMMDD')<inDateVal){
-							$('#barcodeListTable tbody tr').eq(i).find('td').eq(1).css('background','#fff2007d');
-						}else if(moment().subtract('24','M').format('YYYYMMDD')<inDateVal){
-							$('#barcodeListTable tbody tr').eq(i).find('td').eq(1).css('background','#ffa263b0');
-						}else{
-							$('#barcodeListTable tbody tr').eq(i).find('td').eq(1).css('background','#ed1c2461');
-						}   
-			    	}
-		    	}//if문 끝
-		    }//for문 끝 */
-		}//drawCallback 끝
-	});
-
-	let html2 = '<div class="float-left mt-1" id="rightTopLabel" style="display: inline;">';
-	html2 += '<div class="float-left" id="topDiv"><label class="mr-1 btn" style="background-color: #eeeeee;font-weight: 500;">범례</label>';
-	html2 += '<button class="mr-1 btn" id="6MonPass" style="background-color:#fff2007d; width:65px; font-size: 0.725rem; font-weight: 500;height: 24px;">6개월</button>';
-	//html2 += '<span class="oi oi-arrow-right mr-1"></span>';
-	html2 += '<button class="mr-1 btn" id="12MonPass" style="background-color:#ffa263b0; width:65px; font-size: 0.725rem; font-weight: 500;height: 24px;">12개월</button>';
-	//html2 += '<span class="oi oi-arrow-right mr-1"></span>';
-	html2 += '<button class="mr-1 btn" id="24MonPass" style="background-color:#ed1c2461; width:65px; font-size: 0.725rem;color: black;font-weight: 500;height: 24px;">24개월</button>';
-	html2 += '<button type="button" class="btn btn-primary" id="btnRefresh2">새로고침</button>';
-	html2 += '</div>';
-	html2 += '<button type="button" class="btn btn-success ml-1" id="printBarcode">바코드출력</button>';
-	$('#barcodeListTable_length').html(html2);
-
-	//새로고침 선택시
-	$('#btnRefresh2').on('click', function() {
-		if ( sideView != "edit" ) {
-			toastr.warning("품목을 선택해주세요.");
-			return false;
-		}
-		dateRangeVal = "";
-		$('#barcodeListTable').DataTable().ajax.reload(function(){
-			rowDateColorChange();
-		},true);
-	});
-
-	//6개월 범례 클릭시
-	$('#6MonPass').on('click', function() {
-		if ( sideView != "edit" ) {
-			toastr.warning("품목을 선택해주세요.");
-			return false;
-		}
-		dateRangeVal = "6";
-		$('#barcodeListTable').DataTable().ajax.reload(function(){
-			rowDateColorChange();
-		},true);
-	});
-
-	//12개월 범례 클릭시
-	$('#12MonPass').on('click', function() {
-		if ( sideView != "edit" ) {
-			toastr.warning("품목을 선택해주세요.");
-			return false;
-		}
-		dateRangeVal = "12";
-		$('#barcodeListTable').DataTable().ajax.reload(function(){
-			rowDateColorChange();
-		},true);
-	});
-
-	//24개월 범례 클릭시
-	$('#24MonPass').on('click', function() {
-		if ( sideView != "edit" ) {
-			toastr.warning("품목을 선택해주세요.");
-			return false;
-		}
-		dateRangeVal = "24";
-		$('#barcodeListTable').DataTable().ajax.reload(function(){
-			rowDateColorChange();
-		},true);
-	});
-
-	//범례
-	function rowDateColorChange(){
-		if(selectSpType=='004'){	//자재만
-			$('#barcodeListTable tbody tr').each(function(index, item) {
-	    		let inDateVal = $(this).find('td').eq(1).text().replace(/-/g,'');
-	    		if(inDateVal!=''){
-	    			if(moment().subtract('6','M').format('YYYYMMDD')<inDateVal){
-			    		console.log('ok')
-		    			$(this).find('td').eq(1).css('background','white');
-					}else if(moment().subtract('12','M').format('YYYYMMDD')<inDateVal){
-						console.log('6개월 넘었음')
-						$(this).find('td').eq(1).css('background','#fff2007d');
-					}else if(moment().subtract('24','M').format('YYYYMMDD')<inDateVal){
-						console.log('12개월 넘었음')
-						$(this).find('td').eq(1).css('background','#ffa263b0');
-					}else{
-						console.log('24개월 넘었음')
-						$(this).find('td').eq(1).css('background','#ed1c2461');
-					}   
-		    	}
-		    });
-		}
-	}
-	
-	//우측 하단 목록조회
-	let inventoryDtlTable = $('#inventoryDtlTable').DataTable({
-		dom : "<'row'<'col-sm-12 col-md-7'><'col-sm-12 col-md-5'f>>"
-			+ "<'row'<'col-sm-12'tr>>"
-			+ "<'row mt-2'<'col-sm-12 col-md-9'i><'col-sm-12 col-md-3'B>>",
-		language : lang_kor,
-		paging : true,
-		info : true,
-		searching : true,
-		ordering : false,
-		processing : false,
-		autoWidth : false,
-		lengthChange : true,
-		pageLength : -1,
-		scrollY : "27vh",
-		ajax : {
-			url : '<c:url value="tm/stockPaymentAdmRead"/>',
-			type : 'GET',
-			data : {
-				'mainGubun' : function(){ return '001'; },
-				'spCd' : function(){ return spCd; },
-				'startDate' : function(){ return serverMonthTo.replace(/-/g, ''); },
-				'locationCd' : function(){ return locationCd; },
-				'spSubGubunYn' : 'Y',
-			},
-		},
-		rowId : 'rowId',
-		columns : [ 
-			{//No.
-				render : function(data, type, row, meta) {
+            */
+        },
+        rowId: 'matrlCd',
+        columns: [
+			{	
+				render: function(data, type, row, meta) {		
 					return meta.row + 1;
 				}
 			},
-			{//구분
-				data : 'spSubGubun'
-			}, 
-			{//일자
-				data : 'spDate',
-				render : function (data, type, row, meta) {
-					if ( data != null && data != '' ) {
-						return moment(data).format('YYYY-MM-DD');
-					} else {
-						return '';
-					}
+			{ data: 'matrlNm' },
+			{ data: 'matrlCd' },
+			{ data: 'qutyNm' },
+			{ data: 'gubunNm'},
+			{ data: 'chamferYnNm'},
+			{ data: 'surfaceTrtmtNm'},
+			{ data: 'preInWhsQty',
+				render: function(data, type) {
+					return parseFloat(data).toFixed(2);
 				}
-			}, 
-			{//바코드
-				data : 'barcodeNo'
 			},
-			{//수량
-				data : 'spQty',
-				render : function(data, type, row, meta){
-					if ( data != null ) {
-						return rmDecimal(data);
-					} else {
-						return '';
-					}
-				},
-				"className" : "text-right"
-			},
-			{//창고
-				data : 'locationCdNm',
-			}, 
-			{//구역
-				data : 'areaCdNm',
-				render : function(data, type, row, meta){
-					if ( data != null && data != '' ) {
-						return data + " / " + row['floorCd'];
-					} else {
-						return '';
-					}
+			{ data: 'inWhsQty',
+				render: function(data, type) {
+					return parseFloat(data).toFixed(2);
 				}
-			}, 
-		],
-		columnDefs : [
-			{ targets : '_all', className : 'text-center'} 
-		],
-		order : [ [ 0, 'asc' ] ],
-		buttons : [ 'copy', 'excel', 'print' ],
-		drawCallback : function(){
+			},
+			{ data: 'preOutQty',
+				render: function(data, type) {
+					return parseFloat(data).toFixed(2);
+				}
+			},
+			{ data: 'diffQty',
+				render: function(data, type) {
+					return parseFloat(data).toFixed(2);
+				}
+			},
+			{ data: 'inspectWaitQty',
+				render: function(data, type) {
+					return parseFloat(data).toFixed(2);
+				}
+			},
+        ],
+        columnDefs: [
+        	{ targets: [7,8,9,10,11], render: $.fn.dataTable.render.number( ',' ) },
+        	{ targets: [7,8,9,10,11], className: 'text-right-td' },
+        ],
+        order: [
+            //[ 0, 'asc' ]
+        ],
+        buttons: [
+            {
+                extend: 'copy',
+                title: '재고현황관리(주자재)',
+            },
+            {
+                extend: 'excel',
+                title: '재고현황관리(주자재)',
+            },
+            {
+                extend: 'print',
+                title: '재고현황관리(주자재)',
+            },
+        ],
+		drawCallback: function () {
+			var sumMainPreInWhsQty = $('#alnicuMatrlInOutWhsViewTable').DataTable().column(7,{ page: 'all'} ).data().sum();
+			var sumMainInWhsQty = $('#alnicuMatrlInOutWhsViewTable').DataTable().column(8,{ page: 'all'} ).data().sum();
+			var sumMainPreOutQty = $('#alnicuMatrlInOutWhsViewTable').DataTable().column(9,{ page: 'all'} ).data().sum();
+			var sumMainDiffQty = $('#alnicuMatrlInOutWhsViewTable').DataTable().column(10,{ page: 'all'} ).data().sum();
+			var sumMainInspectWaitQty = $('#alnicuMatrlInOutWhsViewTable').DataTable().column(11,{ page: 'all'} ).data().sum();
+			$('#sumMainPreInWhsQty').text(addCommas(sumMainPreInWhsQty.toFixed(2)));
+			$('#sumMainInWhsQty').text(addCommas(sumMainInWhsQty.toFixed(2)));
+			$('#sumMainPreOutQty').text(addCommas(sumMainPreOutQty.toFixed(2)));
+			$('#sumMainDiffQty').text(addCommas(sumMainDiffQty.toFixed(2)));
+			$('#sumMainInspectWaitQty').text(addCommas(sumMainInspectWaitQty.toFixed(2)));
+			var text = parseInt(inWhsDateCal.replace(/-/g, '').substring(4,6)) + '월<br/>수입검수 대기';
+			$('#mainInspectWaitQtyTitle').html(text);
 		}
+    });
+
+    var sysdate = "${serverTime}";
+	var html1 = '<div class="row">&nbsp;<label class="input-label-sm">입고일</label>';
+		html1 += '<input type="text" class="form-control" id="alnicuInWhsDate" style="width:65px;">';
+	//var html1 = '<div class="row">&nbsp;<label class="input-label-sm">입고일</label><div class="form-group input-sub m-0 row">';
+		//html1 += '<input class="form-control" style="width:97px;" type="text" id="alnicuInWhsDate" name="alnicuInWhsDate" />';
+		//html1 += '<button onclick="fnPopUpCalendar(alnicuInWhsDate,alnicuInWhsDate,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="alnicuInWhsDateFromCalendar" type="button">';
+		//html1 += '<span class="oi oi-calendar"></span>';
+		//html1 += '</button>';
+    	html1 += '&nbsp; <button type="button" class="btn btn-primary mr-5" id="btnAlnicuRetv">조회</button>';
+    	html1 += '<button type="button" class="btn btn-success mr-2" id="btnMatrlDownTab1">Excel 다운</button>';
+    	html1 += '<div>';
+    
+	$('#alnicuMatrlInOutWhsViewTable_length').html(html1);
+	$('#alnicuInWhsDate').val(inWhsDateCal);
+
+	$.fn.dataTable.ext.errMode = 'none';
+	let filmMatrlInOutWhsViewTable = $('#filmMatrlInOutWhsViewTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+		if(techNote == 7) {
+			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+			location.href = "/";
+		}
+	}).DataTable({
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+				"<'row'<'col-sm-12'tr>>" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",        
+        language: lang_kor,
+        paging: true,
+        info: true,
+        ordering: true,
+        processing: true,
+        autoWidth: false,
+        pageLength: 19,
+        ajax: {
+            url: '<c:url value="/tm/tmByMatrlInventoryList"/>',
+            type: 'GET',
+            data: {
+            	'menuAuth'	 	: 		menuAuth,
+	           	'inWhsDate': function() { return inWhsDateCal.replace(/-/g, '').substring(0,6); },	           	
+	           	'qutyCd': 'F'
+            },
+            /*
+            success : function(res) {
+                console.log(res);
+            }
+            */
+        },
+        rowId: 'matrlCd',
+        columns: [
+        	{	
+	    		render: function(data, type, row, meta) {		
+					return meta.row + 1;
+    			}
+	    	},
+	    	{ data: 'matrlNm' },
+	    	{ data: 'matrlCd' },
+	    	{ data: 'qutyNm' },
+	    	{ data: 'gubunNm'},
+			{ data: 'chamferYnNm'},
+			{ data: 'surfaceTrtmtNm'},
+		    { data: 'preInWhsQty',
+		   		render: function(data, type) {
+		   			return parseFloat(data).toFixed(2);
+		   		}
+            },
+		    { data: 'inWhsQty',
+		   		render: function(data, type) {
+		   			return parseFloat(data).toFixed(2);
+		   		}
+            },
+		    { data: 'preOutQty',
+		   		render: function(data, type) {
+		   			return parseFloat(data).toFixed(2);
+		   		}
+            },
+		    { data: 'diffQty',
+		   		render: function(data, type) {
+		   			return parseFloat(data).toFixed(2);
+		   		}
+            },
+            { data: 'inspectWaitQty',
+		   		render: function(data, type) {
+		   			return parseFloat(data).toFixed(2);
+		   		}
+            },
+        ],
+        columnDefs: [
+        	{ targets: [7,8,9,10,11], render: $.fn.dataTable.render.number( ',' ) },
+        	{ targets: [7,8,9,10,11], className: 'text-right-td' },
+		],
+		//order: [
+		//    [ 0, 'asc' ]
+		//],
+		buttons: [
+		    {
+		        extend: 'copy',
+		        title: '적정재고관리(부자재)',
+		    },
+		    {
+		        extend: 'excel',
+		        title: '적정재고관리(부자재)',
+		    },
+		    {
+		        extend: 'print',
+		        title: '적정재고관리(부자재)',
+		    },
+		],
+		drawCallback: function () {
+			var sumSubPreInWhsQty = $('#filmMatrlInOutWhsViewTable').DataTable().column(7,{ page: 'all'} ).data().sum();
+			var sumSubInWhsQty = $('#filmMatrlInOutWhsViewTable').DataTable().column(8,{ page: 'all'} ).data().sum();
+			var sumSubPreOutQty = $('#filmMatrlInOutWhsViewTable').DataTable().column(9,{ page: 'all'} ).data().sum();
+			var sumSubDiffQty = $('#filmMatrlInOutWhsViewTable').DataTable().column(10,{ page: 'all'} ).data().sum();
+			var sumSubInspectWaitQty = $('#filmMatrlInOutWhsViewTable').DataTable().column(11,{ page: 'all'} ).data().sum();
+			$('#sumSubPreInWhsQty').text(addCommas(sumSubPreInWhsQty.toFixed(2)));
+			$('#sumSubInWhsQty').text(addCommas(sumSubInWhsQty.toFixed(2)));
+			$('#sumSubPreOutQty').text(addCommas(sumSubPreOutQty.toFixed(2)));
+			$('#sumSubDiffQty').text(addCommas(sumSubDiffQty.toFixed(2)));
+			$('#sumSubInspectWaitQty').text(addCommas(sumSubInspectWaitQty.toFixed(2)));
+			var text = parseInt(inWhsDateCal.replace(/-/g, '').substring(4,6)) + '월<br/>수입검수 대기';
+			$('#subInspectWaitQtyTitle').html(text);
+		}
+    });
+	
+	var html2 = '<div class="row">&nbsp;<label class="input-label-sm">입고일</label>';
+		html2 += '<input type="text" class="form-control" id="filmInWhsDate" style="width:65px;">';
+	//var html2 = '<div class="row">&nbsp;<label class="input-label-sm">입고일</label><div class="form-group input-sub m-0 row">';
+		//html2 += '<input class="form-control" style="width:97px;" type="text" id="filmInWhsDate" name="filmInWhsDate" />';
+		//html2 += '<button onclick="fnPopUpCalendar(filmInWhsDate,filmInWhsDate,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="filmInWhsDateFromCalendar" type="button">';
+		//html2 += '<span class="oi oi-calendar"></span>';
+		//html2 += '</button>';
+		html2 += '&nbsp; <button type="button" class="btn btn-primary mr-5" id="btnFilmRetv">조회</button>';
+    	html2 += '<button type="button" class="btn btn-success mr-2" id="btnMatrlDownTab2">Excel 다운</button>';
+    	html2 += '<div>';
+
+	$('#filmMatrlInOutWhsViewTable_length').html(html2);
+	$('#filmInWhsDate').val(inWhsDateCal);
+
+	$.fn.dataTable.ext.errMode = 'none';
+	let matrlInOutWhsViewDtlTable = $('#matrlInOutWhsViewDtlTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+		if(techNote == 7) {
+			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+			location.href = "/";
+		}
+	}).DataTable({
+		language: lang_kor,
+        destroy:true,
+        paging: false,
+        info: false,
+        ordering: true,
+        processing: true,
+        autoWidth: false,
+        pageLength: false,
+	}); 		
+	
+    $('#tabAlnicuMatrlTable').on('click', function() {
+    	$('#alnicuMatrlViewTable').removeClass('d-none');
+    	$('#filmMatrlViewTable').addClass('d-none');
+    	$('#alnicuInWhsDate').val($('#filmInWhsDate').val());    	
+    	inWhsDateCal = $('#alnicuInWhsDate').val();
+    	tapTemp = 0;
+    	$('#alnicuMatrlInOutWhsViewTable').DataTable().ajax.reload( function () {});    	
+    });
+    
+    $('#tabFilmMatrlTable').on('click', function() {
+    	$('#alnicuMatrlViewTable').addClass('d-none');
+    	$('#filmMatrlViewTable').removeClass('d-none');
+    	$('#filmInWhsDate').val($('#alnicuInWhsDate').val());
+    	inWhsDateCal = $('#filmInWhsDate').val();
+    	tapTemp = 1;
+    	$('#filmMatrlInOutWhsViewTable').DataTable().ajax.reload( function () {});
+    });
+      
+    // 보기
+    $('#alnicuMatrlInOutWhsViewTable tbody').on('click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            //$(this).removeClass('selected');
+        }
+        else {
+        	$('#alnicuMatrlInOutWhsViewTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+        matrlCd = alnicuMatrlInOutWhsViewTable.row(this).data().matrlCd;
+
+		$.fn.dataTable.ext.errMode = 'none';
+		let matrlInOutWhsViewDtlTable = $('#matrlInOutWhsViewDtlTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+			if(techNote == 7) {
+				toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+				location.href = "/";
+			}
+		}).DataTable({
+	        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+					"<'row'<'col-sm-12'tr>>" +
+					"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",        
+	        language: lang_kor,
+	        destroy:true,	     
+	        lengthChange: false,
+	        info: true,
+	        ordering: true,
+	        processing: true,
+	        autoWidth: false,
+	        pageLength: 20,
+	        ajax: {
+	            url: '<c:url value="/tm/tmByMatrlInventoryDtlList"/>',
+	            type: 'GET',
+	            data: {
+	            	'menuAuth'		:		menuAuth,
+		           	'inWhsDate'		:		function() { return inWhsDateCal.replace(/-/g, '').substring(0,6); },
+		           	'matrlCd'		:		matrlCd,
+	            },
+	            /*
+	            success : function(res) {
+	                console.log(res);
+	            }
+	            */
+	        },
+	        //rowId: 'lotNo',
+	        columns: [
+	        	//{ data: 'inWhsDate',
+	        	//	render: function(data, type, row, meta) {		
+				//		return moment(data).format('YYYY-MM-DD') ;
+	    		//	}
+	        	//},
+		    	//{ data: 'lifeCycle'},
+		    	//{ data: 'inspctDate',
+	        	//	render: function(data, type, row, meta) {		
+				//		return moment(data).format('YYYY-MM-DD') ;
+	    		//	}
+	        	//},
+	           	{	
+		    		render: function(data, type, row, meta) {		
+						return meta.row + 1;
+	    			}
+		    	},
+	     		{ data: 'preInWhsDate',
+	        		render: function(data, type, row, meta) {		
+						return moment(data).format('YYYY-MM-DD') ;
+	    			}
+	        	},
+		    	{ data: 'surfaceTrtmtNm' },
+		    	{ data: 'lotNo'}, 
+		    	{ data: 'inspectQty',
+			   		render: function(data, type) {
+			   			return parseFloat(data).toFixed(2);
+			   		}
+	            }, 
+		    	{ data: 'locationNm'}
+	            
+	        ],
+	        columnDefs: [
+	        	{ targets: [4], render: $.fn.dataTable.render.number( ',' ) },
+	        	{ targets: [4], className: 'text-right-td' },
+	        ],
+	        order: [
+	            //[ 0, 'asc' ]
+	        ],
+	        buttons: [
+	            {
+	                extend: 'copy',
+	                title: '적정재고관리'
+	            },
+	            {
+	                extend: 'excel',
+	                title: '적정재고관리'
+	            },
+	            {
+	                extend: 'print',
+	                title: '적정재고관리'
+	            },
+	        ],
+			drawCallback: function () {
+				var sumDtl = $('#matrlInOutWhsViewDtlTable').DataTable().column(4, { page: 'all'} ).data().sum();
+				$('#sumDtl').text(addCommas(sumDtl.toFixed(2)));
+			}
+	    });
+
+	});	
+	    
+    $('#filmMatrlInOutWhsViewTable tbody').on('click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            //$(this).removeClass('selected');
+        }
+        else {
+        	$('#filmMatrlInOutWhsViewTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+        
+        matrlCd = filmMatrlInOutWhsViewTable.row(this).data().matrlCd;
+
+		$.fn.dataTable.ext.errMode = 'none';
+		let matrlInOutWhsViewDtlTable = $('#matrlInOutWhsViewDtlTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+			if(techNote == 7) {
+				toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+				location.href = "/";
+			}
+		}).DataTable({
+	        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+					"<'row'<'col-sm-12'tr>>" +
+					"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",        
+	        language: lang_kor,
+	        destroy:true,	     
+	        lengthChange: false,
+	        info: true,
+	        ordering: true,
+	        processing: true,
+	        autoWidth: false,
+	        pageLength: 20,
+	        ajax: {
+	            url: '<c:url value="/tm/tmByMatrlInventoryDtlList"/>',
+	            type: 'GET',
+	            data: {
+	            	'menuAuth'		:		menuAuth,
+		           	'inWhsDate'		:		function() { return inWhsDateCal.replace(/-/g, '').substring(0,6); },
+		           	'matrlCd'		:		matrlCd,
+	            },
+	            /*
+	            success : function(res) {
+	                console.log(res);
+	            }
+	            */
+	        },
+	        //rowId: 'lotNo',
+	        columns: [
+	        	//{ data: 'inWhsDate',
+	        	//	render: function(data, type, row, meta) {		
+				//		return moment(data).format('YYYY-MM-DD') ;
+	    		//	}
+	        	//},
+		    	//{ data: 'lifeCycle'},
+		    	//{ data: 'inspctDate',
+	        	//	render: function(data, type, row, meta) {		
+				//		return moment(data).format('YYYY-MM-DD') ;
+	    		//	}
+	        	//},
+	           	{	
+		    		render: function(data, type, row, meta) {		
+						return meta.row + 1;
+	    			}
+		    	},
+	     		{ data: 'preInWhsDate',
+	        		render: function(data, type, row, meta) {		
+						return moment(data).format('YYYY-MM-DD') ;
+	    			}
+	        	},
+		    	{ data: 'surfaceTrtmtNm' },
+		    	{ data: 'lotNo'}, 
+		    	{ data: 'inspectQty',
+			   		render: function(data, type) {
+			   			return parseFloat(data).toFixed(2);
+			   		}
+	            }, 
+		    	{ data: 'locationNm'}
+	            
+	        ],
+	        columnDefs: [
+	        	{ targets: [4], render: $.fn.dataTable.render.number( ',' ) },
+	        	{ targets: [4], className: 'text-right-td' },
+	        ],
+	        order: [
+	            //[ 0, 'asc' ]
+	        ],
+	        buttons: [
+	            {
+	                extend: 'copy',
+	                title: '적정재고관리'
+	            },
+	            {
+	                extend: 'excel',
+	                title: '적정재고관리'
+	            },
+	            {
+	                extend: 'print',
+	                title: '적정재고관리'
+	            },
+	        ],
+			drawCallback: function () {
+				var sumDtl = $('#matrlInOutWhsViewDtlTable').DataTable().column(4, { page: 'all'} ).data().sum();
+				$('#sumDtl').text(addCommas(sumDtl.toFixed(2)));
+			}
+	    });
+
+	});	
+    	
+    $('#btnAlnicuRetv').on('click', function() {
+		inWhsDateCal =  $('#alnicuInWhsDate').val();		
+		$('#filmInWhsDate').val($('#alnicuInWhsDate').val());	
+		$('#alnicuMatrlInOutWhsViewTable').DataTable().ajax.reload( function () {});
+		$('#matrlInOutWhsViewDtlTable').DataTable().clear().draw();
+    });	
+
+    $('#btnFilmRetv').on('click', function() {
+		inWhsDateCal =  $('#filmInWhsDate').val();		
+		$('#alnicuInWhsDate').val($('#filmInWhsDate').val());
+		filmMatrlInOutWhsViewTable.ajax.reload( function () {});
+		$('#matrlInOutWhsViewDtlTable').DataTable().clear().draw();
+    });
+    
+	$('#btnMatrlDownTab1, #btnMatrlDownTab2').on('click', function() {
+		if (tapTemp == 0){
+			$('#excelDownLabel').text($('#alnicuInWhsDate').val() + ' 기준으로 모든 자재재고를 다운합니다.');
+		} else if (tapTemp == 1) {
+			$('#excelDownLabel').text($('#filmInWhsDate').val() + ' 기준으로 모든 자재재고를 다운합니다.');
+		}
+		
+		$('#excelDownPopupModal').modal('show');
 	});
 	
-	//전체선택클릭
-	$('#checkAll').on('click',function(){
-		if ( $('#checkAll').prop("checked") ) {
-			$('#barcodeListTable tbody tr').each(function(index, item) {
-				if ( !$(this).find('input:checkbox[name=printList]').is(':disabled') ) {
-					$(this).find('input:checkbox[name=printList]').prop("checked", true);
-				}
-			});
-		} else {
-			$('#barcodeListTable tbody tr').each(function(index, item) {	
-				if ( !$(this).find('input:checkbox[name=printList]').is(':disabled') ) {
-					$(this).find('input:checkbox[name=printList]').prop("checked", false);
-				}
-			});
-		}
+    $(document).on('click','.form-control', function(event) {
+   		$(this).select();
+   	});
+
+    $('#matrlInOutWhsViewDtlTable tbody').on('click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            //$(this).removeClass('selected');
+        } else {
+        	$('#matrlInOutWhsViewDtlTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
 	});
+
+	$('#btnMatrlDownTabCheck').on('click', function() {
+  	  	
+		$('#my-spinner').show();
+
+		if (tapTemp == 0){
+			inWhsDateCal = $('#alnicuInWhsDate').val();
+		} else if (tapTemp == 1) {
+			inWhsDateCal = $('#filmInWhsDate').val();
+		}
+		
+		$.ajax({
+			url: '<c:url value="tm/matrlInventoryExcel"/>',
+			type: 'GET',
+			datatype: 'json',
+			data:  {
+				'menuAuth'	 	: 	menuAuth,
+				'inWhsDate'		:	function() { return inWhsDateCal.replace(/-/g, ''); },
+			},
+			beforeSend: function() {
+				//  $('#btnAddConfirmLoading').removeClass('d-none');
+			},
+			success: function (res) {
+				let data = res.data
+				//console.log(data);
+			    if (res.result == 'ok') {
+			        location.href = '/tm/matrlInventoryExcelDownload?id=matrlInventory_' + data.inWhsDate;
+			    } else if (res.result == 'fail') {
+			    	toastr.warning(res.message);
+			    } else if (res.result == 'error') {
+					toastr.error("오류가 발생하였습니다. - matrlExcel/download-001");
+				}
+			},
+			complete:function(){
+				$('#excelDownPopupModal').modal('hide');
+				$('#my-spinner').hide();
+			}
+        });
+	});
+	
+	//yyyy-mm 달력
+	$('#alnicuInWhsDate').monthpicker({pattern: 'yyyy-mm', 
+	    selectedYear: 2020,
+	    startYear: 1900,
+	    finalYear: 2212
+	});
+	
+	$('#filmInWhsDate').monthpicker({pattern: 'yyyy-mm', 
+	    selectedYear: 2020,
+	    startYear: 1900,
+	    finalYear: 2212
+	});
+
 	
 </script>
-<script>
-	// ************************************************************ 라벨출력 ************************************************************
-	$('#printBarcode').on('click', function() {
-		let labelToday = new Date();
-		console.log("라벨출력 printBarcode onClick 시작시간: " + labelToday);
-		
-		let trPrintList = new Array(); 	// 통합된 프린트할 데이터 배열
-		let columnList = new Array();	// 통합된 프린트할 컬럼 배열
-		let columnArr = new Array();	// 각 용지의 컬럼 배열
-		let paperSize = "";				// 용지 사이즈
-		
-		//예외처리
-		if ( !$('input[name=printList]').is(':checked') ) {
-			toastr.warning("인쇄할 항목을 선택해주세요.");
-			return false;
-		}
-		
-		$('input[name=printList]:checked').each(function(index, item) {
-			let subTrData = barcodeListTable.row($(this).attr("id")).data(); // 바코드 테이블 행	
-			let trPrintArr = new Array(); // 각 용지의 데이터 배열
-
-			let workChargrNm = "";	// 작업자
-			let outputQty = "";		// 생산량
-			let ordDate = "";		// 생산일자
-			let gongjungChk = "합격";	// 공정검사 확인
-			let jajuChk = "합격";		// 자주검사 확인
-			let okNgChk = "";		// 합불판정/출하검사확인
-			
-			//합불판정/출하검사확인
-		    if (subTrData.qaEval == "001" ) {
-		    	okNgChk = "합격";
-			} else if (subTrData.qaEval == "002" ) {
-				okNgChk = "불합격";
-			} else if (subTrData.qaEval == null ){
-				okNgChk = "미판정";
-			}
-
-			// 자재 바코드가 아닐 때만 실행
-			if (selectSpType != '004') {
-				$.ajax({
-			        url : '<c:url value="tm/listForLabel"/>',
-			        async : false,
-			        type : 'GET',
-			        data : {
-				        'barcodeNo' : function(){return subTrData.barcodeNo;},
-			        },
-			        success: function(res){
-				        let data = res.data;
-
-				        if (data != null) {
-					        workChargrNm = data.workChargrNm; //작업자
-					        outputQty = data.outputQty; //생산량
-					        ordDate = data.ordDate; //생산일자
-					        gongjungChk = (data.gongjungChk=='002') ? "불합격" : "합격"; //공정검사확인
-					        jajuChk = (data.jajuChk=='002') ? "불합격" : "합격"; //자주검사확인
-				        }
-				    }
-			    });
-			}
-		    
-			// 양식에 맞추어 컬럼 집어넣기
-			if ( selectSpType == '001' || selectSpType == '002' || selectSpType == '003' ) { // 제품, 상품, 반제품
-				paperSize = "productLabel";
-				columnArr = ["품목번호", "차종", "품명", "생산일자", "자주검사", "생산수량", "작업자", "공정검사 확인"];
-				
-				trPrintArr[0] = itemCd;
-				trPrintArr[1] = subTrData.itemModelNm;
-				trPrintArr[2] = itemNm;
-				trPrintArr[3] = moment(subTrData.inDate).format("YY/MM/DD");
-				trPrintArr[4] = jajuChk;
-				trPrintArr[5] = parseFloat(subTrData.realQty) + " " + spUnit;
-				trPrintArr[6] = workChargrNm;
-				trPrintArr[7] = gongjungChk;
-				trPrintArr[8] = subTrData.barcodeNo;
-			} else if (selectSpType == '004' && subTrData.locationCd == '006') { // 자재 바코드이면서 원자재 창고 라벨 
-				paperSize = "materialLabel";
-				columnArr = ["차종", "품목번호", "품명", "입고일자", "합부판정", "위치", "입고수량", "업체로트", "입고처"];
-
-				trPrintArr[9] = subTrData.itemModelNm;
-				trPrintArr[0] = itemCd;
-				trPrintArr[1] = itemNm;
-				trPrintArr[2] = moment(subTrData.inDate).format("YY/MM/DD");
-				trPrintArr[3] = okNgChk;
-				trPrintArr[4] = subTrData.areaNm + " / " + subTrData.floorNm;
-				trPrintArr[5] = parseFloat(subTrData.realQty) + " " + spUnit;
-				trPrintArr[6] = subTrData.lotNo;
-				trPrintArr[7] = subTrData.itemCusNm;
-				trPrintArr[8] = subTrData.barcodeNo;
-			} else if (selectSpType == '004') { // 자재 바코드이면서 공정 창고 라벨
-				paperSize = "materialLabel";
-				columnArr = ["차종", "품목번호", "품명", "입고일자", "합부판정", "위치", "잔량", "업체로트", "입고처"];
-
-				trPrintArr[9] = subTrData.itemModelNm;
-				trPrintArr[0] = itemCd;
-				trPrintArr[1] = itemNm;
-				trPrintArr[2] = moment(subTrData.inDate).format("YY/MM/DD");
-				trPrintArr[3] = okNgChk;
-				trPrintArr[4] = subTrData.floorNm;
-				trPrintArr[5] = parseFloat(subTrData.realQty) + " " + spUnit;
-				trPrintArr[6] = subTrData.lotNo;
-				trPrintArr[7] = subTrData.itemCusNm;
-				trPrintArr[8] = subTrData.barcodeNo;
-	        } 
-
-			trPrintList.push(trPrintArr);
-			columnList.push(columnArr);
-		})
-		
-		if (trPrintList.length > 0) {
-	    	labelPrint(trPrintList, columnList, paperSize);
-		}
-	});
-
-	
-	//Do printing...
-// 	function labelPrint(printList, columnList, paperSize) {
-// 	    sendJson(printList, columnList, paperSize);
-// 	}
-	
-// 	function sendJson(printList, columnList, paperSize) {
-	
-// 		var obj = {
-// 			printNo 	: 1,				// 출력할 프린터 번호
-// 			printCnt 	: printList.length, // 출력될 장수
-//             printLalCnt : 1,				// 출력될 라벨 수
-//             printOrder 	: 1,				// 남은 라벨 수
-//             data 		: printList,		// 데이터
-//             column		: columnList,		// 컬럼
-//             paperSize 	: paperSize,		// 용지 양식 이름
-//             company 	: "Daerim",			// 기업 이름
-//             reseverd6 	: "",
-//             reseverd7 	: ""
-// 		};
-// 		var send = JSON.stringify(obj);
-// 		//console.log(send);
-// 		sendMessage(send)
-// 	}
-
-	function labelPrint(printList, columnList, paperSize) {
-		for (var i = 0; i < printList.length; i++) {
-		    let cmds = {};
-		    let cmd = "";
-	
-			// 제품
-			if (paperSize == 'productLabel') {
-				cmd += "{D0520,0980,0500|}";
-				cmd += "{AY;+04,0|}";
-				cmd += "{AX;-020,+000,+00|}";
-				cmd += "{C|}";
-		
-				cmd += "{LC;0010,0035,0980,0110,1,5|}";
-				cmd += "{LC;0010,0035,0980,0180,1,5|}";
-				cmd += "{LC;0010,0035,0980,0250,1,5|}";
-				cmd += "{LC;0010,0035,0980,0320,1,5|}";
-				cmd += "{LC;0010,0035,0980,0485,1,5|}";
-				cmd += "{LC;0659,0184,0980,0380,1,5|}";
-		
-				cmd += "{LC;0155,0035,0155,0320,0,5|}";
-				cmd += "{LC;0655,0035,0655,0110,0,5|}";
-				cmd += "{LC;0480,0035,0480,0110,0,5|}";
-				cmd += "{LC;0480,0180,0480,0320,0,5|}";
-				cmd += "{LC;0655,0180,0655,0485,0,5|}";
-		
-				cmd += "{PV23;0015,0090,0040,0040,01,0,00,B="+columnList[i][0]+"|}";
-				cmd += "{PV23;0165,0090,0040,0040,01,0,00,B="+printList[i][0]+"|}";
-				cmd += "{PV23;0500,0090,0040,0040,01,0,00,B="+columnList[i][1]+"|}";
-				cmd += "{PV23;0670,0090,0040,0040,01,0,00,B="+printList[i][1]+"|}";
-				cmd += "{PV23;0015,0160,0040,0040,01,0,00,B="+columnList[i][2]+"|}";
-				cmd += "{PV23;0165,0160,0040,0040,01,0,00,B="+printList[i][2]+"|}";
-				cmd += "{PV23;0015,0230,0040,0040,01,0,00,B="+columnList[i][3]+"|}";
-				cmd += "{PV23;0165,0230,0040,0040,01,0,00,B="+printList[i][3]+"|}";
-				cmd += "{PV23;0500,0230,0040,0040,01,0,00,B="+columnList[i][4]+"|}";
-				cmd += "{PV23;0670,0230,0040,0040,01,0,00,B="+printList[i][4]+"|}";
-				cmd += "{PV23;0015,0300,0040,0040,01,0,00,B="+columnList[i][5]+"|}";
-				cmd += "{PV23;0165,0300,0040,0040,01,0,00,B="+printList[i][5]+"|}";
-				cmd += "{PV23;0500,0300,0040,0040,01,0,00,B="+columnList[i][6]+"|}";
-				cmd += "{PV23;0670,0300,0040,0040,01,0,00,B="+printList[i][6]+"|}";
-				cmd += "{PV23;0710,0365,0040,0040,01,0,00,B="+columnList[i][7]+"|}";
-				cmd += "{PV23;0770,0450,0040,0040,01,0,00,B="+printList[i][7]+"|}";
-				cmd += "{XB03;0120,0350,9,3,02,0,0100,+0000000001,000,1,00|}";
-				cmd += "{RB03;"+printList[i][8]+"|}";
-					
-				cmd += "{XS;I,0001,0002C4001|}";
-			};
-	
-			//자재
-			if (paperSize == 'materialLabel') {
-				cmd += "{AY;+04,0|}";
-				cmd += "{AX;-020,+000,+00|}";
-				cmd += "{C|}";
-				
-				cmd += "{LC;0010,0035,0980,0110,1,5|}";
-				cmd += "{LC;0010,0035,0980,0180,1,5|}";
-				cmd += "{LC;0010,0035,0980,0250,1,5|}";
-				cmd += "{LC;0010,0035,0980,0320,1,5|}";
-				cmd += "{LC;0010,0035,0980,0485,1,5|}";
-				
-				cmd += "{LC;0155,0035,0155,0320,0,5|}";
-				cmd += "{LC;0335,0180,0335,0320,0,5|}";
-				cmd += "{LC;0490,0035,0490,0110,0,5|}";
-				cmd += "{LC;0490,0180,0490,0320,0,5|}";
-				cmd += "{LC;0640,0035,0640,0110,0,5|}";
-				cmd += "{LC;0640,0180,0640,0320,0,5|}";
-				cmd += "{LC;0795,0180,0795,0320,0,5|}";
-				
-				cmd += "{PV23;0015,0090,0040,0040,01,0,00,B="+columnList[i][0]+"|}";
-				cmd += "{PV23;0165,0090,0040,0040,01,0,00,B="+printList[i][9]+"|}";
-				cmd += "{PV23;0500,0090,0040,0040,01,0,00,B="+columnList[i][1]+"|}";
-				cmd += "{PV23;0670,0090,0040,0040,01,0,00,B="+printList[i][0]+"|}";
-				cmd += "{PV23;0015,0160,0040,0040,01,0,00,B="+columnList[i][2]+"|}";
-				cmd += "{PV23;0170,0160,0040,0040,01,0,00,B="+printList[i][1]+"|}";
-				cmd += "{PV23;0015,0230,0040,0040,01,0,00,B="+columnList[i][3]+"|}";
-				cmd += "{PV23;0170,0230,0035,0035,01,0,00,B="+printList[i][2]+"|}";
-				cmd += "{PV23;0345,0230,0040,0040,01,0,00,B="+columnList[i][4]+"|}";
-				cmd += "{PV23;0517,0230,0040,0040,01,0,00,B="+printList[i][3]+"|}";
-				cmd += "{PV23;0650,0230,0040,0040,01,0,00,B="+columnList[i][5]+"|}";
-				cmd += "{PV23;0810,0230,0035,0035,01,0,00,B="+printList[i][4]+"|}";
-				cmd += "{PV23;0015,0300,0040,0040,01,0,00,B="+columnList[i][6]+"|}";
-				cmd += "{PV23;0170,0300,0035,0035,01,0,00,B="+printList[i][5]+"|}";
-				cmd += "{PV23;0345,0300,0040,0040,01,0,00,B="+columnList[i][7]+"|}";
-				cmd += "{PV23;0505,0300,0035,0035,01,0,00,B="+printList[i][6]+"|}";
-				cmd += "{PV23;0650,0300,0040,0040,01,0,00,B="+columnList[i][8]+"|}";
-				cmd += "{PV23;0810,0300,0035,0035,01,0,00,B="+printList[i][7]+"|}";
-				cmd += "{XB03;0160,0350,9,3,03,0,0100,+0000000001,000,1,00|}";
-				cmd += "{RB03;"+printList[i][8]+"|}";
-					    
-				cmd += "{XS;I,0001,0002C4001|}";
-			};
-			
-		    cmds.cmd = cmd; // 인쇄 명령어
-			cmds.action = ""; // 동작
-		    
-		    sendMessage(JSON.stringify(cmds)); // 전송
-		}
-	}
-	
-	//웹 서버를 접속한다.
-	var webSocket = new WebSocket("ws://localhost:9998");
-	// 웹 서버와의 통신을 주고 받은 결과를 출력할 오브젝트를 가져옵니다.
-	var messageTextArea = document.getElementById("installedPrinterName");
-	// 소켓 접속이 되면 호출되는 함수
-	webSocket.onopen = function(message){
-		toastr.success('인쇄 서버에 연결되었습니다.')
-		$('#wsStateView').text('연결됨');
-		$('#wsStateView').css('color','#19FF00');
-	};
-	// 소켓 접속이 끝나면 호출되는 함수
-	webSocket.onclose = function(message){
-		toastr.error('인쇄 서버가 종료되었습니다.')
-		$('#wsStateView').text('연결끊김');
-		$('#wsStateView').css('color','#FF0004');
-	};
-	// 소켓 통신 중에 에러가 발생되면 호출되는 함수
-	webSocket.onerror = function(message){
-		toastr.warning('현재 인쇄프로그램이 종료되어있습니다. 인쇄프로그램을 시작해주세요.')
-	};
-	// 소켓 서버로 부터 메시지가 오면 호출되는 함수.
-	webSocket.onmessage = function(message){
-		// 출력 area에 메시지를 표시한다.
-		console.log(message);
-	};
-	// 서버로 메시지를 전송하는 함수
-	function sendMessage(cmd){
-		if(webSocket.readyState == 1) {
-			let labelToday = new Date();
-			console.log("라벨출력 sendMessage() 시작시간: " + labelToday);
-			
-			webSocket.send(cmd);
-		} else {
-			toastr.error('인쇄 서버와의 연결을 확인해주세요.');
-			//webSocket = new WebSocket("ws://localhost:8181");
-		}
-	}
-
-</script>
-
 
 </body>
 </html>

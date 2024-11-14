@@ -1,610 +1,517 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
-<%@include file="../layout/body-top.jsp" %>
+<%@include file="../layout/body-top.jsp"%>
 
+<!-- .page-wrapper -->
 <div class="page-wrapper" id="page-wrapper">
 	<!--header ============================================================== -->
 	<header class="page-title-bar row">
 		<nav aria-label="breadcrumb" class="breadcrumb-padding">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">영업관리</a></li>
-				<li class="breadcrumb-item active">출하현황(사출)</li>
+				<li class="breadcrumb-item active">년도별 출고집계표</li>
 			</ol>
-		</nav> 
+		</nav>
 	</header>
 	<!-- #main============================================================== -->
 	<div class="container-fluid" id="main">
 		<div class="row table-wrap-hid">
 			<!--======================== .left-list ========================-->
-			<div class="left-list left-sidebar" id="left-list" style="width: 63%;">
-				<div class="card">
-					<!-- .table-responsive -->
+			<div class="left-list" id="left-list">
+				<div class="card"  style="margin-bottom:0px;">
+					<div class="row" style="margin-bottom:5px;">
+						&nbsp;&nbsp;&nbsp;&nbsp;<label class="input-label-sm">마감일</label>
+						<div class="form-group input-sub m-0 row">
+							<select class="custom-select" style="width: 150px;" id="chooseDate1" ></select>							
+						</div>						
+						&nbsp;&nbsp;&nbsp;<label class="input-label-sm">~</label>
+						<div class="form-group input-sub m-0 row">
+							<select class="custom-select" style="width: 150px;" id="chooseDate2" ></select>
+						</div>
+						&nbsp;&nbsp;
+						<button type="button" class="btn btn-primary" id="btnRetv">조회</button>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="input-label-sm">오더구분</label>
+						<select class="custom-select" style="width:70px;" id="orderGubun">
+				
+						</select>
+					</div>
+					<div class="card-header card-tab">
+						<ul class="nav nav-tabs card-header-tabs">
+							<li class="nav-item"><a class="nav-link active show" data-toggle="tab" id="tab1">거래처/품목별</a></li>
+							<li class="nav-item"><a class="nav-link" data-toggle="tab" id="tab2">오더구분별</a></li>			
+						</ul>
+					</div>
+					<br>
+				<!-- .table-responsive -->
+				<div id="View1">
 					<div class="table-responsive">
-						<table id="deliveryOrderAdmTable" class="table table-bordered main_table">
-							<colgroup>
-								<col width="15%">
-								<col width="10%">
-								<col width="15%">
-								<col width="20%">
-								<col width="25%">
-								<col width="10%">
-							</colgroup>
+						<table id="purchaseOutputHistTable" class="table table-bordered">
 							<thead class="thead-light">
+								<!--==========table thead 추가==========-->
 								<tr>
-									<th>고객사</th>
-									<th>출하일자</th>
-									<th>차종</th>
-									<th>품번</th>
-									<th>품명</th>
-									<th class="text-center">출하수량</th>
-									 <th class="text-center">단가</th>
-									<th class="text-center">금액</th> 
+									<th>년도</th>
+									<th>거래처</th>
+									<th>제품명</th>
+									<th>재질</th>		
+									<th>수주수량</th>
+									<th>수주금액</th>
+									<th>출고수량</th>
+									<th>출고금액</th>
+									<th>미출고수량</th>
+									<th>미출고금액</th>
+									<th>달성율(%)</th>			
 								</tr>
 							</thead>
+							<tfoot>
+								<tr style="background-color:#edacb1; color:red">
+									<td colspan="4" style="text-align: center">합계</td>					
+									<td colspan="" id="sumPoQty" style="text-align: right">0</td>															
+									<td colspan="" id="sumPoTotalPrice" style="text-align: right">0</td>
+									<td colspan="" id="sumOutputQty" style="text-align: right">0</td>
+									<td colspan="" id="sumOutputTotalPrice" style="text-align: right">0</td>
+									<td colspan="" id="sumReaminQty" style="text-align: right">0</td>
+									<td colspan="" id="sumReaminTotalPrice" style="text-align: right">0</td>
+									<td colspan="" id="sumAc" style="text-align: right">0%</td>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
-					<!-- /.table-responsive -->
 				</div>
-			</div>
-			<!-- /.left-list -->
-			<!--======================== .right-list ========================-->
-			<div class="right-list right-sidebar" id="myrSidenav" style="width: 36%;">
-				<!--상단 버튼 part-->
-				<div class="card" id="formBox">
-					<!--오른쪽 등록 부분 상단 버튼 영역-->
-					<div class="card-body col-sm-12 p-0">
-						<button type="button" class="btn btn-danger float-left mr-1" id="btnCancel">출하취소</button>
-					</div>
-					<div class="table-responsive" class="main_table">
-						<table id="deliveryOrderDtlTable" class="table table-bordered">
-							<colgroup>
-								<col width="5%">
-								<col width="25%">
-								<col width="20%">
-								<col width="25%">
-								<col width="25%">
-							</colgroup>
+				<div id="View2" class="d-none">
+					<div class="table-responsive">
+						<table id="purchaseOutputHistTable2" class="table table-bordered">
 							<thead class="thead-light">
-								<tr>
-									<th>
-										<input type="checkbox" id="checkAll" name="checkAll" style="width:1.1rem;height:1.1rem;">
-									</th>
-									<th>LOTNO</th>
-									<th class="text-center">출하수량</th>
-									<th>출하일자</th>
-									<th>출하요청번호</th>
+							<tr>
+									<th>년월</th>
+									<th>오더구분</th>
+									<th>수주수량</th>
+									<th>수주금액</th>
+									<th>출고수량</th>
+									<th>출고금액</th>
+									<th>미출고수량</th>
+									<th>미출고금액</th>
+									<th>달성율(%)</th>		
 								</tr>
 							</thead>
+							<tfoot>
+								<tr style="background-color:#edacb1; color:red">
+								<td colspan="2" style="text-align: center">합계</td>					
+									<td colspan="" id="sumPoQty3" style="text-align: right">0</td>															
+									<td colspan="" id="sumPoTotalPrice3" style="text-align: right">0</td>
+									<td colspan="" id="sumOutputQty3" style="text-align: right">0</td>
+									<td colspan="" id="sumOutputTotalPrice3" style="text-align: right">0</td>
+									<td colspan="" id="sumReaminQty3" style="text-align: right">0</td>
+									<td colspan="" id="sumReaminTotalPrice3" style="text-align: right">0</td>
+									<td colspan="" id="sumAc3" style="text-align: right">0%</td>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
-					<!-- /.table-responsive -->
 				</div>
+				<!-- /.table-responsive -->
 			</div>
 		</div>
-		<!-- /.row -->
+		<!-- /.left-list -->
 	</div>
 	<!-- / #main  -->
 </div>
 <!-- /.page-wrapper -->
-<style>
-</style>
-<%@include file="../layout/bottom.jsp" %>
+
+<%@include file="../layout/bottom.jsp"%>
+
 <script>
-
-//#feffd5
-	$("#left-width-btn").click(function() {
-		{
-			$("#left-list").animate({
-				width : "60%"
-			}, 200);
-			$("#arrow-left").animate({
-				display : "none"
-			}, 200);
-		}
-	});
-
-	let currentHref = "bssc0070";
-	let currentPage = $('.' + currentHref).attr('id');
-	
-
-	$('#' + currentPage).closest('.has-child', 'li').addClass(
-			'has-open has-active');
-	$('#' + currentPage).closest('.menu-item').addClass('has-active');
-	$(document).attr("title","출하현황(사출)"); 
-	
-	var serverDateFrom = "${serverDateFrom}";
-	var serverDateTo = "${serverDateTo}";
-	var serverDate = "${serverDateTo}";
-	let mainGubunVal='';
-	let itemCusVal = '';
-	let outDateVal = '';
-	let itemSeqVal = '';
-	let dataGubunVal = '';
-	let groupTypeByD="N";	//소계
-	let groupTypeByM="N";	//합계
-	let groupTypeByT="N";	//반출
-
-	let dealGubunList='001';
-	
-	var dealGubunCode = new Array();
-	<c:forEach items="${dealGubunList}" var="info">
-	var json = new Object();
-	json.baseCd = "${info.baseCd}";
-	json.baseNm = "${info.baseNm}";
-	dealGubunCode.push(json);
-	</c:forEach>
-
-	let sumAmt = 0;
-	let totalAmt = 0;
-
-	//출고의뢰등록 목록조회
-	let deliveryOrderAdmTable = $('#deliveryOrderAdmTable').DataTable({
-	    dom: "<'row'<'col-sm-12 col-md-9'l><'col-sm-12 col-md-3'f>>" +
-				"<'row'<'col-sm-12'tr>>" +
-				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>B",
-		language : lang_kor,	
-		paging : true,
-		info : true,
-		searching : true,
-		ordering : false,
-		processing : true,
-		autoWidth : false,
-		lengthChange : true,
-		pageLength : -1,
-		scrollY: "70vh",
-		ajax : {
-			url : '<c:url value="bs/deliveryOrderAdmTotalList"/>',
-			type : 'GET',
-			data : {				
-				'startDate'		: function(){ return serverDateFrom.replace(/-/g, ''); },
-	           	'endDate'		: function(){ return serverDateTo.replace(/-/g, ''); },
-	           	'itemCus'		: function(){ return itemCusVal; },
-	           	'doStatus003'	: function(){ return 'Y'; },
-	         	'groupTypeByD'	: function(){ return groupTypeByD; },
-	         	'groupTypeByM'	: function(){ return groupTypeByM; },
-	         	'groupTypeByT'	: function(){ return groupTypeByT; },
-	         	'mainGubun' 	: '001'
-			}	
-		},	
-		rowId : '',
-		columns : [ 
-			{data :'itemCusNm'},
-			{data :'outDate',
-				render : function(data, type, row, meta){
-					return moment(data).format("YYYY-MM-DD");
-				}
-			},
-			{data :'itemModelNm'},
-			{data :'itemCd'},
-			{data :'itemNm'},
-			{
-				data :'outQty',
-				render : function(data, type, row, meta){
-					return rmDecimal(Math.round(data));
-				},'className':'text-right'
-			},
-			{
-				data :'outUnitCost',
-				render : function(data, type, row, meta){
-					if(row['groupType']=="기본"){
-						return rmDecimal(data!=null?data:"0");
-					}else{
-						return '-';
-					}
-				},'className':'text-right'
-			},
-			{
-				data :'outAmt',
-				render : function(data, type, row, meta){
-					let qty=0;
-					if(row['groupType']=="기본"){
-						qty = rmDecimal(Math.round(data));
-						sumAmt += parseFloat(data);
-						totalAmt += parseFloat(data);
-					}else if(row['groupType']=="소계"){
-						qty = rmDecimal(Math.round(sumAmt));
-						sumAmt=0;
-					}else{
-						qty = rmDecimal(Math.round(totalAmt));
-						totalAmt=0;
-					}
-					return qty;
-				},'className':'text-right'
-			} 
-		],
-		columnDefs: [
-			{ "visible": false, "targets": [6,7] }
-        ],
-		drawCallback: function() {
-			let api = this.api();
-			let data = api.data();
-			for(var i = 0; i < data.length; i++) {
-
-				///합계 행
-				if(deliveryOrderAdmTable.row(i).data().groupType=="합계"){
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(1).addClass('d-none');
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(2).addClass('d-none');
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(3).addClass('d-none');
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(4).addClass('d-none');
-					
-					$('#deliveryOrderAdmTable tbody tr').eq(i).css('background','#a9c9f0').css('font-weight','bold').css('text-align','left');
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(0).text('전체 합계')
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(0).attr('colspan','5')
-
-				}
-				
-				//소계 행
-				if(deliveryOrderAdmTable.row(i).data().groupType=="소계"){
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(1).addClass('d-none');
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(2).addClass('d-none');
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(3).addClass('d-none');
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(4).addClass('d-none');
-					
-					$('#deliveryOrderAdmTable tbody tr').eq(i).css('background','#d9ffe4').css('font-weight','bold');
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(0).text(''+deliveryOrderAdmTable.row(i-1).data().itemNm+'  합계')
-					$('#deliveryOrderAdmTable tbody tr').eq(i).find('td').eq(0).attr('colspan','5') 
-				}    
-			}
-		},
-	    buttons: [
-	    	'copy', {
-                extend: 'excel',
-                title: '출하현황(사출)',
-                className : 'btn-secondary',
-            	init : function ( api, node, config ) {
-					$(node).addClass('btn-secondary');
-					$(node).text('Excel');
-				},
-                customize : function (xlsx) {
-			 		let sheet = xlsx.xl.worksheets['sheet1.xml'];
-			 		let col = $('col', sheet);
-			 		
-			 		col.each(function () {
-			 	          $(this).attr('width', 20);
-			 	    });
-
-			 		let table = $('#deliveryOrderAdmTable').DataTable();
-			 		let data = table.rows().data();
-			 		let row,message,bgColor='';
-			 		
-			 	    for(var i=0; i<data.count(); i++){
-			 	    	//소계
-						if(table.row(i).data().groupType=="소계"){
-							row=i+3;
-							message = table.row(i-1).data().itemNm+' 합계';
-							bgColor = '15';
-							
-							var mergeCells = $('mergeCells', sheet);
-							mergeCells[0].appendChild( _createNode( sheet, 'mergeCell', {
-		                      	attr: {
-		                       		ref: ['A'+row+':E'+row]
-		                       	}
-		                    })); 
-
-							 console.log("start row:+"+row)
-							$('c[r=H'+(row)+'] t', sheet).text("전체금액");
-							 console.log("end row:+"+row)
-		                //합계    
-						}else if(table.row(i).data().groupType=="합계"){
-							row=i+3;
-							message = '전체 합계';
-							bgColor = '20';
-							
-							var mergeCells1 = $('mergeCells', sheet);
-							mergeCells1[0].appendChild( _createNode( sheet, 'mergeCell', {
-		                      	attr: {
-		                       		ref: ['A'+row+':E'+row]
-		                       	}
-		                    })); 
-						}
-						$('c[r=A'+(row)+'] t', sheet).text(message);
-		                $('row:eq('+(row-1)+') c', sheet).attr('s',''+bgColor+'');
-					}   
-
-				}
-            }, 'print'                                
-	    	
-	    ],
-	});
-
-    var html1 = '<div class="row">';
-    html1 += '&nbsp;&nbsp;<label class="input-label-sm">출하일자</label><div class="form-group input-sub m-0 row">';
-    html1 += '<input class="form-control" style="width:97px;" type="text" id="outDateFrom" name="outDateFrom" disabled/>';
-    html1 += '<button onclick="fnPopUpCalendar(outDateFrom,outDateFrom,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="outDateFromFromCalendar" type="button">';
-    html1 += '<span class="oi oi-calendar"></span>';
-    html1 += '</button>'; 
-    html1 += '</div>';
-    html1 += '&nbsp;&nbsp;~ &nbsp;<div class="form-group input-sub m-0 row">';
-    html1 += '<input class="form-control" style="width:97px;" type="text" id="outDateTo" name="outDateTo" disabled />';
-    html1 += '<button onclick="fnPopUpCalendar(outDateTo,outDateTo,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="outDateToToCalendar" type="button">';
-    html1 += '<span class="oi oi-calendar"></span>';
-    html1 += '</button>'; 
-    html1 += '</div>&nbsp;&nbsp;&nbsp;&nbsp;<label class="input-label-sm">고객사</label><div class="form-group input-sub m-0 row">';  
-    html1 += '<input type="text" class="form-control" id="itemCusNm" name="itemCusNm" style="width:130px" disabled>';
-    html1 += '<input type="hidden" class="form-control" id="itemCus" name="itemCus" disabled>';
-    
-  	html1 += '<button type="button" id="btnItemCus" class="btn btn-primary input-sub-search" onClick="itemCusSelectInCorpCd()">';
-  	html1 += '<span class="oi oi-magnifying-glass"></span>';
-  	html1 += '</button></div>';
-  	html1 += '<button type="button" id="itemCusDelete" class="btn closeBtn" onclick="itemCusDelete();">';
-    html1 += '<i class="mdi mdi-close"></i>';
-    html1 += '</button>';
-  	html1 += '<div class="form-check form-check-inline">';
-	html1 += '  <input class="form-check-input" type="checkbox" id="groupingOption1">';
-	html1 += '  <label class="form-check-label" for="groupingOption1">소계</label>';
-	html1 += '</div>';
-	html1 += '<div class="form-check form-check-inline">';
-	html1 += '  <input class="form-check-input" type="checkbox" id="groupingOption2">';
-	html1 += '  <label class="form-check-label" for="groupingOption2">합계</label>';
-	html1 += '</div>';
-	html1 += '<div class="form-check form-check-inline">';
-	html1 += '  <input class="form-check-input" type="checkbox" id="groupingOption3">';
-	html1 += '  <label class="form-check-label" for="groupingOption3">반출</label>';
-	html1 += '</div>';
-  	
-    html1 += '<button type="button"  class="btn btn-primary" id="btnRetv">조회</button>';
-    html1 += '</div>';
-    
-	$('#deliveryOrderAdmTable_length').html(html1);
-	$('#outDateFrom').val(serverDateFrom);
-	$('#outDateTo').val(serverDateTo);
-
-	function itemCusDelete(){
-		$('#itemCusNm').val('');
-		$('#itemCus').val('');
-		itemCusVal = '';
+	let getParam = "<c:out value="${param.id}" />";
+	let menuAuth = 'bssc0070';
+	let currentHref = 'bssc0070';
+	let currentPage = $('.'+currentHref).attr('id');
+	if(getParam != ""){
+		currentPage = $('#${param.id}').attr('id');
 	}
+	$('#'+currentPage).closest('.has-child','li').addClass('has-open has-active');
+	$('#'+currentPage).closest('.menu-item').addClass('has-active'); 
+	$(document).attr("title","년도별 출고집계표");
+    let viewIdx;
+    let sideView = 'add';
+	var outputHistDate =  "${serverDate}";
+	var outputHistDateFrom = "${serverDateFrom}";   
+	var outputHistDateTo = "${serverDate}";
+	var poGubunCd =  "";
+	var tapTemp = 1; 
+	 $(document).ready(function(){
+         setDateBox();
+     }); 
+  	// select box 연도 , 월 표시
+   function setDateBox(){
+       var dt = new Date();
+       var year = "";
+       var com_year = dt.getFullYear();
+       // 발행 뿌려주기
+      // $("#chooseDate1").val(com_year);
+       // 올해 기준으로 -1년부터 +5년을 보여준다.
+       for(var y = (com_year-3); y <= (com_year+5); y++){
+           $("#chooseDate1").append("<option value='"+ y +"'>"+ y + " 년" +"</option>");
+       }
+      // $("#chooseDate2").append("<option value=''>년도</option>");
+       // 올해 기준으로 -1년부터 +5년을 보여준다.
+       for(var y = (com_year-3); y <= (com_year+5); y++){
+           $("#chooseDate2").append("<option value='"+ y +"'>"+ y + " 년" +"</option>");
+       }
+       // 월 뿌려주기(1월부터 12월)
+       $("#chooseDate1").val(com_year);
+       $("#chooseDate2").val(com_year);
+   }
+	   
+	//공통코드 시작
+    var poGubunCode=new Array();
+    <c:forEach items="${poGubunCd}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseCdNm="${info.baseCdNm}";
+		poGubunCode.push(json);
+    </c:forEach>
 
-	//조회버튼 클릭시
-	$('#btnRetv').on('click', function() {
-		serverDateFrom =  $('#outDateFrom').val();
-		serverDateTo =  $('#outDateTo').val();
-		itemCusVal =  $('#itemCus').val();
-
-		//소계/합계 옵션
-		if($('#groupingOption1').is(':checked')){
-			groupTypeByD="Y"
-        }else{
-        	groupTypeByD="N"
-        }
-
-		if($('#groupingOption2').is(':checked')){
-			groupTypeByM="Y"
-        }else{
-        	groupTypeByM="N"
-        }
-
-		if ( $('#groupingOption3').is(':checked') ) {
-			groupTypeByT = "Y"
-        } else {
-        	groupTypeByT = "N"
-        }
-
-		deliveryOrderAdmTable.order( [] ).draw();
-		$('#deliveryOrderAdmTable').DataTable().ajax.reload( function () {});
-
-    });	
+    var pageCountArray=new Array();	//pageCount
+    <c:forEach items="${pageCount}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCdAbbr}";
+		json.baseCdNm="${info.baseCdNm}";
+		pageCountArray.push(json);
+    </c:forEach>
+	selectBoxAppend(poGubunCode, "orderGubun", "", "1");
+  	//공통코드 종료
+	pageCountArray.sort(function(a, b) {
+	  return a.baseCd - b.baseCd;
+	});
 	
-	$('#deliveryOrderAdmTable tbody').on('click','tr',function(){
-		if ($(this).hasClass('selected')) {
-// 			$(this).removeClass('selected');
-		} else {
-			$('#deliveryOrderAdmTable').DataTable().$('.selected').removeClass('selected');
-			$(this).addClass('selected');
-		}
-
-		outDateVal = deliveryOrderAdmTable.row(this).data().outDate;
-		itemSeqVal = deliveryOrderAdmTable.row(this).data().itemSeq;
-		itemCusVal = deliveryOrderAdmTable.row(this).data().itemCus;
-		dataGubunVal = deliveryOrderAdmTable.row(this).data().dataGubun == 'D' ? '!=' : '='; //부등호
-		
-		if ( Number(deliveryOrderAdmTable.row(this).data().outQty) >= 0 ) { //TB_DELIVERY_ORDER_DTL 에서 가져온 것이면
-			$('#btnCancel').css("visibility", "visible");
-		} else { //TB_TAKEOFF_ADM 에서 가져온 것이면
-			$('#btnCancel').css("visibility", "hidden");
-		}
-
-		$('#deliveryOrderDtlTable').DataTable().ajax.reload(function(){});
-	});
-
-
-	//출고의뢰등록 상세조회
-	let deliveryOrderDtlTable = $('#deliveryOrderDtlTable').DataTable({
-	    dom: "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4'f>>" +
-				"<'row'<'col-sm-12'tr>>" +
-				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>>",
-		language : lang_kor,	
-		destroy : true,	
-		paging : true,
-		searching : false,
-		info : true,
-		ordering : true,
-		processing : true,
-		autoWidth : false,
-		lengthChange : false,
-		scrollY: "70.5vh",
-		pageLength : -1,
-		ajax : {
-			url : '<c:url value="bs/deliveryOrderAdmDetailList"/>',
-			type : 'GET',
-			data : {				
-	            'mainGubun'	: function(){ return "001" },
-	            'outDate'	: function(){ return outDateVal; },
-	            'itemSeq'	: function(){ return itemSeqVal; },
-	            'itemCus'	: function(){ return itemCusVal; },
-	            'dataGubun'	: function(){ return dataGubunVal; },
-			}	
-		},	
-		rowId : '',
-		columns : [ 
-			{ //체크박스
-				render : function(data, type, row, meta){
-					return '<input type="checkbox" name="check" style="width:1.1rem;height:1.1rem;" data-doNo='+row['doNo']+' data-doSeq='+row['doSeq']+' data-doNoSub='+row['doNoSev']+' data-lotNo='+row['lotNo']+' data-outQty='+row['outQty']+' data-itemSeq='+row['itemSeq']+' />';
-				}, "className" : "text-center"
-			},
-			{ data :'lotNo', "className" : "text-center" }, //LOTNO
-			{ //출하수량
-				data :'outQty', 'className':'text-right',
-				render : function(data, type, row, meta){
-					return data != null ? rmDecimal(data) : '';
-				}
-			},
-			{ //출하일자
-				data :'outDate', "className" : "text-center",
-				render : function(data, type, row, meta){
-					return data != null && data != '' ? moment(data).format('YYYY-MM-DD') : '';
-				}
-			},
-			{ data :'doNo', "className" : "text-center" }, //출하요청번호
-		],
-		columnDefs : [],
-	    order: [],
-	    buttons: [],
-	});
-
-	//전체 선택 클릭시
-	$('#checkAll').on('click',function(){
-		if($('#checkAll').is(':checked')){
-			$('input[name=check]').prop('checked',true);
+	var pageCd = new Array();
+	var pageNm = new Array();
+	
+	for(var i=0; i<=pageCountArray.length; i++){
+		if(i==0){
+			pageCd.push(-1);
+			pageNm.push("All");
 		}else{
-			$('input[name=check]').prop('checked',false);
+			pageCd.push(pageCountArray[(i-1)].baseCd);
+			pageNm.push(pageCountArray[(i-1)].baseCdNm);
 		}
-	});
-
-	//출하취소버튼 클릭시
-	$('#btnCancel').on('click',function(){
-		if(deliveryOrderDtlTable.data().count()<0){
-			toastr.warning("출하취소할 데이터가 없습니다.");
-			return false;
+	}
+    // 목록
+    $.fn.dataTable.ext.errMode = 'none';
+	let purchaseOutputHistTable = $('#purchaseOutputHistTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+		if(techNote == 7) {
+			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+			location.href = "/";
 		}
-
-		if(!$('input[name=check]').is(':checked')){
-			toastr.warning("출하취소할 항목을 선택해주세요.");
-			return false;
-		}
-		
-		$('#deleteSmallModal').modal('show');
-	});
-
-	//출하취소버튼 클릭시
-	$('#btnDeleteY').on('click',function(){
-		var dataArray = new Array();
-		
-		$('input[name=check]:checked').each(function(index,item){			
-			
-			var rowData = new Object();
-			rowData.doNo = $(this).attr('data-doNo');
-			rowData.doSeq = $(this).attr('data-doSeq');
-			rowData.doNoSub = $(this).attr('data-doNoSub');
-			rowData.lotNo = $(this).attr('data-lotNo');
-			rowData.outQty = $(this).attr('data-outQty');
-			rowData.itemSeq = $(this).attr('data-itemSeq');
-	        dataArray.push(rowData);
-	        console.log(rowData);
-			
-		});
-		
-		$.ajax({
-			url : '<c:url value="bs/deliveryOrderAdmDetailDelete"/>',
-			type : 'POST',
-			datatype: 'json',
-			data: JSON.stringify(dataArray),
-			contentType : "application/json; charset=UTF-8",
-			beforeSend : function(){
-				$('#my-spinner').show();
-			},
-			success : function(res) {
-				if (res.result == 'ok') {
-					toastr.success("출하취소 되었습니다.");
-					$('#deliveryOrderAdmTable').DataTable().ajax.reload(function(){});
-					$('#deliveryOrderDtlTable').DataTable().ajax.reload(function(){});
-					$('input[name=checkAll]').prop("checked",false);
-				}else{
-					toastr.error(res.message);
+	}).DataTable({
+		dom: "<'row'<'col-sm-12 col-md-10'l><'col-sm-12 col-md-2'f>>" +
+		"<'row'<'col-sm-12'tr>>" +
+		"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B", 
+        language: lang_kor,
+        paging: true,
+        info: true,
+        ordering: false,
+        processing: true,
+        autoWidth: false,
+        scrollX : false,
+        lengthChange : true,
+        scrollY : "58vh",
+        scrollCollapse: true,
+ //       pageLength: 18,
+        lengthMenu : [ pageCd, pageNm ],
+        ajax: {
+            url: '<c:url value="/bs/purchaseOrderDealGoodsOutputYear"/>',
+            type: 'GET',
+            data: {
+            	'menuAuth'	 : menuAuth,
+	           	'outputHistDateFrom': function() { return outputHistDateFrom.substring(0,5).replace(/-/g, ''); },
+	           	'outputHistDateTo': function() { return outputHistDateTo.substring(0,5).replace(/-/g, ''); },
+	           	'poGubunCd': function() { return poGubunCd; },                
+            },
+            /*
+            success : function(res) {
+                console.log(res);
+            }
+            */
+        },
+        rowId: 'poNo',
+        columns: [
+        	{ data: 'poDate',
+				render: function(data, type, row) {
+						
+						return moment(data).format("YYYY");
+										
 				}
+            },
+            { data: 'dealCorpNm',            	
+				render: function(data, type, row) {
+					if(row['dealCorpCd']=='99999'){	
+						return "<span class='font-blue' >년소계</span>";
+					} else{
+						return data;
+					}
+					
+				}
+			 },
+			{ data: 'goodsNm' },
+	        { data: 'qutyNm' },
+	        
+            { data: 'poQty' }, 
+            { data: 'totalPrice1' },
+            { data: 'outputQty' }, 
+            { data: 'totalPrice2' },
+            { data: 'remainQty' }, 
+            { data: 'totalPrice3' },
+            {             	          	
+				render: function(data, type, row) {					
+					var result = row['outputQty'] / row['poQty'] * 100;
+					return addCommas(result.toFixed(1)) + '%';
+				}
+			 },          
+                   
+        ],
+        columnDefs: [
+        	{ targets: [4,5,6,7,8,9], render: $.fn.dataTable.render.number( ',' ) },
+        	{ targets: [4,5,6,7,8,9,10], className: 'text-right-td' },
+        ],
+       
+        buttons: [
+            {
+                extend: 'copy',
+                title: '년도별 출고집계표(거래처/품목)',
+            },
+            {
+                extend: 'excel',
+                title: '년도별 출고집계표(거래처/품목)',
+            },
+            {
+                extend: 'print',
+                title: '년도별 출고집계표(거래처/품목)',
+            },
+        ],
+        drawCallback: function () {
+        	$('#purchaseOutputHistTable tfoot').remove();
+			//전역변수들
+        	var sumPoTotalPrice      = 0 ;
+			var sumOutputTotalPrice  = 0 ;
+			var sumReaminTotalPrice	= 0	 ;	
+			var sumPoQty             = 0 ;
+			var sumOutputQty         = 0 ;
+			var sumReaminQty         = 0 ;
+			var sumAc                = 0 ;
+	
+			sumPoTotalPrice =  ($('#purchaseOutputHistTable').DataTable().column(5,{ page: 'all'} ).data().sum() / 2);
+			sumOutputTotalPrice =  ($('#purchaseOutputHistTable').DataTable().column(7,{ page: 'all'} ).data().sum() / 2);
+			sumReaminTotalPrice =  ($('#purchaseOutputHistTable').DataTable().column(9,{ page: 'all'} ).data().sum() / 2);
 
-				$('#my-spinner').hide();
-				$('#deleteSmallModal').modal('hide');
+			sumPoQty =  ($('#purchaseOutputHistTable').DataTable().column(4,{ page: 'all'} ).data().sum() / 2);  
+			sumOutputQty =  ($('#purchaseOutputHistTable').DataTable().column(6,{ page: 'all'} ).data().sum() / 2);  			
+			sumReaminQty =  ($('#purchaseOutputHistTable').DataTable().column(8,{ page: 'all'} ).data().sum() / 2);  
+
+			sumAc = parseFloat(sumOutputQty) / parseFloat(sumPoQty) * 100;
+			sumAc = addCommas(sumAc.toFixed(1)) + "%";
+			
+			$('#sumPoTotalPrice').text(addCommas(sumPoTotalPrice.toFixed(0)));	
+			$('#sumOutputTotalPrice').text(addCommas(sumOutputTotalPrice.toFixed(0)));	
+			$('#sumReaminTotalPrice').text(addCommas(sumReaminTotalPrice.toFixed(0)));	
+			$('#sumPoQty').text(addCommas(sumPoQty.toFixed(0)));
+			$('#sumOutputQty').text(addCommas(sumOutputQty.toFixed(0)));
+			$('#sumReaminQty').text(addCommas(sumReaminQty.toFixed(0)));
+			$('#sumAc').text(sumAc);
+
+			$('#purchaseOutputHistTable tbody tr').each(function(){
+			 	
+			 	if($(this).find('td').eq(1).text() == '년소계') {
+					$(this).css('background-color','#aed3ec');
+					$(this).css('color','blue');
+			 	}	
+			});
+		
+        }
+    });
+
+	  $.fn.dataTable.ext.errMode = 'none';
+		let purchaseOutputHistTable2 = $('#purchaseOutputHistTable2').on( 'error.dt', function ( e, settings, techNote, message ) {
+			if(techNote == 7) {
+				toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+				location.href = "/";
 			}
-		});		
+		}).DataTable({
+			dom: "<'row'<'col-sm-12 col-md-10'l><'col-sm-12 col-md-2'f>>" +
+			"<'row'<'col-sm-12'tr>>" +
+			"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",   
+	        language: lang_kor,
+	        paging: true,
+	        info: true,
+	        ordering: false,
+	        processing: true,
+	        autoWidth: false,
+	        scrollX : false,
+	        lengthChange : true,
+	        scrollY : "58vh",
+	        scrollCollapse: true,
+	 //       pageLength: 18,
+	        lengthMenu : [ pageCd, pageNm ],
+	        ajax: {
+	            url: '<c:url value="/bs/purchaseOrderOrderGubunOutputYear"/>',
+	            type: 'GET',
+	            data: {
+	            	'menuAuth'	 : menuAuth,
+		           	'outputHistDateFrom': function() { return outputHistDateFrom.substring(0,5).replace(/-/g, ''); },
+		           	'outputHistDateTo': function() { return outputHistDateTo.substring(0,5).replace(/-/g, ''); },
+		           	'poGubunCd': function() { return poGubunCd; },                
+	            },
+	            /*
+	            success : function(res) {
+	                console.log(res);
+	            }
+	            */
+	        },
+	        rowId: 'poNo',
+	        columns: [
+	        	 { data: 'poDate',
+						render: function(data, type, row) {
+							if(row['poGubunCd'] != '9999999'){
+								
+								return moment(data).format("YYYY");
+							} else{
+								
+								return moment(data).format("YYYY");
+							}
+								
+												
+						}
+		            },
+		            { data: 'poGubunNm',            	
+						render: function(data, type, row) {
+							if(row['poGubunCd']=='9999999'){	
+								return "<span class='font-blue' >년소계</span>";
+							} else{
+								return data;
+							}
+							
+						}
+					 },
+			            { data: 'poQty' }, 
+			            { data: 'totalPrice1' },
+			            { data: 'outputQty' }, 
+			            { data: 'totalPrice2' },
+			            { data: 'remainQty' }, 
+			            { data: 'totalPrice3' },
+			            {             	          	
+							render: function(data, type, row) {					
+								var result = row['outputQty'] / row['poQty'] * 100;
+								return addCommas(result.toFixed(1)) + '%';
+							}
+						 },  
+	       
+	            
+				//{ data: 'deliveryDealCorpNm' },
+	                   
+	        ],
+	        columnDefs: [
+	        	{ targets: [2,3,4,5,6,7], render: $.fn.dataTable.render.number( ',' ) },
+	        	{ targets: [2,3,4,5,6,7,8], className: 'text-right-td' },
+	        ],
+	       
+	        buttons: [
+	            {
+	                extend: 'copy',
+	                title: '년도별 출고집계표(오더구분별)',
+	            },
+	            {
+	                extend: 'excel',
+	                title: '년도별 출고집계표(오더구분별)',
+	            },
+	            {
+	                extend: 'print',
+	                title: '년도별 출고집계표(오더구분별)',
+	            },
+	        ],
+	        drawCallback: function () {
+	        	$('#purchaseOutputHistTable2 tfoot').remove();
+				//전역변수들
+	        	sumPoTotalPrice =  ($('#purchaseOutputHistTable2').DataTable().column(3,{ page: 'all'} ).data().sum() / 2);
+				sumOutputTotalPrice =  ($('#purchaseOutputHistTable2').DataTable().column(5,{ page: 'all'} ).data().sum() / 2);
+				sumReaminTotalPrice =  ($('#purchaseOutputHistTable2').DataTable().column(7,{ page: 'all'} ).data().sum() / 2);
+
+				sumPoQty =  ($('#purchaseOutputHistTable2').DataTable().column(2,{ page: 'all'} ).data().sum() / 2);  
+				sumOutputQty =  ($('#purchaseOutputHistTable2').DataTable().column(4,{ page: 'all'} ).data().sum() / 2);  			
+				sumReaminQty =  ($('#purchaseOutputHistTable2').DataTable().column(6,{ page: 'all'} ).data().sum() / 2);  
+
+				sumAc = parseFloat(sumOutputQty) / parseFloat(sumPoQty) * 100;
+				sumAc = addCommas(sumAc.toFixed(1)) + "%";
+				
+				$('#sumPoTotalPrice3').text(addCommas(sumPoTotalPrice.toFixed(0)));	
+				$('#sumOutputTotalPrice3').text(addCommas(sumOutputTotalPrice.toFixed(0)));	
+				$('#sumReaminTotalPrice3').text(addCommas(sumReaminTotalPrice.toFixed(0)));	
+				$('#sumPoQty3').text(addCommas(sumPoQty.toFixed(0)));
+				$('#sumOutputQty3').text(addCommas(sumOutputQty.toFixed(0)));
+				$('#sumReaminQty3').text(addCommas(sumReaminQty.toFixed(0)));
+				$('#sumAc3').text(sumAc);
+
+				$('#purchaseOutputHistTable2 tbody tr').each(function(){
+				 	
+				 	if($(this).find('td').eq(1).text() == '년소계') {
+						$(this).css('background-color','#aed3ec');
+						$(this).css('color','blue');
+				 	}	
+				});
+	        }
+	    });
+
+	$('#chooseDate1').val(moment(outputHistDateFrom).format("YYYY-MM"));
+	$('#chooseDate2').val(moment(outputHistDateTo).format("YYYY-MM"));
+
+    // 보기
+    $('#purchaseOutputHistTable tbody').on('click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            //$(this).removeClass('selected');
+        } else {
+        	$('#purchaseOutputHistTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+
+    $('#btnRetv').on('click', function() {
+    	outputHistDateFrom =  $('#chooseDate1').val();
+    	outputHistDateTo=  $('#chooseDate2').val();
+		poGubunCd =  $('#orderGubun').val();   
+		$('#purchaseOutputHistTable').DataTable().ajax.reload( function () {});
+		$('#purchaseOutputHistTable2').DataTable().ajax.reload( function () {});
+    });	
+
+	$('#tab1').click(function() {
+		$('#View1').removeClass("d-none");
+		$('#View2').addClass("d-none");
+		tapTemp = 1;
+		$('#purchaseOutputHistTable').DataTable().ajax.reload();
+		
+	});
+	
+	$('#tab2').click(function() {
+		$('#View1').addClass("d-none");
+		$('#View2').removeClass("d-none");
+		tapTemp = 2;
+		$('#purchaseOutputHistTable2').DataTable().ajax.reload();
 	});
 
-	//공급사 팝업 시작
-	let dealCorpPopUpTable4;
-	function itemCusSelectInCorpCd() {
-		if (dealCorpPopUpTable4 != null && dealCorpPopUpTable4 != 'undefined') {
-			dealCorpPopUpTable4.destroy();
+	$('#orderGubun').change(function() {
+		poGubunCd =  $('#orderGubun').val();
+		if (tapTemp == 1) {
+			$('#purchaseOutputHistTable').DataTable().ajax.reload();
+			$('#purchaseOutputHistTable2').DataTable().clear().draw();
+		} else if(tapTemp == 2) {
+			$('#purchaseOutputHistTable1').DataTable().clear().draw();
+			$('#purchaseOutputHistTable2').DataTable().ajax.reload();
 		}
-		dealCorpPopUpTable4 = $('#dealCorpPopUpTable4').DataTable({	
-			dom : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>"
-					+ "<'row'<'col-sm-12'tr>>"
-					+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-			language : lang_kor,
-			paging : true,
-			info : true,
-			ordering : true,
-			processing : true,
-			autoWidth : false,
-			scrollX : false,
-			lengthChange : true,
-			async : false,
-			pageLength : 15,
-			ajax : {
-				url : '<c:url value="/bm/dealCorpDataList"/>',
-				type : 'GET',
-				data : {
-					'dealGubun' :  function(){return dealGubunList;},
-				},
-			},
-			rowId : 'dealCorpSeq',
-			columns : [
-				{ data : 'dealCorpNm' },
-				{ data : 'dealCorpCd' },
-				{ data : 'presidentNm' },
-				{ data : 'repreItem' },
-				{ data : 'corpNo' },
-			],
-			columnDefs : [ {
-				"defaultContent" : "-",
-				"targets" : "_all",
-				"className" : "text-center"
-			} ],
-			order : [ [ 0, 'asc' ] ],
-			buttons : [],
-		});
-
-		let html2 = '<div class="row">';
-		html2 += '<label class="input-label-sm">거래구분</label>';
-		html2 += '<div class="form-group input-sub m-0">';
-		html2 += '<select class="custom-select" id="dealGubunOption" onChange="dealOnchange()">';
-		html2 += '</select></div>&nbsp;&nbsp;&nbsp;';
-		html2 += '</div>';
-
-		$('#dealCorpPopUpTable4_length').html(html2);
-		selectBoxAppend(dealGubunCode, "dealGubunOption", '001', "1");
-		
-		$('#dealCorpPopUpTable4 tbody').on('click', 'tr', function() {
-			var data = dealCorpPopUpTable4.row(this).data();
-			$('#itemCus').val(data.dealCorpCd);
-			$('#itemCusNm').val(data.dealCorpNm);
-			itemCusVal =  data.dealCorpCd;
-			$('#dealCorpPopUpModal4').modal('hide');
-			$('#deliveryOrderAdmTable').DataTable().ajax.reload( function () {});
-		});
-		
-		$('#dealCorpPopUpModal4').modal('show');
-	}
-
-	function dealOnchange(){
-		dealGubunList = $("#dealGubunOption option:selected").val();
-		$('#dealCorpPopUpTable4').DataTable().ajax.reload(function(){});
-	}
-
+    });
+    
 </script>
 
 </body>
 </html>
+

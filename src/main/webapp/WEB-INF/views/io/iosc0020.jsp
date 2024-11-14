@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
-
 
 <%@include file="../layout/body-top.jsp" %>
 
@@ -12,356 +12,547 @@
 	<header class="page-title-bar row">
 		<nav aria-label="breadcrumb" class="breadcrumb-padding">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="#">구매자재관리</a></li>
-				<li class="breadcrumb-item active">발주현황</li>
+				<li class="breadcrumb-item"><a href="#">입출고관리</a></li>
+				<li class="breadcrumb-item active">자재 입고(바코드)</li>
 			</ol>
 		</nav>
 	</header>
 	<!-- #main============================================================== -->
 	<div class="container-fluid" id="main">
-		<div class="row table-wrap-hid">
+		<div class="row table-wrap-hid">	
 			<!--======================== .left-list ========================-->
 			<div class="left-list" id="left-list">
 				<!-- .table-responsive -->
 				<div class="table-responsive">
-					<table id="purchaseOrderAdmTable" class="table table-bordered">
-						<colgroup>
-							<col width="6%">
-							<col width="8%">
-							<col width="8%">
-							<col width="10%">
-							<col width="10%">
-							<col width="11%">
-							<col width="7%">
-							<col width="8%">
-							<col width="8%">
-							<col width="8%">
-							<col width="8%">
-							<col width="8%">
-						</colgroup>
+					<table id="matrlInOutWhsTable" class="table table-bordered">
 						<thead class="thead-light">
 							<tr>
-								<th>구분</th>
-								<th>발주번호</th>
-								<th>공급사</th>
-								<th>품번</th>
-								<th>차종</th>
-								<th>품명</th>
-								<th class="text-center">발주수량</th>
-								<th class="text-center">가입고수량</th>
-								<th>가입고일자</th>
-								<th class="text-center">미가입고수량</th>
-								<th>납기일자</th>
-								<th>저장위치</th>
+								<th class="text-center">가입고일</th>
+								<th class="text-center" style="min-width:40px;">비고</th>
+								<th class="text-center">승인상태</th>
+								<th class="text-center">자재상태</th>
+								<th class="text-center">자재코드 </th>
+								<th class="text-center">자재명</th>
+								<!-- <th class="text-center">S-LOT </th> -->
+								<th class="text-center">LOT NO </th>
+								<th class="text-center">바코드 </th>
+								<th class="text-center">가입고량 </th>
+								<th class="text-center">입고량 </th>
+								<th class="text-center">차이</th>
+								<th class="text-center">공급업체 </th>
+								<th class="text-center">입고일 </th>
+								<th class="text-center">수입검사일 </th>
+								<th class="text-center">Location </th>                                                                                          
+								<th class="text-center">선입선출</th>
+								<th class="text-center">유수명 기간</th>
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								<td colspan="8" style="text-align: center">합계</td>																		
+								<td id="sumInWhsQty" style="text-align: right">0</td>	
+								<td id="sumInspectQty" style="text-align: right">0</td>	
+								<td id="sumDiffQty" style="text-align: right">0</td>	
+								<td colspan="6"></td>
+							</tr>
+						</tfoot>
 					</table>
 				</div>
-				<!-- /.table-responsive -->
+			<!-- /.table-responsive -->
 			</div>
-		</div>
-		<!-- /.left-list -->
-	</div>
-	<!-- /.row --> 
-</div>
-<!-- / #main  -->
+		</div><!-- /.left-list -->
+	</div><!-- /.row -->
+</div><!-- / #main  -->
 
 <%@include file="../layout/bottom.jsp" %>
 
 <script>
-	let currentHref = "iosc0020";
-	let currentPage = $('.' + currentHref).attr('id');
 
-	$('#' + currentPage).closest('.has-child', 'li').addClass(
-			'has-open has-active');
-	$('#' + currentPage).closest('.menu-item').addClass('has-active');
-	$(document).attr("title","발주현황"); 
-	let viewIdx;
-	let sideView = 'add';
-
-	var serverDateFrom = "${serverDateFrom}";
-	var serverDateTo = "${serverDateTo}";
-	var searchOption = '001';
-	var index=0;
-
-	var poStatusOption = '001';	
-	var mainGubun = "";
+	let menuAuth = 'iosc0020';
+	let currentHref = 'iosc0020';
+	let currentPage = $('.'+currentHref).attr('id');
+	$('#'+currentPage).closest('.has-child','li').addClass('has-open has-active');
+	$('#'+currentPage).closest('.menu-item').addClass('has-active');
+	$(document).attr("title","자재 입고(바코드)");
 	
-	// 발주현황 목록조회
-	let purchaseOrderAdmTable = $('#purchaseOrderAdmTable').DataTable({
-		dom : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>"
-				+ "<'row'<'col-sm-12'tr>>"
-				+ "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'>B>",
-		language : lang_kor,
-		paging : false,
-		info : true,
-		ordering : true,
-		processing : true,
-		autoWidth : false,
-		paging : true,
-		fixedHeader: true,
-		pageLength : 100000000, 
-		scrollY: "640px",
-		scrollCollapse: true,
-		ajax : {
-			url : '<c:url value="io/purchaseOrderStatusList"/>',
-			type : 'GET',
-			data : {
-				'mainGubun' : function() {return mainGubun;},
-				'startDate' : function() {return serverDateFrom.replace(/-/g, '');},
-				'endDate' : function() { return serverDateTo.replace(/-/g, '');},
-				'searchOption' : function() { return searchOption; },
-				'poStatusOption' : function() { return poStatusOption; },
-			},
-		}, 
-		rowId : 'poNo',
-		columns : [ 
-			{ data : 'mainGubunNm' }, 
-			{ data : 'poNo' }, 
-			{ data : 'dealCorpNm' }, 
-			{ data : 'itemCd' }, 
-			{ data : 'itemModel' }, 
-			{ data : 'itemNm' }, 
-			{
-				data : 'ordQty',
-				render : function(data, type, row, meta){
-					if(row['inWhsDate']==null){
-						return '<input type="text" class="form-control" id="ordQty_'+meta.row+'" name="ordQty" value="'+addCommas(data)+'" onchange="ordQtyChange(\''+row['poNo']+'\',\''+row['poSeq']+'\','+meta.row+')" style="text-align:right" />';
-					}else{
-						return data;
-					}
-				}
-			},
-			{
-				data : 'preInWhsQty',
-				render : function(data, type, row, meta){
-					if(data!=null){
-						return addCommas(data);
-					}else{
-						return '0';
-					}
-				},
-			}, 
-			{   
-				data : 'preInWhsDate',
-				render : function(data, type, row, meta){
-					if(data!=null){
-						return moment(data).format('YYYY-MM-DD');
-					}else{
-						return '-';
-					}
-					
-				},
-				className : 'text-center'
-			},
-			{ 
-				data : 'diffCnt',
-				render : function(data, type, row, meta){
-					if(data!=null){
-						return addCommas(data);
-					}else{
-						return '0';
-					}
-				},
-				className : 'text-right'
-			},
-			{
-				data : 'dlvDate',
-				render : function(data, type, row, meta) {
-					return moment(data).format("YYYY-MM-DD");
-				}
-			}, 
-			{ data : 'savelocNm' }, 
-		],
-		columnDefs : [ {
-			targets : [6,7,9],
-			render : $.fn.dataTable.render.number(','),
-			className : 'text-right'
-		} ],
-		buttons : [ 'copy', 'excel', 'print' ],
-		order : []
+	//오늘날짜 yyyy-mm-dd String 출력
+	function getFormatDate(today){
+	    var year = today.getFullYear();              //yyyy
+	    var month = (1 + today.getMonth());          //M
+	    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+	    var day = today.getDate();                   //d
+	    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+	    return  year + '-' + month + '-' + day;
+	}
 
+	//yyyy-mm-dd String-> Date로 변환
+	function to_date(date_str)
+	{
+	    var yyyyMMdd = String(date_str);
+	    var sYear = yyyyMMdd.substring(0,4);
+	    var sMonth = yyyyMMdd.substring(5,7);
+	    var sDate = yyyyMMdd.substring(8,10);	
+	    return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
+	}
+
+	//yyyy-mm-dd에 개월수 더하기
+	function add_months(dt, n) 
+	{
+		return new Date(dt.setMonth(dt.getMonth() + n));      
+	}
+	
+	//오늘날짜 yyyy-mm-dd String 출력
+	var todayString = getFormatDate(new Date());
+	
+	//yyyy-mm-dd String-> Date로 변환
+	var todayDate = to_date(todayString);
+
+	//공통코드 처리 시작
+	var approvalCode=new Array();	//승인여부
+    <c:forEach items="${approvalCd}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseCdNm="${info.baseCdNm}";
+		approvalCode.push(json);
+    </c:forEach>
+
+	var locationCode=new Array();	//location
+    <c:forEach items="${locationCd}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseCdNm="${info.baseCdNm}";
+		locationCode.push(json);
+    </c:forEach>
+
+    var matrlCdList=new Array();	//matrlCdList
+    <c:forEach items="${matrlCdList}" var="info">
+		var json=new Object();
+		json.baseCd="${info.matrlCd}";
+		json.baseCdNm="${info.matrlNm}";
+		matrlCdList.push(json);
+    </c:forEach>
+    
+	var fifoCheckCode=new Array();	//선입선출 체크
+	<c:forEach items="${matrlFifoCheck}" var="info">
+		var json=new Object();
+		json.baseCd="${info.baseCd}";
+		json.baseCdNm="${info.baseCdNm}";
+		fifoCheckCode.push(json);
+	</c:forEach>
+    //공통코드 처리 종료  
+                             
+    let viewIdx;
+    let sideView = 'add';
+	var inWhsDateCal =  "${serverDate}"; 
+	var approvalCd =  "";   
+	var matrlCd =  "";
+	var json = new Object();
+	
+    // 목록
+    $.fn.dataTable.ext.errMode = 'none';
+	let matrlInOutWhsTable = $('#matrlInOutWhsTable').on( 'error.dt', function ( e, settings, techNote, message ) {
+		if(techNote == 7) {
+			toastr.error("로그인 세션이 만료 되었습니다.<br/>재로그인 해 주세요.", '', {timeOut: 5000});
+			location.href = "/";
+		}
+	}).DataTable({
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+			 "<'row'<'col-sm-12'tr>>" +
+			 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",        
+        language: lang_kor,
+        paging: true,
+        info: true,
+        ordering: true,
+        processing: true,
+        autoWidth: false,
+        pageLength: 17,
+        ajax: {
+            url: '<c:url value="/io/matrlInOutWhsPreDataList"/>',
+            type: 'GET',
+            data: {
+	           	'menuAuth'	 	: 		menuAuth,
+	           	'inWhsDate'		: 		function() { return inWhsDateCal.replace(/-/g, ''); },	//검색기준을 가입고일 에서 입고일로 변경 2020. 10. 07
+	           	'approvalCd'	: 		function() { return approvalCd; },
+	           	'matrlCd'		: 		function() { return matrlCd; }
+            },
+            /*
+            success : function(res) {
+                console.log(res);
+            }
+            */
+        },
+        rowId: 'lotNo',
+        columns: [
+        	{
+                data: 'preInWhsDate',
+                render: function(data, type, row) {
+                	if(data != "" && data != null) {
+						return moment(data).format("YYYY-MM-DD");
+					} else {
+						return "-";
+					}
+                }
+            },
+            { data: 'inWhsDesc' },
+            { data: 'approvalNm' },
+            { data: 'statusNm' },
+            { data: 'matrlCd' },
+            { data: 'matrlNm' },
+            //{ data: 'srLot' },
+            { data: 'lotNo' },
+            { data: 'barcodeNo' },
+            { data: 'preInWhsQty',
+              	 render: function(data, type, row) {					
+    					return parseFloat(data).toFixed(2);
+                    }        
+   			},
+            { data: 'inspectQty',
+            	 render: function(data, type, row) {					
+  					return parseFloat(data).toFixed(2);
+                  }        
+            },
+            { data: 'diffQty' ,
+            	 render: function(data, type, row) {					
+ 					return parseFloat(data).toFixed(2);
+                 }   	
+            },
+            { data: 'spplyDealCorpNm' },
+            {
+                data: 'inWhsDate',
+                render: function(data, type, row) {
+                	if(data != "" && data != null) {
+						return moment(data).format("YYYY-MM-DD");
+					} else {
+						return "-";
+					}
+                }
+            },
+            {
+                data: 'inspctDate',
+                render: function(data, type, row) {					
+                	if(data != "" && data != null) {
+						return moment(data).format("YYYY-MM-DD");
+					} else {
+						return "-";
+					} 
+                } 
+            },
+            {
+                data: 'locationCd',
+           		render: function(data, type, row, meta) {
+               		var html;
+           			if(row['approvalCd'] == '001') {
+               			html = 	selectBoxHtml(locationCode, 'locationCd', data, row, meta);
+           			} else {
+               			html = "";
+               		}
+               		return html;
+           		}
+            },
+			{
+                data: 'fifoCheck',
+           		render: function(data, type, row, meta) {
+               		var html;
+               		if(row['approvalCd'] == '001') {
+               			html = selectBoxHtml(fifoCheckCode, 'fifoCheck', data, row, meta);
+	       			} else {
+	           			html = "";
+	           		}
+               		return html;
+           		}
+            },
+            {
+                data: 'endLifeCycle',
+           		render: function(data, type, row, meta) {
+           			var todayString = getFormatDate(new Date());
+           			var todayDate = to_date(todayString);
+					//오늘날짜 + 5개월이 > 자재 입고일 + 유수명(월) 이면 빨간색!
+               		if( Date.parse(add_months(todayDate, 5)) > Date.parse(to_date(row['endLifeCycle'])))	{
+               			var html = "<p style='color:red; margin-bottom:0px;'>" + data +"</p>";
+                   	} else {
+                   		var html = "<p style='margin-bottom:0px;'>" + data +"</p>";
+					}
+               		return html;
+           		}
+            },
+            //{
+            //    data: 'endLifeCycle',
+           	//	render: function(data, type, row, meta) {
+            //
+            //   		if()
+            //   		var html = "<p style='color:blue; margin-bottom:0px;'>" + data +"</p>";
+            //   		return html;
+           	//	}
+            //},
+        ],
+        columnDefs: [
+           	{ targets: [8,9,10] , render: $.fn.dataTable.render.number( ',' ) },
+           	{ targets: [8,9,10], className: 'text-right' }, 
+        ],
+        order: [
+            [ 1, 'asc' ]
+        ],
+		drawCallback: function () {
+			var sumInWhsQty = $('#matrlInOutWhsTable').DataTable().column(8,{ page: 'all'} ).data().sum();
+			var sumInspectQty = $('#matrlInOutWhsTable').DataTable().column(9,{ page: 'all'} ).data().sum();
+			var sumDiffQty = $('#matrlInOutWhsTable').DataTable().column(10,{ page: 'all'} ).data().sum();
+			$('#sumInWhsQty').text(addCommas(sumInWhsQty.toFixed(2)));
+			$('#sumInspectQty').text(addCommas(sumInspectQty.toFixed(2)));
+			$('#sumDiffQty').text(addCommas(sumDiffQty.toFixed(2)));
+        },
+        buttons: [
+            {
+                extend: 'copy',
+                title: '자재입고(바코드)',
+                exportOptions: {
+                    format: {
+                        body: function (data, column, row, node) {
+                            // if it is select
+                            if (row == 13) {
+                                return $(data).find("option:selected").text()
+                            } else return data
+                        }
+                    }
+                }
+            },
+            {
+                extend: 'excel',
+                title: '자재입고(바코드)',
+                exportOptions: {
+                    format: {
+                        body: function (data, column, row, node) {
+                            // if it is select
+                            if (row == 13) {
+                                return $(data).find("option:selected").text()
+                            } else return data
+                        }
+                    }
+                }
+            }, 
+            {
+                extend: 'print',
+                title: '자재입고(바코드)',
+                exportOptions: {
+                    format: {
+                        body: function (data, column, row, node) {
+                            // if it is select
+                            if (row == 13) {
+                                return $(data).find("option:selected").text()
+                            } else return data
+                        }
+                    }
+                }
+            },
+        ],
+    });
+    
+    var buttonCommon = {
+            exportOptions: {
+                format: {
+                    body: function (data, column, row, node) {
+                        // if it is select
+                        if (column == 14) {
+                            return $(data).find("option:selected").text()
+                        } else return data
+                    }
+                }
+            }
+        };
+    
+    var sysdate = "${serverTime}";    
+	var html1 = '<div class="row">&nbsp;<label class="input-label-sm">입고일</label><div class="form-group input-sub m-0 row">';
+		html1 += '<input class="form-control" style="width:97px;" type="text" id="preInWhsDate" name="preInWhsDate" />';
+		html1 += '<button onclick="fnPopUpCalendar(preInWhsDate,preInWhsDate,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="inWhsDateCalendar" type="button">';
+		html1 += '<span class="oi oi-calendar"></span>';
+		html1 += '</button>'; 
+		html1 += '</div>';
+    	html1 += '&nbsp;&nbsp;&nbsp;<label class="input-label-sm">승인여부</label><select  class="custom-select" id="approvalCd" ></select>&nbsp;';
+    	html1 += '&nbsp;<button type="button" class="btn btn-primary" id="btnRetv">조회</button>';
+    	html1 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="input-label-sm">자재명</label><select  class="custom-select" id="matrlCd" style="min-width:100px;"></select></div>';
+	$('#matrlInOutWhsTable_length').html(html1);
+	
+	$('#preInWhsDate').val(inWhsDateCal);
+	selectBoxAppend(approvalCode, "approvalCd", "", "1");
+	selectBoxAppend(matrlCdList, "matrlCd", "", "1");
+
+	//창고위치 변경
+	$('#matrlInOutWhsTable').on('change', 'select#locationCd', function() {
+        var colIndex = +$(this).data('col');
+         var row = $(this).closest('tr')[0];
+         var data = matrlInOutWhsTable.row(row).data();
+         var lotNo = matrlInOutWhsTable.row(row).data().lotNo;
+         var locationCd = $(this).find(':selected').val();
+
+         if(locationCd == null || locationCd == '' || locationCd == undefined) {
+        	 toastr.warning('Location 선택해 주세요.');
+        	 return false;
+         }
+
+         $.ajax({
+             url: '/io/matrlInOutUpdateLocation',
+             type: 'POST',
+             data: {
+            	'menuAuth'	 	: 		menuAuth,
+             	'lotNo'       	:        lotNo,
+             	'locationCd'  	:        locationCd,
+             },
+             beforeSend: function() {
+                // $('#btnAddConfirm').addClass('d-none');
+                // $('#btnAddConfirmLoading').removeClass('d-none');
+             },
+             success: function (res) {
+                 let data = res.data;
+         
+                 if (res.result == 'ok') {
+                     // 보기
+                     //$('#matrlInOutWhsTable').DataTable().ajax.reload( function () {});
+	               	 toastr.success('창고위치 수정되었습니다.');
+                 } else {
+                	 toastr.error(res.message, '', {timeOut: 5000});
+                 }
+             },
+             complete:function(){
+                // $('#btnAddConfirm').removeClass('d-none');
+                // $('#btnAddConfirmLoading').addClass('d-none');
+             }
+         });
+	});	
+
+	//FIFO Check 변경
+	$('#matrlInOutWhsTable').on('change', 'select#fifoCheck', function() {
+		var colIndex = +$(this).data('col');
+		var row = $(this).closest('tr')[0];
+		var data = matrlInOutWhsTable.row(row).data();
+		var lotNo = matrlInOutWhsTable.row(row).data().lotNo;
+		var fifoCheck = $(this).find(':selected').val();
+         if(fifoCheck == null || fifoCheck == '' || fifoCheck == undefined) {
+        	 toastr.warning('fifoCheck 선택해 주세요.');
+        	 return false;
+         }
+        
+         $.ajax({
+             url: '/io/matrlInOutUpdateFifoCheck',
+             type: 'POST',
+             data: {
+            	'menuAuth'	 	:		menuAuth,
+             	'lotNo'       	:		lotNo,                  
+             	'fifoCheck'  	:		fifoCheck,
+             	
+             },
+             beforeSend: function() {
+                // $('#btnAddConfirm').addClass('d-none');
+                // $('#btnAddConfirmLoading').removeClass('d-none');
+             },
+             success: function (res) {
+                 let data = res.data;
+                 if (res.result == 'ok') {
+                     // 보기
+                     //$('#matrlInOutWhsTable').DataTable().ajax.reload( function () {});
+	               	 toastr.success('선입선출 수정되었습니다.');
+                 } else {
+                	 toastr.error(res.message, '', {timeOut: 5000});
+                 }
+             },
+             complete:function(){
+                // $('#btnAddConfirm').removeClass('d-none');
+                // $('#btnAddConfirmLoading').addClass('d-none');
+             }
+         });
 	});
-	var sysdate = "${serverTime}";
+	
+    // 보기
+    $('#matrlInOutWhsTable tbody').on('click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+        	$('#matrlInOutWhsTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
 
-	var html1 = '<div class="row">';
-	html1 += '<label class="input-label-sm">구분</label>';
-	html1 += '<div class="form-group input-sub m-0">';
-	html1 += '<select id="mainGubun" name="mainGubun" title="" class="select w80 col-12 custom-select">';
-	html1 += '<option value="" selected>전체</option>';
-	html1 += '<option value="001">사출</option>';
-	html1 += '<option value="002">봉제</option>';
-	html1 += '</select></div>&nbsp;&nbsp;&nbsp;';
-	html1 += '<label class="input-label-sm">일자</label>';
-	html1 += '<div class="form-group input-sub m-0">';
-	html1 += '<select class="custom-select" id="searchOption"></select>';
-	html1 += '</div>&nbsp;';
-	html1 += '&nbsp;&nbsp;<div class="form-group input-sub m-0 row">';
-	html1 += '<input class="form-control" style="width:97px;" type="text" id="preInWhsDateFrom" name="preInWhsDateFrom" disabled/>';
-	html1 += '<button onclick="fnPopUpCalendar(preInWhsDateFrom,preInWhsDateFrom,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="inWhsDateFromCalendar" type="button">';
-	html1 += '<span class="oi oi-calendar"></span>';
-	html1 += '</button>';
-	html1 += '</div>';
-	html1 += '&nbsp;~ &nbsp;<div class="form-group input-sub m-0 row">';
-	html1 += '<input class="form-control" style="width:97px;" type="text" id="preInWhsDateTo" name="preInWhsDateTo" disabled/>';
-	html1 += '<button onclick="fnPopUpCalendar(preInWhsDateTo,preInWhsDateTo,\'yyyy-mm-dd\')"  class="btn btn-secondary input-sub-search" id="inWhsDateToCalendar" type="button">';
-	html1 += '<span class="oi oi-calendar"></span>';
-	html1 += '</button>';
-	html1 += '</div>';
-	html1 += '&nbsp;&nbsp;<button type="button"  class="btn btn-primary" id="btnRetv">조회</button>';
-	html1 += '&nbsp;&nbsp;<button type="button"  class="btn btn-primary" id="btnAllList">전체조회</button>';
-	html1 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="input-label-sm">보기</label>';
-	html1 += '&nbsp;<select class="custom-select" id="poStatusOption">';
-	html1 += '<option value="">전체</option>';
-	html1 += '<option value="001" selected>미입고항목</option>';
-	html1 += '<option value="002">입고완료항목</option>';
-	html1 += '<option value="003">입고마감항목</option></select>';	
-	html1 += '</div>';
-
-	$('#purchaseOrderAdmTable_length').html(html1);
-	$('#preInWhsDateFrom').val(moment(serverDateFrom).format('YYYY-MM-DD'));
-	$('#preInWhsDateTo').val(moment(serverDateTo).format('YYYY-MM-DD'));
-
+	});	
+        
+	function locateChange() {
+        var colIndex = +$(this).data('col');
+        var row = $(this).closest('tr')[0];
+        var data = matrlInOutWhsTable.row(row).data();
+        data[colIndex] = this.value
+        data[colIndex-1] = $(this).find(':selected').text();
+	}
 
 	//조회버튼 클릭
-	$('#btnRetv').on('click', function() {
-		mainGubun =  $('#mainGubun option:selected').val();
-		serverDateFrom = $('#preInWhsDateFrom').val();
-		serverDateTo = $('#preInWhsDateTo').val();
-		searchOption = $("#searchOption :selected").val();
-		poStatusOption = $("#poStatusOption :selected").val();
-		
-		$('#purchaseOrderAdmTable').DataTable().ajax.reload(function() {});
-	});
+    $('#btnRetv').on('click', function() {
+		inWhsDateCal =  $('#preInWhsDate').val();
+		approvalCd =  $('#approvalCd').val();
+		matrlCd =  null;
+		//matrlCd =  $('#matrlCd').val();
+		$('#matrlInOutWhsTable').DataTable().ajax.reload( function () {});
 
-	//전체조회버튼 클릭
-	$('#btnAllList').on('click', function() {
-		mainGubun = "";
-		serverDateFrom =  "";
-		serverDateTo =  "";
-		searchOption = "";
-		poStatusOption = "";
-		$('#purchaseOrderAdmTable').DataTable().ajax.reload(function() {});
+		$.ajax({
+            url: '/io/matrlCdInOutList',
+            type: 'GET',
+            data: {
+           		'menuAuth'	 	: 		menuAuth,
+	           	'inWhsDate'		: 		function() { return inWhsDateCal.replace(/-/g, ''); },	//검색기준을 가입고일 에서 입고일로 변경 2020. 10. 07
+	           	'approvalCd'	: 		function() { return approvalCd; },
+            },
+            success: function (res) {
+                let data = res.data;
+                if (res.result == 'ok') {	
+                    $('#matrlCd').empty();
+                    var matrlCdList = new Array();	//matrlCdList
+                    for(var i=0; i<data.length; i++){
+                    	var json=new Object();
+                    	json.baseCd=data[i].matrlCd;
+                    	json.baseCdNm=data[i].matrlNm;
+                    	matrlCdList.push(json);
+                    }
+                    selectBoxAppend(matrlCdList, "matrlCd", "", "1");
+                } else {
+               	 toastr.error(res.message, '', {timeOut: 5000});
+                }
+            },
+            complete:function(){
+            }
+        });
     });
 
-	//보기조건 click
-	$('#poStatusOption').on('change', function() {
-		poStatusOption =  $('#poStatusOption :selected').val();
-		$('#purchaseOrderAdmTable').DataTable().ajax.reload( function () {});
-    });	
+   	//자재명 변경감지
+    $('#matrlCd').on('change', function() {
+		inWhsDateCal =  $('#preInWhsDate').val();
+		approvalCd =  $('#approvalCd').val();
+		matrlCd =  $('#matrlCd').val();
+		$('#matrlInOutWhsTable').DataTable().ajax.reload( function () {});
+
+		//$.ajax({
+        //    url: '/io/matrlCdInOutList',
+        //    type: 'GET',
+        //    data: {
+        //   		'menuAuth'	 	: 		menuAuth,
+	    //       	'inWhsDate'		: 		function() { return inWhsDateCal.replace(/-/g, ''); },	//검색기준을 가입고일 에서 입고일로 변경 2020. 10. 07
+	    //       	'approvalCd'	: 		function() { return approvalCd; },
+        //    },
+        //    success: function (res) {
+        //        let data = res.data;
+        //        if (res.result == 'ok') {	
+        //            $('#matrlCd').empty();
+        //            var matrlCdList = new Array();	//matrlCdList
+        //            for(var i=0; i<data.length; i++){
+        //            	var json=new Object();
+        //            	json.baseCd=data[i].matrlCd;
+        //            	json.baseCdNm=data[i].matrlNm;
+        //            	matrlCdList.push(json);
+        //            }
+        //            selectBoxAppend(matrlCdList, "matrlCd", matrlCd, "1");
+        //        } else {
+        //       	 toastr.error(res.message, '', {timeOut: 5000});
+        //        }
+        //    },
+        //    complete:function(){
+        //    }
+        //});
+    });
     
-	//변경납기일 click
-    function dlvChange(poNo, poSeq, index){
-		
-        $.ajax({
-			url : '<c:url value="io/purchaseOrderDtlUpdate" />',
-		 	type : 'GET',
-			data : {
-				'poNo' : poNo,
-				'poSeq' : poSeq,
-				'dlvChangeDate' : $('#dlvChangeDate_'+index).val().replace(/-/g,'')
-			},
-			success : function(res){
-				if(res.result == "ok"){
-					toastr.success("변경납기일 수정되었습니다.");
-					$('#purchaseOrderAdmTable').DataTable().ajax.reload(function(){});
-				}else{
-					toastr.error(res.message);
-				}
-			}
-        });
-    };
-
-  	//확정수량 click
-    function ordQtyChange(poNo, poSeq, index){
-		
-        $.ajax({
-			url : '<c:url value="io/purchaseOrderDtlUpdate" />',
-		 	type : 'GET',
-			data : {
-				'poNo' : poNo,
-				'poSeq' : poSeq,
-				'ordQty' : $('#ordQty_'+index).val().replace(/,/g,'')
-			},
-			success : function(res){
-				if(res.result == "ok"){
-					toastr.success("발주수량 수정되었습니다.");
-					$('#purchaseOrderAdmTable').DataTable().ajax.reload(function(){});
-				}else{
-					toastr.error(res.message);
-				}
-			}
-        });
-    };
-
-	//발주종료버튼 click
-	function btnPDead(index) {
-
-		var poNo = purchaseOrderAdmTable.row(index).data().poNo;
-		var partCd = purchaseOrderAdmTable.row(index).data().partCd;
-
-		$.ajax({
-			url : '<c:url value="io/poEndDateUpdate" />',
-			type : 'GET',
-			data : {
-				'poNo' : poNo,
-				'partCd' : partCd,
-				'poEndDate' : '001'
-			},
-			success : function(res) {
-				if (res.result == "ok") {
-					toastr.success("발주종료 되었습니다.");
-					$('#purchaseOrderAdmTable').DataTable().ajax.reload(function() {});
-				} 
-			}
-		}); 
-	}
-
-	//가입고마감버튼 click
-	function btnIDead(index) {
-
-		var poNo = purchaseOrderAdmTable.row(index).data().poNo;
-		var partCd = purchaseOrderAdmTable.row(index).data().partCd;
-
-		$.ajax({
-			url : '<c:url value="io/poEndDateUpdate" />',
-			type : 'GET',
-			data : {
-				'poNo' : poNo,
-				'partCd' : partCd,
-				'poEndDate' : '002'
-			},
-			success : function(res) {
-				if (res.result == "ok") {
-					toastr.success("가입고마감 되었습니다.");
-					$('#purchaseOrderAdmTable').DataTable().ajax.reload(function() {});
-				} 
-			}
-		}); 
-	}
-
-	//숫자만 입력하게 처리
-	$(document).on('keyup',"input[name=ordQty]", function(event){
-		var preInWhsQtyData = $(this).val();
-		
-		if (!((event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) || (event.which >= 37 && event.which <= 40) || event.which == 8 || event.which == 9 || event.which == 13 || event.which == 16 || event.which == 46)) {
-			$('.number-float0').on("blur keyup", function() {
-				$(this).val( $(this).val().replace(",", ""));
-			}); 
-			toastr.warning('숫자만 입력해주세요.');
-			$(this).val("");
-			$(this).select();
-			event.preventDefault();
-			return false;
-		}
-		$(this).val(addCommas($(this).val().replace(",", "")));
-	});
-	
-	$('#searchOption').append($("<option value='001' selected>"+ "발주일" +"</option>"));
-	$('#searchOption').append($("<option value='002'>"+ "납기일" +"</option>"));
-	$('#searchOption').append($("<option value='003'>"+ "변경납기일" +"</option>"));
-
-	
 </script>
 
 </body>

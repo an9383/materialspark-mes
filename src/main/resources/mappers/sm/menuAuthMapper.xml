@@ -6,20 +6,33 @@
 <resultMap id="MenuAuthVo" type="mes.domain.sm.MenuAuthVo">
 	
 	<result property="menuId"			column="MENU_ID"		/>
-	<!-- <result property="departmentCd"		column="DEPARTMENT_CD"	/> -->
+	<result property="departmentCd"		column="DEPARTMENT_CD"	/>
 	<result property="departmentNm"		column="DEPARTMENT_NM"	/>
 	<result property="userNumber"		column="USER_NUMBER"		/>
 	<result property="gradeCd"			column="GRADE_CD"		/>
 	<result property="gradeNm"			column="GRADE_NM"		/>
-	<result property="useYnCd"			column="USE_YN"		/>
+	<result property="useYnCd"			column="USE_YN_CD"		/>
 	<result property="useYnNm"			column="USE_YN_NM"		/>
 	<result property="regId"			column="REG_ID"			/>
 	<result property="regDate"			column="REG_DATE"		/>
 	<result property="updId"			column="UPD_ID"			/>
 	<result property="updDate"			column="UPD_DATE"		/>
 	<result property="cnt"			column="CNT"			/>
-			
-			
+	<result property="baseCd"		column="BASE_CD" 	/>	
+	<result property="baseCdNm"		column="BASE_CD_NM" 	/>	
+	<result property="baseGroupCd"		column="BASE_GROUP_CD" 	/>
+	<result property="etc1"		column="ETC1" 	/>		
+	<result property="userAuthCode"		column="USER_AUTH_CODE" 	/>	
+	<result property="userAuthCodeName"		column="USER_AUTH_CODE_NAME" 	/>	
+	
+	<result property="userName"		column="USER_NAME" 	/>	
+	<result property="spot"		column="SPOT" 	/>	
+	
+	<result property="lotNo"		column="LOT_NO" 	/>	
+	<result property="loginUserId"		column="LOGIN_USER_ID" 	/>		
+	<result property="useAuthCode"		column="USE_AUTH_CODE" 	/>
+	<result property="useUserId"		column="USE_USER_ID" 	/>	
+		
 </resultMap>
 
 	<select id="listAll" resultMap="MenuAuthVo">
@@ -27,7 +40,7 @@
 				,DEPARTMENT_CD 
 				,USER_NUMBER 
 				,GRADE_CD 
-				,USE_YN
+				,USE_YN_CD 
 				,REG_ID 
 				,REG_DATE 
 				,UPD_ID 
@@ -40,13 +53,20 @@
 		SELECT DISTINCT MENU_ID ,DEPARTMENT_CD,USER_NUMBER
 		FROM
 		(
-		<!-- SELECT MENU_ID ,DEPARTMENT_CD,USER_NUMBER FROM TB_MENU_AUTH WHERE DEPARTMENT_CD = #{departmentCd} AND USER_NUMBER = 'kkkk' AND USE_YN = 'Y' 
-		UNION --> 
-		SELECT MENU_ID ,DEPARTMENT_CD,USER_NUMBER FROM TB_MENU_AUTH WHERE <!-- DEPARTMENT_CD = 'kkk' AND --> USER_NUMBER = #{userNumber}  AND USE_YN = 'Y' 
+		SELECT MENU_ID ,DEPARTMENT_CD,USER_NUMBER FROM TB_MENU_AUTH WHERE DEPARTMENT_CD = #{departmentCd} AND USER_NUMBER = 'kkkk' AND USE_YN_CD = 'Y' 
+		UNION 
+		SELECT MENU_ID ,DEPARTMENT_CD,USER_NUMBER FROM TB_MENU_AUTH WHERE DEPARTMENT_CD = 'kkk' AND USER_NUMBER = #{userNumber}  AND USE_YN_CD = 'Y' 
 		) AA
-	
 	</select>	
 
+	<select id="readUserAuthAll_F1F2F3" resultMap="MenuAuthVo">
+
+		SELECT DISTINCT USER_NUMBER, USER_AUTH_CODE
+		FROM
+		(
+		SELECT USER_NUMBER, USER_AUTH_CODE FROM TB_USER_AUTH WHERE USER_NUMBER=#{userNumber}  
+		) AA 
+	</select>	
 	
 	<select id="readCheck" resultMap="MenuAuthVo">
 		SELECT	COUNT(*)  CNT		
@@ -59,85 +79,157 @@
 				,DEPARTMENT_CD 
 				,USER_NUMBER 
 				,GRADE_CD 
-				,USE_YN 
+				,USE_YN_CD 
 				,REG_ID 
 				,REG_DATE 
 				,UPD_ID 
 				,UPD_DATE
 		FROM	TB_MENU_AUTH 
-		WHERE MENU_ID = #{menuId} <!-- AND DEPARTMENT_CD = #{departmentCd} --> AND USER_NUMBER = #{userNumber}
+		WHERE MENU_ID = #{menuId} AND DEPARTMENT_CD = #{departmentCd} AND USER_NUMBER = #{userNumber}
 	</select>	
 	
 	<insert id="create" >
 		INSERT INTO TB_MENU_AUTH(
-			 MENU_ID
+			 MENU_ID 
+			,DEPARTMENT_CD
 			,USER_NUMBER 
-<!-- 			,GRADE_CD  -->
-			,USE_YN 
+			,GRADE_CD 
+			,USE_YN_CD 
 			,REG_ID 
 			,REG_DATE 
 			,UPD_ID 
 			,UPD_DATE
 			
 		) 
-		VALUES
-		<foreach collection="list" item="item" separator=",">
-		(
-			'${item.menuId}',
-			'${item.userNumber}',
-			'${item.useYnCd}',
-			'${item.regId}',
-			GETDATE(),
-			'${item.updId}',
-			GETDATE()
+		VALUES(
+			#{menuId}
+			,#{departmentCd}
+			,#{userNumber}
+			,#{gradeCd}
+			,#{useYnCd}
+			,#{regId}
+			,GETDATE()
+			,#{updId}
+			,GETDATE()
+			
 		)
-		</foreach>
 		
 	</insert>
 	
+	<insert id="createUserAuth_F1F2F3" >
+		INSERT INTO TB_USER_AUTH(
+			USER_NUMBER
+			,USER_AUTH_CODE
+			,REG_ID 
+			,REG_DATE 
+			,UPD_ID 
+			,UPD_DATE
+			
+		) 
+		VALUES(
+			#{userNumber}
+			,#{baseCd}
+			,#{regId}
+			,GETDATE()
+			,#{updId}
+			,GETDATE()
+			
+		)
+	</insert>	
+		
 		
 	<select id="update">
 		UPDATE	TB_MENU_AUTH 
 		SET	MENU_ID = #{menuId},
-			<!-- DEPARTMENT_CD = #{departmentCd}, -->
+			DEPARTMENT_CD = #{departmentCd},
 			USER_NUMBER = #{userNumber},
 			GRADE_CD = #{gradeCd},
-			USE_YN = #{useYnCd},			
+			USE_YN_CD = #{useYnCd},			
 			UPD_ID = #{updId},
 			UPD_DATE = GETDATE()
-		WHERE	MENU_ID = #{menuId} <!-- AND DEPARTMENT_CD = #{departmentCd} --> AND USER_NUMBER = #{userNumber}
+		WHERE	MENU_ID = #{menuId} AND DEPARTMENT_CD = #{departmentCd} AND USER_NUMBER = #{userNumber}
 	</select>	
 	
 	<delete id="delete">
 		DELETE FROM TB_MENU_AUTH
-		WHERE <!-- DEPARTMENT_CD = #{departmentCd}
-		AND --> USER_NUMBER = #{userNumber}
+		WHERE 
+		<if test="departmentCd != '' and departmentCd != null"> 
+			DEPARTMENT_CD = #{departmentCd}
+		</if>
+		<if test="departmentCd == 'kkk' or userNumber == 'kkkk'"> 
+			AND
+		</if>
+		<if test="userNumber != '' and userNumber != null"> 
+			USER_NUMBER = #{userNumber}
+		</if>
+
 	</delete>
 	
-
+	<delete id="deleteUserAuth_F1F2F3">
+		DELETE FROM TB_USER_AUTH
+		WHERE USER_NUMBER = #{userNumber}
+	</delete>
+	
 	<select id="menuAuthPath" resultType="String">
 		SELECT  STUFF(
 		   (
 			   SELECT DISTINCT ',' + B.MENU_PATH
 			   FROM TB_MENU_AUTH A, TB_MENU_INFO_ADM B
 			   WHERE 1=1 
-			   AND (<!-- A.DEPARTMENT_CD = #{departmentCd} OR --> A.USER_NUMBER = #{userNumber})
+			   AND (A.DEPARTMENT_CD = #{departmentCd} OR A.USER_NUMBER = #{userNumber})
 			   AND A.MENU_ID = B.MENU_ID
 			   AND B.UPPER_MENU_ID IS NOT NULL
 			   AND B.MENU_PATH IS NOT NULL
 			   FOR XML PATH('')),1,1,'') AS MENU_PATH
 	</select>
 	
-	<select id="menuAuthPathAdmin" resultType="String">
-		SELECT  STUFF(
-		   (
-			   SELECT DISTINCT ',' + B.MENU_PATH
-			   FROM TB_MENU_AUTH A, TB_MENU_INFO_ADM B
-			   WHERE 1=1 
-			   AND (<!-- A.DEPARTMENT_CD = #{departmentCd} OR --> A.USER_NUMBER = #{userNumber})
-			   AND A.MENU_ID = B.MENU_ID
-			   AND B.UPPER_MENU_ID IS NOT NULL
-			   AND B.MENU_PATH IS NOT NULL
-			   FOR XML PATH('')),1,1,'') AS MENU_PATH
+	<select id="userAuthList_F1F2F3" resultMap="MenuAuthVo">
+
+		SELECT DISTINCT USER_NUMBER, USER_AUTH_CODE, USER_AUTH_CODE_NAME, SPOT, DEPARTMENT_NM, USER_NM AS USER_NAME
+		FROM
+		(
+		SELECT A.USER_NUMBER, A.USER_AUTH_CODE, B.USER_NM 
+		, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='099' AND BASE_CD = A.USER_AUTH_CODE) AS USER_AUTH_CODE_NAME
+		, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='015' AND BASE_CD = B.POST_CD) AS SPOT
+		, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='013' AND BASE_CD = B.DEPARTMENT_CD) AS DEPARTMENT_NM
+		FROM TB_USER_AUTH A, TB_USER B
+		WHERE 1=1 
+		AND A.USER_NUMBER = B.USER_NUMBER
+		AND ISNUMERIC(A.USER_AUTH_CODE)=1
+		<if test="userAuthCode != null and userAuthCode != ''">
+		AND A.USER_AUTH_CODE = #{userAuthCode}
+		</if>
+		) AA 
+		
 	</select>
+		
+	<select id="userList_F1F2F3" resultMap="MenuAuthVo">
+	
+		SELECT DISTINCT A.USER_NM as USER_NAME
+			, A.USER_NUMBER
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='015' AND BASE_CD = A.POST_CD) AS SPOT
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD='013' AND BASE_CD = A.DEPARTMENT_CD) AS DEPARTMENT_NM
+		FROM TB_USER A
+		
+	</select>
+		
+	<insert id="userAuthUseHist_F1F2F3" >
+		INSERT INTO TB_USER_AUTH_USE_HIST(
+			 LOT_NO
+			,LOGIN_USER_ID
+			,USE_USER_ID
+			,USE_AUTH_CODE
+			,REG_DATE 
+			
+		) 
+		VALUES(
+			#{lotNo}
+			,#{loginUserId}
+			,#{useUserId}
+			,#{useAuthCode}
+			,GETDATE()
+			
+		)
+		
+	</insert>
 </mapper>

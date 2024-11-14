@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.mappers.dc.docPrnAdmMapper">
+
+	<resultMap id="docPrnAdmVo" type="mes.domain.dc.DocPrnAdmVo">
+		<result property="mngtCode" 		column="MNGT_CODE"			/>	<!-- 관리 코드 -->
+		<result property="fileNm" 			column="FILE_NM"			/>	<!-- 파일명 -->
+		<result property="documentDesc" 	column="DOCUMENT_DESC"		/>	<!-- 비고 -->
+		<result property="fileRegDate" 		column="FILE_REG_DATE"		/>	<!-- 파일 등록일 -->
+		<result property="fileRegYear" 		column="FILE_REG_YEAR"		/>	<!-- 파일 등록년도 -->
+		<result property="fileRegDay" 		column="FILE_REG_DAY"		/>	<!-- 파일 등록월 -->
+		<result property="regId" 			column="REG_ID"				/>	<!-- 등록자 -->
+		<result property="regNm" 			column="REG_NM"				/>	<!-- 등록자Nm -->
+		<result property="regDate" 			column="REG_DATE"			/>	<!-- 등록일 -->
+		<result property="updId" 			column="UPD_ID"				/>	<!-- 수정자 -->
+		<result property="updDate" 			column="UPD_DATE"			/>	<!-- 수정일 -->
+	</resultMap>	
+
+	<!-- 문서관리  목록 조회 -->
+	<select id="docPrnAdmList_F1F2F3" resultMap="docPrnAdmVo"> 
+		SELECT 
+			A.MNGT_CODE
+			, A.FILE_NM
+			, A.DOCUMENT_DESC
+			, A.FILE_REG_DATE
+			, A.REG_ID
+			, (SELECT USER_NM FROM TB_USER X WHERE X.USER_ID = A.REG_ID) AS REG_NM
+			, A.REG_DATE
+			, A.UPD_ID
+			, A.UPD_DATE
+		FROM TB_DOC_PRN_ADM A
+		WHERE 1=1
+	</select>
+	
+	<!-- 문서관리  목록 조회 -->
+	<select id="docPrnAdmDateList_F1F2F3" resultMap="docPrnAdmVo"> 
+		SELECT
+			FILE_REG_YEAR
+			, FILE_REG_DAY
+		FROM (
+			SELECT 
+				SUBSTRING(FILE_REG_DATE, 0, 5) AS FILE_REG_YEAR
+				, SUBSTRING(LEFT(FILE_REG_DATE, 6), 5, 6) AS FILE_REG_DAY
+			FROM TB_DOC_PRN_ADM
+			WHERE 1=1
+			<if test="fileRegYear != null and !fileRegYear.equals('')">
+				AND SUBSTRING(FILE_REG_DATE, 0, 5) = #{fileRegYear}
+			</if>
+		) A
+		WHERE 1=1
+		GROUP BY
+			FILE_REG_YEAR
+			, FILE_REG_DAY
+	</select>
+	
+	<!-- 문서관리  상세 조회 -->
+	<select id="docPrnAdmRead_F1F2F3" resultMap="docPrnAdmVo">
+		SELECT 
+			MNGT_CODE
+			, FILE_NM
+			, DOCUMENT_DESC
+			, FILE_REG_DATE
+			, REG_ID
+			, (SELECT USER_NM FROM TB_USER X WHERE X.USER_ID = REG_ID) AS REG_NM
+			, REG_DATE
+			, UPD_ID
+			, UPD_DATE
+		FROM TB_DOC_PRN_ADM
+		WHERE 1=1
+		<if test="startDate != null and endDate != null and !startDate.equals('') and !endDate.equals('')">
+			<![CDATA[
+				AND FILE_REG_DATE BETWEEN #{startDate} AND #{endDate}
+			]]>
+		</if>
+		<if test="mngtCode != null and !mngtCode.equals('')">
+			AND MNGT_CODE = #{mngtCode}
+		</if>
+		<if test="fileRegYear != null and !fileRegYear.equals('')">
+			AND SUBSTRING(FILE_REG_DATE, 0, 5) = #{fileRegYear}
+		</if>
+		<if test="fileRegDay != null and !fileRegDay.equals('')">
+			AND SUBSTRING(LEFT(FILE_REG_DATE, 6), 5, 6) = #{fileRegDay}
+		</if>
+	</select>
+	
+	<!-- 문서관리  등록 -->
+	<insert id="docPrnAdmCreate_F1F2F3">
+		INSERT INTO TB_DOC_PRN_ADM (
+			MNGT_CODE
+			, FILE_NM
+			, DOCUMENT_DESC
+			, FILE_REG_DATE
+			, REG_ID
+			, REG_DATE
+		) 
+		VALUES(
+			#{mngtCode}
+			, #{fileNm}
+			, #{documentDesc}
+			, #{fileRegDate}
+			, #{regId}
+			, getdate()
+		)
+	</insert>
+	
+	<!-- 문서관리  수정 -->
+	<update id="docPrnAdmUpdate_F1F2F3">
+		UPDATE	TB_DOC_PRN_ADM		 
+			SET	
+				MNGT_CODE 		= #{mngtCode}
+				, FILE_NM 		= #{fileNm}
+				, DOCUMENT_DESC = #{documentDesc}
+				, FILE_REG_DATE	= #{fileRegDate}
+				, UPD_ID 		= #{updId}
+				, UPD_DATE		= getdate()
+			WHERE MNGT_CODE = #{mngtCode}
+	</update>
+	
+	<!-- 문서관리  삭제 -->
+	<delete id="docPrnAdmDelete_F1F2F3">
+		DELETE FROM TB_DOC_PRN_ADM		
+		WHERE MNGT_CODE = #{mngtCode}
+	</delete>
+	
+	<!-- 문서관리  관리 코드 조회 -->
+	<select id="docPrnAdmOnlyMaxCodeRead_F1F2F3" resultType="int">
+		SELECT
+			ISNULL(MAX(MNGT_CODE)+1, 1) AS MNGT_CODE
+		FROM TB_DOC_PRN_ADM
+	</select>
+	
+</mapper>

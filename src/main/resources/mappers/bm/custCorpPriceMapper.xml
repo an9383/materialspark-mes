@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.bm.custCorpPriceMapper">
+
+	<resultMap id="CustCorpPriceVo" type="mes.domain.bm.CustCorpPriceVo">
+		<result property="goodsCd"			column="GOODS_CD"		/>		
+		<result property="goodsSeq"			column="GOODS_SEQ"		/>
+		<result property="dealCorpCd"		column="DEAL_CORP_CD"	/>
+		<result property="unitRegDate"		column="UNIT_REG_DATE"	/>
+		<result property="moneyUnitCd"		column="MONEY_UNIT_CD"	/>
+		<result property="moneyUnitNm"		column="MONEY_UNIT_NM"	/>
+		<result property="unitCost"			column="UNIT_COST"		/>
+		<result property="unitDesc"			column="UNIT_DESC"		/>
+		<result property="regId"			column="REG_ID"			/>
+		<result property="regUpdate"		column="REG_DATE"		/>
+		<result property="updId"			column="UPD_ID"			/>
+		<result property="updDate"			column="UPD_DATE"		/>
+  		<result property="dealCorpNm"		column="DEAL_CORP_NM"	/>  
+  		<result property="poSeq"			column="PO_SEQ"				/>
+	</resultMap>
+	
+	<!-- 단가 등록 조회 -->
+	<select id="custCorpPriceList" resultMap="CustCorpPriceVo">
+<!-- 		<![CDATA[ -->
+			SELECT	
+			B.DEAL_CORP_CD
+			, A.DEAL_CORP_NM
+			, GOODS_CD
+			, GOODS_SEQ
+			, B.UNIT_REG_DATE
+			, B.MONEY_UNIT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '032' AND BASE_CD = B.MONEY_UNIT_CD) MONEY_UNIT_NM
+			, B.UNIT_COST
+			, B.UNIT_DESC
+			FROM TB_CUST_CORP_PRICE B
+			LEFT OUTER JOIN TB_DEAL_CORP_ADM A
+			ON B.DEAL_CORP_CD=A.DEAL_CORP_CD
+			WHERE 1=1
+			AND GOODS_CD = #{goodsCd}
+			AND GOODS_SEQ = #{goodsSeq}
+			ORDER BY DEAL_CORP_CD, UNIT_REG_DATE
+<!-- 		]]> -->
+	</select>
+	
+	<!-- 단가 등록 상세조회 -->
+	<select id="custCorpPriceRead" resultMap="CustCorpPriceVo">
+<!-- 	<![CDATA[
+			SELECT
+			  GOODS_CD
+			, GOODS_SEQ
+	        , DEAL_CORP_CD
+	        , UNIT_REG_DATE
+	        , UNIT_COST
+	        , UNIT_DESC
+			FROM  TB_CUST_CORP_PRICE
+			WHERE GOODS_CD = #{goodsCd}
+		]]> -->	
+		SELECT	
+			B.DEAL_CORP_CD
+			,A.DEAL_CORP_NM
+			, B.UNIT_REG_DATE
+			, B.MONEY_UNIT_CD
+			, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE WHERE BASE_GROUP_CD = '032' AND BASE_CD = B.MONEY_UNIT_CD) MONEY_UNIT_NM
+			, B.UNIT_COST
+			, B.UNIT_DESC
+			FROM TB_CUST_CORP_PRICE B
+			LEFT OUTER JOIN TB_DEAL_CORP_ADM A
+			ON B.DEAL_CORP_CD=A.DEAL_CORP_CD
+			WHERE 1=1
+			AND GOODS_CD = #{goodsCd}
+			AND GOODS_SEQ = #{goodsSeq}
+			AND B.DEAL_CORP_CD = #{dealCorpCd}
+			AND B.UNIT_REG_DATE = #{unitRegDate}
+	</select>
+	
+	<!-- 단가 등록 Create -->
+	<insert id="custCorpPriceCreate" parameterType="mes.domain.bm.CustCorpPriceVo">
+	
+			INSERT INTO TB_CUST_CORP_PRICE(
+				  GOODS_CD
+				, GOODS_SEQ
+				, DEAL_CORP_CD
+				, UNIT_REG_DATE
+				, MONEY_UNIT_CD
+				, UNIT_COST
+				, UNIT_DESC
+				, REG_ID
+				, REG_DATE
+
+			) 
+			VALUES(
+				#{goodsCd}
+				, #{goodsSeq}
+				, #{dealCorpCd}
+				, #{unitRegDate}
+				, #{moneyUnitCd}
+				, #{unitCost}
+				, #{unitDesc}
+				, #{regId}
+				, GETDATE()
+
+			)
+
+	</insert>
+	
+	<!-- 단가등록 Update -->
+	<update id="custCorpPriceUpdate" parameterType="mes.domain.bm.CustCorpPriceVo">
+
+			UPDATE TB_CUST_CORP_PRICE
+			SET
+			  MONEY_UNIT_CD = #{moneyUnitCd}
+			, UNIT_COST = #{unitCost}
+			, UNIT_DESC = #{unitDesc}
+			, UPD_DATE = getDate()
+			
+			WHERE 1=1
+			AND GOODS_CD = #{goodsCd}
+			AND GOODS_SEQ = #{goodsSeq}
+			AND DEAL_CORP_CD = #{dealCorpCd}
+			AND UNIT_REG_DATE = #{unitRegDate}
+
+	</update>
+	
+	<!-- 단가등록 Delete -->
+	<delete id="custCorpPriceDelete" parameterType="mes.domain.bm.CustCorpPriceVo">
+
+			DELETE
+			FROM TB_CUST_CORP_PRICE
+			WHERE 1=1
+			AND GOODS_CD = #{goodsCd}
+			AND GOODS_SEQ = #{goodsSeq}
+			AND DEAL_CORP_CD = #{dealCorpCd}
+			AND UNIT_REG_DATE = #{unitRegDate}
+			AND MONEY_UNIT_CD = #{moneyUnitCd}
+
+	</delete>
+	
+	<!-- 거래처 명 -->
+	<!-- <insert id="itemUnitHistDealNm" parameterType="mes.domain.bm.CustCorpPriceVo">
+		<![CDATA[
+			INSERT DISTINCT A.DEAL_CORP_NM
+			FROM TB_DEAL_CORP_ADM A, TB_CUST_CORP_PRICE B
+			WHERE 1=1
+			AND A.DEAL_CORP_CD = B.DEAL_CORP_CD
+		]]>
+	</insert>	 -->
+	
+	<!-- pk 체크 -->
+	<select id="pkCheck" resultMap="CustCorpPriceVo">
+		SELECT
+			  GOODS_CD
+			, GOODS_SEQ
+			, DEAL_CORP_CD
+			, UNIT_REG_DATE
+			, MONEY_UNIT_CD
+		FROM TB_CUST_CORP_PRICE
+		WHERE 1=1
+		AND GOODS_CD = #{goodsCd}
+		AND GOODS_SEQ = #{goodsSeq}
+		AND DEAL_CORP_CD = #{dealCorpCd}
+		AND UNIT_REG_DATE = #{unitRegDate}
+		AND MONEY_UNIT_CD = #{moneyUnitCd}
+	
+	</select>
+	
+	<select id="custCorpPrice" resultMap="CustCorpPriceVo">
+		SELECT TOP(1)
+			UNIT_COST 
+			, MONEY_UNIT_CD
+		FROM TB_CUST_CORP_PRICE 
+		WHERE GOODS_CD = #{goodsCd} 
+		AND UNIT_REG_DATE <![CDATA[<=]]> SUBSTRING(#{poSeq}, 0, 9) 
+		AND DEAL_CORP_CD = #{dealCorpCd} 
+		ORDER BY UNIT_REG_DATE DESC
+	</select>
+</mapper>
+	

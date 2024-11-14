@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.bm.equipCodeAdmMapper">
+
+	<resultMap id="EquipCodeAdmVo" type="mes.domain.bm.EquipCodeAdmVo">
+		<result property="equipCd"				column="EQUIP_CD"				/>
+		<result property="equipNm"				column="EQUIP_NM"				/>
+		<result property="equipGroup"			column="EQUIP_GROUP"			/>
+		<result property="equipGroupNm"			column="EQUIP_GROUP_NM"			/>					
+		<result property="equipCtrgy"			column="EQUIP_CTRGY"			/>
+		<result property="equipCtrgyNm"			column="EQUIP_CTRGY_NM"			/>		
+		<result property="modelNm"				column="MODEL_NM"				/>
+		<result property="mfcDealCorpCd"		column="MFC_DEAL_CORP_CD"		/>
+		<result property="mfcDealCorpNm"		column="MFC_DEAL_CORP_NM"		/>		
+		<result property="buyDealCorpCd"		column="BUY_DEAL_CORP_CD"		/>
+		<result property="buyDealCorpNm"		column="BUY_DEAL_CORP_NM"		/>		
+		<result property="buyDate"				column="BUY_DATE"				/>
+		<result property="voltage"				column="VOLTAGE"				/>
+		<result property="pressure"				column="PRESSURE"				/>
+		<result property="telNo"				column="TEL_NO"					/>
+		<result property="faxNo"				column="FAX_NO"					/>
+		<result property="installLocation"		column="INSTALL_LOCATION"		/>
+		<result property="installLocationNm"	column="INSTALL_LOCATION_NM"	/>		
+		<result property="capa"					column="CAPA"					/>
+		<result property="etc1"					column="ETC1"					/>
+		<result property="etc2"					column="ETC2"					/>
+		<result property="manufactrCd"			column="MANUFACTR_CD"			/>
+		<result property="manufactrNm"			column="MANUFACTR_NM"			/>				
+		<result property="useYnCd"				column="USE_YN_CD"				/>
+		<result property="equipLineCd"			column="EQUIP_LINE_CD"			/>
+		<result property="virtualEquip"			column="VIRTUAL_EQUIP"			/>
+		<result property="dealCorpDesc"			column="DEAL_CORP_DESC"			/>
+		<result property="selectYn"			    column="SELECT_YN"				/>
+		
+		<result property="fakeEquipNm"		    column="FAKE_EQUIP_NM"			/>
+		<result property="fakeDateCd"		    column="FAKE_DATE_CD"			/>
+		
+		<result property="regId"				column="REG_ID"					/>
+		<result property="regDate"				column="REG_DATE"				/>
+		<result property="updId"				column="UPD_ID"					/>
+		<result property="updDate"				column="UPD_DATE"				/>
+		<result property="equipCapa"			column="EQUIP_CAPA"				/>
+		<result property="equipTacTime"			column="EQUIP_TAC_TIME"			/>
+		
+		<!-- 조인 컬럼 -->
+		<result property="dealCorpNm"			column="DEAL_CORP_NM"			/>	
+		<result property="workOrdNo"			column="WORK_ORD_NO"			/>	
+		<result property="workerId"				column="WORKER_ID"				/>
+		<result property="equipGubun"			column="EQUIP_GUBUN"			/>	
+	</resultMap>
+
+	<!-- 설비코드 전체조회 -->
+	<select id="listAll" resultMap="EquipCodeAdmVo">
+			SELECT
+				EQUIP_CD
+				, EQUIP_NM
+				, EQUIP_GROUP
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='017' AND B.BASE_CD = A.EQUIP_GROUP) EQUIP_GROUP_NM
+				, EQUIP_CTRGY
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='010' AND B.BASE_CD = A.EQUIP_CTRGY) EQUIP_CTRGY_NM
+				, MODEL_NM
+				, MFC_DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.MFC_DEAL_CORP_CD) MFC_DEAL_CORP_NM
+				, BUY_DEAL_CORP_CD
+				,(SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.BUY_DEAL_CORP_CD) BUY_DEAL_CORP_NM
+				, BUY_DATE
+				, VOLTAGE
+				, PRESSURE
+				, TEL_NO
+				, FAX_NO
+				, INSTALL_LOCATION
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='022' AND B.BASE_CD = A.INSTALL_LOCATION) INSTALL_LOCATION_NM
+				, MANUFACTR_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='033' AND B.BASE_CD = A.MANUFACTR_CD) MANUFACTR_NM
+				, CAPA
+				, ETC1
+				, ETC2
+				, USE_YN_CD
+				, EQUIP_LINE_CD
+				, VIRTUAL_EQUIP
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='049' AND B.BASE_CD = A.EQUIP_LINE_CD) EQUIP_LINE_NM
+				, DEAL_CORP_DESC
+				, SELECT_YN
+				, EQUIP_CAPA
+				, EQUIP_TAC_TIME
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM TB_EQUIP_CODE_ADM A
+				WHERE 1=1
+				<if test="equipGroup != '' and equipGroup != null"> 
+					AND EQUIP_GROUP = #{equipGroup}
+				</if>
+				<if test="useYnCd == null or useYnCd == ''"> 
+					AND A.USE_YN_CD = '001'
+				</if>
+				<if test="etc1 != '' and etc1 != null"> 
+					AND ETC1 = ''
+				</if>
+				<if test="equipCd != '' and equipCd != null"> 
+					AND EQUIP_CD = #{equipCd}
+				</if>
+				<if test="equipGubun != '' and equipGubun != null"> 
+					AND SUBSTRING(EQUIP_NM, 1,1) = #{equipGubun}
+				</if>
+			ORDER BY EQUIP_NM
+	</select>
+	
+	<!-- 설비코드/코드명 중복 조회 -->
+	<select id="equipCdNmCheck" resultType="String">
+		SELECT ISNULL(MAX(EQUIP_CD), 'Y') EQUIP_CHECK 
+		FROM TB_EQUIP_CODE_ADM 
+		WHERE 1=1
+  		 <if test='equipCheck == "C"'> 
+			AND (EQUIP_CD = #{equipCd} OR EQUIP_NM = #{equipNm})
+		 </if>
+  		 <if test='equipCheck == "U"'> 
+			AND EQUIP_CD != #{equipCd} AND EQUIP_NM = #{equipNm}
+		 </if>		 		
+	</select>
+	
+	<!-- 설비코드 특정 조회 -->
+	<select id="read" resultMap="EquipCodeAdmVo">
+			SELECT
+				EQUIP_CD
+				, EQUIP_NM
+				, EQUIP_GROUP
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='017' AND B.BASE_CD = A.EQUIP_GROUP) EQUIP_GROUP_NM
+				, EQUIP_CTRGY
+				,(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='010' AND B.BASE_CD = A.EQUIP_CTRGY) EQUIP_CTRGY_NM
+				, MODEL_NM
+				, MFC_DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.MFC_DEAL_CORP_CD) MFC_DEAL_CORP_NM
+				, BUY_DEAL_CORP_CD
+				, (SELECT DEAL_CORP_NM FROM TB_DEAL_CORP_ADM B WHERE B.DEAL_CORP_CD = A.BUY_DEAL_CORP_CD) BUY_DEAL_CORP_NM
+				, BUY_DATE
+				, VOLTAGE
+				, PRESSURE
+				, TEL_NO
+				, FAX_NO
+				, INSTALL_LOCATION
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='022' AND B.BASE_CD = A.INSTALL_LOCATION) INSTALL_LOCATION_NM
+				, MANUFACTR_CD
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='033' AND B.BASE_CD = A.MANUFACTR_CD) MANUFACTR_NM				
+				, CAPA
+				, ETC1
+				, ETC2
+				, USE_YN_CD
+				, EQUIP_LINE_CD
+				, VIRTUAL_EQUIP
+				, (SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE B WHERE B.BASE_GROUP_CD='049' AND B.BASE_CD = A.EQUIP_LINE_CD) EQUIP_LINE_NM
+				, DEAL_CORP_DESC
+				, SELECT_YN
+				, EQUIP_CAPA
+				, EQUIP_TAC_TIME
+				, FAKE_EQUIP_NM
+				, FAKE_DATE_CD
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM
+				TB_EQUIP_CODE_ADM A
+			WHERE 1=1
+			<if test="equipCd != '' and equipCd != null">
+				AND EQUIP_CD=#{equipCd}
+			</if>
+			<if test="equipNm != '' and equipNm != null">
+				AND EQUIP_NM=#{equipNm}
+			</if>
+	</select>
+
+	<!-- 설비코드 생성 -->
+	<insert id="create" parameterType="mes.domain.bm.SystemCommonCodeVo">
+		<![CDATA[
+			INSERT INTO TB_EQUIP_CODE_ADM(
+				EQUIP_CD
+				, EQUIP_NM
+				, EQUIP_CTRGY
+				, EQUIP_GROUP
+				, MODEL_NM
+				, MFC_DEAL_CORP_CD
+				, BUY_DEAL_CORP_CD
+				, BUY_DATE
+				, VOLTAGE
+				, PRESSURE
+				, TEL_NO
+				, FAX_NO
+				, INSTALL_LOCATION
+				, CAPA
+				, ETC1
+				, ETC2
+				, MANUFACTR_CD
+				, EQUIP_LINE_CD
+				, USE_YN_CD
+				, VIRTUAL_EQUIP
+				, DEAL_CORP_DESC
+				, SELECT_YN
+				, EQUIP_CAPA
+				, EQUIP_TAC_TIME
+				, FAKE_EQUIP_CD
+				, FAKE_DATE_CD
+				, REG_ID
+				, REG_DATE
+			) 
+			VALUES(
+				#{equipCd}
+				, #{equipNm}
+				, #{equipCtrgy}
+				, #{equipGroup}
+				, #{modelNm}
+				, #{mfcDealCorpCd}
+				, #{buyDealCorpCd}
+				, #{buyDate}
+				, #{voltage}
+				, #{pressure}
+				, #{telNo}
+				, #{faxNo}
+				, #{installLocation}
+				, #{capa}
+				, #{etc1}
+				, #{etc2}
+				, #{manufactrCd}
+				, #{equipLineCd}
+				, #{useYnCd}
+				, #{virtualEquip}
+				, #{dealCorpDesc}
+				, #{selectYn}
+				, #{equipCapa}
+				, #{equipTacTime}
+				, #{fakeEquipNm}
+				, #{fakeDateCd}
+				, #{regId}
+				, getdate()
+			)
+		]]>
+	</insert>
+	
+	<!-- 설비코드 Update convert(varchar(10), #{buyDate}, 120) -->
+	<update id="update">
+		<![CDATA[
+         UPDATE TB_EQUIP_CODE_ADM 
+         SET 
+         	EQUIP_CD = #{equipCd}
+         	, EQUIP_NM = #{equipNm}
+         	, EQUIP_GROUP = #{equipGroup}
+         	, EQUIP_CTRGY = #{equipCtrgy}
+         	, MODEL_NM = #{modelNm}
+         	, MFC_DEAL_CORP_CD = #{mfcDealCorpCd}
+         	, BUY_DEAL_CORP_CD = #{buyDealCorpCd}
+         	, BUY_DATE = #{buyDate}
+         	, VOLTAGE = #{voltage}
+         	, PRESSURE = #{pressure}
+         	, TEL_NO = #{telNo}
+         	, FAX_NO = #{faxNo}
+         	, INSTALL_LOCATION = #{installLocation}
+         	, CAPA = #{capa}
+         	, ETC1 = #{etc1}
+         	, ETC2 = #{etc2}
+         	, USE_YN_CD = #{useYnCd}
+         	, VIRTUAL_EQUIP = #{virtualEquip}
+         	, EQUIP_LINE_CD = #{equipLineCd}
+         	, DEAL_CORP_DESC = #{dealCorpDesc}
+         	, SELECT_YN = #{selectYn}
+         	, EQUIP_CAPA = #{equipCapa}
+         	, EQUIP_TAC_TIME = #{equipTacTime}
+         	, FAKE_EQUIP_NM = #{fakeEquipNm}
+         	, FAKE_DATE_CD = #{fakeDateCd}
+         	, UPD_ID = #{updId}
+         	, UPD_DATE = getDate()
+         WHERE 
+          	EQUIP_CD = #{equipCd}
+		]]>
+	</update>
+	
+	
+	<!-- 설비코드별 작지 조회(비전수집용) -->
+	<select id="visionDataListAll" resultMap="EquipCodeAdmVo">
+			SELECT EQUIP_CD,EQUIP_NM, MAX(WORK_ORD_NO) WORK_ORD_NO, MAX(WORKER_ID) WORKER_ID
+			FROM
+			(
+				SELECT A.EQUIP_CD
+				,A.EQUIP_NM
+				,ISNULL(B.WORK_ORD_NO,(select top(1) WORK_ORD_NO from TB_WORK_ORDER where EQUIP_CD = A.EQUIP_CD order by reg_date desc)) WORK_ORD_NO
+				,ISNULL(B.WORKER_ID,
+				(select TOP(1) WORKER_ID 
+				from TB_WORKER_CHANGE X,
+				(select top(1) WORK_ORD_NO from TB_WORK_ORDER where EQUIP_CD = A.EQUIP_CD order by reg_date desc) Y
+				where X.WORK_ORD_NO = Y.WORK_ORD_NO 
+
+				
+				)) WORKER_ID
+				FROM TB_EQUIP_CODE_ADM A
+					LEFT OUTER JOIN 
+						(SELECT Z.*,
+							 WORKER_ID
+						 FROM
+							TB_WORK_ORDER Z,TB_WORKER_CHANGE X WHERE Z.WORK_STATUS_CD = 'S'						
+							AND X.WORK_ORD_NO = Z.WORK_ORD_NO
+						) B
+					ON A.EQUIP_CD = B.EQUIP_CD
+				
+				WHERE A.USE_YN_CD = '001'
+					AND ETC1 = ''
+			) AA
+			GROUP BY EQUIP_CD,EQUIP_NM				
+			ORDER BY EQUIP_CD						
+	</select>
+	
+	<!-- 설비코드 듀얼 합 조회 -->
+	<select id="listEquipSLD" resultMap="EquipCodeAdmVo">
+			SELECT DISTINCT
+				LEFT(EQUIP_CD,10) EQUIP_CD
+				,LEFT(EQUIP_NM,5) EQUIP_NM
+				,EQUIP_CAPA
+			FROM TB_EQUIP_CODE_ADM A
+				WHERE 1=1					
+				<if test="useYnCd == null or useYnCd == ''"> 
+					AND A.USE_YN_CD = '001'
+				</if>
+				<if test="etc1 != '' and etc1 != null"> 
+					AND ETC1 = ''
+				</if>
+				<if test="equipCd != '' and equipCd != null"> 
+					AND LEFT(EQUIP_CD,10) = #{equipCd}
+				</if>
+				
+			ORDER BY EQUIP_NM					
+	</select>
+	
+	<!-- 설비코드 듀얼 합 조회 -->
+	<select id="listEquipMTP" resultMap="EquipCodeAdmVo">
+			SELECT DISTINCT
+				 EQUIP_CD
+				,EQUIP_NM
+				,EQUIP_CAPA
+				,EQUIP_TAC_TIME
+			FROM TB_EQUIP_CODE_ADM A
+				WHERE 1=1					
+				<if test="useYnCd == null or useYnCd == ''"> 
+					AND A.USE_YN_CD = '001'
+				</if>
+				<if test="etc1 != '' and etc1 != null"> 
+					AND ETC1 = ''
+				</if>
+				<if test="equipCd != '' and equipCd != null"> 
+					AND EQUIP_CD = #{equipCd}
+				</if>
+				
+			ORDER BY EQUIP_NM					
+	</select>
+	
+	<!-- 설비코드 듀얼 합 조회 -->
+	<select id="listEquipMTP2" resultMap="EquipCodeAdmVo">
+			SELECT DISTINCT
+				LEFT(EQUIP_CD,11) EQUIP_CD
+				,EQUIP_NM
+				,EQUIP_CAPA
+				,EQUIP_TAC_TIME
+			FROM TB_EQUIP_CODE_ADM A
+				WHERE 1=1					
+				<if test="useYnCd == null or useYnCd == ''"> 
+					AND A.USE_YN_CD = '001'
+				</if>
+				<if test="etc1 != '' and etc1 != null"> 
+					AND ETC1 = ''
+				</if>
+				<if test="equipCd != '' and equipCd != null"> 
+					AND LEFT(EQUIP_CD,11) = #{equipCd}
+				</if>
+				
+			ORDER BY EQUIP_NM					
+	</select>
+	
+</mapper>

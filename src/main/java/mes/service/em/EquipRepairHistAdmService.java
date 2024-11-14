@@ -7,29 +7,23 @@ import mes.domain.em.EquipRepairHistAdmVo;
 public interface EquipRepairHistAdmService {
 	
 	//전체 리스트
-	public List<EquipRepairHistAdmVo> EquipRepairHistAdmList(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
+	public List<EquipRepairHistAdmVo> listAll(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
 		
-	//수리이력관리 등록
-	public void EquipRepairHistAdmCreate(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
+	//설비 등록
+	public void create(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
 	
-	//수리이력관리 읽기
-	public EquipRepairHistAdmVo EquipRepairHistAdmRead(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
+	//설비 읽기
+	public EquipRepairHistAdmVo read(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
 
-	//수리이력관리 수정
-	public void EquipRepairHistAdmUpdate(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
-	
-	//수리이력관리 삭제
-	public void equipRepairHistAdmDelete(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
-	
-	//이미지 경로
-	public EquipRepairHistAdmVo EquipRepairHistAdmImgUpload(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
+	//설비 수정
+	public void update(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
 	
 	//등록번호 시퀀스
-	public String EquipRepairHistAdmSeq() throws Exception;
-	
-	public EquipRepairHistAdmVo EquipRepairHistAdmImgRead(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
+	public String seq() throws Exception;
 	
 	//등록일자 시퀀스
-	//public String regSeq(String time) throws Exception;
-		
+	public String regSeq(String time) throws Exception;
+
+	//memsInfo_조회
+	public List<EquipRepairHistAdmVo> memsInfoList(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception;
 }

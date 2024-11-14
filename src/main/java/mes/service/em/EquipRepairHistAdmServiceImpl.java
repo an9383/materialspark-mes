@@ -17,57 +17,45 @@ public class EquipRepairHistAdmServiceImpl implements EquipRepairHistAdmService 
 	
 	//전체 리스트
 	@Override
-	public List<EquipRepairHistAdmVo> EquipRepairHistAdmList(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception{
-		return dao.EquipRepairHistAdmList(equipRepairHistAdmVo);
+	public List<EquipRepairHistAdmVo> listAll(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception{
+		return dao.listAll(equipRepairHistAdmVo);
 	}
 		
-	//수리이력관리 등록
+	//설비 등록
 	@Override
-	public void EquipRepairHistAdmCreate(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception{
-		dao.EquipRepairHistAdmCreate(equipRepairHistAdmVo);
+	public void create(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception{
+		dao.create(equipRepairHistAdmVo);
 	}
 	
-	//수리이력관리 읽기
+	//설비 읽기
 	@Override
-	public EquipRepairHistAdmVo EquipRepairHistAdmRead(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception{
-		return dao. EquipRepairHistAdmRead(equipRepairHistAdmVo);
+	public EquipRepairHistAdmVo read(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception{
+		return dao.read(equipRepairHistAdmVo);
 	}
 
-	//수리이력관리 수정
+	//설비 수정
 	@Override
-	public void EquipRepairHistAdmUpdate(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception{
-		dao.EquipRepairHistAdmUpdate(equipRepairHistAdmVo);
-	}
-	
-	//수리이력관리 삭제
-	@Override
-	public void equipRepairHistAdmDelete(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception{
-		dao.equipRepairHistAdmDelete(equipRepairHistAdmVo);
+	public void update(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception{
+		dao.update(equipRepairHistAdmVo);
 	}
 
 	//등록번호 시퀀스
 	@Override
-	public String EquipRepairHistAdmSeq() throws Exception{
-		return dao.EquipRepairHistAdmSeq();
-	}
-
-	//이미지 업로드
-	@Override
-	public EquipRepairHistAdmVo EquipRepairHistAdmImgUpload(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {
-		return dao.EquipRepairHistAdmImgUpload(equipRepairHistAdmVo);
-	}
-	
-	//이미지 경로
-	@Override
-	public EquipRepairHistAdmVo EquipRepairHistAdmImgRead(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception {
-		return dao.EquipRepairHistAdmImgRead(equipRepairHistAdmVo);
+	public String seq() throws Exception{
+		return dao.seq();
 	}
 	
 	//등록일자 시퀀스
-/*	@Override
+	@Override
 	public String regSeq(String time) throws Exception{
 		return dao.regSeq(time);
-	}*/
+	}
+	
+	//memsInfo_조회
+	@Override
+	public List<EquipRepairHistAdmVo> memsInfoList(EquipRepairHistAdmVo equipRepairHistAdmVo) throws Exception{
+		return dao.memsInfoList(equipRepairHistAdmVo);
+	}
 }
 
 	

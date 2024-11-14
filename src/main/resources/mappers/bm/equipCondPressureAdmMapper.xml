@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.bm.equipCondPressureAdmMapper">
+
+	<resultMap id="EquipCondPressureAdmVo" type="mes.domain.bm.EquipCondPressureAdmVo">
+		<result property="pressureCondCd"		column="PRESSURE_COND_CD"	/>
+		<result property="pressureCondNm"		column="PRESSURE_COND_NM"	/>
+		<result property="warmupCond"			column="WARMUP_COND"		/>
+		<result property="warmupAlwncePlus"		column="WARMUP_ALWNCE_PLUS"	/>
+		<result property="warmupAlwnceMinus"	column="WARMUP_ALWNCE_MINUS"/>
+		<result property="fitupCond"			column="FITUP_COND"			/>
+		<result property="fitupAlwncePlus"		column="FITUP_ALWNCE_PLUS"	/>
+		<result property="fitupAlwnceMinus"		column="FITUP_ALWNCE_MINUS"	/>
+		
+		<!-- 
+		<result property="firstCond"			column="FIRST_COND"			/>
+		<result property="firstAlwncePlus"		column="FIRST_ALWNCE_PLUS"	/>
+		<result property="firstAlwnceMinus"		column="FIRST_ALWNCE_MINUS"	/>
+		 -->
+		<result property="push1Cond"			column="PUSH1_COND"			/>
+		<result property="push1AlwncePlus"		column="PUSH1_ALWNCE_PLUS"	/>
+		<result property="push1AlwnceMinus"		column="PUSH1_ALWNCE_MINUS"	/>
+		<!-- 
+		<result property="secondCond"			column="SECOND_COND"		/>
+		<result property="secondAlwncePlus"		column="SECOND_ALWNCE_PLUS"	/>
+		<result property="secondAlwnceMinus"	column="SECOND_ALWNCE_MINUS"/>
+		 -->
+		<result property="jinjeopCond"			column="JINJEOP_COND"		/>
+		<result property="jinjeopAlwncePlus"	column="JINJEOP_ALWNCE_PLUS"/>
+		<result property="jinjeopAlwnceMinus"	column="JINJEOP_ALWNCE_MINUS"/>
+		
+		<result property="jinjeop2Cond"			column="JINJEOP2_COND"		/>
+		<result property="jinjeop2AlwncePlus"	column="JINJEOP2_ALWNCE_PLUS"/>
+		<result property="jinjeop2AlwnceMinus"	column="JINJEOP2_ALWNCE_MINUS"/>
+		
+		<result property="reformCond"			column="REFORM_COND"		/>
+		<result property="reformAlwncePlus"		column="REFORM_ALWNCE_PLUS"	/>
+		<result property="reformAlwnceMinus"	column="REFORM_ALWNCE_MINUS"/>
+		<!-- 
+		<result property="coolCond"				column="COOL_COND"			/>
+		<result property="coolAlwncePlus"		column="COOL_ALWNCE_PLUS"	/>
+		<result property="coolAlwnceMinus"		column="COOL_ALWNCE_MINUS"	/>
+		 -->
+		<result property="useYnCd"				column="USE_YN_CD"			/>
+		<result property="regId"				column="REG_ID"				/>
+		<result property="regDate"				column="REG_DATE"			/>
+		<result property="updId"				column="UPD_ID"				/>
+		<result property="updDate"				column="UPD_DATE"			/>
+	</resultMap>
+	
+	<!-- 압력 전제 조회 -->
+	<select id="listAll" resultMap="EquipCondPressureAdmVo">
+			SELECT
+				PRESSURE_COND_CD
+				, PRESSURE_COND_NM
+				, WARMUP_COND
+				, WARMUP_ALWNCE_PLUS
+				, WARMUP_ALWNCE_MINUS
+				, FITUP_COND
+				, FITUP_ALWNCE_PLUS
+				, FITUP_ALWNCE_MINUS
+				
+				, PUSH1_COND
+				, PUSH1_ALWNCE_PLUS
+				, PUSH1_ALWNCE_MINUS
+				<!-- 
+				, SECOND_COND
+				, SECOND_ALWNCE_PLUS
+				, SECOND_ALWNCE_MINUS
+				 -->
+				, JINJEOP_COND
+				, JINJEOP_ALWNCE_PLUS
+				, JINJEOP_ALWNCE_MINUS
+				
+				, JINJEOP2_COND
+				, JINJEOP2_ALWNCE_PLUS
+				, JINJEOP2_ALWNCE_MINUS
+				
+				, REFORM_COND
+				, REFORM_ALWNCE_PLUS
+				, REFORM_ALWNCE_MINUS
+				, USE_YN_CD
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM TB_BOM_PRESSURE_COND_ADM
+				WHERE 1=1 
+				<if test="useYnCd == null or useYnCd == ''"> 
+					AND USE_YN_CD = '001'
+				</if>	 
+	</select>
+	
+	<!-- 압력 특정 조회 -->
+	<select id="read" resultMap="EquipCondPressureAdmVo">
+		<![CDATA[
+			SELECT
+				PRESSURE_COND_CD
+				, PRESSURE_COND_NM
+				, WARMUP_COND
+				, WARMUP_ALWNCE_PLUS
+				, WARMUP_ALWNCE_MINUS
+				, FITUP_COND
+				, FITUP_ALWNCE_PLUS
+				, FITUP_ALWNCE_MINUS
+				
+				, PUSH1_COND
+				, PUSH1_ALWNCE_PLUS
+				, PUSH1_ALWNCE_MINUS
+				
+				, JINJEOP_COND
+				, JINJEOP_ALWNCE_PLUS
+				, JINJEOP_ALWNCE_MINUS
+				
+				, JINJEOP2_COND
+				, JINJEOP2_ALWNCE_PLUS
+				, JINJEOP2_ALWNCE_MINUS
+				
+				, REFORM_COND
+				, REFORM_ALWNCE_PLUS
+				, REFORM_ALWNCE_MINUS
+				, USE_YN_CD
+				, REG_ID
+				, REG_DATE
+				, UPD_ID
+				, UPD_DATE
+			FROM
+				TB_BOM_PRESSURE_COND_ADM 
+			WHERE
+				PRESSURE_COND_CD = #{pressureCondCd}
+		]]>
+	</select>
+
+	<!-- 압력 코드 시퀸스 -->
+	<select id="selectPressureSeqCd" resultType="String">
+		SELECT
+			ISNULL(RIGHT('000' + CAST(MAX(SUBSTRING(PRESSURE_COND_CD,1,3))+1 AS NVARCHAR),3), '001') 
+		FROM
+			TB_BOM_PRESSURE_COND_ADM
+	</select>
+	
+	<!-- 압력  생성 -->
+	<insert id="create" parameterType="mes.domain.bm.EquipCondPressureAdmVo">
+		<![CDATA[
+			INSERT INTO TB_BOM_PRESSURE_COND_ADM(
+				PRESSURE_COND_CD
+				, PRESSURE_COND_NM
+				, WARMUP_COND
+				, WARMUP_ALWNCE_PLUS
+				, WARMUP_ALWNCE_MINUS
+				, FITUP_COND
+				, FITUP_ALWNCE_PLUS
+				, FITUP_ALWNCE_MINUS
+				
+				, PUSH1_COND
+				, PUSH1_ALWNCE_PLUS
+				, PUSH1_ALWNCE_MINUS
+				
+				, JINJEOP_COND
+				, JINJEOP_ALWNCE_PLUS
+				, JINJEOP_ALWNCE_MINUS
+				
+				, JINJEOP2_COND
+				, JINJEOP2_ALWNCE_PLUS
+				, JINJEOP2_ALWNCE_MINUS
+				
+				, REFORM_COND
+				, REFORM_ALWNCE_PLUS
+				, REFORM_ALWNCE_MINUS
+				, USE_YN_CD
+				, REG_ID
+				, REG_DATE
+			) 
+			VALUES(
+				#{pressureCondCd}
+				, #{pressureCondNm}
+				, #{warmupCond}
+				, #{warmupAlwncePlus}
+				, #{warmupAlwnceMinus}
+				, #{fitupCond}
+				, #{fitupAlwncePlus}
+				, #{fitupAlwnceMinus}
+				
+				, #{push1Cond}
+				, #{push1AlwncePlus}
+				, #{push1AlwnceMinus}
+				
+				, #{jinjeopCond}
+				, #{jinjeopAlwncePlus}
+				, #{jinjeopAlwnceMinus}
+				
+				, #{jinjeop2Cond}
+				, #{jinjeop2AlwncePlus}
+				, #{jinjeop2AlwnceMinus}
+				
+				, #{reformCond}
+				, #{reformAlwncePlus}
+				, #{reformAlwnceMinus}
+				, #{useYnCd}
+				, #{regId}
+				, getdate()
+			)
+		]]>
+	</insert>
+
+	<!-- 압력 수정 -->
+	<update id="update">
+		<![CDATA[
+			UPDATE
+				TB_BOM_PRESSURE_COND_ADM 
+			SET
+				PRESSURE_COND_NM = #{pressureCondNm}
+				, WARMUP_COND = #{warmupCond}
+				, WARMUP_ALWNCE_PLUS = #{warmupAlwncePlus}
+				, WARMUP_ALWNCE_MINUS = #{warmupAlwnceMinus}
+				, FITUP_COND = #{fitupCond}
+				, FITUP_ALWNCE_PLUS = #{fitupAlwncePlus}
+				, FITUP_ALWNCE_MINUS = #{fitupAlwnceMinus}
+				
+				, PUSH1_COND = #{push1Cond}
+				, PUSH1_ALWNCE_PLUS = #{push1AlwncePlus}
+				, PUSH1_ALWNCE_MINUS = #{push1AlwnceMinus}
+				
+				, JINJEOP_COND = #{jinjeopCond}
+				, JINJEOP_ALWNCE_PLUS = #{jinjeopAlwncePlus}
+				, JINJEOP_ALWNCE_MINUS = #{jinjeopAlwnceMinus}
+				
+				, JINJEOP2_COND = #{jinjeop2Cond}
+				, JINJEOP2_ALWNCE_PLUS = #{jinjeop2AlwncePlus}
+				, JINJEOP2_ALWNCE_MINUS = #{jinjeop2AlwnceMinus}
+				
+				, REFORM_COND = #{reformCond}
+				, REFORM_ALWNCE_PLUS = #{reformAlwncePlus}
+				, REFORM_ALWNCE_MINUS = #{reformAlwnceMinus}
+
+				, USE_YN_CD = #{useYnCd}
+				, UPD_ID = #{updId}
+				, UPD_DATE = getdate()
+			WHERE
+				PRESSURE_COND_CD = #{pressureCondCd}
+		]]>
+	</update>
+	
+</mapper>

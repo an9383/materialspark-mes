@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="mes.mappers.bm.goodsMatrlDtlMapper">
+
+	<resultMap id="GoodsMatrlDtlVo" type="mes.domain.bm.GoodsMatrlDtlVo">
+		<result property="goodsCd"			column="GOODS_CD"			/>
+		<result property="matrlCd"			column="MATRL_CD"			/>
+		<result property="goodsMatrlDesc"	column="GOODS_MATRL_DESC"	/>
+		<result property="regId"			column="REG_ID"				/>
+		<result property="regDate"			column="REG_DATE"			/>
+		<result property="updId"			column="UPD_ID"				/>
+		<result property="updDate"			column="UPD_DATE"			/>
+		
+		<result property="matrlNm"			column="MATRL_NM"			/>
+		<result property="matrlInitial"		column="MATRL_INITIAL"		/>
+		<result property="gubunCd"			column="GUBUN_CD"			/>
+		<result property="gubunNm"			column="GUBUN_NM"			/>
+		<result property="qutyCd"			column="QUTY_CD"			/>
+		<result property="qutyNm"			column="QUTY_NM"			/>
+	</resultMap>
+	
+	<!-- 제품자재상세 전체조회 -->
+	<select id="listAll" resultMap="GoodsMatrlDtlVo">
+		SELECT
+			A.GOODS_CD,
+			A.MATRL_CD,
+			B.MATRL_NM,
+			B.MATRL_INITIAL,
+			B.GUBUN_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='019' AND X.BASE_CD = B.GUBUN_CD) GUBUN_NM,
+			B.QUTY_CD,
+			(SELECT BASE_CD_NM FROM TB_SYSTEM_COMMON_CODE X WHERE X.BASE_GROUP_CD='007' AND X.BASE_CD = B.QUTY_CD) QUTY_NM,
+			A.GOODS_MATRL_DESC
+		FROM TB_GOODS_MATRL_DTL A, TB_MATRL_CODE_ADM B
+		WHERE 1=1
+		AND A.MATRL_CD = B.MATRL_CD
+		AND A.GOODS_CD = #{goodsCd}
+	</select>
+	
+	<!-- 제품자재상세 Create -->
+	<insert id="create" parameterType="mes.domain.bm.GoodsMatrlDtlVo">
+		INSERT INTO TB_GOODS_MATRL_DTL (
+			GOODS_CD,
+			MATRL_CD,
+			GOODS_MATRL_DESC,
+			REG_ID,
+			REG_DATE
+		) VALUES (
+			#{goodsCd},
+			#{matrlCd},
+			#{goodsMatrlDesc},
+			#{regId},
+			GETDATE()
+		)
+	</insert>
+	
+	<!-- 제품자재상세 Update -->
+	<update id="update" parameterType="mes.domain.bm.GoodsMatrlDtlVo">
+		UPDATE TB_GOODS_MATRL_DTL
+		SET
+			GOODS_MATRL_DESC = #{goodsMatrlDesc},
+			UPD_ID = #{updId},
+			UPD_DATE = GETDATE()
+		WHERE 1=1
+		AND GOODS_CD = #{goodsCd}
+		AND MATRL_CD = #{matrlCd}
+	</update>
+	
+	<!-- 제품자재상세 Delete -->
+	<delete id="delete" parameterType="mes.domain.bm.GoodsMatrlDtlVo">
+		DELETE FROM TB_GOODS_MATRL_DTL WHERE GOODS_CD = #{goodsCd} AND MATRL_CD = #{matrlCd}
+	</delete>
+</mapper>
